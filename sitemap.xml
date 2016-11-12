@@ -2,7 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://replace-this-with-your-hugo-site.com/</loc>
+    <loc>https://hujiaweibujidao.github.io/</loc>
+    <lastmod>2016-11-12T21:21:23+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/post/demo/</loc>
+    <lastmod>2016-11-12T21:21:23+08:00</lastmod>
   </url>
   
 </urlset>
