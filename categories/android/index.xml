@@ -7,8 +7,18 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Wed, 09 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 11 Nov 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/categories/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PorterDuffMode in Action</title>
+      <link>https://hujiaweibujidao.github.io/2016/11/porterduffmode-in-action/</link>
+      <pubDate>Fri, 11 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/2016/11/porterduffmode-in-action/</guid>
+      <description>&lt;p&gt;本文介绍Android图像处理中避不开的PorterDuffMode。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Build Android Studio Source Code</title>
@@ -3784,200 +3794,127 @@ public void setupSharedEelementTransitions2() {
     </item>
     
     <item>
-      <title>Art of Android Development Reading Notes</title>
-      <link>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes/</link>
-      <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
+      <title>Plaid Source Reading Notes</title>
+      <link>https://hujiaweibujidao.github.io/2015/12/plaid-source-reading-notes/</link>
+      <pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;
+      <guid>https://hujiaweibujidao.github.io/2015/12/plaid-source-reading-notes/</guid>
+      <description>&lt;p&gt;Plaid源码阅读笔记。&lt;/p&gt;
 
-&lt;p&gt;啥也不说了，&lt;a href=&#34;http://weibo.com/uc83018062&#34;&gt;@主席&lt;/a&gt;的《Android开发艺术探索》真是业界良心之作，不得不看！感谢主席，膜拜主席！主席主席，我要跟你生猴子！(&amp;gt;^ω^&amp;lt;)&lt;/p&gt;
+&lt;p&gt;1.AndroidManifest文件中的&lt;code&gt;activity-alias&lt;/code&gt;使用&lt;/p&gt;
 
-&lt;p&gt;读书笔记中若有任何问题请留言告知，谢谢关注，谢谢阅读。&lt;/p&gt;
-
-&lt;p&gt;1.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/29/Art-of-Android-Development-Reading-Notes-1/&#34;&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;2.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/05/Art-of-Android-Development-Reading-Notes-2/&#34;&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;3.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-3/&#34;&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;4.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-4/&#34;&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;5.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-5/&#34;&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;6.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-6/&#34;&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;7.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-7/&#34;&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;8.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-8/&#34;&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;9.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/05/Art-of-Android-Development-Reading-Notes-9/&#34;&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;10.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-10/&#34;&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;11.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/03/Art-of-Android-Development-Reading-Notes-11/&#34;&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;12.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-12/&#34;&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;13.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-13/&#34;&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Art of Android Development Reading Notes 2</title>
-      <link>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-2/</link>
-      <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-2/</guid>
-      <description>
-
-&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制&lt;/p&gt;
-
-&lt;h3 id=&#34;第2章-ipc机制&#34;&gt;第2章 IPC机制&lt;/h3&gt;
-
-&lt;h4 id=&#34;2-1-android-ipc简介&#34;&gt;2.1 Android IPC简介&lt;/h4&gt;
-
-&lt;p&gt;(1)任何一个操作系统都需要有相应的IPC机制，Linux上可以通过命名通道、共享内存、信号量等来进行进程间通信。Android系统不仅可以使用Binder机制来实现IPC，还可以使用Socket实现任意两个终端之间的通信。&lt;/p&gt;
-
-&lt;h4 id=&#34;2-2-android中的多进程模式&#34;&gt;2.2 Android中的多进程模式&lt;/h4&gt;
-
-&lt;p&gt;(1)通过给四大组件指定&lt;code&gt;android:process&lt;/code&gt;属性就可以开启多进程模式，默认进程的进程名是包名packageName，进程名以&lt;code&gt;:&lt;/code&gt;开头的进程属于当前应用的私有进程，其他应用的组件不可以和它跑在同一个进程中，而进程名不以&lt;code&gt;:&lt;/code&gt;开头的进程属于全局进程，其他应用通过&lt;code&gt;ShareUID&lt;/code&gt;方法可以和它跑在同一个进程中。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;android:process=&amp;quot;:xyz&amp;quot; //进程名是 packageName:xyz
-android:process=&amp;quot;aaa.bbb.ccc&amp;quot; //进程名是 aaa.bbb.ccc
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- use an alias in case we want to change the launch activity later without breaking
+     homescreen shortcuts.  Note must be defined after the targetActivity --&amp;gt;
+&amp;lt;activity-alias
+    android:name=&amp;quot;.Launcher&amp;quot;
+    android:label=&amp;quot;@string/app_name&amp;quot;
+    android:targetActivity=&amp;quot;.ui.HomeActivity&amp;quot;&amp;gt;
+    &amp;lt;intent-filter&amp;gt;
+        &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot; /&amp;gt;
+        &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+    &amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity-alias&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(2)Android系统会为每个应用分配一个唯一的UID，具有相同UID的应用才能共享数据。&lt;strong&gt;两个应用通过ShareUID跑在同一个进程中是有要求的，需要这两个应用有相同的ShareUID并且签名相同才可以。&lt;/strong&gt; 在这种情况下，它们可以相互访问对方的私有数据，比如data目录、组件信息等，不管它们是否跑在同一个进程中。如果它们跑在同一个进程中，还可以共享内存数据，它们看起来就像是一个应用的两个部分。
-(3)android系统会为每个进程分配一个独立的虚拟机，不同的虚拟机在内存分配上有不同的地址空间，所以不同的虚拟机中访问同一个类的对象会产生多个副本。
-(4)使用多进程容易造成以下几个问题：
-1.静态成员和单例模式完全失效；
-2.线程同步机制完全失效：无论锁对象还是锁全局对象都无法保证线程同步；
-3.&lt;code&gt;SharedPreferences&lt;/code&gt;的可靠性下降：SharedPreferences不支持并发读写；
-4.Application会多次创建：当一个组件跑在一个新的进程的时候，系统要在创建新的进程的同时分配独立的虚拟机，应用会重新启动一次，也就会创建新的Application。&lt;strong&gt;运行在同一个进程中的组件是属于同一个虚拟机和同一个Application。&lt;/strong&gt;
-&lt;strong&gt;同一个应用的不同组件，如果它们运行在不同进程中，那么和它们分别属于两个应用没有本质区别。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;2.在&lt;code&gt;application&lt;/code&gt;中配置&lt;code&gt;meta-data&lt;/code&gt;&lt;/p&gt;
 
-&lt;h4 id=&#34;2-3-ipc基础概念介绍&#34;&gt;2.3 IPC基础概念介绍&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- Glide configurations for image loading --&amp;gt;
+&amp;lt;meta-data
+    android:name=&amp;quot;io.plaidapp.util.glide.GlideConfiguration&amp;quot;
+    android:value=&amp;quot;GlideModule&amp;quot; /&amp;gt;
+&amp;lt;meta-data
+    android:name=&amp;quot;com.bumptech.glide.integration.okhttp.OkHttpGlideModule&amp;quot;
+    android:value=&amp;quot;GlideModule&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(1)&lt;code&gt;Serializable&lt;/code&gt;接口是Java中为对象提供标准的序列化和反序列化操作的接口，而&lt;code&gt;Parcelable&lt;/code&gt;接口是Android提供的序列化方式的接口。
-(2)&lt;code&gt;serialVersionUId&lt;/code&gt;是一串long型数字，主要是用来辅助序列化和反序列化的，原则上序列化后的数据中的serialVersionUId只有和当前类的serialVersionUId相同才能够正常地被反序列化。
-&lt;strong&gt;serialVersionUId的详细工作机制&lt;/strong&gt;：序列化的时候系统会把当前类的serialVersionUId写入&lt;code&gt;序列化的文件&lt;/code&gt;中，当反序列化的时候系统会去检测文件中的serialVersionUId，看它是否和当前类的serialVersionUId一致，如果一致就说明序列化的类的版本和当前类的版本是相同的，这个时候可以成功反序列化；否则说明版本不一致无法正常反序列化。&lt;strong&gt;一般来说，我们应该手动指定serialVersionUId的值。&lt;/strong&gt;
-1.静态成员变量属于类不属于对象，所以不参与序列化过程；
-2.声明为&lt;code&gt;transient&lt;/code&gt;的成员变量不参与序列化过程。
-(3)&lt;code&gt;Parcelable&lt;/code&gt;接口内部包装了可序列化的数据，可以在Binder中自由传输，&lt;code&gt;Parcelable&lt;/code&gt;主要用在&lt;code&gt;内存序列化&lt;/code&gt;上，可以直接序列化的有Intent、Bundle、Bitmap以及List和Map等等，下面是一个实现了&lt;code&gt;Parcelable&lt;/code&gt;接口的示例&lt;/p&gt;
+&lt;p&gt;甚至可以在AndroidManifest文件中获取到在Gradle配置的数据，比如下面的配置不同的渠道&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;public class Book implements Parcelable {
-    public int bookId;
-    public String bookName;
-    public Book() {
+&lt;pre&gt;&lt;code&gt;//AndroidManifest
+&amp;lt;meta-data
+    android:name=&amp;quot;UMENG_CHANNEL&amp;quot;
+    android:value=&amp;quot;${UMENG_CHANNEL_VALUE}&amp;quot; /&amp;gt;
+
+//build.gradle
+productFlavors {
+    playStore {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;playStore&amp;quot;]
     }
-
-    public Book(int bookId, String bookName) {
-        this.bookId = bookId;
-        this.bookName = bookName;
+    miui {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;miui&amp;quot;]
     }
-
-    //“内容描述”，如果含有文件描述符返回1，否则返回0，几乎所有情况下都是返回0
-    public int describeContents() {
-        return 0;
+    wandoujia {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;wandoujia&amp;quot;]
     }
-
-    //实现序列化操作，flags标识只有0和1，1表示标识当前对象需要作为返回值返回，不能立即释放资源，几乎所有情况都为0
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(bookId);
-        out.writeString(bookName);
-    }
-
-    //实现反序列化操作
-    public static final Parcelable.Creator&amp;lt;Book&amp;gt; CREATOR = new Parcelable.Creator&amp;lt;Book&amp;gt;() {
-        //从序列化后的对象中创建原始对象
-        public Book createFromParcel(Parcel in) {
-            return new Book(in);
-        }
-        public Book[] newArray(int size) {//创建指定长度的原始对象数组
-            return new Book[size];
-        }
-    };
-
-    private Book(Parcel in) {
-        bookId = in.readInt();
-        bookName = in.readString();
-    }
-
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(4)&lt;code&gt;Binder&lt;/code&gt;是Android中的一个类，它实现了&lt;code&gt;IBinder&lt;/code&gt;接口。从IPC角度看，Binder是Android中一种跨进程通信的方式；Binder还可以理解为虚拟的物理设备，它的设备驱动是&lt;code&gt;/dev/binder&lt;/code&gt;；从Framework层角度看，Binder是ServiceManager连接各种&lt;code&gt;Manager&lt;/code&gt;和相应的&lt;code&gt;ManagerService&lt;/code&gt;的桥梁；从Android应用层来说，Binder是客户端和服务端进行通信的媒介，当&lt;code&gt;bindService&lt;/code&gt;的时候，服务端会返回一个包含了服务端业务调用的Binder对象，通过这个Binder对象，客户端就可以获取服务端提供的服务或者数据，这里的服务包括普通服务和基于AIDL的服务。
-在Android开发中，Binder主要用在Service中，包括AIDL和Messenger，其中普通Service中的Binder不涉及进程间通信，较为简单；而Messenger的底层其实是AIDL，正是Binder的核心工作机制。
-(5)aidl工具根据aidl文件自动生成的java接口的解析：首先，它声明了几个接口方法，同时还声明了几个整型的id用于标识这些方法，id用于标识在&lt;code&gt;transact&lt;/code&gt;过程中客户端所请求的到底是哪个方法；接着，它声明了一个内部类&lt;code&gt;Stub&lt;/code&gt;，这个Stub就是一个&lt;code&gt;Binder&lt;/code&gt;类，当客户端和服务端都位于同一个进程时，方法调用不会走跨进程的&lt;code&gt;transact&lt;/code&gt;过程，而当两者位于不同进程时，方法调用需要走transact过程，这个逻辑由Stub内部的代理类&lt;code&gt;Proxy&lt;/code&gt;来完成。
-&lt;strong&gt;所以，这个接口的核心就是它的内部类Stub和Stub内部的代理类Proxy。&lt;/strong&gt; 下面分析其中的方法：
-1.&lt;code&gt;asInterface(android.os.IBinder obj)&lt;/code&gt;：用于将服务端的Binder对象转换成客户端所需的AIDL接口类型的对象，这种转换过程是区分进程的，&lt;strong&gt;如果客户端和服务端是在同一个进程中，那么这个方法返回的是服务端的&lt;code&gt;Stub&lt;/code&gt;对象本身，否则返回的是系统封装的&lt;code&gt;Stub.Proxy&lt;/code&gt;对象。&lt;/strong&gt;
-2.&lt;code&gt;asBinder&lt;/code&gt;：返回当前Binder对象。
-3.&lt;code&gt;onTransact&lt;/code&gt;：这个方法运行在&lt;strong&gt;服务端中的Binder线程池&lt;/strong&gt;中，当客户端发起跨进程请求时，远程请求会通过系统底层封装后交由此方法来处理。
-这个方法的原型是&lt;code&gt;public Boolean onTransact(int code, Parcelable data, Parcelable reply, int flags)&lt;/code&gt;
-服务端通过&lt;code&gt;code&lt;/code&gt;可以知道客户端请求的目标方法，接着从&lt;code&gt;data&lt;/code&gt;中取出所需的参数，然后执行目标方法，执行完毕之后，将结果写入到&lt;code&gt;reply&lt;/code&gt;中。如果此方法返回false，说明客户端的请求失败，利用这个特性可以做权限验证(即验证是否有权限调用该服务)。
-4.&lt;code&gt;Proxy#[Method]&lt;/code&gt;：代理类中的接口方法，这些方法运行在客户端，当客户端远程调用此方法时，它的内部实现是：首先创建该方法所需要的参数，然后把方法的参数信息写入到&lt;code&gt;_data&lt;/code&gt;中，接着调用&lt;code&gt;transact&lt;/code&gt;方法来发起RPC请求，同时当前线程挂起；然后服务端的&lt;code&gt;onTransact&lt;/code&gt;方法会被调用，直到RPC过程返回后，当前线程继续执行，并从&lt;code&gt;_reply&lt;/code&gt;中取出RPC过程的返回结果，最后返回&lt;code&gt;_reply&lt;/code&gt;中的数据。&lt;/p&gt;
+&lt;p&gt;3.Gradle中&lt;code&gt;buildConfigField&lt;/code&gt;的配置
+通过在Gradle文件中配置的&lt;code&gt;buildConfigField&lt;/code&gt;可以在自动生成的&lt;code&gt;BuildConfig&lt;/code&gt;文件中获取到，可以给不同的buildType设置不同的值。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;如果搞清楚了自动生成的接口文件的结构和作用之后，其实是可以不用通过AIDL而直接实现Binder的，&lt;a href=&#34;https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_2/src/com/ryg/chapter_2/manualbinder/BookManagerImpl.java&#34;&gt;主席写的示例代码&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在&lt;code&gt;build.gralde&lt;/code&gt;中添加一些BuildConfig字段&lt;/p&gt;
 
-&lt;p&gt;(6)Binder的两个重要方法&lt;code&gt;linkToDeath&lt;/code&gt;和&lt;code&gt;unlinkToDeath&lt;/code&gt;
-Binder运行在服务端，如果由于某种原因服务端异常终止了的话会导致客户端的远程调用失败，所以Binder提供了两个配对的方法&lt;code&gt;linkToDeath&lt;/code&gt;和&lt;code&gt;unlinkToDeath&lt;/code&gt;，通过&lt;code&gt;linkToDeath&lt;/code&gt;方法可以给Binder设置一个死亡代理，当Binder死亡的时候客户端就会收到通知，然后就可以重新发起连接请求从而恢复连接了。
-&lt;strong&gt;如何给Binder设置死亡代理呢？&lt;/strong&gt;
-1.声明一个&lt;code&gt;DeathRecipient&lt;/code&gt;对象，&lt;code&gt;DeathRecipient&lt;/code&gt;是一个接口，其内部只有一个方法&lt;code&gt;bindeDied&lt;/code&gt;，实现这个方法就可以在Binder死亡的时候收到通知了。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;defaultConfig {
+    applicationId &amp;quot;io.awesome&amp;quot;
+    minSdkVersion 16
+    targetSdkVersion 23
+    versionCode 1
+    versionName &amp;quot;1.0&amp;quot;
 
-&lt;pre&gt;&lt;code&gt;private IBinder.DeathRecipient mDeathRecipient = new IBinder.DeathRecipient() {
-    @Override
-    public void binderDied() {
-        if (mRemoteBookManager == null) return;
-        mRemoteBookManager.asBinder().unlinkToDeath(mDeathRecipient, 0);
-        mRemoteBookManager = null;
-        // TODO:这里重新绑定远程Service
-    }
-};
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_ID&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_id}\&amp;quot;&amp;quot;
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_SECRET&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_secret}\&amp;quot;&amp;quot;
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_ACCESS_TOKEN&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_access_token}\&amp;quot;&amp;quot;
+}
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2.在客户端绑定远程服务成功之后，给binder设置死亡代理&lt;/p&gt;
+&lt;p&gt;对于其中引用的字段值可以放在&lt;code&gt;gradle.properties&lt;/code&gt;中配置&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;mRemoteBookManager.asBinder().linkToDeath(mDeathRecipient, 0);
+&lt;pre&gt;&lt;code&gt;# Dribbble API
+dribbble_client_id = xxx
+dribbble_client_secret = yyy
+dribbble_client_access_token = zzz
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h4 id=&#34;2-4-android中的ipc方式&#34;&gt;2.4 Android中的IPC方式&lt;/h4&gt;
+&lt;p&gt;待Gradle Sync之后在文件&lt;code&gt;app/build/source/BuildConfig/Build Varients/package name/BuildConfig&lt;/code&gt;就会看到添加的字段&lt;/p&gt;
 
-&lt;p&gt;(1)&lt;strong&gt;使用Bundle&lt;/strong&gt;：Bundle实现了Parcelable接口，Activity、Service和Receiver都支持在Intent中传递Bundle数据。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public final class BuildConfig {
+  public static final boolean DEBUG = Boolean.parseBoolean(&amp;quot;true&amp;quot;);
+  public static final String APPLICATION_ID = &amp;quot;io.awesome&amp;quot;;
+  public static final String BUILD_TYPE = &amp;quot;debug&amp;quot;;
+  public static final String FLAVOR = &amp;quot;&amp;quot;;
+  public static final int VERSION_CODE = 1;
+  public static final String VERSION_NAME = &amp;quot;1.0&amp;quot;;
+  // Fields from default config.
+  public static final String DRIBBBLE_CLIENT_ACCESS_TOKEN = &amp;quot;xxx&amp;quot;;
+  public static final String DRIBBBLE_CLIENT_ID = &amp;quot;yyy&amp;quot;;
+  public static final String DRIBBBLE_CLIENT_SECRET = &amp;quot;zzz&amp;quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(2)&lt;strong&gt;使用文件共享&lt;/strong&gt;：这种方式简单，适合在对数据同步要求不高的进程之间进行通信，并且要妥善处理并发读写的问题。
-&lt;code&gt;SharedPreferences&lt;/code&gt;是一个特例，虽然它也是文件的一种，但是由于系统对它的读写有一定的缓存策略，即在内存中会有一份SharedPreferences文件的缓存，因此在多进程模式下，系统对它的读写就变得不可靠，当面对高并发读写访问的时候，有很大几率会丢失数据，因此，不建议在进程间通信中使用SharedPreferences。&lt;/p&gt;
+&lt;p&gt;4.在Gradle中定义&lt;code&gt;supportLibVersion&lt;/code&gt;做到supportlib的版本统一&lt;/p&gt;
 
-&lt;p&gt;(3)&lt;strong&gt;使用Messenger&lt;/strong&gt;：&lt;code&gt;Messenger&lt;/code&gt;是一种轻量级的IPC方案，它的底层实现就是AIDL。Messenger是以串行的方式处理请求的，即服务端只能一个个处理，不存在并发执行的情形，详细的示例见原书。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ext {
+    archivesBaseName = &amp;quot;plaid-${android.defaultConfig.versionName}&amp;quot;
+    supportLibVersion = &#39;23.1.0&#39;
+}
 
-&lt;p&gt;(4)&lt;strong&gt;使用AIDL&lt;/strong&gt;
-大致流程：首先建一个Service和一个AIDL接口，接着创建一个类继承自AIDL接口中的Stub类并实现Stub类中的抽象方法，在Service的onBind方法中返回这个类的对象，然后客户端就可以绑定服务端Service，建立连接后就可以访问远程服务端的方法了。
-1.AIDL支持的数据类型：基本数据类型、&lt;code&gt;String&lt;/code&gt;和&lt;code&gt;CharSequence&lt;/code&gt;、&lt;code&gt;ArrayList&lt;/code&gt;、&lt;code&gt;HashMap&lt;/code&gt;、&lt;code&gt;Parcelable&lt;/code&gt;以及&lt;code&gt;AIDL&lt;/code&gt;；
-2.某些类即使和AIDL文件在同一个包中也要显式import进来；
-3.AIDL中除了基本数据类，其他类型的参数都要标上方向：&lt;code&gt;in&lt;/code&gt;、&lt;code&gt;out&lt;/code&gt;或者&lt;code&gt;inout&lt;/code&gt;；
-4.AIDL接口中支持方法，不支持声明静态变量；
-5.为了方便AIDL的开发，建议把所有和AIDL相关的类和文件全部放入同一个包中，这样做的好处是，当客户端是另一个应用的时候，可以直接把整个包复制到客户端工程中。
-6.&lt;code&gt;RemoteCallbackList&lt;/code&gt;是系统专门提供的用于删除跨进程Listener的接口。RemoteCallbackList是一个泛型，支持管理任意的AIDL接口，因为所有的AIDL接口都继承自&lt;code&gt;IInterface&lt;/code&gt;接口。&lt;/p&gt;
+dependencies {
+    compile &amp;quot;com.android.support:support-v4:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:palette-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:recyclerview-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:cardview-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:design:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:customtabs:${supportLibVersion}&amp;quot;
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;(5)&lt;strong&gt;使用ContentProvider&lt;/strong&gt;
-1.ContentProvider主要以表格的形式来组织数据，并且可以包含多个表；
-2.ContentProvider还支持文件数据，比如图片、视频等，系统提供的&lt;code&gt;MediaStore&lt;/code&gt;就是文件类型的ContentProvider；
-3.ContentProvider对底层的数据存储方式没有任何要求，可以是SQLite、文件，甚至是内存中的一个对象都行；
-4.要观察ContentProvider中的数据变化情况，可以通过&lt;code&gt;ContentResolver&lt;/code&gt;的&lt;code&gt;registerContentObserver&lt;/code&gt;方法来注册观察者；&lt;/p&gt;
+&lt;p&gt;5.&lt;/p&gt;
 
-&lt;p&gt;(6)&lt;strong&gt;使用Socket&lt;/strong&gt;
-Socket是网络通信中“套接字”的概念，分为流式套接字和用户数据包套接字两种，分别对应网络的传输控制层的TCP和UDP协议。&lt;/p&gt;
+&lt;p&gt;ItemTouchHelper.SimpleCallback&lt;/p&gt;
 
-&lt;h4 id=&#34;2-5-binder连接池&#34;&gt;2.5 Binder连接池&lt;/h4&gt;
+&lt;p&gt;401 Unauthorized&lt;/p&gt;
 
-&lt;p&gt;(1)当项目规模很大的时候，创建很多个Service是不对的做法，因为service是系统资源，太多的service会使得应用看起来很重，所以最好是将所有的AIDL放在同一个Service中去管理。整个工作机制是：每个业务模块创建自己的AIDL接口并实现此接口，这个时候不同业务模块之间是不能有耦合的，所有实现细节我们要单独开来，然后向服务端提供自己的唯一标识和其对应的Binder对象；对于服务端来说，只需要一个Service，服务端提供一个&lt;code&gt;queryBinder&lt;/code&gt;接口，这个接口能够根据业务模块的特征来返回相应的Binder对象给它们，不同的业务模块拿到所需的Binder对象后就可以进行远程方法调用了。
-&lt;strong&gt;Binder连接池的主要作用就是将每个业务模块的Binder请求统一转发到远程Service去执行，从而避免了重复创建Service的过程。&lt;/strong&gt;
-(2)作者实现的Binder连接池&lt;a href=&#34;https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_2/src/com/ryg/chapter_2/binderpool/BinderPool.java&#34;&gt;&lt;code&gt;BinderPool&lt;/code&gt;的实现源码&lt;/a&gt;，建议在AIDL开发工作中引入BinderPool机制。&lt;/p&gt;
-
-&lt;h4 id=&#34;2-6-选用合适的ipc方式&#34;&gt;2.6 选用合适的IPC方式&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/androidart_ipc.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;OK，本章结束，谢谢阅读。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&#34;&gt;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     
