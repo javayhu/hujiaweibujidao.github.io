@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Hujiawei Bujidao</title>
+    <link>https://hujiaweibujidao.github.io/categories/java/</link>
+    <description>Recent content in Java on Hujiawei Bujidao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved &amp;copy; 2016</copyright>
+    <lastBuildDate>Tue, 01 Mar 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://hujiaweibujidao.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Java Web project with Maven</title>
+      <link>https://hujiaweibujidao.github.io/2016/03/java-web-project-with-maven/</link>
+      <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/2016/03/java-web-project-with-maven/</guid>
+      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。&lt;/p&gt;
+
+&lt;p&gt;毕业需求是第一驱动力啊！毕业之后一定远离学术圈！&lt;/p&gt;
+
+&lt;p&gt;本教程的开发需求很简单，就是搭建一个Java Web项目，并且能够使用Maven将项目热部署到服务器端即可。&lt;/p&gt;
+
+&lt;p&gt;1.配置服务器端Tomcat的&lt;code&gt;conf/tomcat-users.xml&lt;/code&gt;文件，注意要分配&lt;code&gt;manager-script&lt;/code&gt;的权限，本教程中Tomcat版本是6.0。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;role rolename=&amp;quot;admin-gui&amp;quot;/&amp;gt;
+&amp;lt;role rolename=&amp;quot;manager-gui&amp;quot;/&amp;gt;
+&amp;lt;role rolename=&amp;quot;manager-script&amp;quot;/&amp;gt;
+&amp;lt;user username=&amp;quot;admin&amp;quot; password=&amp;quot;admin&amp;quot; roles=&amp;quot;admin-gui,manager-gui,manager-script&amp;quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.在本地的&lt;code&gt;{USER_HOME}/.m2/settings.xml&lt;/code&gt;文件中插入一个server的配置，其中的id可以随便给定，账号密码是服务器端Tomcat的用户的账号密码。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;servers&amp;gt;
+     &amp;lt;server&amp;gt;
+       &amp;lt;id&amp;gt;tomcat6&amp;lt;/id&amp;gt;
+       &amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
+       &amp;lt;password&amp;gt;admin&amp;lt;/password&amp;gt;
+     &amp;lt;/server&amp;gt;
+&amp;lt;/servers&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.在本地使用Maven新建一个Java Web项目，其中的参数可以自行配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mvn archetype:generate -DgroupId=edukb.org -DartifactId=annomatic -DarchetypeArtifactId=maven-archetype-webapp
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.IDE的话这里使用IntelliJ，打开IntelliJ之后选择&lt;code&gt;File -&amp;gt; Open...&lt;/code&gt;，然后选中刚才目录中的&lt;code&gt;pom.xml&lt;/code&gt;文件即可&lt;/p&gt;
+
+&lt;p&gt;5.项目打开之后，修改&lt;code&gt;pom.xml&lt;/code&gt;文件，特别注意下&lt;code&gt;tomcat6-maven-plugin&lt;/code&gt;插件的配置即可&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;project xmlns=&amp;quot;http://maven.apache.org/POM/4.0.0&amp;quot; xmlns:xsi=&amp;quot;http://www.w3.org/2001/XMLSchema-instance&amp;quot;
+         xsi:schemaLocation=&amp;quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&amp;quot;&amp;gt;
+
+    &amp;lt;modelVersion&amp;gt;4.0.0&amp;lt;/modelVersion&amp;gt;
+
+    &amp;lt;groupId&amp;gt;edukb.org&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;annomatic&amp;lt;/artifactId&amp;gt;
+    &amp;lt;packaging&amp;gt;war&amp;lt;/packaging&amp;gt;
+    &amp;lt;version&amp;gt;1.0&amp;lt;/version&amp;gt;
+
+    &amp;lt;name&amp;gt;annomatic&amp;lt;/name&amp;gt;
+    &amp;lt;url&amp;gt;http://edukb.org&amp;lt;/url&amp;gt;
+    &amp;lt;description&amp;gt;For automatic annotations.&amp;lt;/description&amp;gt;
+
+    &amp;lt;dependencies&amp;gt;
+
+        &amp;lt;!-- java web servlet+jsp --&amp;gt;
+        &amp;lt;dependency&amp;gt;
+            &amp;lt;groupId&amp;gt;org.apache.tomcat&amp;lt;/groupId&amp;gt;
+            &amp;lt;artifactId&amp;gt;servlet-api&amp;lt;/artifactId&amp;gt;
+            &amp;lt;version&amp;gt;6.0.29&amp;lt;/version&amp;gt;
+            &amp;lt;scope&amp;gt;provided&amp;lt;/scope&amp;gt;
+        &amp;lt;/dependency&amp;gt;
+
+        &amp;lt;dependency&amp;gt;
+            &amp;lt;groupId&amp;gt;org.apache.tomcat&amp;lt;/groupId&amp;gt;
+            &amp;lt;artifactId&amp;gt;jsp-api&amp;lt;/artifactId&amp;gt;
+            &amp;lt;version&amp;gt;6.0.29&amp;lt;/version&amp;gt;
+            &amp;lt;scope&amp;gt;provided&amp;lt;/scope&amp;gt;
+        &amp;lt;/dependency&amp;gt;
+
+    &amp;lt;/dependencies&amp;gt;
+
+    &amp;lt;properties&amp;gt;
+        &amp;lt;project.build.sourceEncoding&amp;gt;UTF-8&amp;lt;/project.build.sourceEncoding&amp;gt;
+    &amp;lt;/properties&amp;gt;
+
+    &amp;lt;build&amp;gt;
+        &amp;lt;finalName&amp;gt;annomatic&amp;lt;/finalName&amp;gt;
+        &amp;lt;plugins&amp;gt;
+            &amp;lt;!-- 热部署到Tomcat6服务器上 --&amp;gt;
+            &amp;lt;plugin&amp;gt;
+                &amp;lt;groupId&amp;gt;org.apache.tomcat.maven&amp;lt;/groupId&amp;gt;
+                &amp;lt;artifactId&amp;gt;tomcat6-maven-plugin&amp;lt;/artifactId&amp;gt;
+                &amp;lt;version&amp;gt;2.2&amp;lt;/version&amp;gt;
+                &amp;lt;configuration&amp;gt;
+                    &amp;lt;path&amp;gt;/annomatic&amp;lt;/path&amp;gt;
+                    &amp;lt;url&amp;gt;http://{host}:{port}/manager/&amp;lt;/url&amp;gt;
+                    &amp;lt;server&amp;gt;tomcat6&amp;lt;/server&amp;gt;
+                    &amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
+                    &amp;lt;password&amp;gt;admin&amp;lt;/password&amp;gt;
+                    &amp;lt;update&amp;gt;true&amp;lt;/update&amp;gt;
+                &amp;lt;/configuration&amp;gt;
+            &amp;lt;/plugin&amp;gt;
+        &amp;lt;/plugins&amp;gt;
+    &amp;lt;/build&amp;gt;
+&amp;lt;/project&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;6.在终端运行&lt;code&gt;mvn tomcat6:deploy&lt;/code&gt;即可将项目部署到服务器端，如果已经部署过了就执行&lt;code&gt;mvn tomcat6:redeploy&lt;/code&gt;更新&lt;/p&gt;
+
+&lt;p&gt;注意事项：如果使用的是Tomcat7，那么使用&lt;code&gt;tomcat7-maven-plugin&lt;/code&gt;插件，并且url配置为&lt;code&gt;http://{host}:{port}/manager/text&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;参考网址：
+1.&lt;a href=&#34;http://www.open-open.com/lib/view/open1413071738078.html&#34;&gt;开发过程使用Tomcat Maven插件持续快捷部署Web项目&lt;/a&gt;
+2.&lt;a href=&#34;http://www.tuicool.com/articles/J3imY3M&#34;&gt;maven+tomcat6-maven-plugin实现热部署及调试&lt;/a&gt;
+3.&lt;a href=&#34;http://www.tuicool.com/articles/aM3aEf&#34;&gt;使用Maven自动部署Java Web项目到Tomcat问题小记&lt;/a&gt;
+4.&lt;a href=&#34;http://www.yiibai.com/maven/create-a-web-application-project-with-maven.html&#34;&gt;使用Maven创建Web应用程序项目&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;OK，就是这样啦，hope it helps!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>One Trip of building a Crawler</title>
+      <link>https://hujiaweibujidao.github.io/2016/02/one-trip-of-building-a-crawler/</link>
+      <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/2016/02/one-trip-of-building-a-crawler/</guid>
+      <description>
+
+&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。&lt;/p&gt;
+
+&lt;p&gt;本教程的开发需求是编写一个包含爬虫程序的Java项目，并且能够方便地服务器端编译部署和启动爬虫程序。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-爬虫程序的开发&#34;&gt;1.爬虫程序的开发&lt;/h3&gt;
+
+&lt;p&gt;爬虫程序的开发比较简单，下面是一个简单的例子，其主要功能是爬取汉文学网中的新华字典中的所有汉字详情页面并保存到文件中。爬虫框架使用的是Crawl4j，它的好处是只需要配置爬虫框架的几个重要参数即可让爬虫开始工作：
+(1)爬虫的数据缓存目录；
+(2)爬虫的爬取策略，其中包括是否遵循robots文件、请求之间的延时、页面的最大深度、页面数量的控制等等；
+(3)爬虫的入口地址；
+(4)爬虫在遇到新的页面的url是通过&lt;code&gt;shouldVisit&lt;/code&gt;来判断是否要访问这个url；
+(5)爬虫访问(&lt;code&gt;visit&lt;/code&gt;)那些url时具体的操作，比如将内容保存到文件中。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;package data.hanwenxue;
+
+import core.CommonUtil;
+import data.CrawlHelper;
+import edu.uci.ics.crawler4j.crawler.CrawlConfig;
+import edu.uci.ics.crawler4j.crawler.CrawlController;
+import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.crawler.WebCrawler;
+import edu.uci.ics.crawler4j.fetcher.PageFetcher;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
+import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
+import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
+import edu.uci.ics.crawler4j.url.WebURL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+
+/**
+ * 汉文学网的数据抓取工具，新华字典 http://zd.hwxnet.com/
+ * &amp;lt;p/&amp;gt;
+ * @author hujiawei 16/2/26
+ */
+public class ZDCrawlController extends WebCrawler {
+
+    static Logger logger = LoggerFactory.getLogger(ZDCrawlController.class);
+
+    //页面缓存路径
+    public static final String PAGE_CACHE = &amp;quot;resources/cache_zd&amp;quot;;
+
+    //爬虫的起始页面模式
+    public static final String BASE_URL = &amp;quot;http://zd.hwxnet.com/pinyin.html&amp;quot;;//从拼音索引页面开始爬取
+
+    //需要访问的页面的前缀
+    public static final String PREFIX_URL = &amp;quot;http://zd.hwxnet.com/search&amp;quot;;
+    public static final String PREFIX_URL_PINYIN = &amp;quot;http://zd.hwxnet.com/pinyin&amp;quot;;
+
+    //爬虫的数目
+    public static final int NUMBER_OF_CRAWLER = 4;
+
+    /**
+     * 启动爬虫
+     */
+    public void startCrawl() throws Exception {
+        ////控制爬虫的缓存目录
+        CrawlConfig config = new CrawlConfig();
+        config.setCrawlStorageFolder(PAGE_CACHE);//如果目录不存在会创建
+
+        config.setPolitenessDelay(1000);//控制请求之间的延时
+        //config.setMaxDepthOfCrawling(2);//控制爬虫的最大深度
+        //config.setMaxPagesToFetch(40);//控制最多要爬取的页面数目
+        config.setIncludeBinaryContentInCrawling(false);//控制是否爬取二进制文件，例如图片、pdf等
+        config.setResumableCrawling(true);//控制爬虫是否能够从中断中恢复 -&amp;gt; 设置为true的话重新运行将恢复到原来的进度
+
+        //创建爬虫控制器
+        PageFetcher pageFetcher = new PageFetcher(config);
+        RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
+        //robotstxtConfig.setEnabled(false);//设置为不遵守robotstxt中的规定
+        RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+        CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+
+        //添加爬虫的seed，即入口地址
+        controller.addSeed(BASE_URL);
+
+        //启动爬虫
+        controller.start(ZDCrawlController.class, NUMBER_OF_CRAWLER);
+    }
+
+    /**
+     * 控制某些url页面是否需要访问
+     *
+     * @param page page
+     * @param url  url
+     * @return 返回true表示需要访问，false表示不需要访问
+     */
+    @Override
+    public boolean shouldVisit(Page page, WebURL url) {
+        return url.getURL().startsWith(PREFIX_URL) || url.getURL().startsWith(PREFIX_URL_PINYIN);
+    }
+
+    /**
+     * 控制抓取到的页面的处理方式
+     *
+     * @param page page
+     */
+    @Override
+    public void visit(Page page) {
+        int docid = page.getWebURL().getDocid();
+        String url = page.getWebURL().getURL();
+        //logger.info(&amp;quot;info: {} {}&amp;quot;, docid, url);
+        if (null == url &amp;amp;&amp;amp; url.equalsIgnoreCase(&amp;quot;&amp;quot;)) return;
+        if (url.startsWith(PREFIX_URL_PINYIN)) return;
+
+        String id, fileName;
+
+        if (page.getParseData() instanceof HtmlParseData) {
+            fileName = PAGE_CACHE + File.separator;//+ String.valueOf(docid)
+            id = parseId(url);
+            fileName = fileName + id + &amp;quot;.html&amp;quot;;
+            byte[] content = page.getContentData();
+            CrawlHelper.savePage(fileName, content);
+        }
+    }
+
+    //从url中获取id
+    private String parseId(String url) {
+        if (null == url || url.equalsIgnoreCase(&amp;quot;&amp;quot;)) return &amp;quot;&amp;quot;;
+        return url.substring(url.lastIndexOf(&amp;quot;/&amp;quot;) + 1, url.lastIndexOf(&amp;quot;.&amp;quot;));
+    }
+
+
+    public static void main(String[] args) {
+        logger.error(&amp;quot;============================================================================&amp;quot;);
+        logger.error(&amp;quot;================================开始抓取数据==================================&amp;quot;);
+        logger.error(&amp;quot;============================================================================&amp;quot;);
+
+        long start = System.currentTimeMillis();
+
+        ZDCrawlController controller = new ZDCrawlController();
+        try {
+            controller.startCrawl();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        long end = System.currentTimeMillis();
+
+        logger.error(&amp;quot;============================================================================&amp;quot;);
+        logger.error(&amp;quot;================================结束抓取数据==================================&amp;quot;);
+        logger.error(&amp;quot;============================================================================&amp;quot;);
+
+        logger.error(&amp;quot;抓取新华字典数据耗时约 &amp;quot; + CommonUtil.formatTime(end - start));
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-项目的maven化&#34;&gt;2.项目的Maven化&lt;/h3&gt;
+
+&lt;p&gt;我大致估算上面代码会运行半天左右，所以有必要将它放到服务器上去执行，因为实验室经常需要关闭电源总闸，不能保证一直运行。但是原始项目比较大，上面只是几只爬虫中的一只而已，所以我想将项目在服务器端部署一次，然后再依次启动爬虫。这个时候想到了Maven，项目之前只是使用Maven管理依赖项，并没有利用Maven太多其他的功能，于是先将项目Maven化，将结构调整为常见的Maven项目的形式。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;build&amp;gt;
+    &amp;lt;!--配置构建项目时目录的类型--&amp;gt;
+    &amp;lt;sourceDirectory&amp;gt;src/main/java&amp;lt;/sourceDirectory&amp;gt;
+    &amp;lt;testSourceDirectory&amp;gt;src/test/java&amp;lt;/testSourceDirectory&amp;gt;
+    &amp;lt;resources&amp;gt;
+        &amp;lt;resource&amp;gt;
+            &amp;lt;directory&amp;gt;resources&amp;lt;/directory&amp;gt;
+        &amp;lt;/resource&amp;gt;
+    &amp;lt;/resources&amp;gt;
+    &amp;lt;testResources&amp;gt;
+        &amp;lt;testResource&amp;gt;
+            &amp;lt;directory&amp;gt;resources&amp;lt;/directory&amp;gt;
+        &amp;lt;/testResource&amp;gt;
+    &amp;lt;/testResources&amp;gt;
+&amp;lt;/build&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;项目结构图
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/semanticweb_intellij.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;使用Maven命令即可启动爬虫程序 &lt;code&gt;mvn exec:java -Dexec.mainClass=&amp;quot;data.hanwenxue.ZDCrawlController&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;3-配置服务器端环境&#34;&gt;3.配置服务器端环境&lt;/h3&gt;
+
+&lt;p&gt;服务器是我最不熟悉的CentOS，但是没办法，目前我也就只有这么一台可用的Server，硬着头皮干吧。&lt;/p&gt;
+
+&lt;p&gt;(1)安装Java 8
+因项目中某个模块需要JDK 8，所以需要安装Java 8&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.wget --no-check-certificate --no-cookies --header &amp;quot;Cookie: oraclelicense=accept-securebackup-cookie&amp;quot; http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.rpm -O jdk-8u20-linux-x64.rpm
+2.su - root
+3.yum install jdk-8u20-linux-x64.rpm
+4.Java8安装到/usr/java目录下
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2)安装Maven 3
+采用Maven来管理项目，编译和运行程序&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+2.yum install apache-maven
+3.修改.bash_profile文件，添加JAVA_HOME的配置，将其设置为之前安装的JDK 8
+export JAVA_HOME=/usr/java/jdk1.8.0_20
+export PATH=$PATH:${JAVA_HOME}
+4.mvn -v 测试下
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3)配置Git
+利用Git来同步服务器端和我本机的代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;1.yum install git
+2.新建ssh key并添加到Github配置中，参考https://help.github.com/articles/generating-an-ssh-key/
+3.测试连接 ssh -T git@github.com
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;4-在服务器端运行爬虫&#34;&gt;4.在服务器端运行爬虫&lt;/h3&gt;
+
+&lt;p&gt;服务器端一次需要启动很多个爬虫，而且在断开ssh连接的时候这些爬虫要一直能够继续执行，这里需要用到一个很有意思的工具screen，除了上面的功能外，我还可以在下次ssh连接之后恢复之前的会话，相关教程请参考：&lt;a href=&#34;http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html&#34;&gt;linux screen 命令详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;具体的操作步骤如下：
+(0)ssh连接服务器：&lt;code&gt;ssh username@host -p port&lt;/code&gt;；
+(1)克隆项目代码：&lt;code&gt;git clone xxx&lt;/code&gt;；
+(2)编译源码：&lt;code&gt;mvn compile&lt;/code&gt;；
+(3)新建screen：&lt;code&gt;screen -S yyy&lt;/code&gt;；
+(4)在新建的screen中启动爬虫：例如&lt;code&gt;mvn exec:java -Dexec.mainClass=&amp;quot;data.hanwenxue.ZDCrawlController&amp;quot;&lt;/code&gt;
+(5)重复步骤3和4，启动完所有的爬虫。&lt;/p&gt;
+
+&lt;p&gt;下图是新华字典的爬虫的最后输出，显示总共耗时约6个小时
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/crawl_zd.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;OK，就是这样，暂记于此，hope it helps！&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Build Android Studio Source Code"/>
+<meta name="twitter:description" content="本文简单记录下如何编译Android Studio这个开发工具的源码。
+"/>
+
+
+
+  	<meta property="og:title" content=" Build Android Studio Source Code &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2016/11/build-android-studio-source-code/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2016-11-09T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Build Android Studio Source Code &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2016/11/build-android-studio-source-code/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Build Android Studio Source Code</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-11-09T00:00:00Z">
+            Nov 9, 2016
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>本文简单记录下如何编译Android Studio这个开发工具的源码。</p>
+
+<h3 id="1-简单说明">1.简单说明</h3>
+
+<p>android studio的源码其实是aosp中的一部分，同样是采用repo对git项目进行管理。
+android studio的源码涉及到aosp中的sdk.git，ndk.git，external/qemu.git等几个项目。</p>
+
+<p><code>sdk.git</code> is the project for all java based tools such as the SDK Manager, DDMS, and the Eclipse plug-ins.
+<code>ndk.git</code> is the project hosting the Android NDK source files.
+<code>external/qemu.git</code> is the project for our qemu-based emulator.</p>
+
+<p>sdk.git项目是一个核心项目，大部分基于Java开发的工具都在这个项目里面，包含了ddms，traceview， hierarchyviewer，lint等工具，其中的eclipse目录是android device monitor的工具的源码，包含了各种插件，例如ddms，traceview，hierarchyviewer等。</p>
+
+<p>sdk.git项目根目录下的<a href="http://androidxref.com/7.0.0_r1/xref/sdk/">README文档</a>的主要内容是关于sdk.git这个项目的变化以及使用需知
+其中解答了几个重要的问题，例如如何只构建某个单独的工具？如何修改工具源码来构建一个新的sdk？
+(1)I don&rsquo;t build full SDKs but I want to change tool X
+(2)How do I change some tools sources and build a new SDK using these?</p>
+
+<p>文档<a href="http://tools.android.com/build">http://tools.android.com/build</a>中给出了编译sdk的方法</p>
+
+<pre><code>./tools/buildSrc/servers/build_tools.sh `pwd`/out `pwd`/out/dist 1234
+</code></pre>
+
+<p>如果遇到<code>Required ANDROID_HOME environment variable not set.</code>这个错误只需设置ANDROID_HOME这个环境变量即可</p>
+
+<h3 id="2-下载地址">2.下载地址</h3>
+
+<p>android studio代码也可以通过repo来下载，分支可以使用master-dev或者某个具体版本对应的分支，下载之后大约占用4GB左右磁盘空间</p>
+
+<pre><code>repo init -u https://android.googlesource.com/platform/manifest -b studio-2.2
+</code></pre>
+
+<h3 id="3-编译源码">3.编译源码</h3>
+
+<p>3.1 使用ant
+最简单的编译运行方式是在tools/idea目录下执行<code>ant</code>，最终会在tools/idea/out/中生成可运行的Android Studio应用程序</p>
+
+<p>3.2 使用Intellij (推荐)
+tools/idea目录下的README.md文档说明了如何编译Android Studio源码
+(1)下载Intellij Community版本并安装
+(2)使用IDEA打开项目的tools/idea目录
+(3)在Project Structure的SDKs中新建名为<code>IDEA jdk</code>的jdk，路径设置为jdk 6的根目录
+如果是在Linux/Mac上运行的话，还需要将<JDK_HOME>/lib/tools.jar添加到<code>IDEA jdk</code>中
+(4)在Project Structure的SDKs中新建名为<code>1.8</code>的jdk，路径设置为jdk 8的根目录
+(5)点击Build下的<code>Make Project</code>来编译项目源码
+(6)选择<code>IDEA</code>这个运行配置来运行或者调试代码</p>
+
+<p>运行起来就可以看到AS第一次安装时选择settings的界面，然后就进入到启动界面了</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/as_run.png" alt="img" /></p>
+
+<p>如果遇到<code>java: package com.sun.source.tree does not exist</code>这个错误的话记得检查是否已经将<code>&lt;JDK_HOME&gt;/lib/tools.jar</code>添加到IDEA jdk中</p>
+
+<p>下面是README.md文档的原文，其中第一步执行tools/idea目录下的<code>getPlugins.sh</code>脚本，这个脚本会去下载两个repository，但是<strong>这个步骤在我这里一直没能成功，两个git项目能访问但是网络连接很慢源码下载不下来</strong>，不过幸运的是这个步骤对后面的操作并没有影响。
+<code>git clone git://git.jetbrains.org/idea/android.git android</code>
+<code>git clone git://git.jetbrains.org/idea/adt-tools-base.git android/tools-base</code></p>
+
+<p><strong>Building and Running from the IDE</strong>
+To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or IntelliJ IDEA Ultimate not older than 15.0. To build and run the code:</p>
+
+<ul>
+<li>Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.</li>
+<li>If this git repository is not on &lsquo;master&rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.</li>
+<li>Open the project.</li>
+<li>If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.</li>
+<li>Configure a JDK named &ldquo;IDEA jdk&rdquo; (case sensitive), pointing to an installation of JDK 1.6.</li>
+<li>Unless you&rsquo;re running on a Mac with an Apple JDK, add <JDK_HOME>/lib/tools.jar to the set of &ldquo;IDEA jdk&rdquo; jars.</li>
+<li>Configure a JDK named &ldquo;1.8&rdquo;, pointing to an installation of JDK 1.8.</li>
+<li>Add <JDK_18_HOME>/lib/tools.jar to the set of &ldquo;1.8&rdquo; jars.</li>
+<li>Use Build | Make Project to build the code.</li>
+<li>To run the code, use the provided shared run configuration &ldquo;IDEA&rdquo;.</li>
+</ul>
+
+<h3 id="4-其他参考资料">4.其他参考资料</h3>
+
+<p>(1) <a href="http://tools.android.com/build/studio">Build Android Studio</a>
+(2) hierarchyviewer工具的学习，从使用到源码实现
+<a href="http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html">http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html</a>
+<a href="http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html">http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html</a>
+<a href="http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html">http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html</a>
+<a href="http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html">http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html</a></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Build%20Android%20Studio%20Source%20Code&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fbuild-android-studio-source-code%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fbuild-android-studio-source-code%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fbuild-android-studio-source-code%2f&amp;description=Build%20Android%20Studio%20Source%20Code"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fbuild-android-studio-source-code%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

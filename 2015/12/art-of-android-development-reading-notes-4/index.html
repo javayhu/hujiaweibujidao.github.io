@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Art of Android Development Reading Notes 4"/>
+<meta name="twitter:description" content="《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理
+"/>
+
+
+
+  	<meta property="og:title" content=" Art of Android Development Reading Notes 4 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-4/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2015-12-01T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Art of Android Development Reading Notes 4 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-4/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Art of Android Development Reading Notes 4</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-12-01T00:00:00Z">
+            Dec 1, 2015
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理</p>
+
+<p>本节和《Android群英传》中的<strong>第3章Android控件架构与自定义控件详解</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/26/Android-Heros-Reading-Notes-2/">建议先阅读该章的总结</a></p>
+
+<h3 id="第4章-view的工作原理">第4章 View的工作原理</h3>
+
+<h4 id="4-1-初始viewroot和decorview">4.1 初始ViewRoot和DecorView</h4>
+
+<p>(1)<code>ViewRoot</code>对应<code>ViewRootImpl</code>类，它是连接<code>WindowManager</code>和<code>DecorView</code>的纽带，View的三大流程均通过ViewRoot来完成。
+(2)<code>ActivityThread</code>中，Activity创建完成后，会将DecorView添加到Window中，同时创建ViewRootImpl对象，并建立两者的关联。
+(3)View的绘制流程从ViewRoot的<code>performTraversals</code>方法开始，经过<code>measure</code>、<code>layout</code>和<code>draw</code>三大流程。
+(4)<code>performMeasure</code>方法中会调用<code>measure</code>方法，在<code>measure</code>方法中又会调用<code>onMeasure</code>方法，在onMeasure方法中会对所有的子元素进行measure过程，这个时候measure流程就从父容器传递到子元素了，这样就完成了一次measure过程，layout和draw的过程类似。 (书中175页画出详细的图示)
+(5)measure过程决定了view的宽高，在几乎所有的情况下这个宽高都等同于view最终的宽高。layout过程决定了view的四个顶点的坐标和view实际的宽高，通过<code>getWidth</code>和<code>getHeight</code>方法可以得到最终的宽高。draw过程决定了view的显示。
+(6)DecorView其实是一个FrameLayout，其中包含了一个竖直方向的LinearLayout，上面是标题栏，下面是内容区域(id为<code>android.R.id.content</code>)。</p>
+
+<p>4.2 理解MeasureSpec
+(1)<code>MeasureSpec</code>和<code>LayoutParams</code>的对应关系
+在view测量的时候，系统会将LayoutParams在父容器的约束下转换成对应的MeasureSpec，然后再根据这个MeasureSpec来确定View测量后的宽高。
+<strong>MeasureSpec不是唯一由LayoutParams决定的，LayoutParams需要和父容器一起才能决定view的MeasureSpec，从而进一步确定view的宽高。对于DecorView，它的MeasureSpec由窗口的尺寸和其自身的LayoutParams来决定；对于普通view，它的MeasureSpec由父容器的MeasureSpec和自身的LayoutParams来共同决定。</strong>
+(2)普通view的MeasureSpec的创建规则 (书中182页列出详细的表格)
+当view采用固定宽高时，不管父容器的MeasureSpec是什么，view的MeasureSpec都是精确模式，并且大小是LayoutParams中的大小。
+当view的宽高是<code>match_parent</code>时，如果父容器的模式是精确模式，那么view也是精确模式，并且大小是父容器的剩余空间；如果父容器是最大模式，那么view也是最大模式，并且大小是不会超过父容器的剩余空间。
+当view的宽高是<code>wrap_content</code>时，不管父容器的模式是精确模式还是最大模式，view的模式总是最大模式，并且大小不超过父容器的剩余空间。</p>
+
+<p>4.3 view的工作流程
+(1)view的measure过程和Activity的生命周期方法不是同步执行的，因此无法保证Activity执行了<code>onCreate</code>、<code>onStart</code>、<code>onResume</code>时某个view已经测量完毕了。如果view还没有测量完毕，那么获得的宽高就都是0。下面是四种解决该问题的方法：
+1.<code>Activity/View # onWindowFocusChanged</code>方法
+<code>onWindowFocusChanged</code>方法表示view已经初始化完毕了，宽高已经准备好了，这个时候去获取宽高是没问题的。<strong>这个方法会被调用多次，当Activity继续执行或者暂停执行的时候，这个方法都会被调用。</strong>
+2.<code>view.post(runnable)</code>
+通过post将一个runnable投递到消息队列的尾部，然后等待Looper调用此runnable的时候，view也已经初始化好了。
+3.<code>ViewTreeObserver</code>
+使用<code>ViewTreeObserver</code>的众多回调方法可以完成这个功能，比如使用<code>onGlobalLayoutListener</code>接口，当view树的状态发生改变或者view树内部的view的可见性发生改变时，<code>onGlobalLayout</code>方法将被回调。<strong>伴随着view树的状态改变，这个方法也会被多次调用。</strong>
+4.<code>view.measure(int widthMeasureSpec, int heightMeasureSpec)</code>
+通过手动对view进行measure来得到view的宽高，这个要根据view的LayoutParams来处理：
+<code>match_parent</code>：无法measure出具体的宽高；
+<code>wrap_content</code>：如下measure，设置最大值</p>
+
+<pre><code>int widthMeasureSpec = MeasureSpec.makeMeasureSpec((1 &lt;&lt; 30) - 1, MeasureSpec.AT_MOST);
+int heightMeasureSpec = MeasureSpec.makeMeasureSpec((1 &lt;&lt; 30) - 1, MeasureSpec.AT_MOST);
+view.measure(widthMeasureSpec, heightMeasureSpec);
+</code></pre>
+
+<p>精确值：例如100px</p>
+
+<pre><code>int widthMeasureSpec = MeasureSpec.makeMeasureSpec(100, MeasureSpec.EXACTLY);
+int heightMeasureSpec = MeasureSpec.makeMeasureSpec(100, MeasureSpec.EXACTLY);
+view.measure(widthMeasureSpec, heightMeasureSpec);
+</code></pre>
+
+<p>(2)<strong>在view的默认实现中，view的测量宽高和最终宽高是相等的，只不过测量宽高形成于measure过程，而最终宽高形成于layout过程。</strong>
+(3)draw过程大概有下面几步：
+1.绘制背景：<code>background.draw(canvas)</code>；
+2.绘制自己：<code>onDraw()</code>；
+3.绘制children：<code>dispatchDraw</code>；
+4.绘制装饰：<code>onDrawScrollBars</code>。</p>
+
+<p>4.4 自定义view
+(1)继承view重写onDraw方法需要自己支持<code>wrap_content</code>，并且<code>padding</code>也要自己处理。继承特定的View例如TextView不需要考虑。
+(2)尽量不要在View中使用Handler，因为view内部本身已经提供了<code>post</code>系列的方法，完全可以替代Handler的作用。
+(3)view中如果有线程或者动画，需要在<code>onDetachedFromWindow</code>方法中及时停止。
+(4)处理好view的滑动冲突情况。</p>
+
+<p>接下来是原书中的自定义view的示例，推荐阅读<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_4/src/com/ryg/chapter_4/ui/CircleView.java">源码</a>。</p>
+
+<p>OK，本章结束，谢谢阅读。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Art%20of%20Android%20Development%20Reading%20Notes%204&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-4%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-4%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-4%2f&amp;description=Art%20of%20Android%20Development%20Reading%20Notes%204"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-4%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

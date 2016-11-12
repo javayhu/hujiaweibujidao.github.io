@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Differences between OpenCV JavaCV and OpenCV4Android"/>
+<meta name="twitter:description" content="OpenCV，JavaCV以及OpenCV4Android之间的关系
+"/>
+
+
+
+  	<meta property="og:title" content=" Differences between OpenCV JavaCV and OpenCV4Android &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2014/10/differences-between-opencv-javacv-and-opencv4android/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2014-10-23T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Differences between OpenCV JavaCV and OpenCV4Android &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2014/10/differences-between-opencv-javacv-and-opencv4android/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Differences between OpenCV JavaCV and OpenCV4Android</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-10-23T00:00:00Z">
+            Oct 23, 2014
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>OpenCV，JavaCV以及OpenCV4Android之间的关系</p>
+
+<p>最近我在考虑是否要改变XFace项目的技术方案，经过一番调研后我得到下面的结果。</p>
+
+<p>本文将介绍OpenCV，JavaCV以及OpenCV for Android(以下简称OpenCV4Android)之间的区别，并以一个人脸识别的Android应用为例，详细介绍可以采用的实践方案。</p>
+
+<p>OpenCV: <a href="http://docs.opencv.org/index.html">http://docs.opencv.org/index.html</a></p>
+
+<p>OpenCV4Android: <a href="http://docs.opencv.org/doc/tutorials/introduction/android_binary_package/O4A_SDK.html">OpenCV4Android_SDK.html</a></p>
+
+<p>JavaCV: <a href="https://github.com/bytedeco/javacv">https://github.com/bytedeco/javacv</a></p>
+
+<h3 id="opencv-javacv-opencv4android">OpenCV，JavaCV，OpenCV4Android</h3>
+
+<h4 id="1-javacv和opencv4android没有关系">(1) <strong>JavaCV和OpenCV4Android没有关系</strong></h4>
+
+<p>OpenCV是C++版本的开源计算机视觉库；JavaCV是对OpenCV的Java封装，开发团队和OpenCV开发团队没有关系；OpenCV4Android也是对OpenCV的封装以使其能够应用于Android平台，开发团队是OpenCV开发团队的一部分，也就是OpenCV4Android和JavaCV没有任何关系！</p>
+
+<p>参考网址：<a href="https://groups.google.com/forum/#!topic/javacv/qJmBLvpV7cM">https://groups.google.com/forum/#!topic/javacv/qJmBLvpV7cM</a></p>
+
+<blockquote>
+<p>android-opencv has no relation to JavaCV, so you should ask somewhere else for questions about it.. The philosophy of android-opencv (and of the OpenCV team as general) is to make OpenCV run on Android, which forces them to use Java, but otherwise they prefer to use C++ or Python. With JavaCV, my hope is to have it run on as many platforms as possible, including Android, since it supports (some sort of) Java, so we can use sane&reg; and more efficient languages such as the Java and Scala languages. Take your pick!</p>
+</blockquote>
+
+<h4 id="2-javacv和opencv的性能比较">(2) <strong>JavaCV和OpenCV的性能比较</strong></h4>
+
+<p>大多数时候两者性能相差不大，某些OpenCV函数能够并行化处理而JavaCV不行，但是JavaCV还绑定了很多其他的图像处理库，功能也足够强大。</p>
+
+<p>参考网址：<a href="http://stackoverflow.com/questions/21207755/opencv-javacv-vs-opencv-c-c-interfaces">http://stackoverflow.com/questions/21207755/opencv-javacv-vs-opencv-c-c-interfaces</a></p>
+
+<blockquote>
+<p>I&rsquo;d like to add a couple of things to @ejbs&rsquo;s answer.<br />
+First of all, you concerned 2 separate issues:<br />
+Java vs. C++ performance<br />
+OpenCV vs JavaCV<br />
+Java vs. C++ performance is a long, long story. On one hand, C++ programs are compiled to a highly optimized native code. They start quickly and run fast all the time without pausing for garbage collection or other VM duties (as Java do). On other hand, once compiled, program in C++ can&rsquo;t change, no matter on what machine they are run, while Java bytecode is compiled &ldquo;just-in-time&rdquo; and is always optimized for processor architecture they run on. In modern world, with so many different devices (and processor architectures) this may be really significant. Moreover, some JVMs (e.g. Oracle Hotspot) can optimize even the code that is already compiled to native code! VM collect data about program execution and from time to time tries to rewrite code in such a way that it is optimized for this specific execution. So in such complicated circumstances the only real way to compare performance of implementations in different programming languages is to just run them and see the result.<br />
+OpenCV vs. JavaCV is another story. First you need to understand stack of technologies behind these libraries.<br />
+OpenCV was originally created in 1999 in Intel research labs and was written in C. Since that time, it changed the maintainer several times, became open source and reached 3rd version (upcoming release). At the moment, core of the library is written in C++ with popular interface in Python and a number of wrappers in other programming languages.
+JavaCV is one of such wrappers. So in most cases when you run program with JavaCV you actually use OpenCV too, just call it via another interface. But JavaCV provides more than just one-to-one wrapper around OpenCV. In fact, it bundles the whole number of image processing libraries, including FFmpeg, OpenKinect and others. (Note, that in C++ you can bind these libraries too).<br />
+So, in general it doesn&rsquo;t matter what you are using - OpenCV or JavaCV, you will get just about same performance. It more depends on your main task - is it Java or C++ which is better suited for your needs.<br />
+There&rsquo;s one more important point about performance. Using OpenCV (directly or via wrapper) you will sometimes find that OpenCV functions overcome other implementations by several orders. This is because of heavy use of low-level optimizations in its core. For example, OpenCV&rsquo;s filter2D function is SIMD-accelerated and thus can process several sets of data in parallel. And when it comes to computer vision, such optimizations of common functions may easily lead to significant speedup.</p>
+</blockquote>
+
+<h4 id="3-人脸识别的android应用">(3) <strong>人脸识别的Android应用</strong></h4>
+
+<h4 id="对人脸识别算法的支持"><strong>对人脸识别算法的支持</strong></h4>
+
+<p>目前OpenCV的最新版本是2.4.10，OpenCV4Android是2.4.9，JavaCV的版本是0.9</p>
+
+<p>OpenCV自然支持人脸识别算法，详细的使用教程看<a href="http://docs.opencv.org/modules/contrib/doc/facerec/index.html">这里</a></p>
+
+<p>OpenCV4Android暂时不支持，但是可以通过建立一层简单的封装来实现，封装的方法看<a href="http://stackoverflow.com/questions/25830660/face-recognize-using-opencv4android-sdk-tutorial">这里</a></p>
+
+<p>JavaCV现在已经支持人脸识别算法了，在Samples中可以找到一份样例代码<a href="https://github.com/bytedeco/javacv/blob/master/samples/OpenCVFaceRecognizer.java">OpenCVFaceRecognizer.java</a></p>
+
+<h4 id="不可忽视的摄像头"><strong>不可忽视的摄像头！</strong></h4>
+
+<p>因为是移动应用，所以要能够从移动设备中获取摄像头返回的数据是关键！而这个恰恰是这类应用要考虑的一个重要因素，因为它直接决定了你的应用需要使用的技术方案！</p>
+
+<p>关于摄像头的使用其实我已经在前面的博文<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-3/">Android Ndk and Opencv Development 3</a>中详细介绍过了，这里我引用部分内容，如果想了解更多的话，不妨先看下前面的内容。 [下面提到的<code>OpenCV library</code> 是 <code>OpenCV4Android SDK</code> 的一部分]</p>
+
+<p>[其实还有一种获取摄像头数据的方式，那就是直接在Native层操作摄像头，OpenCV4Android SDK的Samples中提供了一个样例<code>native-activity</code>，这种方式其实是极其不推荐使用的，一方面代码不好写，不便操作；另一方面据说这部分的API经常变化，不便维护]</p>
+
+<p>(1) 关于如何进行和OpenCV有关的摄像头开发</p>
+
+<p>在没有OpenCV library的情况下，也就是我们直接使用Android中的Camera API的话，获取得到的图像帧是<code>YUV</code>格式的，我们在处理之前往往要先转换成<code>RGB(A)</code>格式的才行。</p>
+
+<p>如果有了OpenCV library的话摄像头的开发就简单多了，可以参见OpenCV for Android中的三个Tutorial(<code>CameraPreview</code>, <code>MixingProcessing</code>和<code>CameraControl</code>)，源码都在OpenCV-Android sdk的samples目录下，这里简单介绍下：OpenCV Library中提供了两种摄像头，一种是Java摄像头-<code>org.OpenCV.Android.JavaCameraView</code>，另一种是Native摄像头-<code>org.OpenCV.Android.NativeCameraView</code> (可以运行CameraPreview这个项目来体验下两者的不同，其实差不多)。两者都继承自<code>CameraBridgeViewBase</code>这个抽象类，但是JavaCamera使用的就是Android SDK中的<code>Camera</code>，而NativeCamera使用的是OpenCV中的<code>VideoCapture</code>。</p>
+
+<p>(2) 关于如何传递摄像头预览的图像数据给Native层</p>
+
+<p>这个很重要！我曾经试过很多的方式，大致思路有：</p>
+
+<p>①传递图片路径：这是最差的方式，我使用过，速度很慢，实时性很差，主要用于前期开发的时候进行测试，测试Java层和Native层的互调是否正常。</p>
+
+<p>②传递预览图像的字节数组到Native层，然后将字节数组处理成<code>RGB</code>或者<code>RGBA</code>的格式[具体哪种格式要看你的图像处理函数能否处理<code>RGBA</code>格式的，如果可以的话推荐转换成<code>RGBA</code>格式，因为返回的也是<code>RGBA</code>格式的]。网上有很多的文章讨论如何转换：一种方式是使用一个自定义的函数进行编码转换(可以搜索到这个函数，例如这篇文章<a href="http://nhenze.net/?p=253">Camera image-&gt;NDK-&gt;OpenGL texture</a>)，另一个种方式是使用OpenCV中的<code>Mat</code>和<code>cvtColor</code>函数进行转换，接着调用图像处理函数，处理完成之后，将处理的结果保存在一个整形数组中(实际上就是<code>RGB</code>或者<code>RGBA</code>格式的图像数据)，最后调用Bitmap的方法将其转换成bitmap返回。这种方法速度也比较慢，但是比第一种方案要快了不少，具体实现过程可以看推荐书籍<a href="https://github.com/MasteringOpenCV">《Mastering OpenCV with Practical Computer Vision Projects》</a>，第一章<code>Cartoonifer and Skin Changer for Android</code>就是一个Android的应用实例。</p>
+
+<p>③使用OpenCV的摄像头：JavaCamera或者NativeCamera都行，好处是它进行了很多的封装，可以直接将预览图像的<code>Mat</code>结构传递给Native层，这种传递是使用<code>Mat</code>的内存地址(<code>long</code>型)，Native层只要根据这个地址将其封装成<code>Mat</code>就可以进行处理了，另外，它的回调函数的返回值也是<code>Mat</code>，非常方便！这种方式速度较快。具体过程可以参考OpenCV-Android sdk的samples项目中的<code>Tutorial2-MixedProcessing</code>。</p>
+
+<h4 id="可选方案有哪些"><strong>可选方案有哪些？</strong></h4>
+
+<p>综上所述，我们来总结下如果想要开发一个人脸识别的Android应用程序，大致会有哪些技术方案呢？</p>
+
+<p>(1) 摄像头使用纯Android Camera API，将<code>YUV</code>格式的数据传入到Native层，转换成<code>RGB(A)</code> 格式，然后调用OpenCV人脸识别算法进行处理，最后将处理结果<code>RGB(A)</code> 格式数据返回给Java层。优点是对其他内容的依赖较少，灵活性好，开发者甚至可以对内部算法进行修改，缺点自然是需要开发者具有很强的技术水平，要同时熟练OpenCV和Android NDK开发，在三星Galaxy I9000上测试比较慢，有明显卡顿延迟。</p>
+
+<p>这种方式可以参考书籍<a href="https://github.com/MasteringOpenCV">《Mastering OpenCV with Practical Computer Vision Projects》</a> 的第一章<code>Cartoonifer and Skin Changer for Android</code> 的实现方式。 &gt; <a href="https://hujiaweibujidao.github.io/files/Cartoonifier_Android.zip">我测试通过的源码下载</a></p>
+
+<p>最近发现一个项目也是采用这种方式，而且代码质量较高，可惜的是并没有公开Native层代码，而只是提供了Java层的SDK，<a href="https://github.com/Vinisoft/Face-Recognition-SDK-for-Android">详情可见这里</a></p>
+
+<p>(2) 摄像头使用纯Android Camera API，将<code>YUV</code>格式的数据直接在Java层转换成<code>RGB(A)</code> 格式，直接传给JavaCV人脸识别算法进行处理，然后返回识别结果即可。优点是只依赖了JavaCV，缺点是从OpenCV算法转成JavaCV实现需要些工作量。</p>
+
+<p>这种方式我没有试验过，转换的方式可以参考<a href="http://stackoverflow.com/questions/16471884/opencv-for-android-convert-camera-preview-from-yuv-to-rgb-with-imgproc-cvtcolor">这里</a> <strong>[我会尽快试验一下，如果可行我会将代码公开]</strong></p>
+
+<p>(3) 摄像头使用OpenCV4Android Library，将得到的数据<code>Mat</code> 的内存地址传给Native层，Native层通过地址还原成<code>Mat</code>，然后调用OpenCV人脸识别算法进行处理，最后将处理结果<code>RGB(A)</code> 格式数据返回给Java层。优点是灵活性好，缺点是依赖了OpenCV4Android Library和OpenCV，所以需要掌握OpenCV和Android NDK开发，在三星Galaxy I9000上测试还行，如果算法处理比较慢的话会慢1-3s左右才返回结果。</p>
+
+<p>这种方式可以参考OpenCV-Android sdk的samples项目中的<code>Tutorial2-MixedProcessing</code> [我的开源项目<code>XFace</code>采用的正是这种方案]</p>
+
+<p>(4) 摄像头使用OpenCV4Android Library，Native层对OpenCV人脸识别算法类进行简单封装，然后将摄像头得到的数据<code>Mat</code> 直接传给OpenCV4Android Library的人脸识别算法，然后返回识别结果即可。优点是依赖还不算多而且可能要写的Native层代码也不多。</p>
+
+<p>这种方式我试验过，利用前面提到过封装的方法，可以参考<a href="http://stackoverflow.com/questions/25830660/face-recognize-using-opencv4android-sdk-tutorial">这里</a>，注意按照答案的例子在加载<code>facerec</code> 库之前要记得加载<code>opencv_java</code> 库才行！ &gt;<a href="https://hujiaweibujidao.github.io/files/NDKDemo.zip">我测试通过的源码下载</a></p>
+
+<p>(5) 摄像头使用OpenCV4Android Library，然后将摄像头得到的数据<code>Mat</code> 直接传给JavaCV的人脸识别算法，然后返回识别结果即可。优点是看起来方案很不错，只需要写Java代码就行了，Native层可能只需要导入一些<code>*so</code> 文件到<code>jniLibs</code> 目录中就行了，缺点是依赖太多了！</p>
+
+<p>这种方式可以参考<a href="https://github.com/ayuso2013/face-recognition">Github上的这个项目</a>     &gt; <a href="https://hujiaweibujidao.github.io/files/face-recognition-ayuso.zip">我测试通过的源码下载</a></p>
+
+<p>各种方案各有利弊，一方面要考虑技术方案是否可行，另一方面还要考虑该技术方案是否便于开发！哎，码农真是伤不起啊！</p>
+
+<p><strong>补充部分</strong></p>
+
+<p>这里假设你是按照我上一篇文章<a href="https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/">Android NDK and OpenCV Development With Android Studio</a> 的方式来创建的项目。</p>
+
+<p>(1) 方案1中的部分代码</p>
+
+<p>实现将<code>YUV</code> 格式数据转换成 <code>RGBA</code> 格式数据的Native层代码</p>
+
+<pre><code class="language-java">// Just show the plain camera image without modifying it.
+JNIEXPORT void JNICALL Java_com_Cartoonifier_CartoonifierView_ShowPreview(JNIEnv* env, jobject,
+        jint width, jint height, jbyteArray yuv, jintArray bgra)
+{
+    // Get native access to the given Java arrays.
+    jbyte* _yuv  = env-&gt;GetByteArrayElements(yuv, 0);
+    jint*  _bgra = env-&gt;GetIntArrayElements(bgra, 0);
+
+    // Prepare a cv::Mat that points to the YUV420sp data.
+    Mat myuv(height + height/2, width, CV_8UC1, (uchar *)_yuv);
+    // Prepare a cv::Mat that points to the BGRA output data.
+    Mat mbgra(height, width, CV_8UC4, (uchar *)_bgra);
+
+    // Convert the color format from the camera's
+    // NV21 &quot;YUV420sp&quot; format to an Android BGRA color image.
+    cvtColor(myuv, mbgra, CV_YUV420sp2BGRA);
+
+    // OpenCV can now access/modify the BGRA image if we want ...
+
+    // Release the native lock we placed on the Java arrays.
+    env-&gt;ReleaseIntArrayElements(bgra, _bgra, 0);
+    env-&gt;ReleaseByteArrayElements(yuv, _yuv, 0);
+}
+</code></pre>
+
+<p>(2) 方案4中的部分代码</p>
+
+<p><code>Android.mk</code> 文件</p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+#opencv
+OPENCVROOT:= /Volumes/hujiawei/Users/hujiawei/Android/opencv_sdk
+OPENCV_CAMERA_MODULES:=on
+OPENCV_INSTALL_MODULES:=on
+OPENCV_LIB_TYPE:=SHARED
+include ${OPENCVROOT}/sdk/native/jni/OpenCV.mk
+
+LOCAL_SRC_FILES := facerec.cpp
+
+LOCAL_LDLIBS += -llog
+LOCAL_MODULE := facerec
+
+include $(BUILD_SHARED_LIBRARY)
+</code></pre>
+
+<p><code>Application.mk</code> 文件</p>
+
+<pre><code>APP_STL := gnustl_static
+APP_CPPFLAGS := -frtti -fexceptions
+APP_ABI := armeabi
+APP_PLATFORM := android-16
+</code></pre>
+
+<p><code>FisherFaceRecognizer</code> 文件</p>
+
+<pre><code>package com.android.hacks.ndkdemo;
+
+import org.opencv.contrib.FaceRecognizer;
+
+public class FisherFaceRecognizer extends FaceRecognizer {
+
+    static {
+        System.loadLibrary(&quot;opencv_java&quot;);//
+        System.loadLibrary(&quot;facerec&quot;);//
+    }
+
+    private static native long createFisherFaceRecognizer0();
+
+    private static native long createFisherFaceRecognizer1(int num_components);
+
+    private static native long createFisherFaceRecognizer2(int num_components, double threshold);
+
+    public FisherFaceRecognizer() {
+        super(createFisherFaceRecognizer0());
+    }
+
+    public FisherFaceRecognizer(int num_components) {
+        super(createFisherFaceRecognizer1(num_components));
+    }
+
+    public FisherFaceRecognizer(int num_components, double threshold) {
+        super(createFisherFaceRecognizer2(num_components, threshold));
+    }
+}
+</code></pre>
+
+<p>之后你可以测试，当然你还可以做一个完整的例子来测试这个算法是否正确</p>
+
+<pre><code>facerec = new FisherFaceRecognizer();
+textView.setText(String.valueOf(facerec.getDouble(&quot;threshold&quot;)));//1.7976xxxx
+</code></pre>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Differences%20between%20OpenCV%20JavaCV%20and%20OpenCV4Android&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f10%2fdifferences-between-opencv-javacv-and-opencv4android%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f10%2fdifferences-between-opencv-javacv-and-opencv4android%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f10%2fdifferences-between-opencv-javacv-and-opencv4android%2f&amp;description=Differences%20between%20OpenCV%20JavaCV%20and%20OpenCV4Android"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f10%2fdifferences-between-opencv-javacv-and-opencv4android%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

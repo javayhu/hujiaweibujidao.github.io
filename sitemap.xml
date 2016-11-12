@@ -3,12 +3,577 @@
   
   <url>
     <loc>https://hujiaweibujidao.github.io/</loc>
-    <lastmod>2016-11-12T21:21:23+08:00</lastmod>
+    <lastmod>2016-11-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://hujiaweibujidao.github.io/post/demo/</loc>
-    <lastmod>2016-11-12T21:21:23+08:00</lastmod>
+    <loc>https://hujiaweibujidao.github.io/2016/11/build-android-studio-source-code/</loc>
+    <lastmod>2016-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/11/custom-lint-in-action/</loc>
+    <lastmod>2016-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/10/how-to-get-performance-data-in-android/</loc>
+    <lastmod>2016-10-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/10/chromeadb-project-analysis/</loc>
+    <lastmod>2016-10-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/10/pury-project-analysis/</loc>
+    <lastmod>2016-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/10/build-android-source-code-on-mac/</loc>
+    <lastmod>2016-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/10/head-first-systrace/</loc>
+    <lastmod>2016-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-2/</loc>
+    <lastmod>2016-06-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-1/</loc>
+    <lastmod>2016-06-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-2/</loc>
+    <lastmod>2016-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-3/</loc>
+    <lastmod>2016-05-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-1/</loc>
+    <lastmod>2016-05-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/learning-git-by-animations/</loc>
+    <lastmod>2016-05-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/gank-alfred-workflow/</loc>
+    <lastmod>2016-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/05/gank-for-mac/</loc>
+    <lastmod>2016-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/04/head-first-stanford-nlp-4/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/03/head-first-stanford-nlp-2/</loc>
+    <lastmod>2016-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/03/head-first-stanford-nlp-3/</loc>
+    <lastmod>2016-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/03/head-first-stanford-nlp-1/</loc>
+    <lastmod>2016-03-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/03/java-web-project-with-maven/</loc>
+    <lastmod>2016-03-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2016/02/one-trip-of-building-a-crawler/</loc>
+    <lastmod>2016-02-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/things-of-math/</loc>
+    <lastmod>2015-12-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/fab-and-dialog-morphing-animation/</loc>
+    <lastmod>2015-12-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes/</loc>
+    <lastmod>2015-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-2/</loc>
+    <lastmod>2015-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-9/</loc>
+    <lastmod>2015-12-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-10/</loc>
+    <lastmod>2015-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-13/</loc>
+    <lastmod>2015-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-8/</loc>
+    <lastmod>2015-12-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-11/</loc>
+    <lastmod>2015-12-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-3/</loc>
+    <lastmod>2015-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-4/</loc>
+    <lastmod>2015-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-5/</loc>
+    <lastmod>2015-12-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-12/</loc>
+    <lastmod>2015-11-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-6/</loc>
+    <lastmod>2015-11-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-7/</loc>
+    <lastmod>2015-11-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes/</loc>
+    <lastmod>2015-11-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes-5/</loc>
+    <lastmod>2015-11-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-1/</loc>
+    <lastmod>2015-11-29T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes-4/</loc>
+    <lastmod>2015-11-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes-3/</loc>
+    <lastmod>2015-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes-2/</loc>
+    <lastmod>2015-11-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/android-heroes-reading-notes-1/</loc>
+    <lastmod>2015-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/you-are-my-sunshine/</loc>
+    <lastmod>2015-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/11/missing/</loc>
+    <lastmod>2015-11-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/10/job-hunting/</loc>
+    <lastmod>2015-10-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/07/head-first-android-swiperefreshlayout/</loc>
+    <lastmod>2015-07-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/07/android-popupmenu-and-popupwindow/</loc>
+    <lastmod>2015-07-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/07/android-text-view-with-custom-font/</loc>
+    <lastmod>2015-07-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/06/fix-homebrew-for-os-x-10.10-yosemite/</loc>
+    <lastmod>2015-06-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/06/android-training-summary-1-getting-started/</loc>
+    <lastmod>2015-06-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/06/head-first-android-toolbar/</loc>
+    <lastmod>2015-06-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/06/head-first-android-actionbar/</loc>
+    <lastmod>2015-06-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/android-asynchronous-http-client/</loc>
+    <lastmod>2015-05-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/android-dependency-injection-libraries/</loc>
+    <lastmod>2015-05-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/android-universal-image-loader/</loc>
+    <lastmod>2015-05-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/head-first-android-testing-2/</loc>
+    <lastmod>2015-05-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/head-first-android-testing-1/</loc>
+    <lastmod>2015-05-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/publish-gradle-android-library-to-jcenter-repository/</loc>
+    <lastmod>2015-05-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/using-git-with-multiple-public-keys/</loc>
+    <lastmod>2015-05-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/pages-service-for-gitcafe-project/</loc>
+    <lastmod>2015-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/05/interview-of-alibaba/</loc>
+    <lastmod>2015-05-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/03/set-up-octopress-environment-on-another-computer/</loc>
+    <lastmod>2015-03-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2015/02/tips-about-macbooks-battery-health/</loc>
+    <lastmod>2015-02-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/12/tiny-weibo/</loc>
+    <lastmod>2014-12-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/11/using-qiniu-js-sdk-to-upload-videos-in-django/</loc>
+    <lastmod>2014-11-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/11/google-apac-2015-university-graduates-test-round-d/</loc>
+    <lastmod>2014-11-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/10/talk-big-of-west-travelling/</loc>
+    <lastmod>2014-10-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/10/differences-between-opencv-javacv-and-opencv4android/</loc>
+    <lastmod>2014-10-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/10/android-ndk-and-opencv-development-with-android-studio/</loc>
+    <lastmod>2014-10-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/10/gradle-plugin-for-android-development-user-guide-2/</loc>
+    <lastmod>2014-10-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/10/gradle-plugin-for-android-development-user-guide-1/</loc>
+    <lastmod>2014-10-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/09/bootcamp-an-open-source-django-site/</loc>
+    <lastmod>2014-09-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/download-coursera-courses-in-the-fastest-way/</loc>
+    <lastmod>2014-07-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c1-introduction/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c2-the-basics/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c3-counting-101/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c4-induction-and-recursion-and-reduction/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c5-traversal/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c6-divide-and-combine-and-conquer/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c7-greedy/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c8-dynamic-programming/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/07/python-algorithms---c9-graphs/</loc>
+    <lastmod>2014-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/06/thanks-to-360-cdn/</loc>
+    <lastmod>2014-06-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/06/dog-face-recognition/</loc>
+    <lastmod>2014-06-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/csu-beautiful-scenery/</loc>
+    <lastmod>2014-05-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/problem-delete-number-problem/</loc>
+    <lastmod>2014-05-20T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/problem-longest-common-subsequence/</loc>
+    <lastmod>2014-05-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/love-you/</loc>
+    <lastmod>2014-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/problem-matrix-chain-problem/</loc>
+    <lastmod>2014-05-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/good-python-articles/</loc>
+    <lastmod>2014-05-16T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/hadoop-installation---single-node-setup/</loc>
+    <lastmod>2014-05-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/head-first-pagerank/</loc>
+    <lastmod>2014-05-12T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/happy-mothers-day/</loc>
+    <lastmod>2014-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/python-basics/</loc>
+    <lastmod>2014-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/tsinghua-9ers-pictures/</loc>
+    <lastmod>2014-05-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/python-data-structures---c3-data-structures/</loc>
+    <lastmod>2014-05-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/python-data-structures---c4-trees/</loc>
+    <lastmod>2014-05-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/python-data-structures---c1-search/</loc>
+    <lastmod>2014-05-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/05/python-data-structures---c2-sort/</loc>
+    <lastmod>2014-05-07T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/04/wouldnt-it-be-nice/</loc>
+    <lastmod>2014-04-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/04/numerical-methods-using-matlab/</loc>
+    <lastmod>2014-04-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/04/mou-and-stackedit-and-mathjax/</loc>
+    <lastmod>2014-04-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/04/problem-vertext-cover-problem/</loc>
+    <lastmod>2014-04-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/04/setting-up-environments-on-new-mac/</loc>
+    <lastmod>2014-04-08T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/03/matlab-image-segmentation/</loc>
+    <lastmod>2014-03-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/03/develop-with-opencv-on-mac/</loc>
+    <lastmod>2014-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/03/material-on-mobile-development/</loc>
+    <lastmod>2014-03-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2014/02/android-ndk-and-opencv-development-4/</loc>
+    <lastmod>2014-02-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2013/11/android-ndk-and-opencv-development-1/</loc>
+    <lastmod>2013-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2013/11/android-ndk-and-opencv-development-2/</loc>
+    <lastmod>2013-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2013/11/android-ndk-and-opencv-development-3/</loc>
+    <lastmod>2013-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2013/11/make-your-octopress-easy/</loc>
+    <lastmod>2013-11-18T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://hujiaweibujidao.github.io/2013/11/hello-octopress/</loc>
+    <lastmod>2013-11-17T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>

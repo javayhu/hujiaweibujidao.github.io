@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Android Dependency Injection Libraries"/>
+<meta name="twitter:description" content="本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用
+"/>
+
+
+
+  	<meta property="og:title" content=" Android Dependency Injection Libraries &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2015/05/android-dependency-injection-libraries/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2015-05-31T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Android Dependency Injection Libraries &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2015/05/android-dependency-injection-libraries/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Android Dependency Injection Libraries</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-05-31T00:00:00Z">
+            May 31, 2015
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用</p>
+
+<p>最近在研究一个开源项目<a href="https://coding.net/u/coding/p/Coding-Android/git">Coding-Android Client</a>，即Coding的安卓客户端，目前只看了小部分，但是感觉写得还是很赞的，学习到了很多的知识。因为这个项目是使用了Android Annotations的，看的时候虽然大致能明白各个注解是什么意思，但是感觉还是有必要详细了解下Android的各个依赖注入类库的功能特性和使用方式，于是便有了这篇总结。</p>
+
+<p>目前而言，Android依赖注入类库比较火的主要有<a href="http://jakewharton.github.io/butterknife/">Butter Knife</a>，<a href="https://github.com/roboguice/roboguice">RoboGuice</a>，<a href="https://github.com/excilys/androidannotations">Android Annotations</a>。(这里不考虑Dragger)</p>
+
+<p>下面的导入方式都是指在使用Gradle的情况下进行的。</p>
+
+<p>####1.Butter Knife</p>
+
+<p>导入方式：<code>compile 'com.jakewharton:butterknife:6.1.0'</code></p>
+
+<p>毫无疑问，Butter Knife是这三者当中功能最简单的，详情可以查看<a href="http://jakewharton.github.io/butterknife/">这里</a>。它主要功能就是注入View组件，使用方式如下：</p>
+
+<pre><code class="language-java">class ExampleActivity extends Activity {
+  @InjectView(R.id.title) TextView title;
+  @InjectView(R.id.subtitle) TextView subtitle;
+  @InjectView(R.id.footer) TextView footer;
+
+  @Override public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.simple_activity);
+    ButterKnife.inject(this);
+    // TODO Use &quot;injected&quot; views...
+  }
+}
+</code></pre>
+
+<p>需要注意的是，它需要加上<code>ButterKnife.inject(this);</code>这句去执行注入操作。对于非Activity中可以使用<code>ButterKnife.inject(this, view);</code>来进行注入操作。</p>
+
+<pre><code>public class FancyFragment extends Fragment {
+  @InjectView(R.id.button1) Button button1;
+  @InjectView(R.id.button2) Button button2;
+
+  @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fancy_fragment, container, false);
+    ButterKnife.inject(this, view);
+    // TODO Use &quot;injected&quot; views...
+    return view;
+  }
+}
+</code></pre>
+
+<p>对于事件监听的注入，Butter Knife也提供了下面几种方式来操作：</p>
+
+<pre><code>//Listeners can also automatically be configured onto methods.
+
+@OnClick(R.id.submit)
+public void submit(View view) {
+  // TODO submit data to server...
+}
+
+//All arguments to the listener method are optional.
+
+@OnClick(R.id.submit)
+public void submit() {
+  // TODO submit data to server...
+}
+
+//Define a specific type and it will automatically be cast.
+
+@OnClick(R.id.submit)
+public void sayHi(Button button) {
+  button.setText(&quot;Hello!&quot;);
+}
+
+//Specify multiple IDs in a single binding for common event handling.
+
+@OnClick({ R.id.door1, R.id.door2, R.id.door3 })
+public void pickDoor(DoorView door) {
+  if (door.hasPrizeBehind()) {
+    Toast.makeText(this, &quot;You win!&quot;, LENGTH_SHORT).show();
+  } else {
+    Toast.makeText(this, &quot;Try again&quot;, LENGTH_SHORT).show();
+  }
+}
+</code></pre>
+
+<p>####2.RoboGuice</p>
+
+<p>导入方式：</p>
+
+<pre><code>compile 'org.roboguice:roboguice:3.+'
+provided 'org.roboguice:roboblender:3.+'
+</code></pre>
+
+<p>大名鼎鼎的RoboGuice是Google的产物，功能自然是相当丰富的啦，基本上能使用注解的地方都支持了。基本的View注入、Resource注入、Service注入操作都很简单，代码如下所示：</p>
+
+<pre><code>    @ContentView(R.layout.main)
+    class RoboWay extends RoboActivity {
+        @InjectView(R.id.name)             TextView name;
+        @InjectView(R.id.thumbnail)        ImageView thumbnail;
+        @InjectResource(R.drawable.icon)   Drawable icon;
+        @InjectResource(R.string.app_name) String myName;
+        @Inject                            LocationManager loc;
+
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            name.setText( &quot;Hello, &quot; + myName );
+        }
+    }
+</code></pre>
+
+<p>注意，它的重点在于需要继承自<code>Robo*</code>组件，例如<code>Robo*Activities</code>, <code>RoboService</code>、<code>RoboIntentService</code>和<code>RoboContentProvider</code>等等。除此之外呢，RoboGuice渗透到开发中的很多方面，例如它支持</p>
+
+<p>(1)<a href="https://github.com/roboguice/roboguice/wiki/Your-First-Testcase">在TestCase中使用注入</a><br />
+(2)<a href="https://github.com/roboguice/roboguice/wiki/Your-First-Injection-into-a-Custom-View-class">在自定义的View中使用注入</a><br />
+(3)<a href="https://github.com/roboguice/roboguice/wiki/Using-Events-in-your-RoboGuice-application">在context-based events中使用注入</a></p>
+
+<p>当然啦，这自然不是RoboGuice最大的亮点啦，我个人认为最大的亮点是对POJO的注入，就像Spring的依赖注入一样简单才行嘛。如下所示，<code>Foo</code>类的对象<code>foo</code>会被自动注入，所以我们就能够直接使用。当然啦，其实RoboGuice是通过调用了<code>Foo</code>的默认构造函数来得到这个<code>foo</code>实例的，不过RoboGuice还可以自定义使用哪个构造函数来生成这个注入的对象。</p>
+
+<pre><code>class MyActivity extends RoboActivity {
+    @Inject Foo foo; // this will basically call new Foo();
+}
+</code></pre>
+
+<p>除了上面的POJO注入之外，RoboGuice还提供了两个非常实用的注解<code>@Singleton</code>和<code>@ContextSingleton</code>。顾名思义，前者是在整个应用的生命周期中是单例，而后者是在对应的Context的生命周期中是单例。<strong>在使用的时候一定要考虑好对象的生命周期，因为使用不当的话容易导致内存泄露。</strong></p>
+
+<p>使用<code>@Singleton</code>的情况：</p>
+
+<pre><code>class MyActivity extends RoboActivity {
+    @Inject Foo foo; // this will basically call new Foo();
+}
+
+@Singleton //a single instance of Foo is now used though the whole app
+class Foo {
+}
+
+//In that case :
+new MyRoboActivity().foo = new MyRoboActivity().foo
+</code></pre>
+
+<p>使用<code>@ContextSingleton</code>的情况：</p>
+
+<pre><code>@ContextSingleton //a single instance of Foo is now used per context
+class Foo {
+}
+
+public MyActivity extends RoboActivity {
+  @Inject Foo foo;
+  @Inject Bar bar;
+}
+
+public class Foo {
+  @Inject Bar bar;
+}
+
+@ContextSingleton
+public class Bar {
+}
+
+//In that case :
+new MyRoboActivity().foo != new MyRoboActivity().foo
+MyRoboActivity a = new MyRoboActivity();
+a.bar == a.foo.bar
+</code></pre>
+
+<p><strong>RoboGuice 3.0添加了一个新的作用域<code>FragmentSingleton</code></strong></p>
+
+<pre><code>public MyFragment extends RoboFragment {
+  @Inject Foo foo;
+  @Inject Bar bar;
+}
+
+public class Foo {
+  @Inject Bar bar;
+}
+
+@FragmentSingleton
+public class Bar {
+}
+
+//In that case:
+myFragment.bar = myFragment.foo.bar
+new MyFragment().bar = new MyFragment().foo.bar
+</code></pre>
+
+<p><strong>关于RoboGuice和Butter Knife的对比</strong></p>
+
+<p>图片来源：<a href="http://java.dzone.com/articles/dependency-injection-roboguice">dependency-injection-roboguice-butterknife</a></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/roboguice-butterknife.png" alt="image" /></p>
+
+<p><strong>实现原理</strong></p>
+
+<p>RoboGuice是在运行时通过反射来实现的，而Butter Knife是在编译的时候就将代码转换好了的。下面的Android Annotations也是在编译的时候完成的，只不过对于每个采用注解增强了的组件类<code>MyClass</code>都会生成一个对应的组件类<code>MyClass_</code>。</p>
+
+<p>####3.Android Annotations</p>
+
+<p>导入方式：<a href="https://github.com/excilys/androidannotations/wiki/Building-Project-Gradle">Building-Project-Gradle</a></p>
+
+<pre><code>buildscript {
+    repositories {
+      mavenCentral()
+    }
+    dependencies {
+        // replace with the current version of the Android plugin
+        classpath 'com.android.tools.build:gradle:1.2.2'
+        // replace with the current version of the android-apt plugin
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
+def AAVersion = 'XXX'
+
+dependencies {
+    apt &quot;org.androidannotations:androidannotations:$AAVersion&quot;
+    compile &quot;org.androidannotations:androidannotations-api:$AAVersion&quot;
+}
+
+apt {
+    arguments {
+        androidManifestFile variant.outputs[0].processResources.manifestFile
+        // if you have multiple outputs (when using splits), you may want to have other index than 0
+
+        // You can set optional annotation processing options here, like these commented options:
+        // logLevel 'INFO'
+        // logFile '/var/log/aa.log'
+    }
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion &quot;22.0.1&quot;
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 22
+    }
+}
+</code></pre>
+
+<p>很明显，Android Annotations的导入是最麻烦的，但是好在导入操作只是操作一次嘛，将就一下吧。从上面可以看出，Android Annotations是通过<code>apt</code>工具在编译时将<code>MyClass</code>转换成<code>MyClass_</code>的。此外，对于<code>apt</code>工具编译的过程还可以设置很多的参数，<a href="https://github.com/excilys/androidannotations/wiki/CustomizeAnnotationProcessing">详细参数列表参见这里</a>。</p>
+
+<p>对于Android Annotations的功能，它基本上覆盖了Butter Knife和RoboGuice中的所有主要功能，<a href="https://github.com/excilys/androidannotations/wiki/Cookbook">详细的功能列表参见这里</a>。下面是一个代码示例，实在是太强大了，大家感受下：</p>
+
+<pre><code>import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import org.androidannotations.annotations.Background;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.LongClick;
+import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.Touch;
+import org.androidannotations.annotations.Transactional;
+import org.androidannotations.annotations.UiThread;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.BooleanRes;
+import org.androidannotations.annotations.res.ColorRes;
+import org.androidannotations.annotations.res.StringRes;
+
+import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+@EActivity(R.layout.my_activity)
+public class MyActivity extends Activity {
+
+	@ViewById
+	EditText myEditText;
+
+	@ViewById(R.id.myTextView)
+	TextView textView;
+
+	@StringRes(R.string.hello)
+	String helloFormat;
+
+	@ColorRes
+	int androidColor;
+
+	@BooleanRes
+	boolean someBoolean;
+
+	@SystemService
+	NotificationManager notificationManager;
+
+	@SystemService
+	WindowManager windowManager;
+
+	/**
+	 * AndroidAnnotations gracefully handles support for onBackPressed, whether you use ECLAIR (2.0), or pre ECLAIR android version.
+	 */
+	public void onBackPressed() {
+		Toast.makeText(this, &quot;Back key pressed!&quot;, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// windowManager should not be null
+		windowManager.getDefaultDisplay();
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+	}
+
+	@Click
+	void myButtonClicked() {
+		String name = myEditText.getText().toString();
+		setProgressBarIndeterminateVisibility(true);
+		someBackgroundWork(name, 5);
+	}
+
+	@Background
+	void someBackgroundWork(String name, long timeToDoSomeLongComputation) {
+		try {
+			TimeUnit.SECONDS.sleep(timeToDoSomeLongComputation);
+		} catch (InterruptedException e) {
+		}
+
+		String message = String.format(helloFormat, name);
+
+		updateUi(message, androidColor);
+
+		showNotificationsDelayed();
+	}
+
+	@UiThread
+	void updateUi(String message, int color) {
+		setProgressBarIndeterminateVisibility(false);
+		textView.setText(message);
+		textView.setTextColor(color);
+	}
+
+	@UiThread(delay = 2000)
+	void showNotificationsDelayed() {
+		Notification notification = new Notification(R.drawable.icon, &quot;Hello !&quot;, 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(), 0);
+		notification.setLatestEventInfo(getApplicationContext(), &quot;My notification&quot;, &quot;Hello World!&quot;, contentIntent);
+		notificationManager.notify(1, notification);
+	}
+
+	@LongClick
+	void startExtraActivity() {
+		Intent intent = ActivityWithExtra_.intent(this).myDate(new Date()).myMessage(&quot;hello !&quot;).get();
+		intent.putExtra(ActivityWithExtra.MY_INT_EXTRA, 42);
+		startActivity(intent);
+	}
+
+	@Click
+	void startListActivity(View v) {
+		startActivity(new Intent(this, MyListActivity_.class));
+	}
+
+	@Touch
+	void myTextView(MotionEvent event) {
+		Log.d(&quot;MyActivity&quot;, &quot;myTextView was touched!&quot;);
+	}
+
+	@Transactional
+	int transactionalMethod(SQLiteDatabase db, int someParam) {
+		return 42;
+	}
+
+}
+</code></pre>
+
+<p><strong>How it works?</strong></p>
+
+<p>对于下面的使用<code>E*</code>(Enhance)注解的组件类，AA(Android Annotations)会在不同的源码目录下的相同包下生成一个对应的组件类。</p>
+
+<pre><code>package com.some.company;
+@EActivity
+public class MyActivity extends Activity {
+  // ...
+}
+
+//自动生成下面的类
+
+package com.some.company;
+public final class MyActivity_ extends MyActivity {
+  // ...
+}
+</code></pre>
+
+<p>当我们在<code>AndroidManifest.xml</code>文件中注册Activity的时候需要注册后者</p>
+
+<pre><code>&lt;activity android:name=&quot;.MyListActivity_&quot; /&gt;
+</code></pre>
+
+<p>因为组件类变了，所以AA还提供了一套机制供开发者来构建Intent来实现组件跳转。</p>
+
+<pre><code>// Starting the activity
+MyListActivity_.intent(context).start();
+
+// Building an intent from the activity
+Intent intent = MyListActivity_.intent(context).get();
+
+// You can provide flags
+MyListActivity_.intent(context).flags(FLAG_ACTIVITY_CLEAR_TOP).start();
+
+// You can even provide extras defined with @Extra in the activity
+MyListActivity_.intent(context).myDateExtra(someDate).start();
+
+// You can also use the startActivityForResult() equivalent
+MyListActivity_.intent(context).startForResult();
+</code></pre>
+
+<p>同样的，对于启动和绑定Service也有类似的机制</p>
+
+<pre><code>// Starting the service
+MyService_.intent(context).start();
+
+// Building an intent from the activity
+Intent intent = MyService_.intent(context).build();
+
+// You can provide flags
+MyService_.intent(context).flags(Intent.FLAG_GRANT_READ_URI_PERMISSION).start();
+</code></pre>
+
+<p>Android Annotations其实还提供了很多其他的功能，例如它还能实现简单的Rest API、能注入选项菜单、能处理SQLite Transactions等等，需要了解的请看Android Annotations的详细文档吧。</p>
+
+<p>OK，关于Android的依赖注入类库就介绍到这里吧，开发时具体选择哪个因人而异，也因项目而异，各有各的特点。Enjoy it！</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Android%20Dependency%20Injection%20Libraries&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f05%2fandroid-dependency-injection-libraries%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f05%2fandroid-dependency-injection-libraries%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f05%2fandroid-dependency-injection-libraries%2f&amp;description=Android%20Dependency%20Injection%20Libraries"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f05%2fandroid-dependency-injection-libraries%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

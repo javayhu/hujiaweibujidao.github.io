@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Custom Lint in Action"/>
+<meta name="twitter:description" content="本文记录为Android项目自定义Lint检查规则的实践研究。
+"/>
+
+
+
+  	<meta property="og:title" content=" Custom Lint in Action &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2016/11/custom-lint-in-action/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2016-11-09T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Custom Lint in Action &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2016/11/custom-lint-in-action/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Custom Lint in Action</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-11-09T00:00:00Z">
+            Nov 9, 2016
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文记录为Android项目自定义Lint检查规则的实践研究。</p>
+
+<p>Android Lint是Google提供的静态代码检查工具，使用Lint可以对Android项目源码进行扫描和检查，发现代码潜在的问题，或者辅助开发者统一编码规范。</p>
+
+<p>Lint工具以及现有的检查项的源码在<a href="https://android.googlesource.com/platform/tools/base/+/master/lint">android studio源码(aosp的一部分)的tools/base/lint目录</a>下，其中cli子目录是用来生成lint报告结果的，libs目录下才是核心源码，包括了lint-api、lint-checks、lint-tests三个子目录，分别是lint核心API、自带的lint检查项以及lint测试代码。</p>
+
+<p><strong>如何查看目前已经有哪些lint检查项呢？</strong>
+打开AS的设置，找到Editor下面的Inspections即可看到现有的检查项，它们对应的源码可在上面的lint-checks中查看或者在这里在线查看: <a href="https://android.googlesource.com/platform/tools/base/+/master/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks">lint-checks</a>，这也是学习如何自定义lint规则最好的学习资料。</p>
+
+<p><strong>如何自定义lint规则以及如何应用规则？</strong>
+关于这部分内容最主要的教学文档就是<a href="http://tools.android.com/tips/lint-custom-rules">Google-自定义Lint规则说明文档</a>，对应的<a href="https://github.com/googlesamples/android-custom-lint-rules">google sample项目源码</a>，思路大致是利用lint-api创建自己的lint规则，然后将自定义的lint规则打包成jar(保存在build/libs中)，并复制到<code>~/.android/lint</code>目录下，最后在Android应用源码目录下执行<code>./gradlew lint</code>即可。这种方案的缺点是它针对的是本机的所有项目，也就是会影响同一台机器其他项目的Lint检查。</p>
+
+<pre><code>mkdir ~/.android/lint; cp ./build/libs/custom-lint.jar ~/.android/lint/
+</code></pre>
+
+<p>除了执行<code>./gradlew lint</code>命令之外，还可以使用AS自带的更好的一个代码检查功能，选择Analyze菜单下面的Inspect Code选项，然后选择某个目录执行lint检查。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/as_inspectcode.png" alt="img" /></p>
+
+<p>待执行完成之后可以看到下面的结果，其中我们自定义的lint规则的结果显示在Android Lint这个Category下面</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/as_lintresult.png" alt="img" /></p>
+
+<p><strong>注意</strong>：测试发现AS这块可能存在bug，如果修改了<code>~/.android/lint</code>目录下的jar的话，AS并不会重新加载，需要重启AS才行。另外，在<code>~/.android/lint</code>目录下存放多个jar也是可以的。</p>
+
+<p><strong>Google方案的改进：LinkedIn的aar方案</strong>
+LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项目依赖这个aar完成自定义lint检查。利用这种方案我们就可以针对项目进行自定义Lint规则，lint.jar只对当前项目有效。详情参考<a href="https://engineering.linkedin.com/android/writing-custom-lint-checks-gradle">LinkedIn-自定义Lint规则并封装成aar的方案</a>，它对应的lint demo项目源码包含两部分，一部分是<a href="https://github.com/yangcheng/CustomLint">自定义lint规则-CustomLint项目</a>，另一部分是在Android工程中<a href="https://github.com/yangcheng/LintDemoApp">使用lint规则-LintDemoApp项目</a>。</p>
+
+<p>(1)CustomLint项目
+该项目分成了两部分，一部分是lintrules，它依赖lint-api实现自定义的lint规则并打包成jar，存放在build/libs目录下；另一部分是lintlib，它将lintrules得到的jar复制到build/intermediates/lint目录下，并封装成一个aar，保存在build/outputs/aar目录下。</p>
+
+<p>(2)LintDemoApp项目
+该项目是一个示例，利用上面得到的aar封装成一个Android Library项目，然后核心模块app依赖它，这样当执行lint时就会自动将自定义的lint规则添加到lint规则集合中了。</p>
+
+<p><strong>推荐在公司内部实施的Lint检查方案</strong>
+将自定义的lint规则打包成jar，接着封装成aar，然后上传到公司内部的artifactory，最后集成到各个应用中，利用AS的Lint检查功能对应用进行Lint检查即可。注意，这种方式并不会对生成的apk的大小产生任何影响。</p>
+
+<p>这里我已经创建好了一个为了演示用的应用<a href="https://github.com/hujiaweibujidao/customlint">customlint</a>，其中添加了一个LogDetector的lint规则。</p>
+
+<p>完整的实现流程记录如下：
+1.新建一个Android项目，添加一个空的Activity即可。
+2.新建一个Java Library项目，添加依赖<code>compile 'com.android.tools.lint:lint-api:24.5.0'</code>，并编写lint规则，然后在build.gradle中配置，最后生成jar。
+<strong>注意</strong>：这里最好是先测试一下jar，将jar复制到<code>~/.android/lint</code>目录下，然后在终端输入<code>lint --list</code>查看自定义的lint规则是否已经添加上了。
+3.新建一个Android Library项目，删除没有用的test和androidTest相关的依赖和源码目录，然后参考Linkedin的方案添加一些配置，将上一步得到的jar封装到最终生成的aar中，最后将生成的aar上传到bintray或者jitpack。
+4.在Android项目的build.gradle文件中添加对上面的aar的依赖，然后在MainActivity中写两个lint检查时会出错的情况，然后选择Analyze下面的Inspect Code选项，目录设置为app模块的根目录，即可看到lint的检查结果。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/custom_lint.png" alt="img" /></p>
+
+<p><strong>注意：该项目的release 1.0.0版本的lintrules依赖的是24.5.0版本的lint-api，演示的LogDetector来自下面参考资料中的美团的LogDetector。但是目前该项目最新的release 1.0.1版本依赖的是25.2.0版本的lint-api，演示的LogDetector参考自lint工具自带的LogDetector。</strong></p>
+
+<p><strong>其他参考资料</strong>
+<a href="http://tech.meituan.com/android_custom_lint.html">美团-Android自定义Lint实践</a>
+<a href="https://segmentfault.com/a/1190000004497435">segmentfault-自定义Lint规则简介</a>
+<a href="http://www.jianshu.com/p/7b3519dc1e5f">Android Studio配合Lint检测缺失Permission</a>
+<a href="http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html">Gradle Lint support</a></p>
+
+<p>OK，感兴趣的话欢迎阅读<a href="https://github.com/hujiaweibujidao/customlint">customlint</a>项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Custom%20Lint%20in%20Action&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fcustom-lint-in-action%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fcustom-lint-in-action%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fcustom-lint-in-action%2f&amp;description=Custom%20Lint%20in%20Action"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f11%2fcustom-lint-in-action%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

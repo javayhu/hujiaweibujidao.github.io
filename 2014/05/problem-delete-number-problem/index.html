@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Problem: Delete Number Problem"/>
+<meta name="twitter:description" content="删数问题的贪心和动规解法
+"/>
+
+
+
+  	<meta property="og:title" content=" Problem: Delete Number Problem &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2014/05/problem-delete-number-problem/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2014-05-20T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Problem: Delete Number Problem &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2014/05/problem-delete-number-problem/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Problem: Delete Number Problem</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-05-20T00:00:00Z">
+            May 20, 2014
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>删数问题的贪心和动规解法</p>
+
+<h4 id="1-问题描述">1.问题描述</h4>
+
+<p>现有一个n位数，你需要删除其中的k位，请问如何删除才能使得剩下的数最大？</p>
+
+<p>比如当数为2319274 k=1时，删去2变成319274后是可能的最大值。</p>
+
+<h4 id="2-问题分析">2.问题分析</h4>
+
+<h5 id="1-贪心解法">[1]贪心解法</h5>
+
+<p>这题可以使用贪心策略，每次从高位向低位数，删除高位比低位数字小的那位上的数字，直到删除了k位之后，得到的数字肯定是最大值。</p>
+
+<p>(1)删数问题具有最优子结构：</p>
+
+<p>假设
+$$a=x<em>{1}10^{n-1}+x</em>{2}10^{n-2}+ ··· +x<em>{p}10^{n-p}+x</em>{q}10^{n-q}+x<em>{r}10^{n-r} ··· +x</em>{n}$$
+有$$x<em>{q}&lt;x</em>{r}$$，即要删除$$x<em>{q}$$则有：
+$$a</em>{1}=x<em>{1}10^{n-2}+x</em>{2}10^{n-3}+ ··· +x<em>{p}10^{n-p-1}+x</em>{r}10^{n-r} ··· +x<em>{n}$$
+假设删去的不是$$x</em>{q}$$，而是其它位，则有：
+$$a<em>{2}=x</em>{1}10^{n-2}+x<em>{2}10^{n-3}+ ··· +x</em>{p}10^{n-p-1}+x<em>{q}10^{n-q} ··· +x</em>{n}$$
+由于$$x<em>{1}&gt;x</em>{2}&gt;···&gt;x<em>{p}&gt;x</em>{q}$$且$$x<em>{q}&lt;x</em>{r}$$，则有$$a<em>{1}&gt;a</em>{2}$$。
+因此，删数问题满足最优子结构性质。</p>
+
+<p>(2)删数问题具有贪心选择性质：</p>
+
+<p>设问题T已按照上面的方法删除，假设
+$$A=(y<em>{1},y</em>{2}, ···,y<em>{k})$$
+是删数问题的一个最优解。易知，若问题有解，则$1≤ k ≤ n$。
+(1)当k=1时，由前得证，$$A=(y</em>{1},A’)$$是问题的最优解，其中$A&rsquo;$是$A$中不删除了$$y<em>{1}$$而删除其他位的最优解；
+(2)当k=q时，由反证法，可得$$A=(y</em>{1},y<em>{2} ··· ,y</em>{q})$$是最优解；
+当k=q+1时，由前得证，$$A=(y<em>{1},y</em>{2} ··· ,y<em>{q}+ y</em>{q}+1)$$是最优解。
+所以，删数问题具有贪心选择性质。</p>
+
+<p>代码很容易实现，AC，1.484s，1.089MB</p>
+
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+using namespace std;
+int t,k,len;
+string name;
+void deletek(){
+    int tlen=name.length();
+    int tk=k;
+    bool flag=true;
+    while (k--&gt; 0 &amp;&amp; flag) {
+        flag=false;
+        len = name.length();
+        for (int i=0; i&lt;len; i++) {
+            if (i+1&lt;len &amp;&amp; name[i]&lt;name[i+1]) {
+                name.erase(i,1);
+                len--;
+                flag=true;
+                break;
+            }
+        }
+    }
+    cout &lt;&lt; name.substr(0,tlen-tk) &lt;&lt; endl;
+}
+int main(int argc, const char * argv[])
+{
+    cin &gt;&gt; t;
+    while (t--&gt;0) {
+        cin &gt;&gt; name;
+        cin &gt;&gt; k;
+        deletek();
+    }
+    return 0;
+}
+</code></pre>
+
+<p>[2]动态规划解法</p>
+
+<p>根据上面的分析可以看出此题还可用动态规划来解决，思路如下：</p>
+
+<p>假设$A(i,j)$表示输入数字(字符串)的从第i位到第j位数字组成的字符串，$S(i,j)$表示前i位中删除j位得到的最优解，它实际上可以看做两个子问题：如果删除第j位，那么$S(i,j)$等于前i-1位删除j-1位的最优解加上第j位数字；如果不删除第j位，那么$S(i,j)$等于前i-1位删除j位的最优解。于是便有下面的递推式：</p>
+
+<p>$$
+S(i,j)= \left{
+  \begin{array}{l l}
+    A(0,i) &amp; \quad \text{此时j=0}<br />
+    min({S(i-1,j-1),S(i-1,j)+A(j,j)}) &amp; \quad \text{此时0&lt;j&lt;i}
+  \end{array} \right.
+$$</p>
+
+<p>这个递推式非常类似最长公共子序列问题的递推式，所以解法也类似，在空间方面可以只使用一个一维数组，加上一个额外的O(1)的空间，计算过程如下面制作的表格所示，除了第一列，其他中间元素都只依赖于上面一行对应位置$S(i-1,j)$和上面一行左边位置$S(i-1,j-1)$两个元素的大小，比较的是字符串，使用字典序进行比较，C++内置的字符串比较函数<code>compare</code>即可。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/algos/algosexp2.png" alt="image" /></p>
+
+<p>动态规划实现代码 [这份代码没有AC，只能得到60分就超时了，应该还可以改进]</p>
+
+<pre><code>#include &lt;string&gt;
+#include &lt;iostream&gt;
+using namespace std;
+#define MAX_K 1001
+int t,k;
+string name;string up;string last;string temp;
+void deletek(){
+    int len=name.length();
+    if(k&gt;=len){
+        cout &lt;&lt; &quot;&quot; &lt;&lt; endl;
+        return;
+    }
+    string cur[MAX_K]={&quot;&quot;};
+    for (int i=1; i &lt;= len; i++) {
+        for (int j=0; j &lt; i &amp;&amp; j &lt;= k; j++) {//
+            if (j==0) {//sub string
+                last=cur[j];
+                cur[j]=name.substr(0,i);
+            }else{//0 &lt; j &lt;= i
+                up=cur[j]+name[i-1];//
+                if (up.compare(last)&gt;=0) {//up &gt; left
+                    last=cur[j];
+                    cur[j]=up;
+                }else{//up &lt; left
+                    temp=cur[j];
+                    cur[j]=last;
+                    last=temp;
+                }
+            }
+        }
+    }
+    cout &lt;&lt; cur[k] &lt;&lt; endl;
+}
+int main(int argc, const char * argv[])
+{
+    cin &gt;&gt; t;
+    while (t--&gt;0) {
+        cin &gt;&gt; name;
+        cin &gt;&gt; k;
+        deletek();
+    }
+    return 0;
+}
+</code></pre>
+
+<p>从这道题中可以看出，虽然动态规划每次做出当前情况下最好的决策，但是为了做出最好的决策花费了大量的时间和空间，对于删数问题贪心算法应该是较好的解决方案。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Problem%3a%20Delete%20Number%20Problem&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f05%2fproblem-delete-number-problem%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f05%2fproblem-delete-number-problem%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f05%2fproblem-delete-number-problem%2f&amp;description=Problem%3a%20Delete%20Number%20Problem"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2014%2f05%2fproblem-delete-number-problem%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

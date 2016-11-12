@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Head First Stanford NLP (1)"/>
+<meta name="twitter:description" content="(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。
+"/>
+
+
+
+  	<meta property="og:title" content=" Head First Stanford NLP (1) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2016/03/head-first-stanford-nlp-1/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2016-03-30T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Head First Stanford NLP (1) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2016/03/head-first-stanford-nlp-1/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Head First Stanford NLP (1)</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-03-30T00:00:00Z">
+            Mar 30, 2016
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。</p>
+
+<p><strong>因为毕设缘故需要调研下Stanford NLP工具，我发现这套工具非常强大而且非常有趣，但是目前网上的资源太少，抑或是很久未更新了，所以我打算写一个深入浅出Stanford NLP系列，简单介绍这套工具以及它的使用。</strong></p>
+
+<p>Stanford NLP工具是一套完整的NLP工具，包括分词，词性标注，命名实体识别，依存句法分析等等，其中的项目很多，包括CoreNLP，Parser等等，在<a href="http://nlp.stanford.edu/software/">这里</a>可以查看所有的项目软件。
+本文主要介绍其中的一个核心项目CoreNLP，项目主页：<a href="http://stanfordnlp.github.io/CoreNLP/index.html">CoreNLP</a>。</p>
+
+<p>英文介绍：Stanford CoreNLP is an integrated framework. Its goal is to make it very easy to apply a bunch of linguistic analysis tools to a piece of text. A CoreNLP tool pipeline can be run on a piece of plain text with just two lines of code. It is designed to be highly flexible and extensible. With a single option you can change which tools should be enabled and which should be disabled. Stanford CoreNLP integrates many of Stanford’s NLP tools, including the part-of-speech (POS) tagger, the named entity recognizer (NER), the parser, the coreference resolution system, sentiment analysis, bootstrapped pattern learning, and the open information extraction tools. Its analyses provide the foundational building blocks for higher-level and domain-specific text understanding applications.</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/standfordnlp.png" alt="img" /></p>
+
+<h4 id="1-如何使用corenlp工具">1.如何使用CoreNLP工具</h4>
+
+<p>(1)通过Maven来使用
+后面两个dependency是导入model用的，支持的语言包括英语、汉语、法语、西班牙语和德语。默认情况下CoreNLP是支持英语的，其他语言的model需要独立下载。</p>
+
+<pre><code>&lt;dependency&gt;
+    &lt;groupId&gt;edu.stanford.nlp&lt;/groupId&gt;
+    &lt;artifactId&gt;stanford-corenlp&lt;/artifactId&gt;
+    &lt;version&gt;3.6.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;edu.stanford.nlp&lt;/groupId&gt;
+    &lt;artifactId&gt;stanford-corenlp&lt;/artifactId&gt;
+    &lt;version&gt;3.6.0&lt;/version&gt;
+    &lt;classifier&gt;models&lt;/classifier&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;edu.stanford.nlp&lt;/groupId&gt;
+    &lt;artifactId&gt;stanford-corenlp&lt;/artifactId&gt;
+    &lt;version&gt;3.6.0&lt;/version&gt;
+    &lt;classifier&gt;models-chinese&lt;/classifier&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+<p>(2)直接使用源码
+源码地址：<a href="https://github.com/stanfordnlp/CoreNLP">https://github.com/stanfordnlp/CoreNLP</a>
+<strong>如果不需要修改源码或者自行部署server的话，推荐采用Maven方式来使用CoreNLP。</strong>
+<strong>直接使用源码需要使用JDK 8，源码的使用方式请看后文。</strong></p>
+
+<h4 id="2-简单上手corenlp">2.简单上手CoreNLP</h4>
+
+<p>(1)在命令行中的使用
+<a href="http://stanfordnlp.github.io/CoreNLP/cmdline.html">http://stanfordnlp.github.io/CoreNLP/cmdline.html</a></p>
+
+<p>(2)在代码中使用Stanford CoreNLP API
+<a href="http://stanfordnlp.github.io/CoreNLP/api.html">http://stanfordnlp.github.io/CoreNLP/api.html</a></p>
+
+<p>The backbone of the CoreNLP package is formed by two classes: Annotation and Annotator. Annotations are the data structure which hold the results of annotators. Annotations are basically maps, from keys to bits of the annotation, such as the parse, the part-of-speech tags, or named entity tags. Annotators are a lot like functions, except that they operate over Annotations instead of Objects. They do things like tokenize, parse, or NER tag sentences. Annotators and Annotations are integrated by AnnotationPipelines, which create sequences of generic Annotators. Stanford CoreNLP inherits from the AnnotationPipeline class, and is customized with NLP Annotators.</p>
+
+<p>CoreNLP主要由<code>Annotator</code>和<code>Annotation</code>组成，前者就像是函数，包括tokenize、parse、ner等等，它们作用在annotations上；后者就是annotator的输出，一般都是map结构。<code>StanfordCoreNLP</code>类继承自<code>AnnotationPipeline</code>，并且可以对annotators进行自定义。代码示例：</p>
+
+<pre><code>// creates a StanfordCoreNLP object, with POS tagging, lemmatization, NER, parsing, and coreference resolution
+Properties props = new Properties();
+props.setProperty(&quot;annotators&quot;, &quot;tokenize, ssplit, pos, lemma, ner, parse, dcoref&quot;);
+StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+
+// read some text in the text variable
+String text = &quot;...&quot;; // Add your text here!
+
+// create an empty Annotation just with the given text
+Annotation document = new Annotation(text);
+
+// run all Annotators on this text
+pipeline.annotate(document);
+
+// these are all the sentences in this document
+// a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
+List&lt;CoreMap&gt; sentences = document.get(CoreAnnotations.SentencesAnnotation.class);
+
+for (CoreMap sentence : sentences) {
+    // traversing the words in the current sentence
+    // a CoreLabel is a CoreMap with additional token-specific methods
+    for (CoreLabel token : sentence.get(CoreAnnotations.TokensAnnotation.class)) {
+        // this is the text of the token
+        String word = token.get(CoreAnnotations.TextAnnotation.class);
+        // this is the POS tag of the token
+        String pos = token.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+        // this is the NER label of the token
+        String ne = token.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+    }
+
+    // this is the parse tree of the current sentence
+    Tree tree = sentence.get(TreeCoreAnnotations.TreeAnnotation.class);
+
+    // this is the Stanford dependency graph of the current sentence
+    SemanticGraph dependencies = sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class);
+}
+
+// This is the coreference link graph
+// Each chain stores a set of mentions that link to each other,
+// along with a method for getting the most representative mention
+// Both sentence and token offsets start at 1!
+Map&lt;Integer, CorefChain&gt; graph = document.get(CorefCoreAnnotations.CorefChainAnnotation.class);
+</code></pre>
+
+<p>(3)在代码中使用Simple CoreNLP API
+<a href="http://stanfordnlp.github.io/CoreNLP/simple.html">http://stanfordnlp.github.io/CoreNLP/simple.html</a>
+顾名思义，Simple CoreNLP API是相对于Stanford CoreNLP API比较简单的API操作方式。</p>
+
+<pre><code>import edu.stanford.nlp.simple.*;
+
+public class SimpleCoreNLPDemo {
+    public static void main(String[] args) {
+        // Create a document. No computation is done yet.
+        Document doc = new Document(&quot;add your text here! It can contain multiple sentences.&quot;);
+        for (Sentence sent : doc.sentences()) {  // Will iterate over two sentences
+            // We're only asking for words -- no need to load any models yet
+            System.out.println(&quot;The second word of the sentence '&quot; + sent + &quot;' is &quot; + sent.word(1));
+            // When we ask for the lemma, it will load and run the part of speech tagger
+            System.out.println(&quot;The third lemma of the sentence '&quot; + sent + &quot;' is &quot; + sent.lemma(2));
+            // When we ask for the parse, it will load and run the parser
+            System.out.println(&quot;The parse of the sentence '&quot; + sent + &quot;' is &quot; + sent.parse());
+            // ...
+        }
+    }
+}
+</code></pre>
+
+<p>使用Simple CoreNLP API有以下优缺点：
+<img src="https://hujiaweibujidao.github.io/images/simplenlp_advatanges.png" alt="img" /></p>
+
+<p>需要注意的是其中的第二个缺点：if a dependency parse is requested, followed by a constituency parse, we will compute the dependency parse with the <strong>Neural Dependency Parser</strong>, and then use the <strong>Stanford Parser</strong> for the constituency parse. If, however, you request the constituency parse before the dependency parse, we will use the <strong>Stanford Parser</strong> for both.</p>
+
+<p>Simple CoreNLP API并不支持所有的Annotator，但是基本上都支持。
+<img src="https://hujiaweibujidao.github.io/images/simplenlp_annotators.png" alt="img" /></p>
+
+<h4 id="3-corenlp中的annotators">3.CoreNLP中的Annotators</h4>
+
+<p>(1)Annotator的列表：
+<img src="https://hujiaweibujidao.github.io/images/stanfordnlp_annotators.png" alt="img" /></p>
+
+<p>(2)Annotator之间存在着依赖关系，例如pos依赖tokenize，ner依赖pos等
+<img src="https://hujiaweibujidao.github.io/images/stanfordnlp_annotatordp.png" alt="img" /></p>
+
+<p>(3)每个Annotator的具体细节请参考<a href="http://stanfordnlp.github.io/CoreNLP/annotators.html">这里</a>
+在这里可以看到每个annotator的可选的配置参数，将这些参数放到前面示例代码中的<code>props</code>变量中即可完成配置。</p>
+
+<h4 id="4-部署corenlp-server">4.部署CoreNLP Server</h4>
+
+<p>参考网址：<a href="http://stanfordnlp.github.io/CoreNLP/corenlp-server.html">http://stanfordnlp.github.io/CoreNLP/corenlp-server.html</a></p>
+
+<p>(1)Stanford NLP有个在线演示网址：<a href="http://corenlp.run/">新地址</a> <a href="http://nlp.stanford.edu:8080/corenlp/process">旧地址</a>
+它使用了开源标注工具<a href="http://brat.nlplab.org/index.html">brat</a>，该工具同样可以在本地进行部署。
+<img src="https://hujiaweibujidao.github.io/images/stanfordnlp_online.png" alt="img" /></p>
+
+<p>(2)本地部署
+这个演示用的server可以在本地进行部署，方法很简单。
+在下载的CoreNLP的根目录下，执行下面两条语句，前者表示添加当前目录下的所有jar到classpath中，后者用来启动StanfordCoreNLPServer，如果不给定端口的话，会跑在默认的9000端口，在浏览器中输入<code>http://localhost:9000/</code>即可看到效果。</p>
+
+<pre><code># Set up your classpath. For example, to add all jars in the current directory tree:
+export CLASSPATH=&quot;`find . -name '*.jar'`&quot;
+
+# Run the server
+java -mx4g -cp &quot;*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer [port?]
+</code></pre>
+
+<p>(3)使用StanfordCoreNLPClient可以连接server并得到处理结果</p>
+
+<pre><code>StanfordCoreNLPClient pipeline = new StanfordCoreNLPClient(props, &quot;localhost&quot;, 9000, 2);
+</code></pre>
+
+<p>(4)如果要自行管理server的启动和停止的话，可以使用下面的命令</p>
+
+<pre><code>#1.启动，加载的model越多的话需要的内存越多，如果可以的话推荐8g
+#The memory requirements of the server are the same as that of CoreNLP,
+#though it will grow as you load more models (e.g., memory increases if you load both
+#the PCFG and Shift-Reduce constituency parser models).
+#A safe minimum is 4gb; 8gb is recommended if you can spare it.
+nohup java -mx4g edu.stanford.nlp.pipeline.StanfordCoreNLPServer 1337 &amp;
+
+#2.停止
+wget &quot;localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`&quot; -O -
+</code></pre>
+
+<p>(5)server默认开启的annotator包括<code>-annotators tokenize, ssplit, pos, lemma, ner, depparse, coref, natlog, openie</code>，但是并不包括<code>parse</code>。</p>
+
+<h4 id="5-其他语言的工具包">5.其他语言的工具包</h4>
+
+<p>参考网址：<a href="http://stanfordnlp.github.io/CoreNLP/other-languages.html">http://stanfordnlp.github.io/CoreNLP/other-languages.html</a></p>
+
+<p>OK，暂时介绍到这里，enjoy！</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Head%20First%20Stanford%20NLP%20%281%29&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f03%2fhead-first-stanford-nlp-1%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f03%2fhead-first-stanford-nlp-1%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f03%2fhead-first-stanford-nlp-1%2f&amp;description=Head%20First%20Stanford%20NLP%20%281%29"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f03%2fhead-first-stanford-nlp-1%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

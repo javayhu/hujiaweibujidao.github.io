@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Art of Android Development Reading Notes 9"/>
+<meta name="twitter:description" content="《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程
+"/>
+
+
+
+  	<meta property="og:title" content=" Art of Android Development Reading Notes 9 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-9/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2015-12-05T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Art of Android Development Reading Notes 9 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-9/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Art of Android Development Reading Notes 9</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-12-05T00:00:00Z">
+            Dec 5, 2015
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程</p>
+
+<h3 id="第9章-四大组件的工作过程">第9章 四大组件的工作过程</h3>
+
+<h4 id="9-1-四大组件的运行状态">9.1 四大组件的运行状态</h4>
+
+<p>(1)四大组件中只有<code>BroadcastReceiver</code>既可以在AndroidManifest文件中注册，也可以在代码中注册，其他三个组件都必须在AndroidManifest文件中注册；<code>ContentProvider</code>的调用不需要借助Intent，其他三个组件都需要借助Intent。
+(2)Activity是一种展示型组件，用于向用户展示界面，可由显式或者隐式Intent来启动。
+(3)Service是一种计算型组件，用于在后台执行计算任务。尽管service是用于后台执行计算的，但是它本身是运行在主线程中的，因此耗时的后台计算仍然需要在单独的线程中去完成。Service组件有两种状态：启动状态和绑定状态。当service处于绑定状态时，外界可以很方便的和service进行通信，而在启动状态中是不可与外界通信的。
+(4)BroadcastReceiver是一种消息型组件，用于在不同的组件乃至不同的应用之间传递消息，它工作在系统内部。广播有两种注册方式：静态注册和动态注册。静态注册是在AndroidManifest中注册，在应用安装的时候会被系统解析，这种广播不需要应用启动就可以收到相应的广播。动态注册需要通过<code>Context.registerReceiver()</code>来注册，这种广播需要应用启动才能注册并接收广播。BroadcastReceiver组件一般来说不需要停止，它也没有停止的概念。
+(5)ContentProvider是一种数据共享型组件，用于向其他组件乃至其他应用共享数据。ContentProvider中的<code>insert</code>、<code>delete</code>、<code>update</code>、<code>query</code>方法需要处理好线程同步，因为这几个方法是在Binder线程池中被调用的，另外ContentProvider组件也不需要手动停止。</p>
+
+<p><strong>[下面对四大组件的工作过程的总结需要感谢<a href="http://blog.csdn.net/amurocrash/article/details/48858353"><code>amurocrash</code>童鞋的读书笔记</a>以及他细心制作的UML图，帮助我从原书复杂的方法调用中跳出来看到整体的大致流程]</strong></p>
+
+<h4 id="9-2-activity的工作过程">9.2 Activity的工作过程</h4>
+
+<p>(1)Activity启动的大致流程
+<img src="https://hujiaweibujidao.github.io/images/androidart_activity.png" alt="img" />
+(2)<code>ApplicationThread</code>是<code>ActivityThread</code>的一个内部类，它继承自<code>ApplicationThreadNative</code>，而<code>ApplicationThreadNative</code>继承自<code>Binder</code>并实现了<code>IApplicationThread</code>接口，<code>ApplicationThreadNative</code>的作用其实就和系统为AIDL文件生成的类是一样的。
+(3)<code>ActivityManagerService</code>(AMS)继承自<code>ActivityManagerNative</code>，而<code>ActivityManagerNative</code>继承自<code>Binder</code>并实现了<code>IActivityManager</code>这个Binder接口，因此AMS也是一个Binder。
+(4)一个应用只有一个Application对象，它的创建也是通过<code>Instrumentation</code>来完成的，这个过程和Activity对象的创建过程一样，都是通过类加载器来实现的。
+(5)<code>ContextImpl</code>是Context的具体实现，ContextImpl是通过Activity的<code>attach</code>方法来和Activity建立关联的，在<code>attach</code>方法中Activity还会完成Window的创建并建立自己和Window的关联，*这样当window接收到外部输入事件后就可以将事件传递给Activity*。 <strong>[这里可能有误，应该是Activity将事件传递给window]</strong></p>
+
+<h4 id="9-3-service的工作过程">9.3 Service的工作过程</h4>
+
+<p>(1)Service有两种状态：启动状态和绑定状态，两种状态是可以共存的。
+启动过程：
+<img src="https://hujiaweibujidao.github.io/images/androidart_service1.png" alt="img" />
+绑定过程：
+<img src="https://hujiaweibujidao.github.io/images/androidart_service2.png" alt="img" /></p>
+
+<h4 id="9-4-broadcastreceiver的工作过程">9.4 BroadcastReceiver的工作过程</h4>
+
+<p>(1)BroadcastReceiver的工作过程包括广播注册过程、广播发送和接收过程。
+注册过程：静态注册的时候是由<code>PackageManagerService</code>来完成整个注册过程，下面是动态注册的过程
+<img src="https://hujiaweibujidao.github.io/images/androidart_broadcastreceiver1.png" alt="img" />
+发送和接收过程：
+<img src="https://hujiaweibujidao.github.io/images/androidart_broadcastreceiver1.png" alt="img" />
+(2)广播的发送有几种类型：普通广播、有序广播和粘性广播，有序广播和粘性广播与普通广播相比具有不同的特性，但是发送和接收过程是类似的。
+(3)一个应用处于停止状态分为两种情况：一是应用安装后未运行；二是应用被手动或者其他应用强停了。从Android 3.1开始，处于停止状态的应用无法接受到开机广播。</p>
+
+<h4 id="9-5-contentprovider的工作过程">9.5 ContentProvider的工作过程</h4>
+
+<p>(1)当ContentProvider所在的进程启动的时候，它会同时被启动并被发布到AMS中，这个时候它的onCreate要先去Application的onCreate执行。
+(2)ContentProvider的启动过程：
+1.当一个应用启动时，入口方法是<code>ActivityThread</code>的<code>main</code>方法，其中创建ActivityThread的实例并创建主线程的消息队列；
+2.<code>ActivityThread</code>的<code>attach</code>方法中会远程调用<code>ActivityManagerService</code>的<code>attachApplication</code>，并将<code>ApplicationThread</code>提供给AMS，ApplicationThread主要用于ActivityThread和AMS之间的通信；
+3.<code>ActivityManagerService</code>的<code>attachApplication</code>会调用<code>ApplicationThread</code>的<code>bindApplication</code>方法，这个方法会通过<code>H</code>切换到ActivityThread中去执行，即调用<code>handleBindApplication</code>方法；
+4.<code>handleBindApplication</code>方法会创建Application对象并加载ContentProvider，注意是先加载ContentProvider，然后调用Application的<code>onCreate</code>方法。
+(3)ContentProvider的<code>android:multiprocess</code>属性决定它是否是单实例，默认值是false，也就是默认是单实例。当设置为true时，每个调用者的进程中都存在一个ContentProvider对象。
+(4)当调用ContentProvider的<code>insert</code>、<code>delete</code>、<code>update</code>、<code>query</code>方法中的任何一个时，如果ContentProvider所在的进程没有启动的话，那么就会触发ContentProvider的创建，并伴随着ContentProvider所在进程的启动。下图是ContentProvider的query操作的大致过程：
+<img src="https://hujiaweibujidao.github.io/images/androidart_contentprovider.png" alt="img" /></p>
+
+<p>详细的过程分析建议阅读原书，简直精彩！</p>
+
+<p><strong>其他学习资料</strong>
+1.<a href="http://blog.csdn.net/amurocrash/article/details/48858353">Android开发艺术探索读书笔记（三）</a></p>
+
+<p>OK，本章结束，谢谢阅读。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Art%20of%20Android%20Development%20Reading%20Notes%209&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-9%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-9%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-9%2f&amp;description=Art%20of%20Android%20Development%20Reading%20Notes%209"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-9%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Art of Android Development Reading Notes 12"/>
+<meta name="twitter:description" content="《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache
+"/>
+
+
+
+  	<meta property="og:title" content=" Art of Android Development Reading Notes 12 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-12/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2015-11-30T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Art of Android Development Reading Notes 12 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2015/11/art-of-android-development-reading-notes-12/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Art of Android Development Reading Notes 12</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-11-30T00:00:00Z">
+            Nov 30, 2015
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache</p>
+
+<h3 id="第12章-bitmap的加载和cache">第12章 Bitmap的加载和Cache</h3>
+
+<h4 id="12-1-bitmap的高速加载">12.1 Bitmap的高速加载</h4>
+
+<p>(1)<strong>Bitmap是如何加载的？</strong>
+<code>BitmapFactory</code>类提供了四类方法：<code>decodeFile</code>、<code>decodeResource</code>、<code>decodeStream</code>和<code>decodeByteArray</code>从不同来源加载出一个Bitmap对象，最终的实现是在底层实现的。
+<strong>如何高效加载Bitmap？</strong>
+采用<code>BitmapFactory.Options</code>按照一定的采样率来加载所需尺寸的图片，因为imageview所需的图片大小往往小于图片的原始尺寸。
+(2)BitmapFactory.Options的<code>inSampleSize</code>参数，即采样率
+官方文档指出采样率的取值应该是2的指数，例如k，那么采样后的图片宽高均为原图片大小的 1/k。
+<strong>如何获取采样率？</strong>
+下面是常用的获取采样率的代码片段：</p>
+
+<pre><code>public Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {
+    // First decode with inJustDecodeBounds=true to check dimensions
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inJustDecodeBounds = true;
+    BitmapFactory.decodeResource(res, resId, options);
+
+    // Calculate inSampleSize
+    options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+    // Decode bitmap with inSampleSize set
+    options.inJustDecodeBounds = false;
+    return BitmapFactory.decodeResource(res, resId, options);
+}
+
+public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    if (reqWidth == 0 || reqHeight == 0) {
+        return 1;
+    }
+
+    // Raw height and width of image
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    Log.d(TAG, &quot;origin, w= &quot; + width + &quot; h=&quot; + height);
+    int inSampleSize = 1;
+
+    if (height &gt; reqHeight || width &gt; reqWidth) {
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+
+        // Calculate the largest inSampleSize value that is a power of 2 and
+        // keeps both height and width larger than the requested height and width.
+        while ((halfHeight / inSampleSize) &gt;= reqHeight &amp;&amp; (halfWidth / inSampleSize) &gt;= reqWidth) {
+            inSampleSize *= 2;
+        }
+    }
+
+    Log.d(TAG, &quot;sampleSize:&quot; + inSampleSize);
+    return inSampleSize;
+}
+</code></pre>
+
+<p>将<code>inJustDecodeBounds</code>设置为true的时候，BitmapFactory只会解析图片的原始宽高信息，并不会真正的加载图片，所以这个操作是轻量级的。<strong>需要注意的是，这个时候BitmapFactory获取的图片宽高信息和图片的位置以及程序运行的设备有关，这都会导致BitmapFactory获取到不同的结果。</strong></p>
+
+<h4 id="12-2-android中的缓存策略">12.2 Android中的缓存策略</h4>
+
+<p>(1)最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：<code>LruCache</code>(内存缓存)和<code>DiskLruCache</code>(磁盘缓存)。
+(2)LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本。LruCache类是一个线程安全的泛型类，它内部采用一个<code>LinkedHashMap</code>以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。
+(3)DiskLruCache磁盘缓存，它不属于Android sdk的一部分，<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java">它的源码可以在这里下载</a>
+DiskLruCache的创建、缓存查找和缓存添加操作
+(4)ImageLoader的实现 <a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">具体内容看源码</a>
+功能：图片的同步/异步加载，图片压缩，内存缓存，磁盘缓存，网络拉取</p>
+
+<h4 id="12-3-imageloader的使用">12.3 ImageLoader的使用</h4>
+
+<p>避免发生列表item错位的解决方法：给显示图片的imageview添加<code>tag</code>属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。
+<strong>优化列表的卡顿现象</strong>
+(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿；
+(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；
+(3)使用硬件加速来解决莫名的卡顿问题，给Activity添加配置<code>android:hardwareAccelerated=&quot;true&quot;</code>。</p>
+
+<p>本章的精华就是作者写的<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">ImageLoader类</a>，建议阅读源码感受下。</p>
+
+<p>OK，本章结束，谢谢阅读。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Art%20of%20Android%20Development%20Reading%20Notes%2012&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f11%2fart-of-android-development-reading-notes-12%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f11%2fart-of-android-development-reading-notes-12%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f11%2fart-of-android-development-reading-notes-12%2f&amp;description=Art%20of%20Android%20Development%20Reading%20Notes%2012"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f11%2fart-of-android-development-reading-notes-12%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

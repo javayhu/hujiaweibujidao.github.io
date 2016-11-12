@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Art of Android Development Reading Notes 5"/>
+<meta name="twitter:description" content="《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews
+"/>
+
+
+
+  	<meta property="og:title" content=" Art of Android Development Reading Notes 5 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-5/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2015-12-01T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Art of Android Development Reading Notes 5 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2015/12/art-of-android-development-reading-notes-5/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Art of Android Development Reading Notes 5</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-12-01T00:00:00Z">
+            Dec 1, 2015
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews</p>
+
+<h3 id="第5章-理解remoteviews">第5章 理解RemoteViews</h3>
+
+<h4 id="5-1-remoteviews-的应用">5.1 <code>RemoteViews</code>的应用</h4>
+
+<p>(1)RemoteViews表示的是一个view结构，它可以在其他进程中显示。由于它在其他进程中显示，为了能够更新它的界面，RemoteViews提供了一组基础的操作用于跨进程更新它的界面。
+(2)RemoteViews主要用于通知栏通知和桌面小部件的开发，通知栏通知是通过<code>NotificationManager</code>的<code>notify</code>方法来实现的；桌面小部件是通过<code>AppWidgetProvider</code>来实现的，它本质上是一个广播(BroadcastReceiver)。这两者的界面都是运行在<code>SystemServer</code>进程中。
+(3)RemoteViews在Notification中的应用示例</p>
+
+<pre><code>Notification notification = new Notification();
+notification.icon = R.drawable.ic_launcher;
+notification.tickerText = &quot;hello world&quot;;
+notification.when = System.currentTimeMillis();
+notification.flags = Notification.FLAG_AUTO_CANCEL;
+Intent intent = new Intent(this, DemoActivity_1.class);
+intent.putExtra(&quot;sid&quot;, &quot;&quot; + sId);
+PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_notification);
+remoteViews.setTextViewText(R.id.msg, &quot;chapter_5: &quot; + sId);//设置textview的显示文本
+remoteViews.setImageViewResource(R.id.icon, R.drawable.icon1);
+PendingIntent openActivity2PendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, DemoActivity_2.class), PendingIntent.FLAG_UPDATE_CURRENT);
+remoteViews.setOnClickPendingIntent(R.id.open_activity2, openActivity2PendingIntent);//给图片添加点击事件
+notification.contentView = remoteViews;
+notification.contentIntent = pendingIntent;
+NotificationManager manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+manager.notify(sId, notification);
+</code></pre>
+
+<p>(4)RemoteViews在桌面小部件中的应用
+1.定义小部件界面；
+2.定义小部件配置信息：其中<code>updatePeriodMillis</code>定义小工具的自动更新周期，单位为ms。</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;appwidget-provider xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:initialLayout=&quot;@layout/widget&quot;
+    android:minHeight=&quot;84dp&quot;
+    android:minWidth=&quot;84dp&quot;
+    android:updatePeriodMillis=&quot;86400000&quot; &gt;
+&lt;/appwidget-provider&gt;
+</code></pre>
+
+<p>3.定义小部件的实现类：书中的示例实现了一个显示一张图片的小部件，每次点击小部件的时候图片就会旋转一周；</p>
+
+<pre><code>public class MyAppWidgetProvider extends AppWidgetProvider {
+
+    public static final String TAG = &quot;MyAppWidgetProvider&quot;;
+    public static final String CLICK_ACTION = &quot;com.ryg.chapter_5.action.CLICK&quot;;
+
+    public MyAppWidgetProvider() {
+        super();
+    }
+
+    @Override
+    public void onReceive(final Context context, Intent intent) {
+        super.onReceive(context, intent);
+        Log.i(TAG, &quot;onReceive : action = &quot; + intent.getAction());
+
+        // 这里判断是自己的action，做自己的事情，比如小工具被点击了要干啥，这里是做一个动画效果
+        if (intent.getAction().equals(CLICK_ACTION)) {
+            Toast.makeText(context, &quot;clicked it&quot;, Toast.LENGTH_SHORT).show();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap srcbBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon1);
+                    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                    for (int i = 0; i &lt; 37; i++) {
+                        float degree = (i * 10) % 360;
+                        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+                        remoteViews.setImageViewBitmap(R.id.imageView1, rotateBitmap(context, srcbBitmap, degree));
+                        Intent intentClick = new Intent();
+                        intentClick.setAction(CLICK_ACTION);
+                        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intentClick, 0);
+                        remoteViews.setOnClickPendingIntent(R.id.imageView1, pendingIntent);
+                        appWidgetManager.updateAppWidget(new ComponentName(context, MyAppWidgetProvider.class),remoteViews);
+                        SystemClock.sleep(30);
+                    }
+                }
+            }).start();
+        }
+    }
+
+    /**
+     * 每次窗口小部件被点击更新都调用一次该方法
+     */
+    @Override
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        Log.i(TAG, &quot;onUpdate&quot;);
+
+        final int counter = appWidgetIds.length;
+        Log.i(TAG, &quot;counter = &quot; + counter);
+        for (int i = 0; i &lt; counter; i++) {
+            int appWidgetId = appWidgetIds[i];
+            onWidgetUpdate(context, appWidgetManager, appWidgetId);
+        }
+    }
+
+    /**
+     * 窗口小部件更新
+     */
+    private void onWidgetUpdate(Context context, AppWidgetManager appWidgeManger, int appWidgetId) {
+        Log.i(TAG, &quot;appWidgetId = &quot; + appWidgetId);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+        // &quot;窗口小部件&quot;点击事件发送的Intent广播
+        Intent intentClick = new Intent();
+        intentClick.setAction(CLICK_ACTION);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intentClick, 0);
+        remoteViews.setOnClickPendingIntent(R.id.imageView1, pendingIntent);
+        appWidgeManger.updateAppWidget(appWidgetId, remoteViews);
+    }
+
+    private Bitmap rotateBitmap(Context context, Bitmap srcbBitmap, float degree) {
+        Matrix matrix = new Matrix();
+        matrix.reset();
+        matrix.setRotate(degree);
+        return Bitmap.createBitmap(srcbBitmap, 0, 0, srcbBitmap.getWidth(), srcbBitmap.getHeight(), matrix, true);
+    }
+}
+</code></pre>
+
+<p>4.在AndroidManifest.xml文件中声明小部件
+下面的示例中包含了两个action，第一个action用于识别小部件的单击行为，而第二个action是作为小部件必须存在的action <code>android.appwidget.action.APPWIDGET_UPDATE</code>，如果不加那么就无法显示小部件。</p>
+
+<pre><code>&lt;receiver android:name=&quot;.MyAppWidgetProvider&quot; &gt;
+    &lt;meta-data
+        android:name=&quot;android.appwidget.provider&quot;
+        android:resource=&quot;@xml/appwidget_provider_info&quot; &gt;
+    &lt;/meta-data&gt;
+
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;com.ryg.chapter_5.action.CLICK&quot; /&gt;
+        &lt;action android:name=&quot;android.appwidget.action.APPWIDGET_UPDATE&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/receiver&gt;
+</code></pre>
+
+<p>(5)AppWidgetProvider会自动根据广播的action通过<code>onReceive</code>方法来自动分发广播，也就是调用下面不同的方法：
+<code>onEnable</code>：当小部件<strong>第一次</strong>添加到桌面时调用，小部件可以添加多次但是只在第一次添加的时候调用；
+<code>onUpdate</code>：小部件被添加时或者每次小部件更新时都会调用一次该方法，每个周期小部件都会自动更新一次；
+<code>onDeleted</code>：每删除一次小部件就调用一次；
+<code>onDisabled</code>：当<strong>最后一个</strong>该类型的小部件被删除时调用该方法；
+<code>onReceive</code>：这是广播内置的方法，用于分发具体的事件给其他方法，所以该方法一般要调用<code>super.onReceive(context, intent);</code> 如果自定义了其他action的广播，就可以在调用了父类方法之后进行判断，如上面代码所示。
+(6)<code>PendingIntent</code>表示一种处于Pending状态的Intent，pending表示的是即将发生的意思，它是在将来的某个不确定的时刻放生，而Intent是立刻发生。
+(7)PendingIntent支持三种待定意图：启动Activity(getActivity)，启动Service(getService)，发送广播(getBroadcast)。
+<code>PendingIntent.getActivity(Context context, in requestCode, Intent intent, int flags)</code>
+获得一个PendingIntent，当待定意图发生时，效果相当于Context.startActivity(intent)。
+第二个参数<code>requestCode</code>是PendingIntent发送方的请求码，多数情况下设为0即可，另外requestCode会影响到flags的效果。
+<strong>PendingIntent的匹配规则：如果两个PendingIntent内部的Intent相同，并且requestCode也相同，那么这两个PendingIntent就是相同的。</strong>
+<strong>Intent的匹配规则：如果两个Intent的ComponentName和intent-filter都相同，那么这两个Intent就是相同的，Extras不参与Intent的匹配过程。</strong>
+第四个参数flags常见的类型有：<code>FLAG_ONE_SHOT</code>、<code>FLAG_NO_CREATE</code>、<code>FLAG_CANCEL_CURRENT</code>、<code>FLAG_UPDATE_CURRENT</code>。
+<code>FLAG_ONE_SHOT</code>：当前描述的PendingIntent只能被调用一次，然后它就会被自动cancel。如果后续还有相同的PendingIntent，那么它们的send方法就会调用失败。对于通知栏消息来说，如果采用这个flag，那么同类的通知只能使用一次，后续的通知单击后将无法打开。
+<code>FLAG_NO_CREATE</code>：当前描述的PendingIntent不会主动创建，如果当前PendingIntent之前不存在，那么getActivity、getService和getBroadcast方法会直接返回null，即获取PendingIntent失败。这个标志位使用很少。
+<code>FLAG_CANCEL_CURRENT</code>：当前描述的PendingIntent如果已经存在，那么它们都会被cancel，然后系统会创建一个新的PendingIntent。对于通知栏消息来说，那些被cancel的通知单击后将无法打开。
+<code>FLAG_UPDATE_CURRENT</code>：当前描述的PendingIntent如果已经存在，那么它们都会被更新，即它们的Intent中的Extras会被替换成最新的。</p>
+
+<p>(8)分析<code>NotificationManager.nofify(id, notification)</code> [未测试，看着有点晕]
+1.如果参数id是常量，那么多次调用notify只能弹出一个通知，后续的通知会把前面的通知完全替代掉；
+2.如果参数id每次都不同，那么当PendingIntent不匹配的时候，不管采用何种标志位，这些通知之间不会相互干扰；
+3.如果参数id每次都不同，且PendingIntent匹配的时候，那就要看标志位：
+如果标志位是FLAG_ONE_SHOT，那么后续的通知中的PendingIntent会和第一条通知保持完全一致，包括其中的Extras，单击任何一条通知后，剩下的通知均无法再打开，当所有的通知都被清除后，会再次重复这个过程；
+如果标志位是FLAG_CANCEL_CURRENT，那么只有最新的通知可以打开，之前弹出的所有通知都无法打开；
+如果标志位是FLAG_UPDATE_CURRENT，那么之前弹出的通知中的PendingIntent会被更新，最终它们和最新的一条通知保持完全一致，包括其中的Extras，并且这些通知都是可以打开的。</p>
+
+<h4 id="5-2-remoteviews的内部机制">5.2 RemoteViews的内部机制</h4>
+
+<p>(1)RemoteViews的构造方法 <code>public RemoteViews(String packageName, int layoutId)</code>，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。
+(2)RemoteViews只支持部分布局和View组件，下面列举的组件的子类是不支持的
+布局：<code>FrameLayout、LinearLayout、RelativeLayout、GridLayout</code>
+组件：<code>Button、ImageButton、ImageView、TextView、ListView、GridView、ViewStub</code>等
+(3)RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。
+例如方法<code>setInt(int viewId, String methodName, int value)</code>就是反射调用view对象的名称为methodName的方法，传入参数value，同样的还有<code>setBoolean</code>、<code>setLong</code>等。
+方法<code>setOnClickPendingIntent(int viewId, PendingIntent pi)</code>用来为view添加单击事件，事件类型只能为PendingIntent。
+(4)通知和小部件分别由<code>NotificationManager</code>和<code>AppWidgetManager</code>管理，而它们通过Binder分别和SystemServer进程中的<code>NotificationManagerService</code>和<code>AppWidgetManagerService</code>进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。
+(5)RemoteViews实现了<code>Parcelable</code>接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。
+(6)系统将view操作封装成<code>Action</code>对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的<code>apply</code>方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。
+这样做的好处是不需要定义大量的Binder接口，其次批量执行RemoteViews中的更新操作提高了程序性能。
+(7)RemoteViews的<code>apply</code>和<code>reapply</code>方法的区别：<code>apply</code>方法会加载布局并更新界面，而<code>reapply</code>方法则只会更新界面。
+(8)<code>setOnClickPendingIntent</code>、<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>的区别
+<code>setOnClickPendingIntent</code>用于给普通的view添加点击事件，但是不能给集合(ListView和StackView)中的view设置点击事件，因为开销太大了。如果需要给ListView和StackView中的item添加点击事件，需要结合<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>一起使用。[并没有尝试(⊙o⊙)]</p>
+
+<h4 id="5-3-remoteviews的意义">5.3 RemoteViews的意义</h4>
+
+<p>RemoteViews的最大的意义是实现了跨进程的UI更新，这节作者实现了一个模拟通知栏效果的应用来演示跨进程的UI更新，<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_5/src/com/ryg/chapter_5/MainActivity.java">源码传送门</a>。</p>
+
+<p>OK，本章结束，谢谢阅读。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Art%20of%20Android%20Development%20Reading%20Notes%205&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-5%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-5%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-5%2f&amp;description=Art%20of%20Android%20Development%20Reading%20Notes%205"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2015%2f12%2fart-of-android-development-reading-notes-5%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

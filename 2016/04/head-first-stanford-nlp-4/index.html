@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    
+
+
+    
+        <meta name="twitter:card" content="summary"/>
+    
+
+
+
+<meta name="twitter:title" content="Head First Stanford NLP (4)"/>
+<meta name="twitter:description" content="(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。
+"/>
+
+
+
+  	<meta property="og:title" content=" Head First Stanford NLP (4) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/2016/04/head-first-stanford-nlp-4/" />
+
+    
+  	<meta property="og:type" content="article" />
+
+    <meta property="og:article:published_time" content="2016-04-01T00:00:00Z" />
+
+    
+    
+
+    <title>
+       Head First Stanford NLP (4) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/2016/04/head-first-stanford-nlp-4/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+        
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+    
+    
+    <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+
+
+<main class="content" role="main">
+
+
+
+
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Head First Stanford NLP (4)</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-04-01T00:00:00Z">
+            Apr 1, 2016
+          </time>
+        
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。</p>
+
+<p>前面我们介绍过Stanford CoreNLP的server的本地搭建，但是在使用它对中文句子进行操作的时候一直显示不出效果，所以有必要通过源码研究下StanfordCoreNLPServer的具体实现，这样就可以知道如何对它进行配置。</p>
+
+<h4 id="1-导入corenlp项目到eclipse中">1. 导入CoreNLP项目到Eclipse中</h4>
+
+<p>Stanford CoreNLP的Github地址：<a href="https://github.com/stanfordnlp/CoreNLP">https://github.com/stanfordnlp/CoreNLP</a>
+从github上的源码和从<a href="http://stanfordnlp.github.io/CoreNLP/">Stanford CoreNLP</a>上下载的3.6.0版本的zip文件解压之后的结果有很大差异，前者根目录下有<code>build.gradle</code>（Gradle）和<code>build.xml</code>（Ant）可供使用的build文件，但是后者根目录下是<code>build.xml</code>（Ant）和<code>pom.xml</code>文件（Maven）。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/corenlp_download.png" alt="img" /></p>
+
+<p>经过我的尝试，我发现使用Eclipse通过打开Ant的<code>build.xml</code>文件导入CoreNLP项目是最方便的，当然如果你熟悉Gradle或者Maven的话也可以使用其他的方式，貌似不太容易成功。用Eclipse导入CoreNLP的操作方式如下图所示：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/corenlp_project.png" alt="img" /></p>
+
+<p>导入完成之后找到<code>edu.stanford.nlp.pipeline.StanfordCoreNLPServer</code>点击右键运行即可将server跑起来了，默认是9000端口。</p>
+
+<h4 id="2-对corenlp进行中文支持的配置">2. 对CoreNLP进行中文支持的配置</h4>
+
+<p>通过阅读<code>StanfordCoreNLPServer</code>可以发现，它除了支持使用<code>-port</code>来配置启动的端口外，还支持使用<code>-props</code>来配置默认的属性文件。</p>
+
+<p>在<code>edu.stanford.nlp.pipeline</code>目录下有一个对中文支持的配置文件<code>StanfordCoreNLP-chinese.properties</code>，内容如下，不过貌似当前最新版本的CoreNLP并没有<code>segment</code>这个annotator了，所以和它相关的配置并没有用，可以将其注释掉，<code>coref</code>相关的也可以注释掉如果不需要的话。</p>
+
+<pre><code># Pipeline options - lemma is no-op for Chinese but currently needed because coref demands it (bad old requirements system)
+annotators = segment, ssplit, pos, lemma, ner, parse, mention, coref
+
+# segment
+customAnnotatorClass.segment = edu.stanford.nlp.pipeline.ChineseSegmenterAnnotator
+
+segment.model = edu/stanford/nlp/models/segmenter/chinese/ctb.gz
+segment.sighanCorporaDict = edu/stanford/nlp/models/segmenter/chinese
+segment.serDictionary = edu/stanford/nlp/models/segmenter/chinese/dict-chris6.ser.gz
+segment.sighanPostProcessing = true
+
+# sentence split
+ssplit.boundaryTokenRegex = [.]|[!?]+|[ã]|[ï¼ï¼]+
+
+# pos
+pos.model = edu/stanford/nlp/models/pos-tagger/chinese-distsim/chinese-distsim.tagger
+
+# ner
+ner.model = edu/stanford/nlp/models/ner/chinese.misc.distsim.crf.ser.gz
+ner.applyNumericClassifiers = false
+ner.useSUTime = false
+
+# parse
+parse.model = edu/stanford/nlp/models/lexparser/chineseFactored.ser.gz
+
+# coref
+coref.sieves = ChineseHeadMatch, ExactStringMatch, PreciseConstructs, StrictHeadMatch1, StrictHeadMatch2, StrictHeadMatch3, StrictHeadMatch4, PronounMatch
+coref.input.type = raw
+coref.postprocessing = true
+coref.calculateFeatureImportance = false
+coref.useConstituencyTree = true
+coref.useSemantics = false
+coref.md.type = RULE
+coref.mode = hybrid
+coref.path.word2vec =
+coref.language = zh
+coref.print.md.log = false
+coref.defaultPronounAgreement = true
+coref.zh.dict = edu/stanford/nlp/models/dcoref/zh-attributes.txt.gz
+</code></pre>
+
+<p>很显然，如果希望Server支持中文的话就需要指定这些配置才行，但是中文的model文件自然是不能少的，不然会找不到相应的训练模型文件。从<a href="http://stanfordnlp.github.io/CoreNLP/">Stanford CoreNLP</a>首页上下载chinese-model文件，然后将其添加到项目的build path中。最后在运行参数配置中输入下面的配置，同时将VM参数设置下，然后点击Run启动服务器。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/corenlp_run.png" alt="img" /></p>
+
+<p>(3)从源码角度解决问题
+前面的操作看起来很成功，控制台输出了中文配置文件中的配置，也看到端口变成我们希望的8000，但是输入中文句子之后还是界面报错，为什么？
+其实，如果你仔细debug下代码会发现，我们配置的中文配置文件的确是读取了，但是并没有最终传给StanfordCoreNLP的构造函数。
+从源码中可以看出<code>StanfordCoreNLP</code>的<code>properties</code>来自<code>CoreNLPHandler</code>的<code>getProperties</code>方法，而<code>getProperties</code>方法是以<code>defaultProps</code>为基础根据请求的参数构建的新的properties，并没有接收从控制台传入的配置文件中的配置，那怎么让它接收那些配置呢？</p>
+
+<p>解决方法很多很多，这里我是简单地将配置文件中的配置加入到<code>defaultProps</code>来实现，修改<code>StanfordCoreNLPServer</code>的构造函数，添加一个参数<code>Properties props</code>，并将props都加入到defaultProps中，最后修改main方法中的构造函数就行了。</p>
+
+<pre><code>#1.修改StanfordCoreNLPServer的构造函数
+public StanfordCoreNLPServer(int port, int timeout, boolean strict, Properties props)
+
+#2.在构造函数中添加一行代码
+defaultProps = PropertiesUtils.asProperties(
+        &quot;annotators&quot;, &quot;tokenize, ssplit, pos, lemma, ner, depparse, coref, natlog, openie&quot;,
+        &quot;coref.md.type&quot;, &quot;dep&quot;,
+        &quot;inputFormat&quot;, &quot;text&quot;,
+        &quot;outputFormat&quot;, &quot;json&quot;,
+        &quot;prettyPrint&quot;, &quot;false&quot;);
+
+defaultProps.putAll(props); //添加这行代码，将props都加入到defaultProps中
+
+#3.在StanfordCoreNLPServer的Main方法中修改一行代码
+StanfordCoreNLPServer server = new StanfordCoreNLPServer(port, timeout, strict, props); //添加参数props
+</code></pre>
+
+<p>如果需要做依存结构句法分析的话，记得在中文配置文件中加上，否则加载的是英文的model文件，显示结果有误。</p>
+
+<pre><code># depparse
+depparse.model = edu/stanford/nlp/models/parser/nndep/CTB_CoNLL_params.txt.gz
+</code></pre>
+
+<p>重新运行StanfordCoreNLPServer即可看到下面的效果了，嘿嘿
+<img src="https://hujiaweibujidao.github.io/images/corenlp_chinese.png" alt="img" /></p>
+
+<p>如果不清楚的话，可以看我修改的代码的<a href="https://github.com/hujiaweibujidao/CoreNLP/commit/2182a24ad6512176ddcc61c4429cfd989f232953">提交记录</a>。</p>
+
+<p>还记得上篇提到的短语结构树的可视化工具Stanford Parser，它是内置于Stanford CoreNLP项目的，所以我们同样可以直接在项目里面右键运行，而且可以修改其中的配置，使得默认加载中文的parser，这样就不用每次选择parser了，对应的类是<code>edu.stanford.nlp.parser.ui.Parser</code>，感兴趣的可以尝试下。</p>
+
+<p>OK，经过上面的几篇文章的折腾差不多对Stanford NLP有个了解了，剩下的就是根据自己的需求开发相应的NLP工具了。</p>
+
+<p>最后的实践篇等我毕设写出来了再说，55555，从贵系毕业真是要跪了。。。</p>
+
+<p>其他资源：</p>
+
+<p><a href="https://blog.sectong.com/blog/corenlp_segment.html">使用CoreNLP进行中文分词的实践示例</a></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+  
+  <p>Android Developer</p>
+  
+  <div class="author-meta">
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+
+    
+<section class="share">
+  <h4>Share this post</h4>
+  <a class="icon-twitter" style="font-size: 1.4em" href="https://twitter.com/share?text=Head%20First%20Stanford%20NLP%20%284%29&nbsp;-&nbsp;Hujiawei%20Bujidao&amp;url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f04%2fhead-first-stanford-nlp-4%2f"
+      onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+      <span class="hidden">Twitter</span>
+  </a>
+  <a class="icon-facebook" style="font-size: 1.4em" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f04%2fhead-first-stanford-nlp-4%2f"
+      onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+      <span class="hidden">Facebook</span>
+  </a>
+  <a class="icon-pinterest" style="font-size: 1.4em" href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f04%2fhead-first-stanford-nlp-4%2f&amp;description=Head%20First%20Stanford%20NLP%20%284%29"
+      onclick="window.open(this.href, 'pinterest-share','width=580,height=296');return false;">
+      <span class="hidden">Pinterest</span>
+  </a>
+  <a class="icon-google-plus" style="font-size: 1.4em" href="https://plus.google.com/share?url=https%3a%2f%2fhujiaweibujidao.github.io%2f2016%2f04%2fhead-first-stanford-nlp-4%2f"
+     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+      <span class="hidden">Google+</span>
+  </a>
+</section>
+
+
+
+    
+
+
+
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao</a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a class="icon-hugo" href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+
