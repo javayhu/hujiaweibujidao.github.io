@@ -1,0 +1,14 @@
+
+/*back to top*/
+#gotop {
+  display: block;
+  width: 36px;
+  height: 36px;
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 2em;
+  background-color: #fefefe;/* #009688*/
+}

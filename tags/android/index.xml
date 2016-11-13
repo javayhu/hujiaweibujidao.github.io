@@ -55,14 +55,14 @@ android studio的源码涉及到aosp中的sdk.git，ndk.git，external/qemu.git�
 &lt;p&gt;3.1 使用ant
 最简单的编译运行方式是在tools/idea目录下执行&lt;code&gt;ant&lt;/code&gt;，最终会在tools/idea/out/中生成可运行的Android Studio应用程序&lt;/p&gt;
 
-&lt;p&gt;3.2 使用Intellij (推荐)
-tools/idea目录下的README.md文档说明了如何编译Android Studio源码
-(1)下载Intellij Community版本并安装
-(2)使用IDEA打开项目的tools/idea目录
-(3)在Project Structure的SDKs中新建名为&lt;code&gt;IDEA jdk&lt;/code&gt;的jdk，路径设置为jdk 6的根目录
-如果是在Linux/Mac上运行的话，还需要将&lt;JDK_HOME&gt;/lib/tools.jar添加到&lt;code&gt;IDEA jdk&lt;/code&gt;中
-(4)在Project Structure的SDKs中新建名为&lt;code&gt;1.8&lt;/code&gt;的jdk，路径设置为jdk 8的根目录
-(5)点击Build下的&lt;code&gt;Make Project&lt;/code&gt;来编译项目源码
+&lt;p&gt;3.2 使用Intellij (推荐)&lt;br /&gt;
+tools/idea目录下的README.md文档说明了如何编译Android Studio源码&lt;br /&gt;
+(1)下载Intellij Community版本并安装&lt;br /&gt;
+(2)使用IDEA打开项目的tools/idea目录&lt;br /&gt;
+(3)在Project Structure的SDKs中新建名为&lt;code&gt;IDEA jdk&lt;/code&gt;的jdk，路径设置为jdk 6的根目录&lt;br /&gt;
+如果是在Linux/Mac上运行的话，还需要将&lt;JDK_HOME&gt;/lib/tools.jar添加到&lt;code&gt;IDEA jdk&lt;/code&gt;中&lt;br /&gt;
+(4)在Project Structure的SDKs中新建名为&lt;code&gt;1.8&lt;/code&gt;的jdk，路径设置为jdk 8的根目录&lt;br /&gt;
+(5)点击Build下的&lt;code&gt;Make Project&lt;/code&gt;来编译项目源码&lt;br /&gt;
 (6)选择&lt;code&gt;IDEA&lt;/code&gt;这个运行配置来运行或者调试代码&lt;/p&gt;
 
 &lt;p&gt;运行起来就可以看到AS第一次安装时选择settings的界面，然后就进入到启动界面了&lt;/p&gt;
@@ -93,8 +93,8 @@ To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or 
 
 &lt;h3 id=&#34;4-其他参考资料&#34;&gt;4.其他参考资料&lt;/h3&gt;
 
-&lt;p&gt;(1) &lt;a href=&#34;http://tools.android.com/build/studio&#34;&gt;Build Android Studio&lt;/a&gt;
-(2) hierarchyviewer工具的学习，从使用到源码实现
+&lt;p&gt;(1) &lt;a href=&#34;http://tools.android.com/build/studio&#34;&gt;Build Android Studio&lt;/a&gt;&lt;br /&gt;
+(2) hierarchyviewer工具的学习，从使用到源码实现&lt;br /&gt;
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&lt;/a&gt;
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&lt;/a&gt;
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&lt;/a&gt;
