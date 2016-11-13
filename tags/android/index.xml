@@ -7,18 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Fri, 11 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 09 Nov 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>PorterDuffMode in Action</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</link>
-      <pubDate>Fri, 11 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</guid>
-      <description>&lt;p&gt;本文介绍Android图像处理中避不开的PorterDuffMode。&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>Build Android Studio Source Code</title>
@@ -3915,6 +3905,46 @@ dependencies {
 &lt;p&gt;401 Unauthorized&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&#34;&gt;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Art of Android Development Reading Notes</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</link>
+      <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;啥也不说了，&lt;a href=&#34;http://weibo.com/uc83018062&#34;&gt;@主席&lt;/a&gt;的《Android开发艺术探索》真是业界良心之作，不得不看！感谢主席，膜拜主席！主席主席，我要跟你生猴子！(&amp;gt;^ω^&amp;lt;)&lt;/p&gt;
+
+&lt;p&gt;读书笔记中若有任何问题请留言告知，谢谢关注，谢谢阅读。&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/29/Art-of-Android-Development-Reading-Notes-1/&#34;&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/05/Art-of-Android-Development-Reading-Notes-2/&#34;&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;3.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-3/&#34;&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;4.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-4/&#34;&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;5.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/01/Art-of-Android-Development-Reading-Notes-5/&#34;&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;6.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-6/&#34;&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;7.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-7/&#34;&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;8.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-8/&#34;&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;9.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/05/Art-of-Android-Development-Reading-Notes-9/&#34;&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;10.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-10/&#34;&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;11.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/03/Art-of-Android-Development-Reading-Notes-11/&#34;&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;12.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/30/Art-of-Android-Development-Reading-Notes-12/&#34;&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;13.&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/12/04/Art-of-Android-Development-Reading-Notes-13/&#34;&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

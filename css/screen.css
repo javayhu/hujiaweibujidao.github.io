@@ -193,8 +193,10 @@ body {
     max-height: 100%;
     font-family: "Merriweather", serif;
     letter-spacing: 0.01rem;
-    font-size: 1.8rem;
-    line-height: 1.75em;
+    /*font-size: 1.8rem;*/
+    /*line-height: 1.75em;*/
+    font-size: 1.6rem;
+    line-height: 1.5em;
     color: #3A4145;
     -webkit-font-feature-settings: 'kern' 1;
     -moz-font-feature-settings: 'kern' 1;
@@ -927,7 +929,8 @@ body.nav-opened .menu-button .word {
 .post {
     position: relative;
     width: 80%;
-    max-width: 710px;
+    /*max-width: 710px;*/
+    max-width: 900px;
     margin: 4rem auto;
     padding-bottom: 4rem;
     border-bottom: #EBF2F6 1px solid;
@@ -1099,7 +1102,8 @@ body:not(.post-template) .post-title {
    text column to break out. */
 .post-content img {
     display: block;
-    max-width: 126%;
+    /*max-width: 126%;*/
+    max-width: 100%;
     height: auto;
     padding: 0.6em 0;
     /* Centers an image by (1) pushing its left edge to the
@@ -1137,7 +1141,8 @@ body:not(.post-template) .post-title {
     padding: 0;
     margin: 0;
     list-style: none;
-    font-size: 1.4rem;
+    /*font-size: 1.4rem;*/
+    font-size: 1.5rem;
     line-height: 1;
     font-style: italic;
     color: #9EABB3;
@@ -1193,7 +1198,8 @@ body:not(.post-template) .post-title {
    ========================================================================== */
 
 .post-head.main-header {
-    height: 65vh;
+    /*height: 65vh;*/
+    height: 80vh;
     min-height: 180px;
 }
 
@@ -1434,7 +1440,7 @@ body:not(.post-template) .post-title {
 
 .site-footer {
     position: relative;
-    margin: 8rem 0 0 0;
+    margin: 8rem 0 1rem 0;
     padding: 0.5rem 15px;
     /*border-top: #EBF2F6 1px solid;*/
     font-family: "Open Sans", sans-serif;
@@ -1921,6 +1927,31 @@ body:not(.post-template) .post-title {
     /*margin-top: 10rem;*/
 }
 
+.readmore-prev {
+    width: 50%;
+    text-align: left;
+}
+
+.readmore-next {
+    width: 50%;
+    text-align: right;
+}
+
+.readmore-meta {
+    padding: 0;
+    margin: 0;
+    font-size: 1.4rem;
+    color: #9EABB3;
+}
+
+.readmore-meta a {
+    color: #9EABB3;
+    text-decoration: none;
+}
+.readmore-meta a:hover {
+    color: #111;
+}
+
 .read-next-story {
     display: -webkit-box;
     display: -webkit-flex;
@@ -2051,6 +2082,16 @@ body:not(.post-template) .post-title {
     border-top: rgba(0,0,100,0.06) 1px solid;
     border-left: none;
   }
+
+  .readmore-prev {
+      width: 50%;
+      text-align: left;
+  }
+
+  .readmore-next {
+      width: 50%;
+      text-align: right;
+  }
 }
 
 
@@ -2062,6 +2103,16 @@ body:not(.post-template) .post-title {
 
   .read-next .post {
     width: 100%;
+  }
+
+  .readmore-prev {
+      width: 100%;
+      text-align: left;
+  }
+
+  .readmore-next {
+      width: 100%;
+      text-align: right;
   }
 }
 

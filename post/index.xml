@@ -7,28 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Sun, 13 Nov 2016 00:51:06 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 09 Nov 2016 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>demo post</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/11/13/demo-post/</link>
-      <pubDate>Sun, 13 Nov 2016 00:51:06 +0800</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/11/13/demo-post/</guid>
-      <description>&lt;p&gt;This is a demo post.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>PorterDuffMode in Action</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</link>
-      <pubDate>Fri, 11 Nov 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</guid>
-      <description>&lt;p&gt;本文介绍Android图像处理中避不开的PorterDuffMode。&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>Build Android Studio Source Code</title>
@@ -3687,6 +3667,104 @@ public Object getValue(float fraction) {
 &lt;p&gt;零碎知识点：&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gank Alfred Workflow</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
+      <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
+      <description>
+
+&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;0-使用方式&#34;&gt;0.使用方式&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases&#34;&gt;下载最新版本的workflow文件双击使用Alfred打开即可&lt;/a&gt;，workflow也已提交到&lt;a href=&#34;http://www.packal.org/workflow/gank-alfred-workflow&#34;&gt;Packal&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用前提是Alfred Workflow开启了Powerpack功能。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
+
+&lt;h4 id=&#34;2-改进方案&#34;&gt;2.改进方案&lt;/h4&gt;
+
+&lt;p&gt;两个可供改进的点：&lt;/p&gt;
+
+&lt;p&gt;（1）搜索结果应该直接显示与搜索关键词相关的干货列表&lt;/p&gt;
+
+&lt;p&gt;（2）搜索过程应该考虑干货目标网页的内容&lt;/p&gt;
+
+&lt;h4 id=&#34;3-实现原理&#34;&gt;3.实现原理&lt;/h4&gt;
+
+&lt;p&gt;只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：&lt;/p&gt;
+
+&lt;h5 id=&#34;1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io&#34;&gt;（1）&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;这个项目主要是利用&lt;a href=&#34;http://gank.io/api&#34;&gt;Gank的API&lt;/a&gt;来获取干货列表，除此之外，该项目还利用&lt;a href=&#34;https://github.com/seomoz/dragnet&#34;&gt;dragnet&lt;/a&gt;开源工具提取每一个干货的目标网页内容，最终利用&lt;a href=&#34;http://lucene.apache.org/&#34;&gt;Lucene&lt;/a&gt;和&lt;a href=&#34;http://sparkjava.com/&#34;&gt;Spark&lt;/a&gt;等开源工具提供一个高效的干货搜索接口，并将其部署在&lt;a href=&#34;https://www.heroku.com/&#34;&gt;Heroku&lt;/a&gt;平台。&lt;/strong&gt;   &lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;网站预览&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
+
+&lt;h5 id=&#34;2-gank-alfred-workflow&#34;&gt;（2）Gank Alfred Workflow&lt;/h5&gt;
+
+&lt;p&gt;有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库&lt;a href=&#34;https://github.com/deanishe/alfred-workflow/&#34;&gt;deanishe/alfred-workflow&lt;/a&gt;，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的&lt;a href=&#34;http://www.deanishe.net/alfred-workflow/tutorial.html&#34;&gt;入门教程&lt;/a&gt;方便开发者迅速上手。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。&lt;/strong&gt; 嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转&lt;a href=&#34;http://gank.io/api&#34;&gt;gank.io&lt;/a&gt;提供的API都行。&lt;/p&gt;
+
+&lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
+
+&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gank for Mac</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
+      <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
+      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;
+
+&lt;p&gt;临近毕业，花了几天时间看了下Swift的语法，主要看的是资料是 &lt;strong&gt;&lt;a href=&#34;https://github.com/numbbbbb/the-swift-programming-language-in-chinese&#34;&gt;The Swift Programming Language&lt;/a&gt;&lt;/strong&gt;，在此非常感谢国内的翻译团队们的辛苦翻译，翻译质量相当不错。😘&lt;/p&gt;
+
+&lt;p&gt;看了一遍之后，感觉Swift的确是吸收了很多编程语言的诸多优点，从这个&lt;a href=&#34;https://www.zhihu.com/question/24007154&#34;&gt;知乎问答&lt;/a&gt;可见一斑，如此强大的新型编程语言还是非常值得一学的，加之苹果将其开源出来，势必吸引更多的开发者加入到开源的队伍中使其变得更加优秀。&lt;/p&gt;
+
+&lt;p&gt;看完The Swift Programming Language之后，我又把《从零开始学Swift》这门书前面几十个章节的源码看了一遍，没有书，只能猜测作者是想表达什么语法知识。（后来才想起来可以去图书馆找这本书，而且图书馆还真有这本书😂）&lt;/p&gt;
+
+&lt;p&gt;后来看到&lt;a href=&#34;https://github.com/judi0713&#34;&gt;这位开发者&lt;/a&gt;用Swift写的&lt;a href=&#34;http://walkginkgo.com/ios/2016/05/04/Toutiao.html?hmsr=toutiao.io&amp;amp;utm_medium=toutiao.io&amp;amp;utm_source=toutiao.io&#34;&gt;开发者头条的Mac版客户端&lt;/a&gt;感觉很有意思，想试着也写一个，想了想，正好干货集中营缺个Mac版客户端嘛，于是我就开始看&lt;a href=&#34;https://github.com/judi0713/TouTiao&#34;&gt;Toutiao for Mac的源码&lt;/a&gt;和&lt;a href=&#34;https://github.com/producthunt/producthunt-osx&#34;&gt;Product Hunt for Mac的源码&lt;/a&gt;。Toutiao for Mac是参考&lt;a href=&#34;https://github.com/kimar/Tailor&#34;&gt;Tailor的源码&lt;/a&gt;来写的，比较简单。Product Hunt for Mac也是使用Swift开发的，界面和代码都写得非常好，并且使用了&lt;a href=&#34;https://github.com/ReSwift/ReSwift&#34;&gt;ReSwift&lt;/a&gt;框架。但是我计划开发的这个应用太简单，用这个框架完全是小题大做了。借助这几个优秀的项目源码，我很快完成了Gank for Mac这个项目，项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank&#34;&gt;Gank for Mac&lt;/a&gt;，界面简洁清晰，功能简单完善，欢迎下载使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gank-screenshot.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;最后，期待使用Swift开发Android的那一天，哈哈哈😄&lt;/p&gt;
 </description>
     </item>
     
