@@ -131,6 +131,10 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 /* Each icon is created by inserting the correct character into the
    content of the :before pseudo element. Like a boss. */
+.icon-user:before {
+   content: "\f304";
+}
+
 .icon-github:before {
     content: "\f200";
 }

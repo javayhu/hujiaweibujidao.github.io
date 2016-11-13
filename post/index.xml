@@ -158,10 +158,10 @@ LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项�
 
 &lt;p&gt;&lt;strong&gt;注意：该项目的release 1.0.0版本的lintrules依赖的是24.5.0版本的lint-api，演示的LogDetector来自下面参考资料中的美团的LogDetector。但是目前该项目最新的release 1.0.1版本依赖的是25.2.0版本的lint-api，演示的LogDetector参考自lint工具自带的LogDetector。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;其他参考资料&lt;/strong&gt;
-&lt;a href=&#34;http://tech.meituan.com/android_custom_lint.html&#34;&gt;美团-Android自定义Lint实践&lt;/a&gt;
-&lt;a href=&#34;https://segmentfault.com/a/1190000004497435&#34;&gt;segmentfault-自定义Lint规则简介&lt;/a&gt;
-&lt;a href=&#34;http://www.jianshu.com/p/7b3519dc1e5f&#34;&gt;Android Studio配合Lint检测缺失Permission&lt;/a&gt;
+&lt;p&gt;&lt;strong&gt;其他参考资料&lt;/strong&gt;&lt;br /&gt;
+&lt;a href=&#34;http://tech.meituan.com/android_custom_lint.html&#34;&gt;美团-Android自定义Lint实践&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;https://segmentfault.com/a/1190000004497435&#34;&gt;segmentfault-自定义Lint规则简介&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&#34;http://www.jianshu.com/p/7b3519dc1e5f&#34;&gt;Android Studio配合Lint检测缺失Permission&lt;/a&gt;&lt;br /&gt;
 &lt;a href=&#34;http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html&#34;&gt;Gradle Lint support&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;OK，感兴趣的话欢迎阅读&lt;a href=&#34;https://github.com/hujiaweibujidao/customlint&#34;&gt;customlint&lt;/a&gt;项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。&lt;/p&gt;
