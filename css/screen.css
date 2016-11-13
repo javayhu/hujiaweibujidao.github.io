@@ -1220,8 +1220,9 @@ body:not(.post-template) .post-title {
     background: transparent;
 }
 
+/* padding: 0 15px 5rem 15px; */
 .author-profile {
-    padding: 0 15px 5rem 15px;
+    padding: 0 0px 2rem 0px;
     border-bottom: #EBF2F6 1px solid;
     text-align: center;
 }
@@ -1296,7 +1297,7 @@ body:not(.post-template) .post-title {
 }
 
 .author-meta {
-    margin: 1.6rem 0;
+    /*margin: 1.6rem 0;*/
 }
 /* Location, website, and link */
 .author-profile .author-meta {
