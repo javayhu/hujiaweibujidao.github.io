@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -165,11 +183,10 @@
 
 <p>在Samsung呆了段时间，还是学了不少东西的，主要做的任务是做<a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>开发，也涉及到了<a href="http://opencv.org/">OpenCV</a>的内容，正好自己最近在开发XFace，这些知识都用得上，所以，想写几篇文章总结下这些知识。该系列内容均为原创，摘录的部分我都会引用提示，尊重版权嘛，嘿嘿，我保证这里有不少内容是搜索不到的独家秘笈哟！很多都是我的开发经验，嘿嘿。</p>
 
-<p>该系列主要包括三大部分，分为下面三节来介绍，本节主要介绍第一部分</p>
-
-<p>1.Android NDK 和 OpenCV 整合开发的环境搭建以及人脸检测项目的运行测试
-2.<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-2/">Android NDK 的核心内容和开发总结</a>
-3.<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-3/">OpenCV 在 Android NDK 开发中的应用</a></p>
+<p>该系列主要包括三大部分，分为下面三节来介绍，本节主要介绍第一部分<br />
+1.Android NDK 和 OpenCV 整合开发的环境搭建以及人脸检测项目的运行测试<br />
+2.<a href="https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/">Android NDK 的核心内容和开发总结</a><br />
+3.<a href="https://hujiaweibujidao.github.io/blog/2013/11/20/android-ndk-and-opencv-development-3/">OpenCV 在 Android NDK 开发中的应用</a></p>
 
 <p>[本文假设你是安装配置好了Java和Android SDK开发环境的，如果没有的话，可以看<a href="http://hujiaweiyinger.diandian.com/post/2013-10-30/setup_android_ndk_environment_and_solve_some_problems">我以前在点点博客写的这篇文章</a>，开发工具建议使用<a href="http://developer.android.com/sdk/installing/bundle.html">ADT</a>，它更加方便，包含了Android SDK 和 安装了 ADT Plugin 的 Eclipse，何乐而不为呢?]</p>
 
@@ -273,7 +290,7 @@ OPENCVROOT = /Users/hujiawei/Android/opencv_sdk
 
 <p><img src="https://hujiaweibujidao.github.io/images/eye_detection.png" alt="image" /></p>
 
-<p>OK！本节结束！如果觉得好，请看下节<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-2/">Android NDK 的核心内容和开发总结</a>！</p>
+<p>OK！本节结束！如果觉得好，请看下节<a href="https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/">Android NDK 的核心内容和开发总结</a>！</p>
 
     </section>
 
@@ -303,12 +320,12 @@ OPENCVROOT = /Users/hujiawei/Android/opencv_sdk
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-2/"><h4>Android Ndk and Opencv Development 2</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/"><h4>Make Your Octopress Easy</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/"><h4>Android Ndk and Opencv Development 4</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/"><h4>Android Ndk and Opencv Development 2</h4></a></span>
       
   
 </aside>
@@ -359,6 +376,12 @@ OPENCVROOT = /Users/hujiawei/Android/opencv_sdk
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

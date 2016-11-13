@@ -18,6 +18,8 @@
     
     <meta property="og:article:tag" content="algorithm" />
     
+    <meta property="og:article:tag" content="python" />
+    
     
 
     <meta name="description" content="Happy Coding &amp; Enjoy Living" />
@@ -29,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 
     
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
@@ -80,6 +90,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -154,6 +174,8 @@
          
           <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
          
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
         </section>
         <br/>
     </header>
@@ -194,7 +216,7 @@ because we’ll never find any shortcuts to improve D[v].</p>
 
 <p>[最后这个是路径松弛性质，也就是后面的Bellman-Ford算法的核心]</p>
 
-<p>对于单对节点间最短路径问题，如果每条边的权值都一样(或者说边一样长)的话，使用前面的BFS就可以得到结果了(<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-traversal/">第5节遍历中介绍了</a>)；如果图是有向无环图，那么我们还可以用前面动规中的DAG最短路径算法来求解(<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-dynamic-programming/">第8节动态规划中介绍了</a>)，但是，现实中的图总是有环的，边的权值也总是不同，而且可能有负权值，所以我们还需要其他的算法！</p>
+<p>对于单对节点间最短路径问题，如果每条边的权值都一样(或者说边一样长)的话，使用前面的BFS就可以得到结果了(<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/">第5节遍历中介绍了</a>)；如果图是有向无环图，那么我们还可以用前面动规中的DAG最短路径算法来求解(<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/">第8节动态规划中介绍了</a>)，但是，现实中的图总是有环的，边的权值也总是不同，而且可能有负权值，所以我们还需要其他的算法！</p>
 
 <p>首先我们来实现下<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-induction/">之前学过的松弛技术relaxtion</a>，代码中D保存各个节点到源点的距离值估计(上界值)，P保存节点的最短路径上的前驱节点，W保存边的权值，其中不存在的边的权值为inf。松弛就是说，假设节点 u 和节点 v 事先都有一个最短距离的估计(例如测试代码中的7和13)，如果现在要松弛边(u,v)，也就是对从节点 u 通过边(u,v)到达节点 v，将这条路径得到节点 v 的距离估计值(7+3=10)和原来的节点 v 的距离估计值(13)进行比较，如果前者更小的话，就表示我们可以放弃在这之前确定的从源点到节点 v 的最短路径，改成从源点到节点 u，然后节点 u 再到节点 v，这条路线距离会更短些，这也就是发生了一次松弛！(测试代码中10&lt;13，所以要进行松弛，此时D[v]变成10，而它的前驱节点也变成了 u)</p>
 
@@ -655,6 +677,12 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

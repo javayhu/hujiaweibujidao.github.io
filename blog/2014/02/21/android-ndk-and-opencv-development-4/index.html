@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -171,7 +189,7 @@
 
 <p><strong><em>[注：以下所有下载的sdk都保存在虚拟机的<code>/home/xface/tools</code>目录下，也可以到百度网盘下载，地址是<a href="http://pan.baidu.com/s/1mg2Wdx2">http://pan.baidu.com/s/1mg2Wdx2</a>，不同版本的配置方式可能有些变化，如果不是很清楚版本问题的话，推荐使用虚拟机中使用的版本]</em></strong></p>
 
-<p>{% img /images/tools.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/tools.png" alt="img" /></p>
 
 <p>1.配置Java环境</p>
 
@@ -185,11 +203,11 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 <p>如下图所示，后面环境配置中添加内容也是如此</p>
 
-<p>{% img /images/etcprofile.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/etcprofile.png" alt="img" /></p>
 
 <p>④重启虚拟机，打开终端输入<code>java -version</code>进行测试（重启虚拟机也可以等待下面的Android SDK和Android NDK环境都配置好了之后再重启也行）</p>
 
-<p>{% img /images/javaversion.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/javaversion.png" alt="img" /></p>
 
 <p>2.配置Android SDK环境</p>
 
@@ -209,7 +227,7 @@ sudo apt-get install ia32-libs
 
 <p>⑤重启虚拟机，打开终端输入<code>adb version</code>进行测试</p>
 
-<p>{% img /images/adbversion.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/adbversion.png" alt="img" /></p>
 
 <p>3.配置Android NDK环境</p>
 
@@ -223,7 +241,7 @@ export PATH=${PATH}:${ANDROID_NDK_ROOT}
 
 <p>④重启虚拟机，打开终端输入<code>ndk-build -v</code>进行测试</p>
 
-<p>{% img /images/ndkversion.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/ndkversion.png" alt="img" /></p>
 
 <p>4.配置OpenCV环境</p>
 
@@ -237,11 +255,11 @@ export PATH=${PATH}:${ANDROID_NDK_ROOT}
 
 <p>Android SDK路径的设置</p>
 
-<p>{% img /images/androidsdk.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/androidsdk.png" alt="img" /></p>
 
 <p>Android NDK路径的设置</p>
 
-<p>{% img /images/androidndk.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/androidndk.png" alt="img" /></p>
 
 <p>③打开<code>window-&gt;preferences</code>，找到左侧的<code>C/C++ Build-&gt;Environment</code>添加下面两个环境变量：</p>
 
@@ -249,7 +267,7 @@ export PATH=${PATH}:${ANDROID_NDK_ROOT}
 OPENCVROOT=/home/xface/android/opencv_sdk
 </code></pre>
 
-<p>{% img /images/environment.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/environment.png" alt="img" /></p>
 
 <p>④按如下步骤配置<strong>万能的javah工具</strong>的方法（这里javah工具的用途是根据Java类生成C++头文件）</p>
 
@@ -257,11 +275,11 @@ OPENCVROOT=/home/xface/android/opencv_sdk
 (2)<code>Location</code>设置为<code>/usr/bin/javah</code> <a href="3">如果javah命令不是在这个位置，可以试试<code>${system_path:javah}</code></a><code>Working Directory</code>设置为<code>${project_loc}/bin/classes</code> <a href="4">适用于Android项目开发</a><code>Arguments</code>设置为<code>-jni -verbose -d &quot;${project_loc}${system_property:file.separator}jni&quot; ${java_type_name}</code>
 (5)OK，以后只要选中要进行&rdquo;反编译&rdquo;的Java Class，然后运行这个External Tool就可以了！</p>
 
-<p>{% img /images/javah.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/javah.png" alt="img" /></p>
 
 <p>⑤为了提高编写代码的速度，打开<code>window-&gt;preferences</code>，找到左侧<code>Java-&gt;Editor-&gt;Content Assist</code>，在<code>Auto activation triggers for Java</code>中添加26个英文字母，这样，在编写Java代码时任何一个字母被按下的话都会出现智能代码提示。</p>
 
-<p>{% img /images/codeassist.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/codeassist.png" alt="img" /></p>
 
 <p>⑥为了验证环境没有问题，可以尝试新建一个Android Project并运行于移动设备上，虚拟机中eclipse下的项目xfacetest便是用来测试环境是否配置成功的默认Android应用程序，可以尝试插上手机，选中项目xfacetest点击右键，选择<code>Run As</code> -&gt; <code>Android Application</code>，如果都没问题了，说明开发环境搭建成功了。</p>
 
@@ -271,17 +289,17 @@ OPENCVROOT=/home/xface/android/opencv_sdk
 
 <p>XFace是一个小型的人脸识别程序，主要功能就是注册和识别人脸，界面分为3个，首先是主界面，使用者选择要进行的操作，sign up是注册，输入用户名然后保存头像即可；sign in是登录，其实就是人脸识别的过程。</p>
 
-<p>{% img /images/xface.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/xface.png" alt="img" /></p>
 
 <p>XFace的源码保存在虚拟机中<code>/home/xface/android/xface</code>目录下，包括两个项目，一个是<code>OpenCV Library - 2.4.4</code>，这是XFace所需的OpenCV库项目，另一个是<code>XFace</code>，这个XFace核心的Android应用程序。下面介绍如何将这两个项目导入到Eclipse开发环境中，并在手机上运行。</p>
 
 <p>1.运行Eclipse，选择<code>File-&gt;Import...</code>，在导入窗口中，选择<code>General</code>下面的<code>Existing Projects into Workspace</code>，然后点击<code>Next-&gt;</code>，在之后的窗口中，点击<code>Browser...</code>，选中<code>/home/xface/android/xface/</code>下的<code>OpenCV Library - 2.4.4</code>文件夹，建议勾选<code>Copy projects into workspace</code>（可以防止意外操作导致项目出现问题无法修复时可以删除该项目重新将其导入进来），点击<code>Finish</code>即可，如下图所示：</p>
 
-<p>{% img /images/import.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/import.png" alt="img" /></p>
 
 <p>2.按照步骤1中的导入操作导入<code>/home/xface/android/xface/</code>下的<code>XFace</code>项目，导入之后，如果报出问题，可以尝试以下步骤：选中项目<code>XFace</code>，点击右键，选择<code>Properties</code>，在属性配置窗口中，选择左侧的<code>Android</code>项，查看下面的<code>Library</code>的配置，如果有错误，则选中错误的项，点击<code>Remove</code>；如果内容为空则点击<code>Add...</code>，在弹出的窗口中选中步骤1中添加的<code>OpenCV Library - 2.4.4</code>项目即可，效果如下图所示：</p>
 
-<p>{% img /images/library.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/library.png" alt="img" /></p>
 
 <p>3.至此，开发环境搭建和项目导入部分都完成了，下面可以进行XFace程序了。首先插入设备（手机），如果是在虚拟机中运行，要确保手机是和虚拟机连接的，而不是和主机连接的（可以通过虚拟机右下角状态栏中<code>USB设备按钮</code>或者菜单<code>虚拟机</code>中的<code>USB和Bluetooth</code>进行设置）；然后，选中<code>XFace</code>项目，点击右键，选择<code>Run As -&gt; Android Application</code>，然后选中插入的手机，点击<code>OK</code>即可。有些情况下可能在列表中没有出现设备，可以尝试以下步骤：首先要确保手机开启了USB调试功能(一般是<code>设置</code>-&gt;<code>开发人员选项</code>-&gt;选中<code>USB调试</code>)；其次可以尝试重新插入手机或者重启Eclipse；若还是不行尝试在终端输入<code>adb kill-server</code>和<code>adb devices</code>命令；若还是不行的话尝试重启电脑。实在是不行的话，将编译好的apk文件（保存在项目的<code>bin</code>目录下）拷贝到手机中直接运行。</p>
 
@@ -289,7 +307,7 @@ OPENCVROOT=/home/xface/android/opencv_sdk
 
 <p>1.项目结构和主要文件功能大致介绍</p>
 
-<p>{% img /images/xfacecode.png%}</p>
+<p><img src="https://hujiaweibujidao.github.io/images/xfacecode.png" alt="img" /></p>
 
 <p>2.关键部分介绍</p>
 
@@ -474,7 +492,7 @@ JNIEXPORT jint JNICALL Java_edu_thu_xface_libs_XFaceLibrary_nativeDestoryFacerec
 <p>④<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-developement/">关于android ndk和opencv整合开发以及实例项目运行的教程</a>
 介绍Android NDK和OpenCV整合开发的环境搭建过程和实例项目测试，重点可以参考的是其中的人脸检测和眼镜检测的两个项目，XFace中的人脸检测便来源于此。</p>
 
-<p>⑤<a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-2/">关于android ndk开发中的各种细节和问题的总结</a>
+<p>⑤<a href="https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/">关于android ndk开发中的各种细节和问题的总结</a>
 理解javah工具和Android.mk以及Application.mk文件的配置，如果是在Windows平台搭建环境的话，需要查看这部分关于<code>C/C++ Genernal -&gt; Paths and Symbols</code>的配置</p>
 
 <p>⑥<a href="http://bytefish.de/blog/opencv_facerecognizer_documentation/">关于OpenCV中的人脸识别算法 - OpenCV FaceRecognizer documentation</a>
@@ -508,7 +526,7 @@ JNIEXPORT jint JNICALL Java_edu_thu_xface_libs_XFaceLibrary_nativeDestoryFacerec
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/"><h4>Android Ndk and Opencv Development 1</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2013/11/20/android-ndk-and-opencv-development-3/"><h4>Android Ndk and Opencv Development 3</h4></a></span>
       
   
 
@@ -564,6 +582,12 @@ JNIEXPORT jint JNICALL Java_edu_thu_xface_libs_XFaceLibrary_nativeDestoryFacerec
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

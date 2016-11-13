@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -159,15 +177,13 @@
     </header>
 
     <section class="post-content">
-      
-
-<p>写了几个<code>shell</code>脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。</p>
+      <p>写了几个<code>shell</code>脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。</p>
 
 <p>我特别头疼于类似新建文章<code>new_post[&quot;postname&quot;]</code>这些个命令，那个下划线可能会记成短破折线，时间长了我可能就不记得这个命令了，当然，如果你是ruby开发者那就肯定不会这样啦，我这年龄大了，记忆力不行了，很难记住那么多的命令啦，还有就是我希望只要打开Terminal就可以调用这些命令，而不用每次切换目录，而且每次我新建了一个文章之后，Mou能够直接启动并打开这个新建的文章让我编辑，想想，这个世界是不是美好多了？哈哈哈</p>
 
 <p>操作步骤：</p>
 
-<h4 id="1-新建环境变量-octopress-home-它是你的octopress的根目录-并添加到-path-中">[1]新建环境变量<code>OCTOPRESS_HOME</code>，它是你的octopress的根目录，并添加到<code>PATH</code>中</h4>
+<p><strong>[1]新建环境变量<code>OCTOPRESS_HOME</code>，它是你的octopress的根目录，并添加到<code>PATH</code>中</strong></p>
 
 <p>[下面是我在Mac上的操作，其他系统自行修改]</p>
 
@@ -179,7 +195,7 @@ echo $OCTOPRESS_HOME  #验证是否变量存在
 echo $PATH  #验证path是否设置成功
 </code></pre>
 
-<h4 id="2-编写几个-shell-脚本-放在-octopress-home-目录下-作用分别如下">[2]编写几个<code>shell</code>脚本，放在<code>OCTOPRESS_HOME</code>目录下，作用分别如下：</h4>
+<p><strong>[2]编写几个<code>shell</code>脚本，放在<code>OCTOPRESS_HOME</code>目录下，作用分别如下：</strong></p>
 
 <ul>
 <li>gen：等价于<code>rake generate</code>操作</li>
@@ -294,7 +310,7 @@ echo &quot;$postpath&quot;
 open -a Mou $postpath
 </code></pre>
 
-<h4 id="3-使用-chmod-777-xxx-修改脚本的权限-测试执行下">[3]使用<code>chmod 777 xxx</code>修改脚本的权限，测试执行下</h4>
+<p><strong>[3]使用<code>chmod 777 xxx</code>修改脚本的权限，测试执行下</strong></p>
 
 <pre><code>cd $OCTOPRESS_HOME
 chmod 777 gen  #其他文件类似
@@ -342,7 +358,7 @@ newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件�
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-3/"><h4>Android Ndk and Opencv Development 3</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/"><h4>Android Ndk and Opencv Development 1</h4></a></span>
       
   
 </aside>
@@ -393,6 +409,12 @@ newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件�
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

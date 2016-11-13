@@ -7,54 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Wed, 30 Dec 2015 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 21 Nov 2015 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/tags/life/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Things of Math</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</link>
-      <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
-      <description>
-
-&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》&lt;/p&gt;
-
-&lt;p&gt;因为近期换了博客主题，对Latex的支持较弱，而且以后可能会很少写和数学有关的内容，所以下线了之前数学专题下的所有文章，但竟然有网友评论希望重新上线，我还以为那些东西没人看呢(⊙o⊙)，最近抽空整理成pdf，需要的下载吧&lt;/p&gt;
-
-&lt;h3 id=&#34;1-微积分总结&#34;&gt;1.微积分总结&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/calculus_summary.pdf&#34;&gt;微积分总结&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;2-线性代数那些事&#34;&gt;2.线性代数那些事&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-1-Determinant---Hujiawei-Bujidao.pdf&#34;&gt;行列式&lt;/a&gt;：理解行列式的几何意义&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-2-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;矩阵&lt;/a&gt;：理解矩阵是线性变换，线性变换有哪些，逆矩阵和伴随矩阵以及矩阵的秩的意义&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-3-EigenVectors-and-Eigenvalues---Hujiawei-Bujidao.pdf&#34;&gt;特征向量和特征值&lt;/a&gt;：理解特征值和特征向量对于线性变换的几何意义&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-4-Similarity-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;相似矩阵&lt;/a&gt;：理解相似矩阵是同一个线性变换在不同坐标系下的不同表达&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-5-Orthogonal-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;正交矩阵&lt;/a&gt;：理解正交矩阵对应的正交变换，介绍Givens旋转和Householder反射&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-6-Matrix-Decomposition---Hujiawei-Bujidao.pdf&#34;&gt;矩阵分解&lt;/a&gt;：理解并实现矩阵的各种分解：LU分解，Cholesky分解，QR分解，特征值分解和奇异值分解&lt;/p&gt;
-
-&lt;h3 id=&#34;3-数值算法与应用&#34;&gt;3.数值算法与应用&lt;/h3&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter1.pdf&#34;&gt;第一章 线性方程组求解&lt;/a&gt;
-内容包括：高斯消去法，LU分解，Cholesky分解，矩阵的逆矩阵求解&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter2.pdf&#34;&gt;第二章 非线性方程求解&lt;/a&gt;
-内容包括：二分法，牛顿法，割线法，IQI法，Zeroin算法&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter3.pdf&#34;&gt;第三章 矩阵特征值和奇异值求解&lt;/a&gt;
-内容包括：基本幂法，逆幂法和移位幂法，QR分解，Householder变换，实用QR分解技术，奇异值分解SVD&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter4.pdf&#34;&gt;第四章 曲线拟合和多项式插值&lt;/a&gt;
-内容包括：曲线拟合，拉格朗日插值多项式，牛顿插值多项式，分段线性插值，保形分段三次插值，三次样条插值&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>You are My Sunshine</title>
@@ -176,7 +130,7 @@ public class YouAreMySunshine {
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</guid>
       <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》&lt;/p&gt;
 
-&lt;p&gt;{% img /images/once.png %}&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/once.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;小摩羯长大了，要有满满的正能量！&lt;strong&gt;Take the sinking boat and point it HOME!&lt;/strong&gt;&lt;/p&gt;
 

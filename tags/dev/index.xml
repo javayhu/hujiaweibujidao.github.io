@@ -778,11 +778,9 @@ Not synced (use migrations):
 
 &lt;p&gt;上学期在Mac上搭建好了Hadoop，因为这学期开学重装了系统就没了，以为不会再折腾，结果大数据作业又要整hadoop，于是乎，爱折腾的程序猿又来折腾咯，有过上一次安装的经历，这次简单多了，下面简单的列举主要步骤。&lt;/p&gt;
 
-&lt;p&gt;感谢下面两份教程：&lt;/p&gt;
-
-&lt;p&gt;1.[en]&lt;a href=&#34;http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/&#34;&gt;Running Hadoop on Ubuntu Linux (Single-Node Cluster)&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;2.[cn]&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;感谢下面两份教程：&lt;br /&gt;
+1.[en]&lt;a href=&#34;http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/&#34;&gt;Running Hadoop on Ubuntu Linux (Single-Node Cluster)&lt;/a&gt;&lt;br /&gt;
+2.[cn]&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;1.下载部分&lt;/p&gt;
 
@@ -1755,7 +1753,8 @@ imshow(result);
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;对比结果：
-{% img /images/whole.png 320 210 %} {% img /images/partial.png 320 210 %}&lt;/p&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/whole.png&#34; alt=&#34;img&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/partial.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.基于OSTU算法的自动阈值图像分割&lt;/p&gt;
 
@@ -1763,7 +1762,7 @@ imshow(result);
 Matlab内置的&lt;code&gt;graythresh&lt;/code&gt;使用的便是OSTU算法，使得白色像素和黑色像素的类间方差最大。
 因为上面测试图像的亮度存在明显的水平差异，所以我写了一个将图像沿水平方向分成几部分分别进行OSTU算法，效果明显又比上面两种方式要好些。&lt;/p&gt;
 
-&lt;p&gt;{% img /images/postu.png %}&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/postu.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;function [ result ] = partialostu( image,part,isrgb )
 %PARTIALOSTU partial image ostu

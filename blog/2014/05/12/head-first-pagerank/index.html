@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -167,27 +185,20 @@
 
 <p>本文首先通过一些参考文献引出问题，然后给出了PageRank的几种实现算法，最后将其推广至在MapReduce框架下如何实现PageRank算法。</p>
 
-<p>PageRank的核心思想有2点：</p>
-
-<p>1.如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是pagerank值会相对较高；</p>
-
-<p>2.如果一个pagerank值很高的网页链接到一个其他的网页，那么被链接到的网页的pagerank值会相应地因此而提高。</p>
+<p>PageRank的核心思想有2点：<br />
+1.如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是pagerank值会相对较高；<br />
+2.如果一个pagerank值很高的网页链接到一个其他的网页，那么被链接到的网页的pagerank值会相应地因此而提高。</p>
 
 <p>下面是一张来自<a href="http://en.wikipedia.org/wiki/PageRank">WikiPedia</a>的图，每个球代表一个网页，球的大小反应了网页的pagerank值的大小。指向网页B和网页E的链接很多，所以B和E的pagerank值较高，另外，虽然很少有网页指向C，但是最重要的网页B指向了C，所以C的pagerank值比E还要大。</p>
 
 <p><img src="https://hujiaweibujidao.github.io/images/algos/pagerank-fig.png" alt="image" /></p>
 
-<p>参考内容：</p>
-
-<p>1.<a href="http://en.wikipedia.org/wiki/PageRank">Wiki about PageRank</a></p>
-
-<p>2.<a href="http://www.itlearner.com/good/pagerank_cn.htm">Google 的秘密- PageRank 彻底解说 中文版</a></p>
-
-<p>3.<a href="http://book.douban.com/subject/7161824/">数值分析与算法</a> Page 161 应用实例：Google的PageRank算法</p>
-
-<p>4.<a href="http://www.mathworks.cn/moler/chapters.html">Numeric Methods with Matlab</a> 或者<a href="http://book.douban.com/subject/1836464/">中文翻译版本Matlab数值计算</a></p>
-
-<p>5.<a href="http://www.chenjunlu.com/2012/10/pagerank-on-mapreduce/">使用 MapReduce 思想计算 PageRank</a> Page 62 PageRank和马尔可夫链</p>
+<p>参考内容：<br />
+1.<a href="http://en.wikipedia.org/wiki/PageRank">Wiki about PageRank</a><br />
+2.<a href="http://www.itlearner.com/good/pagerank_cn.htm">Google 的秘密- PageRank 彻底解说 中文版</a><br />
+3.<a href="http://book.douban.com/subject/7161824/">数值分析与算法</a> Page 161 应用实例：Google的PageRank算法<br />
+4.<a href="http://www.mathworks.cn/moler/chapters.html">Numeric Methods with Matlab</a> 或者<a href="http://book.douban.com/subject/1836464/">中文翻译版本Matlab数值计算</a><br />
+5.<a href="http://www.chenjunlu.com/2012/10/pagerank-on-mapreduce/">使用 MapReduce 思想计算 PageRank</a> Page 62 PageRank和马尔可夫链</p>
 
 <h3 id="1-问题背景">1.问题背景</h3>
 
@@ -885,6 +896,12 @@ if __name__ == '__main__':
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

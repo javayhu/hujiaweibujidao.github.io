@@ -18,6 +18,8 @@
     
     <meta property="og:article:tag" content="algorithm" />
     
+    <meta property="og:article:tag" content="python" />
+    
     
 
     <meta name="description" content="Happy Coding &amp; Enjoy Living" />
@@ -29,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 
     
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
@@ -80,6 +90,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -154,6 +174,8 @@
          
           <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
          
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
         </section>
         <br/>
     </header>
@@ -163,13 +185,10 @@
 
 <p>Python数据结构篇(2) 排序</p>
 
-<p>参考内容：</p>
-
-<p>1.<a href="http://interactivepython.org/courselib/static/pythonds/index.html">Problem Solving with Python</a></p>
-
-<p>Chapter5: Search and Sorting <a href="http://interactivepython.org/courselib/static/pythonds/SortSearch/sorting.html">online_link</a></p>
-
-<p>2.<a href="http://en.wikipedia.org/wiki/Introduction_to_Algorithms">算法导论</a></p>
+<p>参考内容：<br />
+1.<a href="http://interactivepython.org/courselib/static/pythonds/index.html">Problem Solving with Python</a><br />
+Chapter5: Search and Sorting <a href="http://interactivepython.org/courselib/static/pythonds/SortSearch/sorting.html">online_link</a><br />
+2.<a href="http://en.wikipedia.org/wiki/Introduction_to_Algorithms">算法导论</a></p>
 
 <h4 id="排序总结">排序总结</h4>
 
@@ -396,13 +415,10 @@ print(a_list)
 
 <p>想法二：如下图所示(摘自算法导论)，它选择最后的那个元素作为主元，它的思路是将数组划分成4部分：</p>
 
-<p>第一部分：$p \le k \le i, A[k] \le pivot$</p>
-
-<p>第二部分：$i+1 \le k \le j-1, A[k] \gt pivot$</p>
-
-<p>第三部分：$j \le k \le r-1, A[k]$可以取任何值(因为它们还没有进行处理)。</p>
-
-<p>第四部分：$p \le k \le i, A[k] = pivot$</p>
+<p>第一部分：$p \le k \le i, A[k] \le pivot$<br />
+第二部分：$i+1 \le k \le j-1, A[k] \gt pivot$<br />
+第三部分：$j \le k \le r-1, A[k]$可以取任何值(因为它们还没有进行处理)<br />
+第四部分：$p \le k \le i, A[k] = pivot$</p>
 
 <p><strong>首先，让i指向要排序的数组的第一个元素的前面，p和j都指向第一个元素；然后，一直移动j直到主元前一个位置，一旦发现一个小于主元的元素就让i指向它的下一个位置，然后交换i和j对应位置上的元素。这样一定是可行的，因为i一直都是指向已发现的小于主元的元素中的最后一个，从i+1开始就大于主元了(或者还未确定/未处理)，而j一直都是指向大于主元的元素中最后一个的后面一个位置，所以i+1和j位置上的元素交换就可以使得j发现的这个小于主元的元素移动到第一部分，而i+1位置上大于主元的元素移动到j的位置上，即第二部分的最后一个位置上。</strong></p>
 
@@ -493,7 +509,7 @@ shell_sort(a_list)
 print(a_list)
 </code></pre>
 
-<p>7.堆排序请参见该系列文章中的<a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-algorithms-datastructures/">DataStrctures章节中的二叉堆部分的内容</a>。</p>
+<p>7.堆排序请参见该系列文章中的<a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/">DataStrctures章节中的二叉堆部分的内容</a>。</p>
 
 <p>8.其他线性排序可以参见算法导论第8章或者看下<a href="http://www.cnblogs.com/Anker/archive/2013/01/25/2876397.html">这篇不错的文章</a></p>
 
@@ -526,7 +542,7 @@ seq = counting_sort(seq)
 
 <p><img src="https://hujiaweibujidao.github.io/images/sortbucket.png" alt="image" /></p>
 
-<p>本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-induction/">Python算法设计篇之Induction&amp;Recursion&amp;Reduction</a></p>
+<p>本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/">Python算法设计篇之Induction&amp;Recursion&amp;Reduction</a></p>
 
     </section>
 
@@ -556,12 +572,12 @@ seq = counting_sort(seq)
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/"><h4>Wouldn&#39;t it be nice</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/"><h4>Python Data Structures - C1 Search</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c1-search/"><h4>Python Data Structures - C1 Search</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/"><h4>Python Data Structures - C3 Data Structures</h4></a></span>
       
   
 </aside>
@@ -612,6 +628,12 @@ seq = counting_sort(seq)
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

@@ -18,6 +18,8 @@
     
     <meta property="og:article:tag" content="algorithm" />
     
+    <meta property="og:article:tag" content="python" />
+    
     
 
     <meta name="description" content="Happy Coding &amp; Enjoy Living" />
@@ -29,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 
     
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
@@ -80,6 +90,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -154,6 +174,8 @@
          
           <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
          
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
         </section>
         <br/>
     </header>
@@ -218,7 +240,7 @@
 trav(range(1000)) # RuntimeError: maximum recursion depth exceeded
 </code></pre>
 
-<p>所以呢，很多时候虽然递归的思路更好想，代码也更好写，但是迭代的代码更加高效一些，在动态规划中还可以看到迭代版本还有其他的优点，当然，它还有些缺点，比如要考虑迭代的顺序，如果迫不及待想知道请移步阅读<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-dynamic-programming/">Python算法设计篇之动态规划</a>，不过还是建议且听我慢慢道来</p>
+<p>所以呢，很多时候虽然递归的思路更好想，代码也更好写，但是迭代的代码更加高效一些，在动态规划中还可以看到迭代版本还有其他的优点，当然，它还有些缺点，比如要考虑迭代的顺序，如果迫不及待想知道请移步阅读<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/">Python算法设计篇之动态规划</a>，不过还是建议且听我慢慢道来</p>
 
 <p>下面我们通过排序来梳理下我们前面介绍的三个核心内容</p>
 
@@ -340,7 +362,7 @@ print naive_celeb(G) #57
 
 <p>[看书看到这里时，我想起了另一个看起来很相似的问题，从n个元素中找出最大值和最小值。如果我们单独地来查找最大值和最小值，共需要(2n-2)次比较(也许你觉得还可以少几次，但都还是和2n差不多对吧)，但是，如果我们成对来处理，首先比较第一个元素和第二个元素，较大的那个作为当前最大值，较小的那个作为当前最小值(如果n是奇数的话，为了方便可以直接令第一个元素既是最大值又是最小值)，然后向后移动，每次取两个元素出来先比较，较小的那个去和当前最小值比较，较大的那个去和当前最大值比较，这样的策略至多需要 $3\lfloor \frac{n}{2} \rfloor$ 次比较。两个问题虽然完全没关系，但是解决方式总有那么点千丝万缕有木有？]</p>
 
-<p>接下来我们看另一个更加重要的例子，拓扑排序，这是图中很重要的一个算法，在后面介绍到图算法的时候我们还会提到拓扑排序的另一个解法，它的应用范围也非常广，除了前面的依赖关系例子外，还有一个最突出的例子就是类Linux系统中软件的安装，每当我们在终端安装一个软件或者库时，它会自动检测它所依赖的那些部件(components)是否安装了，如果没有那么就先安装那些依赖项。此外，后面<a href="(/blog/2014/07/01/python-algorithms-dynamic-programming/)">介绍到动态规划时有一个单源最短路径问题</a>就利用了拓扑排序。</p>
+<p>接下来我们看另一个更加重要的例子，拓扑排序，这是图中很重要的一个算法，在后面介绍到图算法的时候我们还会提到拓扑排序的另一个解法，它的应用范围也非常广，除了前面的依赖关系例子外，还有一个最突出的例子就是类Linux系统中软件的安装，每当我们在终端安装一个软件或者库时，它会自动检测它所依赖的那些部件(components)是否安装了，如果没有那么就先安装那些依赖项。此外，后面<a href="(/blog/2014/07/01/python-algorithms---c8-dynamic-programming/)">介绍到动态规划时有一个单源最短路径问题</a>就利用了拓扑排序。</p>
 
 <p>下图是一个有向无环图(DAG)和它对应的拓扑排序结果</p>
 
@@ -402,7 +424,7 @@ print naive_topsort(G) # ['a', 'b', 'c', 'd', 'e', 'f']
 
 <p>3.Relaxation and Gradual Improvement</p>
 
-<p>松弛技术是指某个算法使得当前得到的解有进一步的提升，越来越接近最优解(准确解)，这个技术非常实用，每次松弛可以看作是向最终解前进了“一步”，我们的目标自然是希望松弛的次数越少越好，关键就是要确定松弛的顺序(好的松弛顺序可以让我们直接朝着最优解前进，缩短算法运行时间)，后面要介绍的<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-graphs/">图中的Bellman-Ford算法、Dijkstra算法以及DAG图上的最短路径问题都是如此</a>。</p>
+<p>松弛技术是指某个算法使得当前得到的解有进一步的提升，越来越接近最优解(准确解)，这个技术非常实用，每次松弛可以看作是向最终解前进了“一步”，我们的目标自然是希望松弛的次数越少越好，关键就是要确定松弛的顺序(好的松弛顺序可以让我们直接朝着最优解前进，缩短算法运行时间)，后面要介绍的<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/">图中的Bellman-Ford算法、Dijkstra算法以及DAG图上的最短路径问题都是如此</a>。</p>
 
 <p>4.Reduction + Contraposition = Hardness Proof</p>
 
@@ -540,6 +562,12 @@ print naive_topsort(G) # ['a', 'b', 'c', 'd', 'e', 'f']
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

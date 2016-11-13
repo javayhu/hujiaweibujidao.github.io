@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -167,10 +185,10 @@
 
 <h4 id="8-1-window和windowmanager">8.1 Window和WindowManager</h4>
 
-<p>(1)<code>Window</code>是抽象类，具体实现是<code>PhoneWindow</code>，通过<code>WindowManager</code>就可以创建Window。WindowManager是外界访问Window的入口，但是Window的具体实现是在<code>WindowManagerService</code>中，WindowManager和WindowManagerService的交互是一个IPC过程。所有的视图例如Activity、Dialog、Toast都是附加在Window上的。
+<p>(1)<code>Window</code>是抽象类，具体实现是<code>PhoneWindow</code>，通过<code>WindowManager</code>就可以创建Window。WindowManager是外界访问Window的入口，但是Window的具体实现是在<code>WindowManagerService</code>中，WindowManager和WindowManagerService的交互是一个IPC过程。所有的视图例如Activity、Dialog、Toast都是附加在Window上的。<br />
 (2)通过WindowManager添加View的过程：将一个Button添加到屏幕坐标为(100,300)的位置上</p>
 
-<pre><code>mFloatingButton = new Button(this);
+<pre><code class="language-java">mFloatingButton = new Button(this);
 mFloatingButton.setText(&quot;test button&quot;);
 mLayoutParams = new WindowManager.LayoutParams(
         LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0,
@@ -186,43 +204,43 @@ mFloatingButton.setOnTouchListener(this);
 mWindowManager.addView(mFloatingButton, mLayoutParams);
 </code></pre>
 
-<p>flags参数解析：
-<code>FLAG_NOT_FOCUSABLE</code>：表示window不需要获取焦点，也不需要接收各种输入事件。此标记会同时启用<code>FLAG_NOT_TOUCH_MODAL</code>，最终事件会直接传递给下层的具有焦点的window；
-<code>FLAG_NOT_TOUCH_MODAL</code>：在此模式下，系统会将window区域外的单击事件传递给底层的window，当前window区域内的单击事件则自己处理，一般都需要开启这个标记；
+<p>flags参数解析：<br />
+<code>FLAG_NOT_FOCUSABLE</code>：表示window不需要获取焦点，也不需要接收各种输入事件。此标记会同时启用<code>FLAG_NOT_TOUCH_MODAL</code>，最终事件会直接传递给下层的具有焦点的window；<br />
+<code>FLAG_NOT_TOUCH_MODAL</code>：在此模式下，系统会将window区域外的单击事件传递给底层的window，当前window区域内的单击事件则自己处理，一般都需要开启这个标记；<br />
 <code>FLAG_SHOW_WHEN_LOCKED</code>：开启此模式可以让Window显示在锁屏的界面上。  <strong>[奇怪的是我删除这个标记还是在锁屏看到了添加的组件orz]</strong></p>
 
-<p>type参数表示window的类型，<strong>window共有三种类型：应用window，子window和系统window。应用window对应着一个Activity，子window不能独立存在，需要附属在特定的父window之上，比如Dialog就是子window。系统window是需要声明权限才能创建的window，比如Toast和系统状态栏这些都是系统window，需要声明的权限是<code>&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;</code>。</strong>
-(3)window是分层的，每个window都对应着<code>z-ordered</code>，层级大的会覆盖在层级小的上面，应用window的层级范围是<code>1~99</code>，子window的层级范围是<code>1000~1999</code>，系统window的层级范围是<code>2000~2999</code>。
+<p>type参数表示window的类型，<strong>window共有三种类型：应用window，子window和系统window。应用window对应着一个Activity，子window不能独立存在，需要附属在特定的父window之上，比如Dialog就是子window。系统window是需要声明权限才能创建的window，比如Toast和系统状态栏这些都是系统window，需要声明的权限是<code>&lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;</code>。</strong><br />
+(3)window是分层的，每个window都对应着<code>z-ordered</code>，层级大的会覆盖在层级小的上面，应用window的层级范围是<code>1~99</code>，子window的层级范围是<code>1000~1999</code>，系统window的层级范围是<code>2000~2999</code>。<br />
 <a href="4">注意，应用window的层级范围并不是<code>1~999</code>哟</a>WindowManager继承自<code>ViewManager</code>，常用的只有三个方法：<code>addView</code>、<code>updateView</code>和<code>removeView</code>。</p>
 
 <h4 id="8-2-window的内部机制">8.2 Window的内部机制</h4>
 
-<p>(1)Window是一个抽象的概念，不是实际存在的，它也是以View的形式存在。在实际使用中无法直接访问Window，只能通过WindowManager才能访问Window。<strong>每个Window都对应着一个View和一个<code>ViewRootImpl</code>，Window和View通过ViewRootImpl来建立联系。</strong>
+<p>(1)Window是一个抽象的概念，不是实际存在的，它也是以View的形式存在。在实际使用中无法直接访问Window，只能通过WindowManager才能访问Window。<strong>每个Window都对应着一个View和一个<code>ViewRootImpl</code>，Window和View通过ViewRootImpl来建立联系。</strong><br />
 (2)Window的添加、删除和更新过程都是IPC过程，以Window的添加为例，WindowManager的实现类对于<code>addView</code>、<code>updateView</code>和<code>removeView</code>方法都是委托给<code>WindowManagerGlobal</code>类，该类保存了很多数据列表，例如所有window对应的view集合<code>mViews</code>、所有window对应的ViewRootImpl的集合<code>mRoots</code>等，之后添加操作交给了ViewRootImpl来处理，接着会通过<code>WindowSession</code>来完成Window的添加过程，这个过程是一个IPC调用，因为最终是通过<code>WindowManagerService</code>来完成window的添加的。</p>
 
 <h4 id="8-3-window的创建过程">8.3 Window的创建过程</h4>
 
-<p>(1)Activity的window创建过程
-1.Activity的启动过程很复杂，最终会由<code>ActivityThread</code>中的<code>performLaunchActivity</code>来完成整个启动过程，在这个方法内部会通过类加载器创建Activity的实例对象，并调用它的<code>attach</code>方法为其关联运行过程中所依赖的一系列上下文环境变量；
-2.Activity实现了Window的<code>Callback</code>接口，当window接收到外界的状态变化时就会回调Activity的方法，例如<code>onAttachedToWindow</code>、<code>onDetachedFromWindow</code>、<code>dispatchTouchEvent</code>等；
-3.Activity的Window是由<code>PolicyManager</code>来创建的，它的真正实现是<code>Policy</code>类，它会新建一个<code>PhoneWindow</code>对象，Activity的<code>setContentView</code>的实现是由<code>PhoneWindow</code>来实现的；
-4.Activity的顶级View是<code>DecorView</code>，它本质上是一个<code>FrameLayout</code>。如果没有DecorView，那么PhoneWindow会先创建一个DecorView，然后加载具体的布局文件并将view添加到DecorView的<code>mContentParent</code>中，最后就是回调Activity的<code>onContentChanged</code>通知Activity视图已经发生了变化；
+<p>(1)Activity的window创建过程<br />
+1.Activity的启动过程很复杂，最终会由<code>ActivityThread</code>中的<code>performLaunchActivity</code>来完成整个启动过程，在这个方法内部会通过类加载器创建Activity的实例对象，并调用它的<code>attach</code>方法为其关联运行过程中所依赖的一系列上下文环境变量；<br />
+2.Activity实现了Window的<code>Callback</code>接口，当window接收到外界的状态变化时就会回调Activity的方法，例如<code>onAttachedToWindow</code>、<code>onDetachedFromWindow</code>、<code>dispatchTouchEvent</code>等；<br />
+3.Activity的Window是由<code>PolicyManager</code>来创建的，它的真正实现是<code>Policy</code>类，它会新建一个<code>PhoneWindow</code>对象，Activity的<code>setContentView</code>的实现是由<code>PhoneWindow</code>来实现的；<br />
+4.Activity的顶级View是<code>DecorView</code>，它本质上是一个<code>FrameLayout</code>。如果没有DecorView，那么PhoneWindow会先创建一个DecorView，然后加载具体的布局文件并将view添加到DecorView的<code>mContentParent</code>中，最后就是回调Activity的<code>onContentChanged</code>通知Activity视图已经发生了变化；<br />
 5.还有一个步骤是让WindowManager能够识别DecorView，在<code>ActivityThread</code>调用<code>handleResumeActivity</code>方法时，首先会调用Activity的onResume方法，然后会调用<code>makeVisible</code>方法，这个方法中DecorView真正地完成了添加和显示过程。</p>
 
-<pre><code>ViewManager vm = getWindowManager();
+<pre><code class="language-java">ViewManager vm = getWindowManager();
 vm.addView(mDecor, getWindow().getAttributes());
 mWindowAdded = true;
 </code></pre>
 
-<p>(2)Dialog的Window创建过程
+<p>(2)Dialog的Window创建过程<br />
 1.过程与Activity的Window创建过程类似，普通的Dialog的有一个特别之处，即它必须采用Activity的Context，如果采用Application的Context会报错。原因是Application没有<code>应用token</code>，应用token一般是只有Activity才拥有[service也没有token，所以也不能在service中弹出dialog]</p>
 
-<p>(3)Toast的Window创建过程
-1.Toast属于系统Window，它内部的视图由两种方式指定：一种是系统默认的演示；另一种是通过<code>setView</code>方法来指定一个自定义的View。
-2.Toast具有定时取消功能，所以系统采用了<code>Handler</code>。Toast的显示和隐藏是IPC过程，都需要<code>NotificationManagerService</code>来实现。在Toast和NMS进行IPC过程时，NMS会跨进程回调Toast中的<code>TN</code>类中的方法，TN类是一个Binder类，运行在Binder线程池中，所以需要通过Handler将其切换到当前发送Toast请求所在的线程，所以<strong>Toast无法在没有Looper的线程中弹出</strong>。
+<p>(3)Toast的Window创建过程<br />
+1.Toast属于系统Window，它内部的视图由两种方式指定：一种是系统默认的演示；另一种是通过<code>setView</code>方法来指定一个自定义的View。<br />
+2.Toast具有定时取消功能，所以系统采用了<code>Handler</code>。Toast的显示和隐藏是IPC过程，都需要<code>NotificationManagerService</code>来实现。在Toast和NMS进行IPC过程时，NMS会跨进程回调Toast中的<code>TN</code>类中的方法，TN类是一个Binder类，运行在Binder线程池中，所以需要通过Handler将其切换到当前发送Toast请求所在的线程，所以<strong>Toast无法在没有Looper的线程中弹出</strong>。<br />
 3.对于非系统应用来说，<code>mToastQueue</code>最多能同时存在<code>50</code>个<code>ToastRecord</code>，这样做是为了防止<code>DOS</code>(Denial of Service，拒绝服务)。因为如果某个应用弹出太多的Toast会导致其他应用没有机会弹出Toast。</p>
 
-<p><strong>其他学习资料</strong>
+<p><strong>其他学习资料</strong><br />
 1.<a href="http://blog.csdn.net/wang_shaner/article/details/8596380">Android应用开发之（WindowManager类使用）</a></p>
 
 <p>OK，本章结束，谢谢阅读。</p>
@@ -311,6 +329,12 @@ mWindowAdded = true;
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

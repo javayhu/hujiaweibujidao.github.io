@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       Python Data Structures - C1 Search &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" Python Data Structures - C1 Search &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2014-05-06T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="algorithm" />
+    
+    <meta property="og:article:tag" content="python" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">Python Data Structures - C1 Search</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Python Data Structures - C1 Search</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-05-06T00:00:00Z">
+            May 6, 2014
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Python数据结构篇(1) 搜索</p>
+
+<p>参考内容：<br />
+1.<a href="http://interactivepython.org/courselib/static/pythonds/index.html">Problem Solving with Python</a><br />
+Chapter5: Search and Sorting <a href="http://interactivepython.org/courselib/static/pythonds/SortSearch/searching.html#searching">online_link</a><br />
+2.<a href="http://en.wikipedia.org/wiki/Introduction_to_Algorithms">算法导论</a></p>
+
+<h4 id="搜索-或查找-总结">搜索(或查找)总结</h4>
+
+<p>(1)顺序查找：O(n)<br />
+(2)二分查找：O(lgn)<br />
+(3)Hash查找：O(1)</p>
+
+<p>概念：hash，hash table，hash function <a href="http://zh.wikipedia.org/wiki/%E5%93%88%E5%B8%8C%E8%A1%A8#.E5.A4.84.E7.90.86.E7.A2.B0.E6.92.9E">哈希表_on_wiki</a></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/hashbasics.png" alt="image" /></p>
+
+<p>常用的哈希函数：</p>
+
+<p>1.reminder method：取余数（size=11，下图对11取余数，例如17取余数得到6）</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/reminder.png" alt="image" /></p>
+
+<p>2.folding method: 分组求和再取余数</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/folding.png" alt="image" /></p>
+
+<p>3.mid-square method：平方值的中间两位数取余数</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/mid-square.png" alt="image" /></p>
+
+<p>4.对于由字符的元素可以尝试使用<code>ord</code>函数来将字符串转换成一个有序的数值序列。在Python中<code>ord</code>函数可以得到对应字符的ASCII码值。将所有字符的码值累加再取余数。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/stringord1.png" alt="image" /></p>
+
+<p>但是，对于通过回文构词法构成的字符串它们得到的值总是一样，为了解决这个问题，可以根据字符的位置添加一个权重。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/stringord2.png" alt="image" /></p>
+
+<p>From wiki</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/hashfun.png" alt="image" /></p>
+
+<p>使用哈希查找，难免遇到冲突，该如何解决冲突(Collision Resolution)呢？</p>
+
+<p>常用的解决冲突的办法：</p>
+
+<p>1.open address(开放寻址)：线性探测(linear probing)下一个位置，缺点是容易造成聚集现象(cluster)，解决聚集现象的办法是跳跃式地查找下一个空槽。数值的顺序：(54, 26, 93, 17, 77, 31, 44, 55, 20).</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/linearprob.png" alt="image" /></p>
+
+<p>2.quadratic probing(平方探测)：一开始的hash值为h，如果不是空槽，那就尝试h+1，还不是空槽就尝试h+4，依次继续尝试h+9，h+16等等。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/quadraticprob.png" alt="image" /></p>
+
+<p>3.chain：利用链表链接起来</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/chain.png" alt="image" /></p>
+
+<p>From wiki</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/hashcollision.png" alt="image" /></p>
+
+<p>分析hash查找的性能：一般使用平均查找长度来衡量，和装载因子有关</p>
+
+<blockquote>
+<p>散列表的载荷因子定义为：$\alpha$ = 填入表中的元素个数 / 散列表的长度<br />
+$\alpha$是散列表装满程度的标志因子。由于表长是定值，$\alpha$与“填入表中的元素个数”成正比，所以，$\alpha$越大，表明填入表中的元素越多，产生冲突的可能性就越大；反之，$\alpha$越小，标明填入表中的元素越少，产生冲突的可能性就越小。实际上，散列表的平均查找长度是载荷因子$\alpha$的函数，只是不同处理冲突的方法有不同的函数。<br />
+对于开放定址法，荷载因子是特别重要因素，应严格限制在0.7-0.8以下。超过0.8，查表时的CPU缓存不命中（cache missing）按照指数曲线上升。因此，一些采用开放定址法的hash库，如Java的系统库限制了荷载因子为0.75，超过此值将resize散列表。</p>
+</blockquote>
+
+<p><img src="https://hujiaweibujidao.github.io/images/hashanalysis.png" alt="image" /></p>
+
+<p>From wiki</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/hashefficiency.png" alt="image" /></p>
+
+<p>下面的代码包含了顺序查找，二分查找，哈希查找(size=11, plus 1, reminder method)</p>
+
+<pre><code class="language-python">def sequential_search(a_list, item):
+    pos = 0
+    found = False
+    while pos &lt; len(a_list) and not found:
+        if a_list[pos] == item:
+            found = True
+        else:
+            pos = pos+1
+    return found
+
+test_list = [1, 2, 32, 8, 17, 19, 42, 13, 0]
+print(sequential_search(test_list, 3))
+print(sequential_search(test_list, 13))
+
+
+def binary_search(a_list, item):
+    first = 0
+    last = len(a_list) - 1
+    found = False
+    while first &lt;= last and not found:
+        midpoint = (first + last) // 2
+        if a_list[midpoint] == item:
+            found = True
+        else:
+            if item &lt; a_list[midpoint]:
+                last = midpoint - 1
+            else:
+                first = midpoint + 1
+    return found
+
+test_list = [0, 1, 2, 8, 13, 17, 19, 32, 42,]
+print(binary_search(test_list, 3))
+print(binary_search(test_list, 13))
+
+class HashTable:
+    def __init__(self):
+        self.size = 11
+        self.slots = [None] * self.size
+        self.data = [None] * self.size
+
+    #put data in slot
+    def put_data_in_slot(self,key,data,slot):
+        if self.slots[slot] == None: # '==None' ? or  'is None' ?
+            self.slots[slot] = key
+            self.data[slot] = data
+            return True
+        else:
+            if self.slots[slot] == key: # not None
+                self.data[slot] = data #replace
+                return True
+            else:
+                return False
+
+    def put(self, key, data):
+        slot = self.hash_function(key, self.size);
+        result = self.put_data_in_slot(key,data,slot);
+        while not result:
+            slot = self.rehash(slot, self.size);
+            result=self.put_data_in_slot(key,data,slot);
+
+    #reminder method
+    def hash_function(self, key, size):
+        return key % size
+
+    #plus 1
+    def rehash(self, old_hash, size):
+        return (old_hash + 1) % size
+
+    def get(self, key):
+        start_slot = self.hash_function(key, len(self.slots))
+        data = None
+        stop = False
+        found = False
+        position = start_slot
+        while self.slots[position] != None and not found and not stop:
+            if self.slots[position] == key:
+                found = True
+                data = self.data[position]
+            else:
+                position=self.rehash(position, len(self.slots))
+                if position == start_slot:
+                    stop = True
+        return data
+
+    def __getitem__(self, key):
+        return self.get(key)
+
+    def __setitem__(self, key, data):
+        self.put(key, data)
+
+
+if __name__ == '__main__':
+    table=HashTable();
+    table[54]='cat';
+    table[26]='dog';
+    table[93]='lion';
+    table[17]=&quot;tiger&quot;;
+    table[77]=&quot;bird&quot;;
+    table[44]=&quot;goat&quot;;
+    table[55]=&quot;pig&quot;;
+    table[20]=&quot;chicken&quot;;
+    print table.slots;
+    print table.data;
+
+# [77, 44, 55, None, 26, 93, 17, None, None, 20, 54]
+# ['bird', 'goat', 'pig', None, 'dog', 'lion', 'tiger', None, None, 'chicken', 'cat']
+</code></pre>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;"><strong>本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</strong></span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/"><h4>Wouldn&#39;t it be nice</h4></a></span>
+      
+  
+
+  
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/"><h4>Python Data Structures - C2 Sort</h4></a></span>
+      
+  
+</aside>
+<br/>
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="blog/2014/05/06/python-data-structures---c1-search/" data-title="Python Data Structures - C1 Search" data-url="https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

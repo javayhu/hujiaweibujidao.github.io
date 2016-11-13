@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -163,7 +181,7 @@
 
 <p>《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable</p>
 
-<p>本节和《Android群英传》中的<strong>第六章Android绘图机制与处理技巧</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">建议先阅读该章的总结</a></p>
+<p>本节和《Android群英传》中的<strong>第六章Android绘图机制与处理技巧</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">建议先阅读该章的总结</a></p>
 
 <h3 id="第6章-android的drawable">第6章 Android的Drawable</h3>
 
@@ -295,14 +313,14 @@ drawable.startTransition(5000);
 
 <h4 id="6-3-自定义drawable">6.3 自定义Drawable</h4>
 
-<p>(1)Drawable的工作核心就是<code>draw</code>方法，所以自定义drawable就是重写<code>draw</code>方法，当然还有<code>setAlpha</code>、<code>setColorFilter</code>和<code>getOpacity</code>这几个方法。当自定义Drawable有固有大小的时候最好重写<code>getIntrinsicWidth</code>和<code>getIntrinsicHeight</code>方法。
+<p>(1)Drawable的工作核心就是<code>draw</code>方法，所以自定义drawable就是重写<code>draw</code>方法，当然还有<code>setAlpha</code>、<code>setColorFilter</code>和<code>getOpacity</code>这几个方法。当自定义Drawable有固有大小的时候最好重写<code>getIntrinsicWidth</code>和<code>getIntrinsicHeight</code>方法。<br />
 (2)Drawable的内部大小不等于Drawable的实际区域大小，Drawable的实际区域大小可以通过它的<code>getBounds</code>方法来得到，一般来说它和view的尺寸相同。</p>
 
-<p>其他学习资料：
-1.<a href="http://keeganlee.me/post/android/20150830">Android样式的开发:shape篇</a>
-2.<a href="http://keeganlee.me/post/android/20150916">Android样式的开发:drawable篇</a>
-3.<a href="http://keeganlee.me/post/android/20150905">Android样式的开发:selector篇</a>
-4.<a href="http://keeganlee.me/post/android/20150909">Android样式的开发:layer-list篇</a>
+<p>其他学习资料：<br />
+1.<a href="http://keeganlee.me/post/android/20150830">Android样式的开发:shape篇</a><br />
+2.<a href="http://keeganlee.me/post/android/20150916">Android样式的开发:drawable篇</a><br />
+3.<a href="http://keeganlee.me/post/android/20150905">Android样式的开发:selector篇</a><br />
+4.<a href="http://keeganlee.me/post/android/20150909">Android样式的开发:layer-list篇</a><br />
 5.<a href="http://keeganlee.me/post/android/20151031">Android样式的开发:Style篇</a></p>
 
 <p>OK，本章结束，谢谢阅读。</p>
@@ -391,6 +409,12 @@ drawable.startTransition(5000);
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

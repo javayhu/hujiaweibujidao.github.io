@@ -373,7 +373,7 @@ pre {
     font-size: 0.9em;
     white-space: pre;
     overflow: auto;
-    background: #F7FAFB;
+    /*background: #F7FAFB;*/
     border-radius: 3px;
 }
 
@@ -598,6 +598,16 @@ body.nav-opened .nav {
 .nav-title {
     position: absolute;
     top: 45px;
+    left: 30px;
+    font-size: 16px;
+    font-weight: 100;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.nav-title-tag {
+    position: absolute;
+    top: 300px;
     left: 30px;
     font-size: 16px;
     font-weight: 100;

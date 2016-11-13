@@ -18,6 +18,8 @@
     
     <meta property="og:article:tag" content="algorithm" />
     
+    <meta property="og:article:tag" content="python" />
+    
     
 
     <meta name="description" content="Happy Coding &amp; Enjoy Living" />
@@ -29,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 
     
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
@@ -80,6 +90,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -154,6 +174,8 @@
          
           <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
          
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
         </section>
         <br/>
     </header>
@@ -216,7 +238,7 @@ Tracey: I don’t think they covered that in basic.<br />
 
 <p>(2)Tip 2: For timing things, use timeit.</p>
 
-<p>使用<code>timeit</code>模块对运行时间进行分析，在前面的<a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-algorithms-datastructures/">数据结构篇中第三部分数据结构</a>的list中已经介绍过了timeit模块，在使用的时候需要注意前面的运行不会影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)</p>
+<p>使用<code>timeit</code>模块对运行时间进行分析，在前面的<a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/">数据结构篇中第三部分数据结构</a>的list中已经介绍过了timeit模块，在使用的时候需要注意前面的运行不会影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)</p>
 
 <pre><code class="language-python">#timeit模块简单使用实例
 timeit.timeit(&quot;x = sum(range(10))&quot;)
@@ -279,7 +301,7 @@ cProfile.run('re.compile(&quot;foo|bar&quot;)')
 <p>4.在Python中实现树和图</p>
 
 <p><strong>[Python中的dict和set]</strong><br />
-Python中很多地方都使用了hash策略，在前面的<a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-algorithms-search/">Python数据结构篇中的搜索部分</a>已经介绍了hash的内容。Python提供了<code>hash</code>函数，例如<code>hash(&quot;Hello, world!&quot;)</code>得到<code>-943387004357456228</code> (结果不一定相同)。Python中的dict和set都使用了hash机制，所以平均情况下它们获取元素都是常数时间的。</p>
+Python中很多地方都使用了hash策略，在前面的<a href="https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/">Python数据结构篇中的搜索部分</a>已经介绍了hash的内容。Python提供了<code>hash</code>函数，例如<code>hash(&quot;Hello, world!&quot;)</code>得到<code>-943387004357456228</code> (结果不一定相同)。Python中的dict和set都使用了hash机制，所以平均情况下它们获取元素都是常数时间的。</p>
 
 <p>(1)图的表示：最常用的两种表示方式是邻接表和邻接矩阵 [假设要表示的图如下]</p>
 
@@ -622,6 +644,12 @@ sum(Decimal(&quot;0.1&quot;) for i in range(10)) == Decimal(&quot;1.0&quot;)  # 
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

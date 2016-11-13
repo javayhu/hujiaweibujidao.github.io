@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -163,15 +181,15 @@
 
 <p>《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析</p>
 
-<p>本节和《Android群英传》中的<strong>第七章Android动画机制与使用技巧</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">建议先阅读该章的总结</a></p>
+<p>本节和《Android群英传》中的<strong>第七章Android动画机制与使用技巧</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">建议先阅读该章的总结</a></p>
 
 <h3 id="第7章-android动画深入分析">第7章 Android动画深入分析</h3>
 
 <h4 id="7-1-view动画">7.1 View动画</h4>
 
-<p>(1)android动画分为view动画、帧动画和属性动画，属性动画是API 11(Android 3.0)的新特性，帧动画一般也认为是view动画。
-(2)<code>AnimationSet</code>的属性<code>android:shareInterpolator</code>表示集合中的动画是否共享同一个插值器，如果集合不指定插值器，那么子动画需要单独指定所需的插值器或者使用默认值。
-(3)自定义动画需要继承<code>Animation</code>抽象类，并重新它的<code>initialize</code>和<code>applyTransformation</code>方法，在initialize方法中做一些初始化工作，在applyTransformation方法中进行相应的矩阵变换，很多时候需要采用<code>Camera</code>类来简化矩阵变换的过程。
+<p>(1)android动画分为view动画、帧动画和属性动画，属性动画是API 11(Android 3.0)的新特性，帧动画一般也认为是view动画。<br />
+(2)<code>AnimationSet</code>的属性<code>android:shareInterpolator</code>表示集合中的动画是否共享同一个插值器，如果集合不指定插值器，那么子动画需要单独指定所需的插值器或者使用默认值。<br />
+(3)自定义动画需要继承<code>Animation</code>抽象类，并重新它的<code>initialize</code>和<code>applyTransformation</code>方法，在initialize方法中做一些初始化工作，在applyTransformation方法中进行相应的矩阵变换，很多时候需要采用<code>Camera</code>类来简化矩阵变换的过程。<br />
 (4)帧动画使用比较简单，但是容易引起OOM，所以在使用的时候应尽量避免使用过多尺寸较大的图片。</p>
 
 <h4 id="7-2-view动画的特殊使用场景">7.2 view动画的特殊使用场景</h4>
@@ -200,36 +218,36 @@ listView.setLayoutAnimation(controller);
 </code></pre>
 
 <p>(2)Activity切换效果
-在startActivity方法后或者finish方法之后调用<code>overridePendingTransition(int inAnim, int outAnim)</code>方法设置进入或者退出的动画效果。
-还有其他方式可以给Activity添加切换动画效果，但是往往有兼容性限制，参见<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">《Android群英传》第七章Android动画机制与使用技巧</a>。</p>
+在startActivity方法后或者finish方法之后调用<code>overridePendingTransition(int inAnim, int outAnim)</code>方法设置进入或者退出的动画效果。<br />
+还有其他方式可以给Activity添加切换动画效果，但是往往有兼容性限制，参见<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">《Android群英传》第七章Android动画机制与使用技巧</a>。</p>
 
 <h4 id="7-3-属性动画">7.3 属性动画</h4>
 
-<p>(1)属性动画可以对任意对象的属性进行动画而不仅仅是view，动画默认的时间间隔是<code>300ms</code>，默认帧率是<code>10ms/帧</code>。
-(2)属性动画几乎是无所不能，但是它是从API 11才有的，所以存在兼容性问题，可以考虑使用开源动画库<a href="http://nineoldandroids.com">nineoldandroids</a>。它的功能和系统原生的<code>android.animations.*</code>中的类的功能完全一致，使用方法也是完全一样，只要我们用nineoldandroids编写动画，那么就能运行在所有的android系统上。
-(3)属性<code>android:repeatMode</code>表示动画的重复模式，<code>repeat</code>表示连续重复播放，<code>reverse</code>表示逆向重复播放，也就是第一次播放完后第二次倒着播放动画，第三次还是重头开始播放动画，第四次再倒着播放，以此类推。
-(4)插值器和估值器：属性动画实现非匀速动画的重要手段
-时间插值器(<code>TimeInterpolator</code>)的作用是根据时间流逝的百分比计算出当前属性值改变的百分比，系统内置的插值器有线性插值器(<code>LinearInterpolator</code>)、加速减速插值器(<code>AccelerateDecelerateInterpolator</code>)和减速插值器(<code>DecelerateInterpolator</code>)。
-类型估值器(<code>TypeEvaluator</code>)的作用是根据当前属性改变的百分比计算出改变后的属性值，系统内置的估值器有<code>IntEvaluator</code>、<code>FloatEvaluator</code>和<code>ArgbEvaluator</code>。
-(5)动画监听器
-<code>AnimatorListener</code>：监听动画的开始、结束、取消以及重复播放；
-<code>AnimatorUpdateListener</code>：监听动画的整个过程，动画每播放一帧的时候<code>onAnimationUpdate</code>方法就会被回调一次。
-(6)对任意属性做动画的方法：封装原始对象或者<code>ValueAnimator</code>
+<p>(1)属性动画可以对任意对象的属性进行动画而不仅仅是view，动画默认的时间间隔是<code>300ms</code>，默认帧率是<code>10ms/帧</code>。<br />
+(2)属性动画几乎是无所不能，但是它是从API 11才有的，所以存在兼容性问题，可以考虑使用开源动画库<a href="http://nineoldandroids.com">nineoldandroids</a>。它的功能和系统原生的<code>android.animations.*</code>中的类的功能完全一致，使用方法也是完全一样，只要我们用nineoldandroids编写动画，那么就能运行在所有的android系统上。<br />
+(3)属性<code>android:repeatMode</code>表示动画的重复模式，<code>repeat</code>表示连续重复播放，<code>reverse</code>表示逆向重复播放，也就是第一次播放完后第二次倒着播放动画，第三次还是重头开始播放动画，第四次再倒着播放，以此类推。<br />
+(4)插值器和估值器：属性动画实现非匀速动画的重要手段<br />
+时间插值器(<code>TimeInterpolator</code>)的作用是根据时间流逝的百分比计算出当前属性值改变的百分比，系统内置的插值器有线性插值器(<code>LinearInterpolator</code>)、加速减速插值器(<code>AccelerateDecelerateInterpolator</code>)和减速插值器(<code>DecelerateInterpolator</code>)。<br />
+类型估值器(<code>TypeEvaluator</code>)的作用是根据当前属性改变的百分比计算出改变后的属性值，系统内置的估值器有<code>IntEvaluator</code>、<code>FloatEvaluator</code>和<code>ArgbEvaluator</code>。<br />
+(5)动画监听器<br />
+<code>AnimatorListener</code>：监听动画的开始、结束、取消以及重复播放；<br />
+<code>AnimatorUpdateListener</code>：监听动画的整个过程，动画每播放一帧的时候<code>onAnimationUpdate</code>方法就会被回调一次。<br />
+(6)对任意属性做动画的方法：封装原始对象或者<code>ValueAnimator</code><br />
 (7)属性动画的工作原理：属性动画需要运行在有Looper的线程中，反射调用get/set方法</p>
 
 <h4 id="7-4-使用动画的注意事项">7.4 使用动画的注意事项</h4>
 
-<p>(1)OOM：尽量避免使用帧动画，使用的话应尽量避免使用过多尺寸较大的图片；
-(2)内存泄露：属性动画中的无限循环动画需要在Activity退出的时候及时停止，否则将导致Activity无法释放而造成内存泄露。view动画不存在这个问题；
-(3)兼容性问题：某些动画在3.0以下系统上有兼容性问题；
-(4)view动画的问题：view动画是对view的影像做动画，并不是真正的改变view的状态，因此有时候动画完成之后view无法隐藏，即<code>setVisibility(View.GONE)</code>失效了，此时需要调用<code>view.clearAnimation()</code>清除view动画才行。
-(5)不要使用px；
-(6)动画元素的交互：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置</strong>；
+<p>(1)OOM：尽量避免使用帧动画，使用的话应尽量避免使用过多尺寸较大的图片；<br />
+(2)内存泄露：属性动画中的无限循环动画需要在Activity退出的时候及时停止，否则将导致Activity无法释放而造成内存泄露。view动画不存在这个问题；<br />
+(3)兼容性问题：某些动画在3.0以下系统上有兼容性问题；<br />
+(4)view动画的问题：view动画是对view的影像做动画，并不是真正的改变view的状态，因此有时候动画完成之后view无法隐藏，即<code>setVisibility(View.GONE)</code>失效了，此时需要调用<code>view.clearAnimation()</code>清除view动画才行；<br />
+(5)不要使用px；<br />
+(6)动画元素的交互：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置</strong>；<br />
 (7)硬件加速：使用动画的过程中，建议开启硬件加速，这样会提高动画的流畅性。</p>
 
-<p><strong>其他学习资料</strong>
-0.<a href="https://github.com/daimajia/AndroidViewAnimations">代码家的重要的开源项目AndroidViewAnimation</a>
-1.<a href="http://keeganlee.me/post/android/20151003">Android样式的开发:View Animation篇</a>
+<p><strong>其他学习资料</strong><br />
+0.<a href="https://github.com/daimajia/AndroidViewAnimations">代码家的重要的开源项目AndroidViewAnimation</a><br />
+1.<a href="http://keeganlee.me/post/android/20151003">Android样式的开发:View Animation篇</a><br />
 2.<a href="http://keeganlee.me/post/android/20151026">Android样式的开发:Property Animation篇</a></p>
 
 <p>OK，本章结束，谢谢阅读。</p>
@@ -318,6 +336,12 @@ listView.setLayoutAnimation(controller);
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -169,7 +187,7 @@
 
 <h4 id="实现原理分析">实现原理分析</h4>
 
-<p>1.在前面的<a href="https://hujiaweibujidao.github.io/blog/2015/11/29/Android-Heroes-Reading-Notes-5/">《Android群英传》的读书笔记</a>中提到过Activity共享元素过渡动画的实现方式</p>
+<p>1.在前面的<a href="https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/">《Android群英传》的读书笔记</a>中提到过Activity共享元素过渡动画的实现方式</p>
 
 <p><strong>共享元素过渡动画</strong>：一个共享元素过渡动画决定两个Activity之间的过渡怎么共享它们的视图，包括了
 <code>changeBounds</code>：改变目标视图的布局边界；
@@ -311,7 +329,7 @@ public class MorphTransition extends ChangeBounds {
 }
 </code></pre>
 
-<p>4.上面的代码中用到了<code>MorphDrawable</code>类，它继承自<code>Drawable</code>，并添加了前面提到的那两个属性以用于产生属性动画，默认是没有为那两个属性添加<code>set/get</code>方法的，所以需要进行扩展。关于属性动画可以看<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">以前的读书笔记</a>，重要代码如下：</p>
+<p>4.上面的代码中用到了<code>MorphDrawable</code>类，它继承自<code>Drawable</code>，并添加了前面提到的那两个属性以用于产生属性动画，默认是没有为那两个属性添加<code>set/get</code>方法的，所以需要进行扩展。关于属性动画可以看<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">以前的读书笔记</a>，重要代码如下：</p>
 
 <pre><code>/**
  * 形态和颜色可以发生变化的Drawable，形态变化是通过cornerRadius来实现的，颜色变化是通过paint的color来实现的
@@ -524,6 +542,12 @@ public void setupSharedEelementTransitions2() {
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

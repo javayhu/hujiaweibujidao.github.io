@@ -31,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
 
     
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
 
     
@@ -80,6 +88,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -221,19 +239,19 @@ public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, in
 
 <h4 id="12-2-android中的缓存策略">12.2 Android中的缓存策略</h4>
 
-<p>(1)最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：<code>LruCache</code>(内存缓存)和<code>DiskLruCache</code>(磁盘缓存)。
-(2)LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本。LruCache类是一个线程安全的泛型类，它内部采用一个<code>LinkedHashMap</code>以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。
-(3)DiskLruCache磁盘缓存，它不属于Android sdk的一部分，<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java">它的源码可以在这里下载</a>
-DiskLruCache的创建、缓存查找和缓存添加操作
-(4)ImageLoader的实现 <a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">具体内容看源码</a>
+<p>(1)最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：<code>LruCache</code>(内存缓存)和<code>DiskLruCache</code>(磁盘缓存)。<br />
+(2)LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本。LruCache类是一个线程安全的泛型类，它内部采用一个<code>LinkedHashMap</code>以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。<br />
+(3)DiskLruCache磁盘缓存，它不属于Android sdk的一部分，<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java">它的源码可以在这里下载</a><br />
+DiskLruCache的创建、缓存查找和缓存添加操作<br />
+(4)ImageLoader的实现 <a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">具体内容看源码</a><br />
 功能：图片的同步/异步加载，图片压缩，内存缓存，磁盘缓存，网络拉取</p>
 
 <h4 id="12-3-imageloader的使用">12.3 ImageLoader的使用</h4>
 
-<p>避免发生列表item错位的解决方法：给显示图片的imageview添加<code>tag</code>属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。
-<strong>优化列表的卡顿现象</strong>
-(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿；
-(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；
+<p>避免发生列表item错位的解决方法：给显示图片的imageview添加<code>tag</code>属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。<br />
+<strong>优化列表的卡顿现象</strong><br />
+(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿；<br />
+(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；<br />
 (3)使用硬件加速来解决莫名的卡顿问题，给Activity添加配置<code>android:hardwareAccelerated=&quot;true&quot;</code>。</p>
 
 <p>本章的精华就是作者写的<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">ImageLoader类</a>，建议阅读源码感受下。</p>
@@ -273,7 +291,7 @@ DiskLruCache的创建、缓存查找和缓存添加操作
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/"><h4>Art of Android Development Reading Notes 5</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/"><h4>Art of Android Development Reading Notes 1</h4></a></span>
       
   
 </aside>
@@ -324,6 +342,12 @@ DiskLruCache的创建、缓存查找和缓存添加操作
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>

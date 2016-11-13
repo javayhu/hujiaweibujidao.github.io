@@ -18,6 +18,8 @@
     
     <meta property="og:article:tag" content="algorithm" />
     
+    <meta property="og:article:tag" content="python" />
+    
     
 
     <meta name="description" content="Happy Coding &amp; Enjoy Living" />
@@ -29,6 +31,14 @@
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
     <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
 
     
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
@@ -80,6 +90,16 @@
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
+    </ul>
+
+    <h3 class="nav-title-tag">Tags</h3>
+    <ul>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">life</a></li>
     </ul>
 
     
@@ -154,6 +174,8 @@
          
           <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
          
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/python/">#python</a></span>
+         
         </section>
         <br/>
     </header>
@@ -221,7 +243,7 @@ print bisect_left(a, 5) #3
 print bisect_right(a, 5) #4
 </code></pre>
 
-<p>二分查找策略很好，但是它有个前提，序列必须是有序的才可以这样做，为了高效地得到中间位置的元素，于是就有了二叉搜索树，这个我们在<a href="https://hujiaweibujidao.github.io/blog/2014/05/08/python-algorithms-Trees/">数据结构篇中已经详细介绍过了</a>，下面给出一份完整的二叉搜索树的实现，不过多介绍了。</p>
+<p>二分查找策略很好，但是它有个前提，序列必须是有序的才可以这样做，为了高效地得到中间位置的元素，于是就有了二叉搜索树，这个我们在<a href="https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/">数据结构篇中已经详细介绍过了</a>，下面给出一份完整的二叉搜索树的实现，不过多介绍了。</p>
 
 <pre><code>class Node:
     lft = None
@@ -271,7 +293,7 @@ class Tree:                                     # Simple wrapper
 
 <p>[扩展知识：在Python中如果泥需要求前 k 小或者前 k 大的元素，可以使用<code>heapq</code>模块中的<code>nsmallest</code>或者<code>nlargest</code>函数，如果 k 很小的话这种方式会好些，但是如果 k 很大的话，不如直接去调用<code>sort</code>函数]</p>
 
-<p>要想解决这个问题，我们还是要用分治法，采用类似快排中的<code>partition</code>将序列进行划分(divide)，也就是说找一个主元(pivot)，然后用主元作为基准将序列分成两部分，一部分小于主元，另一半大于主元，比较下主元最终的位置值和 k的大小关系，然后确定后面在哪个部分继续进行划分。如果这里不理解的话请移步阅读前面<a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-algorithms-sort/">数据结构篇之排序中的快速排序</a></p>
+<p>要想解决这个问题，我们还是要用分治法，采用类似快排中的<code>partition</code>将序列进行划分(divide)，也就是说找一个主元(pivot)，然后用主元作为基准将序列分成两部分，一部分小于主元，另一半大于主元，比较下主元最终的位置值和 k的大小关系，然后确定后面在哪个部分继续进行划分。如果这里不理解的话请移步阅读前面<a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/">数据结构篇之排序中的快速排序</a></p>
 
 <p>基于上面的想法就有了下面的实现，需要注意的是下面的<code>partition</code>函数不是就地划分的哟</p>
 
@@ -314,7 +336,7 @@ print ans == seq #True
 
 <p>3.二分排序</p>
 
-<p>前面我们介绍了二分查找，下面看看如何进行二分排序，这里不再详细介绍快排和合并排序的思想了，如果不理解的话请移步阅读前面<a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-algorithms-sort/">数据结构篇之排序</a></p>
+<p>前面我们介绍了二分查找，下面看看如何进行二分排序，这里不再详细介绍快排和合并排序的思想了，如果不理解的话请移步阅读前面<a href="https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/">数据结构篇之排序</a></p>
 
 <p>利用前面的<code>partition</code>函数快排代码呼之欲出</p>
 
@@ -446,6 +468,12 @@ B(n) &lt; lg n + 1 &lt; T(n).</p>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
     <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
     
 </body>
 </html>
