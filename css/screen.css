@@ -171,7 +171,7 @@ table { border-collapse: collapse; border-spacing: 0; }
     content: "\f431";
 }
 .icon-arrow-up:before {
-    content: "\f431";
+    content: "\f432";
 }
 .icon-stats:before {
     content: "\f508";
@@ -1455,6 +1455,7 @@ body:not(.post-template) .post-title {
     font-size: 1rem;
     line-height: 1.75em;
     color: #BBC7CC;
+    text-align: center;
 }
 
 .site-footer a {
@@ -1469,15 +1470,15 @@ body:not(.post-template) .post-title {
 
 .poweredby {
     display: block;
-    width: 45%;
-    float: right;
-    text-align: right;
+    /*width: 45%;*/
+    /*float: right;*/
+    /*text-align: right;*/
 }
 
 .copyright {
     display: block;
-    width: 45%;
-    float: left;
+    /*width: 45%;*/
+    /*float: left;*/
 }
 
 
