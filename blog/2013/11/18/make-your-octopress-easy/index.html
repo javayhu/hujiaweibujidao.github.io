@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Make Your Octopress Easy &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2013-11-18T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="dev" />
+    
+    
+
+    <title>
+       Make Your Octopress Easy &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Make Your Octopress Easy</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2013-11-18T00:00:00Z">
+            Nov 18, 2013
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/dev/">#dev</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>写了几个<code>shell</code>脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。</p>
+
+<p>我特别头疼于类似新建文章<code>new_post[&quot;postname&quot;]</code>这些个命令，那个下划线可能会记成短破折线，时间长了我可能就不记得这个命令了，当然，如果你是ruby开发者那就肯定不会这样啦，我这年龄大了，记忆力不行了，很难记住那么多的命令啦，还有就是我希望只要打开Terminal就可以调用这些命令，而不用每次切换目录，而且每次我新建了一个文章之后，Mou能够直接启动并打开这个新建的文章让我编辑，想想，这个世界是不是美好多了？哈哈哈</p>
+
+<p>操作步骤：</p>
+
+<h4 id="1-新建环境变量-octopress-home-它是你的octopress的根目录-并添加到-path-中">[1]新建环境变量<code>OCTOPRESS_HOME</code>，它是你的octopress的根目录，并添加到<code>PATH</code>中</h4>
+
+<p>[下面是我在Mac上的操作，其他系统自行修改]</p>
+
+<pre><code class="language-java">sudo nano ~/.bash_profile  #打开并修改.bash_profile文件，下面两行是在该文件中的修改
+export OCTOPRESS_HOME=/Users/hujiawei/git/octopress  #添加OCTOPRESS_HOME变量
+export PATH=${PATH}:${OCTOPRESS_HOME}  #添加到path中
+source ~/.bash_profile  
+echo $OCTOPRESS_HOME  #验证是否变量存在
+echo $PATH  #验证path是否设置成功
+</code></pre>
+
+<h4 id="2-编写几个-shell-脚本-放在-octopress-home-目录下-作用分别如下">[2]编写几个<code>shell</code>脚本，放在<code>OCTOPRESS_HOME</code>目录下，作用分别如下：</h4>
+
+<ul>
+<li>gen：等价于<code>rake generate</code>操作</li>
+</ul>
+
+<pre><code>#! /bin/bash
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+#pwd
+rake generate
+echo &quot;generate ok&quot;
+</code></pre>
+
+<ul>
+<li>dep：等价于<code>rake deploy</code>操作</li>
+</ul>
+
+<pre><code>#! /bin/bash
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+#pwd
+rake generate
+rake deploy
+echo &quot;generate and deploy ok&quot;
+</code></pre>
+
+<ul>
+<li>pre：等价于<code>rake preview</code>操作</li>
+</ul>
+
+<p>[注意，这里我是在子线程中启动预览的，所以你按下了Ctrl+C会也不会把预览给终止了，是不是瞬间又感觉这个世界又美好了很多啊，哈哈]</p>
+
+<pre><code>#! /bin/bash
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+#pwd
+#rake watch
+rake preview &amp;
+#echo &quot;watch and preview ok&quot;
+</code></pre>
+
+<ul>
+<li>gmit：等价于<code>git add/commit/push</code>几个操作的组合</li>
+</ul>
+
+<pre><code>#! /bin/bash
+if [ $# -ne 1 ]
+then
+    echo &quot;Usage - gmit  message&quot;
+    exit 1
+fi
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+#pwd
+git add .
+git commit -m &quot;$1&quot;
+git push origin source
+echo &quot;git commit and push ok&quot;
+</code></pre>
+
+<ul>
+<li>newpost：等价于<code>new_post[&quot;&quot;] + open Mou</code>操作组合</li>
+</ul>
+
+<pre><code>#! /bin/bash
+if [ $# -ne 1 ]
+then
+    echo &quot;Usage -newpost  postname&quot;
+    exit 1
+fi
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+#pwd
+filepath=`rake new_post[&quot;$1&quot;]`
+#echo &quot;$filepath&quot;
+#Creating new post: source/_posts/2013-11-18-test5.markdown
+OLD_IFS=&quot;$IFS&quot;
+IFS=&quot; &quot;
+arr=($filepath)
+filepath=${arr[3]}
+IFS=&quot;$OLD_IFS&quot;
+postpath=&quot;$path/$filepath&quot;
+#echo &quot;$postpath&quot;
+#open Mou with the file
+open -a Mou $postpath
+</code></pre>
+
+<ul>
+<li>newpage：等价于<code>new_page[&quot;&quot;] + open Mou</code>操作组合</li>
+</ul>
+
+<pre><code>#! /bin/bash
+if [ $# -ne 1 ]
+then
+    echo &quot;Usage - newpage  pagename&quot;
+    exit 1
+fi
+path=$OCTOPRESS_HOME
+cd &quot;$path&quot;
+echo &quot;$path&quot;
+filepath=`rake new_page[&quot;$1&quot;]`
+echo &quot;$filepath&quot;
+#Creating new page: source/projects/index.markdown
+OLD_IFS=&quot;$IFS&quot;
+IFS=&quot; &quot;
+arr=($filepath)
+filepath=${arr[3]}
+IFS=&quot;$OLD_IFS&quot;
+postpath=&quot;$path/$filepath&quot;
+echo &quot;$postpath&quot;
+#open Mou with the file
+open -a Mou $postpath
+</code></pre>
+
+<h4 id="3-使用-chmod-777-xxx-修改脚本的权限-测试执行下">[3]使用<code>chmod 777 xxx</code>修改脚本的权限，测试执行下</h4>
+
+<pre><code>cd $OCTOPRESS_HOME
+chmod 777 gen  #其他文件类似
+chmod 777 pre
+chmod 777 dep
+chmod 777 gmit
+chmod 777 newpost
+chmod 777 newpage
+gen
+newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件之后，你会发现Mou闪电般的将文件打开了，等着你输入呢！
+</code></pre>
+
+<p>OK！Enjoy the world of Octopress！</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

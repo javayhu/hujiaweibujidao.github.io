@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Publish Gradle Android Library to jCenter Repository &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-05-28T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Publish Gradle Android Library to jCenter Repository &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Publish Gradle Android Library to jCenter Repository</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-05-28T00:00:00Z">
+            May 28, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。</p>
+
+<p>经常使用开源项目的童鞋肯定很喜欢以Maven或者Gradle的形式来导入其他的开源库，但是那些开源库是怎么放到开源库的仓库中的呢？之前Android Studio默认使用的Maven Central仓库，现在改为使用jCenter仓库，感兴趣可以阅读<a href="http://blog.bintray.com/2015/02/09/android-studio-migration-from-maven-central-to-jcenter/">Android Studio – Migration from Maven Central to JCenter</a>这篇文章了解下为什么。</p>
+
+<h4 id="必要知识-gradle">必要知识：Gradle</h4>
+
+<p>这里只是列举一些必要的关于Gradle的知识，具体的详细介绍可以参考其他文档，例如Gradle官网的<a href="https://docs.gradle.org/current/userguide/userguide.html">Gradle User Guide</a>或者<a href="http://tools.android.com/">http://tools.android.com/</a>的<a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Plugin User Guide</a>(也可以阅读我的注解版本<a href="http://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-user-guide-1/">gradle-plugin-user-guide</a>)。</p>
+
+<p>关于如何在Android Studio中使用Gradle，可以看下这篇教程<a href="http://rominirani.com/2014/08/19/gradle-tutorial-part-6-android-studio-gradle/">Gradle Tutorial : Part 6 : Android Studio + Gradle</a>。</p>
+
+<p>下面是从<a href="http://blog.jobbole.com/71999/">Gradle入门系列教程</a> (英文原版教程<a href="http://www.petrikainulainen.net/programming/gradle/getting-started-with-gradle-introduction/">点这里</a>)中摘取的重要知识，可以对Gradle做个大致了解。</p>
+
+<p>(1)每一次Gradle的构建(build)都包含一个或者多个项目(project)，每个项目中又包含一个或者多个任务(task)</p>
+
+<p>(2)Gradle的设计理念是：所有有用的特性都由Gradle插件提供。Gradle插件能够在项目中添加新任务；为新加入的任务提供默认配置；加入新的属性，可以覆盖插件的默认配置属性；为项目加入新的依赖。</p>
+
+<p>(3)本质上说，仓库是一种存放依赖的容器，每一个项目都具备一个或多个仓库。Gradle支持以下仓库格式：Ivy仓库；Maven仓库；Flat directory仓库。</p>
+
+<p>在加入Maven仓库时，Gradle提供了三种“别名”供我们使用，它们分别是：</p>
+
+<p><code>mavenCentral()</code>别名，表示依赖是从<code>Central Maven 2</code>仓库中获取的。<br />
+<code>jcenter()</code>别名，表示依赖是从<code>Bintary’s JCenter Maven</code>仓库中获取的。<br />
+<code>mavenLocal()</code>别名，表示依赖是从本地的Maven仓库中获取的。</p>
+
+<p>声明仓库示例(将Central Maven 2 仓库加入到构建中)：</p>
+
+<pre><code class="language-python">repositories {
+    mavenCentral()
+}
+</code></pre>
+
+<p>(4)最普遍的依赖称为外部依赖，这些依赖存放在外部仓库中。一个外部依赖可以由以下属性指定：</p>
+
+<p><code>group</code>属性指定依赖的分组（在Maven中，就是<code>groupId</code>）。<br />
+<code>name</code>属性指定依赖的名称（在Maven中，就是<code>artifactId</code>）。<br />
+<code>version</code>属性指定外部依赖的版本（在Maven中，就是<code>version</code>）。</p>
+
+<p>声明依赖格式：</p>
+
+<pre><code>dependencies {
+    compile 'groupId:artifactId:version'
+}
+</code></pre>
+
+<h4 id="使用-gradle-bintray-plugin-插件">使用<code>gradle-bintray-plugin</code>插件</h4>
+
+<p>下面进入今天的主题，讨论如何通过Gradle将Android库项目上传到jCenter仓库中。这方面的博客还是有一些的，考虑到我以后会经常用到，还是打算写一篇自己的心得体会。参考网址如下：</p>
+
+<p>①<a href="http://blog.csdn.net/maosidiaoxian/article/details/43148643">使用Gradle发布Android开源项目到JCenter</a></p>
+
+<p>②<a href="https://www.virag.si/2015/01/publishing-gradle-android-library-to-jcenter/">Publishing Gradle Android Library to jCenter Repository</a></p>
+
+<p>中文版本 <a href="http://zhengxiaopeng.com/2015/02/02/%E4%BD%BF%E7%94%A8Gradle%E5%8F%91%E5%B8%83%E9%A1%B9%E7%9B%AE%E5%88%B0JCenter%E4%BB%93%E5%BA%93/">使用Gradle发布项目到JCenter仓库</a></p>
+
+<p>详细步骤如下：</p>
+
+<p>1.注册Bintray账号</p>
+
+<p>网址：<a href="https://bintray.com/">https://bintray.com/</a></p>
+
+<p>2.记录API Key</p>
+
+<p>个人设置界面的左下角<code>API key</code>，复制保存该字符串</p>
+
+<p>3.新建AS项目和库项目</p>
+
+<p>在AS中新建项目，例如<code>Polaris</code>，再在项目中新建Module，选择Android Library Module，例如<code>lib4polaris</code>。</p>
+
+<p>4.打开项目根目录下的<code>local.properties</code>文件(如果没有就新建一个)，输入你的Bintray账号的信息</p>
+
+<pre><code>bintray.user= [your name]
+bintray.apikey= [your api key]
+</code></pre>
+
+<p>5.打开项目根目录下的<code>build.gradle</code>文件，修改<code>dependencies</code>部分，注意gradle需要使用<code>1.1.2</code>版本，如果使用的是<code>1.1.0</code>版本会出错的。另外添加两个重要的插件，其中<code>android-maven-plugin</code>插件用于生成JavaDoc和Jar文件等，<code>gradle-bintray-plugin</code>插件是用于上传项目到Bintray。</p>
+
+<pre><code>    dependencies {
+        //when using gradle 1.1.0, there will be an error: Cannot call getBootClasspath() before setTargetInfo() is called
+        //https://www.virag.si/2015/01/publishing-gradle-android-library-to-jcenter/
+        classpath 'com.android.tools.build:gradle:1.1.2' //
+
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+</code></pre>
+
+<p>6.打开库项目<code>lib4polaris</code>中的<code>build.gralde</code>文件，修改成以下内容，其中注释了<code>#CONFIG#</code>的地方都可以根据实际情况进行修改。下面的内容中添加了很多操作，例如定义pom并打包aar，打包javadocjar和sourcejar，上传到Jcenter仓库等。</p>
+
+<p>更多关于配置上传到Bintray的参数可以参见项目<a href="https://github.com/bintray/gradle-bintray-plugin">gradle-bintray-plugin</a>。</p>
+
+<pre><code>apply plugin: 'com.android.library'
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version = &quot;1.0.0&quot;                                                              // #CONFIG# // project version
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion &quot;22.0.1&quot;
+    resourcePrefix &quot;polaris_&quot;                                                  // #CONFIG# // resource prefix
+
+    defaultConfig {
+        minSdkVersion 9
+        targetSdkVersion 22
+        versionCode 1
+        versionName &quot;1.0&quot;
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.android.support:support-v4:22.1.1'
+}
+
+
+def siteUrl = 'https://github.com/hujiaweibujidao/Polaris'                    // #CONFIG# // project homepage
+def gitUrl = 'https://github.com/hujiaweibujidao/Polaris.git'                 // #CONFIG# // project git url
+def issueUrl = 'https://github.com/hujiaweibujidao/Polaris/issues'            // #CONFIG# // project issue url
+group = &quot;hujiaweibujidao.github.io&quot;                                           // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
+
+
+//generate javadoc and jar
+
+install {
+    repositories.mavenInstaller {
+        // generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                name 'Polaris Library For Android'                             // #CONFIG# // project title
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'hujiaweibujidao'                                  // #CONFIG# // your user id (you can write your nickname)
+                        name 'hujiawei'                                       // #CONFIG# // your user name
+                        email 'hujiawei090807@gmail.com'                      // #CONFIG# // your email
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+
+//bintray upload
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty(&quot;bintray.user&quot;)
+    key = properties.getProperty(&quot;bintray.apikey&quot;)
+    configurations = ['archives']
+    pkg {
+        repo = &quot;maven&quot;
+        name = &quot;polaris&quot;                                                   // #CONFIG# project name in jcenter
+        desc = 'A helpful library for Android named Polaris.'
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        issueTrackerUrl = issueUrl
+        licenses = [&quot;Apache-2.0&quot;]
+        labels = ['android']
+        publish = true
+        publicDownloadNumbers = true
+    }
+}
+</code></pre>
+
+<p>7.选择工具栏中的<code>Sync projects with Gradle files</code>对项目进行重建，然后可以看到Gradle视图中的Task中出现了<code>bintrayUpload</code>，双击即可将项目上传到Bintray中。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/polaris_bintray.png" alt="image" /></p>
+
+<p>8.在详情页中找到Maven Central标签，鼠标放上去它会提示你去提交到jCenter进行审核，点击进入后，写点内容就可以了，等待审核需要一定的时间。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/jcenter_include.png" alt="image" /></p>
+
+<p>9.审核通过之后，就可以在项目中通过很简单的方式来使用这个库项目了。</p>
+
+<p>10.前面指定了项目关联的Git网址，但是实际上并没有上传Github上，下面的操作可以简单地在Android Studio中实现。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/share_project_on_github.png" alt="image" /></p>
+
+<p>上传之后即可在Github中看到你的该项目。</p>
+
+<p>题外话：</p>
+
+<p>1.关于搜索顺序</p>
+
+<p>下面其实是一次搜索报错，然后列出了Gradle搜索该library的顺序，感觉还是蛮有信息量的。</p>
+
+<pre><code>Could not find hujiaweibujidao.github.io:polaris:1.0.1.
+Searched in the following locations:
+    https://jcenter.bintray.com/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.pom
+    https://jcenter.bintray.com/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.jar
+    file:/Users/hujiawei/Android/android_sdk/extras/android/m2repository/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.pom
+    file:/Users/hujiawei/Android/android_sdk/extras/android/m2repository/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.jar
+    file:/Users/hujiawei/Android/android_sdk/extras/google/m2repository/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.pom
+    file:/Users/hujiawei/Android/android_sdk/extras/google/m2repository/hujiaweibujidao/github/io/polaris/1.0.1/polaris-1.0.1.jar
+</code></pre>
+
+<p>从上面的输出可以看出，先是在Bintray上的对应位置找，如果没找到尝试在本地的android目录下的m2repository中找，如果还是没有找到，就在本地的google目录下的m2repository中找，如果还是没有找到，那就提示出错。</p>
+
+<p>2.关于版本</p>
+
+<p>有些时候同一个版本号多次执行<code>bintrayUpload</code>任务会报错，这个时候有两种选择，要么修改<code>version</code>，要么在Bintray中删除该版本。</p>
+
+<p>另外，如果提示<code>xxx.jar</code>等文件找不到，可以先执行<code>install</code>任务，然后再执行<code>bintrayUpload</code>任务。</p>
+
+<p>3.关于引用</p>
+
+<p>审核通过之后，我先是使用<code>hujiaweibujidao.github.io:polaris:1.0.0</code>作为引用来导入，可是发现一直提示找不到！最后在Bintray中的<code>Files</code>中发现，pom以及jar等文件的命名是以<code>lib4polaris-x.y.z</code>开头的，也就是默认情况下是以我创建的Android Library Module的名称作为开始，因为上传本身也是发生在这个库项目的<code>build.gradle</code>中的。所以，如果改为使用<code>hujiaweibujidao.github.io:lib4polaris:1.0.0</code>即可引用到了。但是，如何自定义<code>artifactId</code>呢？这里有个对于该问题的讨论你可以试下，<a href="https://github.com/dcendents/android-maven-gradle-plugin/issues/9">https://github.com/dcendents/android-maven-gradle-plugin/issues/9</a>，其中msdx最后给出了他的方案，详情可以参考他的项目<a href="https://github.com/msdx/gradle-publish">https://github.com/msdx/gradle-publish</a>。</p>
+
+<h4 id="使用-bintray-release-插件">使用<code>bintray-release</code>插件</h4>
+
+<p>该插件使得上传library到Bintray上更加简单，项目源码地址：<a href="https://github.com/novoda/bintray-release">novoda/bintray-release</a></p>
+
+<p>参考教程：<a href="http://www.jianshu.com/p/499a086e3bab">上传android library 到bintray</a></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

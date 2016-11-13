@@ -1,0 +1,1901 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dev on Hujiawei Bujidao</title>
+    <link>https://hujiaweibujidao.github.io/tags/dev/</link>
+    <description>Recent content in Dev on Hujiawei Bujidao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved &amp;copy; 2016</copyright>
+    <lastBuildDate>Fri, 20 May 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://hujiaweibujidao.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Learning Git by Animations</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
+      <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
+      <description>
+
+&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;head&#34;&gt;HEAD&lt;/h3&gt;
+
+&lt;p&gt;HEAD 是当前提交记录的符号名称 &amp;ndash; 其实就是你正在其基础进行工作的提交记录。HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;分离HEAD&lt;/strong&gt;：分离HEAD实际上就是指HEAD并没有指向某个分支，而是指向了某个具体的提交记录。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;相对引用&lt;/strong&gt;：把&lt;code&gt;^&lt;/code&gt;跟在引用名后面，表示寻找指定提交记录的父提交。例如&lt;code&gt;master^&lt;/code&gt;表示master的父提交，&lt;code&gt;master^^&lt;/code&gt;表示master的父父提交。如果要移动多步，可以使用&lt;code&gt;~&lt;/code&gt;加上数字快速移动。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -f master HEAD~3&lt;/code&gt;命令的含义是（强制）移动 master 指向 HEAD 的第3级父提交。&lt;/p&gt;
+
+&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout C1&lt;/code&gt;，中间执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout HEAD~4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;多个父提交&lt;/strong&gt;：当有多个父提交记录的时候，该如何移动HEAD呢？&lt;/p&gt;
+
+&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout master^2&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;解析：注意区别&lt;code&gt;git checkout master^2&lt;/code&gt;和&lt;code&gt;git checkout master^^&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head_move.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;常见的两个合并分支的操作git merge和git rebase。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-merge&#34;&gt;git merge&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;merge&lt;/strong&gt;产生一个特殊的提交记录，它包含两个唯一父提交，有两个父提交的提交记录本质上指 “我想把这两个父提交本身及它们的父提交集合都包含进来”。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git merge [branch]&lt;/code&gt;操作是将指定的分支合并到当前的分支，该操作会创建一个新的提交记录，但是不会改变当前分支。&lt;/p&gt;
+
+&lt;p&gt;如下图所示，从左到右执行了&lt;code&gt;git merge bugFix&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_merge.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-rebase&#34;&gt;git rebase&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;rebase&lt;/strong&gt; 是在分支之间合并工作的第二种方法。rebase 就是取出一系列的提交记录，“复制”它们，然后把它们放在别的地方。rebasing 的优势是可以创造更线性的提交历史。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git rebase [branch]&lt;/code&gt;操作也是用来合并分支，但是合并时并不产生新的提交记录，而是复制那个分支下的所有提交记录加入到当前的分支下面，同样地，&lt;strong&gt;该操作不改变当前分支&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;下图先执行了&lt;code&gt;git rebase master&lt;/code&gt;，后执行了&lt;code&gt;git checkout master; git rebase bugFix&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;快捷命令&lt;code&gt;git rabase [branch A] [branch B]&lt;/code&gt;，将分支B上的提交记录rebase到分支A&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;常见的两个撤销更改的操作git reset和git revert。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-reset&#34;&gt;git reset&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt; 把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在&amp;rdquo;重写历史&amp;rdquo;。&lt;code&gt;git reset&lt;/code&gt; 往回移动分支，原来指向的提交记录好像重来没有提交过一样。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git reset&lt;/code&gt;修改的只是本地分支，这种“改写历史”的方法对别人的远端分支是无效的！&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git reset C1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_reset.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-revert&#34;&gt;git revert&lt;/h3&gt;
+
+&lt;p&gt;为了撤销更改并*传播*给别人，我们需要使用 &lt;code&gt;git revert&lt;/code&gt;。它会在在我们要撤销的提交记录后面增加一个新提交，而且新提交记录 &lt;code&gt;C2&#39;&lt;/code&gt; 引入的*更改*是刚好是用来撤销 &lt;code&gt;C2&lt;/code&gt;这个提交的。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git revert&lt;/code&gt;命令就是通过增加新提交来撤销之前的修改，而且能够将撤销传播给协作者。&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git revert HEAD&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_revert.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-cherry-pick&#34;&gt;git cherry-pick&lt;/h3&gt;
+
+&lt;p&gt;如果你想选择性地将一些提交“复制”到你当前的位置的话，可以考虑使用&lt;code&gt;git cherry-pick&lt;/code&gt;，命令形式：&lt;code&gt;git cherry-pick &amp;lt;Commit 1&amp;gt; &amp;lt;Commit 2&amp;gt; &amp;lt;...&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git cherry-pick&lt;/code&gt;方便我们选择所需的提交记录加入到某个分支下，使用&lt;code&gt;git rebase -i&lt;/code&gt;启动rebase的交互模式也可以完成该任务，它甚至可以对提交记录进行排序！&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git cherry-pick C2 C4&lt;/code&gt;，从图中可以看出该命令并没有去合并分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_cherry.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-tag&#34;&gt;git tag&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git tag&lt;/code&gt;可以永远地指向某个特定的 commit，即使再有新的commit进来的时候，它都不会移动。你不可以 &amp;ldquo;checkout&amp;rdquo; 到 tag 指定的 commit上，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git tag&lt;/code&gt;就是给某个提交记录做个标签，就像是“里程碑”一样。&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git tag v1 C1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_tag.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;远端分支&#34;&gt;远端分支&lt;/h3&gt;
+
+&lt;p&gt;远端分支（remote branch）一般命名为&lt;code&gt;&amp;lt;remote name&amp;gt;/&amp;lt;branch name&amp;gt;&lt;/code&gt;，而远端名称一般都是&lt;code&gt;origin&lt;/code&gt;。本地的远端分支仅伴随远端更新而更新，这个分支上创建的提交不会更新该分支，只会使其分离HEAD。&lt;/p&gt;
+
+&lt;h3 id=&#34;git-fetch&#34;&gt;git fetch&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt;命令用于从远端仓库获取数据，当我们更新远端的仓库时, 我们的远端分支也会更新并映射到最新的远端仓库。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git fetch&lt;/code&gt;完成了两个操作：（1）下载本地仓库未包含的提交对象；（2）更新我们的远端分支点(例如&lt;code&gt;o/master&lt;/code&gt;)。但是，它不会修改本地的状态，例如master分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;复杂的fetch操作：&lt;code&gt;git fetch origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;从远端指定的source位置拉取到本地指定的destination位置&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git fetch origin foo~1:bar&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch_more.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-pull&#34;&gt;git pull&lt;/h3&gt;
+
+&lt;p&gt;如前面&lt;code&gt;git fetch&lt;/code&gt;所示，它不会修改master分支的状态，但是一般我们在执行了&lt;code&gt;git fetch&lt;/code&gt;命令之后都需要执行&lt;code&gt;git rebase o/master&lt;/code&gt;或者&lt;code&gt;git merge o/master&lt;/code&gt;来修改master分支的状态，于是就有了&lt;code&gt;git pull&lt;/code&gt;命令，它是&lt;code&gt;git fetch + git merge&lt;/code&gt;两个命令的缩写，而&lt;code&gt;git pull --rebase&lt;/code&gt;是&lt;code&gt;git fetch + git rebase&lt;/code&gt;两个命令的缩写。&lt;/p&gt;
+
+&lt;p&gt;如下图，执行了&lt;code&gt;git pull&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git merge o/master&lt;/code&gt;两个命令&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，可以是执行了&lt;code&gt;git pull --rebase&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git rebase o/master&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;三个命令&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-push&#34;&gt;git push&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令将本地提交记录push到远端仓库中，它还会自动同步本地的远端分支。&lt;/p&gt;
+
+&lt;p&gt;如果远端仓库中存在超前于本地仓库的提交记录的话，那么git push操作会失败，此时需要先获取远端提交记录（&lt;code&gt;git fetch&lt;/code&gt;），在本地仓库完成合并过程，才能push。&lt;/p&gt;
+
+&lt;p&gt;复杂的push操作：&lt;code&gt;git push origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git push origin foo^:master&lt;/code&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_push.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;远端跟踪&#34;&gt;远端跟踪&lt;/h3&gt;
+
+&lt;p&gt;本地的master分支被设定为跟踪origin/master分支（它就是隐含的merge和push的目的地），它们之间的连接关系就是远端跟踪（remote tracking）。&lt;/p&gt;
+
+&lt;p&gt;你可以让做任意分支跟踪 &lt;code&gt;o/master&lt;/code&gt;, 然后分支就会隐含 push 的 destination(&lt;code&gt;o/master&lt;/code&gt;) 以及 merge 的 target (&lt;code&gt;o/master&lt;/code&gt;)。这意味着你可以在分支 &lt;code&gt;foo&lt;/code&gt; 上执行 &lt;code&gt;git push&lt;/code&gt;， 将工作推送到远端的&lt;code&gt;master&lt;/code&gt;。有两种方法设置：&lt;/p&gt;
+
+&lt;p&gt;（1）第一种就是通过远端分支检出一个新的分支，执行：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git checkout -b foo o/master&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然分支名不叫master，但是在执行&lt;code&gt;git push&lt;/code&gt;的时候foo分支上的提交记录会同步到远端仓库&lt;/p&gt;
+
+&lt;p&gt;（2）第二种追踪远端分支的方法就是使用选项 : &lt;code&gt;git branch -u&lt;/code&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -u o/master foo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这样 &lt;code&gt;foo&lt;/code&gt; 就会跟踪 &lt;code&gt;o/master&lt;/code&gt; 了. 如果你处于 foo 分支, 那么可以省略 foo：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -u o/master&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，两种方式变化到图三殊途同归。&lt;/p&gt;
+
+&lt;p&gt;从图一变化到图三执行了&lt;code&gt;git checkout -b foo o/master; git commit; git push&lt;/code&gt;；&lt;/p&gt;
+
+&lt;p&gt;从图二变化到图三执行了&lt;code&gt;git branch -u o/master; git commit; git push&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_remote_track.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;零碎知识点：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gank Alfred Workflow</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
+      <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
+      <description>
+
+&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;0-使用方式&#34;&gt;0.使用方式&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases&#34;&gt;下载最新版本的workflow文件双击使用Alfred打开即可&lt;/a&gt;，workflow也已提交到&lt;a href=&#34;http://www.packal.org/workflow/gank-alfred-workflow&#34;&gt;Packal&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用前提是Alfred Workflow开启了Powerpack功能。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
+
+&lt;h4 id=&#34;2-改进方案&#34;&gt;2.改进方案&lt;/h4&gt;
+
+&lt;p&gt;两个可供改进的点：&lt;/p&gt;
+
+&lt;p&gt;（1）搜索结果应该直接显示与搜索关键词相关的干货列表&lt;/p&gt;
+
+&lt;p&gt;（2）搜索过程应该考虑干货目标网页的内容&lt;/p&gt;
+
+&lt;h4 id=&#34;3-实现原理&#34;&gt;3.实现原理&lt;/h4&gt;
+
+&lt;p&gt;只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：&lt;/p&gt;
+
+&lt;h5 id=&#34;1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io&#34;&gt;（1）&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;这个项目主要是利用&lt;a href=&#34;http://gank.io/api&#34;&gt;Gank的API&lt;/a&gt;来获取干货列表，除此之外，该项目还利用&lt;a href=&#34;https://github.com/seomoz/dragnet&#34;&gt;dragnet&lt;/a&gt;开源工具提取每一个干货的目标网页内容，最终利用&lt;a href=&#34;http://lucene.apache.org/&#34;&gt;Lucene&lt;/a&gt;和&lt;a href=&#34;http://sparkjava.com/&#34;&gt;Spark&lt;/a&gt;等开源工具提供一个高效的干货搜索接口，并将其部署在&lt;a href=&#34;https://www.heroku.com/&#34;&gt;Heroku&lt;/a&gt;平台。&lt;/strong&gt;   &lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;网站预览&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
+
+&lt;h5 id=&#34;2-gank-alfred-workflow&#34;&gt;（2）Gank Alfred Workflow&lt;/h5&gt;
+
+&lt;p&gt;有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库&lt;a href=&#34;https://github.com/deanishe/alfred-workflow/&#34;&gt;deanishe/alfred-workflow&lt;/a&gt;，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的&lt;a href=&#34;http://www.deanishe.net/alfred-workflow/tutorial.html&#34;&gt;入门教程&lt;/a&gt;方便开发者迅速上手。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。&lt;/strong&gt;嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转&lt;a href=&#34;http://gank.io/api&#34;&gt;gank.io&lt;/a&gt;提供的API都行。&lt;/p&gt;
+
+&lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
+
+&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Fix Homebrew for OS X 10.10 Yosemite</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</link>
+      <pubDate>Fri, 12 Jun 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</guid>
+      <description>&lt;p&gt;本文主要解决系统升级到OS X 10.10 Yosemite后Homebrew出现的一些问题。&lt;/p&gt;
+
+&lt;p&gt;不记得自己是什么时候将系统升级到Yosemite了，后来也不记得怎么配置系统的环境了，最近发现Homebrew总是出现问题，运行&lt;code&gt;brew update&lt;/code&gt;总是报错，于是今天查了下文档解决了下这个问题。&lt;/p&gt;
+
+&lt;p&gt;首先的报错内容如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;hujiawei-MBPR:~ hujiawei$ brew update
+error: Your local changes to the following files would be overwritten by merge:
+	Library/Formula/jasper.rb
+	Library/brew.rb
+Please, commit your changes or stash them before you can merge.
+Aborting
+Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;好吧，这个时候我才意识到Homebrew在本地实际上是一个git repository，于是进入&lt;code&gt;/usr/local/&lt;/code&gt;中进行查看&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MBPR:~ hujiawei$ ls -al /usr/local
+total 152
+drwxrwxr-x   25 root      admin    850  6 12 21:35 .
+drwxr-xr-x@  14 root      wheel    476  6  7 00:19 ..
+-rw-r--r--@   1 hujiawei  admin  21508  5 20  2014 .DS_Store
+drwxr-xr-x   14 hujiawei  admin    476  6 12 22:32 .git
+-rw-r--r--    1 hujiawei  admin    301  6 12 21:35 .gitignore
+-rw-r--r--    1 hujiawei  admin    261  6 12 21:35 .yardopts
+-rw-r--r--    1 hujiawei  admin   3161  6 12 21:35 CODEOFCONDUCT.md
+-rw-r--r--    1 hujiawei  admin   1103  6 12 21:35 CONTRIBUTING.md
+drwxr-xr-x   32 hujiawei  admin   1088  6  7 09:20 Cellar
+drwxr-xr-x    4 hujiawei  admin    136 10 17  2014 Frameworks
+-rw-r--r--    1 hujiawei  admin   1241  6 12 21:35 LICENSE.txt
+drwxr-xr-x   13 hujiawei  admin    442  6 12 21:35 Library
+-rw-r--r--    1 hujiawei  admin   2121  6 12 21:35 README.md
+-rw-r--r--    1 hujiawei  admin  23801  6 12 21:35 SUPPORTERS.md
+drwxr-xr-x  253 hujiawei  admin   8602  6 12 21:35 bin
+drwxr-xr-x    4 hujiawei  admin    136 10 26  2014 djcelery
+drwxr-xr-x    4 hujiawei  admin    136 10 17  2014 etc
+drwxr-xr-x   82 hujiawei  admin   2788  4 15 23:48 include
+drwxr-xr-x  238 hujiawei  admin   8092  4 15 23:48 lib
+drwxr-xr-x    5 hujiawei  admin    170 10 17  2014 man
+lrwxr-xr-x    1 root      wheel     27  2  1 13:46 mysql -&amp;gt; mysql-5.6.11-osx10.7-x86_64
+drwxr-xr-x   17 root      wheel    578 10 17  2014 mysql-5.6.11-osx10.7-x86_64
+drwxr-xr-x   31 hujiawei  admin   1054 10 17  2014 opt
+drwxr-xr-x   20 hujiawei  admin    680  6  6 21:35 share
+drwx------    3 hujiawei  admin    102 10 17  2014 var
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;也不记得之前为什么改了其中两个Ruby文件，所以这里直接使用&lt;code&gt;git checkout -- &amp;lt;file&amp;gt;&lt;/code&gt;来覆盖掉本地的修改，完了之后再次执行&lt;code&gt;brew update&lt;/code&gt;，但是，接着还是报错，内容是如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MBPR:bin hujiawei$ brew update
+/usr/local/bin/brew: /usr/local/Library/brew.rb: /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby: bad interpreter: No such file or directory
+/usr/local/bin/brew: line 26: /usr/local/Library/brew.rb: Undefined error: 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;发现原来Ruby环境有问题了，原因是这样的，以前Mac系统中Ruby的版本是1.8，而Yosemite中内置的Ruby版本是2.0，所以找不到1.8版本的Ruby，所以需要修改&lt;code&gt;brew.rb&lt;/code&gt;文件修改Ruby的路径。&lt;/p&gt;
+
+&lt;p&gt;参考网址&lt;a href=&#34;http://jcvangent.com/fixing-homebrew-os-x-10-10-yosemite/&#34;&gt;Fix Homebrew for OS X 10.10 Yosemite&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;操作如下：&lt;/p&gt;
+
+&lt;p&gt;(1)打开文件&lt;code&gt;/usr/local/Library/brew.rb&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;(2)修改第一行，把&lt;code&gt;1.8&lt;/code&gt;改成&lt;code&gt;Current&lt;/code&gt;就好啦&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; #!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby -W0
+
+/将上面这行改成下面这行 ===&amp;gt;
+
+#!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3)然后回到&lt;code&gt;/usr/local&lt;/code&gt;目录，提交本地修改，之后再执行&lt;code&gt;brew update&lt;/code&gt;即可&lt;/p&gt;
+
+&lt;p&gt;这样Homebrew应该没啥问题了，哈哈&lt;/p&gt;
+
+&lt;p&gt;2016年9月更新&lt;/p&gt;
+
+&lt;p&gt;今天执行&lt;code&gt;brew update&lt;/code&gt;又报错，内容如下&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;error: insufficient permission for adding an object to repository database .git/objects
+fatal: failed to write object
+fatal: unpack-objects failed
+Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;已经很久没有更新brew了，更加不记得这段日子干了啥。可以尝试下面的操作，进入到&lt;code&gt;/usr/local&lt;/code&gt;目录，执行&lt;code&gt;git pull&lt;/code&gt;，然后肯定会有冲突出现，因为上面我们修改了&lt;code&gt;Library/brew.rb&lt;/code&gt;文件，只要解决这个冲突再执行&lt;code&gt;brew update&lt;/code&gt;就好了。从打印输出的内容来看，brew的变化很大。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using Git with multiple Public Keys</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</link>
+      <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
+      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥&lt;/p&gt;
+
+&lt;p&gt;很多时候，如果我们在多个网站有了Git账号，例如Github、GitCafe、CodingNet等，当我们与不同网站的代码库进行连接的时候可能会因为我们没有配置或者配置不当，导致我们需要重复输入账号密码的问题，本文就是介绍如何同时使用多个公秘钥。&lt;/p&gt;
+
+&lt;p&gt;内容参考自GitCafe帮助文档&lt;a href=&#34;https://gitcafe.com/GitCafe/Help/wiki/%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E5%85%AC%E7%A7%98%E9%92%A5#wiki&#34;&gt;如何同时使用多个公秘钥&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;之前我已经配置了三个GitCafe的账号，下面以配置CodingNet为例，介绍整个配置过程。&lt;/p&gt;
+
+&lt;p&gt;1.生成新的SSH秘钥&lt;/p&gt;
+
+&lt;p&gt;记得把以下命令中的&lt;code&gt;YOUR_EMAIL@YOUREMAIL.COM&lt;/code&gt;改为你的 Email 地址&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh-keygen -t rsa -C &amp;quot;YOUR_EMAIL@YOUREMAIL.COM&amp;quot; -f ~/.ssh/codingnet
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.生成过程中会出现以下信息，按屏幕提示操作，并记得输入 &lt;code&gt;passphrase&lt;/code&gt; 口令(可以为空)。这将在 &lt;code&gt;~/.ssh/&lt;/code&gt; 目录下生成 &lt;code&gt;codingnet&lt;/code&gt; 和 &lt;code&gt;codingnet.pub&lt;/code&gt; 文件，记住千万不要把私钥文件 &lt;code&gt;codingnet&lt;/code&gt; 透露给任何人。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /Users/hujiawei/.ssh/codingnet.
+Your public key has been saved in /Users/hujiawei/.ssh/codingnet.pub.
+The key fingerprint is:
+f6:66:dd:e9:f4:72:c7:dc:90:86:50:f0:4f:ba:ff:64 hujiawei090807@gmail.com
+The key&#39;s randomart image is:
++--[ RSA 2048]----+
+|          ..     |
+|           ..    |
+|           .. .  |
+|          .  +   |
+|        S  ..... |
+|       . . ..o+. |
+|          + o.++E|
+|         o   +.+*|
+|              o++|
++-----------------+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.在 SSH 用户配置文件 &lt;code&gt;~/.ssh/config&lt;/code&gt; 中指定对应服务所使用的公秘钥名称，如果没有 &lt;code&gt;config&lt;/code&gt; 文件的话就新建一个，并输入以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Host git.coding.net www.coding.net
+  IdentityFile ~/.ssh/codingnet
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.添加 &lt;code&gt;codingnet.pub&lt;/code&gt; 中的内容到 Coding.net 网站，注意，不需要保留文件结尾的邮件地址&lt;/p&gt;
+
+&lt;p&gt;复制文件内容到剪切板中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pbcopy &amp;lt; ~/.ssh/codingnet.pub
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/codingnet.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;5.最后测试配置文件是否正常工作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ssh -T git@git.coding.net
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果提示是否继续连接的话输入&lt;code&gt;yes&lt;/code&gt;，这样就会永久地将连接信息添加到文件&lt;code&gt;know_hosts&lt;/code&gt;中。最后如果连接成功的话，会出现成功的信息。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Coding.net Tips : [Hello hujiawei! You&#39;ve connected to Coding.net by SSH successfully! ]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;6.完成&lt;/p&gt;
+
+&lt;p&gt;测试通过后，你就可以使用独立的一套公秘钥来使用 CodingNet 了。&lt;/p&gt;
+
+&lt;p&gt;Enjoy！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pages Service for GitCafe Project</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</link>
+      <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
+      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务&lt;/p&gt;
+
+&lt;p&gt;参考网址：&lt;a href=&#34;https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9#wiki&#34;&gt;WIKI for GitCafe Pages&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;1.在GitCafe上新建项目，假设名为&lt;code&gt;resourcerepository&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.克隆项目到本地，并进入该项目目录&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git clone git@gitcafe.com:hujiawei/resourcerepository.git
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.新建分支&lt;code&gt;gitcafe-pages&lt;/code&gt;，然后提交该分支&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git checkout -b gitcafe-pages
+git push -u origin gitcafe-pages
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.添加一个测试文件，例如&lt;code&gt;index.html&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;Hello, hujiawei&amp;quot; &amp;gt; index.html
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5.提交测试文件到GitCafe&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git add index.html
+git commit -m &amp;quot;test&amp;quot;
+git push
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;6.通过访问&lt;code&gt;username.gitcafe.io/projectname/&lt;/code&gt;，例如&lt;code&gt;http://hujiawei.gitcafe.io/resourcerepository/&lt;/code&gt;即可看到页面显示&lt;code&gt;Hello, hujiawei&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Set up Octopress environment on another computer</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</link>
+      <pubDate>Wed, 11 Mar 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
+      <description>&lt;p&gt;本文主要介绍如何在另一台电脑上搭建Octopress的环境。&lt;/p&gt;
+
+&lt;p&gt;最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。&lt;/p&gt;
+
+&lt;p&gt;后来我发现下面的网址：&lt;a href=&#34;http://94it.net/a/jingxuanboke/2014/0114/237386.html&#34;&gt;Octopress重装或者多台电脑上并行写作同步&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Octopress的git仓库(repository)有两个分支，分别是master和source。master存储的是博客网站本身，而source存储的是生成博客的源文件。&lt;/p&gt;
+
+&lt;p&gt;master的内容放在根目录的&lt;code&gt;_deploy&lt;/code&gt;文件夹内，当你push源文件时会忽略，它使用的是&lt;code&gt;rake deploy&lt;/code&gt;命令来更新的。&lt;/p&gt;
+
+&lt;p&gt;重装&lt;/p&gt;
+
+&lt;p&gt;如果本地已经配置过octopress，只是把octopress删掉重装。将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：&lt;/p&gt;
+
+&lt;p&gt;1.首先将博客的源文件clone到本地的octopress文件夹内。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ git clone -b source git@github.com:username/username.github.com.git octopress&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.将博客文件clone到octopress的_deploy文件夹内。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;$ cd octopress $ git clone git@github.com:username/username.github.com.git _deploy&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;执行完这两步就OK了。注意这里第2步一定要，不然在&lt;code&gt;rake deploy&lt;/code&gt;时会报错&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;no such file or directory - _deploy&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如果是重新在一台全新的电脑上要和服务器上的进行同步，除了上面的操作之外，还需要：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd octopress ruby --version # Should report Ruby 1.9.2
+gem install bundler
+bundle install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意：这里不需要再次rake install 来安装默认主题，不然会把自定义的主题恢复到默认状态。&lt;/p&gt;
+
+&lt;p&gt;如果几台电脑上面都配置好了Otcopress，要在其中一台上写博客需要进行同步，更新source仓库即可。更新master并不是必须的，因为更改源文件之后还是需要&lt;code&gt;rake generate&lt;/code&gt;，这个时候会自动进行 master更新。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cd octopress
+$ git pull origin source # update the local source branch
+$ cd ./_deploy
+$ git pull origin master # update the local master branch
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>using Qiniu JS SDK to upload Videos in Django</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</link>
+      <pubDate>Fri, 14 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</guid>
+      <description>&lt;p&gt;使用七牛云存储服务来存储网站(Django开发)中用户上传的视频，特此记录下来，以防以后需要。&lt;/p&gt;
+
+&lt;p&gt;PS: 如何想要在SAE上使用Qiniu的话就需要将Qiniu Python SDK相关的源文件都拷贝到Django项目中，否则SAE会报找不到&lt;code&gt;qiniu&lt;/code&gt;这个模块，因为SAE内置的预定义的模块列表中没有&lt;code&gt;qiniu&lt;/code&gt;！&lt;/p&gt;
+
+&lt;p&gt;我想要的目标是可以上传视频，最好还能显示上传的进度&lt;/p&gt;
+
+&lt;p&gt;七牛提供了一个演示通过文件上传的网站：&lt;a href=&#34;http://jssdk.demo.qiniu.io&#34;&gt;http://jssdk.demo.qiniu.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/qiniu1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;该SDK是七牛提供的Javascript SDK，传送门: &lt;a href=&#34;https://github.com/qiniupd/qiniu-js-sdk&#34;&gt;七牛的Javascript SDK on Github&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;这个演示网站做得非常不错，演示了文件上传并显示了上传的进度，正是我想要的效果，所以我后面把这个JS SDK嵌入到Django项目中，测试其功能&lt;/p&gt;
+
+&lt;p&gt;下面这段代码演示的是在纯Python项目中如何将文件上传到七牛服务器，若还没有安装七牛的话请先运行 &lt;code&gt;pip install qiniu&lt;/code&gt; [注意，我的版本是&lt;code&gt;6.1.8&lt;/code&gt;，最近七牛的SDK发生了大变化，所以如果想要和我得到一样的效果请安装&lt;code&gt;6.1.8&lt;/code&gt;版本，我的好友已经测试过其他的更新的版本都不行]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+import os
+
+__author__ = &#39;hujiawei&#39;
+__doc__ = &#39;qiniu sdk video demo&#39;
+
+import StringIO
+import sys
+import qiniu.conf
+import qiniu.rs
+import qiniu.io
+
+BUCKET_NAME = &amp;quot;YOUR_BUCKET_NAME&amp;quot;
+qiniu.conf.ACCESS_KEY = &amp;quot;YOUR_ACCESS_KEY&amp;quot;
+qiniu.conf.SECRET_KEY = &amp;quot;YOUR_SECRET_KEY&amp;quot;
+
+policy = qiniu.rs.PutPolicy(BUCKET_NAME)
+uptoken = policy.token()
+print(uptoken)
+
+# ############ 示例：上传视频 ###############
+# extra = qiniu.io.PutExtra()
+# item = os.path.join(os.getcwd(), &#39;hellokitty.m4v&#39;)
+# ret, err = qiniu.io.put_file(uptoken, None, item, extra)
+# if err is not None:
+#     sys.stderr.write(&#39;error: %s &#39; % err)
+
+#ok: hamster.swf
+
+
+# ############ 示例：上传图片 ###############
+extra = qiniu.io.PutExtra()
+extra.mime_type = &amp;quot;image/jpeg&amp;quot;
+# print os.getcwd() #/Users/hujiawei/PycharmProjects/qiniusimple
+item = os.path.join(os.getcwd(), &#39;coder.jpg&#39;)
+ret, err = qiniu.io.put_file(uptoken, None, item, extra)
+if err is not None:
+    sys.stderr.write(&#39;error: %s &#39; % err)
+
+# extra = qiniu.io.PutExtra()
+# # extra.mime_type = &amp;quot;image/jpeg&amp;quot; #image/png 七牛能够自动识别mime-type
+# # print os.getcwd() #/Users/hujiawei/PycharmProjects/qiniusimple
+# item = os.path.join(os.getcwd(), &#39;apple.png&#39;)
+# ret, err = qiniu.io.put_file(uptoken, None, item, extra)
+
+############# 示例：上传字符串内容 ###############
+# extra = qiniu.io.PutExtra()
+# extra.mime_type = &amp;quot;text/plain&amp;quot;
+# key = &amp;quot;hellotxt&amp;quot;
+# data = StringIO.StringIO(&amp;quot;hello!&amp;quot;) # data 可以是str或readable对象
+# ret, err = qiniu.io.put(uptoken, key, data, extra)
+# if err is not None:
+#     sys.stderr.write(&#39;error: %s &#39; % err)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;本来我以为要在Django中使用这个SDK会很难，因为看到该项目的Github介绍还要安装&lt;code&gt;Node.js&lt;/code&gt;等工具，可是实践了发现其实不难，如果只是想简单地使用它那么可以就把它们当做一个js库就行了，但是因为qiniu js sdk源码中的重要文件里面使用了不少相对路径，所以建议还是将sdk中的所有内容一起拷贝到Django项目中，保持其原有的相对位置。&lt;/p&gt;
+
+&lt;p&gt;需要的可以下载我制作的可运行的Django项目 &lt;a href=&#34;https://hujiaweibujidao.github.io/files/qiniudemo.zip&#34;&gt;A Django site using Qiniu JS SDK&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;如果要正常运行，请先仔细阅读下面的内容：&lt;/p&gt;
+
+&lt;p&gt;1.修改&lt;code&gt;video/views.py&lt;/code&gt;中的如下内容，具体填什么你懂得&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;BUCKET_NAME = &amp;quot;YOUR_BUCKET_NAME&amp;quot;
+qiniu.conf.ACCESS_KEY = &amp;quot;YOUR_ACCESS_KEY&amp;quot;
+qiniu.conf.SECRET_KEY = &amp;quot;YOUR_SECRET_KEY&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.修改&lt;code&gt;static/js/main.js&lt;/code&gt;中的内容，我设置了获取uptoken的请求URL为&lt;code&gt;/video/uptoken&lt;/code&gt;，这样每次要上传一个文件的时候，这个URL就会被调用，它会返回一个JSON字符串，包含了&lt;code&gt;uptoken&lt;/code&gt;的值，具体可见&lt;code&gt;video/views.py&lt;/code&gt;中的&lt;code&gt;uptoken&lt;/code&gt;方法；其次还设置了域名，你需要将它设置为你的七牛域名，例如&lt;code&gt;http://whyeduvideo.qiniudn.com/&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;uptoken_url: &#39;/video/uptoken&#39;,
+domain: &#39;YOUR_DOMAIN_NAME&#39;,
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其他的内容就不用修改了，直接运行项目，进入到&lt;code&gt;http://127.0.0.1:8000/video/&lt;/code&gt;下就能看到&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/qiniu2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果你想要得到上传之后的文件在七牛服务器上的链接地址的话，请看下面的内容&lt;/p&gt;
+
+&lt;p&gt;在SDK的&lt;code&gt;js/ui.js&lt;/code&gt;文件的189行的函数中，其中的变量&lt;code&gt;url&lt;/code&gt;就是我们需要的，我们只需要通过js将这个变量赋值给界面中的其他元素中就行了，可以直接在下面的函数中进行赋值，也可以在&lt;code&gt;js/main.js&lt;/code&gt;文件的&lt;code&gt;FileUploaded&lt;/code&gt;函数中进行赋值，推荐后面一种方式。&lt;/p&gt;
+
+&lt;p&gt;下面代码中的&lt;code&gt;id=&#39;videourl&#39;&lt;/code&gt;是我自己添加的，用于后面的赋值操作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;FileProgress.prototype.setComplete = function(up, info) {
+    var td = this.fileProgressWrapper.find(&#39;td:eq(2) .progress&#39;);
+    var res = $.parseJSON(info);
+    var url;
+    if (res.url) {
+        url = res.url;
+        str = &amp;quot;&amp;lt;div&amp;gt;&amp;lt;strong&amp;gt;Link:&amp;lt;/strong&amp;gt;&amp;lt;a href=&amp;quot; + res.url + &amp;quot; target=&#39;_blank&#39; id=&#39;videourl&#39; &amp;gt; &amp;quot; + res.url + &amp;quot;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;quot; +
+            &amp;quot;&amp;lt;div class=hash&amp;gt;&amp;lt;strong&amp;gt;Hash:&amp;lt;/strong&amp;gt;&amp;quot; + res.hash + &amp;quot;&amp;lt;/div&amp;gt;&amp;quot;;
+    } else {
+        var domain = up.getOption(&#39;domain&#39;);
+        url = domain + encodeURI(res.key);
+        var link = domain + res.key;
+        str = &amp;quot;&amp;lt;div&amp;gt;&amp;lt;strong&amp;gt;Link:&amp;lt;/strong&amp;gt;&amp;lt;a href=&amp;quot; + url + &amp;quot; target=&#39;_blank&#39;  id=&#39;videourl&#39; &amp;gt; &amp;quot; + link + &amp;quot;&amp;lt;/a&amp;gt;&amp;lt;/div&amp;gt;&amp;quot; +
+            &amp;quot;&amp;lt;div class=hash&amp;gt;&amp;lt;strong&amp;gt;Hash:&amp;lt;/strong&amp;gt;&amp;quot; + res.hash + &amp;quot;&amp;lt;/div&amp;gt;&amp;quot;;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在&lt;code&gt;js/main.js&lt;/code&gt;文件的&lt;code&gt;FileUploaded&lt;/code&gt;函数中进行赋值，下面的例子是将url赋值给表单中的一个隐藏的input组件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; &#39;FileUploaded&#39;: function(up, file, info) {
+                var progress = new FileProgress(file, &#39;fsUploadProgress&#39;);
+                progress.setComplete(up, info);
+
+                $(&#39;#inputurl&#39;).val($(&#39;#videourl&#39;).attr(&amp;quot;href&amp;quot;));//url
+
+            },
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bootcamp an open source Django site</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</link>
+      <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
+      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp&lt;/p&gt;
+
+&lt;p&gt;最近接了一个项目，用Django开发一个网站，于是打算看看用Django开发的开源网站，推荐一个网站 &lt;a href=&#34;https://www.djangosites.org/with-source/&#34;&gt;djangosites&lt;/a&gt;，上面有大量用django开发的网站源码。最后我找到了Bootcamp，一个包含了Feed、Article和QA三部分的社交网站，界面简洁大方，功能基本齐全，相当适合我这个新手拿来学习&lt;/p&gt;
+
+&lt;p&gt;试用Bootcamp网址： &lt;a href=&#34;http://trybootcamp.vitorfs.com/&#34;&gt;http://trybootcamp.vitorfs.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bootcamp源码： &lt;a href=&#34;https://github.com/vitorfs/bootcamp&#34;&gt;https://github.com/vitorfs/bootcamp&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Bootcamp安装说明： &lt;a href=&#34;https://github.com/vitorfs/bootcamp/wiki/Installing-and-Running-Bootcamp&#34;&gt;https://github.com/vitorfs/bootcamp/wiki/Installing-and-Running-Bootcamp&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;安装过程很简单，以下是我安装过程中遇到的一些问题和关键步骤：&lt;/p&gt;
+
+&lt;p&gt;(1)安装psycopg2报错 &lt;code&gt;Error: pg_config executable not found.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;参考网址： &lt;a href=&#34;http://stackoverflow.com/questions/11618898/pg-config-executable-not-found&#34;&gt;http://stackoverflow.com/questions/11618898/pg-config-executable-not-found&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;解决方案：&lt;code&gt;brew install postgresql&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;(2)新建文件&lt;code&gt;.env&lt;/code&gt;，配置数据库为mysql&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;DEBUG=True
+SECRET_KEY=&#39;mys3cr3tk3y&#39;
+DATABASE_URL=&#39;mysql://root:@localhost/bootcamp&#39;  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3)同步数据库，运行 &lt;code&gt;python manage.py syncdb&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:bootcamp hujiawei$ python manage.py syncdb
+Syncing...
+Creating tables ...
+Creating table auth_permission ...
+
+You just installed Django&#39;s auth system, which means you don&#39;t have any superusers defined.
+Would you like to create one now? (yes/no): yes
+Username (leave blank to use &#39;hujiawei&#39;): hujiawei
+Email address: ...
+Installing indexes ...
+Installed 0 object(s) from 0 fixture(s)
+
+Synced:
+ &amp;gt; django.contrib.auth ...
+
+Not synced (use migrations):
+ -
+(use ./manage.py migrate to migrate these)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4)除去项目中的google痕迹，加速页面的加载&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;base.html&lt;/code&gt;中删除&lt;code&gt;ga.js&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!--
+&amp;lt;script src=&amp;quot;{{ STATIC_URL }}js/ga.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+--&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;static/css/bootcamp.css&lt;/code&gt;中修改字体库url，改成360的CDN&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;@import url(http://fonts.useso.com/css?family=Audiowide);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;网站界面如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/others/bootcamp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Good Python Articles</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</link>
+      <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
+      <description>&lt;p&gt;关于Python的好文章集锦&lt;/p&gt;
+
+&lt;p&gt;1.&lt;a href=&#34;http://www.toptal.com/python/top-10-mistakes-that-python-programmers-make&#34;&gt;Top 10 Mistakes that Python Programmers Make&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.&lt;a href=&#34;http://pypix.com/python/advanced-data-structures-python/&#34;&gt;Advanced Data Structures in Python&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/65218/&#34;&gt;中文翻译版本:Python高级数据结构&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;3.&lt;a href=&#34;http://akaptur.github.io/blog/2013/11/15/introduction-to-the-python-interpreter/&#34;&gt;Introduction to the Python Interpreter&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/55327/&#34;&gt;中文翻译版本:Python解释器简介&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;4.&lt;a href=&#34;http://sahandsaba.com/python-iterators-generators.html&#34;&gt;A Study of Python&amp;rsquo;s More Advanced Features&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/66097/&#34;&gt;中文翻译版本：Python高级特性&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;5.&lt;a href=&#34;http://pypix.com/tools-and-tips/design-patterns-beginners/&#34;&gt;Design Patterns for Beginners in Python&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/62023/&#34;&gt;中文翻译版本：Python设计模式入门&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;6.&lt;a href=&#34;http://sahandsaba.com/thirty-python-language-features-and-tricks-you-may-not-know.html&#34;&gt;30 Python Language Features and Tricks You May Not Know About&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.jobbole.com/63320/&#34;&gt;中文翻译版本：30个Python编程技巧&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;7.描述器，元类，上下文管理库的介绍参见&lt;a href=&#34;http://blog.jobbole.com/61171/&#34;&gt;伯乐在线-python高级编程技巧&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;TO BE CONTINUED&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hadoop Installation - Single Node Setup</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
+      <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
+      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程&lt;/p&gt;
+
+&lt;p&gt;上学期在Mac上搭建好了Hadoop，因为这学期开学重装了系统就没了，以为不会再折腾，结果大数据作业又要整hadoop，于是乎，爱折腾的程序猿又来折腾咯，有过上一次安装的经历，这次简单多了，下面简单的列举主要步骤。&lt;/p&gt;
+
+&lt;p&gt;感谢下面两份教程：&lt;/p&gt;
+
+&lt;p&gt;1.[en]&lt;a href=&#34;http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/&#34;&gt;Running Hadoop on Ubuntu Linux (Single-Node Cluster)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.[cn]&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;1.下载部分&lt;/p&gt;
+
+&lt;p&gt;(0)你肯定不是安装到本地的啦，先安装VMware吧，我会告诉你这货需要序列号吗?&lt;/p&gt;
+
+&lt;p&gt;(1)Ubuntu：&lt;a href=&#34;http://www.ubuntu.com/&#34;&gt;http://www.ubuntu.com/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;随便这个Desktop版本下载，我的是12.04 LTS&lt;/p&gt;
+
+&lt;p&gt;(2)JDK：&lt;a href=&#34;http://hadoop.apache.org/&#34;&gt;http://hadoop.apache.org/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;个人喜欢从Oracle上下载JDK来安装，不喜欢&lt;code&gt;apt-get&lt;/code&gt;模式，我使用的是&lt;code&gt;JDK1.7&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;(3)Hadoop：&lt;a href=&#34;http://hadoop.apache.org/&#34;&gt;http://hadoop.apache.org/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;我使用的是上学期用的1.2.1版本，名称&lt;code&gt;hadoop-1.2.1-bin.tar.gz&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.配置Java环境 [该部分直接摘自我之前&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/&#34;&gt;Android和OpenCV开发中的配置&lt;/a&gt;]&lt;/p&gt;
+
+&lt;p&gt;①下载&lt;a href=&#34;http://www.oracle.com/technetwork/java/javase/downloads/index.html&#34;&gt;Oracle JDK&lt;/a&gt;，下载的版本是JDK1.7.0_40&lt;/p&gt;
+
+&lt;p&gt;②下载之后解压即可，解压路径为&lt;code&gt;/home/xface/android/jdk1.7.0&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;③打开终端，输入&lt;code&gt;sudo gedit /etc/profile&lt;/code&gt;，在文件末尾添加下面内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;JAVA_HOME=/home/xface/android/jdk1.7.0
+export PATH=$JAVA_HOME/bin:$PATH
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如下图所示，后面环境配置中添加内容也是如此&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/etcprofile.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;④打开终端输入&lt;code&gt;java -version&lt;/code&gt;进行测试&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/javaversion.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;3.配置Hadoop环境&lt;/p&gt;
+
+&lt;p&gt;(1)添加账户和组&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo addgroup hadoop
+sudo adduser --ingroup hadoop hduser
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2)安装openssh-server，并配置公钥&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install openssh-server
+su - hduser
+ssh-keygen -t rsa -P &amp;quot;&amp;quot;
+cat $HOME/.ssh/id_rsa.pub &amp;gt;&amp;gt; $HOME/.ssh/authorized_keys
+ssh localhost #测试
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3)Disabling IPv6?&lt;/p&gt;
+
+&lt;p&gt;这步我没有操作，如果需要请参考上面的教程&lt;a href=&#34;http://www.michael-noll.com/tutorials/writing-an-hadoop-mapreduce-program-in-python/&#34;&gt;Running Hadoop on Ubuntu Linux (Single-Node Cluster)&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;(4)解压&lt;code&gt;hadoop-1.2.1-bin.tar.gz&lt;/code&gt;，然后重命名为&lt;code&gt;hadoop&lt;/code&gt;，接着修改文件夹所有者&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mv hadoop-1.2.1 hadoop
+chown -R hduser:hadoop hadoop
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(5)修改文件&lt;code&gt;/etc/profile&lt;/code&gt;中系统环境变量的配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#set hadoop environment
+
+HADOOP_HOME=/home/xface/hadoop/hadoop
+export PATH=${PATH}:${HADOOP_HOME}/bin
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(6)在hadoop安装目录下新建临时文件目录&lt;code&gt;tmp&lt;/code&gt;和日志文件目录&lt;code&gt;logs&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo mkdir -p tmp
+sudo chown hduser:hadoop tmp
+# ...and if you want to tighten up security, chmod from 755 to 750...
+sudo chmod 750 tmp #我习惯用777
+#logs的配置和tmp一样
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(7)配置hadoop的&lt;code&gt;conf&lt;/code&gt;文件夹下的文件&lt;/p&gt;
+
+&lt;p&gt;①&lt;code&gt;hadoop-env.sh&lt;/code&gt; 修改Java配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export JAVA_HOME=/home/xface/android/jdk1.7.0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;②&lt;code&gt;core-site.xml&lt;/code&gt; 添加下面的配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;property&amp;gt;
+  &amp;lt;name&amp;gt;hadoop.tmp.dir&amp;lt;/name&amp;gt;
+  &amp;lt;value&amp;gt;/home/xface/hadoop/tmp&amp;lt;/value&amp;gt;
+  &amp;lt;description&amp;gt;A base for other temporary directories.&amp;lt;/description&amp;gt;
+&amp;lt;/property&amp;gt;
+
+&amp;lt;property&amp;gt;
+  &amp;lt;name&amp;gt;fs.default.name&amp;lt;/name&amp;gt;
+  &amp;lt;value&amp;gt;hdfs://localhost:9000&amp;lt;/value&amp;gt;
+  &amp;lt;description&amp;gt;The name of the default file system.  A URI whose
+  scheme and authority determine the FileSystem implementation.  The
+  uri&#39;s scheme determines the config property (fs.SCHEME.impl) naming
+  the FileSystem implementation class.  The uri&#39;s authority is used to
+  determine the host, port, etc. for a filesystem.&amp;lt;/description&amp;gt;
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;③&lt;code&gt;mapred-site.xml&lt;/code&gt; 添加下面的配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;property&amp;gt;
+  &amp;lt;name&amp;gt;mapred.job.tracker&amp;lt;/name&amp;gt;
+  &amp;lt;value&amp;gt;localhost:9001&amp;lt;/value&amp;gt;
+  &amp;lt;description&amp;gt;The host and port that the MapReduce job tracker runs
+  at.  If &amp;quot;local&amp;quot;, then jobs are run in-process as a single map
+  and reduce task.
+  &amp;lt;/description&amp;gt;
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;④&lt;code&gt;hdfs-site.xml&lt;/code&gt; 添加下面的配置 [还可以配置namenode和datanode数据的保存位置，可以参见教程&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;property&amp;gt;
+  &amp;lt;name&amp;gt;dfs.replication&amp;lt;/name&amp;gt;
+  &amp;lt;value&amp;gt;1&amp;lt;/value&amp;gt;
+  &amp;lt;description&amp;gt;Default block replication.
+  The actual number of replications can be specified when the file is created.
+  The default is used if replication is not specified in create time.
+  &amp;lt;/description&amp;gt;
+&amp;lt;/property&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(8)格式化namenode&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hduser@ubuntu:~$ hadoop namenode -format
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(9)执行&lt;code&gt;start-all.sh&lt;/code&gt;启动测试&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hduser@ubuntu:~$ start-all.sh
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(10)执行&lt;code&gt;jps&lt;/code&gt;查看进程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hduser@ubuntu:~$ jps
+5620 JobTracker
+5313 DataNode
+5541 SecondaryNameNode
+5897 Jps
+5851 TaskTracker
+5041 NameNode
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK！恭喜你！至此安装过程就大功告成了！如果比较心急，可以按照&lt;a href=&#34;http://www.michael-noll.com/tutorials/running-hadoop-on-ubuntu-linux-single-node-cluster/#running-a-mapreduce-job&#34;&gt;推荐的教程&lt;/a&gt;运行个MapReduce任务试试看啦，哈哈哈&lt;/p&gt;
+
+&lt;p&gt;如果你需要配置成集群模式的话还是可以参考好友&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;，如果喜欢的话不防看下好友的这篇&lt;a href=&#34;http://www.tianjun.ml/essays/19&#34;&gt;【翻译】Writing an Hadoop MapReduce Program in Python&lt;/a&gt;，不能推荐的更多，哈哈哈&lt;/p&gt;
+
+&lt;p&gt;安装过程中所有执行的命令及其输出见&lt;a href=&#34;https://gist.github.com/hujiaweibujidao/a83fca7b7f40d0029c60&#34;&gt;这个Gist&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Python Basics</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</link>
+      <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
+      <description>&lt;p&gt;Python代码片段&lt;/p&gt;
+
+&lt;p&gt;1.使用&lt;code&gt;glob&lt;/code&gt;模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import glob
+flist=glob.glob(&#39;*.jpeg&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用&lt;code&gt;os.getcwd()&lt;/code&gt;可以得到当前目录，如果想切换到其他目录，可以使用&lt;code&gt;os.chdir(&#39;str/to/path&#39;)&lt;/code&gt;，如果想执行Shell脚本，可以使用&lt;code&gt;os.system(&#39;mkdir newfolder&#39;)&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;对于日常文件和目录的管理, &lt;code&gt;shutil&lt;/code&gt;模块提供了更便捷、更高层次的接口&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import shutil
+shutil.copyfile(&#39;data.db&#39;, &#39;archive.db&#39;)
+shutil.move(&#39;/build/executables&#39;, &#39;installdir&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用PyCharm中，在一个Project中新建一个Directory和新建一个Package之后，IDE都会创建对应的目录，并添加默认的&lt;code&gt;__init__.py&lt;/code&gt;文件，但是，两者还是不一样的。
+如果在它们的目录下各新建一个python脚本测试输出&lt;code&gt;os.getcwd()&lt;/code&gt;，如果是在Directory中得到的是Project的根目录&amp;rsquo;/Users/hujiawei/PycharmProjects/leetcodeoj&amp;rsquo;；如果是在Package中得到的是Package的根目录，如&amp;rsquo;/Users/hujiawei/PycharmProjects/leetcodeoj/pypackage&amp;rsquo;。&lt;/p&gt;
+
+&lt;p&gt;2.如果要在代码中添加中文注释的话，最好在文档开头加上下面的编码声明语句。关于Python中的字符串编码可见&lt;a href=&#34;http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819196283586a37629844456ca7e5a7faa9b94ee8000&#34;&gt;廖雪峰的python教程&lt;/a&gt;。若代码打算用在国际化的环境中, 那么不要使用奇特的编码。Python 默认的 UTF-8, 或者甚至是简单的 ASCII 在任何情况下工作得最好。同样地，如果代码的读者或维护者只有很小的概率使用不同的语言，那么不要在标识符里使用非 ASCII 字符。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# coding=utf-8
+或者
+# -*- coding: utf-8 -*-
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.关于Python中的变量，摘自&lt;a href=&#34;http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386820042500060e2921830a4adf94fb31bcea8d6f5c000&#34;&gt;廖雪峰的python教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;在Python中，变量名类似&lt;code&gt;__xxx__&lt;/code&gt;的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量，所以，不能用&lt;code&gt;__name__&lt;/code&gt;、&lt;code&gt;__score__&lt;/code&gt;这样的变量名。&lt;/p&gt;
+
+&lt;p&gt;有些时候，你会看到以一个下划线开头的实例变量名(&lt;strong&gt;两个下划线开头的也一样算，其实任何以下划线开头的都算&lt;/strong&gt;)，比如&lt;code&gt;_name&lt;/code&gt;，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，&lt;strong&gt;“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问&lt;code&gt;__name&lt;/code&gt;是因为Python解释器对外把&lt;code&gt;__name&lt;/code&gt;变量改成了&lt;code&gt;_Student__name&lt;/code&gt;，所以，仍然可以通过&lt;code&gt;_Student__name&lt;/code&gt;来访问&lt;code&gt;__name&lt;/code&gt;变量。但是强烈建议你不要这么干，因为不同版本的Python解释器可能会把&lt;code&gt;__name&lt;/code&gt;改成不同的变量名。&lt;/p&gt;
+
+&lt;p&gt;总的来说就是，Python本身没有任何机制阻止你干坏事，一切全靠自觉。&lt;/p&gt;
+
+&lt;p&gt;上面说的有点绕，下面我写了两个python脚本，大家可以对照看下哪些能够访问，哪些不能，不能的情况下如何操作变得可以访问(注释后面的&lt;code&gt;yes&lt;/code&gt;和&lt;code&gt;no&lt;/code&gt;表示能不能被访问)。&lt;/p&gt;
+
+&lt;p&gt;也就是说，&lt;strong&gt;默认呢，以一个下划线开始(不论结尾有没有下划线)的变量在外部都是可以直接访问的，但是不推荐这么做；以两个下划线开始和两个下划线结束的变量属于特殊变量，可以直接访问；而以两个下划线开始且结尾不是两个下划线(可以没有也可以有一个下划线)的变量属于私有变量，不能直接访问，虽然可以通过其他方式访问，但最好不要在外部访问。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;文件&lt;code&gt;APythonTestA.py&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+
+class ListNode:
+
+    _class_field10 = &#39;node class field 1-0&#39;
+    _class_field11_ = &#39;node class field 1-1&#39;
+    _class_field12__ = &#39;node class field 1-2&#39;
+
+    __class_field20 = &#39;node class field 2-0&#39;
+    __class_field21_ = &#39;node class field 2-1&#39;
+    __class_field22__ = &#39;node class field 2-2&#39;
+
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+_class_field10 = &#39;node class field 1-0&#39;
+_class_field11_ = &#39;node class field 1-1&#39;
+_class_field12__ = &#39;node class field 1-2&#39;
+
+__class_field20 = &#39;node class field 2-0&#39;
+__class_field21_ = &#39;node class field 2-1&#39;
+__class_field22__ = &#39;node class field 2-2&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;文件&lt;code&gt;APythonTestB.py&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# coding=utf-8
+__author__ = &#39;hujiawei&#39;
+__doc__ = &#39;for python test 2&#39;
+
+import APythonTestA
+
+if __name__ == &#39;__main__&#39;:
+    print(dir(APythonTestA.ListNode))
+    node = APythonTestA.ListNode(4)
+    # print(node._ListNode__class_field20) #yes
+    print(node._class_field10) #yes
+    print(node._class_field11_) #yes
+    print(node._class_field12__) #yes
+    # print(node.__class_field20) #no
+    print(node._ListNode__class_field20)#yes
+    # print(node.__class_field21_) #no
+    print(node._ListNode__class_field21_)#yes
+    print(node.__class_field22__) #yes
+
+    print(dir(APythonTestA))
+    print(APythonTestA._class_field10) #yes
+    print(APythonTestA._class_field11_) #yes
+    print(APythonTestA._class_field12__) #yes
+    print(APythonTestA.__class_field20) #yes
+    print(APythonTestA.__class_field21_) #yes
+    print(APythonTestA.__class_field22__) #yes
+
+# [&#39;_ListNode__class_field20&#39;, &#39;_ListNode__class_field21_&#39;, &#39;__class_field22__&#39;, &#39;__doc__&#39;, &#39;__init__&#39;, &#39;__module__&#39;, &#39;_class_field10&#39;, &#39;_class_field11_&#39;, &#39;_class_field12__&#39;]
+# node class field 1-0
+# node class field 1-1
+# node class field 1-2
+# node class field 2-0
+# node class field 2-1
+# node class field 2-2
+# [&#39;ListNode&#39;, &#39;__builtins__&#39;, &#39;__class_field20&#39;, &#39;__class_field21_&#39;, &#39;__class_field22__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_class_field10&#39;, &#39;_class_field11_&#39;, &#39;_class_field12__&#39;]
+# node class field 1-0
+# node class field 1-1
+# node class field 1-2
+# node class field 2-0
+# node class field 2-1
+# node class field 2-2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.关于Python中函数的参数，摘自&lt;a href=&#34;http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001374738449338c8a122a7f2e047899fc162f4a7205ea3000&#34;&gt;廖雪峰的python教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Python的函数具有非常灵活的参数形态，既可以实现简单的调用，又可以传入非常复杂的参数。
+默认参数一定要用不可变对象，如果是可变对象，运行会有逻辑错误！&lt;/p&gt;
+
+&lt;p&gt;要注意定义可变参数和关键字参数的语法：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;*args&lt;/code&gt;是可变参数，args接收的是一个tuple；&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;**kw&lt;/code&gt;是关键字参数，kw接收的是一个dict。&lt;/p&gt;
+
+&lt;p&gt;以及调用函数时如何传入可变参数和关键字参数的语法：&lt;/p&gt;
+
+&lt;p&gt;可变参数既可以直接传入：&lt;code&gt;func(1, 2, 3)&lt;/code&gt;，又可以先组装list或tuple，再通过&lt;code&gt;*args&lt;/code&gt;传入：&lt;code&gt;func(*(1, 2, 3))；&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;关键字参数既可以直接传入：&lt;code&gt;func(a=1, b=2)&lt;/code&gt;，又可以先组装dict，再通过&lt;code&gt;**kw&lt;/code&gt;传入：&lt;code&gt;func(**{&#39;a&#39;: 1, &#39;b&#39;: 2})&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;使用&lt;code&gt;*args&lt;/code&gt;和&lt;code&gt;**kw&lt;/code&gt;是Python的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。&lt;/p&gt;
+
+&lt;p&gt;5.关于Python的高级特性，参见&lt;a href=&#34;http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013868196169906eb9ca5864384546bf3405ae6a172b3e000&#34;&gt;廖雪峰的python教程&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;切片，迭代，列表生成式，生成器&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;除非特殊的原因，应该经常在代码中使用生成器表达式。但除非是面对非常大的列表，否则是不会看出明显区别的。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;使用生成器得到当前目录及其子目录中的所有文件的代码，下面代码来自&lt;a href=&#34;http://blog.jobbole.com/61171/&#34;&gt;伯乐在线-python高级编程技巧&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;import os
+def tree(top):
+    #path,folder list,file list
+    for path, names, fnames in os.walk(top):
+        for fname in fnames:
+            yield os.path.join(path, fname)
+
+for name in tree(os.getcwd()):
+    print name
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;另一个使用生成器的代码示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;num = [1, 4, -5, 10, -7, 2, 3, -1]
+
+def square_generator(optional_parameter):
+    return (x ** 2 for x in num if x &amp;gt; optional_parameter)
+
+print square_generator(0)
+# &amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0x004E6418&amp;gt;
+
+# Option I
+for k in square_generator(0):
+    print k
+# 1, 16, 100, 4, 9
+
+# Option II
+g = list(square_generator(0))
+print g
+# [1, 16, 100, 4, 9]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;6.关于Python的函数式编程，参见&lt;a href=&#34;http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819866394c3f9efcd1a454b2a8c57933e976445c0000&#34;&gt;廖雪峰的python教程&lt;/a&gt;，讲解得很好&lt;/p&gt;
+
+&lt;p&gt;高阶函数(使用函数作为参数或者返回一个函数的函数称为&lt;code&gt;高阶函数&lt;/code&gt;)，匿名函数(lambda)，装饰器(decorator)和偏函数&lt;/p&gt;
+
+&lt;p&gt;用来测试一个函数花费的运行时间的装饰器，当然你也可以使用其他的方式，比如&lt;code&gt;Timer&lt;/code&gt;来得到运行时间。下面代码来自&lt;a href=&#34;http://blog.jobbole.com/61171/&#34;&gt;伯乐在线-python高级编程技巧&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def timethis(func):
+    &#39;&#39;&#39;
+    Decorator that reports the execution time.
+    &#39;&#39;&#39;
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        end = time.time()
+        print(func.__name__, end-start)
+        return result
+    return wrapper
+
+@timethis
+def countdown(n):
+    while n &amp;gt; 0:
+        n -= 1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@timethis
+def countdown(n):
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就相当于：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def countdown(n):
+...
+countdown = timethis(countdown)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;装饰器除了可以使用函数实现，也可以使用类来实现。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;对装饰器的类实现的唯一要求是它必须能如函数一般使用，也就是说它必须是可调用的。所以，如果想这么做这个类必须实现&lt;code&gt;__call__&lt;/code&gt;方法。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class decorator(object):
+
+    def __init__(self, f):
+        print(&amp;quot;inside decorator.__init__()&amp;quot;)
+        f() # Prove that function definition has completed
+
+    def __call__(self):
+        print(&amp;quot;inside decorator.__call__()&amp;quot;)
+
+@decorator
+def function():
+    print(&amp;quot;inside function()&amp;quot;)
+
+print(&amp;quot;Finished decorating function()&amp;quot;)
+
+function()
+
+# inside decorator.__init__()
+# inside function()
+# Finished decorating function()
+# inside decorator.__call__()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ol&gt;
+&lt;li&gt;语法糖&lt;code&gt;@decorator&lt;/code&gt;相当于&lt;code&gt;function=decorator(function)&lt;/code&gt;，在此调用decorator的&lt;code&gt;__init__&lt;/code&gt;打印&lt;code&gt;“inside decorator.__init__()”&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;随后执行f()打印&lt;code&gt;“inside function()”&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;随后执行&lt;code&gt;“print(“Finished decorating function()”)”&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;最后再调用function函数时，由于使用装饰器包装，因此执行decorator的&lt;code&gt;__call__&lt;/code&gt;打印 &lt;code&gt;“inside decorator.__call__()”&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;==我的批注：我觉得上面代码不是一般的使用方式，实际装饰器类应该是在&lt;code&gt;__init__&lt;/code&gt;方法中设置好自己内部的函数f，然后在方法&lt;code&gt;__call__&lt;/code&gt;中调用函数f，并包含一些其他的方法调用，大概如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;class decorator(object):
+
+    def __init__(self, f):
+        print(&amp;quot;inside decorator.__init__()&amp;quot;)
+        # f() # Prove that function definition has completed
+        self.f=f
+
+    def __call__(self):
+        print(&amp;quot;inside decorator.__call__() begin&amp;quot;)
+        self.f()
+        print(&amp;quot;inside decorator.__call__() end&amp;quot;)
+
+@decorator
+def function():
+    print(&amp;quot;inside function()&amp;quot;)
+
+print(&amp;quot;Finished decorating function()&amp;quot;)
+
+function()
+
+# inside decorator.__init__()
+# Finished decorating function()
+# inside decorator.__call__() begin
+# inside function()
+# inside decorator.__call__() end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在提供一个装饰器的例子，实现自顶向下的带备忘录的DP算法来解决斐波那契数列求值，来源于&lt;a href=&#34;http://link.springer.com/book/10.1007%2F978-1-4302-3238-4&#34;&gt;Python Algorithms- Mastering Basic Algorithms in the Python Language&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;from functools import wraps
+
+def memo(func):
+    cache={}
+    @wraps(func)
+    def wrap(*args):
+        if args not in cache:
+            cache[args]=func(*args)
+        return cache[args]
+    return wrap
+
+@memo
+def fib(i):
+    if i&amp;lt;2: return 1
+    return fib(i-1)+fib(i-2)
+
+print(fib(100))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;7.Python中的值传递和引用传递&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.pythoneye.com.cn/article/pythonpeixun45.html&#34;&gt;参考阅读资料&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;python函数传递的是对象的引用值，非传值或传引用。但是如果对象是不可变的，感觉和c语言中传值差不多。如果对象是可变的，感觉和c语言中传引用差不多。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;运行下面的代码就清楚了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;def foo(a):
+    print &amp;quot;传来是对象的引用对象地址为{0}&amp;quot;.format(id(a))
+    a = 3 #形式参数a是局部变量，a重新绑定到3这个对象。
+    print &amp;quot;变量a新引用对象地址为{0}&amp;quot;.format(id(a))
+    # print a
+
+x = 5
+print &amp;quot;全局变量x引用的对象地址为{0}&amp;quot;.format(id(x))
+foo(x)
+print &amp;quot;变量x新引用对象地址为{0}&amp;quot;.format(id(x))
+print x
+#由于函数内部a绑定到新的对象，也就修改不了全局变量x引用的对象5
+# 全局变量x引用的对象地址为140462615725816
+# 传来是对象的引用对象地址为140462615725816
+# 变量a新引用对象地址为140462615725864
+# 变量x新引用对象地址为140462615725816
+# 5
+
+
+def foo(a):
+    &amp;quot;&amp;quot;&amp;quot;在函数内部直接修改了同一个引用指向的对象。
+    也就修改了实际参数传来的引用值指向的对象。
+    &amp;quot;&amp;quot;&amp;quot;
+    a.append(&amp;quot;can change object&amp;quot;)
+    return a
+
+lst = [1,2,3]
+print foo(lst)
+print lst
+#[1, 2, 3, &#39;can change object&#39;]
+#[1, 2, 3, &#39;can change object&#39;]
+
+
+def foo(a):
+    &amp;quot;&amp;quot;&amp;quot;实际参数传来一个对象[1,2,3]的引用，当时形式参数
+    （局部变量a重新引用到新的对象，也就是说保存了新的对象）
+    当然不能修改原来的对象了。
+    &amp;quot;&amp;quot;&amp;quot;
+    a = [&amp;quot;python&amp;quot;,&amp;quot;java&amp;quot;]
+    return a
+
+lst = [1,2,3]
+for item in foo(lst):
+    print item
+print lst
+# python
+# java
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;8.其他&lt;/p&gt;
+
+&lt;p&gt;(1)Python中&lt;code&gt;set([1,2,3])&lt;/code&gt;是一个set，&lt;code&gt;{1,2,3,4,5}&lt;/code&gt;也是一个set，&lt;code&gt;{1:2,2:4,3:6,4:8,5:10}&lt;/code&gt;是一个dict，而且空的&lt;code&gt;{}&lt;/code&gt;是一个dict！&lt;/p&gt;
+
+&lt;p&gt;set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部“不会有重复元素”。试试把list放入set，看看是否会报错。&lt;/p&gt;
+
+&lt;!--
+(2)得到int类型的最大值使用`sys.maxint`，
+--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Mou and StackEdit and Mathjax</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</link>
+      <pubDate>Tue, 15 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</guid>
+      <description>&lt;p&gt;本文记录使用Mou和Stackedit中出现的一些问题，使其能够正常渲染带数学公式的文章&lt;/p&gt;
+
+&lt;p&gt;如果Mou渲染Math公式有问题的话，尝试在第一行加上如下js，表示让Mou去加载Mathjax的脚本&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;lt;!-- import js for mathjax --&amp;gt;
+&amp;lt;script src=&amp;quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;该链接指向的是Mathjax的js，用来渲染Math公式，Mou支持Mathjax。为了减轻Octopress加载的负担，可以只在需要使用Mathjax的博文中添加一行js即可，不需要将它放在自定义的&lt;code&gt;head.html&lt;/code&gt;文件中。&lt;/p&gt;
+
+&lt;p&gt;不知为何，最近加上了这句Math公式还是没有显示出来，貌似Mou并没有去加载这个js的样子，于是我尝试在浏览器中直接访问，将这个js中的所有内容复制进来，这样Mou有显示正常了，数学公式都没有问题！如果你不能访问，放心，我已经将这个js的源码放在&lt;a href=&#34;https://gist.github.com/hujiaweibujidao/11146289&#34;&gt;这个Gist中&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;如果还是不行的话，那么建议使用&lt;a href=&#34;https://stackedit.io/&#34;&gt;stackedit&lt;/a&gt;，感谢@beader的建议！还有一个问题是stackedit是在线编辑的，图片要保存到Google Driver中(或者有个特定的网址)，另外，它和Mou中内置的MathJax的渲染解析工具略有不同，例如对于行内Math公式的插入方式不同，Stackedit是以&lt;code&gt;$&lt;/code&gt;为行内Math公式为标示符，Mou貌似不存在插入行内Math公式的方式，这时候可以在Mou中的Markdown文档中添加下面的代码让它支持行内Math公式。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;&amp;lt;!-- mathjax config similar to math.stackexchange --&amp;gt;
+&amp;lt;script type=&amp;quot;text/x-mathjax-config&amp;quot;&amp;gt;
+MathJax.Hub.Config({
+  jax: [&amp;quot;input/TeX&amp;quot;, &amp;quot;output/HTML-CSS&amp;quot;],
+  tex2jax: {
+    inlineMath: [ [&#39;$&#39;, &#39;$&#39;] ],
+    displayMath: [ [&#39;$$&#39;, &#39;$$&#39;]],
+    processEscapes: true,
+    skipTags: [&#39;script&#39;, &#39;noscript&#39;, &#39;style&#39;, &#39;textarea&#39;, &#39;pre&#39;, &#39;code&#39;]
+  },
+  messageStyle: &amp;quot;none&amp;quot;,
+  &amp;quot;HTML-CSS&amp;quot;: { preferredFont: &amp;quot;TeX&amp;quot;, availableFonts: [&amp;quot;STIX&amp;quot;,&amp;quot;TeX&amp;quot;] }
+});
+&amp;lt;/script&amp;gt;
+&amp;lt;script src=&amp;quot;http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML&amp;quot; type=&amp;quot;text/javascript&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;测试：The &lt;em&gt;Gamma function&lt;/em&gt; satisfying $\Gamma(n) = (n-1)!\quad\forall
+n\in\mathbb N$ is via the Euler integra&lt;/p&gt;
+
+&lt;p&gt;$$
+\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
+$$&lt;/p&gt;
+
+&lt;p&gt;如果文档是要放在Octopress中使用的话，推荐按照&lt;a href=&#34;http://blog-jfttt.herokuapp.com/blog/2013/12/26/add-latex/&#34;&gt;这位博主的方式修改&lt;/a&gt;，使用kramdown代替默认的rdiscount，然后在&lt;code&gt;footer.html&lt;/code&gt;中加入上面的脚本内容。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;过去的内容，也许不对&amp;hellip;&lt;/strong&gt;&lt;br /&gt;
+[但是，它还是存在些问题，关于inline Math公式的问题，推荐将Octopress中的Markdown引擎换成Kramdown，&lt;a href=&#34;http://yanping.me/cn/blog/2012/03/10/octopress-with-latex/&#34;&gt;参考教程&lt;/a&gt;，另外，使用inline Math和使用block Math一样，都是两个连着的美元符。
+bug：我发现在Math公式中写入&lt;code&gt;|&lt;/code&gt;，即取绝对值符号的话会影响排版，暂时想到的解决方案是转义，换成&lt;code&gt;\\|&lt;/code&gt;，它会换成双竖线，即取2范数的符号，不少情况下，不影响思考，嘿嘿。]&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;=== At Last ===&lt;/p&gt;
+
+&lt;p&gt;我现在的做法是，做一般的作业使用Mou，按照上面的方式肯定有一个可以，完成作业没有问题。
+写Octopress博客中的文章用StackEdit，行内Math用&lt;code&gt;$&lt;/code&gt;(某些情况下可以，但是有些情况下不行，不行的话还是使用&lt;code&gt;$$&lt;/code&gt;，Kramdown支持&lt;code&gt;$$&lt;/code&gt;形式的行内公式)，其他形式用&lt;code&gt;$$&lt;/code&gt;。Stackedit支持直接将文档publish到Github的某个项目的某个分支下的某个文件夹中，文件名自己命名。如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/stackedit_publish.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;注意，如果该目录下有相同名称的文件的话，会被覆盖掉，利用这个方式我们就可以update以前的文章啦！当然，Stackedit在你publish了一次之后会记住publish的目标位置，以后每次更新之后publish都会publish到那个目标位置。&lt;/p&gt;
+
+&lt;p&gt;那如果使用Stackedit打开一个Octopress中已经写好了的文章呢？我使用的方法是&lt;code&gt;Import from URL&lt;/code&gt;功能，其中的&lt;code&gt;URL&lt;/code&gt;是该Markdown文档的URL，可以在Github中找到并打开那个文档，点击&lt;code&gt;Raw&lt;/code&gt;按钮就会进入这份文档的源代码页面，复制该页面的URL即可，比如这篇文章的URL是&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;https://raw.githubusercontent.com/hujiaweibujidao/hujiaweibujidao.github.io/source/source/_posts/2014-04-15-flying-on-mac.markdown
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修改完了使用上面的方式覆盖即可。要让Octopress对这个页面进行重新渲染还需要在本地执行下面代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git pull
+rake generate
+rake deploy
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以按照&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/&#34;&gt;Make Your Octopress Easy&lt;/a&gt;的方式建立一个shell脚本简化处理流程，方法略过。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Setting Up Environments on New Mac</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</link>
+      <pubDate>Tue, 08 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</guid>
+      <description>&lt;p&gt;本文介绍在新苹果机上搭建各种开发环境的过程&lt;/p&gt;
+
+&lt;p&gt;1.安装Java 7u51 ［直接在&lt;a href=&#34;http://www.java.com/zh_CN/download/manual.jsp&#34;&gt;官网&lt;/a&gt;下载dmg点击安装即可]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;JAVA_HOME=/Library/Java/JavaVirtualMachines/1.7.0_51.jdk/Contents/Home&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;为了保证Eclipse和Matlab等需要JRE 6的应用程序能够运行，还需要 ［&lt;code&gt;1.7.0.jdk&lt;/code&gt;部分可能需要修改］
+[个人猜测，因为Mac OS X早期系统和Mavericks中将JDK存放的位置不同，很多程序按照以前的位置去查找，所以找不到，不能正常启动]&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sudo mkdir /System/Library/Java/JavaVirtualMachines&lt;/code&gt;
+&lt;code&gt;sudo ln -s /Library/Java/JavaVirtualMachines/1.7.0.jdk /System/Library/Java/JavaVirtualMachines/1.6.0.jdk&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;实际上上面的操作还是会导致系统存在两个JRE（6和7），不过已经算是很好的解决方案了&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;http://apple.stackexchange.com/questions/58203/mountain-lion-with-java-7-only&#34;&gt;http://apple.stackexchange.com/questions/58203/mountain-lion-with-java-7-only&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.安装HomeBrew&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;https://raw.github.com/Homebrew/homebrew/go/install&#34;&gt;https://raw.github.com/Homebrew/homebrew/go/install&lt;/a&gt;
+网址：&lt;a href=&#34;http://linfan.info/blog/2012/02/25/homebrew-installation-and-usage/&#34;&gt;http://linfan.info/blog/2012/02/25/homebrew-installation-and-usage/&lt;/a&gt; [Homebrew使用教程]&lt;/p&gt;
+
+&lt;p&gt;执行&lt;code&gt;ruby -e &amp;quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&amp;quot;&lt;/code&gt;，如果还没有安装Xcode，则需要安装CLT(Command Line Tools) &lt;code&gt;&amp;quot;xcode-select --install&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Homebrew会将安装的软件包存放在&lt;code&gt;/usr/local/&lt;/code&gt;目录下，例如&lt;code&gt;/usr/local/bin&lt;/code&gt;存放一些可执行文件，&lt;code&gt;/usr/local/lib&lt;/code&gt;存放一些公共库，通过homebrew安装的软件包存放在&lt;code&gt;/usr/local/Cellar&lt;/code&gt;目录下。
+通过&lt;code&gt;brew doctor&lt;/code&gt;命令可以检查系统中软件包可能存在的一些问题。添加&lt;code&gt;export PATH=/usr/local/bin:$PATH&lt;/code&gt;到&lt;code&gt;~/.bash_profile&lt;/code&gt;文件中，这样默认先使用Homebrew安装的应用程序，而不是使用系统。[注：Homebrew不会破坏系统的一些软件或者环境变量，另外，Homebrew下载的安装包存放在&lt;code&gt;/Library/Caches/Homebrew&lt;/code&gt;目录中，创建的Formula存放在&lt;code&gt;/usr/local/Library/Formula&lt;/code&gt;目录中]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;hujiawei-MacBook-Pro:~ hujiawei$ ruby -e &amp;quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&amp;quot;
+==&amp;gt; This script will install:
+/usr/local/bin/brew
+/usr/local/Library/...
+/usr/local/share/man/man1/brew.1
+...
+==&amp;gt; Installation successful!
+You should run `brew doctor&#39; *before* you install anything.
+Now type: brew help
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.安装git&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;https://help.github.com/articles/generating-ssh-keys&#34;&gt;https://help.github.com/articles/generating-ssh-keys&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;brew install git&lt;/code&gt;，然后按照网址提示添加&lt;code&gt;ssh－key&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:.ssh hujiawei$ ssh-add ~/.ssh/id_rsa
+Identity added: /Users/hujiawei/.ssh/id_rsa (/Users/hujiawei/.ssh/id_rsa)
+hujiawei-MacBook-Pro:.ssh hujiawei$ pbcopy &amp;lt; ~/.ssh/id_rsa.pub
+hujiawei-MacBook-Pro:.ssh hujiawei$ pbcopy &amp;lt; ~/.ssh/id_rsa.pub
+hujiawei-MacBook-Pro:.ssh hujiawei$ ssh -T git@github.com
+Warning: Permanently added the RSA host key for IP address &#39;192.30.252.128&#39; to the list of known hosts.
+Hi hujiaweibujidao! You&#39;ve successfully authenticated, but GitHub does not provide shell access.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.配置python环境&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;http://penandpants.com/2012/02/24/install-python/&#34;&gt;http://penandpants.com/2012/02/24/install-python/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;使用Homebrew安装了python之后，python路径修改为 &lt;code&gt;/usr/local/bin/python&lt;/code&gt; [原来在 &lt;code&gt;/usr/bin/python&lt;/code&gt;]，&lt;code&gt;pip install &amp;lt;package&amp;gt;&lt;/code&gt;命令会将模块安装到&lt;code&gt;/usr/local/lib/python2.7/site-packages&lt;/code&gt;中。&lt;code&gt;pip list&lt;/code&gt;命令查看已经安装的Python模块。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:~ hujiawei$ brew install python
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+==&amp;gt; Installing dependencies for python: readline, sqlite, gdbm
+==&amp;gt; Installing python dependency: readline
+==&amp;gt; Downloading https://downloads.sf.net/project/machomebrew/Bottles/readline-6.
+==&amp;gt; Pouring readline-6.2.4.mavericks.bottle.2.tar.gz
+==&amp;gt; Caveats
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果把&lt;code&gt;/usr/local/share/python&lt;/code&gt;（参考网站提示用来存放Python脚本）也添加到&lt;code&gt;$PATH&lt;/code&gt;中的话，&lt;code&gt;brew doctor&lt;/code&gt;会给出一个警告，暂时不添加。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Warning: /usr/local/share/python is not needed in PATH.
+Formerly homebrew put Python scripts you installed via `pip` or `pip3`
+(or `easy_install`) into that directory above but now it can be removed
+from your PATH variable.
+Python scripts will now install into /usr/local/bin.
+You can delete anything, except &#39;Extras&#39;, from the /usr/local/share/python
+(and /usr/local/share/python3) dir and install affected Python packages
+anew with `pip install --upgrade`.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;安装好了python之后，按照网址上的内容继续安装pip，然后安装&lt;code&gt;virtualenv, virtualenvwrapper, numpy, gfortran, scipy, matplotlib&lt;/code&gt;等模块。[注，一般软件包使用brew安装和管理，对于python的模块使用pip安装和管理]&lt;/p&gt;
+
+&lt;p&gt;5.配置Ruby环境 ［为了正常使用原有的Octopress］&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/&#34;&gt;/blog/2013/11/17/hello-octopress/&lt;/a&gt;
+网址：&lt;a href=&#34;http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/&#34;&gt;http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/&lt;/a&gt;
+网址：&lt;a href=&#34;http://octopress.org/docs/setup/&#34;&gt;http://octopress.org/docs/setup/&lt;/a&gt; &lt;a href=&#34;http://octopress.org/docs/deploying/github/&#34;&gt;http://octopress.org/docs/deploying/github/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;执行&lt;code&gt;rbenv install 1.9.3-p0&lt;/code&gt; 时需要&lt;code&gt;apple-gcc42&lt;/code&gt;，执行 &lt;code&gt;brew tap homebrew/dupes ; brew install apple-gcc42&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:eclipse_cp hujiawei$ brew install rbenv
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+==&amp;gt; Downloading https://github.com/sstephenson/rbenv/archive/v0.4.0.tar.gz
+==&amp;gt; Caveats
+To use Homebrew&#39;s directories rather than ~/.rbenv add to your profile:
+  export RBENV_ROOT=/usr/local/var/rbenv
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;rbenv是一个管理ruby环境的工具，gem相当于管理ruby模块的工具。(&lt;code&gt;gem list&lt;/code&gt;查看已安装的模块)&lt;/p&gt;
+
+&lt;p&gt;如果想要使用以前的Octopress的话，执行下面的命令，之后就可以像以前一样使用Octopress了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;brew update
+brew install rbenv
+brew install ruby-build
+rbenv install 1.9.3-p0
+rbenv rehash
+rbenv global 1.9.3-p0  #建议增加这句修改系统全局的ruby版本
+ruby --version  #查看系统ruby版本
+cd &amp;lt;path-to-octopress&amp;gt;
+gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;更新内容 2015-10-10&lt;/strong&gt;
+最近又升级了系统到Mac OS X El Capitan，没想到Octopress环境出现了问题，generate命令执行不了，经过一番折腾，发现原来升级系统之后系统默认的ruby版本是2.0以上的了（执行&lt;code&gt;ruby --version&lt;/code&gt;），我之前安装的是&lt;code&gt;1.9.3-p0&lt;/code&gt;（执行&lt;code&gt;rbenv versions&lt;/code&gt;），两者不统一；而且貌似以前安装好的一些依赖也不能正常工作了，所以就执行了下面一些操作。&lt;/p&gt;
+
+&lt;p&gt;1.在文件&lt;code&gt;.bash_profile&lt;/code&gt;末尾添加，之后在终端执行&lt;code&gt;ruby --version&lt;/code&gt;将看到&lt;code&gt;1.9.3-p0&lt;/code&gt;&lt;br /&gt;
+参考&lt;a href=&#34;http://stackoverflow.com/questions/10940736/rbenv-not-changing-ruby-version&#34;&gt;http://stackoverflow.com/questions/10940736/rbenv-not-changing-ruby-version&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;export PATH=&amp;quot;$HOME/.rbenv/bin:$PATH&amp;quot;&lt;/code&gt;
+&lt;code&gt;eval &amp;quot;$(rbenv init -)&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.接着在Octopress的目录下重新执行下面的命令即可&lt;br /&gt;
+参考&lt;a href=&#34;http://octopress.org/docs/setup/&#34;&gt;http://octopress.org/docs/setup/&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其他可能有帮助的网址：
+（1）&lt;a href=&#34;https://github.com/sstephenson/ruby-build/wiki&#34;&gt;https://github.com/sstephenson/ruby-build/wiki&lt;/a&gt;
+（2）&lt;a href=&#34;https://ruby-china.org/wiki/rbenv-guide&#34;&gt;https://ruby-china.org/wiki/rbenv-guide&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;6.配置OpenCV环境&lt;/p&gt;
+
+&lt;p&gt;网址：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&#34;&gt;/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意！如果是进行OpenCV源码编译的话，因为会产生很多的文件保存到&lt;code&gt;/usr/local&lt;/code&gt;下的各个子目录中，这会导致&lt;code&gt;brew doctor&lt;/code&gt;报出很多错误，例如&lt;code&gt;/usr/local/lib&lt;/code&gt;下很多OpenCV的库Homebrew不能识别，甚至涉及到了权限问题，所以建议不要再前面进行OpenCV环境的配置！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;正常情况下的OpenCV配置：安装CMake，编译OpenCV源码，花的时间比较长&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo brew install cmake //homebrew
+cd &amp;lt;path-to-opencv-source&amp;gt;
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果导致前面出现Python环境配置出现问题，可以尝试卸载OpenCV，还要手动删除一些&lt;code&gt;/usr/local&lt;/code&gt;下的OpenCV目录。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:hujiawei hujiawei$ cd Android/opencv-2.4.6.1/
+hujiawei-MacBook-Pro:opencv-2.4.6.1 hujiawei$ cd release
+hujiawei-MacBook-Pro:release hujiawei$ sudo make uninstall
+Password:
+Scanning dependencies of target uninstall
+-- Uninstalling &amp;quot;/usr/local/include/opencv2/opencv_modules.hpp&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/lib/pkgconfig/opencv.pc&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/OpenCVConfig.cmake&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/OpenCVConfig-version.cmake&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/include/opencv/cv.h&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/include/opencv/cv.hpp&amp;quot;
+...
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/haarcascades/haarcascade_smile.xml&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/haarcascades/haarcascade_upperbody.xml&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_frontalface.xml&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_profileface.xml&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_silverware.xml&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/bin/opencv_haartraining&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/bin/opencv_createsamples&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/bin/opencv_performance&amp;quot;
+-- Uninstalling &amp;quot;/usr/local/bin/opencv_traincascade&amp;quot;
+Built target uninstall
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果可以的话，使用Homebrew安装OpenCV&lt;/p&gt;
+
+&lt;p&gt;参考网址：&lt;a href=&#34;http://www.jeffreythompson.org/blog/2013/08/22/update-installing-opencv-on-mac-mountain-lion/&#34;&gt;http://www.jeffreythompson.org/blog/2013/08/22/update-installing-opencv-on-mac-mountain-lion/&lt;/a&gt;  支持Mavericks&lt;/p&gt;
+
+&lt;p&gt;其他关于搭建OpenCV环境的文章 &lt;a href=&#34;http://blog.sciencenet.cn/blog-702148-657754.html&#34;&gt;http://blog.sciencenet.cn/blog-702148-657754.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;我的系统在执行&lt;code&gt;brew install jasper&lt;/code&gt;时不知何原因不能继续，一直停留在&lt;code&gt;make install&lt;/code&gt;状态，所以&lt;code&gt;brew install opencv&lt;/code&gt;不能成功，即使我修改japser或者opencv的Formula文件也无济于事，最终尝试还是进行OpenCV源码编译，但是不安装到&lt;code&gt;/usr/local/&lt;/code&gt;目录中，方法是修改下面的&lt;code&gt;CMAKE_INSTALL_PREFIX&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd &amp;lt;path-to-opencv-source&amp;gt;
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/opencv ..
+make
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是，还有一个问题，无论在Xcode还是Eclipse中创建OpenCV项目都一样会报一个错，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dyld: Library not loaded: lib/libopencv_core.2.4.dylib
+  Referenced from: /Users/hujiawei/Library/Developer/Xcode/DerivedData/PRWorks-gmeabxnfaunwiqbrvvjpxjlfkymu/Build/Products/Debug/PRWorks
+  Reason: image not found
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;即使你的路径都没错也还是不能加载到，不知道何原因，但是如果你直接将编译之后的所有dylib复制到&lt;code&gt;/usr/local/lib&lt;/code&gt;中即可，不能是该目录下的某个文件夹！复制了之后，自然&lt;code&gt;brew doctor&lt;/code&gt;会对此进行警告，无视吧。
+一个常用来测试OpenCV环境的项目代码如下，需要opencv_core和opencv_highgui两个库&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;opencv2/opencv.hpp&amp;gt;
+using namespace cv;
+int main(int argc, char** argv) {
+	Mat image;
+	image = imread(
+			&amp;quot;/Users/hujiawei/Pictures/webimages/clone-your-octopress-001.png&amp;quot;,
+			1);
+	namedWindow(&amp;quot;Display Image&amp;quot;, WINDOW_AUTOSIZE);
+	imshow(&amp;quot;Display Image&amp;quot;, image);
+	waitKey(0);
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;7.最后执行&lt;code&gt;brew linkapps&lt;/code&gt;会将brew安装的python中的app链接到Applications中&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:~ hujiawei$ brew linkapps
+Linking /usr/local/Cellar/python/2.7.6/IDLE.app
+Linking /usr/local/Cellar/python/2.7.6/Python Launcher.app
+Finished linking. Find the links under /Applications.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用&lt;code&gt;brew doctor&lt;/code&gt;检查，修复问题。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;hujiawei-MacBook-Pro:~ hujiawei$ brew doctor
+Warning: You have unlinked kegs in your Cellar
+Leaving kegs unlinked can lead to build-trouble and cause brews that depend on
+those kegs to fail to run properly once built. Run `brew link` on these:
+    cloog
+    isl
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+^C
+hujiawei-MacBook-Pro:~ hujiawei$ brew link cloog
+Linking /usr/local/Cellar/cloog/0.18.1... 8 symlinks created
+hujiawei-MacBook-Pro:~ hujiawei$ brew link isl
+Linking /usr/local/Cellar/isl/0.12.1... 6 symlinks created
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;更新内容 2016-5-10&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;1.之前将Ruby版本设置为1.9，现在需要使用2.0以上版本的Ruby，所有又将Ruby版本改了回来，正好现在博客不再使用Octopress，改为Hexo了。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Matlab Image Segmentation</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</link>
+      <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</guid>
+      <description>&lt;p&gt;本文主要介绍Matlab实现的两种自动阈值图像分割方法&lt;/p&gt;
+
+&lt;p&gt;1.基于迭代的自动阈值图像分割方法&lt;/p&gt;
+
+&lt;p&gt;参考文献: &lt;a href=&#34;https://hujiaweibujidao.github.io/files/image_segmentation.pdf&#34;&gt;基于迭代(自动阈值)算法的医学图像增强方法&lt;/a&gt;
+该文献实现了全局和局部的图像分割代码，使用的都是迭代算法，对比下面的结果可以看出，在灰度差异特别大的图像中，局部阈值分割要比全局阈值分割表现更好。[注:我对源码略有修改]&lt;/p&gt;
+
+&lt;p&gt;1.1 全局阈值分割程序&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-matlab&#34;&gt;original_image=imread(&#39;test1.png&#39;);
+gray_image=rgb2gray(original_image);
+gray_image=double(gray_image);
+t=mean(gray_image(:));
+is_done=false;
+count=0;%迭代次数
+block=gray_image(1:end,1:end);%不分块
+while ~is_done
+    r1=find(gray_image&amp;lt;=t);
+    r2=find(gray_image&amp;gt;t);
+    temp1=mean(block(r1));
+    if isnan(temp1);
+        temp1=0;
+    end
+    temp2=mean(block(r2));
+    if isnan(temp2)
+        temp2=0;
+    end
+    t_new=(temp1+temp2)/2;
+    is_done=abs(t_new-t)&amp;lt;1;%差异阈值是1
+    t=t_new;
+    count=count+1;
+    if count&amp;gt;=1000
+        Error=&#39;Error:Cannot find the ideal threshold.&#39;
+        return
+    end
+end
+[m,n]=size(gray_image);
+result=zeros(m,n)+255;
+result(r1)=0;
+% resule(r2)=255;
+result=uint8(result);
+figure
+imshow(result);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;1.2 局部阈值分割程序&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;original_image=imread(&#39;test1.png&#39;);
+gray_image=rgb2gray(original_image);
+gray_image=double(gray_image);
+[m,n]=size(gray_image);
+result=zeros(m,n);
+block_size=70;%分块大小
+for i=1:block_size:m
+    for j=1:block_size:n
+        if ((i+block_size)&amp;gt;m)&amp;amp;&amp;amp;((j+block_size)&amp;gt;n)
+            block=gray_image(i:end,j:end);
+        elseif ((i+block_size)&amp;gt;m)&amp;amp;&amp;amp;((j+block_size)&amp;lt;=n)
+            block=gray_image(i:end,j:j+block_size-1);
+        elseif ((i+block_size)&amp;lt;=m)&amp;amp;&amp;amp;((j+block_size)&amp;gt;n)
+            block=gray_image(i:i+block_size-1,j:end);
+        else
+            block=gray_image(i:i+block_size-1,j:j+block_size-1);
+        end
+        t=mean(block(:)); t_org=t; is_done=false; count=0;
+        while ~is_done
+            r1=find(block&amp;lt;=t); r2=find(block&amp;gt;t); temp1=mean(block(r1));
+            if isnan(temp1);
+                temp1=0;
+            end
+            temp2=mean(block(r2));
+            if isnan(temp2)
+                temp2=0;
+            end
+            t_new=(temp1+temp2)/2; is_done=abs(t_new-t)&amp;lt;1; t=t_new;
+            count=count+1;
+            if count&amp;gt;=1000
+                Error=&#39;Error:Cannot find the ideal threshold.&#39;
+                return
+            end
+        end
+        block(r1)=0;
+        block(r2)=255;
+        if ((i+block_size)&amp;gt;m)&amp;amp;&amp;amp;((j+block_size)&amp;gt;n)
+            result(i:end,j:end)=block;
+        elseif ((i+block_size)&amp;gt;m)&amp;amp;&amp;amp;((j+block_size)&amp;lt;=n)
+            result(i:end,j:j+block_size-1)=block;
+        elseif ((i+block_size)&amp;lt;=m)&amp;amp;&amp;amp;((j+block_size)&amp;gt;n)
+            result(i:i+block_size-1,j:end)=block;
+        else
+            result(i:i+block_size-1,j:j+block_size-1)=block;
+        end
+    end
+end
+resule=uint8(result);
+figure
+imshow(result);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对比结果：
+{% img /images/whole.png 320 210 %} {% img /images/partial.png 320 210 %}&lt;/p&gt;
+
+&lt;p&gt;2.基于OSTU算法的自动阈值图像分割&lt;/p&gt;
+
+&lt;p&gt;[这块我还没有细究&amp;hellip;To be continued&amp;hellip;&amp;hellip;]
+Matlab内置的&lt;code&gt;graythresh&lt;/code&gt;使用的便是OSTU算法，使得白色像素和黑色像素的类间方差最大。
+因为上面测试图像的亮度存在明显的水平差异，所以我写了一个将图像沿水平方向分成几部分分别进行OSTU算法，效果明显又比上面两种方式要好些。&lt;/p&gt;
+
+&lt;p&gt;{% img /images/postu.png %}&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;function [ result ] = partialostu( image,part,isrgb )
+%PARTIALOSTU partial image ostu
+if isrgb
+    image=rgb2gray(image);
+end
+cols=size(image,2);
+result=zeros(size(image));
+for i=1:part
+    fstart=floor((i-1)*cols/part)+1;
+    fend=floor(i*cols/part);
+    f=image(:,fstart:fend);
+    t=graythresh(f);
+    f=im2bw(f,t);
+    result(:,fstart:fend)=f;
+end
+end
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Develop with OpenCV on Mac</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</link>
+      <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
+      <description>
+
+&lt;p&gt;本文介绍如何在Mac OS X上进行OpenCV项目的开发，尝试的开发工具有Xcode(版本是4.6.1)和Eclipse，使用的OpenCV版本是2.4.6。&lt;/p&gt;
+
+&lt;p&gt;如果只是需要OpenCV的相关头文件以及动态库，请直接执行&lt;code&gt;brew install opencv&lt;/code&gt;（如果安装了Homebrew的话），如果不行，请看下面的OpenCV源码编译安装过程。&lt;/p&gt;
+
+&lt;h4 id=&#34;1-安装cmake&#34;&gt;1.安装CMake&lt;/h4&gt;
+
+&lt;p&gt;安装CMake可以使用MacPorts，也可以使用Homebrew，如果以前安装过两者中的任何一个就用那个进行安装吧，我用的是Homebrew，推荐使用Homebrew，真正的“佳酿”，命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sudo port install cmake //macports
+sudo brew install cmake //homebrew
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h4 id=&#34;2-编译opencv&#34;&gt;2.编译OpenCV&lt;/h4&gt;
+
+&lt;p&gt;OpenCV下载地址：&lt;a href=&#34;http://sourceforge.net/projects/opencvlibrary/&#34;&gt;http://sourceforge.net/projects/opencvlibrary/&lt;/a&gt;
+目前最新版本是2.4.8，我使用的是2.4.6，下载后解压，执行下面代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;cd &amp;lt;path-to-opencv-source&amp;gt;
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;[完成之后在&lt;code&gt;/usr/local/include&lt;/code&gt;目录下便有了&lt;code&gt;opencv&lt;/code&gt;和&lt;code&gt;opencv2&lt;/code&gt;两个目录，在&lt;code&gt;/usr/local/lib&lt;/code&gt;目录下有很多的&lt;code&gt;opencv&lt;/code&gt;相关的动态库，例如&lt;code&gt;libopencv_core.dylib&lt;/code&gt;等等，还有几个其他的文件，它们都存放在&lt;code&gt;/usr/local&lt;/code&gt;目录下]&lt;/p&gt;
+
+&lt;p&gt;[注1:如果不需要了，想要卸载 OpenCV的话，可以回到&lt;code&gt;release&lt;/code&gt;目录，执行&lt;code&gt;sudo make uninstall&lt;/code&gt;，然后手动删除一些&lt;code&gt;/usr/local&lt;/code&gt;下与OpenCV有关的目录和文件]&lt;/p&gt;
+
+&lt;p&gt;[注2:如果不想把OpenCV安装在默认的&lt;code&gt;/usr/local/&lt;/code&gt;目录下的话，例如为了防止Homebrew中对opencv部分的报错，而又无法使用Homebrew正常安装opencv的情况下，可以考虑将opencv安装到其他的位置，修改&lt;code&gt;CMAKE_INSTALL_PREFIX=/usr/local&lt;/code&gt;即可，但是在Eclipse中的项目中可能会出现问题，详情看后面]&lt;/p&gt;
+
+&lt;p&gt;其他参考内容：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://docs.opencv.org/trunk/doc/tutorials/introduction/linux_install/linux_install.html#linux-installation&#34;&gt;Building OpenCV from Source Using CMake, Using the Command Line&lt;/a&gt;
+&lt;a href=&#34;https://sites.google.com/site/learningopencv1/installing-opencv&#34;&gt;Installing OpenCV&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-使用xcode进行opencv项目开发&#34;&gt;3.使用Xcode进行OpenCV项目开发&lt;/h4&gt;
+
+&lt;p&gt;1.Open Xcode, choose &lt;code&gt;New  -&amp;gt; New Project -&amp;gt; Command Line Tool&lt;/code&gt;
+2.Name it and select &lt;code&gt;C++&lt;/code&gt; for type
+3.Click on your project from the left menu. Click the &lt;code&gt;build settings&lt;/code&gt; tab from the top. Filter all. Scroll to &lt;code&gt;Search Paths&lt;/code&gt;. Under &lt;code&gt;header search paths&lt;/code&gt;, for debug and release, set the path to &lt;code&gt;/usr/local/include&lt;/code&gt;. Under &lt;code&gt;library search paths&lt;/code&gt;, set the path to &lt;code&gt;$(PROJECT_DIR)&lt;/code&gt;. Finally, check if &lt;code&gt;C++ standard library&lt;/code&gt; is &lt;code&gt;libstdc++&lt;/code&gt; or not, if not, change it to this!
+4.Click on your project from the left menu. &lt;code&gt;File-&amp;gt;New-&amp;gt;New Group&lt;/code&gt;, Name the group &lt;code&gt;OpenCV Frameworks&lt;/code&gt;.
+5.Select the folder (group) you just labeled, &lt;code&gt;OpenCV Frameworks&lt;/code&gt; in the left menu. Go to &lt;code&gt;File -&amp;gt; add Files&lt;/code&gt;, Type &lt;code&gt;/&lt;/code&gt;, which will allow you to manually go to a folder. Go to -&amp;gt; &lt;code&gt;/usr/local/lib&lt;/code&gt;
+6.Select both of these files, &lt;code&gt;libopencv_core.dylib&lt;/code&gt;, &lt;code&gt;libopencv_highgui.dylib&lt;/code&gt;, and click &lt;code&gt;Add&lt;/code&gt;. (you may need to add other library files from this folder to run other code.)
+7.You must include this line of code in the beginning of your main.cpp file:
+&lt;code&gt;#include &amp;lt;opencv2/opencv.hpp&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;可以修改main.cpp，代码如下，运行结果就是显示一张指定的图片。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-c++&#34;&gt;#include &amp;lt;opencv2/opencv.hpp&amp;gt;
+using namespace cv;
+int main(int argc, char** argv) {
+	Mat image;
+	image = imread(&amp;quot;/Users/hujiawei/Pictures/others/other_naicha/naicha.jpg&amp;quot;, 1);
+    namedWindow(&amp;quot;Display Image&amp;quot;, WINDOW_AUTOSIZE);
+	imshow(&amp;quot;Display Image&amp;quot;, image);
+	waitKey(0);
+	return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其他参考内容：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19637164/c-linking-error-after-upgrading-to-mac-os-x-10-9-xcode-5-0-1&#34;&gt;C++ linking error after upgrading to Mac OS X 10.9 / Xcode 5.0.1&lt;/a&gt;
+&lt;a href=&#34;http://mathematica.stackexchange.com/questions/34692/mathlink-linking-error-after-os-x-10-9-mavericks-upgrade&#34;&gt;MathLink linking error after OS X 10.9 (Mavericks) upgrade&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;4-使用eclipse进行opencv项目开发&#34;&gt;4.使用Eclipse进行OpenCV项目开发&lt;/h4&gt;
+
+&lt;p&gt;如果使用Eclipse开发的话按照下面的步骤进行：&lt;/p&gt;
+
+&lt;p&gt;1.按照正常的步骤，使用Eclipse建立一个&lt;code&gt;Mac C++&lt;/code&gt;工程，包含一个cpp文件&lt;br /&gt;
+2.右击工程名, 选择&lt;code&gt;Properties&lt;/code&gt;，在属性配置页中选择，点击&lt;code&gt;C/C++ Build&lt;/code&gt;, 在下拉选项中选择 &lt;code&gt;Settings&lt;/code&gt;. 在右边的选项卡中选择 &lt;code&gt;Tool Settings&lt;/code&gt;。&lt;br /&gt;
+3.在&lt;code&gt;GCC C++ Compiler&lt;/code&gt;选项列表中选择&lt;code&gt;Includes&lt;/code&gt;，在&lt;code&gt;Include paths(-l)&lt;/code&gt;中添加安装好的opencv的头文件存放目录：&lt;code&gt;/usr/local/include/&lt;/code&gt; [存放opencv头文件的目录，自行看情况而定]&lt;br /&gt;
+4.在&lt;code&gt;MacOS X C++Linker&lt;/code&gt;选项列表中选择&lt;code&gt;Library&lt;/code&gt;，在&lt;code&gt;Library search path (-L)&lt;/code&gt;中添加安装好的opencv dylib文件存放目录：&lt;code&gt;/usr/local/lib/&lt;/code&gt; [&lt;strong&gt;&lt;em&gt;经过我的测试只能是这个目录！其他目录甚至是它的子目录都不行！如果在其他路径中，复制过来也行！&lt;/em&gt;&lt;/strong&gt;]&lt;br /&gt;
+5.在&lt;code&gt;MacOS X C++Linker&lt;/code&gt;选项列表中选择&lt;code&gt;Library&lt;/code&gt;, 在&lt;code&gt;Libraries(-l)&lt;/code&gt; 中依次点击&lt;code&gt;＋&lt;/code&gt;号，添加需要使用的lib文件(通常情况下，使用前三个，注意不要包括前缀&lt;code&gt;lib&lt;/code&gt;，可以添加版本号)：&lt;br /&gt;
+opencv_core opencv_imgproc opencv_highgui opencv_ml opencv_video opencv_features2d opencv_calib3d opencv_objdetect opencv_contrib opencv_legacy opencv_flann&lt;/p&gt;
+
+&lt;p&gt;6.重新build项目即可。
+如果遇到问题&lt;code&gt;ld: symbol(s) not found for architecture x86_64&lt;/code&gt;，先检查代码中是否需要包含还没有添加的库文件，再检查是否是其他问题。如果是Mac平台，下面还有一个关于问题&lt;code&gt;ld: symbol(s) not found for architecture x86_64&lt;/code&gt;的解释可供参考：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;There are two implementations of the standard C++ library available on OS X: libstdc++ and libc++. They are not binary compatible and libMLi3 requires libstdc++.
+On 10.8 and earlier libstdc++ is chosen by default, on 10.9 libc++ is chosen by default. To ensure compatibility with libMLi3, we need to choose libstdc++ manually.
+To do this, add -stdlib=libstdc++ to the linking command.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;更多相关内容参考：&lt;a href=&#34;http://blog.sciencenet.cn/blog-702148-657754.html&#34;&gt;http://blog.sciencenet.cn/blog-702148-657754.html&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;5-阅读开源项目&#34;&gt;5.阅读开源项目&lt;/h5&gt;
+
+&lt;p&gt;阅读开源项目&lt;a href=&#34;https://github.com/MasteringOpenCV/code&#34;&gt;Mastering OpenCV with Practical Computer Vision Projects&lt;/a&gt;中的代码，以第8章Face Recognition using Eigenfaces or Fisherfaces为例&lt;/p&gt;
+
+&lt;p&gt;编写一个shell，内容如下(修改自&lt;code&gt;README.txt&lt;/code&gt;)，其中的&lt;code&gt;OpenCV_DIR&lt;/code&gt;为OpenCV源码编译后得到的文件夹(如上面的release目录)，执行这个shell便可以得到Xcode项目，当然打开这个项目之后还要修改相应的配置。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;export OpenCV_DIR=&amp;quot;/Volumes/hujiawei/Users/hujiawei/Android/opencv-2.4.6.1/build&amp;quot;
+mkdir build
+cd build
+cp $OpenCV_DIR/../data/lbpcascades/lbpcascade_frontalface.xml .
+cp $OpenCV_DIR/../data/haarcascades/haarcascade_eye.xml .
+cp $OpenCV_DIR/../data/haarcascades/haarcascade_eye_tree_eyeglasses.xml .
+cmake -G Xcode -D OpenCV_DIR=$OpenCV_DIR ..
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

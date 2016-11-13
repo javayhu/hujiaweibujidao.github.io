@@ -1,0 +1,3922 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Android on Hujiawei Bujidao</title>
+    <link>https://hujiaweibujidao.github.io/tags/android/</link>
+    <description>Recent content in Android on Hujiawei Bujidao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved &amp;copy; 2016</copyright>
+    <lastBuildDate>Fri, 11 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://hujiaweibujidao.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>PorterDuffMode in Action</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</link>
+      <pubDate>Fri, 11 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</guid>
+      <description>&lt;p&gt;本文介绍Android图像处理中避不开的PorterDuffMode。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Build Android Studio Source Code</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
+      <description>
+
+&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-简单说明&#34;&gt;1.简单说明&lt;/h3&gt;
+
+&lt;p&gt;android studio的源码其实是aosp中的一部分，同样是采用repo对git项目进行管理。
+android studio的源码涉及到aosp中的sdk.git，ndk.git，external/qemu.git等几个项目。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;sdk.git&lt;/code&gt; is the project for all java based tools such as the SDK Manager, DDMS, and the Eclipse plug-ins.
+&lt;code&gt;ndk.git&lt;/code&gt; is the project hosting the Android NDK source files.
+&lt;code&gt;external/qemu.git&lt;/code&gt; is the project for our qemu-based emulator.&lt;/p&gt;
+
+&lt;p&gt;sdk.git项目是一个核心项目，大部分基于Java开发的工具都在这个项目里面，包含了ddms，traceview， hierarchyviewer，lint等工具，其中的eclipse目录是android device monitor的工具的源码，包含了各种插件，例如ddms，traceview，hierarchyviewer等。&lt;/p&gt;
+
+&lt;p&gt;sdk.git项目根目录下的&lt;a href=&#34;http://androidxref.com/7.0.0_r1/xref/sdk/&#34;&gt;README文档&lt;/a&gt;的主要内容是关于sdk.git这个项目的变化以及使用需知
+其中解答了几个重要的问题，例如如何只构建某个单独的工具？如何修改工具源码来构建一个新的sdk？
+(1)I don&amp;rsquo;t build full SDKs but I want to change tool X
+(2)How do I change some tools sources and build a new SDK using these?&lt;/p&gt;
+
+&lt;p&gt;文档&lt;a href=&#34;http://tools.android.com/build&#34;&gt;http://tools.android.com/build&lt;/a&gt;中给出了编译sdk的方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./tools/buildSrc/servers/build_tools.sh `pwd`/out `pwd`/out/dist 1234
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果遇到&lt;code&gt;Required ANDROID_HOME environment variable not set.&lt;/code&gt;这个错误只需设置ANDROID_HOME这个环境变量即可&lt;/p&gt;
+
+&lt;h3 id=&#34;2-下载地址&#34;&gt;2.下载地址&lt;/h3&gt;
+
+&lt;p&gt;android studio代码也可以通过repo来下载，分支可以使用master-dev或者某个具体版本对应的分支，下载之后大约占用4GB左右磁盘空间&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;repo init -u https://android.googlesource.com/platform/manifest -b studio-2.2
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-编译源码&#34;&gt;3.编译源码&lt;/h3&gt;
+
+&lt;p&gt;3.1 使用ant
+最简单的编译运行方式是在tools/idea目录下执行&lt;code&gt;ant&lt;/code&gt;，最终会在tools/idea/out/中生成可运行的Android Studio应用程序&lt;/p&gt;
+
+&lt;p&gt;3.2 使用Intellij (推荐)
+tools/idea目录下的README.md文档说明了如何编译Android Studio源码
+(1)下载Intellij Community版本并安装
+(2)使用IDEA打开项目的tools/idea目录
+(3)在Project Structure的SDKs中新建名为&lt;code&gt;IDEA jdk&lt;/code&gt;的jdk，路径设置为jdk 6的根目录
+如果是在Linux/Mac上运行的话，还需要将&lt;JDK_HOME&gt;/lib/tools.jar添加到&lt;code&gt;IDEA jdk&lt;/code&gt;中
+(4)在Project Structure的SDKs中新建名为&lt;code&gt;1.8&lt;/code&gt;的jdk，路径设置为jdk 8的根目录
+(5)点击Build下的&lt;code&gt;Make Project&lt;/code&gt;来编译项目源码
+(6)选择&lt;code&gt;IDEA&lt;/code&gt;这个运行配置来运行或者调试代码&lt;/p&gt;
+
+&lt;p&gt;运行起来就可以看到AS第一次安装时选择settings的界面，然后就进入到启动界面了&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/as_run.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如果遇到&lt;code&gt;java: package com.sun.source.tree does not exist&lt;/code&gt;这个错误的话记得检查是否已经将&lt;code&gt;&amp;lt;JDK_HOME&amp;gt;/lib/tools.jar&lt;/code&gt;添加到IDEA jdk中&lt;/p&gt;
+
+&lt;p&gt;下面是README.md文档的原文，其中第一步执行tools/idea目录下的&lt;code&gt;getPlugins.sh&lt;/code&gt;脚本，这个脚本会去下载两个repository，但是&lt;strong&gt;这个步骤在我这里一直没能成功，两个git项目能访问但是网络连接很慢源码下载不下来&lt;/strong&gt;，不过幸运的是这个步骤对后面的操作并没有影响。
+&lt;code&gt;git clone git://git.jetbrains.org/idea/android.git android&lt;/code&gt;
+&lt;code&gt;git clone git://git.jetbrains.org/idea/adt-tools-base.git android/tools-base&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Building and Running from the IDE&lt;/strong&gt;
+To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or IntelliJ IDEA Ultimate not older than 15.0. To build and run the code:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.&lt;/li&gt;
+&lt;li&gt;If this git repository is not on &amp;lsquo;master&amp;rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.&lt;/li&gt;
+&lt;li&gt;Open the project.&lt;/li&gt;
+&lt;li&gt;If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.&lt;/li&gt;
+&lt;li&gt;Configure a JDK named &amp;ldquo;IDEA jdk&amp;rdquo; (case sensitive), pointing to an installation of JDK 1.6.&lt;/li&gt;
+&lt;li&gt;Unless you&amp;rsquo;re running on a Mac with an Apple JDK, add &lt;JDK_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;IDEA jdk&amp;rdquo; jars.&lt;/li&gt;
+&lt;li&gt;Configure a JDK named &amp;ldquo;1.8&amp;rdquo;, pointing to an installation of JDK 1.8.&lt;/li&gt;
+&lt;li&gt;Add &lt;JDK_18_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;1.8&amp;rdquo; jars.&lt;/li&gt;
+&lt;li&gt;Use Build | Make Project to build the code.&lt;/li&gt;
+&lt;li&gt;To run the code, use the provided shared run configuration &amp;ldquo;IDEA&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;4-其他参考资料&#34;&gt;4.其他参考资料&lt;/h3&gt;
+
+&lt;p&gt;(1) &lt;a href=&#34;http://tools.android.com/build/studio&#34;&gt;Build Android Studio&lt;/a&gt;
+(2) hierarchyviewer工具的学习，从使用到源码实现
+&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&lt;/a&gt;
+&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&lt;/a&gt;
+&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&lt;/a&gt;
+&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Custom Lint in Action</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/09/custom-lint-in-action/</link>
+      <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/custom-lint-in-action/</guid>
+      <description>&lt;p&gt;本文记录为Android项目自定义Lint检查规则的实践研究。&lt;/p&gt;
+
+&lt;p&gt;Android Lint是Google提供的静态代码检查工具，使用Lint可以对Android项目源码进行扫描和检查，发现代码潜在的问题，或者辅助开发者统一编码规范。&lt;/p&gt;
+
+&lt;p&gt;Lint工具以及现有的检查项的源码在&lt;a href=&#34;https://android.googlesource.com/platform/tools/base/+/master/lint&#34;&gt;android studio源码(aosp的一部分)的tools/base/lint目录&lt;/a&gt;下，其中cli子目录是用来生成lint报告结果的，libs目录下才是核心源码，包括了lint-api、lint-checks、lint-tests三个子目录，分别是lint核心API、自带的lint检查项以及lint测试代码。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;如何查看目前已经有哪些lint检查项呢？&lt;/strong&gt;
+打开AS的设置，找到Editor下面的Inspections即可看到现有的检查项，它们对应的源码可在上面的lint-checks中查看或者在这里在线查看: &lt;a href=&#34;https://android.googlesource.com/platform/tools/base/+/master/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks&#34;&gt;lint-checks&lt;/a&gt;，这也是学习如何自定义lint规则最好的学习资料。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;如何自定义lint规则以及如何应用规则？&lt;/strong&gt;
+关于这部分内容最主要的教学文档就是&lt;a href=&#34;http://tools.android.com/tips/lint-custom-rules&#34;&gt;Google-自定义Lint规则说明文档&lt;/a&gt;，对应的&lt;a href=&#34;https://github.com/googlesamples/android-custom-lint-rules&#34;&gt;google sample项目源码&lt;/a&gt;，思路大致是利用lint-api创建自己的lint规则，然后将自定义的lint规则打包成jar(保存在build/libs中)，并复制到&lt;code&gt;~/.android/lint&lt;/code&gt;目录下，最后在Android应用源码目录下执行&lt;code&gt;./gradlew lint&lt;/code&gt;即可。这种方案的缺点是它针对的是本机的所有项目，也就是会影响同一台机器其他项目的Lint检查。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mkdir ~/.android/lint; cp ./build/libs/custom-lint.jar ~/.android/lint/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;除了执行&lt;code&gt;./gradlew lint&lt;/code&gt;命令之外，还可以使用AS自带的更好的一个代码检查功能，选择Analyze菜单下面的Inspect Code选项，然后选择某个目录执行lint检查。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/as_inspectcode.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;待执行完成之后可以看到下面的结果，其中我们自定义的lint规则的结果显示在Android Lint这个Category下面&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/as_lintresult.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：测试发现AS这块可能存在bug，如果修改了&lt;code&gt;~/.android/lint&lt;/code&gt;目录下的jar的话，AS并不会重新加载，需要重启AS才行。另外，在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下存放多个jar也是可以的。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Google方案的改进：LinkedIn的aar方案&lt;/strong&gt;
+LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项目依赖这个aar完成自定义lint检查。利用这种方案我们就可以针对项目进行自定义Lint规则，lint.jar只对当前项目有效。详情参考&lt;a href=&#34;https://engineering.linkedin.com/android/writing-custom-lint-checks-gradle&#34;&gt;LinkedIn-自定义Lint规则并封装成aar的方案&lt;/a&gt;，它对应的lint demo项目源码包含两部分，一部分是&lt;a href=&#34;https://github.com/yangcheng/CustomLint&#34;&gt;自定义lint规则-CustomLint项目&lt;/a&gt;，另一部分是在Android工程中&lt;a href=&#34;https://github.com/yangcheng/LintDemoApp&#34;&gt;使用lint规则-LintDemoApp项目&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;(1)CustomLint项目
+该项目分成了两部分，一部分是lintrules，它依赖lint-api实现自定义的lint规则并打包成jar，存放在build/libs目录下；另一部分是lintlib，它将lintrules得到的jar复制到build/intermediates/lint目录下，并封装成一个aar，保存在build/outputs/aar目录下。&lt;/p&gt;
+
+&lt;p&gt;(2)LintDemoApp项目
+该项目是一个示例，利用上面得到的aar封装成一个Android Library项目，然后核心模块app依赖它，这样当执行lint时就会自动将自定义的lint规则添加到lint规则集合中了。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐在公司内部实施的Lint检查方案&lt;/strong&gt;
+将自定义的lint规则打包成jar，接着封装成aar，然后上传到公司内部的artifactory，最后集成到各个应用中，利用AS的Lint检查功能对应用进行Lint检查即可。注意，这种方式并不会对生成的apk的大小产生任何影响。&lt;/p&gt;
+
+&lt;p&gt;这里我已经创建好了一个为了演示用的应用&lt;a href=&#34;https://github.com/hujiaweibujidao/customlint&#34;&gt;customlint&lt;/a&gt;，其中添加了一个LogDetector的lint规则。&lt;/p&gt;
+
+&lt;p&gt;完整的实现流程记录如下：
+1.新建一个Android项目，添加一个空的Activity即可。
+2.新建一个Java Library项目，添加依赖&lt;code&gt;compile &#39;com.android.tools.lint:lint-api:24.5.0&#39;&lt;/code&gt;，并编写lint规则，然后在build.gradle中配置，最后生成jar。
+&lt;strong&gt;注意&lt;/strong&gt;：这里最好是先测试一下jar，将jar复制到&lt;code&gt;~/.android/lint&lt;/code&gt;目录下，然后在终端输入&lt;code&gt;lint --list&lt;/code&gt;查看自定义的lint规则是否已经添加上了。
+3.新建一个Android Library项目，删除没有用的test和androidTest相关的依赖和源码目录，然后参考Linkedin的方案添加一些配置，将上一步得到的jar封装到最终生成的aar中，最后将生成的aar上传到bintray或者jitpack。
+4.在Android项目的build.gradle文件中添加对上面的aar的依赖，然后在MainActivity中写两个lint检查时会出错的情况，然后选择Analyze下面的Inspect Code选项，目录设置为app模块的根目录，即可看到lint的检查结果。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/custom_lint.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：该项目的release 1.0.0版本的lintrules依赖的是24.5.0版本的lint-api，演示的LogDetector来自下面参考资料中的美团的LogDetector。但是目前该项目最新的release 1.0.1版本依赖的是25.2.0版本的lint-api，演示的LogDetector参考自lint工具自带的LogDetector。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;其他参考资料&lt;/strong&gt;
+&lt;a href=&#34;http://tech.meituan.com/android_custom_lint.html&#34;&gt;美团-Android自定义Lint实践&lt;/a&gt;
+&lt;a href=&#34;https://segmentfault.com/a/1190000004497435&#34;&gt;segmentfault-自定义Lint规则简介&lt;/a&gt;
+&lt;a href=&#34;http://www.jianshu.com/p/7b3519dc1e5f&#34;&gt;Android Studio配合Lint检测缺失Permission&lt;/a&gt;
+&lt;a href=&#34;http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html&#34;&gt;Gradle Lint support&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;OK，感兴趣的话欢迎阅读&lt;a href=&#34;https://github.com/hujiaweibujidao/customlint&#34;&gt;customlint&lt;/a&gt;项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to get performance data in Android</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</link>
+      <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
+      <description>
+
+&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。&lt;/p&gt;
+
+&lt;h5 id=&#34;1-cpu平均负载&#34;&gt;1. CPU平均负载&lt;/h5&gt;
+
+&lt;p&gt;读取文件节点&lt;code&gt;/proc/loadavg&lt;/code&gt;，分别是1min/5min/15min内CPU的负载情况。&lt;br /&gt;
+读取方式的代码示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private static final int[] LOAD_AVERAGE_FORMAT = new int[]{
+       PROC_SPACE_TERM | PROC_OUT_FLOAT,                 // 0: 1 min
+       PROC_SPACE_TERM | PROC_OUT_FLOAT,                 // 1: 5 mins
+       PROC_SPACE_TERM | PROC_OUT_FLOAT                  // 2: 15 mins
+};
+
+public float mLoad1 = 0;
+public float mLoad5 = 0;
+public float mLoad15 = 0;
+private final float[] mLoadAverageData = new float[3];
+
+private void getLoadAverage() {
+   final float[] loadAverages = mLoadAverageData;
+   if (Process.readProcFile(FILE_PORC_LOAD, LOAD_AVERAGE_FORMAT, null, null, loadAverages)) {
+       float load1 = loadAverages[0];
+       float load5 = loadAverages[1];
+       float load15 = loadAverages[2];
+       if (load1 != mLoad1 || load5 != mLoad5 || load15 != mLoad15) {
+           mLoad1 = load1;
+           mLoad5 = load5;
+           mLoad15 = load15;
+       }
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;2-cpu的频率&#34;&gt;2. CPU的频率&lt;/h5&gt;
+
+&lt;p&gt;CPU的核数：统计 &lt;code&gt;/sys/devices/system/cpu/&lt;/code&gt; 目录下名称以&lt;code&gt;cpu&lt;/code&gt;开始的文件夹的数目
+正在工作的核： &lt;code&gt;/sys/devices/system/cpu/online&lt;/code&gt;
+注意：可能是&lt;code&gt;1-4&lt;/code&gt;或者&lt;code&gt;2,3&lt;/code&gt;或者&lt;code&gt;1-3,5-7&lt;/code&gt;等各种组合形式&lt;/p&gt;
+
+&lt;p&gt;正在工作的核的频率，例如cpu0的频率节点： &lt;code&gt;/sys/devices/system/cpu/&lt;/code&gt;cpu0&lt;code&gt;/cpufreq/scaling_cur_freq&lt;/code&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;3-内存碎片化程度&#34;&gt;3. 内存碎片化程度&lt;/h5&gt;
+
+&lt;p&gt;文件节点：&lt;code&gt;/sys/kernel/debug/extfrag/unusable_index&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat /sys/kernel/debug/extfrag/unusable_index                      
+Node 0, zone      DMA 0.000 0.802 0.894 0.971 0.985 0.995 1.000 1.000 1.000 1.000 1.000 
+Node 0, zone  Movable 0.000 0.000 0.000 0.000 0.002 0.003 0.003 0.003 0.004 0.006 0.006 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;(1)zone的个数不确定，名称也不确定&lt;/em&gt;
+&lt;em&gt;(2)先计算单个zone的平均值，再计算zone的整体平均内存碎片化程度&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;a href=&#34;https://chengyihe.wordpress.com/2015/11/28/kernel-mm-syskerneldebugextfragunusable_index/&#34;&gt;https://chengyihe.wordpress.com/2015/11/28/kernel-mm-syskerneldebugextfragunusable_index/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;4-虚拟内存信息&#34;&gt;4. 虚拟内存信息&lt;/h5&gt;
+
+&lt;p&gt;vmstat是Virtual Meomory Statistics（虚拟内存统计）的缩写, 是实时系统监控工具。vmstat结果中r,b,in,cs是通过 &lt;code&gt;/proc/stat&lt;/code&gt; 文件计算得到的，si,so,bi,bo是通过 &lt;code&gt;/proc/vmstat&lt;/code&gt; 文件计算得到的。&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，&lt;code&gt;/proc/vmstat&lt;/code&gt; 文件中 pgpgin,pgpgout,pswpin,pswpout等值的单位是page，而vmstat命令返回的结果的单位是kb，所以需要进行单位转换，一般情况下，一页的大小是4KB。除此之外，时间间隔是从&lt;code&gt;/proc/uptime&lt;/code&gt;中读取计算出的差值，该文件中保存的是系统从启动到当前时刻的时间，单位是秒。&lt;/p&gt;
+
+&lt;p&gt;关于中断in：vmstat命令的返回的in值指的是CPU在软中断上占用的时间差值，而不是中断数的差值。如果计算后者的话，可以从&lt;code&gt;/proc/stat&lt;/code&gt;的intr中读取从系统启动到当前时刻总共发生的中断数来计算差值。&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;a href=&#34;http://www.cnblogs.com/ggjucheng/archive/2012/01/05/2312625.html&#34;&gt;vmstat命令详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;5-内存信息&#34;&gt;5. 内存信息&lt;/h5&gt;
+
+&lt;p&gt;文件节点：&lt;code&gt;/proc/meminfo&lt;/code&gt;，统计得到total, used, free, cached, buffers, active, inactive, swap total, swap free&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat /proc/meminfo
+MemTotal:        2808452 kB
+MemFree:          535824 kB
+MemAvailable:     775404 kB
+Buffers:           21840 kB
+Cached:           302588 kB
+SwapCached:        18792 kB
+Active:           668900 kB
+Inactive:         313524 kB
+Active(anon):     511716 kB
+Inactive(anon):   169452 kB
+Active(file):     157184 kB
+Inactive(file):   144072 kB
+Unevictable:        4176 kB
+Mlocked:               0 kB
+SwapTotal:       1404224 kB
+SwapFree:        1153856 kB
+Dirty:                 4 kB
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;1.swap cached 不等于 swap used, swap used = swap total - swap free&lt;/em&gt;
+&lt;em&gt;2.Memory Free = MemFree + Cached + Buffers&lt;/em&gt;
+&lt;em&gt;3.Memory Used = Memory Total - Memory Free&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;a href=&#34;http://www.cnblogs.com/zhaoyl/p/3695517.html&#34;&gt;linux内存管理原理&lt;/a&gt; &lt;a href=&#34;http://linuxperf.com/?p=32&#34;&gt;buffers和cached的区别&lt;/a&gt; &lt;a href=&#34;http://linuxperf.com/?p=97&#34;&gt;active和inactive的区别&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;6-cpu被占用的情况&#34;&gt;6. CPU被占用的情况&lt;/h5&gt;
+
+&lt;p&gt;CPU被占用的时间比数据的文件节点：&lt;code&gt;/proc/stat&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ cat /proc/stat
+cpu  229649 59778 316872 3688440 3308 6 357 0 0 0
+cpu0 111250 7718 210302 3466017 764 6 209 0 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;jiffies是内核中的一个全局变量，用来记录自系统启动一来产生的节拍数。在linux中，一个节拍大致可理解为操作系统进程调度的最小时间片，不同linux内核可能值有不同，通常在1ms到10ms之间。&lt;/p&gt;
+
+&lt;p&gt;user (229649) 从系统启动开始累计到当前时刻，用户态的CPU时间（单位：jiffies），不包含nice值为负的进程。
+nice (59778) 从系统启动开始累计到当前时刻，nice值为负的进程所占用的CPU时间（单位：jiffies）
+system (316872) 从系统启动开始累计到当前时刻，核心系统进程占用的时间（单位：jiffies）
+idle (3688440) 从系统启动开始累计到当前时刻，除硬盘IO等待时间以外其它等待时间（单位：jiffies）
+iowait (3308) 从系统启动开始累计到当前时刻，硬盘IO等待时间（单位：jiffies）
+irq (6) 从系统启动开始累计到当前时刻，硬中断时间（单位：jiffies）
+softirq (357) 从系统启动开始累计到当前时刻，软中断时间（单位：jiffies）&lt;/p&gt;
+
+&lt;p&gt;上面结果中的后面三个数据在Android中不统计，所以&lt;br /&gt;
+total = user + nice + system + idle + iowait + irq + softirq&lt;/p&gt;
+
+&lt;p&gt;百分比的计算方式一般是：&lt;br /&gt;
+USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+softirq)/total&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;a href=&#34;http://www.cnblogs.com/yjf512/p/3383915.html&#34;&gt;cpu被占用的时间比信息详解&lt;/a&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;7-进程-线程的占用信息&#34;&gt;7. 进程/线程的占用信息&lt;/h5&gt;
+
+&lt;p&gt;进程数据文件的节点： &lt;code&gt;/proc/[pid]&lt;/code&gt;
+线程数据文件的节点： &lt;code&gt;/proc/[pid]/task/[tid]&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;进程和线程的状态信息从&lt;code&gt;stat&lt;/code&gt;文件中获取，名称从&lt;code&gt;cmdline&lt;/code&gt;文件中获取，cpuset从&lt;code&gt;cpuset&lt;/code&gt;文件中获取等。进程的&lt;code&gt;stat&lt;/code&gt;文件中保存了该进程的&lt;code&gt;user time&lt;/code&gt;和&lt;code&gt;system time&lt;/code&gt;，两者之和可以用来对进程进行排序，一般进程和线程的排序方式都是按照它们占用的CPU时长来排序的。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;(1)Process.getPids方法既可以用来获取某个目录下的所有进程数组，也可以用来获取某个进程的task目录下的所有线程数组&lt;/em&gt;
+&lt;em&gt;(2)Process.getPss方法可以用来统计进程的pss数据，但是很多进程的pss数据都没法获取到&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;参考资料：&lt;a href=&#34;http://blog.csdn.net/zjl_1026_2001/article/details/2294036&#34;&gt;关于/proc/pid/stat&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;进程和线程部分的实现相对有点难度，一方面要统计系统所有的进程和线程的信息，另一方面要对它们进行排序。不过庆幸的是Android系统源码中有一个[&lt;code&gt;LoadAverageService&lt;/code&gt;]()，这个service也就是开发者选项中&lt;code&gt;显示CPU使用情况&lt;/code&gt;的内部实现，它的代码非常具有参考价值，我们可以在它的基础上进行扩展开发自己的工具。&lt;/p&gt;
+
+&lt;p&gt;上面只是列举了部分常见的重要数据的获取方法，其他数据的获取方式也都差不多，主要是要知道当前平台的相应数据的文件节点，还需要注意的是是否具有文件的读权限。&lt;/p&gt;
+
+&lt;p&gt;下图是我最近开发的悟空监视器(公司内部项目，源码不能公开，仅供参考，原理同上)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/wukong.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ChromeADB Project Analysis</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</link>
+      <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
+      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;
+
+&lt;p&gt;chromeadb项目源码：&lt;a href=&#34;https://github.com/importre/chromeadb&#34;&gt;https://github.com/importre/chromeadb&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从该项目的目前提交记录以及&lt;a href=&#34;https://github.com/importre/chromeadb/issues/12&#34;&gt;issue&lt;/a&gt;来看，这个项目已经被放弃了，因为Google的Chrome浏览器未来将不支持Chrome扩展应用。此外，项目源码用的是Angular JS来开发的，我并不是很熟悉，所以主要是阅读下源码理解其大致的实现流程。要体验ChromeADB的MousePad功能还需要安装一个应用&lt;a href=&#34;https://github.com/importre/chromeadb_for_android&#34;&gt;chromeadb_for_android&lt;/a&gt;，这个应用我们也会稍微介绍一下。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;（1）源码结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；
+1.2 test目录下是测试代码；
+1.3 src目录下是核心源码，其中assets目录是资源文件夹，里面都是图片；styles目录是样式文件&lt;code&gt;chromeadb.css&lt;/code&gt;；views目录是各个子界面的模板页面，例如&lt;code&gt;packages.html&lt;/code&gt;、&lt;code&gt;controller.html&lt;/code&gt;等；scripts目录是控制脚本，例如&lt;code&gt;chromeadb.js&lt;/code&gt;、&lt;code&gt;controllers.js&lt;/code&gt;等。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;（2）核心文件及代码分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.1 index.html&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div&amp;gt;
+    &amp;lt;ul class=&amp;quot;nav nav-pills nav-justified&amp;quot; id=&amp;quot;mytab&amp;quot;&amp;gt;
+        &amp;lt;li&amp;gt;
+            &amp;lt;a href=&amp;quot;#packages&amp;quot; data-toggle=&amp;quot;tab&amp;quot;
+               ng-click=&amp;quot;loadPackages(devInfo.serial);&amp;quot;&amp;gt;Packages&amp;lt;/a&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            &amp;lt;a href=&amp;quot;#controller&amp;quot; data-toggle=&amp;quot;tab&amp;quot;
+               ng-click=&amp;quot;initMousePad(devInfo.serial);&amp;quot;&amp;gt;Controller&amp;lt;/a&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            &amp;lt;a href=&amp;quot;#processes&amp;quot; data-toggle=&amp;quot;tab&amp;quot;
+               ng-click=&amp;quot;loadProcessList(devInfo.serial);&amp;quot;&amp;gt;Process List&amp;lt;/a&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            &amp;lt;a href=&amp;quot;#meminfo&amp;quot; data-toggle=&amp;quot;tab&amp;quot;
+               ng-click=&amp;quot;loadMemInfo(devInfo.serial);&amp;quot;&amp;gt;App Memory Info&amp;lt;/a&amp;gt;
+        &amp;lt;/li&amp;gt;
+        &amp;lt;li&amp;gt;
+            &amp;lt;a href=&amp;quot;#diskspace&amp;quot; data-toggle=&amp;quot;tab&amp;quot;
+               ng-click=&amp;quot;loadDiskSpace(devInfo.serial);&amp;quot;&amp;gt;Disk Space&amp;lt;/a&amp;gt;
+        &amp;lt;/li&amp;gt;
+    &amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.2 utils.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/* exported arrayBufferToString */
+/* exported arrayBufferToBinaryString */
+/* exported stringToArrayBuffer */
+/* exported newZeroArray */
+/* exported getChartId */
+/* exported integerToArrayBuffer */
+
+function arrayBufferToString(buf, callback) {
+  var b = new Blob([new Uint8Array(buf)]);
+  var f = new FileReader();
+  f.onload = function (e) {
+    callback(e.target.result);
+  };
+  f.readAsText(b);
+}
+
+function arrayBufferToBinaryString(buf, callback) {
+  var b = new Blob([new Uint8Array(buf)]);
+  var f = new FileReader();
+  f.onload = function (e) {
+    callback(e.target.result);
+  };
+  f.readAsBinaryString(b);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.3 background.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;应用启动时的初始化，应用是从这里开始的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;chrome.app.runtime.onLaunched.addListener(function () {
+  chrome.app.window.create(&#39;../index.html&#39;, {
+    minWidth: 800,
+    minHeight: 600,
+    width: 1280,
+    height: 800
+  });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.4 chromeadb.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var adb = angular.module(&#39;chromeADB&#39;, [&#39;ngRoute&#39;, &#39;ngSanitize&#39;]);
+
+adb.config(function ($routeProvider) {//配置url路由控制转发
+  $routeProvider
+    .when(&#39;/&#39;, {
+      redirectTo: &#39;/packages&#39;
+    })
+    .when(&#39;/packages&#39;, {
+      templateUrl: chrome.runtime.getURL(&#39;../views/packages.html&#39;)
+    })
+    .when(&#39;/controller&#39;, {
+      templateUrl: chrome.runtime.getURL(&#39;../views/controller.html&#39;)
+    })
+    .when(&#39;/processes&#39;, {
+      templateUrl: chrome.runtime.getURL(&#39;../views/processes.html&#39;)
+    })
+    .when(&#39;/meminfo&#39;, {
+      templateUrl: chrome.runtime.getURL(&#39;../views/meminfo.html&#39;)
+    })
+    .when(&#39;/diskspace&#39;, {
+      templateUrl: chrome.runtime.getURL(&#39;../views/diskspace.html&#39;)
+    });
+});
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.5  chrome.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;//initCmdToResp(); //三个初始化方法
+//initChromeSocket(chrome);
+//initChromeRuntime(chrome);
+
+function initCmdToResp() {
+  cmdToResp = {
+    &#39;000ehost:devices-l&#39;: [&#39;OKAY&#39;, &#39;005B&#39;,
+        &#39;048233d1d151e3cc device usb:1A120000 product:aosp_mako &#39; +
+        &#39;model:AOSP_on_Mako device:mako&#39;],
+    &#39;001fhost:transport:048233d1d151e3cc&#39;: [&#39;OKAY&#39;],
+    &#39;0016shell:pm list packages&#39;: [&#39;OKAY&#39;,
+      &#39;package:com.android.settings\npackage:com.android.musicfx&#39;],
+    &#39;0015shell:dumpsys meminfo&#39;: [&#39;OKAY&#39;, &#39;OKAY&#39;,
+        &#39;Applications Memory Usage (kB):\n&#39; +
+        &#39;Uptime: 95848872 Realtime: 211090246\n\nTotal PSS by process:\n&#39; +
+        &#39;71959 kB: com.google.android.googlequicksearchbox (pid 892 / activities)\n&#39; +
+        &#39;71580 kB: com.android.chrome (pid 7876 / activities)&#39;]
+  };
+}
+
+function initChromeSocket(chrome) {//初始化chrome.socket
+  if (chrome.socket) {
+    return;
+  }
+
+  chrome.socket = {
+    create: function (type, options, callback) {
+      var createInfo = {
+        &#39;socketId&#39;: 10
+      };
+
+      window.setTimeout(function () {
+        callback(createInfo);
+      }, timeoutDelay);
+    },
+
+    destroy: function (socketId) {
+    },
+
+    connect: function (socketId, hostname, port, callback) {
+      var result = 1;
+      window.setTimeout(function () {
+        callback(result);
+      }, timeoutDelay);
+    },
+
+    read: function (socketId, bufferSize, callback) {
+      window.setTimeout(function () {
+        var resp = cmdToResp[curCmd];
+        if (resp) {
+          resp = cmdToResp[curCmd].splice(0, 1)[0];
+        }
+        if (typeof resp === &#39;undefined&#39;) {
+          initCmdToResp();
+        }
+        stringToArrayBuffer(resp, function (bytes) {
+          var readInfo = {
+            &#39;resultCode&#39;: resp ? 1 : 0,
+            &#39;data&#39;: bytes
+          };
+          callback(readInfo);
+        });
+      }, timeoutDelay);
+    },
+
+    write: function (socketId, data, callback) {
+      curCmd = data;
+      var writeInfo = {
+        bytesWritten: data.length
+      };
+      window.setTimeout(function () {
+        callback(writeInfo);
+      }, timeoutDelay);
+    }
+  };
+
+  window.arrayBufferToString = function (buf, callback) {
+    callback(buf);
+  };
+
+  window.stringToArrayBuffer = function (str, callback) {
+    callback(str);
+  };
+}
+
+function initChromeRuntime(chrome) {//初始化ChromeRuntime
+  if (!chrome.runtime) {
+    return;
+  }
+
+  if (!chrome.runtime.getURL) {
+    chrome.runtime.getURL = function (url) {
+      return url;
+    };
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.6 parser.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;主要是利用正则表达式来提供一些解析adb命令返回结果的方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/* exported parseProcessList */
+/* exported parseDeviceInfoList */
+/* exported parsePackageList */
+/* exported makeCommand */
+/* exported parseMemInfo */
+/* exported parsePackageMemInfo */
+/* exported parseDiskSpace */
+/* exported parseResolution */
+
+/**
+ * Parses the result of $scope.loadPackages().
+ *
+ * @param data
+ * @returns {Array}
+ */
+function parsePackageList(data) {//解析包列表
+  var lines = data.trim().split(&#39;\n&#39;);
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    lines[i] = lines[i].replace(/^package:/, &#39;&#39;).trim();
+  }
+
+  return lines;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.7 services.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;  function connect(createInfo, host, port) {//建立连接
+    var defer = $q.defer();
+
+    if (typeof port !== &#39;number&#39;) {
+      port = parseInt(port, 10);
+    }
+
+    chrome.socket.connect(createInfo.socketId, host, port, function (result) {
+      if (result &amp;gt;= 0) {
+        $rootScope.$apply(function () {
+          defer.resolve(createInfo);
+        });
+      } else {
+        chrome.socket.destroy(createInfo.socketId);
+        defer.reject(createInfo);
+      }
+    });
+
+    return defer.promise;
+  }
+
+  function write(createInfo, str) {//写
+    var defer = $q.defer();
+
+    stringToArrayBuffer(str, function (bytes) {
+      writeBytes(createInfo, bytes)
+        .then(function (createInfo) {
+          defer.resolve(createInfo);
+        });
+    });
+
+    return defer.promise;
+  }
+
+  function read(createInfo, size) {//读
+    var defer = $q.defer();
+
+    chrome.socket.read(createInfo.socketId, size, function (readInfo) {
+      if (readInfo.resultCode &amp;gt; 0) {
+        // console.log(readInfo);
+        arrayBufferToString(readInfo.data, function (str) {
+          $rootScope.$apply(function () {
+            var param = {
+              createInfo: createInfo,
+              data: str
+            };
+            defer.resolve(param);
+          });
+        });
+      } else {
+        defer.reject(readInfo);
+      }
+    });
+
+    return defer.promise;
+  }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;2.8 controllers.js&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;核心控制脚本&lt;/p&gt;
+
+&lt;p&gt;2.8.1 loadDevices&lt;/p&gt;
+
+&lt;p&gt;命令：adb devices -l&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb devices -l
+List of devices attached
+8f9d6dd9   device usb:337641472X product:OnePlus3 model:ONEPLUS_A3000 device:OnePlus3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;parseDeviceInfoList方法的作用就是从输出结果中解析出设备的序列号(serial)、usb、product、model、device、state等信息&lt;/p&gt;
+
+&lt;p&gt;2.8.2 loadPackages&lt;/p&gt;
+
+&lt;p&gt;命令：adb shell pm list packages&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell pm list packages
+package:com.oneplus.calculator
+package:net.oneplus.weather
+package:com.oneplus.GpioSwitch
+package:com.qualcomm.qti.auth.sampleextauthservice
+package:com.oneplus.market
+package:com.android.providers.telephony
+package:com.android.engineeringmode
+package:com.android.providers.calendar
+package:com.oneplus.opbugreport
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;parsePackageList方法的作用就是从输出结果中解析出包的列表&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parsePackageList(data) {
+  var lines = data.trim().split(&#39;\n&#39;);
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    lines[i] = lines[i].replace(/^package:/, &#39;&#39;).trim();
+  }
+
+  return lines;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.8.3 其他与package相关的方法&lt;/p&gt;
+
+&lt;p&gt;installPackage：adb shell pm install -r &lt;package&gt;
+uninstallPackage：adb shell pm uninstall &lt;package&gt;
+stopPackage：adb shell am force-stop &lt;package&gt;
+clearData：adb shell pm clear &lt;package&gt;
+removeApkFile：adb shell rm -rf &lt;packagePath&gt;&lt;/p&gt;
+
+&lt;p&gt;从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的&lt;code&gt;/data/local/tmp/&lt;/code&gt;目录，然后执行&lt;code&gt;adb shell pm install -r &amp;lt;packagePath&amp;gt;&lt;/code&gt;方法来安装应用的。&lt;/p&gt;
+
+&lt;p&gt;2.8.4 loadProcessList&lt;/p&gt;
+
+&lt;p&gt;命令：adb shell ps&lt;/p&gt;
+
+&lt;p&gt;parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parseProcessList(data) {
+  // parse oldstyle ps result
+  var ore = new RegExp(/^(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([a-fA-F0-9]+)\s+([a-fA-F0-9]+ \w)\s+(.+)/m);
+  // parse 4.4 or above ps result
+  var nre = new RegExp(/^(\d+)\s+(\d+)\s+(\d+m?)\s+(\w+\s*&amp;lt;?)\s+(.+)/m);
+  var lines = data.trim().split(&#39;\n&#39;);
+  var line;
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    line = lines[i].trim();
+    if (0 === i) {
+      line = line.trim().split(/\s+/);
+    } else {
+      var parsed = ore.exec(line);
+      line = !!parsed ? parsed : nre.exec(line);
+      line.splice(0, 1);
+    }
+    lines[i] = line;
+  }
+  return lines;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.8.5 loadMemInfo&lt;/p&gt;
+
+&lt;p&gt;命令：adb shell dumpsys meminfo&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell dumpsys meminfo 
+Applications Memory Usage (kB):
+Uptime: 46425131 Realtime: 178910170
+
+Total PSS by process:
+   113261 kB: com.oneplus.hydrogen.launcher (pid 2240 / activities)
+   108423 kB: system (pid 1340)
+   106778 kB: surfaceflinger (pid 487)
+    99988 kB: com.android.systemui (pid 1803 / activities)
+    94085 kB: org.tensorflow.demo (pid 5773 / activities)
+    46489 kB: com.oneplus.card (pid 2572)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;parseMemInfo方法用来解析进程的内存占用情况，主要是先找到&lt;code&gt;Total PSS by process&lt;/code&gt;这个标识，然后将后面的pid、processName、pss数据解析出来即可。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parseMemInfo(data) {
+  // \1: memory (kb)
+  // \2: process name
+  // \3: pid
+  var re = new RegExp(/^(\d+)\s+kB:\s+(\S+)\s\(pid\s+(\d+).*/);
+  var lines = data.trim().split(&#39;\n&#39;);
+  var line;
+  var pss = 0;
+  var ret = [];
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    line = lines[i].trim();
+
+    if (line.length === 0) {
+      continue;
+    }
+
+    if (line.indexOf(&#39;Total PSS by process&#39;) &amp;gt;= 0) {
+      pss++;
+      continue;
+    }
+
+    if (pss === 1) {
+      line = re.exec(line);
+      if (line) {
+        ret.push({
+          process: line[2],
+          pid: line[3],
+          kb: line[1] + &#39; KB&#39;,
+          mb: parseInt(parseFloat(line[1]) / 1024 + 0.5) + &#39; MB&#39;
+        });
+      } else {
+        break;
+      }
+    }
+  }
+  return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;命令：adb shell dumpsys meminfo [pid/package]&lt;/p&gt;
+
+&lt;p&gt;带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell dumpsys meminfo 2240
+Applications Memory Usage (kB):
+Uptime: 47043593 Realtime: 179528632
+
+** MEMINFO in pid 2240 [com.oneplus.hydrogen.launcher] **
+                   Pss  Private  Private  Swapped     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------
+  Native Heap    14274    14204        0        0    21248    18580     2667
+  Dalvik Heap    59432    59408        0        0    67386    60326     7060
+ Dalvik Other      801      800        0        0                           
+        Stack      440      440        0        0                           
+......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个数据输出结果由parsePackageMemInfo这个方法来解析，它会去解析Native Heap和Dalvik Heap中&lt;code&gt;Size&lt;/code&gt;、&lt;code&gt;Alloc&lt;/code&gt;和&lt;code&gt;Free&lt;/code&gt;这几列的信息，chromeadb工具会这些数据来绘制曲线图！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parsePackageMemInfo(data) {
+  var lines = data.trim().split(&#39;\n&#39;);
+  var line, tempLine, length;
+  var ret = [];
+  var cnt = 0;
+  var found = false;
+  var idxOfSize, idxOfAlloc, idxOfFree;
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    line = lines[i].trim();
+    tempLine = line.split(/\s+/);
+    length = tempLine.length;
+
+    if (!found) {
+      idxOfSize = tempLine.indexOf(&#39;Size&#39;);
+      idxOfAlloc = tempLine.indexOf(&#39;Alloc&#39;);
+      idxOfFree = tempLine.indexOf(&#39;Free&#39;);
+
+      if (idxOfSize &amp;gt;= 0 &amp;amp;&amp;amp; idxOfAlloc &amp;gt;= 0 &amp;amp;&amp;amp; idxOfFree &amp;gt;= 0) {
+        idxOfSize = length - idxOfSize;
+        idxOfAlloc = length - idxOfAlloc;
+        idxOfFree = length - idxOfFree;
+        found = true;
+        continue;
+      }
+    }
+
+    if (found &amp;amp;&amp;amp; (tempLine[0] === &#39;Native&#39; || tempLine[0] === &#39;Dalvik&#39;)) {
+      ret.push({
+        area: tempLine[0],
+        size: tempLine[length - idxOfSize],
+        alloc: tempLine[length - idxOfAlloc],
+        free: tempLine[length - idxOfFree]
+      });
+      cnt++;
+    }
+
+    if (cnt &amp;gt;= 2) {
+      break;
+    }
+  }
+  return ret;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;曲线图示例：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb_chart.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;2.8.6 loadDiskSpace&lt;/p&gt;
+
+&lt;p&gt;命令：adb shell df&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell df
+Filesystem               Size     Used     Free   Blksize
+/                        2.7G     4.7M     2.7G   4096
+/dev                     2.8G   124.0K     2.8G   4096
+/sys/fs/cgroup           2.8G    12.0K     2.8G   4096
+/mnt                     2.8G     0.0K     2.8G   4096
+/system                  2.8G     1.9G   906.7M   4096
+...
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;解析输出结果的parseDiskSpace方法&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parseDiskSpace(data) {
+  var lines = data.trim().split(&#39;\n&#39;);
+  var line, head, body = [];
+
+  for (var i = 0; i &amp;lt; lines.length; i++) {
+    line = lines[i].trim().split(/\s+/);
+    if (i === 0) {
+      head = line;
+    } else {
+      body.push(line);
+    }
+  }
+  return {head: head, body: body};
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.8.7 controller面板下的操作&lt;/p&gt;
+
+&lt;p&gt;sendText：adb shell input text &lt;text&gt;
+onClickButton：adb shell input keyevent &lt;keyCode&gt;&lt;/p&gt;
+
+&lt;p&gt;chromeadb在controller面板中还有一个MousePad功能，但是这个功能需要先在手机上安装chromeadb_for_android应用。&lt;a href=&#34;https://github.com/importre/chromeadb_for_android&#34;&gt;ChromeADB for Android这个应用的源码地址&lt;/a&gt;，这个项目创建于2年前，可能不太好编译，建议直接创建新项目然后拷贝源码过来进行编译。&lt;/p&gt;
+
+&lt;p&gt;应用安装完成之后，刷新Controller面板可以发现MousePad中出现了黑色的面板，在面板中移动鼠标的话可以同时看到在手机界面上对应的移动位置，如下图所示 （应用需要悬浮窗权限，所以需要给该应用开启该权限）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb_mousepad_controller.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;（3）chromeadb_for_android 应用源码分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;从chromeadb的源码来看，chromeadb会启动这个应用中的ChromeAdbService，然后实现各种移动和点击操作，所以ChromeAdbService是该应用的核心。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class ChromeAdbService extends Service implements TailerListener {
+
+    private File mEventFile = new File(&amp;quot;/sdcard/chromeadb.event&amp;quot;);//监听这个事件文件
+    private ImageView mCursorImage;//指针imageview
+    private String mPrevLine;//上次读取的文件中那一行字符串
+    private Tailer mTailer;//用于监听指定事件文件的Tailer(跟踪者)
+    private WindowManager mWindowManager;
+    private WindowManager.LayoutParams mLayoutParam;
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startTailer();
+        addMouseCursor();
+        setCursorPosToCenter();
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopTailer();
+        removeMouseCursor();
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    private void addMouseCursor() {//添加鼠标指针imageview到window上
+        if (mCursorImage == null) {
+            mCursorImage = new ImageView(this);
+            mCursorImage.setImageResource(R.drawable.cursor);
+        }
+
+        if (mLayoutParam == null) {
+            mLayoutParam = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                            | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    PixelFormat.TRANSLUCENT);
+            mLayoutParam.gravity = Gravity.LEFT | Gravity.TOP;
+            mLayoutParam.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        }
+
+        if (mWindowManager == null) {
+            mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+            mWindowManager.addView(mCursorImage, mLayoutParam);
+        }
+    }
+
+    @SuppressLint(&amp;quot;NewApi&amp;quot;)
+    private void setCursorPosToCenter() {//初始化的时候将指针移动到中央
+        if (mWindowManager == null || mCursorImage == null) {
+            return;
+        }
+
+        Display display = mWindowManager.getDefaultDisplay();
+        int x, y;
+
+        if (Build.VERSION.SDK_INT &amp;gt;= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point size = new Point();
+            display.getSize(size);
+            x = size.x;
+            y = size.y;
+        } else {
+            x = display.getWidth();
+            y = display.getHeight();
+        }
+
+        move(x &amp;gt;&amp;gt; 1, y &amp;gt;&amp;gt; 1);
+    }
+
+    private void removeMouseCursor() {//删除指针imageview
+        if (mCursorImage != null &amp;amp;&amp;amp; mWindowManager != null) {
+            mWindowManager.removeView(mCursorImage);
+            mCursorImage = null;
+        }
+    }
+
+    public void move(int touchX, int touchY) {//移动指针到指定的x,y坐标位置
+        if (mLayoutParam == null || mWindowManager == null || mCursorImage == null) {
+            return;
+        }
+
+        mLayoutParam.x = touchX;
+        mLayoutParam.y = touchY;
+        mWindowManager.updateViewLayout(mCursorImage, mLayoutParam);
+    }
+
+    private void startTailer() {//开始监听事件文件
+        try {
+            if (mEventFile.exists()) {
+                mEventFile.delete();
+            }
+            mEventFile.createNewFile();
+        } catch (IOException e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (mTailer != null) {
+            mTailer.stop();
+        }
+
+        //这部分代码可以改成直接使用Tailer的create方法来创建Tailer
+        mTailer = new Tailer(mEventFile, this, 10, true);
+        Thread thread = new Thread(mTailer);
+        thread.start();
+    }
+
+    private void stopTailer() {//停止监听事件文件
+        if (mTailer != null) {
+            mTailer.stop();
+            mTailer = null;
+        }
+
+        if (mEventFile != null &amp;amp;&amp;amp; mEventFile.exists()) {
+            mEventFile.delete();
+        }
+    }
+
+    @Override
+    public void init(Tailer tailer) {
+    }
+
+    @Override
+    public void fileNotFound() {
+        mTailer.stop();
+    }
+
+    @Override
+    public void fileRotated() {
+    }
+
+    @Override
+    public void handle(String s) {
+        //TailerListener接口的回调，当事件文件发生变化的时候，这个方法会回调
+        if (mPrevLine != null &amp;amp;&amp;amp; mPrevLine.equals(s)) {
+            return;
+        }
+
+        String coords = Command.getCoordinates(s);
+        if (coords != null) {
+            moveCursor(coords);
+        }
+
+        mPrevLine = s;
+    }
+
+    private void moveCursor(String coords) {//根据解析得到的新坐标位置来移动指针
+        try {
+            final String[] points = coords.split(&amp;quot;,&amp;quot;);
+            for (int i = 0; i &amp;lt; points.length; i += 2) {
+                int x = Integer.parseInt(points[i]);
+                int y = Integer.parseInt(points[i + 1]);
+                Message msg = mHandler.obtainMessage();
+                Bundle data = new Bundle();
+                data.putInt(&amp;quot;x&amp;quot;, x);
+                data.putInt(&amp;quot;y&amp;quot;, y);
+                msg.setData(data);
+                mHandler.sendMessage(msg);
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    private final Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            Bundle data = msg.getData();
+            if (data != null) {
+                int x = data.getInt(&amp;quot;x&amp;quot;, 0);
+                int y = data.getInt(&amp;quot;y&amp;quot;, 0);
+                move(x, y);
+            }
+        }
+    };
+
+    @Override
+    public void handle(Exception e) {
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;chromeadb_for_android应用的代码看起来很简单，那么chromeadb是如何将坐标发送到事件文件中的呢？其实就是执行类似下面的命令&lt;code&gt;adb shell echo move 522,1108,530,1108 &amp;gt;&amp;gt; /sdcard/chromeadb.event&lt;/code&gt;而已。ChromeAdbService这个服务会监听那个文件的变化，一旦有新的数据过来了就会解析参数执行相应的命令。&lt;/p&gt;
+
+&lt;p&gt;** (4) 与adbserver通信的秘密 **&lt;/p&gt;
+
+&lt;p&gt;通过前面的分析我们知道了chromeadb实际上是连接adbserver，将命令通过socket发送给adbserver，然后adbserver去执行命令并返回结果给chromeadb。那通过socket发送的是什么内容呢？&lt;/p&gt;
+
+&lt;p&gt;parse.js文件中有一个很重要的方法&lt;code&gt;makeCommand&lt;/code&gt;，这个方法用来构造发送的数据，从方法内容来看就是在命令的前面填充4位十六进制形式的数字，表示命令的总长度，方便server那边解析。例如想要发送&lt;code&gt;shell:dumpsys snowden&lt;/code&gt;命令，那么实际发送的数据是&lt;code&gt;0015shell:dumpsys snowden&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function makeCommand(cmd) {
+  var hex = cmd.length.toString(16);//先计算命令长度对应的十六进制
+  while (hex.length &amp;lt; 4) {//前面不足四位的话补0
+    hex = &#39;0&#39; + hex;
+  }
+  cmd = hex + cmd;
+  return cmd;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那adbserver那边返回的数据又是什么形式的呢？从controllers.js文件中的&lt;code&gt;getReadAllPromise&lt;/code&gt;方法我们可以大致看出返回结果的结构，一般先是&lt;code&gt;OKAY&lt;/code&gt;，然后是返回结果的长度，最后是返回结果的内容。例如发送&lt;code&gt;000ehost:devices-l&lt;/code&gt;，得到的结果是&lt;code&gt;OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690&lt;/code&gt;，也就是当前有一个设备，序列号是&lt;code&gt;M96GAEP9PT63B&lt;/code&gt;，后面内容是它的信息。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;$scope.getNewCommandPromise = function (cmd) {
+  return socketService.create()
+    .then(function (createInfo) {
+      return socketService.connect(createInfo, $scope.host, $scope.port);
+    })
+    .then(function (createInfo) {
+      var cmdWidthLength = makeCommand(cmd);
+      console.log(&#39;command:&#39;, cmdWidthLength);//hujiawei
+      return socketService.write(createInfo, cmdWidthLength);
+    })
+    .then(function (param) {
+      return socketService.read(param.createInfo, 4);//前四个字节 OKEY
+    })
+    .catch(function (param) {
+      $scope.initVariables();
+      $scope.logMessage = {
+        cmd: &#39;Connection Error&#39;,
+        res: &#39;run \&amp;quot;$ adb start-server\&amp;quot;&#39;
+      };
+    });
+};
+
+$scope.getCommandPromise = function (cmd, createInfo) {
+  var cmdWidthLength = makeCommand(cmd);
+  console.log(&#39;command:&#39;, cmdWidthLength);//hujiawei
+  return socketService.write(createInfo, cmdWidthLength)
+    .then(function (param) {
+      return socketService.read(param.createInfo, 4);
+    });
+};
+
+//先执行命令1，再执行命令2，都成功的话读取所有数据
+$scope.getReadAllPromise = function (cmd1, cmd2) {
+  return $scope.getNewCommandPromise(cmd1)
+    .then(function (param) {
+      //console.log(param);
+      if (param.data === &#39;OKAY&#39;) {//成功执行命令1
+        return $scope.getCommandPromise(cmd2, param.createInfo);
+      }
+    })
+    .then(function (param) {
+      //console.log(param);
+      if (param &amp;amp;&amp;amp; param.data === &#39;OKAY&#39;) {//成功执行命令2
+        return socketService.readAll(param.createInfo, arrayBufferToString);
+      }
+    })
+    .catch(function (param) {
+      $scope.initVariables();
+      $scope.logMessage = {
+        cmd: &#39;Connection Error&#39;,
+        res: &#39;Cannot find any devices&#39;
+      };
+    });
+};
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以使用下面的代码来验证这个与adbserver通信方式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Snowden {
+
+    public static void main(String[] args) {
+        try {
+
+            Socket socket = new Socket();
+            SocketAddress remoteAddr = new InetSocketAddress(&amp;quot;localhost&amp;quot;, 5037);
+            socket.connect(remoteAddr, 60000);
+
+            OutputStream os = socket.getOutputStream();
+            InputStream is = socket.getInputStream();
+
+            os.write(&amp;quot;000ehost:devices-l&amp;quot;.getBytes());
+            //os.write(&amp;quot;001chost:transport:M96GAEP9PT63B&amp;quot;.getBytes());
+            //os.write(&amp;quot;0015shell:dumpsys snowden&amp;quot;.getBytes());//OKAYOKAYCan&#39;t find service: snowden
+
+            String line = null;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                //&amp;quot;OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690&amp;quot;;
+            }
+
+            is.close();
+            os.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;** 总结 **&lt;/p&gt;
+
+&lt;p&gt;虽然chromeadb工具的功能有限而且未来可能真的不会再有新的进展，但是利用当前这个版本进行扩展使用更多有用的功能还是非常方便的，例如我最近利用之前开发的手机版本的悟空监视器改造了一个新的斯诺登监视器。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/SnowdenMonitor.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pury Project Analysis</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</link>
+      <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
+      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。&lt;/p&gt;
+
+&lt;p&gt;Pury的源码：&lt;a href=&#34;https://github.com/NikitaKozlov/Pury&#34;&gt;https://github.com/NikitaKozlov/Pury&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Pury is a profiling library for measuring time between multiple independent events. Events can be triggered with one of the annotations or with a method call. All events for a single scenario are united into one report.&lt;/p&gt;
+
+&lt;p&gt;感兴趣的话可以先阅读&lt;a href=&#34;https://medium.com/@nikita.kozlov/pury-new-way-to-profile-your-android-application-7e248b5f615e#.oozl48dch&#34;&gt;关于Pury作者为啥开发Pury的介绍&lt;/a&gt;，最精彩的是关于Pury的内部设计架构和它的局限性的介绍：&lt;/p&gt;
+
+&lt;p&gt;Performance measurements are done by &lt;code&gt;Profilers&lt;/code&gt;. Each &lt;code&gt;Profiler&lt;/code&gt; contains a list of &lt;code&gt;Runs&lt;/code&gt;. Multiple &lt;code&gt;Profilers&lt;/code&gt; can work in parallel, but only a single &lt;code&gt;Run&lt;/code&gt; per each &lt;code&gt;Profiler&lt;/code&gt; can be active. Once all &lt;code&gt;Runs&lt;/code&gt; in a single &lt;code&gt;Profiler&lt;/code&gt; are finished, result is reported. Amount of runs defines by &lt;code&gt;runsCounter&lt;/code&gt; parameter.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Run&lt;/code&gt; has a root &lt;code&gt;Stage&lt;/code&gt; inside. Each &lt;code&gt;Stage&lt;/code&gt; has a name, an order number and an arbitrary amount of nested &lt;code&gt;Stages&lt;/code&gt;. &lt;code&gt;Stage&lt;/code&gt; can have only one active nested &lt;code&gt;Stage&lt;/code&gt;. If you stop a parent &lt;code&gt;Stage&lt;/code&gt;, then all nested &lt;code&gt;Stages&lt;/code&gt; are also stopped.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pury.jpeg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;以下是我的源码阅读总结：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1. 源码结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;1.1 annotations：纯Java应用，已发布到maven上，名称是pury-annotations，其中主要是定义了&lt;code&gt;MethodProfiling&lt;/code&gt;，&lt;code&gt;StartProfiling&lt;/code&gt;和&lt;code&gt;StopProfiling&lt;/code&gt;三个注解&lt;/p&gt;
+
+&lt;p&gt;1.2 pury：核心工程，依赖了annotations和aspectj，已发布到maven上，名称是pury&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;compile &#39;com.nikitakozlov.pury:annotations:1.0.1&#39;
+compile &#39;org.aspectj:aspectjrt:1.8.6&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;1.3 example：应用示例，依赖了pury，演示了几个场景下的几个方法的监控示例&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2. 使用方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;注解形式所支持的5个参数&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;profilerName&lt;/code&gt; — name of the profiler is displayed in the result. Along with runsCounter identifies the Profiler.
+&lt;code&gt;runsCounter&lt;/code&gt; — amount of runs for Profiler to wait for. Result is available only after all runs are stopped.
+&lt;code&gt;stageName&lt;/code&gt; — identifies a stage to start. Name is displayed in the result.
+&lt;code&gt;stageOrder&lt;/code&gt; — stage order reflects the hierarchy of stages. In order to start a new stage, it must be bigger then order of current most nested active stage. Stage order is a subject to one more limitation: first start event must have order number equal zero.
+&lt;code&gt;enabled&lt;/code&gt; — if set to false, an annotation is skipped.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;Profiler is identified by combination of profilerName and runsCounter&lt;/code&gt;. So if you are using same profilerName, but different runsCounter, then you will get two separate results, instead of a combined one.&lt;/p&gt;
+
+&lt;p&gt;profiler对应一个需要监控的场景，runsCounter是指监控场景需要执行的次数
+stage对应这个场景下需要监控的方法，stageOrder是指监控方法的对应层级
+&lt;strong&gt;需要注意的是Profiler是由profilerName和runsCounter两个共同决定的，也就是说如果profilerName相同但是runsCounter不同的话是两个不同的监控场景，最终会得到两个独立的结果。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;下面是一个采用注解的方式实现监控的例子，它监控了数据加载这个事件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@StartProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.SPLASH_LOAD_DATA,
+        stageOrder = StartApp.SPLASH_LOAD_DATA_ORDER)
+private void loadData() {
+    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+        @Override
+        public void run() {
+            onDataLoaded();
+            startMainActivity();
+        }
+    }, 1000);
+}
+
+@StopProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.SPLASH_SCREEN)
+private void onDataLoaded() {
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;监控App Start场景下的方法调用时长的输出示例，它表示监控的场景名(ProfilerName)是&lt;code&gt;App Start&lt;/code&gt;，这个场景总共耗时1182ms，这个场景下有6个stage，分别是&lt;code&gt;App Start&lt;/code&gt;、&lt;code&gt;Splash Screen&lt;/code&gt;、&lt;code&gt;Splash Load Data&lt;/code&gt;、&lt;code&gt;Main Activity Launch&lt;/code&gt;、&lt;code&gt;onCreate()&lt;/code&gt;和&lt;code&gt;onStart()&lt;/code&gt;，下面的输出显示了每个stage的运行时间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Profiling results for App Start:
+App Start --&amp;gt; 0ms
+  Splash Screen --&amp;gt; 5ms
+    Splash Load Data --&amp;gt; 37ms
+    Splash Load Data &amp;lt;-- 1042ms, execution = 1005ms
+  Splash Screen &amp;lt;-- 1042ms, execution = 1037ms
+  Main Activity Launch --&amp;gt; 1043ms 
+    onCreate() --&amp;gt; 1077ms 
+    onCreate() &amp;lt;-- 1100ms, execution = 23ms
+    onStart() --&amp;gt; 1101ms 
+    onStart() &amp;lt;-- 1131ms, execution = 30ms
+  Main Activity Launch &amp;lt;-- 1182ms, execution = 139ms
+App Start &amp;lt;-- 1182ms
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;监控Pagination场景下的方法调用时长的输出示例，它统计了Pagination这个场景下的3个stage，分别是&lt;code&gt;Get Next Page&lt;/code&gt;、&lt;code&gt;Load&lt;/code&gt;和&lt;code&gt;Process&lt;/code&gt;，每个stage都会运行5次并统计avg、min和max用时。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Profiling results for Pagination:
+Get Next Page --&amp;gt; 0ms
+  Load --&amp;gt; avg = 1.80ms, min = 1ms, max = 3ms, for 5 runs
+  Load &amp;lt;-- avg = 258.40ms, min = 244ms, max = 278ms, for 5 runs
+  Process --&amp;gt; avg = 261.00ms, min = 245ms, max = 280ms, for 5 runs
+  Process &amp;lt;-- avg = 114.20ms, min = 99ms, max = 129ms, for 5 runs
+Get Next Page &amp;lt;-- avg = 378.80ms, min = 353ms, max = 411ms, for 5 runs
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3. 核心代码分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.1 annotations工程中的注解&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;annotations中的注解有6个，分别是&lt;code&gt;MethodProfiling&lt;/code&gt;、&lt;code&gt;MethodProfilings&lt;/code&gt;、&lt;code&gt;StartProfiling&lt;/code&gt;、&lt;code&gt;StartProfilings&lt;/code&gt;、&lt;code&gt;StopProfiling&lt;/code&gt;和&lt;code&gt;StopProfilings&lt;/code&gt;，因为有些方法可能存在多个注解，所以每个都对应会有一个复数形式的。这些注解作用的对象可以是普通的方法，也可以是类的构造器。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Combination of {@link StartProfiling} and {@link StopProfiling}. If stage name is empty, then stage name from method&#39;s name and class will be generated.
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
+public @interface MethodProfiling {
+    /**
+     * Profiler Name, used in results.
+     */
+    String profilerName() default &amp;quot;&amp;quot;;
+
+    /**
+     * Name of stage to start. Used in results. If stage name is empty, then stage name from method&#39;s name and class will be generated.
+     */
+    String stageName() default &amp;quot;&amp;quot;;
+
+    /**
+     * Stage order must be bigger then order of current most nested active stage.
+     * First profiling must starts with value 0.
+     */
+    int stageOrder() default 0;
+
+    /**
+     * Amount of runs to average. Result will be available only after all runs are stopped.
+     */
+    int runsCounter() default 1;
+
+    /**
+     * Set to false if you want to skip this annotation.
+     */
+    boolean enabled() default true;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.2 pury工程中的注解处理类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;pury工程中的注解处理类有3个，分别是&lt;code&gt;ProfileMethodAspect&lt;/code&gt;、&lt;code&gt;StartProfilingAspect&lt;/code&gt;和&lt;code&gt;StopProfilingAspect&lt;/code&gt;类。&lt;/p&gt;
+
+&lt;p&gt;下面是&lt;code&gt;ProfileMethodAspect&lt;/code&gt;的源码，其中定义了4个PointCut以及1个Around Advice。方法&lt;code&gt;weaveJoinPoint&lt;/code&gt;是核心方法，它的主要执行流程是：假设我们对方法M提供了MethodProfiling注解，weaveJointPoint先会根据注解提供的参数去获取并启动所有相关的stage，也就是该方法所在的所有场景(profiler)下的对应stage，然后调用方法M使其执行，最后再停止所有的stage。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;@Aspect
+public class ProfileMethodAspect {
+    private static final String POINTCUT_METHOD =
+            &amp;quot;execution(@com.nikitakozlov.pury.annotations.MethodProfiling * *(..))&amp;quot;;
+
+    private static final String POINTCUT_CONSTRUCTOR =
+            &amp;quot;execution(@com.nikitakozlov.pury.annotations.MethodProfiling *.new(..))&amp;quot;;
+
+
+    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
+            &amp;quot;execution(@com.nikitakozlov.pury.annotations.MethodProfilings * *(..))&amp;quot;;
+
+    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
+            &amp;quot;execution(@com.nikitakozlov.pury.annotations.MethodProfilings *.new(..))&amp;quot;;
+
+    @Pointcut(POINTCUT_METHOD)
+    public void method() {
+    }
+
+    @Pointcut(POINTCUT_CONSTRUCTOR)
+    public void constructor() {
+    }
+
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
+    public void methodWithMultipleAnnotations() {
+    }
+
+    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
+    public void constructorWithMultipleAnnotations() {
+    }
+
+    @Around(&amp;quot;constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()&amp;quot;)
+    public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
+        ProfilingManager profilingManager = ProfilingManager.getInstance();
+        List&amp;lt;StageId&amp;gt; stageIds = getStageIds(joinPoint);
+        for (StageId stageId : stageIds) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .startStage(stageId.getStageName(), stageId.getStageOrder());
+        }
+
+        Object result = joinPoint.proceed();
+
+        for (StageId stageId : stageIds) {
+            profilingManager.getProfiler(stageId.getProfilerId())
+                    .stopStage(stageId.getStageName());
+        }
+
+        return result;
+    }
+
+    private List&amp;lt;StageId&amp;gt; getStageIds(ProceedingJoinPoint joinPoint) {
+        if (!Pury.isEnabled()) {
+            return Collections.emptyList();
+        }
+
+        Annotation[] annotations =
+                ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
+        List&amp;lt;StageId&amp;gt; stageIds = new ArrayList&amp;lt;&amp;gt;();
+        for (Annotation annotation : annotations) {
+            if (annotation.annotationType() == MethodProfiling.class) {
+                StageId stageId = getStageId((MethodProfiling) annotation, joinPoint);
+                if (stageId != null) {
+                    stageIds.add(stageId);
+                }
+            }
+            if (annotation.annotationType() == MethodProfilings.class) {
+                for (MethodProfiling methodProfiling : ((MethodProfilings) annotation).value()) {
+                    StageId stageId = getStageId(methodProfiling, joinPoint);
+                    if (stageId != null) {
+                        stageIds.add(stageId);
+                    }
+                }
+            }
+        }
+        return stageIds;
+    }
+
+    private StageId getStageId(MethodProfiling annotation, ProceedingJoinPoint joinPoint) {
+        if (!annotation.enabled()) {
+            return null;
+        }
+        ProfilerId profilerId = new ProfilerId(annotation.profilerName(), annotation.runsCounter());
+        String stageName = annotation.stageName();
+        if (stageName.isEmpty()) {
+            CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+            String className = codeSignature.getDeclaringType().getSimpleName();
+            String methodName = codeSignature.getName();
+            stageName = className + &amp;quot;.&amp;quot; + methodName;
+        }
+
+        return new StageId(profilerId, stageName, annotation.stageOrder());
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;StartProfilingAspect&lt;/code&gt;和&lt;code&gt;StopProfilingAspect&lt;/code&gt;与之类似，只不过前者定义的是&lt;code&gt;@Before&lt;/code&gt; advice，而后者定义的是&lt;code&gt;@After&lt;/code&gt; advice。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.3 核心类Pury&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Pury是pury工程的核心工具类，除了可以设置自定义的Logger以及设置enabled状态之外，它还提供了&lt;code&gt;startProfiling&lt;/code&gt;和&lt;code&gt;stopProfiling&lt;/code&gt;两个方法来实现代码调用的方法来对方法进行监控。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public final class Pury {
+    static volatile Logger sLogger;
+    static volatile boolean sEnabled = true;
+
+    public static void setLogger(Logger logger) {
+        sLogger = logger;
+    }
+
+    public synchronized static Logger getLogger() {
+        if (sLogger == null) {
+            sLogger = new DefaultLogger();
+        }
+        return sLogger;
+    }
+
+    public static boolean isEnabled() {
+        return sEnabled;
+    }
+
+    public synchronized static void setEnabled(boolean enabled) {
+        if (!enabled) {
+            ProfilingManager.getInstance().clear();
+        }
+        sEnabled = enabled;
+    }
+
+    /**
+     *
+     * @param profilerName used to identify profiler. Used in results.
+     * @param stageName Name of stage to start. Used in results.
+     * @param stageOrder Stage order must be bigger then order of current most nested active stage.
+     *                   First profiling must starts with value 0.
+     * @param runsCounter used to identify profiler. Amount of runs to average.
+     *                    Result will be available only after all runs are stopped.
+     */
+    public static void startProfiling(String profilerName, String stageName, int stageOrder, int runsCounter) {
+        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+        ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
+    }
+
+    /**
+     *
+     * @param profilerName used to identify profiler. Used in results.
+     * @param stageName  Name of stage to stop. Used in results.
+     * @param runsCounter used to identify profiler. Amount of runs to average.
+     *                    Result will be available only after all runs are stopped.
+     */
+    public static void stopProfiling(String profilerName, String stageName, int runsCounter) {
+        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+        ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Profiler是由profilerName和runsCounter两个共同决定的&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;在某个监控场景下启动和停止某个方法的监控&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
+
+ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stageOrder);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.4 其他包和类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;pury工程的其他类都存放在&lt;code&gt;internal.profile&lt;/code&gt;包和&lt;code&gt;internal.result&lt;/code&gt;两个包中，前者定义了&lt;code&gt;Profiler&lt;/code&gt;、&lt;code&gt;Stage&lt;/code&gt;、&lt;code&gt;StopWatch&lt;/code&gt;等相关类，后者定义了&lt;code&gt;ProfileResultProcessor&lt;/code&gt;、&lt;code&gt;ProfileResult&lt;/code&gt;等各种处理结果和相应的处理类。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;4. 其他内容&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;4.1 Pury的优缺点&lt;/p&gt;
+
+&lt;p&gt;个人认为，pury提供了方法调用和注解两种使用形式，实现了对某个场景及该场景下方法级别的监控，甚至可以设置场景的出现次数并自动计算场景下方法的min/avg/max三种执行时长，其功能足以满足一般的应用的场景响应时间监控的需求。不同于&lt;a href=&#34;https://github.com/JakeWharton/hugo&#34;&gt;Hugo&lt;/a&gt;项目，后者只是对一个方法的监控，不能做到Pury这样针对场景的监控。&lt;/p&gt;
+
+&lt;p&gt;Pury存在一个明显的缺点就是方法的层级必须指定，而且必须正确指定。一般来说，方法调用的堆栈往往可能会很深，明确指定方法的层级有时候会比较麻烦，当方法的调用流程发生变化的时候不易于维护。实际上，通过分析方法调用的情况来自动配置方法层级应该是可以做到的(类似TraceView工具)。&lt;/p&gt;
+
+&lt;p&gt;4.2 Pury使用的gradle插件&lt;/p&gt;
+
+&lt;p&gt;发布到maven使用的gradle插件是&lt;code&gt;https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle&lt;/code&gt;
+实现注解解析的gradle插件是&lt;code&gt;com.nikitakozlov.weaverlite&lt;/code&gt;，这个是作者自己封装的插件&lt;a href=&#34;https://github.com/NikitaKozlov/WeaverLite&#34;&gt;WeaverLite&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Pury的源码就分析到这里吧，感兴趣的建议再扫一遍源码看下，还是会有挺多收获的。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Build Android Source Code on Mac</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</link>
+      <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
+      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。&lt;/p&gt;
+
+&lt;p&gt;趁着国庆长假，抽出些时间来记录下最近倒腾的一些内容，第一个需要记录的自然是Android源码编译的流程。上班第一天就干了一件事，编译Android 6.0源码，第二天就是编译Flyme系统啦！但是编完系统之后刷到PRO6里面还有点小鸡冻呢！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Ubuntu系统下的Android源码编译环境搭建&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;如果是在Ubuntu系统下进行编译的话，中文文档请参考&lt;a href=&#34;http://blog.csdn.net/dd864140130/article/details/51718187&#34;&gt;自己动手编译最新Android源码及SDK&lt;/a&gt;或者Gityuan写的编译最新的7.0源码的文章&lt;a href=&#34;http://gityuan.com/2016/08/20/Android_N/&#34;&gt;搭建Android 7.0的源码环境&lt;/a&gt;，英文文档主要看Google官方的文档，包括&lt;a href=&#34;https://source.android.com/source/requirements.html&#34;&gt;前提要求篇&lt;/a&gt;、&lt;a href=&#34;https://source.android.com/source/initializing.html&#34;&gt;环境准备篇&lt;/a&gt;以及&lt;a href=&#34;https://source.android.com/source/building.html&#34;&gt;源码编译篇&lt;/a&gt;，如果磁盘空间充足并且网络环境通畅的话，编译通过是没啥问题的。&lt;/p&gt;
+
+&lt;p&gt;特别需要注意以下几点：
+0.磁盘空间的大小
+按照Google官方的说法是，checkout代码至少需要100GB空间，单个编译的话至少需要150GB空间，多类型的编译的话至少需要200GB空间(实际我下载完代码之后大约占用了50GB左右)。而且，如果你是在虚拟机的Linux中编译的话，还需要满足至少有16GB的RAM/swap。&lt;/p&gt;
+
+&lt;p&gt;1.Ubuntu系统的版本和JDK的版本
+Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件更新，建议更新一下。此外，推荐在设置中设置软件更新的远程服务器，将其设置为China下的aliyun服务器，这样速度会快很多。&lt;/p&gt;
+
+&lt;p&gt;JDK版本需要根据你要编译的Android系统版本来确定，而且还需要注意是Oracle JDK还是Open JDK！可以在系统中多安装几个版本的JDK，以后使用&lt;code&gt;update-alternatives --config&lt;/code&gt;命令来切换。&lt;/p&gt;
+
+&lt;p&gt;2.Android源码的分支
+详细的分支列表可以在&lt;a href=&#34;https://source.android.com/source/build-numbers.html#source-code-tags-and-builds&#34;&gt;这里&lt;/a&gt;查看，当然，repo init的时候也可以不指定分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Mac系统下的Android源码编译环境搭建&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;关于是否在自己的MBP上搭建android编译环境的问题我纠结了很久，原因是自己的磁盘剩余空间真的不多了，后来在网上找到了Mac笔记本的扩容卡，对于我这款MBP来说最大可以扩容256GB！虽然有点贵，但是，为了Android，豁出去啦！&lt;/p&gt;
+
+&lt;p&gt;在Mac系统上进行Android源码编译的话可以参考&lt;a href=&#34;http://www.jianshu.com/p/f0356e3ea330&#34;&gt;Mac下设置Android源代码编译环境&lt;/a&gt;这篇文章，主要步骤分别是创建大小写敏感的磁盘、安装依赖包、下载Android源码然后编译就行了。&lt;/p&gt;
+
+&lt;p&gt;对于第一步，创建磁盘操作我是直接将买来的扩容卡格式化成OS X Extended(Case-sensitive Journaled)格式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/osx_extended.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;第二步是安装JDK、Xcode、MacPorts，这三个在我当前的系统中都已经有了，检查下版本是否可以就行，之后就是通过MacPorts安装几个依赖包，&lt;code&gt;POSIXLY_CORRECT=1 sudo port install gmake libsdl git gnupg&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;这一步我遇到了一个坑，简单描述下：我目前的系统一直以来都是通过系统的更新而升级过来的，所以大概有2年左右的时间没有重装了（嗯，我就是在夸Mac系统好☺️），系统环境也慢慢变得相当复杂了。之前用MacPorts，后来用Homebrew，但是大家都知道&lt;code&gt;brew doctor&lt;/code&gt;的时候总是会提醒MacPorts如何如何的，建议你移动它的位置，后来我貌似是移动了还是怎么的，系统的MacPorts不能正常工作了，利用安装工具反复安装了很多次都卡在了最后的&lt;code&gt;Running package scripts&lt;/code&gt;这个步骤，翻墙状态下安装也是如此，最后的解决方案是利用MacPorts的源码安装一次就好啦！还有就是，不管你的MacPorts是否正常，建议执行一次&lt;code&gt;sudo ports -v selfupdate&lt;/code&gt;进行更新升级一次，如果失败可能是网络连接的问题，可以试试MacPorts的其他镜像。&lt;/p&gt;
+
+&lt;p&gt;第三步是下载Android源码，大家都知道在国内的话需要找镜像，我选择的是清华大学的&lt;a href=&#34;https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/&#34;&gt;TUNA镜像&lt;/a&gt;。建议下载它的初始化包，大约20多GB，待解压并且完成repo sync之后建议将这个初始化包保存到移动硬盘中存起来，然后删除本地的初始化包，这样可以省下大量的磁盘空间。&lt;/p&gt;
+
+&lt;p&gt;对于Mac系统最后还需要在&lt;code&gt;~/.bash_profile&lt;/code&gt;中设置&lt;code&gt;ulimit -S -n 1024&lt;/code&gt;以增加最大文件打开数量。&lt;/p&gt;
+
+&lt;p&gt;最后一步是执行编译，lunch时我选择&lt;code&gt;aosp_arm64_eng&lt;/code&gt;为target，并启动6个线程进行编译&lt;code&gt;make -j6&lt;/code&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Head First Systrace</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</link>
+      <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
+      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1.systrace工具简单介绍&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;英文介绍文档推荐阅读官方文档&lt;a href=&#34;https://developer.android.com/studio/profile/systrace-commandline.html&#34;&gt;systrace-commandline&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The Systrace tool helps analyze the performance of your application by capturing and displaying execution times of your applications processes and other Android system processes. The tool combines data from the Android kernel such as the CPU scheduler, disk activity, and application threads to generate an HTML report that shows an overall picture of an Android device’s system processes for a given period of time.&lt;/p&gt;
+
+&lt;p&gt;中文介绍文档推荐看&lt;a href=&#34;http://www.ithtw.com/1009.html&#34;&gt;这篇文章&lt;/a&gt;，从中我们可以知道&lt;/p&gt;
+
+&lt;p&gt;systrace是&lt;code&gt;Android4.1(API 16)&lt;/code&gt;中新增的性能数据采样和分析工具，它可帮助开发者收集Android关键子系统（如surfaceflinger、WindowManagerService等Framework部分关键模块、服务，View系统等）的运行信息，从而帮助开发者更直观的分析系统瓶颈，改进性能。systrace的功能包括跟踪系统的I/O操作、内核工作队列、CPU负载以及Android各个子系统的运行状况等。在Android平台中，它主要由3部分组成：&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;内核部分&lt;/strong&gt;：systrace利用了Linux Kernel中的&lt;code&gt;ftrace&lt;/code&gt;功能，所以，如果要使用systrace的话，必须开启kernel中和ftrace相关的模块。
+&lt;strong&gt;数据采集部分&lt;/strong&gt;：Android定义了一个Trace类，应用程序可利用该类把统计信息输出给ftrace。同时，Android还有一个&lt;code&gt;atrace&lt;/code&gt;程序，它可以从ftrace中读取统计信息然后交给数据分析工具来处理。
+&lt;strong&gt;数据分析工具&lt;/strong&gt;：Android SDK中提供一个systrace.py脚本用来配置数据采集的方式（如采集数据的标签、输出文件名等）和收集ftrace统计数据并生成一个结果网页文件供用户查看。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;从本质上说，systrace是对Linux Kernel中ftrace的封装，应用进程需要利用Android提供的Trace类来使用systrace。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2.systrace数据抓取方式&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;除了使用Android Studio和Eclipse中集成的systrace工具之外，我们还可以使用Android SDK中提供的systrace工具来抓取性能日志。systrace.py是个脚本文件，位于&lt;code&gt;{Android SDK}/platform-tools/systrace&lt;/code&gt;文件夹中，它的作用是收集systrace数据并提供网页文件结果供用户查看。&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，不同版本的Android系统对应的systrace命令的参数形式略有不同，下面是常用的调用形式&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;python systrace.py [options] [category1] [category2] ... [categoryN]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是Android 4.3及以上版本的Android系统的systrace命令参数形式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/systrace_options_43.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下面是Android 4.2及以下版本的Android系统的systrace命令参数形式。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/systrace_options_41.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;systrace工具实际上是调用atrace命令来获取数据结果，所以其实也可以执行atrace命令来抓取数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell atrace -h
+atrace: invalid option -- h
+
+usage: atrace [options] [categories...]
+options include:
+  -a appname      enable app-level tracing for a comma separated list of cmdlines
+  -b N            use a trace buffer size of N KB
+  -c              trace into a circular buffer
+  -k fname,...    trace the listed kernel functions
+  -n              ignore signals
+  -s N            sleep for N seconds before tracing [default 0]
+  -t N            trace for N seconds [defualt 5]
+  -z              compress the trace dump
+  --async_start   start circular trace and return immediatly
+  --async_dump    dump the current contents of circular trace buffer
+  --async_stop    stop tracing and dump the current contents of circular
+                    trace buffer
+  --list_categories
+                  list the available tracing categories
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.systrace工具源码分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.1 systrace工具的源码目录结构&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;➜  systrace tree
+.
+├── AUTHORS
+├── LICENSE
+├── NOTICE
+├── UPSTREAM_REVISION
+├── agents
+│   ├── __init__.py
+│   └── atrace_agent.py
+├── prefix.html
+├── suffix.html
+├── systrace-legacy.py
+├── systrace.py
+├── systrace_agent.py
+├── systrace_trace_viewer.html
+├── trace.html
+└── util.py
+
+1 directory, 14 files
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;systrace工具中的主要类和类中的方法及其之间的关系如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/systrace.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.2 systrace.py文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.2.1 python版本问题&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;从systrace.py的脚本内容来看，systrace工具只支持Python 2.7版本，不支持其他的python版本。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Make sure we&#39;re using a new enough version of Python.
+# The flags= parameter of re.sub() is new in Python 2.7. And Systrace does not
+# support Python 3 yet.
+version = sys.version_info[:2]
+if version != (2, 7):
+  sys.stderr.write(&#39;This script does not support Python %d.%d. &#39;
+                   &#39;Please use Python 2.7.\n&#39; % version)
+  sys.exit(1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.2.2 systrace.py文件分析&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;从main方法中可以看出抓取systrace的主流程是：
+1.解析命令行中的参数，对应parse_options方法；
+2.根据参数创建对应的agent，对应create_agents方法；
+3.启动agent来抓取性能日志，对应agent的start方法；
+4.收集agent抓取得到的性能日志，对应agent的collect_result方法；
+5.将收集的数据写入到html文件中，对应write_trace_html方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def main():
+  options, categories = parse_options(sys.argv)
+  agents = create_agents(options, categories)
+
+  if not agents:
+    dirs = DEFAULT_AGENT_DIR
+    if options.agent_dirs:
+      dirs += &#39;,&#39; + options.agent_dirs
+    sys.stderr.write(&#39;No systrace agent is available in directories |%s|.\n&#39; %
+                     dirs)
+    sys.exit(1)
+
+  try:
+    update_systrace_trace_viewer = __import__(&#39;update_systrace_trace_viewer&#39;)
+  except ImportError:
+    pass
+  else:
+    update_systrace_trace_viewer.update()
+
+  for a in agents:
+    a.start()
+
+  for a in agents:
+    a.collect_result()
+    if not a.expect_trace():
+      # Nothing more to do.
+      return
+
+  script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+  write_trace_html(options.output_file, script_dir, agents)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;1.parse_options方法使用的是&lt;code&gt;optparse&lt;/code&gt;模块来初始化命令参数和解析命令行。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def parse_options(argv):
+  &amp;quot;&amp;quot;&amp;quot;Parses and checks the command-line options.
+
+  Returns:
+    A tuple containing the options structure and a list of categories to
+    be traced.
+  &amp;quot;&amp;quot;&amp;quot;
+  usage = &#39;Usage: %prog [options] [category1 [category2 ...]]&#39;
+  desc = &#39;Example: %prog -b 32768 -t 15 gfx input view sched freq&#39;
+  parser = optparse.OptionParser(usage=usage, description=desc)
+  parser.add_option(&#39;-o&#39;, dest=&#39;output_file&#39;, help=&#39;write HTML to FILE&#39;,
+                    default=&#39;trace.html&#39;, metavar=&#39;FILE&#39;)
+  parser.add_option(&#39;-t&#39;, &#39;--time&#39;, dest=&#39;trace_time&#39;, type=&#39;int&#39;,
+                    help=&#39;trace for N seconds&#39;, metavar=&#39;N&#39;)
+  parser.add_option(&#39;-b&#39;, &#39;--buf-size&#39;, dest=&#39;trace_buf_size&#39;, type=&#39;int&#39;,
+                    help=&#39;use a trace buffer size of N KB&#39;, metavar=&#39;N&#39;)
+  ...... more options ......
+  options, categories = parser.parse_args(argv[1:])
+
+  if options.link_assets or options.asset_dir != &#39;trace-viewer&#39;:
+    parser.error(&#39;--link-assets and --asset-dir are deprecated.&#39;)
+
+  if (options.trace_time is not None) and (options.trace_time &amp;lt;= 0):
+    parser.error(&#39;the trace time must be a positive number&#39;)
+
+  if (options.trace_buf_size is not None) and (options.trace_buf_size &amp;lt;= 0):
+    parser.error(&#39;the trace buffer size must be a positive number&#39;)
+
+  return (options, categories)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.create_agents方法根据解析的命令行参数创建并初始化agents，所谓的agent就是一个用来获取systrace数据的本地代理。使用者可以通过&lt;code&gt;--agent-dirs&lt;/code&gt;来指定agent存放的目录，如果没有指定的话会默认加载并创建放在agents这个目录(package)下面的agents。其中的&lt;code&gt;try_create_agent&lt;/code&gt;方法的实现在&lt;code&gt;atrace_agent.py&lt;/code&gt;文件中，后面会介绍到。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def create_agents(options, categories):
+  &amp;quot;&amp;quot;&amp;quot;Create systrace agents.
+
+  This function will search systrace agent modules in agent directories and
+  create the corresponding systrace agents.
+  Args:
+    options: The command-line options.
+categories: &amp;quot;The&amp;quot;
+  Returns:
+    The list of systrace agents.
+  &amp;quot;&amp;quot;&amp;quot;
+  agent_dirs = [os.path.join(os.path.dirname(__file__), DEFAULT_AGENT_DIR)]
+  if options.agent_dirs:
+    agent_dirs.extend(options.agent_dirs.split(&#39;,&#39;))
+
+  agents = []
+  for agent_dir in agent_dirs:
+    if not agent_dir:
+      continue
+    for filename in os.listdir(agent_dir):
+      (module_name, ext) = os.path.splitext(filename)
+      if (ext != &#39;.py&#39; or module_name == &#39;__init__&#39;
+          or module_name.endswith(&#39;_unittest&#39;)):
+        continue
+      (f, pathname, data) = imp.find_module(module_name, [agent_dir])
+      try:
+        module = imp.load_module(module_name, f, pathname, data)
+      finally:
+        if f:
+          f.close()
+      if module:
+        agent = module.try_create_agent(options, categories)
+        if not agent:
+          continue
+        agents.append(agent)
+  return agents
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.write_trace_html方法用来将agents收集的数据写入到html文件中，通常我们得到的网页结果文件的开头和结尾都是一样的，因为这个方法生成html文件的方式是先写入&lt;code&gt;prefix.html&lt;/code&gt;文件，然后遍历agents得到的结果并写入，最后写入&lt;code&gt;suffix.html&lt;/code&gt;文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def write_trace_html(html_filename, script_dir, agents):
+  &amp;quot;&amp;quot;&amp;quot;Writes out a trace html file.
+
+  Args:
+    html_filename: The name of the file to write.
+    script_dir: The directory containing this script.
+    agents: The systrace agents.
+  &amp;quot;&amp;quot;&amp;quot;
+  systrace_dir = os.path.abspath(os.path.dirname(__file__))
+  html_prefix = read_asset(systrace_dir, &#39;prefix.html&#39;)
+  html_suffix = read_asset(systrace_dir, &#39;suffix.html&#39;)
+  trace_viewer_html = read_asset(script_dir, &#39;systrace_trace_viewer.html&#39;)
+
+  # Open the file in binary mode to prevent python from changing the
+  # line endings.
+  html_file = open(html_filename, &#39;wb&#39;)
+  html_file.write(html_prefix.replace(&#39;{{SYSTRACE_TRACE_VIEWER_HTML}}&#39;,
+                                      trace_viewer_html))
+
+  html_file.write(&#39;&amp;lt;!-- BEGIN TRACE --&amp;gt;\n&#39;)
+  for a in agents:
+    html_file.write(&#39;  &amp;lt;script class=&amp;quot;&#39;)
+    html_file.write(a.get_class_name())
+    html_file.write(&#39;&amp;quot; type=&amp;quot;application/text&amp;quot;&amp;gt;\n&#39;)
+    html_file.write(a.get_trace_data())
+    html_file.write(&#39;  &amp;lt;/script&amp;gt;\n&#39;)
+  html_file.write(&#39;&amp;lt;!-- END TRACE --&amp;gt;\n&#39;)
+
+  html_file.write(html_suffix)
+  html_file.close()
+  print(&#39;\n    wrote file://%s\n&#39; % os.path.abspath(html_filename))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.3 util.py文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;util.py从文件名字可知它是一个工具类，里面主要是定义了执行adb命令的方法&lt;code&gt;run_adb_shell&lt;/code&gt;和通过这个方法获取设备的sdk版本的方法&lt;code&gt;get_device_sdk_version&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.3.1 run_adb_shell方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;该方法将传入的shell命令以及设备的序列号构建成&lt;code&gt;adb -s serial shell xxx&lt;/code&gt;的形式，然后利用&lt;code&gt;subprocess&lt;/code&gt;模块执行命令并获取得到输出的结果。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def run_adb_shell(shell_args, device_serial):
+  &amp;quot;&amp;quot;&amp;quot;Runs &amp;quot;adb shell&amp;quot; with the given arguments.
+
+  Args:
+    shell_args: array of arguments to pass to adb shell.
+    device_serial: if not empty, will add the appropriate command-line
+        parameters so that adb targets the given device.
+  Returns:
+    A tuple containing the adb output (stdout &amp;amp; stderr) and the return code
+    from adb.  Will exit if adb fails to start.
+  &amp;quot;&amp;quot;&amp;quot;
+  adb_command = construct_adb_shell_command(shell_args, device_serial)
+
+  adb_output = []
+  adb_return_code = 0
+  try:
+    adb_output = subprocess.check_output(adb_command, stderr=subprocess.STDOUT,
+                                         shell=False, universal_newlines=True)
+  except OSError as error:
+    # This usually means that the adb executable was not found in the path.
+    print &amp;gt;&amp;gt; sys.stderr, (&#39;\nThe command &amp;quot;%s&amp;quot; failed with the following error:&#39;
+                          % &#39; &#39;.join(adb_command))
+    print &amp;gt;&amp;gt; sys.stderr, &#39;    %s&#39; % str(error)
+    print &amp;gt;&amp;gt; sys.stderr, &#39;Is adb in your path?&#39;
+    adb_return_code = error.errno
+    adb_output = error
+  except subprocess.CalledProcessError as error:
+    # The process exited with an error.
+    adb_return_code = error.returncode
+    adb_output = error.output
+
+  return (adb_output, adb_return_code)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.3.2 get_device_sdk_version方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;该方法用来获取设备的sdk版本号，它先是利用OptionParser来解析出命令行中的设备序列号，然后调用run_adb_shell方法通过命令来获取sdk版本号。这个方法在&lt;code&gt;atrace_agent&lt;/code&gt;的&lt;code&gt;try_create_agent&lt;/code&gt;方法中被调用，因为对于不同版本号的Android系统其systrace命令的参数形式略有不同，导致处理方式也略有不同。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def get_device_sdk_version():
+  &amp;quot;&amp;quot;&amp;quot;Uses adb to attempt to determine the SDK version of a running device.&amp;quot;&amp;quot;&amp;quot;
+
+  getprop_args = [&#39;getprop&#39;, &#39;ro.build.version.sdk&#39;]
+
+  # get_device_sdk_version() is called before we even parse our command-line
+  # args.  Therefore, parse just the device serial number part of the
+  # command-line so we can send the adb command to the correct device.
+  parser = OptionParserIgnoreErrors()
+  parser.add_option(&#39;-e&#39;, &#39;--serial&#39;, dest=&#39;device_serial&#39;, type=&#39;string&#39;)
+  options, unused_args = parser.parse_args() # pylint: disable=unused-variable
+
+  success = False
+
+  adb_output, adb_return_code = run_adb_shell(getprop_args,
+                                              options.device_serial)
+
+  if adb_return_code == 0:
+    # ADB may print output other than the version number (e.g. it chould
+    # print a message about starting the ADB server).
+    # Break the ADB output into white-space delimited segments.
+    parsed_output = str.split(adb_output)
+    if parsed_output:
+      # Assume that the version number is the last thing printed by ADB.
+      version_string = parsed_output[-1]
+      if version_string:
+        try:
+          # Try to convert the text into an integer.
+          version = int(version_string)
+        except ValueError:
+          version = -1
+        else:
+          success = True
+
+  if not success:
+    print &amp;gt;&amp;gt; sys.stderr, (
+        &#39;\nThe command &amp;quot;%s&amp;quot; failed with the following message:&#39;
+        % &#39; &#39;.join(getprop_args))
+    print &amp;gt;&amp;gt; sys.stderr, adb_output
+    sys.exit(1)
+
+  return version
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.4 systrace_agent.py文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;systrace_agent.py文件中定义了&lt;code&gt;SystraceAgent&lt;/code&gt;类，其中定义了agent的各个抽象方法，例如启动agent的&lt;code&gt;start&lt;/code&gt;方法、收集systrace数据的&lt;code&gt;collect_result&lt;/code&gt;方法以及获取systrace数据的&lt;code&gt;get_trace_data&lt;/code&gt;方法等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class SystraceAgent(object):
+  &amp;quot;&amp;quot;&amp;quot;The base class for systrace agents.
+
+  A systrace agent contains the command-line options and trace categories to
+  capture. Each systrace agent has its own tracing implementation.
+  &amp;quot;&amp;quot;&amp;quot;
+
+  def __init__(self, options, categories):
+    &amp;quot;&amp;quot;&amp;quot;Initialize a systrace agent.
+
+    Args:
+      options: The command-line options.
+categories: &amp;quot;The&amp;quot;
+    &amp;quot;&amp;quot;&amp;quot;
+    self._options = options
+    self._categories = categories
+
+  def start(self):
+    &amp;quot;&amp;quot;&amp;quot;Start tracing.
+    &amp;quot;&amp;quot;&amp;quot;
+    raise NotImplementedError()
+
+  def collect_result(self):
+    &amp;quot;&amp;quot;&amp;quot;Collect the result of tracing.
+
+    This function will block while collecting the result. For sync mode, it
+    reads the data, e.g., from stdout, until it finishes. For async mode, it
+    blocks until the agent is stopped and the data is ready.
+    &amp;quot;&amp;quot;&amp;quot;
+    raise NotImplementedError()
+
+  def expect_trace(self):
+    &amp;quot;&amp;quot;&amp;quot;Check if the agent is returning a trace or not.
+
+    This will be determined in collect_result().
+    Returns:
+      Whether the agent is expecting a trace or not.
+    &amp;quot;&amp;quot;&amp;quot;
+    raise NotImplementedError()
+
+  def get_trace_data(self):
+    &amp;quot;&amp;quot;&amp;quot;Get the trace data.
+
+    Returns:
+      The trace data.
+    &amp;quot;&amp;quot;&amp;quot;
+    raise NotImplementedError()
+
+  def get_class_name(self):
+    &amp;quot;&amp;quot;&amp;quot;Get the class name
+
+    The class name is used to identify the trace type when the trace is written
+    to the html file
+    Returns:
+      The class name.
+    &amp;quot;&amp;quot;&amp;quot;
+    raise NotImplementedError()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5 atrace_agent.py文件&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.1 三个Agent类和一些Category&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;该文件定义了三个agent类，首先是&lt;code&gt;AtraceAgent&lt;/code&gt;类，继承自&lt;code&gt;SystraceAgent&lt;/code&gt;，是一个核心agent；然后是&lt;code&gt;AtraceLegacyAgent&lt;/code&gt;，继承自&lt;code&gt;AtraceAgent&lt;/code&gt;，主要是为了兼容Android 4.1及以下版本的系统；最后是&lt;code&gt;BootAgent&lt;/code&gt;，继承自&lt;code&gt;AtraceAgent&lt;/code&gt;，主要是为了实现在系统启动时的systrace数据抓取。&lt;/p&gt;
+
+&lt;p&gt;在命令执行的时候具体创建哪个agent是由方法&lt;code&gt;try_create_agent&lt;/code&gt;方法来决定的，该方法会先获取设备的sdk版本。如果版本号大于等于18(Android 4.3及以上版本)，再看参数中是否包含了&lt;code&gt;--boot&lt;/code&gt;选项，如果包含了的话就创建BootAgent，如果没有包含的话就创建AtraceAgent；如果版本号大于等于16且小于18(Android 4.1和Android 4.2版本)，就创建AtraceLegacyAgent。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def try_create_agent(options, categories):
+  if options.target != &#39;android&#39;:
+    return False
+  if options.from_file is not None:
+    return AtraceAgent(options, categories)
+
+  device_sdk_version = util.get_device_sdk_version()
+  if device_sdk_version &amp;gt;= 18:
+    if options.boot:
+      # atrace --async_stop, which is used by BootAgent, does not work properly
+      # on the device SDK version 22 or before.
+      if device_sdk_version &amp;lt;= 22:
+        print &amp;gt;&amp;gt; sys.stderr, (&#39;--boot option does not work on the device SDK &#39;
+                              &#39;version 22 or before.\nYour device SDK version &#39;
+                              &#39;is %d.&#39; % device_sdk_version)
+        sys.exit(1)
+      return BootAgent(options, categories)
+    else:
+      return AtraceAgent(options, categories)
+  elif device_sdk_version &amp;gt;= 16:
+    return AtraceLegacyAgent(options, categories)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;systrace抓取的时候一般会指定category，或者叫tag，这些tag是采用位的形式来定义的，和Android系统中的&lt;code&gt;system/core/include/cutils/trace.h&lt;/code&gt;文件中的tag一一对应(&lt;strong&gt;源码注释中的文件是错误的&lt;/strong&gt;)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;LEGACY_TRACE_TAG_BITS = (
+  (&#39;gfx&#39;,       1&amp;lt;&amp;lt;1),
+  (&#39;input&#39;,     1&amp;lt;&amp;lt;2),
+  (&#39;view&#39;,      1&amp;lt;&amp;lt;3),
+  (&#39;webview&#39;,   1&amp;lt;&amp;lt;4),
+  (&#39;wm&#39;,        1&amp;lt;&amp;lt;5),
+  (&#39;am&#39;,        1&amp;lt;&amp;lt;6),
+  (&#39;sm&#39;,        1&amp;lt;&amp;lt;7),
+  (&#39;audio&#39;,     1&amp;lt;&amp;lt;8),
+  (&#39;video&#39;,     1&amp;lt;&amp;lt;9),
+  (&#39;camera&#39;,    1&amp;lt;&amp;lt;10),
+)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.2 FileReaderThread类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;该文件还定义了&lt;code&gt;FileReaderThread&lt;/code&gt;类，继承自&lt;code&gt;threading.Thread&lt;/code&gt;，用于在工作线程上不断地从文件或者管道中读取数据。&lt;code&gt;file_object&lt;/code&gt;是对应的文件或者管道对象，&lt;code&gt;output_queue&lt;/code&gt;是用来接收读取数据的队列，&lt;code&gt;text_file&lt;/code&gt;是用来标示文件是否是文本文件，&lt;code&gt;chunk_size&lt;/code&gt;是用来指定每次读取的数据的大小。如果text_file是True的话，说明是文本文件，那么chunk_size参数会被忽略，因为文本文件会一行一行地读取并处理。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class FileReaderThread(threading.Thread):
+  &amp;quot;&amp;quot;&amp;quot;Reads data from a file/pipe on a worker thread.
+
+  Use the standard threading. Thread object API to start and interact with the
+  thread (start(), join(), etc.).
+  &amp;quot;&amp;quot;&amp;quot;
+
+  def __init__(self, file_object, output_queue, text_file, chunk_size=-1):
+    &amp;quot;&amp;quot;&amp;quot;Initializes a FileReaderThread.
+
+    Args:
+      file_object: The file or pipe to read from.
+      output_queue: A Queue.Queue object that will receive the data
+      text_file: If True, the file will be read one line at a time, and
+          chunk_size will be ignored.  If False, line breaks are ignored and
+          chunk_size must be set to a positive integer.
+      chunk_size: When processing a non-text file (text_file = False),
+          chunk_size is the amount of data to copy into the queue with each
+          read operation.  For text files, this parameter is ignored.
+    &amp;quot;&amp;quot;&amp;quot;
+    threading.Thread.__init__(self)
+    self._file_object = file_object
+    self._output_queue = output_queue
+    self._text_file = text_file
+    self._chunk_size = chunk_size
+    assert text_file or chunk_size &amp;gt; 0
+
+  def run(self):
+    &amp;quot;&amp;quot;&amp;quot;Overrides Thread&#39;s run() function.
+
+    Returns when an EOF is encountered.
+    &amp;quot;&amp;quot;&amp;quot;
+    if self._text_file:
+      # Read a text file one line at a time.
+      for line in self._file_object:
+        self._output_queue.put(line)
+    else:
+      # Read binary or text data until we get to EOF.
+      while True:
+        chunk = self._file_object.read(self._chunk_size)
+        if not chunk:
+          break
+        self._output_queue.put(chunk)
+
+  def set_chunk_size(self, chunk_size):
+    &amp;quot;&amp;quot;&amp;quot;Change the read chunk size.
+
+    This function can only be called if the FileReaderThread object was
+    created with an initial chunk_size &amp;gt; 0.
+    Args:
+      chunk_size: the new chunk size for this file.  Must be &amp;gt; 0.
+    &amp;quot;&amp;quot;&amp;quot;
+    # The chunk size can be changed asynchronously while a file is being read
+    # in a worker thread.  However, type of file can not be changed after the
+    # the FileReaderThread has been created.  These asserts verify that we are
+    # only changing the chunk size, and not the type of file.
+    assert not self._text_file
+    assert chunk_size &amp;gt; 0
+    self._chunk_size = chunk_size
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.3 AtraceAgent类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;AtraceAgent类的实现主要是在&lt;code&gt;start&lt;/code&gt;方法中构建对应的atrace命令，然后利用&lt;code&gt;subprocess&lt;/code&gt;模块去执行，最后在&lt;code&gt;collect_result&lt;/code&gt;方法中解析systrace结果即可。其中的内部变量&lt;code&gt;_expect_trace&lt;/code&gt;是用来指示这个命令是否会创建systrace数据，&lt;code&gt;_adb&lt;/code&gt;表示&lt;code&gt;subprocess&lt;/code&gt;执行的命令，&lt;code&gt;_trace_data&lt;/code&gt;是指systrace的数据，&lt;code&gt;_tracer_args&lt;/code&gt;是指systracer的参数。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class AtraceAgent(systrace_agent.SystraceAgent):
+  def __init__(self, options, categories):
+    super(AtraceAgent, self).__init__(options, categories)
+    self._expect_trace = False
+    self._adb = None
+    self._trace_data = None
+    self._tracer_args = None
+    if not self._categories:
+      self._categories = get_default_categories(self._options.device_serial)
+
+  def start(self):
+    self._tracer_args = self._construct_trace_command()
+
+    self._adb = do_popen(self._tracer_args)
+
+  def collect_result(self):
+    trace_data = self._collect_trace_data()
+    if self._expect_trace:
+      self._trace_data = self._preprocess_trace_data(trace_data)
+
+  def expect_trace(self):
+    return self._expect_trace
+
+  def get_trace_data(self):
+    return self._trace_data
+
+  def get_class_name(self):
+    return &#39;trace-data&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.3.1 _construct_trace_command方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;_construct_trace_command&lt;/code&gt;方法的作用是构建atrace命令，其大致流程是：如果命令行中包含了&lt;code&gt;--list_categories&lt;/code&gt;选项的话，那么就执行&lt;code&gt;adb [-e serial] shell atrace --list_categories&lt;/code&gt;命令来获取所有的categories；如果命令行中包含了&lt;code&gt;--from_file&lt;/code&gt;选项的话，那么就实际执行的是&lt;code&gt;cat {file}&lt;/code&gt;命令(这个命令经常用于将一个压缩的systrace数据文件转换成html网页结果文件)；如果不是上面两种特殊情况，那么就正常解析命令行参数构建成atrace命令的参数，如果需要压缩数据的话就加上&lt;code&gt;-z&lt;/code&gt;选项，如果设置了时间长度的话加上&lt;code&gt;-t {time}&lt;/code&gt;选项，如果设置了buffer_size的话就加上&lt;code&gt;-b {buffer_size}&lt;/code&gt;，而且如果设置了&lt;code&gt;sched&lt;/code&gt;这个tag的话，需要将buffer_size设置为4096，因为默认情况下buffer_size是2048，而sched开启的话需要抓取的数据量会很大，所以设置成默认值的2倍。这部分命令行参数解析完了之后会调用&lt;code&gt;_construct_extra_trace_command&lt;/code&gt;方法继续解析&lt;code&gt;-a&lt;/code&gt;指定应用以及&lt;code&gt;-k&lt;/code&gt;指定内核函数这两个参数。最后调用util.py中的&lt;code&gt;construct_adb_shell_command&lt;/code&gt;方法将其封装成一个adb shell命令。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def _construct_trace_command(self):
+&amp;quot;&amp;quot;&amp;quot;Builds a command-line used to invoke a trace process.
+
+Returns:
+ A tuple where the first element is an array of command-line arguments, and
+ the second element is a boolean which will be true if the commend will
+ stream trace data.
+&amp;quot;&amp;quot;&amp;quot;
+if self._options.list_categories:
+ tracer_args = self._construct_list_categories_command()
+ self._expect_trace = False
+elif self._options.from_file is not None:
+ tracer_args = [&#39;cat&#39;, self._options.from_file]
+ self._expect_trace = True
+else:
+ atrace_args = ATRACE_BASE_ARGS[:]
+ self._expect_trace = True
+ if self._options.compress_trace_data:
+   atrace_args.extend([&#39;-z&#39;])
+
+ if ((self._options.trace_time is not None)
+     and (self._options.trace_time &amp;gt; 0)):
+   atrace_args.extend([&#39;-t&#39;, str(self._options.trace_time)])
+
+ if ((self._options.trace_buf_size is not None)
+     and (self._options.trace_buf_size &amp;gt; 0)):
+   atrace_args.extend([&#39;-b&#39;, str(self._options.trace_buf_size)])
+ elif &#39;sched&#39; in self._categories:
+   # &#39;sched&#39; is a high-volume tag, double the default buffer size
+   # to accommodate that
+   atrace_args.extend([&#39;-b&#39;, &#39;4096&#39;])
+ extra_args = self._construct_extra_trace_command()
+ atrace_args.extend(extra_args)
+
+ tracer_args = util.construct_adb_shell_command(
+     atrace_args, self._options.device_serial)
+
+return tracer_args
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.3.2 _collect_trace_data方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;_collect_trace_data方法的作用是收集trace数据，它先会创建两个队列，一个是标准输出队列，另一个是错误输出队列，然后创建两个对应的工作线程FileReaderThread，它们分别监听标准输出流和错误输出流，前者不是文本数据类型，而后者是文本数据类型。方法中记录的时间的作用其实是为了在&lt;code&gt;status_update&lt;/code&gt;方法中检测距离上一次更新时间的时间段，如果超过了&lt;code&gt;MIN_TIME_BETWEEN_STATUS_UPDATES&lt;/code&gt;的话就输出一个&lt;code&gt;.&lt;/code&gt;以便让使用者知道程序还在执行，而不是挂了。方法中后半部分内容就是在循环读取流中的数据，将其放入到队列中，直到没有任何数据了就关闭流，结束命令返回结果。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def _collect_trace_data(self):
+  # Read the output from ADB in a worker thread.  This allows us to monitor
+  # the progress of ADB and bail if ADB becomes unresponsive for any reason.
+
+  # Limit the stdout_queue to 128 entries because we will initially be reading
+  # one byte at a time.  When the queue fills up, the reader thread will
+  # block until there is room in the queue.  Once we start downloading the
+  # trace data, we will switch to reading data in larger chunks, and 128
+  # entries should be plenty for that purpose.
+  stdout_queue = Queue.Queue(maxsize=128)
+  stderr_queue = Queue.Queue()
+
+  if self._expect_trace:
+    # Use stdout.write() (here and for the rest of this function) instead
+    # of print() to avoid extra newlines.
+    sys.stdout.write(&#39;Capturing trace...&#39;)
+
+  # Use a chunk_size of 1 for stdout so we can display the output to
+  # the user without waiting for a full line to be sent.
+  stdout_thread = FileReaderThread(self._adb.stdout, stdout_queue,
+                                   text_file=False, chunk_size=1)
+  stderr_thread = FileReaderThread(self._adb.stderr, stderr_queue,
+                                   text_file=True)
+  stdout_thread.start()
+  stderr_thread.start()
+
+  # Holds the trace data returned by ADB.
+  trace_data = []
+  # Keep track of the current line so we can find the TRACE_START_REGEXP.
+  current_line = &#39;&#39;
+  # Set to True once we&#39;ve received the TRACE_START_REGEXP.
+  reading_trace_data = False
+
+  last_status_update_time = time.time()
+
+  while (stdout_thread.isAlive() or stderr_thread.isAlive() or
+         not stdout_queue.empty() or not stderr_queue.empty()):
+    if self._expect_trace:
+      last_status_update_time = status_update(last_status_update_time)
+
+    while not stderr_queue.empty():
+      # Pass along errors from adb.
+      line = stderr_queue.get()
+      sys.stderr.write(line)
+
+    # Read stdout from adb.  The loop exits if we don&#39;t get any data for
+    # ADB_STDOUT_READ_TIMEOUT seconds.
+    while True:
+      try:
+        chunk = stdout_queue.get(True, ADB_STDOUT_READ_TIMEOUT)
+      except Queue.Empty:
+        # Didn&#39;t get any data, so exit the loop to check that ADB is still
+        # alive and print anything sent to stderr.
+        break
+
+      if reading_trace_data:
+        # Save, but don&#39;t print, the trace data.
+        trace_data.append(chunk)
+      else:
+        if not self._expect_trace:
+          sys.stdout.write(chunk)
+        else:
+          # Buffer the output from ADB so we can remove some strings that
+          # don&#39;t need to be shown to the user.
+          current_line += chunk
+          if re.match(TRACE_START_REGEXP, current_line):
+            # We are done capturing the trace.
+            sys.stdout.write(&#39;Done.\n&#39;)
+            # Now we start downloading the trace data.
+            sys.stdout.write(&#39;Downloading trace...&#39;)
+
+            current_line = &#39;&#39;
+            # Use a larger chunk size for efficiency since we no longer
+            # need to worry about parsing the stream.
+            stdout_thread.set_chunk_size(4096)
+            reading_trace_data = True
+          elif chunk == &#39;\n&#39; or chunk == &#39;\r&#39;:
+            # Remove ADB output that we don&#39;t care about.
+            current_line = re.sub(ADB_IGNORE_REGEXP, &#39;&#39;, current_line)
+            if len(current_line) &amp;gt; 1:
+              # ADB printed something that we didn&#39;t understand, so show it
+              # it to the user (might be helpful for debugging).
+              sys.stdout.write(current_line)
+            # Reset our current line.
+            current_line = &#39;&#39;
+
+  if self._expect_trace:
+    if reading_trace_data:
+      # Indicate to the user that the data download is complete.
+      sys.stdout.write(&#39;Done.\n&#39;)
+    else:
+      # We didn&#39;t receive the trace start tag, so something went wrong.
+      sys.stdout.write(&#39;ERROR.\n&#39;)
+      # Show any buffered ADB output to the user.
+      current_line = re.sub(ADB_IGNORE_REGEXP, &#39;&#39;, current_line)
+      if current_line:
+        sys.stdout.write(current_line)
+        sys.stdout.write(&#39;\n&#39;)
+
+  # The threads should already have stopped, so this is just for cleanup.
+  stdout_thread.join()
+  stderr_thread.join()
+
+  self._adb.stdout.close()
+  self._adb.stderr.close()
+
+  # The adb process should be done since it&#39;s io pipes are closed.  Call
+  # poll() to set the return code.
+  self._adb.poll()
+
+  if self._adb.returncode != 0:
+    print &amp;gt;&amp;gt; sys.stderr, (&#39;The command &amp;quot;%s&amp;quot; returned error code %d.&#39; %
+                          (&#39; &#39;.join(self._tracer_args), self._adb.returncode))
+    sys.exit(1)
+
+  return trace_data
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.3.3 _preprocess_trace_data方法&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;_preprocess_trace_data方法是用来预处理trace数据的，atrace_agent.py文件中定义了很多&lt;code&gt;fix_xxx&lt;/code&gt;的方法，用于修复trace数据中的部分数据，例如&lt;code&gt;fix_thread_names&lt;/code&gt;用来修复线程名字，修复的方法是调用&lt;code&gt;ps -t&lt;/code&gt;命令来获取当前系统中的线程的id及其对应的名称，其他的fix方法与之类似。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;  def _preprocess_trace_data(self, trace_data):
+    &amp;quot;&amp;quot;&amp;quot;Performs various processing on atrace data.
+
+    Args:
+      trace_data: The raw trace data.
+    Returns:
+      The processed trace data.
+    &amp;quot;&amp;quot;&amp;quot;
+    trace_data = &#39;&#39;.join(trace_data)
+    if trace_data:
+      trace_data = strip_and_decompress_trace(trace_data)
+
+    if not trace_data:
+      print &amp;gt;&amp;gt; sys.stderr, (&#39;No data was captured.  Output file was not &#39;
+                            &#39;written.&#39;)
+      sys.exit(1)
+
+    if self._options.fix_threads:
+      # Issue ps command to device and patch thread names
+      ps_dump = do_preprocess_adb_cmd(&#39;ps -t&#39;, self._options.device_serial)
+      if ps_dump is not None:
+        thread_names = extract_thread_list(ps_dump)
+        trace_data = fix_thread_names(trace_data, thread_names)
+
+    if self._options.fix_tgids:
+      # Issue printf command to device and patch tgids
+      procfs_dump = do_preprocess_adb_cmd(&#39;printf &amp;quot;%s\n&amp;quot; &#39; +
+                                          &#39;/proc/[0-9]*/task/[0-9]*&#39;,
+                                          self._options.device_serial)
+      if procfs_dump is not None:
+        pid2_tgid = extract_tgids(procfs_dump)
+        trace_data = fix_missing_tgids(trace_data, pid2_tgid)
+
+    if self._options.fix_circular:
+      trace_data = fix_circular_traces(trace_data)
+
+    return trace_data
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.4 AtraceLegacyAgent类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;AtraceLegacyAgent继承自AtraceAgent，区别在于它适用于Android 4.1及以下系统，实现方式是重写了AtraceAgent中的_construct_list_categories_command和_construct_extra_trace_command方法，因为它们的命令行的参数选项略有不同。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class AtraceLegacyAgent(AtraceAgent):
+  def _construct_list_categories_command(self):
+    LEGACY_CATEGORIES = &amp;quot;&amp;quot;&amp;quot;       sched - CPU Scheduling
+        freq - CPU Frequency
+        idle - CPU Idle
+        load - CPU Load
+        disk - Disk I/O (requires root)
+         bus - Bus utilization (requires root)
+   workqueue - Kernel workqueues (requires root)&amp;quot;&amp;quot;&amp;quot;
+    return [&amp;quot;echo&amp;quot;, LEGACY_CATEGORIES]
+
+  def start(self):
+    super(AtraceLegacyAgent, self).start()
+    if self.expect_trace():
+      SHELL_ARGS = [&#39;getprop&#39;, &#39;debug.atrace.tags.enableflags&#39;]
+      output, return_code = util.run_adb_shell(SHELL_ARGS,
+                                               self._options.device_serial)
+      if return_code != 0:
+        print &amp;gt;&amp;gt; sys.stderr, (
+            &#39;\nThe command &amp;quot;%s&amp;quot; failed with the following message:&#39;
+            % &#39; &#39;.join(SHELL_ARGS))
+        print &amp;gt;&amp;gt; sys.stderr, str(output)
+        sys.exit(1)
+
+      flags = 0
+      try:
+        if output.startswith(&#39;0x&#39;):
+          flags = int(output, 16)
+        elif output.startswith(&#39;0&#39;):
+          flags = int(output, 8)
+        else:
+          flags = int(output)
+      except ValueError:
+        pass
+
+      if flags:
+        tags = []
+        for desc, bit in LEGACY_TRACE_TAG_BITS:
+          if bit &amp;amp; flags:
+            tags.append(desc)
+        categories = tags + self._categories
+        print &#39;Collecting data with following categories:&#39;, &#39; &#39;.join(categories)
+
+  def _construct_extra_trace_command(self):
+    extra_args = []
+    if not self._categories:
+      self._categories = [&#39;sched&#39;, ]
+    if &#39;sched&#39; in self._categories:
+      extra_args.append(&#39;-s&#39;)
+    if &#39;freq&#39; in self._categories:
+      extra_args.append(&#39;-f&#39;)
+    if &#39;idle&#39; in self._categories:
+      extra_args.append(&#39;-i&#39;)
+    if &#39;load&#39; in self._categories:
+      extra_args.append(&#39;-l&#39;)
+    if &#39;disk&#39; in self._categories:
+      extra_args.append(&#39;-d&#39;)
+    if &#39;bus&#39; in self._categories:
+      extra_args.append(&#39;-u&#39;)
+    if &#39;workqueue&#39; in self._categories:
+      extra_args.append(&#39;-w&#39;)
+
+    return extra_args
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;3.5.5 BootAgent类&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;BootAgent同样继承自AtraceAgent，但是它适用于在设备启动的时候抓取systrace数据。它需要将指定的categories写入到&lt;code&gt;/data/misc/boottrace/categories&lt;/code&gt;文件中，然后将&lt;code&gt;persist.debug.atrace.boottrace&lt;/code&gt;属性置为1，最后执行重启&lt;code&gt;reboot&lt;/code&gt;即可。待系统启动之后，利用Ctrl+C来结束抓取，此时会执行&lt;code&gt;atrace --async_stop&lt;/code&gt;命令结束。在设备启动时抓取systrace数据的需求较少，所以&lt;code&gt;--boot&lt;/code&gt;这个选项很少使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class BootAgent(AtraceAgent):
+  &amp;quot;&amp;quot;&amp;quot;AtraceAgent that specializes in tracing the boot sequence.&amp;quot;&amp;quot;&amp;quot;
+
+  def __init__(self, options, categories):
+    super(BootAgent, self).__init__(options, categories)
+
+  def start(self):
+    try:
+      setup_args = self._construct_setup_command()
+      try:
+        subprocess.check_call(setup_args)
+        print &#39;Hit Ctrl+C once the device has booted up.&#39;
+        while True:
+          time.sleep(1)
+      except KeyboardInterrupt:
+        pass
+      tracer_args = self._construct_trace_command()
+      self._adb = subprocess.Popen(tracer_args, stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
+    except OSError as error:
+      print &amp;gt;&amp;gt; sys.stderr, (
+          &#39;The command &amp;quot;%s&amp;quot; failed with the following error:&#39; %
+          &#39; &#39;.join(tracer_args))
+      print &amp;gt;&amp;gt; sys.stderr, &#39;    &#39;, error
+      sys.exit(1)
+
+  def _construct_setup_command(self):
+    echo_args = [&#39;echo&#39;] + self._categories + [&#39;&amp;gt;&#39;, BOOTTRACE_CATEGORIES]
+    setprop_args = [&#39;setprop&#39;, BOOTTRACE_PROP, &#39;1&#39;]
+    reboot_args = [&#39;reboot&#39;]
+    return util.construct_adb_shell_command(
+        echo_args + [&#39;&amp;amp;&amp;amp;&#39;] + setprop_args + [&#39;&amp;amp;&amp;amp;&#39;] + reboot_args,
+        self._options.device_serial)
+
+  def _construct_trace_command(self):
+    self._expect_trace = True
+    atrace_args = [&#39;atrace&#39;, &#39;--async_stop&#39;]
+    setprop_args = [&#39;setprop&#39;, BOOTTRACE_PROP, &#39;0&#39;]
+    rm_args = [&#39;rm&#39;, BOOTTRACE_CATEGORIES]
+    return util.construct_adb_shell_command(
+          atrace_args + [&#39;&amp;amp;&amp;amp;&#39;] + setprop_args + [&#39;&amp;amp;&amp;amp;&#39;] + rm_args,
+          self._options.device_serial)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK，本文的systrace工具源码分析结束，后面会抽空陆续加上Android系统中systrace相关的类和文件的源码解析，以及利用systrace数据来分析应用性能问题的方法。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ways to Use Icons on Android (2)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</link>
+      <pubDate>Sat, 25 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</guid>
+      <description>
+
+&lt;p&gt;本节主要介绍几种图标字体的制作方法和Iconify扩展的使用姿势。&lt;/p&gt;
+
+&lt;p&gt;本系列文章介绍的内容对应的Github项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/IconFontApp&#34;&gt;IconFontApp&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上一节提到，如果项目中很多自定义的图标，或者是各种不同来源的图标，我们可以通过对Iconify进行扩展来实现，但是在扩展之前我们需要制作自己的图标字体文件，那么图标字体文件该如何制作呢？这个可以试试Fontello、Icomoon或者IconFont吧！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(制作图标字体的方法有很多，可以参考&lt;a href=&#34;http://www.uisdc.com/4-icon-font-production-method&#34;&gt;这里&lt;/a&gt;，本文主要介绍的是如何快速利用已有的图标制作字体文件然后在应用中使用)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-fontello-icon-font-generator&#34;&gt;&lt;strong&gt;1.Fontello: icon font generator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;Fontello网址：&lt;a href=&#34;http://fontello.com/&#34;&gt;http://fontello.com/&lt;/a&gt;
+Github地址：&lt;a href=&#34;https://github.com/fontello/fontello&#34;&gt;https://github.com/fontello/fontello&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Fontello是个图标字体生成器，通过它可以把一些图标作成字体放到自己的项目中。在Fontello主页上可以访问大量专业级的开源图标，并支持添加自定义的图标（SVG格式），而且可以在网站上选择不同来源的图标合并到单个字体文件中。此外，它还可以自定义每个图标的名称以及对应的Unicode码，一切配置好了之后可以将图标字体下载下来放到项目中使用。如下图所示，我添加了两个Custom Icons，从Fontelico中选了6个图标，从Font Awesome中选了3个图标等，最终导出得到的图标字体文件就会包含这些我需要的图标。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fontello.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;自定义图标名称和对应的Unicode：在页面顶部的配置中可以选择设置图标名称的前缀，例如&lt;code&gt;fe-&lt;/code&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fontello-name.png&#34; alt=&#34;img&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fontello-code.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下载之后得到一个zip文件，解压之后打开&lt;code&gt;demo.html&lt;/code&gt;可以看到该图标字体中的所有图标的名称和对应的Unicode
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fontello-nocode.png&#34; alt=&#34;img&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fontello-showcode.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;同时，在解压后的&lt;code&gt;font&lt;/code&gt;文件夹中有我们需要的ttf字体文件&lt;code&gt;fontello.ttf&lt;/code&gt;，下面介绍下详细的扩展实现步骤。&lt;/p&gt;
+
+&lt;p&gt;(1)新建一个Android Studio项目，在&lt;code&gt;app&lt;/code&gt;中添加对Iconify的依赖&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;compile &#39;com.joanzapata.iconify:android-iconify:2.2.2&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2)新建&lt;code&gt;assets&lt;/code&gt;文件夹，并将字体文件&lt;code&gt;fontello.ttf&lt;/code&gt;拷贝到文件夹下
+(3)新建&lt;code&gt;FontelloModule&lt;/code&gt;类，实现&lt;code&gt;IconFontDescriptor&lt;/code&gt;接口，内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public class FontelloModule implements IconFontDescriptor {
+
+    @Override
+    public String ttfFileName() {
+        return &amp;quot;fontello.ttf&amp;quot;;
+    }
+
+    @Override
+    public Icon[] characters() {
+        return FontelloIcons.values();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4)新建&lt;code&gt;FontelloIcons&lt;/code&gt;枚举，实现&lt;code&gt;Icon&lt;/code&gt;接口，内容如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public enum FontelloIcons implements Icon {
+    fe_spin1(&#39;\uE800&#39;),
+    fe_spin2(&#39;\uE801&#39;),
+    fe_spin3(&#39;\uE802&#39;),
+    fe_spin4(&#39;\uE803&#39;),
+    fe_spin5(&#39;\uE804&#39;),
+    fe_github(&#39;\uE816&#39;);//注：这里我并没有把所有的图标都加上
+
+    char character;
+
+    FontelloIcons(char character) {
+        this.character = character;
+    }
+
+    @Override
+    public String key() {
+        return name().replace(&#39;_&#39;, &#39;-&#39;);
+    }
+
+    @Override
+    public char character() {
+        return character;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(5)测试：在&lt;code&gt;activity_main.xml&lt;/code&gt;布局文件中添加一个IconTextView&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;com.joanzapata.iconify.widget.IconTextView
+    android:id=&amp;quot;@+id/iconTextView&amp;quot;
+    android:layout_width=&amp;quot;wrap_content&amp;quot;
+    android:layout_height=&amp;quot;wrap_content&amp;quot;
+    android:layout_centerInParent=&amp;quot;true&amp;quot;
+    android:layout_centerHorizontal=&amp;quot;true&amp;quot;
+    android:text=&amp;quot;{fe-github} {fe-spin1 spin} {fe-spin2 spin} {fe-spin3 spin} {fe-spin4 spin} {fe-spin5 spin}&amp;quot;
+    android:textSize=&amp;quot;20sp&amp;quot;
+    android:textColor=&amp;quot;@android:color/black&amp;quot;/&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后在&lt;code&gt;MainActivity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法最后添加初始化操作&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Iconify.with(new FontelloModule());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行应用看到效果见文章末尾的截图，图标可以设置为旋转效果的哟，有点炫啊！&lt;/p&gt;
+
+&lt;h4 id=&#34;2-icomoon&#34;&gt;&lt;strong&gt;2.IcoMoon&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;IcoMoon网址：&lt;a href=&#34;https://icomoon.io/app/&#34;&gt;https://icomoon.io/app/&lt;/a&gt;
+IcoMoon和Fontello一样，既可以添加自己的图标，又可以从其他的图标库中选择图片，而且也支持设置图标的名称和Unicode，最终还能导出得到图标字体文件。IcoMoon导出得到的zip文件和Fontello导出的结果类似，使用它的ttf文件对Iconify进行扩展的方式也一样。&lt;/p&gt;
+
+&lt;h4 id=&#34;3-iconfont&#34;&gt;&lt;strong&gt;3.IconFont&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;IconFont网址：&lt;a href=&#34;http://www.iconfont.cn/&#34;&gt;http://www.iconfont.cn/&lt;/a&gt;
+IconFont可是中文的图标字体制作网站哟！该网站是阿里的UED团队做的吧，在该网站可以方便地管理图标和制作图标字体文件。网站的帮助中&lt;a href=&#34;http://www.iconfont.cn/help/iconuse.html&#34;&gt;Android端应用教程&lt;/a&gt;介绍了如何使用下载得到的IconFont，这个比较简单。但是，需要注意的是，下载下来的&lt;code&gt;demo.html&lt;/code&gt;中看到的图标对应的编码用的是&lt;code&gt;UTF-8&lt;/code&gt;表示的，并不是&lt;code&gt;Unicode&lt;/code&gt;编码。此外，TextView的setText方法在使用的时候，如果传递的参数是&lt;code&gt;R.string.xxx&lt;/code&gt;的形式的话，最终显示的时候对应的字符串会自动转成Unicode编码；但是如果传递的参数是某个字符串的话，该字符串默认会被视为Unicode编码，也就是说如果它原来不是Unicode编码这个时候显示就会出现异常！&lt;/p&gt;
+
+&lt;p&gt;看下下面的代码就清楚了，下面显示了4中不同的调用方式，并给出了不同方式下的显示结果
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/iconfontapp_code.png&#34; alt=&#34;iconfontapp_code&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;关于如何将UTF-8编码的形式改成Unicode编码的形式可以参考其他的文档，但是这里的转换比较简单，只要抽取出其中的16位表示形式就行了，例如UTF-8编码的&lt;code&gt;&amp;amp;#xe601;&lt;/code&gt;对应的Unicode编码就是&lt;code&gt;\ue601&lt;/code&gt;，其中的16位表示形式是&lt;code&gt;e601&lt;/code&gt;，其他的同理。&lt;/p&gt;
+
+&lt;p&gt;项目&lt;a href=&#34;https://github.com/hujiaweibujidao/IconFontApp&#34;&gt;IconFontApp&lt;/a&gt;运行起来的效果如下图所示：
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/iconfont.gif&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;从上面的分析可以看出，图标字体文件的制作以及利用字体文件对Iconify进行扩展都还比较简单，唯一比较麻烦的是，如果项目中使用了大量的图标的话，编写图标集合的枚举类会比较无聊，所以下节可能会开发一个小脚本或者小插件来完成这个无聊的任务，噢啦，晚安！&lt;/p&gt;
+
+&lt;p&gt;余淮和耿耿终于在一起啦，好嗨森，嘿嘿，《最好的我们》和最好的我们真的快要结束啦，快要毕业咯！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Ways to Use Icons on Android (1)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</link>
+      <pubDate>Fri, 24 Jun 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</guid>
+      <description>
+
+&lt;p&gt;本节主要介绍几种Material Design图标的使用姿势。&lt;/p&gt;
+
+&lt;p&gt;本系列文章介绍的内容对应的Github项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/IconFontApp&#34;&gt;IconFontApp&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;最近对IconFont特别感兴趣，通过使用IconFont一些常见的制作精良的小图标就可以直接在代码中非常方便的使用，免去了找图标并添加到项目中的很多麻烦。本系列估计也会有三篇文章，结合实践分享下我的摸索过程，也许大家会觉得有用呢。本节主要从Material Design图标入手，介绍它的几种使用姿势。&lt;/p&gt;
+
+&lt;h4 id=&#34;1-material-design图标简介&#34;&gt;&lt;strong&gt;1.Material Design图标简介&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;Github网址：&lt;a href=&#34;https://github.com/google/material-design-icons&#34;&gt;https://github.com/google/material-design-icons&lt;/a&gt;
+内容介绍网址：&lt;a href=&#34;http://google.github.io/material-design-icons/&#34;&gt;http://google.github.io/material-design-icons/&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Material Design图标分为了&lt;code&gt;action&lt;/code&gt;、&lt;code&gt;alert&lt;/code&gt;、&lt;code&gt;file&lt;/code&gt;、&lt;code&gt;notification&lt;/code&gt;、&lt;code&gt;place&lt;/code&gt;等类型，每种类型下都有一定数量的图标，而且这些图标还按照平台的不同进行了整理，包括&lt;code&gt;android&lt;/code&gt;、&lt;code&gt;ios&lt;/code&gt;、&lt;code&gt;web&lt;/code&gt;平台，同时也包含了SVG格式的图片文件。其中&lt;code&gt;android&lt;/code&gt;平台的图标又包括两种类型的，一种是存放在&lt;code&gt;drawable-xxxdpi&lt;/code&gt;文件夹下的PNG格式文件，里面的图标有4种大小，分别是&lt;code&gt;18dp&lt;/code&gt;、&lt;code&gt;24dp&lt;/code&gt;、&lt;code&gt;36dp&lt;/code&gt;和&lt;code&gt;48dp&lt;/code&gt;；另一种是存放在&lt;code&gt;drawable-anydpi-v21&lt;/code&gt;文件夹下的XML格式文件（Vectore Drawable），里面的图标大小都是&lt;code&gt;24dp&lt;/code&gt;，颜色都是黑色。&lt;/p&gt;
+
+&lt;h4 id=&#34;2-复制使用方式&#34;&gt;&lt;strong&gt;2.复制使用方式&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;复制使用方式就是如果项目中我们需要某张Material Design风格的图片的话，我们可以直接拷贝PNG格式的文件或者XML格式的文件，区别是后者只支持Android Lollipop及以上版本（但是可以通过support library进行兼容）。&lt;/p&gt;
+
+&lt;p&gt;如果你不想进行复制操作的话，可以考虑Android Studio的&lt;code&gt;Android Drawable Importer&lt;/code&gt;插件。
+插件的Github网址：&lt;a href=&#34;https://github.com/winterDroid/android-drawable-importer-intellij-plugin&#34;&gt;https://github.com/winterDroid/android-drawable-importer-intellij-plugin&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;利用这个插件的&lt;code&gt;Icon Pack Drawable Importer&lt;/code&gt;功能可以快速导入PNG或者JPG格式的图片文件，还可以设置大小和颜色。此外，利用它的&lt;code&gt;Vector Drawable Importer&lt;/code&gt;功能就可以导入XML格式的Vector Drawable文件，导入之后可以在项目的&lt;code&gt;res/drawable&lt;/code&gt;目录中看到导入的文件。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/drawable_importer.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-依赖使用方式&#34;&gt;&lt;strong&gt;3.依赖使用方式&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;依赖使用方式是通过依赖一些封装好的第三方库来使用Material Design图标，例如项目&lt;code&gt;MaterialDesignIcons&lt;/code&gt;和&lt;code&gt;Iconify&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;MaterialDesignIcons的Github网址：&lt;a href=&#34;https://github.com/MrBIMC/MaterialDesignIcons&#34;&gt;https://github.com/MrBIMC/MaterialDesignIcons&lt;/a&gt;
+这个项目很简单，它完全复制Material Design图标的XML文件到res目录下作成一个library以供使用，所以我们都可以很快做出来。
+此外，它的图标来源于&lt;a href=&#34;https://materialdesignicons.com/&#34;&gt;https://materialdesignicons.com/&lt;/a&gt;，除了Google官方的那些Material Design风格图标之外，还包含了一些社区（Community）创作的Material Design风格图标，加起来总共约有4000个图标，实在是够用了。&lt;/p&gt;
+
+&lt;p&gt;Iconify的Github网址：&lt;a href=&#34;https://github.com/JoanZapata/android-iconify&#34;&gt;https://github.com/JoanZapata/android-iconify&lt;/a&gt;
+这个项目非常棒，首先它将Font Awesome、Material Design等图标都封装成简单可用的字体，通过自定义的TextView去解析自定义字体的文本来显示出图标。而且它还自定义了&lt;code&gt;IconDrawable&lt;/code&gt;类，支持将图标作为Drawable使用，真的是炒鸡赞的项目！
+该项目的设计非常好，易于扩展，它将来自Google的Material Design图标和来自Community的Material Design图标分拆成两个独立的模块以供使用。后面会简单介绍如何对它进行扩展。&lt;/p&gt;
+
+&lt;p&gt;下图显示了Iconify的使用方式：
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/iconify.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下面通过Iconify中的几个主要的类来介绍下Iconify的内部实现：&lt;/p&gt;
+
+&lt;h5 id=&#34;1-icon-接口&#34;&gt;（1）&lt;code&gt;Icon&lt;/code&gt;接口&lt;/h5&gt;
+
+&lt;p&gt;描述图标的信息。每个图标都有一个key和character，key代表图标的名称，例如&lt;code&gt;fa-ok&lt;/code&gt;，character代表图标对应的Unicode，例如&lt;code&gt;\u4354&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Icon represents one icon in an icon font.
+ */
+public interface Icon {
+    /** The key of icon, for example &#39;fa-ok&#39; */
+    String key();//key代表图标字体的名称，例如`fa-ok`
+
+    /** The character matching the key in the font, for example &#39;\u4354&#39; */
+    char character();//character代表图标对应的Unicode码，例如`\u4354`
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;2-iconfontdescriptor-接口&#34;&gt;（2）&lt;code&gt;IconFontDescriptor&lt;/code&gt;接口&lt;/h5&gt;
+
+&lt;p&gt;描述图标字体的信息，包括它对应的ttf字体文件和图标集合。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * An IconFontDescriptor defines a TTF font file
+ * and is able to map keys with characters in this file.
+ */
+public interface IconFontDescriptor {
+    /**
+     * The TTF file name.
+     * @return a name with no slash, present in the assets.
+     */
+    String ttfFileName();//assets目录下的字体文件
+
+    Icon[] characters();//图标字体集合
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;3-iconify-类&#34;&gt;（3）&lt;code&gt;Iconify&lt;/code&gt;类&lt;/h5&gt;
+
+&lt;p&gt;最主要的核心类，调用&lt;code&gt;with&lt;/code&gt;方法来添加图标字体集合。&lt;a href=&#34;https://github.com/JoanZapata/android-iconify/blob/master/android-iconify/src/main/java/com/joanzapata/iconify/Iconify.java&#34;&gt;查看源码&lt;/a&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Add support for a new icon font.
+ * @param iconFontDescriptor The IconDescriptor holding the ttf file reference and its mappings.
+ * @return An initializer instance for chain calls.
+ */
+public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
+    return new IconifyInitializer(iconFontDescriptor);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h5 id=&#34;4-其他代码&#34;&gt;（4）其他代码&lt;/h5&gt;
+
+&lt;p&gt;自定义的&lt;code&gt;IconTextView&lt;/code&gt;、&lt;code&gt;IconButton&lt;/code&gt;、&lt;code&gt;IconToggleButton&lt;/code&gt;以及&lt;code&gt;IconDrawable&lt;/code&gt;等，核心实现在&lt;code&gt;ParseUtil&lt;/code&gt;类中，它的&lt;code&gt;compute&lt;/code&gt;方法会去解析设置的文本内容，从中提取出不同字体对应的图标，甚至设置其大小和颜色以及旋转动画效果。
+&lt;strong&gt;[简易版本的自定义字体的TextView可以参考&lt;a href=&#34;http://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/&#34;&gt;这篇文章&lt;/a&gt;]&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h5 id=&#34;5-如何扩展&#34;&gt;（5）如何扩展？&lt;/h5&gt;
+
+&lt;p&gt;如果想要扩展Iconify，只需要一个ttf字体文件和实现&lt;code&gt;IconFontDescriptor&lt;/code&gt;接口的类就行了，可以参考&lt;a href=&#34;https://github.com/JoanZapata/android-iconify/blob/master/android-iconify-fontawesome/src/main/java/com/joanzapata/iconify/fonts/FontAwesomeModule.java&#34;&gt;Font Awesome的图标字体集合的实现&lt;/a&gt;。
+为了方便使用，一般还会添加一个枚举，列举出这个图标字体集合中所有图标的key和character对应关系，以Font Awesome图标字体为例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public enum FontAwesomeIcons implements Icon {
+    fa_glass(&#39;\uf000&#39;),
+    fa_music(&#39;\uf001&#39;),
+    fa_search(&#39;\uf002&#39;),
+    fa_envelope_o(&#39;\uf003&#39;),
+    fa_heart(&#39;\uf004&#39;),
+    fa_star(&#39;\uf005&#39;),
+    fa_star_o(&#39;\uf006&#39;),
+    fa_user(&#39;\uf007&#39;),
+    fa_film(&#39;\uf008&#39;),
+    fa_th_large(&#39;\uf009&#39;),
+    fa_th(&#39;\uf00a&#39;),
+    fa_th_list(&#39;\uf00b&#39;),
+    ......
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我比较喜欢Iconify的使用方式，简洁好用，嘿嘿，欢迎推荐其他的Material Design图标的使用姿势！&lt;/p&gt;
+
+&lt;p&gt;在实际的项目开发中肯定会有很多自定义的小图标或者来自不同来源的小图标，如果遇到这种情况该怎么办呢？这个时候我们可以通过对Iconify进行扩展来实现，但是扩展之前我们需要制作出自己的图标字体文件，这个该如何制作呢？请看下节！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>When Math meets Android Animation (2)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</link>
+      <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</guid>
+      <description>
+
+&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(2)&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation/&#34;&gt;上一节&lt;/a&gt;的结论是，&lt;code&gt;ValueAnimator&lt;/code&gt;就是由&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;这两个简单函数组合而成的一个复合函数。如下图所示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valueanimator_math.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;上一节我们还将&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;看作是工厂流水线上的两个小员工，那么&lt;code&gt;ValueAnimator&lt;/code&gt;就是车间主管，&lt;code&gt;TimeInterpolator&lt;/code&gt;这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度，而下一个生产线上的小员工&lt;code&gt;TypeEvaluator&lt;/code&gt;的任务就是打磨半成品得到成品，最后将成品输出。&lt;/p&gt;
+
+&lt;p&gt;本小节进一步深究&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;在动画实现过程中承担的作用以及它们之间的联系与差异。
+还是先说结论，借助&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;&lt;strong&gt;&amp;ldquo;单独&amp;rdquo;&lt;/strong&gt;来控制动画所产生的动画效果殊途同归！&lt;/p&gt;
+
+&lt;h3 id=&#34;1-两种特殊情况下的valueanimator&#34;&gt;&lt;strong&gt;1 两种特殊情况下的ValueAnimator&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;(1)上一节提到过，假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;（线性插值器，&lt;strong&gt;f(t)=t&lt;/strong&gt;），也就是说时间比率不被“篡改”的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数其实就简化成了&lt;code&gt;TypeEvaluator&lt;/code&gt;函数（&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)&lt;/strong&gt;），即动画实际上只由&lt;code&gt;TypeEvaluator&lt;/code&gt;来控制。&lt;/p&gt;
+
+&lt;p&gt;这里可以理解为，&lt;code&gt;TimeInterpolator&lt;/code&gt;这个员工请假了，但是工厂为了不停止生产安排了一个自动机器人代替他的工作，它只会匀速地将半成品输入到下一个生产线。&lt;/p&gt;
+
+&lt;p&gt;(2)同理，我们假设&lt;code&gt;TypeEvaluator&lt;/code&gt;是&lt;code&gt;“LinearTypeEvaluator”&lt;/code&gt;（线性估值器，并没有这个说法，所以加上引号，计算方式就是&lt;strong&gt;g(x,a,b)=a+x*(b-a)&lt;/strong&gt;）的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数也可以简化，&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=a+f(t)*(b-a)&lt;/strong&gt;，即动画实际上只由&lt;code&gt;TimeInterpolator&lt;/code&gt;来控制。&lt;/p&gt;
+
+&lt;p&gt;同样的，这里可以理解为，&lt;code&gt;TypeEvaluator&lt;/code&gt;这个员工请假了，默认也有个自动机器人采用默认的操作将半成品加工成最终成品输出。&lt;/p&gt;
+
+&lt;p&gt;(3)综上所述，我们来思考上一节留下的问题，即&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;到底啥关系？
+其实&lt;code&gt;TimeInterpolator&lt;/code&gt;是用来控制动画速度的，而&lt;code&gt;TypeEvaluator&lt;/code&gt;是用来控制动画中值的变化曲线的。
+虽然它们本质的作用是不同的，但是它们两个既可以联手来控制动画，也可以&lt;code&gt;&amp;quot;单独&amp;quot;&lt;/code&gt;来控制动画（&lt;strong&gt;并非真的单独，而是另一方有个默认操作&lt;/strong&gt;）。
+单独控制动画的典型例子就是上一节提到的&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;和&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;，这两个项目对于制作动画起到殊途同归作用。&lt;/p&gt;
+
+&lt;p&gt;为什么说&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;对于制作动画有着殊途同归的作用呢？
+不难想象，&lt;strong&gt;在某些定制的情况下，上面两种特殊情况下的构造出来的&lt;code&gt;ValueAnimator&lt;/code&gt;所产生的动画效果是一样的！&lt;/strong&gt;
+那如何来验证我们的这个结论呢？我们可以通过构造两个不同的特殊情况下的&lt;code&gt;ValueAnimator&lt;/code&gt;来验证。&lt;/p&gt;
+
+&lt;p&gt;下面的代码显示了两个&lt;code&gt;ValueAnimator&lt;/code&gt;，都是在1s中内将float类型的数值从0变化到1。第一个&lt;code&gt;ValueAnimator&lt;/code&gt;使用的是&lt;code&gt;LinearInterpolator&lt;/code&gt;和自定义的&lt;code&gt;TypeEvaluator&lt;/code&gt;，第二个&lt;code&gt;ValueAnimator&lt;/code&gt;使用的是自定义的&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;。打印输出的是两个&lt;code&gt;ValueAnimator&lt;/code&gt;每次值变化的时候的大小。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ValueAnimator animator1 = new ValueAnimator();
+animator1.setFloatValues(0.0f, 1.0f);
+animator1.setDuration(1000);
+animator1.setInterpolator(new LinearInterpolator());//传入null也是LinearInterpolator
+animator1.setEvaluator(new TypeEvaluator() {
+    @Override
+    public Object evaluate(float fraction, Object startValue, Object endValue) {
+        return 100 * fraction;
+    }
+});
+animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        Log.e(&amp;quot;demo 1&amp;quot;, &amp;quot;&amp;quot; + animation.getAnimatedValue());
+    }
+});
+
+ValueAnimator animator2 = new ValueAnimator();
+animator2.setFloatValues(0.0f, 1.0f);
+animator2.setDuration(1000);
+animator2.setInterpolator(new Interpolator() {
+    @Override
+    public float getInterpolation(float input) {
+        return 100 * input;
+    }
+});
+animator2.setEvaluator(new TypeEvaluator() {
+    @Override
+    public Object evaluate(float fraction, Object startValue, Object endValue) {
+        return fraction;
+    }
+});
+animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        Log.e(&amp;quot;demo 2&amp;quot;, &amp;quot;&amp;quot; + animation.getAnimatedValue());
+    }
+});
+
+animator1.start();
+animator2.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;打印输出的结果如下图所示，从图中可以看出，两个&lt;code&gt;ValueAnimator&lt;/code&gt;的在真实时间序列中的输出结果是一样的，也就说明如果将它们作用在同一个View组件的某个属性上的话，那么产生的动画效果是完全一样的。例如，可以将两个&lt;code&gt;ValueAnimator&lt;/code&gt;改成&lt;code&gt;ObjectAnimator&lt;/code&gt;，并将其作用在两个不同的TextView的&lt;code&gt;translationY&lt;/code&gt;属性上，你可以看到一样的动画效果。所以说，在特殊的单独控制动画的情况下，&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;对于制作动画有着殊途同归的作用。（注意结论的前提，那就是在我们理解了&lt;code&gt;ValueAnimator&lt;/code&gt;内部动画原理之后自己定制的一些特殊情况，它们并非总是能够产生一样的动画效果）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valuaanimator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-简单动画实例分析-弹跳&#34;&gt;&lt;strong&gt;2 简单动画实例分析：弹跳！&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;经过前面的分析，我们差不多理解了&lt;code&gt;ValueAnimator&lt;/code&gt;是怎么借助&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;来实现动画的了。在实现动画的时候，为了简便，我们常常可以选择将&lt;code&gt;TimeInterpolator&lt;/code&gt;设置为&lt;code&gt;LinearInterpolator&lt;/code&gt;或者将&lt;code&gt;TypeEvaluator&lt;/code&gt;设置为&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;这两种特殊的方式。&lt;/p&gt;
+
+&lt;p&gt;举个栗子！假设我们要来实现弹跳的动画效果。首先我们要确定一个弹跳效果的函数曲线，自己想不太好想，我们先来看看项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;中的&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;内部表示的函数曲线的形态。如下图所示，它是一个分段函数，每个段内都是一个简单的二次曲线。如果将这个曲线作用在View组件的&lt;code&gt;translationY&lt;/code&gt;属性上，那么组件将在垂直方向上来回地跳动从而就形成了弹跳的效果。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bounce_curve.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;我们先看下&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;的核心方法&lt;code&gt;getInterpolation&lt;/code&gt;的实现，它其实就是刻画了上面的函数曲线。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//传入的参数input就是动画的时间比率值fraction
+public float getInterpolation(float input) {
+  if (input &amp;lt; (1 / 2.75))
+    return (7.5625f * input * input);
+  else if (input &amp;lt; (2 / 2.75))
+    return (7.5625f * (input -= (1.5f / 2.75f)) * input + 0.75f);
+  else if (input &amp;lt; (2.5 / 2.75))
+    return (7.5625f * (input -= (2.25f / 2.75f)) * input + 0.9375f);
+  else
+    return (7.5625f * (input -= (2.625f / 2.75f)) * input + 0.984375f);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们再看下&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;项目中实现这个效果的Easing函数类&lt;code&gt;BounceEaseOut&lt;/code&gt;，它继承自&lt;code&gt;BaseEasingMethod&lt;/code&gt;，而&lt;code&gt;BaseEasingMethod&lt;/code&gt;类实现了&lt;code&gt;TypeEvaluator&lt;/code&gt;接口。
+&lt;code&gt;BounceEaseOut&lt;/code&gt;类整理出来得到的核心方法&lt;code&gt;evaluate&lt;/code&gt;的实现如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@Override
+public final Float evaluate(float fraction, Number startValue, Number endValue) {
+    float t = mDuration * fraction;//已经过去的时间
+    float b = startValue.floatValue();//起始值
+    float c = endValue.floatValue() - startValue.floatValue();//结束值与起始值之间的差值
+    float d = mDuration;//总的时间间隔，t/d 就是已经过去的时间占总时间间隔的比率
+
+    if ((t /= d) &amp;lt; (1 / 2.75f)) {
+        return c * (7.5625f * t * t) + b;
+    } else if (t &amp;lt; (2 / 2.75f)) {
+        return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
+    } else if (t &amp;lt; (2.5 / 2.75)) {
+        return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
+    } else {
+        return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;仔细看下这两个函数的实现很不难发现，如果&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;+&lt;code&gt;&amp;quot;LinearEvaluator&amp;quot;&lt;/code&gt;（IntEvaluator或者FloatEvaluator）得到的结果与&lt;code&gt;LinearInterpolator&lt;/code&gt;+&lt;code&gt;BounceEaseOut&lt;/code&gt;(TypeEvaluator)得到的结果是一样的啊！我们可以再写个例子作用在两个View上看下效果。&lt;/p&gt;
+
+&lt;p&gt;例子代码，作用在两个不同的TextView上的两个不同的ObjectAnimator：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//第一个ObjectAnimator
+final ObjectAnimator animator1 = new ObjectAnimator();
+animator1.setTarget(textView1);
+animator1.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator1.setFloatValues(0f, -100f);
+animator1.setDuration(1000);
+animator1.setInterpolator(new LinearInterpolator());//使用线性插值器
+animator1.setEvaluator(new TypeEvaluator&amp;lt;Number&amp;gt;() {//自定义的TypeEvaluator
+    @Override
+    public Number evaluate(float fraction, Number startValue, Number endValue) {
+        float t = animator1.getDuration() * fraction;//已经过去的时间
+        float b = startValue.floatValue();//起始值
+        float c = endValue.floatValue() - startValue.floatValue();//结束值与起始值之间的差值
+        float d = animator1.getDuration();//总的时间间隔，t/d 就是已经过去的时间占总时间间隔的比率
+
+        if ((t /= d) &amp;lt; (1 / 2.75f)) {
+            return c * (7.5625f * t * t) + b;
+        } else if (t &amp;lt; (2 / 2.75f)) {
+            return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
+        } else if (t &amp;lt; (2.5 / 2.75)) {
+            return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
+        } else {
+            return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
+        }
+    }
+});
+animator1.start();
+
+//第二个ObjectAnimator
+final ObjectAnimator animator2 = new ObjectAnimator();
+animator2.setTarget(textView2);
+animator2.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator2.setFloatValues(0f, -100f);
+animator2.setDuration(1000);
+animator2.setInterpolator(new TimeInterpolator() {//自定义的TimeInterpolator
+    @Override
+    public float getInterpolation(float input) {
+        if (input &amp;lt; (1 / 2.75))
+            return (7.5625f * input * input);
+        else if (input &amp;lt; (2 / 2.75))
+            return (7.5625f * (input -= (1.5f / 2.75f)) * input + 0.75f);
+        else if (input &amp;lt; (2.5 / 2.75))
+            return (7.5625f * (input -= (2.25f / 2.75f)) * input + 0.9375f);
+        else
+            return (7.5625f * (input -= (2.625f / 2.75f)) * input + 0.984375f);
+    }
+});
+animator2.setEvaluator(new FloatEvaluator());//使用&amp;quot;线性估值器&amp;quot;
+animator2.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接下来看下效果吧，两个动画效果一模一样，这下你相信我说的了吧？哈哈哈，殊途同归！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bounce_animation.gif&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其他的动画效果也是一样的，也就是说项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;和项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;本质上是差不多的，都是定义了一些动画效果对应的函数曲线。前者是将其封装成了TypeEvaluator，后者是将其封装成了Interpolator！
+（注：&lt;code&gt;Interpolator&lt;/code&gt;继承自&lt;code&gt;TimeInterpolator&lt;/code&gt;，而且接口内部是空的，所以和&lt;code&gt;TimeInterpolator&lt;/code&gt;本质是一样的，它是为了兼容低版本而添加的。）&lt;/p&gt;
+
+&lt;p&gt;本文只是想验证本文开头的结论，借助&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;&lt;strong&gt;&amp;ldquo;单独&amp;rdquo;&lt;/strong&gt;来控制动画所产生的动画效果殊途同归！当然，你肯定可以同时使用自定义的&lt;code&gt;TimeInterpolator&lt;/code&gt;和自定义的&lt;code&gt;TypeEvaluator&lt;/code&gt;结合来控制动画，但是很显然，这种情况下的动画不容易控制。
+从数学中函数的角度上来说那就是复合函数肯定比简单函数复杂，我们解决问题的时候要可能化繁为简，所以自然会考虑将&lt;code&gt;ValueAnimator&lt;/code&gt;这个复杂函数简化成特殊情况下的简单函数&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;来处理对吧？&lt;/p&gt;
+
+&lt;p&gt;关于&lt;code&gt;ValueAnimator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;之间的恩恩怨怨讲到这里其实已经讲得差不多了，猜猜下一节我会说啥？~(≧▽≦)/~&lt;/p&gt;
+
+&lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/28/When-Math-meets-Android-Animation-3/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>When Math meets Android Animation (3)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-3/</link>
+      <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-3/</guid>
+      <description>
+
+&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(3)&lt;/p&gt;
+
+&lt;p&gt;上一节我们得到一个重要的结论，借助&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;&lt;strong&gt;&amp;ldquo;单独&amp;rdquo;&lt;/strong&gt; 来控制动画所产生的动画效果殊途同归！&lt;/p&gt;
+
+&lt;p&gt;此外，上一节结尾我们还说到，项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;和项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;本质上是差不多的，都是定义了一些动画效果对应的函数曲线。前者是将其封装成了&lt;code&gt;TypeEvaluator&lt;/code&gt;，后者是将其封装成了&lt;code&gt;Interpolator&lt;/code&gt;！&lt;/p&gt;
+
+&lt;p&gt;这一节我们来研究下这些函数曲线。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-缓动函数曲线&#34;&gt;&lt;strong&gt;1 缓动函数曲线&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;下图显示了常见的这些函数曲线，到底这些函数曲线都是什么鬼呢？&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/easingfuctions.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这些函数曲线最早是由&lt;a href=&#34;https://www.linkedin.com/in/robertpenner&#34;&gt;Robert Penner&lt;/a&gt;提出来用于实现补间动画的&lt;code&gt;&amp;quot;Penner easing functions&amp;quot;&lt;/code&gt;，这些曲线主要分成10类，包括&lt;code&gt;&amp;quot;BACK&amp;quot;, &amp;quot;BOUNCE&amp;quot;, &amp;quot;CIRCULAR&amp;quot;, &amp;quot;ELASTIC&amp;quot;, &amp;quot;EXPO&amp;quot;, &amp;quot;QUAD&amp;quot;, &amp;quot;CUBIC&amp;quot;, &amp;quot;QUART&amp;quot;, &amp;quot;QUINT&amp;quot;, &amp;quot;SINE&amp;quot;&lt;/code&gt;，每一类下面都有缓动进入、缓动退出以及缓动进入和退出三种效果，所以共有30个。这些效果对照着函数曲线来看其实也挺好理解，&lt;code&gt;&amp;quot;QUAD&amp;quot;, &amp;quot;CUBIC&amp;quot;, &amp;quot;QUART&amp;quot;, &amp;quot;QUINT&amp;quot;&lt;/code&gt;分别对应着二次、三次、四次以及五次曲线，&lt;code&gt;&amp;quot;SINE&amp;quot;&lt;/code&gt;对应正弦函数曲线，&lt;code&gt;&amp;quot;EXPO&amp;quot;&lt;/code&gt;对应指数函数曲线等等。其中&lt;code&gt;&amp;quot;BACK&amp;quot;&lt;/code&gt;和&lt;code&gt;&amp;quot;ELASTIC&amp;quot;&lt;/code&gt;有上冲和下冲的效果。&lt;/p&gt;
+
+&lt;p&gt;Robert Penner在Github上开源了&lt;a href=&#34;https://github.com/danro/jquery-easing/blob/master/jquery.easing.js&#34;&gt;jQuery的版本实现&lt;/a&gt;，随后也就有了很多不同语言版本的实现，例如Java版本的&lt;a href=&#34;https://github.com/jesusgollonet/processing-penner-easing&#34;&gt;jesusgollonet/processing-penner-easing&lt;/a&gt;以及代码家的Android版本的&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;等等。&lt;/p&gt;
+
+&lt;p&gt;这些版本的实现都是4个参数的，分别是起始值&lt;code&gt;b&lt;/code&gt;、数值间隔&lt;code&gt;c&lt;/code&gt;（结束值-起始值）、当前时间&lt;code&gt;t&lt;/code&gt;、时间间隔&lt;code&gt;d&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//不带缓动，也就是前面说的“线性”估值器
+function noEasing (t, b, c, d) {
+	return c * (t / d) + b;
+}
+
+//带缓动效果，例如二次曲线形式
+easeInQuad: function (t, b, c, d) { //缓动进入
+	return c*(t/=d)*t + b;
+},
+easeOutQuad: function (t, b, c, d) {//缓动退出
+	return -c *(t/=d)*(t-2) + b;
+},
+easeInOutQuad: function (t, b, c, d) {//缓动进入和退出
+	if ((t/=d/2) &amp;lt; 1) return c/2*t*t + b;
+	return -c/2 * ((--t)*(t-2) - 1) + b;
+},
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那为什么与之殊途同归的&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;是1个参数的呢？&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//QuadInOut Interpolator
+public float getInterpolation(float input) {
+  if((input /= 0.5f) &amp;lt; 1) {
+    return 0.5f * input * input;
+  }
+  return -0.5f * ((--input) * (input - 2) - 1);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是因为当&lt;code&gt;Interpolator&lt;/code&gt;传入到后面的&lt;code&gt;TypeEvaluator&lt;/code&gt;的时候就有了起始值、结束值以及时间间隔（时间间隔定义在缓动函数内部，只有部分缓动函数需要这个参数）这3个参数，可以参考下面的代码来理解，所以说，它们在本质上还是一样的！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;fraction = getInterpolation(input)  ==&amp;gt; 这种1个参数形式其实也可以等效于 easingfunction(currentTime, 0, 1, totalTime)
+value = evaluate(fraction, startValue, endValue) = startValue + fraction * (endValue - startValue)  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-one-more-thing&#34;&gt;&lt;strong&gt;2 One more thing&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;看到这里的话，我们就会想啦，如果我们把函数曲线抽象出来，然后再提供相应的转换方法，使其轻轻松松地转换成&lt;code&gt;Interpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的话，如此，岂不善哉？&lt;/p&gt;
+
+&lt;p&gt;所以，我就站在众多巨人们的肩膀上，写了一个新项目&lt;a href=&#34;https://github.com/hujiaweibujidao/yava&#34;&gt;Yava&lt;/a&gt;，项目代码非常简单，而且代码很少只有4个重要的类，它实现的功能就是将抽象的函数曲线轻松转换成立即可用的&lt;code&gt;Interpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;，并且提供了常见的30个缓动函数(Easing Functions)的实现，它们既可以当做&lt;code&gt;Interpolator&lt;/code&gt;来用，又可以当做&lt;code&gt;TypeEvaluator&lt;/code&gt;来用，非常方便。&lt;/p&gt;
+
+&lt;p&gt;这里我直接把这4个重要类的代码贴出来吧。&lt;/p&gt;
+
+&lt;p&gt;(1) &lt;code&gt;IFunction&lt;/code&gt;接口&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * 函数接口：给定输入，得到输出
+ */
+public interface IFunction {
+    float getValue(float input);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2)&lt;code&gt;AbstractFunction&lt;/code&gt;抽象类&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * 抽象函数实现，既可以当做简单函数使用，也可以当做Interpolator或者TypeEvaluator去用于制作动画
+ */
+public abstract class AbstractFunction implements IFunction, Interpolator, TypeEvaluator&amp;lt;Float&amp;gt; {
+
+    @Override
+    public float getInterpolation(float input) {
+        return getValue(input);
+    }
+
+    @Override
+    public Float evaluate(float fraction, Float startValue, Float endValue) {
+        return startValue + getValue(fraction) * (endValue - startValue);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3)&lt;code&gt;Functions&lt;/code&gt;类&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * 工具类，将自定义的函数快速封装成AbstractFunction
+ */
+class Functions {
+
+    public static AbstractFunction with(final IFunction function) {
+        return new AbstractFunction() {
+            @Override
+            public float getValue(float input) {
+                return function.getValue(input);
+            }
+        };
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4)&lt;code&gt;EasingFunction&lt;/code&gt;枚举：包含了30个常见的缓动函数&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * 常见的30个缓动函数的实现
+ */
+public enum EasingFunction implements IFunction, Interpolator, TypeEvaluator&amp;lt;Float&amp;gt; {
+
+    /* ------------------------------------------------------------------------------------------- */
+    /* BACK
+    /* ------------------------------------------------------------------------------------------- */
+    BACK_IN {
+        @Override
+        public float getValue(float input) {
+            return input * input * ((1.70158f + 1) * input - 1.70158f);
+        }
+    },
+    BACK_OUT {
+        @Override
+        public float getValue(float input) {
+            return ((input = input - 1) * input * ((1.70158f + 1) * input + 1.70158f) + 1);
+        }
+    },
+    BACK_INOUT {
+        @Override
+        public float getValue(float input) {
+            float s = 1.70158f;
+            if ((input *= 2) &amp;lt; 1) {
+                return 0.5f * (input * input * (((s *= (1.525f)) + 1) * input - s));
+            }
+            return 0.5f * ((input -= 2) * input * (((s *= (1.525f)) + 1) * input + s) + 2);
+        }
+    },
+
+    //other easing functions ......
+
+    //如果这个function在求值的时候需要duration作为参数的话，那么可以通过setDuration来设置，否则使用默认值
+    private float duration = 1000f;//目前只有ELASTIC***这三个是需要duration的，其他的都不需要
+
+    public float getDuration() {
+        return duration;
+    }
+
+    public EasingFunction setDuration(float duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    //将Function当做Interpolator使用，默认的实现，不需要枚举元素去重新实现
+    @Override
+    public float getInterpolation(float input) {
+        return getValue(input);
+    }
+
+    //将Function当做TypeEvaluator使用，默认的实现，不需要枚举元素去重新实现
+    @Override
+    public Float evaluate(float fraction, Float startValue, Float endValue) {
+        return startValue + getValue(fraction) * (endValue - startValue);
+    }
+
+    //几个数学常量
+    public static final float PI = (float) Math.PI;
+    public static float TWO_PI = PI * 2.0f;
+    public static float HALF_PI = PI * 0.5f;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个项目的缓动函数的实现参考自&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;中的实现，但是这个项目的代码和EaseInterpolator以及AnimationEasingFunctions这两个项目都完全不一样，非常简单易懂，既保留了原有项目应有的功能，同时为项目的使用场景提供了更多的可能，任何你想使用&lt;code&gt;Interpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;都能使用它。&lt;/p&gt;
+
+&lt;p&gt;举个例子，以上一节中的弹跳动画效果为例，现在可以直接使用&lt;code&gt;EasingFunction.BOUNCE_OUT&lt;/code&gt;作为&lt;code&gt;Interpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;来使用：&lt;/p&gt;
+
+&lt;p&gt;第一种方式：使用线性插值器和自定义的TypeEvaluator&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ObjectAnimator animator1 = new ObjectAnimator();
+animator1.setTarget(textView1);
+animator1.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator1.setFloatValues(0f, -100f);
+animator1.setDuration(1000);
+animator1.setInterpolator(new LinearInterpolator());
+animator1.setEvaluator(EasingFunction.BOUNCE_OUT); //这里将EasingFunction.BOUNCE_OUT作为TypeEvaluator来使用
+animator1.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;第二种方式：使用自定义的Interpolator和&amp;rdquo;线性估值器&amp;rdquo;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ObjectAnimator animator2 = new ObjectAnimator();
+animator2.setTarget(textView2);
+animator2.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator2.setFloatValues(0f, -100f);
+animator2.setDuration(1000);
+animator2.setInterpolator(EasingFunction.BOUNCE_OUT); //这里将EasingFunction.BOUNCE_OUT作为Interpolator来使用
+animator2.setEvaluator(new FloatEvaluator());
+animator2.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果你想使用自己定义的函数来制作动画，可以使用&lt;code&gt;Functions&lt;/code&gt;的&lt;code&gt;with&lt;/code&gt;方法，传入一个实现了&lt;code&gt;IFunction&lt;/code&gt;接口的类就行，返回值你既可以当做&lt;code&gt;Interpolator&lt;/code&gt;，也可以当做&lt;code&gt;TypeEvaluator&lt;/code&gt;来使用&lt;/p&gt;
+
+&lt;p&gt;代码示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ObjectAnimator animator1 = new ObjectAnimator();
+animator1.setTarget(textView1);
+animator1.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator1.setFloatValues(0f, -100f);
+animator1.setDuration(1000);
+animator1.setInterpolator(new LinearInterpolator());
+animator1.setEvaluator(Functions.with(new IFunction() { //自定义为TypeEvaluator
+    @Override
+    public float getValue(float input) {
+        return input * 2 + 3;
+    }
+}));
+animator1.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ObjectAnimator animator2 = new ObjectAnimator();
+animator2.setTarget(textView2);
+animator2.setPropertyName(&amp;quot;translationY&amp;quot;);
+animator2.setFloatValues(0f, -100f);
+animator2.setDuration(1000);
+animator2.setInterpolator(Functions.with(new IFunction() { //自定义为Interpolator
+    @Override
+    public float getValue(float input) {
+        return input * 2 + 3;
+    }
+}));
+animator2.setEvaluator(new FloatEvaluator());
+animator2.start();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;为了方便查看定义出来的&lt;code&gt;Interpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的效果，我将前面两个项目中的可视化部分整理到项目&lt;a href=&#34;https://github.com/hujiaweibujidao/yava&#34;&gt;Yava&lt;/a&gt;中，样例应用还包含了上一节的用来作验证的例子，最终效果如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/yava.gif&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;恭喜你终于看完了，也恭喜自己终于写完了。至此，你可能还有一个疑惑，那就是那些函数曲线是怎么想出来的？这个&amp;hellip;我也不知道，我也想知道，别问我，去问&lt;a href=&#34;https://www.linkedin.com/in/robertpenner&#34;&gt;Robert Penner&lt;/a&gt;吧 😌&lt;/p&gt;
+
+&lt;p&gt;最后，我还准备写另一个Android动画效果库&lt;a href=&#34;https://github.com/hujiaweibujidao/wava&#34;&gt;wava&lt;/a&gt;，神一样的&lt;a href=&#34;https://github.com/daimajia&#34;&gt;代码家&lt;/a&gt;还做了一个超厉害的项目&lt;a href=&#34;https://github.com/daimajia/AndroidViewAnimations&#34;&gt;AndroidViewAnimations&lt;/a&gt;，目前我的&lt;code&gt;wava&lt;/code&gt;只是基于它做些改进，后期我打算加上一些很特别的东西，暂时不表，欢迎关注项目&lt;a href=&#34;https://github.com/hujiaweibujidao/wava&#34;&gt;wava&lt;/a&gt; 😘&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>When Math meets Android Animation (1)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</link>
+      <pubDate>Thu, 26 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
+      <description>
+
+&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(1)&lt;/p&gt;
+
+&lt;p&gt;其实关于&lt;code&gt;ValueAnimator&lt;/code&gt;的内部工作原理大家也都清楚，本文只是选择从数学函数的角度来解析这个原理，方便理解。看完了本节之后我们就更加清楚如何借助&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;来帮助我们实现动画等知识。&lt;/p&gt;
+
+&lt;p&gt;本系列文章共有三篇，第一篇通过源码解析&lt;code&gt;ValueAnimator&lt;/code&gt;类，第二篇通过实例解析&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;，第三篇分析常见动画背后的缓动函数，最后引出一个新的Android动画开发的辅助库&lt;a href=&#34;https://github.com/hujiaweibujidao/yava&#34;&gt;Yava&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-android动画基础知识&#34;&gt;&lt;strong&gt;1 Android动画基础知识&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;(1)狭义而言，动画一般就是指某个View组件的某个或者某些属性值在一段时间内不断变化的过程，这个变化过程往往有个起始值、结束值和一系列的中间值，&lt;code&gt;ValueAnimator&lt;/code&gt;就是用来反映这个属性值变化过程的重要类，所以本文的介绍主要是以分析&lt;code&gt;ValueAnimator&lt;/code&gt;为主。
+(2)如果将属性值的变化过程看做一个数学函数的话，从动画效果上来看它是连续的，但实际上它还是离散的，因为它实际上也就是通过插入中间值（简称插值）从而&amp;rdquo;一帧一帧&amp;rdquo;完成动画的，那每一帧在哪里取，取多少呢？这也就是&lt;code&gt;ValueAnimator&lt;/code&gt;类主要完成的作用。&lt;/p&gt;
+
+&lt;p&gt;那到底&lt;code&gt;ValueAnimator&lt;/code&gt;是怎么控制属性值的变化过程的呢？答案是借助&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;来帮忙！&lt;code&gt;TimeInterpolator&lt;/code&gt;用来控制在哪里取，而&lt;code&gt;TypeEvaluator&lt;/code&gt;用来控制取多少。（注：取多少个点进行插值是不确定的，例如动画持续时间1s，可能取60，也可能取54、57或者58个中间点进行插值）&lt;/p&gt;
+
+&lt;p&gt;先说本小节结论，&lt;strong&gt;每一个&lt;code&gt;ValueAnimator&lt;/code&gt;其实就是一个的&lt;code&gt;TimeInterpolator&lt;/code&gt;和一个&lt;code&gt;TypeEvaluator&lt;/code&gt;的结合体&lt;/strong&gt;。从数学的角度来看，&lt;code&gt;ValueAnimator&lt;/code&gt;就是由&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;这两个简单函数组合而成的一个复合函数。用图来表述如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valueanimator_math.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你也可以将&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;看作是工厂流水线上的两个小员工，那么&lt;code&gt;ValueAnimator&lt;/code&gt;就是车间主管啦。&lt;code&gt;TimeInterpolator&lt;/code&gt;这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度。而下一个生产线上的小员工&lt;code&gt;TypeEvaluator&lt;/code&gt;的任务就是打磨半成品得到成品，最后将成品输出。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-结合源码解释函数形式&#34;&gt;&lt;strong&gt;2 结合源码解释函数形式&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;（1）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是函数x=f(t)，t表示&lt;strong&gt;动画已经完成的时间比率&lt;/strong&gt;（例如动画的总时长是10s，已经过了4s了，那么t=0.4），所以t的取值范围是[0,1]，0表示动画开始，1表示动画结束。该函数的返回值指的是&lt;strong&gt;动画实际插值的时间点&lt;/strong&gt;，一般是0到1之间，但是也可以小于0（&amp;rdquo;下冲&amp;rdquo;）或者大于1（&amp;rdquo;上冲&amp;rdquo;）。
+&lt;strong&gt;该函数的作用是把当前时间进度映射成另一个值，这样动画参照的时间由此被&amp;rdquo;篡改&amp;rdquo;，动画的速度由此被改变。&lt;/strong&gt; （后面还有详细介绍）&lt;/p&gt;
+
+&lt;p&gt;参考接口&lt;code&gt;TimeInterpolator&lt;/code&gt;的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * A time interpolator defines the rate of change of an animation. This allows animations
+ * to have non-linear motion, such as acceleration and deceleration.
+ */
+public interface TimeInterpolator {
+    /**
+     * Maps a value representing the elapsed fraction of an animation to a value that represents
+     * the interpolated fraction. This interpolated value is then multiplied by the change in
+     * value of an animation to derive the animated value at the current elapsed animation time.
+     */
+    float getInterpolation(float input);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;（2）假设&lt;code&gt;TypeEvaluator&lt;/code&gt;是函数y=g(x,a,b)，x就是前面函数f(t)篡改之后的插值的时间点，a、b分别表示属性动画的起始值和结束值。
+&lt;strong&gt;该函数的作用是通过起始值、结束值以及插值时间点来计算在该时间点的属性值应该是多少。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;参考接口&lt;code&gt;TypeEvaluator&lt;/code&gt;的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Interface for use with the {@link ValueAnimator#setEvaluator(TypeEvaluator)} function. Evaluators
+ * allow developers to create animations on arbitrary property types, by allowing them to supply
+ * custom evaluators for types that are not automatically understood and used by the animation
+ * system.
+ */
+public interface TypeEvaluator&amp;lt;T&amp;gt; {
+
+    /**
+     * This function returns the result of linearly interpolating the start and end values, with
+     * &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt; representing the proportion between the start and end values. The
+     * calculation is a simple parametric calculation: &amp;lt;code&amp;gt;result = x0 + t * (x1 - x0)&amp;lt;/code&amp;gt;,
+     * where &amp;lt;code&amp;gt;x0&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt;, &amp;lt;code&amp;gt;x1&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt;,
+     * and &amp;lt;code&amp;gt;t&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt;.
+     */
+    public T evaluate(float fraction, T startValue, T endValue);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;（3）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是上面两个简单函数，那么&lt;code&gt;ValueAnimator&lt;/code&gt;也是一个函数，它其实就是表示&lt;code&gt;TimeInterpolator&lt;/code&gt;的函数x=f(t)和表示&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数y=g(x,a,b)结合而成的复合函数&lt;code&gt;F=g(f(t),a,b)&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;中&lt;code&gt;animateValue&lt;/code&gt;方法的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * This method is called with the elapsed fraction of the animation during every
+ * animation frame. This function turns the elapsed fraction into an interpolated fraction
+ * and then into an animated value (from the evaluator. The function is called mostly during
+ * animation updates, but it is also called when the &amp;lt;code&amp;gt;end()&amp;lt;/code&amp;gt;
+ * function is called, to set the final value on the property.
+ */
+void animateValue(float fraction) {
+    fraction = mInterpolator.getInterpolation(fraction); //TimeInterpolator 函数
+    mCurrentFraction = fraction;
+    int numValues = mValues.length;
+    for (int i = 0; i &amp;lt; numValues; ++i) {
+        mValues[i].calculateValue(fraction); //TypeEvaluator 函数
+    }
+    if (mUpdateListeners != null) { // 通知监听器
+        int numListeners = mUpdateListeners.size();
+        for (int i = 0; i &amp;lt; numListeners; ++i) {
+            mUpdateListeners.get(i).onAnimationUpdate(this);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-通俗解析各个击破&#34;&gt;&lt;strong&gt;3 通俗解析各个击破&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;h4 id=&#34;3-1-关于valueanimator&#34;&gt;&lt;strong&gt;3.1 关于ValueAnimator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;(0)&lt;code&gt;ValueAnimator&lt;/code&gt;就是一个的&lt;code&gt;TypeEvaluator&lt;/code&gt;和一个&lt;code&gt;TimeInterpolator&lt;/code&gt;的结合体，所以该类有两个方法分别用来设置动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;。
+(1)&lt;code&gt;setInterpolator&lt;/code&gt;方法可以不调用，默认是加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;，但是如果调用且传入的参数为null的话，那么就会被设置成线性插值器&lt;code&gt;LinearInterpolator&lt;/code&gt; &lt;strong&gt;(暂时不清楚为什么要这样做)&lt;/strong&gt;。
+(2)&lt;code&gt;setEvaluator&lt;/code&gt;方法也可以不调用，默认会根据属性值的类型设置一个&lt;code&gt;IntEvaluator&lt;/code&gt;或者&lt;code&gt;FloatEvaluator&lt;/code&gt;。后面会讲到这类&lt;code&gt;TypeEvaluator&lt;/code&gt;可以看作是线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;（&lt;strong&gt;并没有这个说法，因故加上引号&lt;/strong&gt;）。&lt;/p&gt;
+
+&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;的部分源码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//默认的TimeInterpolator是AccelerateDecelerateInterpolator
+// The time interpolator to be used if none is set on the animation
+private static final TimeInterpolator sDefaultInterpolator = new AccelerateDecelerateInterpolator();
+
+/**
+* The time interpolator used in calculating the elapsed fraction of this animation. The
+* interpolator determines whether the animation runs with linear or non-linear motion,
+* such as acceleration and deceleration. The default value is
+* {@link android.view.animation.AccelerateDecelerateInterpolator}
+*
+* @param value the interpolator to be used by this animation. A value of &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt;
+* will result in linear interpolation.
+*/
+@Override
+public void setInterpolator(TimeInterpolator value) {
+   if (value != null) {
+       mInterpolator = value;
+   } else {
+       // 如果传入的TimeInterpolator是null的话就设置为LinearInterpolator
+       mInterpolator = new LinearInterpolator();
+   }
+}
+
+/**
+ * The type evaluator to be used when calculating the animated values of this animation.
+ * The system will automatically assign a float or int evaluator based on the type
+ * of &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt; in the constructor. But if these values
+ * are not one of these primitive types, or if different evaluation is desired (such as is
+ * necessary with int values that represent colors), a custom evaluator needs to be assigned.
+ * For example, when running an animation on color values, the {@link ArgbEvaluator}
+ * should be used to get correct RGB color interpolation.
+ *
+ * &amp;lt;p&amp;gt;If this ValueAnimator has only one set of values being animated between, this evaluator
+ * will be used for that set. If there are several sets of values being animated, which is
+ * the case if PropertyValuesHolder objects were set on the ValueAnimator, then the evaluator
+ * is assigned just to the first PropertyValuesHolder object.&amp;lt;/p&amp;gt;
+ *
+ * @param value the evaluator to be used this animation
+ */
+public void setEvaluator(TypeEvaluator value) {
+    if (value != null &amp;amp;&amp;amp; mValues != null &amp;amp;&amp;amp; mValues.length &amp;gt; 0) {
+        mValues[0].setEvaluator(value);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4)&lt;strong&gt;调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法时发生了什么&lt;/strong&gt;
+&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法是创建动画常用的方法，该方法会调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;，其中调用了&lt;code&gt;PropertyValuesHolder&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;方法，里面又调用了&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法用来得到动画的帧集合，该方法的实现如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//根据提供的数字序列得到动画的核心帧集合
+public static KeyframeSet ofInt(int... values) {
+    int numKeyframes = values.length;//有多少个数字就有多少帧
+    IntKeyframe keyframes[] = new IntKeyframe[Math.max(numKeyframes,2)];//至少有2帧
+    if (numKeyframes == 1) {//如果只传入一个数字，那么该数字就是结束帧的值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f);
+        keyframes[1] = (IntKeyframe) Keyframe.ofInt(1f, values[0]);
+    } else {//如果传入多个数字，那么可以将整个动画时间间隔均分，每个数字按顺序在每个时间比率上占据一个属性值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f, values[0]);
+        for (int i = 1; i &amp;lt; numKeyframes; ++i) {
+            keyframes[i] = (IntKeyframe) Keyframe.ofInt((float) i / (numKeyframes - 1), values[i]);
+        }
+    }
+    return new IntKeyframeSet(keyframes);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Keyframe&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法的签名为&lt;code&gt;Keyframe ofInt(float fraction, int value)&lt;/code&gt;：前者就是动画已经完成的时间比率，后者是该帧的属性值，它表示在这个特定的时间比率对应的时刻，函数曲线会经过或者非常接近这个属性值(&lt;strong&gt;可能是没有经过，而只是很接近很接近，毕竟是曲线拟合嘛&lt;/strong&gt;)。&lt;/p&gt;
+
+&lt;p&gt;上面得到的帧只是动画的几个核心帧，肯定不是动画的全部帧，那中间的其他帧是怎么计算的呢？
+这个问题我们可以看下&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;getValue&lt;/code&gt;方法，方法传入的参数就是动画的时间比率，返回值就是此帧的属性值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Gets the animated value, given the elapsed fraction of the animation (interpolated by the
+ * animation&#39;s interpolator) and the evaluator used to calculate in-between values. This
+ * function maps the input fraction to the appropriate keyframe interval and a fraction
+ * between them and returns the interpolated value. Note that the input fraction may fall
+ * outside the [0-1] bounds, if the animation&#39;s interpolator made that happen (e.g., a
+ * spring interpolation that might send the fraction past 1.0). We handle this situation by
+ * just using the two keyframes at the appropriate end when the value is outside those bounds.
+ */
+public Object getValue(float fraction) {
+    // Special-case optimization for the common case of only two keyframes
+    if (mNumKeyframes == 2) {//1.处理只有2帧的情况
+        if (mInterpolator != null) {
+            //先调用TimeInterpolator函数
+            fraction = mInterpolator.getInterpolation(fraction);
+        }
+        //再调用TypeEvaluator函数
+        return mEvaluator.evaluate(fraction, mFirstKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //2.处理上冲和下冲的情况
+    if (fraction &amp;lt;= 0f) {
+        final Keyframe nextKeyframe = mKeyframes.get(1);
+        final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = mFirstKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, mFirstKeyframe.getValue(), nextKeyframe.getValue());
+    } else if (fraction &amp;gt;= 1f) {
+        final Keyframe prevKeyframe = mKeyframes.get(mNumKeyframes - 2);
+        final TimeInterpolator interpolator = mLastKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = prevKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (mLastKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //3.处理正常的多帧的情况
+    Keyframe prevKeyframe = mFirstKeyframe;
+    //首先要遍历前面计算出的主要KeyFrame集合，看当前的fraction是处在哪个区间的
+    for (int i = 1; i &amp;lt; mNumKeyframes; ++i) {
+        Keyframe nextKeyframe = mKeyframes.get(i);
+        if (fraction &amp;lt; nextKeyframe.getFraction()) {
+            final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+            final float prevFraction = prevKeyframe.getFraction();
+            //将当前的fraction折算成在这个区间内的时间比率，这个计算有意思吧
+            float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+            // Apply interpolator on the proportional duration.
+            if (interpolator != null) {
+                //先调用TimeInterpolator函数
+                intervalFraction = interpolator.getInterpolation(intervalFraction);
+            }
+            //再调用TypeEvaluator函数
+            return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), nextKeyframe.getValue());
+        }
+        prevKeyframe = nextKeyframe;
+    }
+    // shouldn&#39;t reach here
+    return mLastKeyframe.getValue();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;举个简单的例子，下图中的&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;，它的&lt;code&gt;TypeEvaluator&lt;/code&gt;是&lt;code&gt;IntEvaluator&lt;/code&gt;，初始化的时候给定了5个数字，那么核心帧集合中有5帧，此时我们要求当fraction=0.4的时刻的value是多少。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/keyframeset_getvalue.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-2-关于timeinterpolator&#34;&gt;&lt;strong&gt;3.2 关于TimeInterpolator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;我们都知道时间是一秒一秒过去的，也就是线性的，匀速前进的。如果属性值从起始值到结束值是匀速变化的话，那么整个动画看起来就是慢慢地均匀地变化着。但是，如果我们想让动画变得很快或者变得很慢怎么办？答案是我们可以通过“篡改时间”来完成这个任务！这正是&lt;code&gt;TimeInterpolator&lt;/code&gt;类的工作，它实际上就是一条函数曲线。&lt;/p&gt;
+
+&lt;p&gt;举个栗子！如下图所示，x轴表示时间的比率，y轴表示属性值。在不考虑&lt;code&gt;TypeEvaluator&lt;/code&gt;的计算的情况下，假设属性值是从0变化到1，默认情况下线性插值器就和曲线y=x一样，在时间t的位置上的值为f(t)=t，&lt;strong&gt;当t=0.5的时刻传给TypeEvaluator的是t=0.5的时刻的值0.5&lt;/strong&gt;。但是，当我们将&lt;code&gt;TimeInterpolator&lt;/code&gt;设置为函数y=x^2或者y=x^(0.5)时，动画的效果就截然不同啦。在t=0.5的时刻，y=x^2=0.25 &amp;lt; 0.5，表示它将时间推迟了，&lt;strong&gt;传给TypeEvaluator的是0.25时刻的值0.25&lt;/strong&gt;；而y=x^(0.5)=0.71 &amp;gt; 0.5，表示它将时间提前了，&lt;strong&gt;传给TypeEvaluator的是0.71时刻的值0.71&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;此外，仔细观察曲线的斜率不难发现，&lt;strong&gt;曲线y=x^2的斜率在不断增加，说明变化越来越快，作用在View组件上就是刚开始挺慢的，然后不断加速的效果；而曲线y=x^(0.5)的斜率在不断减小，说明变化越来越慢，作用在View组件上就是刚开始挺快的，然后不断减速的效果。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/interpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐在&lt;a href=&#34;http://cubic-bezier.com/&#34;&gt;cubic-bezier.com&lt;/a&gt;网站中简单绘制和上面两个曲线类似形状的曲线，然后选择线性曲线作为参考，查看方块的运动变化情况。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Android的动画框架中已经给我们提供了不少实现了&lt;code&gt;TimeInterpolator&lt;/code&gt;的插值器，包括AccelerateDecelerateInterpolator, AccelerateInterpolator, AnticipateInterpolator, AnticipateOvershootInterpolator, BounceInterpolator, CycleInterpolator, DecelerateInterpolator, LinearInterpolator, OvershootInterpolator, PathInterpolator。&lt;/p&gt;
+
+&lt;p&gt;基本上每个插值器其实就对应一条曲线，例如加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;对应的曲线如下，斜率是先增加后减小。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/adinterpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的&lt;code&gt;TimeInterpolator&lt;/code&gt;呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;不妨看看这个项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;，作者实现了30种常见动画的&lt;code&gt;TimeInterpolator&lt;/code&gt;，每个&lt;code&gt;TimeInterpolator&lt;/code&gt;的曲线形状大致如下图所示 （图片截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;，项目EaseInterpolator实现了其中的30个效果）
+这个项目中的&lt;code&gt;Ease[XXX]Interpolator&lt;/code&gt;都实现了&lt;code&gt;Interpolator&lt;/code&gt;接口，而&lt;code&gt;Interpolator&lt;/code&gt;接口继承自&lt;code&gt;TimeInterpolator&lt;/code&gt;接口。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/easingfuctions.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-3-关于typeevaluator&#34;&gt;&lt;strong&gt;3.3 关于TypeEvaluator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;TypeEvaluator&lt;/code&gt;实际上也是一条函数曲线，它的输入是&lt;code&gt;TimeInterpolator&lt;/code&gt;传进来的被“篡改”了的时间比率，还有动画的起始值和结束值信息，输出就是动画当前应该更新的属性值。假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;（&lt;strong&gt;f(t)=t&lt;/strong&gt;），也就是说时间比率不被“篡改”的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数其实就简化成了&lt;code&gt;TypeEvaluator&lt;/code&gt;函数（&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)&lt;/strong&gt;），即动画实际上只由&lt;code&gt;TypeEvaluator&lt;/code&gt;来控制。&lt;/p&gt;
+
+&lt;p&gt;Android系统动画框架中提供了几个&lt;code&gt;TypeEvaluator&lt;/code&gt;，例如IntEvaluator、FloatEvaluator、ArgbEvaluator、PointEvaluator、PathEvaluator等&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;IntEvaluator&lt;/code&gt;的&lt;code&gt;evaluate&lt;/code&gt;方法的实现：（这类&lt;code&gt;TypeEvaluator&lt;/code&gt;就是下一节提到的线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+    int startInt = startValue;
+    return (int)(startInt + fraction * (endValue - startInt));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的TypeEvaluator呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;这个时候不妨看看&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;的经典项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;，里面实现了28种常见动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;，每个&lt;code&gt;TypeEvaluator&lt;/code&gt;的曲线形状和上面的截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;的图片一样，代码家实现的动画效果也正是参考自那个项目的效果而想出来的。
+项目中的&lt;code&gt;[XXX]Ease[YYY]&lt;/code&gt;都继承自&lt;code&gt;BaseEasingMethod&lt;/code&gt;，而&lt;code&gt;BaseEasingMethod&lt;/code&gt;实现了&lt;code&gt;TypeEvaluator&lt;/code&gt;接口。&lt;/p&gt;
+
+&lt;p&gt;看到这里的话，机智的你肯定发现了，为什么那些&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数曲线形状一样一样的，到底&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是啥关系啊？在实现动画上它们又有啥区别呢？&lt;/p&gt;
+
+&lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/27/When-Math-meets-Android-Animation-2/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Fab and Dialog Morphing Animation</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</link>
+      <pubDate>Sun, 13 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</guid>
+      <description>
+
+&lt;p&gt;Fab and Dialog Morphing Animation on Android.&lt;/p&gt;
+
+&lt;p&gt;最近在读&lt;a href=&#34;https://github.com/nickbutcher/plaid&#34;&gt;Plaid&lt;/a&gt;的源码，发现fab和dialog之间切换的动画效果好舒服，于是就研究了下，将其从Plaid项目中抽离出来，然后再改进了些代码，更加方便易懂，也更加简单易用。效果如下，&lt;a href=&#34;https://github.com/hujiaweibujidao/FabDialogMorph&#34;&gt;项目源码地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/fabdialog.gif&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;实现原理分析&#34;&gt;实现原理分析&lt;/h4&gt;
+
+&lt;p&gt;1.在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/29/Android-Heroes-Reading-Notes-5/&#34;&gt;《Android群英传》的读书笔记&lt;/a&gt;中提到过Activity共享元素过渡动画的实现方式&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;共享元素过渡动画&lt;/strong&gt;：一个共享元素过渡动画决定两个Activity之间的过渡怎么共享它们的视图，包括了
+&lt;code&gt;changeBounds&lt;/code&gt;：改变目标视图的布局边界；
+&lt;code&gt;changeClipBounds&lt;/code&gt;：裁剪目标视图的边界；
+&lt;code&gt;changeTransform&lt;/code&gt;：改变目标视图的缩放比例和旋转角度；
+&lt;code&gt;changeImageTransform&lt;/code&gt;：改变目标图片的大小和缩放比例。
+使用方式：假设Activity从A跳转到B，那么将A中原来的&lt;code&gt;startActivity&lt;/code&gt;改为如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//单个共享元素的调用方式
+startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this, view, &amp;quot;share&amp;quot;).toBundle());
+//多个共享元素的调用方式
+startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this,
+                Pair.create(view, &amp;quot;share&amp;quot;),
+                Pair.create(fab, &amp;quot;fab&amp;quot;)).toBundle());
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后在B的onCreate方法中添加如下代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//声明需要开启Activity过渡动画
+getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其次还要在Activity A和B的布局文件中为共享元素组件添加&lt;code&gt;android:transitionName=&amp;quot;xxx&amp;quot;&lt;/code&gt;属性。&lt;/p&gt;
+
+&lt;p&gt;2.源码中的Dialog实际上是Activity，并设置了&lt;code&gt;android:windowIsTranslucent&lt;/code&gt;为&lt;code&gt;true&lt;/code&gt;，所以从fab到dialog的动画效果实际上是Activity的过渡动画。但是，如果单纯的只是使用Activity的共享元素过渡动画，将fab作为共享元素的话，效果并不好，不是那么的舒服。&lt;/p&gt;
+
+&lt;p&gt;3.为了让过渡效果更加舒服，这里添加了两个渐变效果，一个是&lt;code&gt;color&lt;/code&gt;，从fab的颜色到dialog的背景颜色的渐变；另一个是&lt;code&gt;cornerRadius&lt;/code&gt;，即圆角幅度的渐变。请看下面的代码实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * MorphTransition扩展自ChangeBounds(共享元素的动画的一种)，它在原有动画基础上添加了color和cornerRadius的动画效果，这个类实际上是整合了MorphFabToDialog和MorphDialogToFab两个类的作用
+ * &amp;lt;p/&amp;gt;
+ * A transition that morphs a circle into a rectangle, changing it&#39;s background color.
+ */
+public class MorphTransition extends ChangeBounds {
+
+    private static final String PROPERTY_COLOR = &amp;quot;color&amp;quot;;
+    private static final String PROPERTY_CORNER_RADIUS = &amp;quot;cornerRadius&amp;quot;;
+    private static final String[] TRANSITION_PROPERTIES = {
+            PROPERTY_COLOR,
+            PROPERTY_CORNER_RADIUS
+    };
+
+    private int startColor = Color.TRANSPARENT;
+    private int endColor = Color.TRANSPARENT;
+    private int startCornerRadius = 0;
+    private int endCornerRadius = 0;
+    private boolean isShowViewGroup = false;
+
+    public MorphTransition(int startColor, int endColor, int startCornerRadius, int endCornerRadius, boolean isShowViewGroup) {
+        super();
+        setStartColor(startColor);
+        setEndColor(endColor);
+        setStartCornerRadius(startCornerRadius);
+        setEndCornerRadius(endCornerRadius);
+        setIsShowViewGroup(isShowViewGroup);
+    }
+
+    public MorphTransition(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    @Override
+    public String[] getTransitionProperties() {
+        return TRANSITION_PROPERTIES;
+    }
+
+    @Override
+    public void captureStartValues(TransitionValues transitionValues) {
+        super.captureStartValues(transitionValues);
+        final View view = transitionValues.view;
+        if (view.getWidth() &amp;lt;= 0 || view.getHeight() &amp;lt;= 0) {
+            return;
+        }
+        transitionValues.values.put(PROPERTY_COLOR, startColor);
+        transitionValues.values.put(PROPERTY_CORNER_RADIUS, startCornerRadius);//view.getHeight() / 2
+    }
+
+    @Override
+    public void captureEndValues(TransitionValues transitionValues) {
+        super.captureEndValues(transitionValues);
+        final View view = transitionValues.view;
+        if (view.getWidth() &amp;lt;= 0 || view.getHeight() &amp;lt;= 0) {
+            return;
+        }
+        transitionValues.values.put(PROPERTY_COLOR, endColor);//ContextCompat.getColor(view.getContext(), R.color.dialog_background_color)
+        transitionValues.values.put(PROPERTY_CORNER_RADIUS, endCornerRadius);
+    }
+
+    @Override
+    public Animator createAnimator(final ViewGroup sceneRoot, TransitionValues startValues, final TransitionValues endValues) {
+        Animator changeBounds = super.createAnimator(sceneRoot, startValues, endValues);
+        if (startValues == null || endValues == null || changeBounds == null) {
+            return null;
+        }
+
+        Integer startColor = (Integer) startValues.values.get(PROPERTY_COLOR);
+        Integer startCornerRadius = (Integer) startValues.values.get(PROPERTY_CORNER_RADIUS);
+        Integer endColor = (Integer) endValues.values.get(PROPERTY_COLOR);
+        Integer endCornerRadius = (Integer) endValues.values.get(PROPERTY_CORNER_RADIUS);
+
+        if (startColor == null || startCornerRadius == null || endColor == null || endCornerRadius == null) {
+            return null;
+        }
+
+        MorphDrawable background = new MorphDrawable(startColor, startCornerRadius);
+        endValues.view.setBackground(background);
+
+        Animator color = ObjectAnimator.ofArgb(background, background.COLOR, endColor);
+        Animator corners = ObjectAnimator.ofFloat(background, background.CORNER_RADIUS, endCornerRadius);
+
+        ////......
+
+        AnimatorSet transition = new AnimatorSet();
+        transition.playTogether(changeBounds, corners, color);
+        transition.setDuration(300);
+        transition.setInterpolator(AnimationUtils.loadInterpolator(sceneRoot.getContext(), android.R.interpolator.fast_out_slow_in));
+        return transition;
+    }
+
+    public void setEndColor(int endColor) {
+        this.endColor = endColor;
+    }
+
+    public void setEndCornerRadius(int endCornerRadius) {
+        this.endCornerRadius = endCornerRadius;
+    }
+
+    public void setStartColor(int startColor) {
+        this.startColor = startColor;
+    }
+
+    public void setStartCornerRadius(int startCornerRadius) {
+        this.startCornerRadius = startCornerRadius;
+    }
+
+    public void setIsShowViewGroup(boolean isShowViewGroup) {
+        this.isShowViewGroup = isShowViewGroup;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.上面的代码中用到了&lt;code&gt;MorphDrawable&lt;/code&gt;类，它继承自&lt;code&gt;Drawable&lt;/code&gt;，并添加了前面提到的那两个属性以用于产生属性动画，默认是没有为那两个属性添加&lt;code&gt;set/get&lt;/code&gt;方法的，所以需要进行扩展。关于属性动画可以看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/&#34;&gt;以前的读书笔记&lt;/a&gt;，重要代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * 形态和颜色可以发生变化的Drawable，形态变化是通过cornerRadius来实现的，颜色变化是通过paint的color来实现的
+ * 该类在Drawable的基础上添加了cornerRadius和color两个属性，前者是float类型，后者是int类型
+ * &amp;lt;p/&amp;gt;
+ * A drawable that can morph size, shape (via it&#39;s corner radius) and color.  Specifically this is
+ * useful for animating between a FAB and a dialog.
+ */
+public class MorphDrawable extends Drawable {
+
+    private Paint paint;
+    private float cornerRadius;
+
+    public static final Property&amp;lt;MorphDrawable, Float&amp;gt; CORNER_RADIUS = new Property&amp;lt;MorphDrawable, Float&amp;gt;(Float.class, &amp;quot;cornerRadius&amp;quot;) {
+
+        @Override
+        public void set(MorphDrawable morphDrawable, Float value) {
+            morphDrawable.setCornerRadius(value);
+        }
+
+        @Override
+        public Float get(MorphDrawable morphDrawable) {
+            return morphDrawable.getCornerRadius();
+        }
+    };
+
+    public static final Property&amp;lt;MorphDrawable, Integer&amp;gt; COLOR = new Property&amp;lt;MorphDrawable, Integer&amp;gt;(Integer.class, &amp;quot;color&amp;quot;) {
+
+        @Override
+        public void set(MorphDrawable morphDrawable, Integer value) {
+            morphDrawable.setColor(value);
+        }
+
+        @Override
+        public Integer get(MorphDrawable morphDrawable) {
+            return morphDrawable.getColor();
+        }
+    };
+
+    public MorphDrawable(@ColorInt int color, float cornerRadius) {
+        this.cornerRadius = cornerRadius;
+        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(color);
+    }
+
+    public float getCornerRadius() {
+        return cornerRadius;
+    }
+
+    public void setCornerRadius(float cornerRadius) {
+        this.cornerRadius = cornerRadius;
+        invalidateSelf();
+    }
+
+    public int getColor() {
+        return paint.getColor();
+    }
+
+    public void setColor(int color) {
+        paint.setColor(color);
+        invalidateSelf();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.drawRoundRect(getBounds().left, getBounds().top, getBounds().right, getBounds()
+                .bottom, cornerRadius, cornerRadius, paint);//hujiawei
+    }
+
+    @Override
+    public void getOutline(Outline outline) {
+        outline.setRoundRect(getBounds(), cornerRadius);
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+        paint.setAlpha(alpha);
+        invalidateSelf();
+    }
+
+    @Override
+    public void setColorFilter(ColorFilter cf) {
+        paint.setColorFilter(cf);
+        invalidateSelf();
+    }
+
+    @Override
+    public int getOpacity() {
+        return paint.getAlpha();
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5.有了前面的准备之后，就可以在dialog中配置进入和退出的动画效果了，重要代码如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//DialogActivity.java
+public void setupSharedEelementTransitions2() {
+    ArcMotion arcMotion = new ArcMotion();
+    arcMotion.setMinimumHorizontalAngle(50f);
+    arcMotion.setMinimumVerticalAngle(50f);
+
+    Interpolator easeInOut = AnimationUtils.loadInterpolator(this, android.R.interpolator.fast_out_slow_in);
+
+    //hujiawei 100是随意给的一个数字，可以修改，需要注意的是这里调用container.getHeight()结果为0
+    MorphTransition sharedEnter = new MorphTransition(ContextCompat.getColor(this, R.color.fab_background_color),
+            ContextCompat.getColor(this, R.color.dialog_background_color), 100, getResources().getDimensionPixelSize(R.dimen.dialog_corners), true);
+    sharedEnter.setPathMotion(arcMotion);
+    sharedEnter.setInterpolator(easeInOut);
+
+    MorphTransition sharedReturn = new MorphTransition(ContextCompat.getColor(this, R.color.dialog_background_color),
+            ContextCompat.getColor(this, R.color.fab_background_color), getResources().getDimensionPixelSize(R.dimen.dialog_corners), 100,  false);
+    sharedReturn.setPathMotion(arcMotion);
+    sharedReturn.setInterpolator(easeInOut);
+
+    if (container != null) {
+        sharedEnter.addTarget(container);
+        sharedReturn.addTarget(container);
+    }
+    getWindow().setSharedElementEnterTransition(sharedEnter);
+    getWindow().setSharedElementReturnTransition(sharedReturn);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;6.从上面的分析可以看出，这个方案比较容易扩展，只要是该类型的动画，使用开始和结束时的对应颜色和圆角值就可以构造相应的&lt;code&gt;MorphTransition&lt;/code&gt;，将&lt;code&gt;MorphTransition&lt;/code&gt;设置为Activity的进入或者退化动画即可生效啦。同理，如果有类似共享元素过渡动画效果的时候，也就知道应该做哪些步骤来实现它啦，看Plaid真是受益匪浅啊，推荐大家一起看。&lt;/p&gt;
+
+&lt;p&gt;以上是我的分析和理解，有任何问题欢迎大家指点 ↖(^ω^)↗&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Plaid Source Reading Notes</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</link>
+      <pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</guid>
+      <description>&lt;p&gt;Plaid源码阅读笔记。&lt;/p&gt;
+
+&lt;p&gt;1.AndroidManifest文件中的&lt;code&gt;activity-alias&lt;/code&gt;使用&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- use an alias in case we want to change the launch activity later without breaking
+     homescreen shortcuts.  Note must be defined after the targetActivity --&amp;gt;
+&amp;lt;activity-alias
+    android:name=&amp;quot;.Launcher&amp;quot;
+    android:label=&amp;quot;@string/app_name&amp;quot;
+    android:targetActivity=&amp;quot;.ui.HomeActivity&amp;quot;&amp;gt;
+    &amp;lt;intent-filter&amp;gt;
+        &amp;lt;action android:name=&amp;quot;android.intent.action.MAIN&amp;quot; /&amp;gt;
+        &amp;lt;category android:name=&amp;quot;android.intent.category.LAUNCHER&amp;quot; /&amp;gt;
+    &amp;lt;/intent-filter&amp;gt;
+&amp;lt;/activity-alias&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;2.在&lt;code&gt;application&lt;/code&gt;中配置&lt;code&gt;meta-data&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- Glide configurations for image loading --&amp;gt;
+&amp;lt;meta-data
+    android:name=&amp;quot;io.plaidapp.util.glide.GlideConfiguration&amp;quot;
+    android:value=&amp;quot;GlideModule&amp;quot; /&amp;gt;
+&amp;lt;meta-data
+    android:name=&amp;quot;com.bumptech.glide.integration.okhttp.OkHttpGlideModule&amp;quot;
+    android:value=&amp;quot;GlideModule&amp;quot; /&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;甚至可以在AndroidManifest文件中获取到在Gradle配置的数据，比如下面的配置不同的渠道&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//AndroidManifest
+&amp;lt;meta-data
+    android:name=&amp;quot;UMENG_CHANNEL&amp;quot;
+    android:value=&amp;quot;${UMENG_CHANNEL_VALUE}&amp;quot; /&amp;gt;
+
+//build.gradle
+productFlavors {
+    playStore {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;playStore&amp;quot;]
+    }
+    miui {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;miui&amp;quot;]
+    }
+    wandoujia {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &amp;quot;wandoujia&amp;quot;]
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;3.Gradle中&lt;code&gt;buildConfigField&lt;/code&gt;的配置
+通过在Gradle文件中配置的&lt;code&gt;buildConfigField&lt;/code&gt;可以在自动生成的&lt;code&gt;BuildConfig&lt;/code&gt;文件中获取到，可以给不同的buildType设置不同的值。&lt;/p&gt;
+
+&lt;p&gt;在&lt;code&gt;build.gralde&lt;/code&gt;中添加一些BuildConfig字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;defaultConfig {
+    applicationId &amp;quot;io.awesome&amp;quot;
+    minSdkVersion 16
+    targetSdkVersion 23
+    versionCode 1
+    versionName &amp;quot;1.0&amp;quot;
+
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_ID&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_id}\&amp;quot;&amp;quot;
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_SECRET&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_secret}\&amp;quot;&amp;quot;
+    buildConfigField &amp;quot;String&amp;quot;, &amp;quot;DRIBBBLE_CLIENT_ACCESS_TOKEN&amp;quot;, &amp;quot;\&amp;quot;${dribbble_client_access_token}\&amp;quot;&amp;quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对于其中引用的字段值可以放在&lt;code&gt;gradle.properties&lt;/code&gt;中配置&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# Dribbble API
+dribbble_client_id = xxx
+dribbble_client_secret = yyy
+dribbble_client_access_token = zzz
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;待Gradle Sync之后在文件&lt;code&gt;app/build/source/BuildConfig/Build Varients/package name/BuildConfig&lt;/code&gt;就会看到添加的字段&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public final class BuildConfig {
+  public static final boolean DEBUG = Boolean.parseBoolean(&amp;quot;true&amp;quot;);
+  public static final String APPLICATION_ID = &amp;quot;io.awesome&amp;quot;;
+  public static final String BUILD_TYPE = &amp;quot;debug&amp;quot;;
+  public static final String FLAVOR = &amp;quot;&amp;quot;;
+  public static final int VERSION_CODE = 1;
+  public static final String VERSION_NAME = &amp;quot;1.0&amp;quot;;
+  // Fields from default config.
+  public static final String DRIBBBLE_CLIENT_ACCESS_TOKEN = &amp;quot;xxx&amp;quot;;
+  public static final String DRIBBBLE_CLIENT_ID = &amp;quot;yyy&amp;quot;;
+  public static final String DRIBBBLE_CLIENT_SECRET = &amp;quot;zzz&amp;quot;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;4.在Gradle中定义&lt;code&gt;supportLibVersion&lt;/code&gt;做到supportlib的版本统一&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ext {
+    archivesBaseName = &amp;quot;plaid-${android.defaultConfig.versionName}&amp;quot;
+    supportLibVersion = &#39;23.1.0&#39;
+}
+
+dependencies {
+    compile &amp;quot;com.android.support:support-v4:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:palette-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:recyclerview-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:cardview-v7:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:design:${supportLibVersion}&amp;quot;
+    compile &amp;quot;com.android.support:customtabs:${supportLibVersion}&amp;quot;
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;5.&lt;/p&gt;
+
+&lt;p&gt;ItemTouchHelper.SimpleCallback&lt;/p&gt;
+
+&lt;p&gt;401 Unauthorized&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&#34;&gt;https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;amp;scope=public+write+comment+upload&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

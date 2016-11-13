@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Head First Stanford NLP (3) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-03-31T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="algorithm" />
+    
+    
+
+    <title>
+       Head First Stanford NLP (3) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Head First Stanford NLP (3)</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-03-31T00:00:00Z">
+            Mar 31, 2016
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">#algorithm</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>(深入浅出Stanford NLP 可视化篇) 本文介绍与Stanford NLP相关的一些可视化工具。</p>
+
+<p>前面进阶篇主要介绍了Stanford NLP中的<code>ParserAnnotator</code>和<code>DependencyParseAnnotator</code>的使用。前面也提到过，前者是用来得到短语结构树，后者是用来得到依存结构树，这两个工具都在Stanford Parser中，所以如果只是需要这两个工具的话可以直接使用Stanford Parser，而不需要使用完整的CoreNLP。本文主要介绍这两种树相关的可视化工具的使用。</p>
+
+<p>1.短语结构树的可视化
+我们经常能够看到如下图所示的句子的短语结构树，这个是如何生成的呢？
+<img src="https://hujiaweibujidao.github.io/images/stanfordnlp_tree.png" alt="img" /></p>
+
+<p>实际上，Stanford Parser中就自带了这个工具，<a href="http://nlp.stanford.edu/software/lex-parser.shtml">Stanford Parser传送门</a>。
+下载之后解压即可得到Stanford Parser的几个相关的jar和一些数据、模型等文件，其中<code>lexparser-gui.sh</code>文件就是我们要找的可视化工具。
+执行<code>./lexparser-gui.sh</code>即可看到操作界面，然后选择文件以及parser的model文件，最后点击Parse即可看到结果。
+model文件的选择可以直接选择model.jar然后按照提示选择其中的文件，也可以先将model.jar解压，然后直接选择其中的文件。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/parser.png" alt="img" /></p>
+
+<p>另一个采用<code>d3.js</code>制作的可视化短语结构树的工具，网址<a href="https://hujiaweibujidao.github.io/http://nlpviz.bpodgursky.com/home">http://nlpviz.bpodgursky.com/home</a></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/corenlpviz.png" alt="img" /></p>
+
+<p>2.依存结构树的可视化
+(0)<a href="https://hujiaweibujidao.github.io/blog/2016/03/30/Stanford-NLP/">Stanford CoreNLP Server</a>
+依存结构树的可视化工具可以使用上篇中提到的本地部署的server，它使用brat工具来进行可视化。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/stanfordnlp_online.png" alt="img" /></p>
+
+<p>(1)<a href="http://grammarscope.sourceforge.net/">GrammarScope</a>
+它的使用方式是先要将parser或者corenlp相关的jar复制到grammarscope的根目录的<code>stanford</code>目录下，然后进入工具的设置界面，在<code>Provider</code>中选择<code>Parser</code>或者<code>CoreNLP</code>，其他的可能需要配置的就是model文件，然后打开包含句子的文件即可看到结果。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/grammarscope.png" alt="img" /></p>
+
+<p>(2)<a href="http://chaoticity.com/dependensee-a-dependency-parse-visualisation-tool/">DependenSee</a>
+它的使用方式是引入<code>DependenSee.2.0.5.jar</code>，写段代码即可将结果输出到图片文件中，但是对中文支持较差。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/DependenSee.png" alt="img" /></p>
+
+<p>(3)<a href="http://nlp.nju.edu.cn/tanggc/tools/DependencyViewer.html">Dependency Viewer</a>
+国产的一个用于可视化显示、编辑、统计CONLL格式依存树的工具，可惜只有Windows版本。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/dependencyViewer.png" alt="img" /></p>
+
+<p>(4)其他工具
+国内很多中文自然语言处理工具都具有在线演示功能，一般也都包括了依存句法结果的可视化。
+哈工大语言技术平台演示地址：<a href="http://www.ltp-cloud.com/demo/">http://www.ltp-cloud.com/demo/</a>
+BosonNLP在线演示地址：<a href="http://bosonnlp.com/demo">http://bosonnlp.com/demo</a></p>
+
+<p>ok，enjoy！</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

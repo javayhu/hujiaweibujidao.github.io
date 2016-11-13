@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Java Web project with Maven &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-03-01T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="java" />
+    
+    
+
+    <title>
+       Java Web project with Maven &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Java Web project with Maven</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-03-01T00:00:00Z">
+            Mar 1, 2016
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/java/">#java</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。</p>
+
+<p>毕业需求是第一驱动力啊！毕业之后一定远离学术圈！</p>
+
+<p>本教程的开发需求很简单，就是搭建一个Java Web项目，并且能够使用Maven将项目热部署到服务器端即可。</p>
+
+<p>1.配置服务器端Tomcat的<code>conf/tomcat-users.xml</code>文件，注意要分配<code>manager-script</code>的权限，本教程中Tomcat版本是6.0。</p>
+
+<pre><code>&lt;role rolename=&quot;admin-gui&quot;/&gt;
+&lt;role rolename=&quot;manager-gui&quot;/&gt;
+&lt;role rolename=&quot;manager-script&quot;/&gt;
+&lt;user username=&quot;admin&quot; password=&quot;admin&quot; roles=&quot;admin-gui,manager-gui,manager-script&quot;/&gt;
+</code></pre>
+
+<p>2.在本地的<code>{USER_HOME}/.m2/settings.xml</code>文件中插入一个server的配置，其中的id可以随便给定，账号密码是服务器端Tomcat的用户的账号密码。</p>
+
+<pre><code>&lt;servers&gt;
+     &lt;server&gt;
+       &lt;id&gt;tomcat6&lt;/id&gt;
+       &lt;username&gt;admin&lt;/username&gt;
+       &lt;password&gt;admin&lt;/password&gt;
+     &lt;/server&gt;
+&lt;/servers&gt;
+</code></pre>
+
+<p>3.在本地使用Maven新建一个Java Web项目，其中的参数可以自行配置</p>
+
+<pre><code>mvn archetype:generate -DgroupId=edukb.org -DartifactId=annomatic -DarchetypeArtifactId=maven-archetype-webapp
+</code></pre>
+
+<p>4.IDE的话这里使用IntelliJ，打开IntelliJ之后选择<code>File -&gt; Open...</code>，然后选中刚才目录中的<code>pom.xml</code>文件即可</p>
+
+<p>5.项目打开之后，修改<code>pom.xml</code>文件，特别注意下<code>tomcat6-maven-plugin</code>插件的配置即可</p>
+
+<pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;groupId&gt;edukb.org&lt;/groupId&gt;
+    &lt;artifactId&gt;annomatic&lt;/artifactId&gt;
+    &lt;packaging&gt;war&lt;/packaging&gt;
+    &lt;version&gt;1.0&lt;/version&gt;
+
+    &lt;name&gt;annomatic&lt;/name&gt;
+    &lt;url&gt;http://edukb.org&lt;/url&gt;
+    &lt;description&gt;For automatic annotations.&lt;/description&gt;
+
+    &lt;dependencies&gt;
+
+        &lt;!-- java web servlet+jsp --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;
+            &lt;artifactId&gt;servlet-api&lt;/artifactId&gt;
+            &lt;version&gt;6.0.29&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.tomcat&lt;/groupId&gt;
+            &lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+            &lt;version&gt;6.0.29&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;build&gt;
+        &lt;finalName&gt;annomatic&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;!-- 热部署到Tomcat6服务器上 --&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.tomcat.maven&lt;/groupId&gt;
+                &lt;artifactId&gt;tomcat6-maven-plugin&lt;/artifactId&gt;
+                &lt;version&gt;2.2&lt;/version&gt;
+                &lt;configuration&gt;
+                    &lt;path&gt;/annomatic&lt;/path&gt;
+                    &lt;url&gt;http://{host}:{port}/manager/&lt;/url&gt;
+                    &lt;server&gt;tomcat6&lt;/server&gt;
+                    &lt;username&gt;admin&lt;/username&gt;
+                    &lt;password&gt;admin&lt;/password&gt;
+                    &lt;update&gt;true&lt;/update&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;
+</code></pre>
+
+<p>6.在终端运行<code>mvn tomcat6:deploy</code>即可将项目部署到服务器端，如果已经部署过了就执行<code>mvn tomcat6:redeploy</code>更新</p>
+
+<p>注意事项：如果使用的是Tomcat7，那么使用<code>tomcat7-maven-plugin</code>插件，并且url配置为<code>http://{host}:{port}/manager/text</code></p>
+
+<p>参考网址：
+1.<a href="http://www.open-open.com/lib/view/open1413071738078.html">开发过程使用Tomcat Maven插件持续快捷部署Web项目</a>
+2.<a href="http://www.tuicool.com/articles/J3imY3M">maven+tomcat6-maven-plugin实现热部署及调试</a>
+3.<a href="http://www.tuicool.com/articles/aM3aEf">使用Maven自动部署Java Web项目到Tomcat问题小记</a>
+4.<a href="http://www.yiibai.com/maven/create-a-web-application-project-with-maven.html">使用Maven创建Web应用程序项目</a></p>
+
+<p>OK，就是这样啦，hope it helps!</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

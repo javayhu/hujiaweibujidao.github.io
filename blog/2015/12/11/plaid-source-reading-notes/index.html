@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Plaid Source Reading Notes &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-12-11T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Plaid Source Reading Notes &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Plaid Source Reading Notes</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-12-11T00:00:00Z">
+            Dec 11, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>Plaid源码阅读笔记。</p>
+
+<p>1.AndroidManifest文件中的<code>activity-alias</code>使用</p>
+
+<pre><code>&lt;!-- use an alias in case we want to change the launch activity later without breaking
+     homescreen shortcuts.  Note must be defined after the targetActivity --&gt;
+&lt;activity-alias
+    android:name=&quot;.Launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:targetActivity=&quot;.ui.HomeActivity&quot;&gt;
+    &lt;intent-filter&gt;
+        &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+        &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+    &lt;/intent-filter&gt;
+&lt;/activity-alias&gt;
+</code></pre>
+
+<p>2.在<code>application</code>中配置<code>meta-data</code></p>
+
+<pre><code>&lt;!-- Glide configurations for image loading --&gt;
+&lt;meta-data
+    android:name=&quot;io.plaidapp.util.glide.GlideConfiguration&quot;
+    android:value=&quot;GlideModule&quot; /&gt;
+&lt;meta-data
+    android:name=&quot;com.bumptech.glide.integration.okhttp.OkHttpGlideModule&quot;
+    android:value=&quot;GlideModule&quot; /&gt;
+</code></pre>
+
+<p>甚至可以在AndroidManifest文件中获取到在Gradle配置的数据，比如下面的配置不同的渠道</p>
+
+<pre><code>//AndroidManifest
+&lt;meta-data
+    android:name=&quot;UMENG_CHANNEL&quot;
+    android:value=&quot;${UMENG_CHANNEL_VALUE}&quot; /&gt;
+
+//build.gradle
+productFlavors {
+    playStore {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &quot;playStore&quot;]
+    }
+    miui {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &quot;miui&quot;]
+    }
+    wandoujia {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: &quot;wandoujia&quot;]
+    }
+}
+</code></pre>
+
+<p>3.Gradle中<code>buildConfigField</code>的配置
+通过在Gradle文件中配置的<code>buildConfigField</code>可以在自动生成的<code>BuildConfig</code>文件中获取到，可以给不同的buildType设置不同的值。</p>
+
+<p>在<code>build.gralde</code>中添加一些BuildConfig字段</p>
+
+<pre><code>defaultConfig {
+    applicationId &quot;io.awesome&quot;
+    minSdkVersion 16
+    targetSdkVersion 23
+    versionCode 1
+    versionName &quot;1.0&quot;
+
+    buildConfigField &quot;String&quot;, &quot;DRIBBBLE_CLIENT_ID&quot;, &quot;\&quot;${dribbble_client_id}\&quot;&quot;
+    buildConfigField &quot;String&quot;, &quot;DRIBBBLE_CLIENT_SECRET&quot;, &quot;\&quot;${dribbble_client_secret}\&quot;&quot;
+    buildConfigField &quot;String&quot;, &quot;DRIBBBLE_CLIENT_ACCESS_TOKEN&quot;, &quot;\&quot;${dribbble_client_access_token}\&quot;&quot;
+}
+</code></pre>
+
+<p>对于其中引用的字段值可以放在<code>gradle.properties</code>中配置</p>
+
+<pre><code># Dribbble API
+dribbble_client_id = xxx
+dribbble_client_secret = yyy
+dribbble_client_access_token = zzz
+</code></pre>
+
+<p>待Gradle Sync之后在文件<code>app/build/source/BuildConfig/Build Varients/package name/BuildConfig</code>就会看到添加的字段</p>
+
+<pre><code>public final class BuildConfig {
+  public static final boolean DEBUG = Boolean.parseBoolean(&quot;true&quot;);
+  public static final String APPLICATION_ID = &quot;io.awesome&quot;;
+  public static final String BUILD_TYPE = &quot;debug&quot;;
+  public static final String FLAVOR = &quot;&quot;;
+  public static final int VERSION_CODE = 1;
+  public static final String VERSION_NAME = &quot;1.0&quot;;
+  // Fields from default config.
+  public static final String DRIBBBLE_CLIENT_ACCESS_TOKEN = &quot;xxx&quot;;
+  public static final String DRIBBBLE_CLIENT_ID = &quot;yyy&quot;;
+  public static final String DRIBBBLE_CLIENT_SECRET = &quot;zzz&quot;;
+}
+</code></pre>
+
+<p>4.在Gradle中定义<code>supportLibVersion</code>做到supportlib的版本统一</p>
+
+<pre><code>ext {
+    archivesBaseName = &quot;plaid-${android.defaultConfig.versionName}&quot;
+    supportLibVersion = '23.1.0'
+}
+
+dependencies {
+    compile &quot;com.android.support:support-v4:${supportLibVersion}&quot;
+    compile &quot;com.android.support:palette-v7:${supportLibVersion}&quot;
+    compile &quot;com.android.support:recyclerview-v7:${supportLibVersion}&quot;
+    compile &quot;com.android.support:cardview-v7:${supportLibVersion}&quot;
+    compile &quot;com.android.support:design:${supportLibVersion}&quot;
+    compile &quot;com.android.support:customtabs:${supportLibVersion}&quot;
+    ...
+}
+</code></pre>
+
+<p>5.</p>
+
+<p>ItemTouchHelper.SimpleCallback</p>
+
+<p>401 Unauthorized</p>
+
+<p><a href="https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;scope=public+write+comment+upload">https://dribbble.com/oauth/authorize?client_id=6524bd42d3fa3e35eda63d3e0afce0db8b96575b1db4f7580344a9cb2dd89495&amp;redirect_uri=plaid%3A%2F%2Fdribbble-auth-callback&amp;scope=public+write+comment+upload</a></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

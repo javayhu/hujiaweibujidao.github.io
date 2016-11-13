@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Setting Up Environments on New Mac &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2014-04-08T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="dev" />
+    
+    
+
+    <title>
+       Setting Up Environments on New Mac &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Setting Up Environments on New Mac</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-04-08T00:00:00Z">
+            Apr 8, 2014
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/dev/">#dev</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文介绍在新苹果机上搭建各种开发环境的过程</p>
+
+<p>1.安装Java 7u51 ［直接在<a href="http://www.java.com/zh_CN/download/manual.jsp">官网</a>下载dmg点击安装即可]</p>
+
+<p><code>JAVA_HOME=/Library/Java/JavaVirtualMachines/1.7.0_51.jdk/Contents/Home</code></p>
+
+<p>为了保证Eclipse和Matlab等需要JRE 6的应用程序能够运行，还需要 ［<code>1.7.0.jdk</code>部分可能需要修改］
+[个人猜测，因为Mac OS X早期系统和Mavericks中将JDK存放的位置不同，很多程序按照以前的位置去查找，所以找不到，不能正常启动]</p>
+
+<p><code>sudo mkdir /System/Library/Java/JavaVirtualMachines</code>
+<code>sudo ln -s /Library/Java/JavaVirtualMachines/1.7.0.jdk /System/Library/Java/JavaVirtualMachines/1.6.0.jdk</code></p>
+
+<p>实际上上面的操作还是会导致系统存在两个JRE（6和7），不过已经算是很好的解决方案了</p>
+
+<p>网址：<a href="http://apple.stackexchange.com/questions/58203/mountain-lion-with-java-7-only">http://apple.stackexchange.com/questions/58203/mountain-lion-with-java-7-only</a></p>
+
+<p>2.安装HomeBrew</p>
+
+<p>网址：<a href="https://raw.github.com/Homebrew/homebrew/go/install">https://raw.github.com/Homebrew/homebrew/go/install</a>
+网址：<a href="http://linfan.info/blog/2012/02/25/homebrew-installation-and-usage/">http://linfan.info/blog/2012/02/25/homebrew-installation-and-usage/</a> [Homebrew使用教程]</p>
+
+<p>执行<code>ruby -e &quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;</code>，如果还没有安装Xcode，则需要安装CLT(Command Line Tools) <code>&quot;xcode-select --install&quot;</code></p>
+
+<p>Homebrew会将安装的软件包存放在<code>/usr/local/</code>目录下，例如<code>/usr/local/bin</code>存放一些可执行文件，<code>/usr/local/lib</code>存放一些公共库，通过homebrew安装的软件包存放在<code>/usr/local/Cellar</code>目录下。
+通过<code>brew doctor</code>命令可以检查系统中软件包可能存在的一些问题。添加<code>export PATH=/usr/local/bin:$PATH</code>到<code>~/.bash_profile</code>文件中，这样默认先使用Homebrew安装的应用程序，而不是使用系统。[注：Homebrew不会破坏系统的一些软件或者环境变量，另外，Homebrew下载的安装包存放在<code>/Library/Caches/Homebrew</code>目录中，创建的Formula存放在<code>/usr/local/Library/Formula</code>目录中]</p>
+
+<pre><code class="language-java">hujiawei-MacBook-Pro:~ hujiawei$ ruby -e &quot;$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)&quot;
+==&gt; This script will install:
+/usr/local/bin/brew
+/usr/local/Library/...
+/usr/local/share/man/man1/brew.1
+...
+==&gt; Installation successful!
+You should run `brew doctor' *before* you install anything.
+Now type: brew help
+</code></pre>
+
+<p>3.安装git</p>
+
+<p>网址：<a href="https://help.github.com/articles/generating-ssh-keys">https://help.github.com/articles/generating-ssh-keys</a></p>
+
+<p><code>brew install git</code>，然后按照网址提示添加<code>ssh－key</code></p>
+
+<pre><code>hujiawei-MacBook-Pro:.ssh hujiawei$ ssh-add ~/.ssh/id_rsa
+Identity added: /Users/hujiawei/.ssh/id_rsa (/Users/hujiawei/.ssh/id_rsa)
+hujiawei-MacBook-Pro:.ssh hujiawei$ pbcopy &lt; ~/.ssh/id_rsa.pub
+hujiawei-MacBook-Pro:.ssh hujiawei$ pbcopy &lt; ~/.ssh/id_rsa.pub
+hujiawei-MacBook-Pro:.ssh hujiawei$ ssh -T git@github.com
+Warning: Permanently added the RSA host key for IP address '192.30.252.128' to the list of known hosts.
+Hi hujiaweibujidao! You've successfully authenticated, but GitHub does not provide shell access.
+</code></pre>
+
+<p>4.配置python环境</p>
+
+<p>网址：<a href="http://penandpants.com/2012/02/24/install-python/">http://penandpants.com/2012/02/24/install-python/</a></p>
+
+<p>使用Homebrew安装了python之后，python路径修改为 <code>/usr/local/bin/python</code> [原来在 <code>/usr/bin/python</code>]，<code>pip install &lt;package&gt;</code>命令会将模块安装到<code>/usr/local/lib/python2.7/site-packages</code>中。<code>pip list</code>命令查看已经安装的Python模块。</p>
+
+<pre><code>hujiawei-MacBook-Pro:~ hujiawei$ brew install python
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+==&gt; Installing dependencies for python: readline, sqlite, gdbm
+==&gt; Installing python dependency: readline
+==&gt; Downloading https://downloads.sf.net/project/machomebrew/Bottles/readline-6.
+==&gt; Pouring readline-6.2.4.mavericks.bottle.2.tar.gz
+==&gt; Caveats
+...
+</code></pre>
+
+<p>如果把<code>/usr/local/share/python</code>（参考网站提示用来存放Python脚本）也添加到<code>$PATH</code>中的话，<code>brew doctor</code>会给出一个警告，暂时不添加。</p>
+
+<pre><code>Warning: /usr/local/share/python is not needed in PATH.
+Formerly homebrew put Python scripts you installed via `pip` or `pip3`
+(or `easy_install`) into that directory above but now it can be removed
+from your PATH variable.
+Python scripts will now install into /usr/local/bin.
+You can delete anything, except 'Extras', from the /usr/local/share/python
+(and /usr/local/share/python3) dir and install affected Python packages
+anew with `pip install --upgrade`.
+</code></pre>
+
+<p>安装好了python之后，按照网址上的内容继续安装pip，然后安装<code>virtualenv, virtualenvwrapper, numpy, gfortran, scipy, matplotlib</code>等模块。[注，一般软件包使用brew安装和管理，对于python的模块使用pip安装和管理]</p>
+
+<p>5.配置Ruby环境 ［为了正常使用原有的Octopress］</p>
+
+<p>网址：<a href="https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/">/blog/2013/11/17/hello-octopress/</a>
+网址：<a href="http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/">http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/</a>
+网址：<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a> <a href="http://octopress.org/docs/deploying/github/">http://octopress.org/docs/deploying/github/</a></p>
+
+<p>执行<code>rbenv install 1.9.3-p0</code> 时需要<code>apple-gcc42</code>，执行 <code>brew tap homebrew/dupes ; brew install apple-gcc42</code></p>
+
+<pre><code>hujiawei-MacBook-Pro:eclipse_cp hujiawei$ brew install rbenv
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+==&gt; Downloading https://github.com/sstephenson/rbenv/archive/v0.4.0.tar.gz
+==&gt; Caveats
+To use Homebrew's directories rather than ~/.rbenv add to your profile:
+  export RBENV_ROOT=/usr/local/var/rbenv
+...
+</code></pre>
+
+<p>rbenv是一个管理ruby环境的工具，gem相当于管理ruby模块的工具。(<code>gem list</code>查看已安装的模块)</p>
+
+<p>如果想要使用以前的Octopress的话，执行下面的命令，之后就可以像以前一样使用Octopress了</p>
+
+<pre><code>brew update
+brew install rbenv
+brew install ruby-build
+rbenv install 1.9.3-p0
+rbenv rehash
+rbenv global 1.9.3-p0  #建议增加这句修改系统全局的ruby版本
+ruby --version  #查看系统ruby版本
+cd &lt;path-to-octopress&gt;
+gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p><strong>更新内容 2015-10-10</strong>
+最近又升级了系统到Mac OS X El Capitan，没想到Octopress环境出现了问题，generate命令执行不了，经过一番折腾，发现原来升级系统之后系统默认的ruby版本是2.0以上的了（执行<code>ruby --version</code>），我之前安装的是<code>1.9.3-p0</code>（执行<code>rbenv versions</code>），两者不统一；而且貌似以前安装好的一些依赖也不能正常工作了，所以就执行了下面一些操作。</p>
+
+<p>1.在文件<code>.bash_profile</code>末尾添加，之后在终端执行<code>ruby --version</code>将看到<code>1.9.3-p0</code><br />
+参考<a href="http://stackoverflow.com/questions/10940736/rbenv-not-changing-ruby-version">http://stackoverflow.com/questions/10940736/rbenv-not-changing-ruby-version</a></p>
+
+<p><code>export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;</code>
+<code>eval &quot;$(rbenv init -)&quot;</code></p>
+
+<p>2.接着在Octopress的目录下重新执行下面的命令即可<br />
+参考<a href="http://octopress.org/docs/setup/">http://octopress.org/docs/setup/</a></p>
+
+<pre><code>gem install bundler
+rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+bundle install
+</code></pre>
+
+<p>其他可能有帮助的网址：
+（1）<a href="https://github.com/sstephenson/ruby-build/wiki">https://github.com/sstephenson/ruby-build/wiki</a>
+（2）<a href="https://ruby-china.org/wiki/rbenv-guide">https://ruby-china.org/wiki/rbenv-guide</a></p>
+
+<p>6.配置OpenCV环境</p>
+
+<p>网址：<a href="https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac-os-x/">/blog/2014/03/13/develop-with-opencv-on-mac-os-x/</a></p>
+
+<p><strong>注意！如果是进行OpenCV源码编译的话，因为会产生很多的文件保存到<code>/usr/local</code>下的各个子目录中，这会导致<code>brew doctor</code>报出很多错误，例如<code>/usr/local/lib</code>下很多OpenCV的库Homebrew不能识别，甚至涉及到了权限问题，所以建议不要再前面进行OpenCV环境的配置！</strong></p>
+
+<p>正常情况下的OpenCV配置：安装CMake，编译OpenCV源码，花的时间比较长</p>
+
+<pre><code>sudo brew install cmake //homebrew
+cd &lt;path-to-opencv-source&gt;
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
+</code></pre>
+
+<p>如果导致前面出现Python环境配置出现问题，可以尝试卸载OpenCV，还要手动删除一些<code>/usr/local</code>下的OpenCV目录。</p>
+
+<pre><code>hujiawei-MacBook-Pro:hujiawei hujiawei$ cd Android/opencv-2.4.6.1/
+hujiawei-MacBook-Pro:opencv-2.4.6.1 hujiawei$ cd release
+hujiawei-MacBook-Pro:release hujiawei$ sudo make uninstall
+Password:
+Scanning dependencies of target uninstall
+-- Uninstalling &quot;/usr/local/include/opencv2/opencv_modules.hpp&quot;
+-- Uninstalling &quot;/usr/local/lib/pkgconfig/opencv.pc&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/OpenCVConfig.cmake&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/OpenCVConfig-version.cmake&quot;
+-- Uninstalling &quot;/usr/local/include/opencv/cv.h&quot;
+-- Uninstalling &quot;/usr/local/include/opencv/cv.hpp&quot;
+...
+-- Uninstalling &quot;/usr/local/share/OpenCV/haarcascades/haarcascade_smile.xml&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/haarcascades/haarcascade_upperbody.xml&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_frontalface.xml&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_profileface.xml&quot;
+-- Uninstalling &quot;/usr/local/share/OpenCV/lbpcascades/lbpcascade_silverware.xml&quot;
+-- Uninstalling &quot;/usr/local/bin/opencv_haartraining&quot;
+-- Uninstalling &quot;/usr/local/bin/opencv_createsamples&quot;
+-- Uninstalling &quot;/usr/local/bin/opencv_performance&quot;
+-- Uninstalling &quot;/usr/local/bin/opencv_traincascade&quot;
+Built target uninstall
+</code></pre>
+
+<p>如果可以的话，使用Homebrew安装OpenCV</p>
+
+<p>参考网址：<a href="http://www.jeffreythompson.org/blog/2013/08/22/update-installing-opencv-on-mac-mountain-lion/">http://www.jeffreythompson.org/blog/2013/08/22/update-installing-opencv-on-mac-mountain-lion/</a>  支持Mavericks</p>
+
+<p>其他关于搭建OpenCV环境的文章 <a href="http://blog.sciencenet.cn/blog-702148-657754.html">http://blog.sciencenet.cn/blog-702148-657754.html</a></p>
+
+<p>我的系统在执行<code>brew install jasper</code>时不知何原因不能继续，一直停留在<code>make install</code>状态，所以<code>brew install opencv</code>不能成功，即使我修改japser或者opencv的Formula文件也无济于事，最终尝试还是进行OpenCV源码编译，但是不安装到<code>/usr/local/</code>目录中，方法是修改下面的<code>CMAKE_INSTALL_PREFIX</code></p>
+
+<pre><code>cd &lt;path-to-opencv-source&gt;
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/opencv ..
+make
+sudo make install
+</code></pre>
+
+<p>但是，还有一个问题，无论在Xcode还是Eclipse中创建OpenCV项目都一样会报一个错，如下：</p>
+
+<pre><code>dyld: Library not loaded: lib/libopencv_core.2.4.dylib
+  Referenced from: /Users/hujiawei/Library/Developer/Xcode/DerivedData/PRWorks-gmeabxnfaunwiqbrvvjpxjlfkymu/Build/Products/Debug/PRWorks
+  Reason: image not found
+</code></pre>
+
+<p>即使你的路径都没错也还是不能加载到，不知道何原因，但是如果你直接将编译之后的所有dylib复制到<code>/usr/local/lib</code>中即可，不能是该目录下的某个文件夹！复制了之后，自然<code>brew doctor</code>会对此进行警告，无视吧。
+一个常用来测试OpenCV环境的项目代码如下，需要opencv_core和opencv_highgui两个库</p>
+
+<pre><code>#include &lt;opencv2/opencv.hpp&gt;
+using namespace cv;
+int main(int argc, char** argv) {
+	Mat image;
+	image = imread(
+			&quot;/Users/hujiawei/Pictures/webimages/clone-your-octopress-001.png&quot;,
+			1);
+	namedWindow(&quot;Display Image&quot;, WINDOW_AUTOSIZE);
+	imshow(&quot;Display Image&quot;, image);
+	waitKey(0);
+	return 0;
+}
+</code></pre>
+
+<p>7.最后执行<code>brew linkapps</code>会将brew安装的python中的app链接到Applications中</p>
+
+<pre><code>hujiawei-MacBook-Pro:~ hujiawei$ brew linkapps
+Linking /usr/local/Cellar/python/2.7.6/IDLE.app
+Linking /usr/local/Cellar/python/2.7.6/Python Launcher.app
+Finished linking. Find the links under /Applications.
+</code></pre>
+
+<p>使用<code>brew doctor</code>检查，修复问题。</p>
+
+<pre><code>hujiawei-MacBook-Pro:~ hujiawei$ brew doctor
+Warning: You have unlinked kegs in your Cellar
+Leaving kegs unlinked can lead to build-trouble and cause brews that depend on
+those kegs to fail to run properly once built. Run `brew link` on these:
+    cloog
+    isl
+Warning: A newer Command Line Tools release is available
+Update them from Software Update in the App Store.
+^C
+hujiawei-MacBook-Pro:~ hujiawei$ brew link cloog
+Linking /usr/local/Cellar/cloog/0.18.1... 8 symlinks created
+hujiawei-MacBook-Pro:~ hujiawei$ brew link isl
+Linking /usr/local/Cellar/isl/0.12.1... 6 symlinks created
+</code></pre>
+
+<p><strong>更新内容 2016-5-10</strong></p>
+
+<p>1.之前将Ruby版本设置为1.9，现在需要使用2.0以上版本的Ruby，所有又将Ruby版本改了回来，正好现在博客不再使用Octopress，改为Hexo了。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

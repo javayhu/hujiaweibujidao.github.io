@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Android NDK and OpenCV development with Android Studio &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2014-10-22T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Android NDK and OpenCV development with Android Studio &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Android NDK and OpenCV development with Android Studio</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-10-22T00:00:00Z">
+            Oct 22, 2014
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>Android NDK and OpenCV development with Android Studio</p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;- If you do <strong>NOT</strong> know Chinese, you can just skip this part &mdash;&mdash;&mdash;&mdash;&mdash;-</p>
+
+<p>StackOverflow的处女回答，好鸡冻(≧▽≦)/</p>
+
+<p>一直打算将原来的XFace进行改进，最近终于有了些时间可以动手了，改进计划如下：开发上使用Android Studio作为新的开发环境，配上新的构建系统Gradle；应用上将修改原来的UI设计，内部代码也将有很大的变化，可能会用上ContentProvider和Service等略高级内容；算法上打算让应用扩展性增强以适应不同的算法，并结合强大的Android Studio和Gradle让这个项目变得更加丰富。说了一堆废话，言归正传，本文的重点是介绍如何在Android Studio中进行NDK开发(目前它还不完全支持NDK开发)，难点是NDK中还包含OpenCV的动态库。最后的最后，本文剩下部分将使用英文，因为它要成为我在StackOverflow上的处女答，么么哒 ~O(∩_∩)O~</p>
+
+<p>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;- Here is the right stuff you may need &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash;</p>
+
+<p>####This post shows how to develop an Android NDK application with OpenCV included using Android Studio and Gradle. If you&rsquo;re working on migrating your original Eclipse Project to Android Studio, you may find this post is what exactly you want!</p>
+
+<p>OK，Let&rsquo;s start!</p>
+
+<p>###Section 1:  Three things you must know</p>
+
+<p>####1.Firstly, if you are not familiar with Android Studio and Gradle, you may find these links useful. (if you already know these well, skip this part)</p>
+
+<p>①<a href="http://developer.android.com/sdk/installing/create-project.html">Creating a new Project with Android Studio</a></p>
+
+<p>②<a href="http://developer.android.com/sdk/installing/studio-build.html">Building Your Project with Gradle</a></p>
+
+<p>③<a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Plugin User Guide</a>  or you may want to read a Chinese commented version in my blog <a href="https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-user-guide-1/">here</a>.</p>
+
+<p>####2.Secondly, if your android ndk project is not that complicated(for example, having no opencv included), you may wanna see <code>ph0b</code> &rsquo;s introduction here, it&rsquo;s quite a nice job with a video recorded! (you can also follow Section 2 in this post to get a simple Android NDK demo application)</p>
+
+<p><a href="http://ph0b.com/android-studio-gradle-and-ndk-integration/"><code>ph0b</code>&rsquo;s post: ANDROID STUDIO, GRADLE AND NDK INTEGRATION</a></p>
+
+<p>####3.Thirdly, if those above two do not meet your needs, then I think you may want to customize the Android.mk with Gradle in Android Studio. Thanks to <code>Gaku Ueda</code> , he had made a great job explaining how to achieve that goal. Actually I have found another nicer solution without adding that many codes and also achieve that goal. :-) Find it out in the next sections.</p>
+
+<p><a href="http://blog.gaku.net/ndk/"><code>Gaku Ueda</code>&rsquo;s post: Using custom Android.mk with Gradle/Android Studio</a></p>
+
+<p>OK, I will cover all above and give another nice solution in the end, have fun!</p>
+
+<p>###Section 2: A simple Android NDK demo application</p>
+
+<p>This section shows creating a simple Android NDK demo application, if you already know, you can directly go the section 3.</p>
+
+<p>1.Create a new Android project named <code>NDKDemo</code> with a blank Activity in AS(=Android Studio).</p>
+
+<p>2.Give an <code>id</code> to the <code>TextView</code> in <code>activity_my.xml</code> such as <code>android:id=&quot;@+id/textview&quot;</code>, then add these codes in <code>MyActivity.java</code>.</p>
+
+<pre><code class="language-java">@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_my);
+
+    TextView textView = (TextView) findViewById(R.id.textview);
+    textView.setText(hello());
+}
+
+static {
+    System.loadLibrary(&quot;hello&quot;);
+}
+
+public native String hello();
+</code></pre>
+
+<p>3.Create a new directory <code>jni</code> in folder <code>app/src/main</code>, then you have <code>java</code>, <code>jni</code> and <code>res</code> in this folder.</p>
+
+<p>4.This step is very important! <strong>You can add a external tool to run the <code>javah</code> command without typing that much code!</strong></p>
+
+<p>Open AS&rsquo;s <code>Preferences</code>, then find <code>External Tools</code> in <code>IDE Settings</code>, click <code>+</code> to add one tool with the following configurations. (Make sure you have add <code>JDK tools</code>  in your <code>system path</code>, if you don&rsquo;t know how, click <a href="https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/">here</a>)</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/javah_as.png" alt="image" /></p>
+
+<p>With the help of this tool, each time we right click on a <code>class file</code>, then choose <code>Android Tools -&gt; javah</code> to run this tool, it will automatically generate a <code>C head file</code> for us in the target folder <code>$ModuleFileDir$/src/main/jni</code> , in this case, it is <code>app/src/main/jni</code>. Try this on <code>MyActivity.java</code> file now! The console will print out a log like:</p>
+
+<p><code>/usr/bin/javah -v -jni -d /Users/hujiawei/AndroidStudioProjects/NDKDemo/app/src/main/jni com.android.hacks.ndkdemo.MyActivity
+[Creating file RegularFileObject[/Users/hujiawei/AndroidStudioProjects/NDKDemo/app/src/main/jni/
+com_android_hacks_ndkdemo_MyActivity.h]]</code></p>
+
+<p>Then you get a <code>com_android_hacks_ndkdemo_MyActivity.h</code> file in <code>jni</code>  folder with the following content.</p>
+
+<pre><code>/* DO NOT EDIT THIS FILE - it is machine generated */
+#include &lt;jni.h&gt;
+/* Header for class com_android_hacks_ndkdemo_MyActivity */
+
+#ifndef _Included_com_android_hacks_ndkdemo_MyActivity
+#define _Included_com_android_hacks_ndkdemo_MyActivity
+#ifdef __cplusplus
+extern &quot;C&quot; {
+#endif
+/*
+ * Class:     com_android_hacks_ndkdemo_MyActivity
+ * Method:    hello
+ * Signature: ()Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_android_hacks_ndkdemo_MyActivity_hello
+  (JNIEnv *, jobject);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
+</code></pre>
+
+<p>5.Write a simple <code>C</code> implementation file named <code>main.c</code> in <code>jni</code> folder</p>
+
+<pre><code>#include &lt;jni.h&gt;
+#include &quot;com_android_hacks_ndkdemo_MyActivity.h&quot;
+
+JNIEXPORT jstring JNICALL Java_com_android_hacks_ndkdemo_MyActivity_hello
+  (JNIEnv * env, jobject obj){
+    return (*env)-&gt;NewStringUTF(env, &quot;Hello from JNI&quot;);
+  }
+</code></pre>
+
+<p>6.In the <code>build.gradle</code> file under <code>app</code> module, add the following codes to configure <code>ndk</code> in <code>defaultConfig</code> element, here we just give the uni module a name <code>hello</code>, you can find other configurations in <a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Plugin User Guide</a>.</p>
+
+<pre><code>defaultConfig {
+    applicationId &quot;com.android.hacks.ndkdemo&quot;
+    minSdkVersion 16
+    targetSdkVersion 20
+    versionCode 1
+    versionName &quot;1.0&quot;
+
+    ndk{
+        moduleName &quot;hello&quot;
+    }
+}
+</code></pre>
+
+<p>7.In order to let Gradle run <code>ndk-build</code> command (in some task, maybe <code>NdkCompile</code> task), we should configure the <code>ndk.dir</code> in <code>local.properties</code> file in Project root.</p>
+
+<pre><code>sdk.dir=/Volumes/hujiawei/Users/hujiawei/Android/android_sdk
+ndk.dir=/Volumes/hujiawei/Users/hujiawei/Android/android_ndk
+</code></pre>
+
+<p>8.OK, everything is ready, click <code>Run</code> to give it a try, you will see the result like</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndkdemo_ss.png" alt="image" /></p>
+
+<p>All right, so what&rsquo;s happening inside?</p>
+
+<p><strong>Since you have a <code>jni</code> folder, Gradle will consider it as a default native code folder. When Gradle builds the <code>app</code>, it will run <code>ndk-build</code> command(since you have configured <code>ndk.dir</code>,  Gradle knows where to find it) with a generated <code>Android.mk</code> file(locates in <code>app/build/intermediates/ndk/debug/Android.mk</code>), after compiling the native codes, it will generate the <code>libs</code> and <code>obj</code> folder into folder  <code>app/build/intermediates/ndk/debug/</code>. Gradle will then package the <code>libs</code> into final <code>apk</code> file in folder <code>app/build/outputs/apk/app-debug.apk</code>(you can unarchive this file to check whether <code>libs</code> is contained)</strong></p>
+
+<p><code>app/build/intermediates/ndk/debug</code> (<code>lib</code> and <code>obj</code> folders)</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndkdemo_ndk.png" alt="image" /></p>
+
+<p><code>app/build/outputs/apk/app-debug.apk</code> (and files within it)</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndkdemo_apk.png" alt="image" /></p>
+
+<p>###Secontion 3: Using OpenCV</p>
+
+<p>If your project do not use OpenCV, then the section 2 is just enough. But what if you wanna use OpenCV to do other stuff? Of course, we want to use <code>OpenCV for Android</code> instead of  <code>JavaCV</code> here, and Of course, we need to package OpenCV library for Android into our application&rsquo;s APK file (then users who use this app does not have to install <code>OpenCV Manager</code>). So, how can we achieve these goals?</p>
+
+<p>The simplest way has been posted by <code>TGMCians</code> on Stack Overflow <a href="http://stackoverflow.com/questions/17767557/how-to-use-opencv-in-android-studio-using-gradle-build-tool?answertab=active#tab-top">here</a>, that is, let the main app include the OpenCV library as a dependency, and copy all <code>&lt;abi&gt;/*.so</code> files in OpenCV for Android SDK to <code>jniLibs</code> folder under <code>app/src/main/</code>, Gradle will automatically package these <code>&lt;abi&gt;/*.so</code> files into <code>libs</code> folder within the final APK file. Of course, this method will work, but it has a few backwards: (1) Unless you only copy the needed <code>*.so</code> files, you will always have a large APK due to this reason; (2) How about the building of the <code>jni</code> files? How to run <code>ndk-build</code> if these files contain <code>opencv</code> related codes?</p>
+
+<p>So, here comes to our <code>Using custom Android.mk with Gradle and Android Studio</code> part. For testing, we first creat an <code>Android.mk</code> and an <code>Application.mk</code> file under <code>jni</code> folder.</p>
+
+<p><code>Android.mk</code></p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES := main.c
+LOCAL_LDLIBS += -llog
+LOCAL_MODULE := hello
+
+include $(BUILD_SHARED_LIBRARY)
+</code></pre>
+
+<p><code>Application.mk</code></p>
+
+<pre><code>APP_ABI := armeabi
+APP_PLATFORM := android-16
+</code></pre>
+
+<p>Thanks to <code>Gaku Ueda</code>, he had made a great job explaining how to achieve that goal with <a href="http://blog.gaku.net/ndk/">this post</a>. The core idea of his method is to run <code>ndk-build</code> command in some task, then zip the <code>&lt;abi&gt;/*.so</code> files under the output <code>app/build/libs/</code> folder into a <code>jar</code> file which is finally put in <code>app/build/libs/</code> folder, then add a compile dependency to this jar file. The key code for his method listed below</p>
+
+<p><strong>Notice 1: When using custom Android.mk, we should first disable Gradle to build the <code>jni</code> folder as before, and <code>sourceSets.main.jni.srcDirs = []</code> just does this job!</strong></p>
+
+<p><strong>Notice 2: The code is not exactly the same with Gaku Ueda&rsquo;s code: <code>tasks.withType(Compile)</code> to <code>tasks.withType(JavaCompile)</code>, because <code>Compile</code> is deprecated.</strong></p>
+
+<p><strong>Notice 3: You can get  <code>$ndkDir</code> variable with <code>project.plugins.findPlugin('com.android.application').getNdkFolder()</code> or you can define it in <code>grade.properties</code> file under Project root, so you need to add <code>ndkDir=path/to/your/ndk</code> in that file, if the file is not created, simply create a new one.</strong></p>
+
+<pre><code>android{
+	...
+    sourceSets.main.jni.srcDirs = []
+
+    task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+	    ndkDir = project.plugins.findPlugin('com.android.application').getNdkFolder()
+	    //on Windows, you need to add &quot;.cmd&quot; after &quot;ndk-build&quot; below
+        commandLine &quot;$ndkDir/ndk-build&quot;,
+                'NDK_PROJECT_PATH=build',
+                'APP_BUILD_SCRIPT=src/main/jni/Android.mk',
+                'NDK_APPLICATION_MK=src/main/jni/Application.mk'
+    }
+
+    task ndkLibsToJar(type: Zip, dependsOn: 'ndkBuild', description: 'Create a JAR of the native libs') {
+        destinationDir new File(buildDir, 'libs')
+        baseName 'ndk-libs'
+        extension 'jar'
+        from(new File(buildDir, 'libs')) { include '**/*.so' }
+        into 'lib/'
+    }
+
+    tasks.withType(JavaCompile) {
+        compileTask -&gt; compileTask.dependsOn ndkLibsToJar
+    }
+    ...
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // add begin
+    compile fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
+    // add end
+}
+</code></pre>
+
+<p>But we can still do a little improvements here. We have already know that Gradle will take <code>jniLibs</code> folder as its default native libraries folder, so we can simply output the <code>libs/&lt;abi&gt;/*.so</code> files generated by <code>ndk-build</code> command into <code>jniLibs</code> folder, so there&rsquo;s no need to zip these <code>*.so</code> files into a <code>jar</code> file.</p>
+
+<p>The final <code>build.gradle</code> file under <code>app</code> module</p>
+
+<pre><code>apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion &quot;20.0.0&quot;
+
+    defaultConfig {
+        applicationId &quot;com.android.hacks.ndkdemo&quot;
+        minSdkVersion 16
+        targetSdkVersion 20
+        versionCode 1
+        versionName &quot;1.0&quot;
+    }
+
+    // add begin
+    sourceSets.main.jni.srcDirs = []
+
+    task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
+        ndkDir = project.plugins.findPlugin('com.android.application').getNdkFolder()
+        commandLine &quot;$ndkDir/ndk-build&quot;,
+                'NDK_PROJECT_PATH=build/intermediates/ndk',
+                'NDK_LIBS_OUT=src/main/jniLibs',
+                'APP_BUILD_SCRIPT=src/main/jni/Android.mk',
+                'NDK_APPLICATION_MK=src/main/jni/Application.mk'
+    }
+
+    tasks.withType(JavaCompile) {
+        compileTask -&gt; compileTask.dependsOn ndkBuild
+    }
+    // add end
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+</code></pre>
+
+<p>So simple, right? <code>'NDK_LIBS_OUT=src/main/jniLibs'</code> helps us do the right job!</p>
+
+<p>For testing, you can also add some lines relating with OpenCV in your <code>Android.mk</code> file and some line in your <code>main.c</code> to check whether everything is readlly working. For example, add <code>#include &lt;opencv2/core/core.hpp&gt;</code> in <code>main.c</code> file, and change  <code>Android.mk</code> to</p>
+
+<pre><code>LOCAL_PATH := $(call my-dir)
+
+include $(CLEAR_VARS)
+
+#opencv
+OPENCVROOT:= /Volumes/hujiawei/Users/hujiawei/Android/opencv_sdk
+OPENCV_CAMERA_MODULES:=on
+OPENCV_INSTALL_MODULES:=on
+OPENCV_LIB_TYPE:=SHARED
+include ${OPENCVROOT}/sdk/native/jni/OpenCV.mk
+
+LOCAL_SRC_FILES := main.c
+LOCAL_LDLIBS += -llog
+LOCAL_MODULE := hello
+
+include $(BUILD_SHARED_LIBRARY)
+</code></pre>
+
+<p>In Gradle Console window, you can see these similar lines</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndkdemo_gradle.png" alt="image" /></p>
+
+<p><code>*.so</code> files relating with OpenCV has been packaged into the final APK</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndkdemo_opencvlibs.png" alt="image" /></p>
+
+<p>####<strong>One More Thing</strong></p>
+
+<p>Of course, maybe you don&rsquo;t want to change your <code>build.grale</code> file with that much code, and Of course, you also don&rsquo;t want to run <code>ndk-build</code> outside the IDE, then copy the <code>&lt;abi&gt;/*.so</code> files into <code>jniLibs</code> folder each time you want to rebuild the native codes!</p>
+
+<p>At last, I came out another nicer solution, if you like, that is to create a <code>ndk-build</code> external tool in Android Studio, and every time you want to rebuild the native codes, simply run the external tool, then it automatically generates the <code>libs/&lt;abi&gt;/*.so</code> files into <code>jniLibs</code> folder, so everything is ready to run this app, :-)</p>
+
+<p>The configuration is simple</p>
+
+<p>Parameters:  <code>NDK_PROJECT_PATH=$ModuleFileDir$/build/intermediates/ndk NDK_LIBS_OUT=$ModuleFileDir$/src/main/jniLibs NDK_APPLICATION_MK=$ModuleFileDir$/src/main/jni/Application.mk APP_BUILD_SCRIPT=$ModuleFileDir$/src/main/jni/Android.mk V=1</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/ndk_build_as.png" alt="image" /></p>
+
+<p>OK, I hope it is helpful. Let me know if it is really helpful, or tell me what&rsquo;s your problem. :-)</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

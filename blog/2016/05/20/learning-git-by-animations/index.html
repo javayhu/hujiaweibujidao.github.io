@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Learning Git by Animations &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-05-20T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="dev" />
+    
+    
+
+    <title>
+       Learning Git by Animations &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Learning Git by Animations</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-05-20T00:00:00Z">
+            May 20, 2016
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/dev/">#dev</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>看到一个动画版的Git教程(<a href="http://learngitbranching.js.org/?demo">网址</a>)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。</p>
+
+<h3 id="head">HEAD</h3>
+
+<p>HEAD 是当前提交记录的符号名称 &ndash; 其实就是你正在其基础进行工作的提交记录。HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。</p>
+
+<p><strong>分离HEAD</strong>：分离HEAD实际上就是指HEAD并没有指向某个分支，而是指向了某个具体的提交记录。</p>
+
+<p><strong>相对引用</strong>：把<code>^</code>跟在引用名后面，表示寻找指定提交记录的父提交。例如<code>master^</code>表示master的父提交，<code>master^^</code>表示master的父父提交。如果要移动多步，可以使用<code>~</code>加上数字快速移动。</p>
+
+<p><code>git branch -f master HEAD~3</code>命令的含义是（强制）移动 master 指向 HEAD 的第3级父提交。</p>
+
+<p>如下图，左边执行<code>git checkout C1</code>，中间执行<code>git checkout master^</code>，右边执行<code>git checkout HEAD~4</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_head.png" alt="img" /></p>
+
+<p><strong>多个父提交</strong>：当有多个父提交记录的时候，该如何移动HEAD呢？</p>
+
+<p>如下图，左边执行<code>git checkout master^</code>，右边执行<code>git checkout master^2</code></p>
+
+<p>解析：注意区别<code>git checkout master^2</code>和<code>git checkout master^^</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_head_move.png" alt="img" /></p>
+
+<p><strong>常见的两个合并分支的操作git merge和git rebase。</strong></p>
+
+<h3 id="git-merge">git merge</h3>
+
+<p><strong>merge</strong>产生一个特殊的提交记录，它包含两个唯一父提交，有两个父提交的提交记录本质上指 “我想把这两个父提交本身及它们的父提交集合都包含进来”。</p>
+
+<p>解析：<code>git merge [branch]</code>操作是将指定的分支合并到当前的分支，该操作会创建一个新的提交记录，但是不会改变当前分支。</p>
+
+<p>如下图所示，从左到右执行了<code>git merge bugFix</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_merge.png" alt="img" /></p>
+
+<h3 id="git-rebase">git rebase</h3>
+
+<p><strong>rebase</strong> 是在分支之间合并工作的第二种方法。rebase 就是取出一系列的提交记录，“复制”它们，然后把它们放在别的地方。rebasing 的优势是可以创造更线性的提交历史。</p>
+
+<p>解析：<code>git rebase [branch]</code>操作也是用来合并分支，但是合并时并不产生新的提交记录，而是复制那个分支下的所有提交记录加入到当前的分支下面，同样地，<strong>该操作不改变当前分支</strong>。</p>
+
+<p>下图先执行了<code>git rebase master</code>，后执行了<code>git checkout master; git rebase bugFix</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_rebase.png" alt="img" /></p>
+
+<p><strong>快捷命令<code>git rabase [branch A] [branch B]</code>，将分支B上的提交记录rebase到分支A</strong>。</p>
+
+<p><strong>常见的两个撤销更改的操作git reset和git revert。</strong></p>
+
+<h3 id="git-reset">git reset</h3>
+
+<p><code>git reset</code> 把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在&rdquo;重写历史&rdquo;。<code>git reset</code> 往回移动分支，原来指向的提交记录好像重来没有提交过一样。</p>
+
+<p>解析：<code>git reset</code>修改的只是本地分支，这种“改写历史”的方法对别人的远端分支是无效的！</p>
+
+<p>下图执行了<code>git reset C1</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_reset.png" alt="img" /></p>
+
+<h3 id="git-revert">git revert</h3>
+
+<p>为了撤销更改并*传播*给别人，我们需要使用 <code>git revert</code>。它会在在我们要撤销的提交记录后面增加一个新提交，而且新提交记录 <code>C2'</code> 引入的*更改*是刚好是用来撤销 <code>C2</code>这个提交的。</p>
+
+<p>解析：<code>git revert</code>命令就是通过增加新提交来撤销之前的修改，而且能够将撤销传播给协作者。</p>
+
+<p>下图执行了<code>git revert HEAD</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_revert.png" alt="img" /></p>
+
+<h3 id="git-cherry-pick">git cherry-pick</h3>
+
+<p>如果你想选择性地将一些提交“复制”到你当前的位置的话，可以考虑使用<code>git cherry-pick</code>，命令形式：<code>git cherry-pick &lt;Commit 1&gt; &lt;Commit 2&gt; &lt;...&gt;</code></p>
+
+<p>解析：<code>git cherry-pick</code>方便我们选择所需的提交记录加入到某个分支下，使用<code>git rebase -i</code>启动rebase的交互模式也可以完成该任务，它甚至可以对提交记录进行排序！</p>
+
+<p>下图执行了<code>git cherry-pick C2 C4</code>，从图中可以看出该命令并没有去合并分支。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_cherry.png" alt="img" /></p>
+
+<h3 id="git-tag">git tag</h3>
+
+<p><code>git tag</code>可以永远地指向某个特定的 commit，即使再有新的commit进来的时候，它都不会移动。你不可以 &ldquo;checkout&rdquo; 到 tag 指定的 commit上，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。</p>
+
+<p>解析：<code>git tag</code>就是给某个提交记录做个标签，就像是“里程碑”一样。</p>
+
+<p>如下图，执行<code>git tag v1 C1</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_tag.png" alt="img" /></p>
+
+<h3 id="远端分支">远端分支</h3>
+
+<p>远端分支（remote branch）一般命名为<code>&lt;remote name&gt;/&lt;branch name&gt;</code>，而远端名称一般都是<code>origin</code>。本地的远端分支仅伴随远端更新而更新，这个分支上创建的提交不会更新该分支，只会使其分离HEAD。</p>
+
+<h3 id="git-fetch">git fetch</h3>
+
+<p><code>git fetch</code>命令用于从远端仓库获取数据，当我们更新远端的仓库时, 我们的远端分支也会更新并映射到最新的远端仓库。</p>
+
+<p>解析：<code>git fetch</code>完成了两个操作：（1）下载本地仓库未包含的提交对象；（2）更新我们的远端分支点(例如<code>o/master</code>)。但是，它不会修改本地的状态，例如master分支。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_fetch.png" alt="img" /></p>
+
+<p>复杂的fetch操作：<code>git fetch origin &lt;source&gt;:&lt;destination&gt;</code></p>
+
+<p>从远端指定的source位置拉取到本地指定的destination位置</p>
+
+<p>如下图，执行<code>git fetch origin foo~1:bar</code></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_fetch_more.png" alt="img" /></p>
+
+<h3 id="git-pull">git pull</h3>
+
+<p>如前面<code>git fetch</code>所示，它不会修改master分支的状态，但是一般我们在执行了<code>git fetch</code>命令之后都需要执行<code>git rebase o/master</code>或者<code>git merge o/master</code>来修改master分支的状态，于是就有了<code>git pull</code>命令，它是<code>git fetch + git merge</code>两个命令的缩写，而<code>git pull --rebase</code>是<code>git fetch + git rebase</code>两个命令的缩写。</p>
+
+<p>如下图，执行了<code>git pull</code>或者是<code>git fetch</code>+<code>git merge o/master</code>两个命令</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_pull.png" alt="img" /></p>
+
+<p>如下图，可以是执行了<code>git pull --rebase</code>+<code>git push</code>或者是<code>git fetch</code>+<code>git rebase o/master</code>+<code>git push</code>三个命令</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_pull_rebase.png" alt="img" /></p>
+
+<h3 id="git-push">git push</h3>
+
+<p><code>git push</code>命令将本地提交记录push到远端仓库中，它还会自动同步本地的远端分支。</p>
+
+<p>如果远端仓库中存在超前于本地仓库的提交记录的话，那么git push操作会失败，此时需要先获取远端提交记录（<code>git fetch</code>），在本地仓库完成合并过程，才能push。</p>
+
+<p>复杂的push操作：<code>git push origin &lt;source&gt;:&lt;destination&gt;</code></p>
+
+<p>如下图，执行<code>git push origin foo^:master</code>：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_push.png" alt="img" /></p>
+
+<h3 id="远端跟踪">远端跟踪</h3>
+
+<p>本地的master分支被设定为跟踪origin/master分支（它就是隐含的merge和push的目的地），它们之间的连接关系就是远端跟踪（remote tracking）。</p>
+
+<p>你可以让做任意分支跟踪 <code>o/master</code>, 然后分支就会隐含 push 的 destination(<code>o/master</code>) 以及 merge 的 target (<code>o/master</code>)。这意味着你可以在分支 <code>foo</code> 上执行 <code>git push</code>， 将工作推送到远端的<code>master</code>。有两种方法设置：</p>
+
+<p>（1）第一种就是通过远端分支检出一个新的分支，执行：</p>
+
+<p><code>git checkout -b foo o/master</code></p>
+
+<p>虽然分支名不叫master，但是在执行<code>git push</code>的时候foo分支上的提交记录会同步到远端仓库</p>
+
+<p>（2）第二种追踪远端分支的方法就是使用选项 : <code>git branch -u</code>：</p>
+
+<p><code>git branch -u o/master foo</code></p>
+
+<p>这样 <code>foo</code> 就会跟踪 <code>o/master</code> 了. 如果你处于 foo 分支, 那么可以省略 foo：</p>
+
+<p><code>git branch -u o/master</code></p>
+
+<p>如下图，两种方式变化到图三殊途同归。</p>
+
+<p>从图一变化到图三执行了<code>git checkout -b foo o/master; git commit; git push</code>；</p>
+
+<p>从图二变化到图三执行了<code>git branch -u o/master; git commit; git push</code>。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/git_remote_track.png" alt="img" /></p>
+
+<p>零碎知识点：</p>
+
+<p><code>git checkout -b [branch name]</code> = <code>git branch [branch name]</code> + <code>git checkout [branch name]</code></p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

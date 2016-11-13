@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" When Math meets Android Animation (1) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-05-26T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       When Math meets Android Animation (1) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">When Math meets Android Animation (1)</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-05-26T00:00:00Z">
+            May 26, 2016
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>当数学遇上动画：讲述<code>ValueAnimator</code>、<code>TypeEvaluator</code>和<code>TimeInterpolator</code>之间的恩恩怨怨(1)</p>
+
+<p>其实关于<code>ValueAnimator</code>的内部工作原理大家也都清楚，本文只是选择从数学函数的角度来解析这个原理，方便理解。看完了本节之后我们就更加清楚如何借助<code>TypeEvaluator</code>和<code>TimeInterpolator</code>来帮助我们实现动画等知识。</p>
+
+<p>本系列文章共有三篇，第一篇通过源码解析<code>ValueAnimator</code>类，第二篇通过实例解析<code>TimeInterpolator</code>和<code>TypeEvaluator</code>，第三篇分析常见动画背后的缓动函数，最后引出一个新的Android动画开发的辅助库<a href="https://github.com/hujiaweibujidao/yava">Yava</a>。</p>
+
+<h3 id="1-android动画基础知识"><strong>1 Android动画基础知识</strong></h3>
+
+<p>(1)狭义而言，动画一般就是指某个View组件的某个或者某些属性值在一段时间内不断变化的过程，这个变化过程往往有个起始值、结束值和一系列的中间值，<code>ValueAnimator</code>就是用来反映这个属性值变化过程的重要类，所以本文的介绍主要是以分析<code>ValueAnimator</code>为主。
+(2)如果将属性值的变化过程看做一个数学函数的话，从动画效果上来看它是连续的，但实际上它还是离散的，因为它实际上也就是通过插入中间值（简称插值）从而&rdquo;一帧一帧&rdquo;完成动画的，那每一帧在哪里取，取多少呢？这也就是<code>ValueAnimator</code>类主要完成的作用。</p>
+
+<p>那到底<code>ValueAnimator</code>是怎么控制属性值的变化过程的呢？答案是借助<code>TimeInterpolator</code>和<code>TypeEvaluator</code>来帮忙！<code>TimeInterpolator</code>用来控制在哪里取，而<code>TypeEvaluator</code>用来控制取多少。（注：取多少个点进行插值是不确定的，例如动画持续时间1s，可能取60，也可能取54、57或者58个中间点进行插值）</p>
+
+<p>先说本小节结论，<strong>每一个<code>ValueAnimator</code>其实就是一个的<code>TimeInterpolator</code>和一个<code>TypeEvaluator</code>的结合体</strong>。从数学的角度来看，<code>ValueAnimator</code>就是由<code>TimeInterpolator</code>和<code>TypeEvaluator</code>这两个简单函数组合而成的一个复合函数。用图来表述如下：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/valueanimator_math.png" alt="img" /></p>
+
+<p>你也可以将<code>TimeInterpolator</code>和<code>TypeEvaluator</code>看作是工厂流水线上的两个小员工，那么<code>ValueAnimator</code>就是车间主管啦。<code>TimeInterpolator</code>这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度。而下一个生产线上的小员工<code>TypeEvaluator</code>的任务就是打磨半成品得到成品，最后将成品输出。</p>
+
+<h3 id="2-结合源码解释函数形式"><strong>2 结合源码解释函数形式</strong></h3>
+
+<p>（1）假设<code>TimeInterpolator</code>是函数x=f(t)，t表示<strong>动画已经完成的时间比率</strong>（例如动画的总时长是10s，已经过了4s了，那么t=0.4），所以t的取值范围是[0,1]，0表示动画开始，1表示动画结束。该函数的返回值指的是<strong>动画实际插值的时间点</strong>，一般是0到1之间，但是也可以小于0（&rdquo;下冲&rdquo;）或者大于1（&rdquo;上冲&rdquo;）。
+<strong>该函数的作用是把当前时间进度映射成另一个值，这样动画参照的时间由此被&rdquo;篡改&rdquo;，动画的速度由此被改变。</strong> （后面还有详细介绍）</p>
+
+<p>参考接口<code>TimeInterpolator</code>的定义：</p>
+
+<pre><code>/**
+ * A time interpolator defines the rate of change of an animation. This allows animations
+ * to have non-linear motion, such as acceleration and deceleration.
+ */
+public interface TimeInterpolator {
+    /**
+     * Maps a value representing the elapsed fraction of an animation to a value that represents
+     * the interpolated fraction. This interpolated value is then multiplied by the change in
+     * value of an animation to derive the animated value at the current elapsed animation time.
+     */
+    float getInterpolation(float input);
+}
+</code></pre>
+
+<p>（2）假设<code>TypeEvaluator</code>是函数y=g(x,a,b)，x就是前面函数f(t)篡改之后的插值的时间点，a、b分别表示属性动画的起始值和结束值。
+<strong>该函数的作用是通过起始值、结束值以及插值时间点来计算在该时间点的属性值应该是多少。</strong></p>
+
+<p>参考接口<code>TypeEvaluator</code>的定义：</p>
+
+<pre><code>/**
+ * Interface for use with the {@link ValueAnimator#setEvaluator(TypeEvaluator)} function. Evaluators
+ * allow developers to create animations on arbitrary property types, by allowing them to supply
+ * custom evaluators for types that are not automatically understood and used by the animation
+ * system.
+ */
+public interface TypeEvaluator&lt;T&gt; {
+
+    /**
+     * This function returns the result of linearly interpolating the start and end values, with
+     * &lt;code&gt;fraction&lt;/code&gt; representing the proportion between the start and end values. The
+     * calculation is a simple parametric calculation: &lt;code&gt;result = x0 + t * (x1 - x0)&lt;/code&gt;,
+     * where &lt;code&gt;x0&lt;/code&gt; is &lt;code&gt;startValue&lt;/code&gt;, &lt;code&gt;x1&lt;/code&gt; is &lt;code&gt;endValue&lt;/code&gt;,
+     * and &lt;code&gt;t&lt;/code&gt; is &lt;code&gt;fraction&lt;/code&gt;.
+     */
+    public T evaluate(float fraction, T startValue, T endValue);
+}
+</code></pre>
+
+<p>（3）假设<code>TimeInterpolator</code>和<code>TypeEvaluator</code>是上面两个简单函数，那么<code>ValueAnimator</code>也是一个函数，它其实就是表示<code>TimeInterpolator</code>的函数x=f(t)和表示<code>TypeEvaluator</code>的函数y=g(x,a,b)结合而成的复合函数<code>F=g(f(t),a,b)</code>。</p>
+
+<p>参考<code>ValueAnimator</code>中<code>animateValue</code>方法的定义：</p>
+
+<pre><code>/**
+ * This method is called with the elapsed fraction of the animation during every
+ * animation frame. This function turns the elapsed fraction into an interpolated fraction
+ * and then into an animated value (from the evaluator. The function is called mostly during
+ * animation updates, but it is also called when the &lt;code&gt;end()&lt;/code&gt;
+ * function is called, to set the final value on the property.
+ */
+void animateValue(float fraction) {
+    fraction = mInterpolator.getInterpolation(fraction); //TimeInterpolator 函数
+    mCurrentFraction = fraction;
+    int numValues = mValues.length;
+    for (int i = 0; i &lt; numValues; ++i) {
+        mValues[i].calculateValue(fraction); //TypeEvaluator 函数
+    }
+    if (mUpdateListeners != null) { // 通知监听器
+        int numListeners = mUpdateListeners.size();
+        for (int i = 0; i &lt; numListeners; ++i) {
+            mUpdateListeners.get(i).onAnimationUpdate(this);
+        }
+    }
+}
+</code></pre>
+
+<h3 id="3-通俗解析各个击破"><strong>3 通俗解析各个击破</strong></h3>
+
+<h4 id="3-1-关于valueanimator"><strong>3.1 关于ValueAnimator</strong></h4>
+
+<p>(0)<code>ValueAnimator</code>就是一个的<code>TypeEvaluator</code>和一个<code>TimeInterpolator</code>的结合体，所以该类有两个方法分别用来设置动画的<code>TypeEvaluator</code>和<code>TimeInterpolator</code>。
+(1)<code>setInterpolator</code>方法可以不调用，默认是加速减速插值器<code>AccelerateDecelerateInterpolator</code>，但是如果调用且传入的参数为null的话，那么就会被设置成线性插值器<code>LinearInterpolator</code> <strong>(暂时不清楚为什么要这样做)</strong>。
+(2)<code>setEvaluator</code>方法也可以不调用，默认会根据属性值的类型设置一个<code>IntEvaluator</code>或者<code>FloatEvaluator</code>。后面会讲到这类<code>TypeEvaluator</code>可以看作是线性估值器<code>&quot;LinearTypeEvaluator&quot;</code>（<strong>并没有这个说法，因故加上引号</strong>）。</p>
+
+<p>参考<code>ValueAnimator</code>的部分源码：</p>
+
+<pre><code>//默认的TimeInterpolator是AccelerateDecelerateInterpolator
+// The time interpolator to be used if none is set on the animation
+private static final TimeInterpolator sDefaultInterpolator = new AccelerateDecelerateInterpolator();
+
+/**
+* The time interpolator used in calculating the elapsed fraction of this animation. The
+* interpolator determines whether the animation runs with linear or non-linear motion,
+* such as acceleration and deceleration. The default value is
+* {@link android.view.animation.AccelerateDecelerateInterpolator}
+*
+* @param value the interpolator to be used by this animation. A value of &lt;code&gt;null&lt;/code&gt;
+* will result in linear interpolation.
+*/
+@Override
+public void setInterpolator(TimeInterpolator value) {
+   if (value != null) {
+       mInterpolator = value;
+   } else {
+       // 如果传入的TimeInterpolator是null的话就设置为LinearInterpolator
+       mInterpolator = new LinearInterpolator();
+   }
+}
+
+/**
+ * The type evaluator to be used when calculating the animated values of this animation.
+ * The system will automatically assign a float or int evaluator based on the type
+ * of &lt;code&gt;startValue&lt;/code&gt; and &lt;code&gt;endValue&lt;/code&gt; in the constructor. But if these values
+ * are not one of these primitive types, or if different evaluation is desired (such as is
+ * necessary with int values that represent colors), a custom evaluator needs to be assigned.
+ * For example, when running an animation on color values, the {@link ArgbEvaluator}
+ * should be used to get correct RGB color interpolation.
+ *
+ * &lt;p&gt;If this ValueAnimator has only one set of values being animated between, this evaluator
+ * will be used for that set. If there are several sets of values being animated, which is
+ * the case if PropertyValuesHolder objects were set on the ValueAnimator, then the evaluator
+ * is assigned just to the first PropertyValuesHolder object.&lt;/p&gt;
+ *
+ * @param value the evaluator to be used this animation
+ */
+public void setEvaluator(TypeEvaluator value) {
+    if (value != null &amp;&amp; mValues != null &amp;&amp; mValues.length &gt; 0) {
+        mValues[0].setEvaluator(value);
+    }
+}
+</code></pre>
+
+<p>(4)<strong>调用<code>ValueAnimator</code>的<code>ofInt</code>方法时发生了什么</strong>
+<code>ValueAnimator</code>的<code>ofInt</code>方法是创建动画常用的方法，该方法会调用<code>ValueAnimator</code>的<code>setIntValues</code>，其中调用了<code>PropertyValuesHolder</code>的<code>setIntValues</code>方法，里面又调用了<code>KeyframeSet</code>的<code>ofInt</code>方法用来得到动画的帧集合，该方法的实现如下：</p>
+
+<pre><code>//根据提供的数字序列得到动画的核心帧集合
+public static KeyframeSet ofInt(int... values) {
+    int numKeyframes = values.length;//有多少个数字就有多少帧
+    IntKeyframe keyframes[] = new IntKeyframe[Math.max(numKeyframes,2)];//至少有2帧
+    if (numKeyframes == 1) {//如果只传入一个数字，那么该数字就是结束帧的值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f);
+        keyframes[1] = (IntKeyframe) Keyframe.ofInt(1f, values[0]);
+    } else {//如果传入多个数字，那么可以将整个动画时间间隔均分，每个数字按顺序在每个时间比率上占据一个属性值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f, values[0]);
+        for (int i = 1; i &lt; numKeyframes; ++i) {
+            keyframes[i] = (IntKeyframe) Keyframe.ofInt((float) i / (numKeyframes - 1), values[i]);
+        }
+    }
+    return new IntKeyframeSet(keyframes);
+}
+</code></pre>
+
+<p><code>Keyframe</code>的<code>ofInt</code>方法的签名为<code>Keyframe ofInt(float fraction, int value)</code>：前者就是动画已经完成的时间比率，后者是该帧的属性值，它表示在这个特定的时间比率对应的时刻，函数曲线会经过或者非常接近这个属性值(<strong>可能是没有经过，而只是很接近很接近，毕竟是曲线拟合嘛</strong>)。</p>
+
+<p>上面得到的帧只是动画的几个核心帧，肯定不是动画的全部帧，那中间的其他帧是怎么计算的呢？
+这个问题我们可以看下<code>KeyframeSet</code>的<code>getValue</code>方法，方法传入的参数就是动画的时间比率，返回值就是此帧的属性值。</p>
+
+<pre><code>/**
+ * Gets the animated value, given the elapsed fraction of the animation (interpolated by the
+ * animation's interpolator) and the evaluator used to calculate in-between values. This
+ * function maps the input fraction to the appropriate keyframe interval and a fraction
+ * between them and returns the interpolated value. Note that the input fraction may fall
+ * outside the [0-1] bounds, if the animation's interpolator made that happen (e.g., a
+ * spring interpolation that might send the fraction past 1.0). We handle this situation by
+ * just using the two keyframes at the appropriate end when the value is outside those bounds.
+ */
+public Object getValue(float fraction) {
+    // Special-case optimization for the common case of only two keyframes
+    if (mNumKeyframes == 2) {//1.处理只有2帧的情况
+        if (mInterpolator != null) {
+            //先调用TimeInterpolator函数
+            fraction = mInterpolator.getInterpolation(fraction);
+        }
+        //再调用TypeEvaluator函数
+        return mEvaluator.evaluate(fraction, mFirstKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //2.处理上冲和下冲的情况
+    if (fraction &lt;= 0f) {
+        final Keyframe nextKeyframe = mKeyframes.get(1);
+        final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = mFirstKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, mFirstKeyframe.getValue(), nextKeyframe.getValue());
+    } else if (fraction &gt;= 1f) {
+        final Keyframe prevKeyframe = mKeyframes.get(mNumKeyframes - 2);
+        final TimeInterpolator interpolator = mLastKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = prevKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (mLastKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //3.处理正常的多帧的情况
+    Keyframe prevKeyframe = mFirstKeyframe;
+    //首先要遍历前面计算出的主要KeyFrame集合，看当前的fraction是处在哪个区间的
+    for (int i = 1; i &lt; mNumKeyframes; ++i) {
+        Keyframe nextKeyframe = mKeyframes.get(i);
+        if (fraction &lt; nextKeyframe.getFraction()) {
+            final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+            final float prevFraction = prevKeyframe.getFraction();
+            //将当前的fraction折算成在这个区间内的时间比率，这个计算有意思吧
+            float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+            // Apply interpolator on the proportional duration.
+            if (interpolator != null) {
+                //先调用TimeInterpolator函数
+                intervalFraction = interpolator.getInterpolation(intervalFraction);
+            }
+            //再调用TypeEvaluator函数
+            return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), nextKeyframe.getValue());
+        }
+        prevKeyframe = nextKeyframe;
+    }
+    // shouldn't reach here
+    return mLastKeyframe.getValue();
+}
+</code></pre>
+
+<p>举个简单的例子，下图中的<code>ValueAnimator</code>的<code>TimeInterpolator</code>是<code>LinearInterpolator</code>，它的<code>TypeEvaluator</code>是<code>IntEvaluator</code>，初始化的时候给定了5个数字，那么核心帧集合中有5帧，此时我们要求当fraction=0.4的时刻的value是多少。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/keyframeset_getvalue.png" alt="img" /></p>
+
+<h4 id="3-2-关于timeinterpolator"><strong>3.2 关于TimeInterpolator</strong></h4>
+
+<p>我们都知道时间是一秒一秒过去的，也就是线性的，匀速前进的。如果属性值从起始值到结束值是匀速变化的话，那么整个动画看起来就是慢慢地均匀地变化着。但是，如果我们想让动画变得很快或者变得很慢怎么办？答案是我们可以通过“篡改时间”来完成这个任务！这正是<code>TimeInterpolator</code>类的工作，它实际上就是一条函数曲线。</p>
+
+<p>举个栗子！如下图所示，x轴表示时间的比率，y轴表示属性值。在不考虑<code>TypeEvaluator</code>的计算的情况下，假设属性值是从0变化到1，默认情况下线性插值器就和曲线y=x一样，在时间t的位置上的值为f(t)=t，<strong>当t=0.5的时刻传给TypeEvaluator的是t=0.5的时刻的值0.5</strong>。但是，当我们将<code>TimeInterpolator</code>设置为函数y=x^2或者y=x^(0.5)时，动画的效果就截然不同啦。在t=0.5的时刻，y=x^2=0.25 &lt; 0.5，表示它将时间推迟了，<strong>传给TypeEvaluator的是0.25时刻的值0.25</strong>；而y=x^(0.5)=0.71 &gt; 0.5，表示它将时间提前了，<strong>传给TypeEvaluator的是0.71时刻的值0.71</strong>。</p>
+
+<p>此外，仔细观察曲线的斜率不难发现，<strong>曲线y=x^2的斜率在不断增加，说明变化越来越快，作用在View组件上就是刚开始挺慢的，然后不断加速的效果；而曲线y=x^(0.5)的斜率在不断减小，说明变化越来越慢，作用在View组件上就是刚开始挺快的，然后不断减速的效果。</strong></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/interpolator.png" alt="img" /></p>
+
+<p><strong>推荐在<a href="http://cubic-bezier.com/">cubic-bezier.com</a>网站中简单绘制和上面两个曲线类似形状的曲线，然后选择线性曲线作为参考，查看方块的运动变化情况。</strong></p>
+
+<p>Android的动画框架中已经给我们提供了不少实现了<code>TimeInterpolator</code>的插值器，包括AccelerateDecelerateInterpolator, AccelerateInterpolator, AnticipateInterpolator, AnticipateOvershootInterpolator, BounceInterpolator, CycleInterpolator, DecelerateInterpolator, LinearInterpolator, OvershootInterpolator, PathInterpolator。</p>
+
+<p>基本上每个插值器其实就对应一条曲线，例如加速减速插值器<code>AccelerateDecelerateInterpolator</code>对应的曲线如下，斜率是先增加后减小。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/adinterpolator.png" alt="img" /></p>
+
+<p><strong>那除了Android系统自带的这些，还有哪些常见的<code>TimeInterpolator</code>呢？</strong></p>
+
+<p>不妨看看这个项目<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>，作者实现了30种常见动画的<code>TimeInterpolator</code>，每个<code>TimeInterpolator</code>的曲线形状大致如下图所示 （图片截自<a href="http://easings.net/">easings.net</a>，项目EaseInterpolator实现了其中的30个效果）
+这个项目中的<code>Ease[XXX]Interpolator</code>都实现了<code>Interpolator</code>接口，而<code>Interpolator</code>接口继承自<code>TimeInterpolator</code>接口。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/easingfuctions.png" alt="img" /></p>
+
+<h4 id="3-3-关于typeevaluator"><strong>3.3 关于TypeEvaluator</strong></h4>
+
+<p><code>TypeEvaluator</code>实际上也是一条函数曲线，它的输入是<code>TimeInterpolator</code>传进来的被“篡改”了的时间比率，还有动画的起始值和结束值信息，输出就是动画当前应该更新的属性值。假设<code>TimeInterpolator</code>是<code>LinearInterpolator</code>（<strong>f(t)=t</strong>），也就是说时间比率不被“篡改”的话，那么<code>ValueAnimator</code>对应的函数其实就简化成了<code>TypeEvaluator</code>函数（<strong>F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)</strong>），即动画实际上只由<code>TypeEvaluator</code>来控制。</p>
+
+<p>Android系统动画框架中提供了几个<code>TypeEvaluator</code>，例如IntEvaluator、FloatEvaluator、ArgbEvaluator、PointEvaluator、PathEvaluator等</p>
+
+<p><code>IntEvaluator</code>的<code>evaluate</code>方法的实现：（这类<code>TypeEvaluator</code>就是下一节提到的线性估值器<code>&quot;LinearTypeEvaluator&quot;</code>）</p>
+
+<pre><code>public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+    int startInt = startValue;
+    return (int)(startInt + fraction * (endValue - startInt));
+}
+</code></pre>
+
+<p><strong>那除了Android系统自带的这些，还有哪些常见的TypeEvaluator呢？</strong></p>
+
+<p>这个时候不妨看看<a href="https://github.com/daimajia">@代码家</a>的经典项目<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>，里面实现了28种常见动画的<code>TypeEvaluator</code>，每个<code>TypeEvaluator</code>的曲线形状和上面的截自<a href="http://easings.net/">easings.net</a>的图片一样，代码家实现的动画效果也正是参考自那个项目的效果而想出来的。
+项目中的<code>[XXX]Ease[YYY]</code>都继承自<code>BaseEasingMethod</code>，而<code>BaseEasingMethod</code>实现了<code>TypeEvaluator</code>接口。</p>
+
+<p>看到这里的话，机智的你肯定发现了，为什么那些<code>TimeInterpolator</code>和<code>TypeEvaluator</code>的函数曲线形状一样一样的，到底<code>TimeInterpolator</code>和<code>TypeEvaluator</code>是啥关系啊？在实现动画上它们又有啥区别呢？</p>
+
+<p>请继续看<a href="https://hujiaweibujidao.github.io/blog/2016/05/27/When-Math-meets-Android-Animation-2/">下一节</a>。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

@@ -7,25 +7,35 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Fri, 11 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 13 Nov 2016 00:51:06 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>demo post</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/13/demo-post/</link>
+      <pubDate>Sun, 13 Nov 2016 00:51:06 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/13/demo-post/</guid>
+      <description>&lt;p&gt;This is a demo post.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>PorterDuffMode in Action</title>
-      <link>https://hujiaweibujidao.github.io/2016/11/porterduffmode-in-action/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</link>
       <pubDate>Fri, 11 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/11/porterduffmode-in-action/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/11/porterduffmode-in-action/</guid>
       <description>&lt;p&gt;本文介绍Android图像处理中避不开的PorterDuffMode。&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>Build Android Studio Source Code</title>
-      <link>https://hujiaweibujidao.github.io/2016/11/build-android-studio-source-code/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</link>
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/11/build-android-studio-source-code/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
       <description>
 
 &lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。&lt;/p&gt;
@@ -114,10 +124,10 @@ To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or 
     
     <item>
       <title>Custom Lint in Action</title>
-      <link>https://hujiaweibujidao.github.io/2016/11/custom-lint-in-action/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/09/custom-lint-in-action/</link>
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/11/custom-lint-in-action/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/custom-lint-in-action/</guid>
       <description>&lt;p&gt;本文记录为Android项目自定义Lint检查规则的实践研究。&lt;/p&gt;
 
 &lt;p&gt;Android Lint是Google提供的静态代码检查工具，使用Lint可以对Android项目源码进行扫描和检查，发现代码潜在的问题，或者辅助开发者统一编码规范。&lt;/p&gt;
@@ -180,10 +190,10 @@ LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项�
     
     <item>
       <title>How to get performance data in Android</title>
-      <link>https://hujiaweibujidao.github.io/2016/10/how-to-get-performance-data-in-android/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</link>
       <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/10/how-to-get-performance-data-in-android/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
       <description>
 
 &lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。&lt;/p&gt;
@@ -332,10 +342,10 @@ USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+soft
     
     <item>
       <title>ChromeADB Project Analysis</title>
-      <link>https://hujiaweibujidao.github.io/2016/10/chromeadb-project-analysis/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</link>
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/10/chromeadb-project-analysis/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
       <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;
 
 &lt;p&gt;chromeadb项目源码：&lt;a href=&#34;https://github.com/importre/chromeadb&#34;&gt;https://github.com/importre/chromeadb&lt;/a&gt;&lt;/p&gt;
@@ -1220,10 +1230,10 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
     
     <item>
       <title>Pury Project Analysis</title>
-      <link>https://hujiaweibujidao.github.io/2016/10/pury-project-analysis/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</link>
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/10/pury-project-analysis/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
       <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。&lt;/p&gt;
 
 &lt;p&gt;Pury的源码：&lt;a href=&#34;https://github.com/NikitaKozlov/Pury&#34;&gt;https://github.com/NikitaKozlov/Pury&lt;/a&gt;&lt;/p&gt;
@@ -1553,10 +1563,10 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
     
     <item>
       <title>Build Android Source Code on Mac</title>
-      <link>https://hujiaweibujidao.github.io/2016/10/build-android-source-code-on-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</link>
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/10/build-android-source-code-on-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
       <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。&lt;/p&gt;
 
 &lt;p&gt;趁着国庆长假，抽出些时间来记录下最近倒腾的一些内容，第一个需要记录的自然是Android源码编译的流程。上班第一天就干了一件事，编译Android 6.0源码，第二天就是编译Flyme系统啦！但是编完系统之后刷到PRO6里面还有点小鸡冻呢！&lt;/p&gt;
@@ -1601,10 +1611,10 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
     
     <item>
       <title>Head First Systrace</title>
-      <link>https://hujiaweibujidao.github.io/2016/10/head-first-systrace/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</link>
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/10/head-first-systrace/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
       <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;1.systrace工具简单介绍&lt;/strong&gt;&lt;/p&gt;
@@ -2488,10 +2498,10 @@ return tracer_args
     
     <item>
       <title>Ways to Use Icons on Android (2)</title>
-      <link>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</link>
       <pubDate>Sat, 25 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</guid>
       <description>
 
 &lt;p&gt;本节主要介绍几种图标字体的制作方法和Iconify扩展的使用姿势。&lt;/p&gt;
@@ -2617,10 +2627,10 @@ IconFont可是中文的图标字体制作网站哟！该网站是阿里的UED团
     
     <item>
       <title>Ways to Use Icons on Android (1)</title>
-      <link>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</link>
       <pubDate>Fri, 24 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/06/ways-to-use-icons-on-android-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</guid>
       <description>
 
 &lt;p&gt;本节主要介绍几种Material Design图标的使用姿势。&lt;/p&gt;
@@ -2747,10 +2757,10 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
     
     <item>
       <title>When Math meets Android Animation (2)</title>
-      <link>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</link>
       <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</guid>
       <description>
 
 &lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(2)&lt;/p&gt;
@@ -2950,10 +2960,10 @@ animator2.start();
     
     <item>
       <title>When Math meets Android Animation (3)</title>
-      <link>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-3/</link>
       <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-3/</guid>
       <description>
 
 &lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(3)&lt;/p&gt;
@@ -3208,10 +3218,10 @@ animator2.start();
     
     <item>
       <title>When Math meets Android Animation (1)</title>
-      <link>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</link>
       <pubDate>Thu, 26 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/05/when-math-meets-android-animation-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
       <description>
 
 &lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(1)&lt;/p&gt;
@@ -3506,10 +3516,10 @@ public Object getValue(float fraction) {
     
     <item>
       <title>Learning Git by Animations</title>
-      <link>https://hujiaweibujidao.github.io/2016/05/learning-git-by-animations/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
       <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/2016/05/learning-git-by-animations/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
       <description>
 
 &lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
@@ -3677,82 +3687,6 @@ public Object getValue(float fraction) {
 &lt;p&gt;零碎知识点：&lt;/p&gt;
 
 &lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gank Alfred Workflow</title>
-      <link>https://hujiaweibujidao.github.io/2016/05/gank-alfred-workflow/</link>
-      <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/2016/05/gank-alfred-workflow/</guid>
-      <description>
-
-&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;0-使用方式&#34;&gt;0.使用方式&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases&#34;&gt;下载最新版本的workflow文件双击使用Alfred打开即可&lt;/a&gt;，workflow也已提交到&lt;a href=&#34;http://www.packal.org/workflow/gank-alfred-workflow&#34;&gt;Packal&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;使用前提是Alfred Workflow开启了Powerpack功能。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
-
-&lt;h4 id=&#34;2-改进方案&#34;&gt;2.改进方案&lt;/h4&gt;
-
-&lt;p&gt;两个可供改进的点：&lt;/p&gt;
-
-&lt;p&gt;（1）搜索结果应该直接显示与搜索关键词相关的干货列表&lt;/p&gt;
-
-&lt;p&gt;（2）搜索过程应该考虑干货目标网页的内容&lt;/p&gt;
-
-&lt;h4 id=&#34;3-实现原理&#34;&gt;3.实现原理&lt;/h4&gt;
-
-&lt;p&gt;只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：&lt;/p&gt;
-
-&lt;h5 id=&#34;1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io&#34;&gt;（1）&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/h5&gt;
-
-&lt;p&gt;&lt;strong&gt;这个项目主要是利用&lt;a href=&#34;http://gank.io/api&#34;&gt;Gank的API&lt;/a&gt;来获取干货列表，除此之外，该项目还利用&lt;a href=&#34;https://github.com/seomoz/dragnet&#34;&gt;dragnet&lt;/a&gt;开源工具提取每一个干货的目标网页内容，最终利用&lt;a href=&#34;http://lucene.apache.org/&#34;&gt;Lucene&lt;/a&gt;和&lt;a href=&#34;http://sparkjava.com/&#34;&gt;Spark&lt;/a&gt;等开源工具提供一个高效的干货搜索接口，并将其部署在&lt;a href=&#34;https://www.heroku.com/&#34;&gt;Heroku&lt;/a&gt;平台。&lt;/strong&gt;   &lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;网站预览&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
-
-&lt;h5 id=&#34;2-gank-alfred-workflow&#34;&gt;（2）Gank Alfred Workflow&lt;/h5&gt;
-
-&lt;p&gt;有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库&lt;a href=&#34;https://github.com/deanishe/alfred-workflow/&#34;&gt;deanishe/alfred-workflow&lt;/a&gt;，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的&lt;a href=&#34;http://www.deanishe.net/alfred-workflow/tutorial.html&#34;&gt;入门教程&lt;/a&gt;方便开发者迅速上手。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。&lt;/strong&gt;嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转&lt;a href=&#34;http://gank.io/api&#34;&gt;gank.io&lt;/a&gt;提供的API都行。&lt;/p&gt;
-
-&lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
-
-&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
 </description>
     </item>
     

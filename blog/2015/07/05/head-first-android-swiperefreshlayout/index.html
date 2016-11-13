@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Head First Android SwipeRefreshLayout &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-07-05T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Head First Android SwipeRefreshLayout &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Head First Android SwipeRefreshLayout</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-07-05T00:00:00Z">
+            Jul 5, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文内容和代码参考自<a href="https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/">Implementing Swipe to Refresh, an Android Material Design UI Pattern</a>，原博客内容中略有错误。</p>
+
+<p><a href="https://developer.android.com/reference/android/support/v4/widget/SwipeRefreshLayout.html">SwipeRefreshLayout</a>组件是Support Library中的，用途是使用户在某个组件中下拉即可刷新页面中的内容。</p>
+
+<p>This layout should be made the parent of the view that will be refreshed as a result of the gesture and can only support one direct child. This view will also be made the target of the gesture and will be forced to match both the width and the height supplied in this layout. The SwipeRefreshLayout does not provide accessibility events; instead, a menu item must be provided to allow refresh of the content wherever this gesture is used.</p>
+
+<p>SwipeRefreshLayout只能有一个直接子组件，子组件也将作为手势识别的目标区域。SwipeRefreshLayout的显示效果如下，在组件上显示一个进度圈表示正在刷新。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/swiperefreshlayout.png" alt="image" /></p>
+
+<p>下面我们来做个案例使用SwipeRefreshLayout。</p>
+
+<p>(1)新建布局文件，在SwipeRefreshLayout中插入一个RecyclerView。</p>
+
+<pre><code>&lt;RelativeLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;
+    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
+    tools:context=&quot;hujiawei.xiaojian.ui.SwipeRefreshLayoutActivity&quot;&gt;
+
+
+    &lt;android.support.v4.widget.SwipeRefreshLayout
+        android:id=&quot;@+id/mSwipeRefreshLayout&quot;
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+
+        &lt;android.support.v7.widget.RecyclerView
+            android:id=&quot;@+id/mRecyclerView&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;match_parent&quot; /&gt;
+
+    &lt;/android.support.v4.widget.SwipeRefreshLayout&gt;
+
+
+&lt;/RelativeLayout&gt;
+</code></pre>
+
+<p>(2)在<code>res/values/strings.xml</code>中添加一个字符串数组，内容是一些猫的种类的名称。</p>
+
+<pre><code>&lt;!--swipe refresh layout--&gt;
+&lt;string-array name=&quot;cat_names&quot;&gt;
+    &lt;item&gt;George&lt;/item&gt;
+    &lt;item&gt;Zubin&lt;/item&gt;
+    &lt;item&gt;Carlos&lt;/item&gt;
+    &lt;item&gt;Frank&lt;/item&gt;
+    &lt;item&gt;Charles&lt;/item&gt;
+    &lt;item&gt;Simon&lt;/item&gt;
+    &lt;item&gt;Fezra&lt;/item&gt;
+    &lt;item&gt;Henry&lt;/item&gt;
+    &lt;item&gt;Schuster&lt;/item&gt;
+&lt;/string-array&gt;
+</code></pre>
+
+<p>(3)创建RecyclerView的Adapter类<code>CatNamesRecyclerViewAdapter</code>，其中方法<code>refreshContent</code>是用来混淆mCatNames的，当做是内容刷新之后的结果。</p>
+
+<pre><code>import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import hujiawei.xiaojian.R;
+
+public class CatNamesRecyclerViewAdapter extends RecyclerView.Adapter&lt;CatNamesRecyclerViewAdapter.CatNamesViewHolder&gt; {
+
+    private Context mContext;
+    List&lt;String&gt; mCatNames;
+
+    public CatNamesRecyclerViewAdapter(Context context) {
+        mContext = context;
+        randomizeCatNames();
+    }
+
+    public void randomizeCatNames() {
+        mCatNames = Arrays.asList(getCatNamesResource());
+        Collections.shuffle(mCatNames);
+    }
+
+    private String[] getCatNamesResource() {
+        return mContext.getResources().getStringArray(R.array.cat_names);
+    }
+
+    public class CatNamesViewHolder extends RecyclerView.ViewHolder {
+        TextView mCatNameTextView;
+
+        public CatNamesViewHolder(View itemView) {
+            super(itemView);
+            mCatNameTextView = (TextView) itemView.findViewById(R.id.cat_name_textview);
+        }
+    }
+
+    public void refreshContent(){
+        Collections.shuffle(mCatNames);
+    }
+
+    @Override
+    public CatNamesViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View inflatedView = LayoutInflater.from(mContext).inflate(R.layout.item_listview_catname, viewGroup, false);
+        return new CatNamesViewHolder(inflatedView);
+    }
+
+    @Override
+    public void onBindViewHolder(CatNamesViewHolder viewHolder, int i) {
+        String catName = getItem(i);
+        viewHolder.mCatNameTextView.setText(catName);
+    }
+
+    public String getItem(int position) {
+        return mCatNames.get(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return mCatNames.size();
+    }
+
+}
+</code></pre>
+
+<p>(4)在Activity中添加主要的测试代码</p>
+
+<p>实例的代码使用了Android Annotations，但是代码读起来应该是没有障碍的，如果不太了解AA的话，可以参考下<a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-annotations/">此文</a>。</p>
+
+<pre><code>import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
+import hujiawei.xiaojian.R;
+import hujiawei.xiaojian.adapter.CatNamesRecyclerViewAdapter;
+
+@EActivity(resName = &quot;activity_swipe_refresh_layout2&quot;)
+public class SwipeRefreshLayoutActivity2 extends AppCompatActivity {
+
+    @ViewById
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @ViewById
+    RecyclerView mRecyclerView;
+
+    CatNamesRecyclerViewAdapter mAdapter;
+
+    @AfterViews
+    void init() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        mAdapter = new CatNamesRecyclerViewAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.orange, R.color.green, R.color.blue);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshContent();
+            }
+        });
+    }
+
+    private void refreshContent() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.refreshContent();
+                mAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        }, 5000);
+    }
+
+}
+</code></pre>
+
+<p>其中方法<code>setColorSchemeResources</code>是用来改变进度圈的颜色的，<code>setOnRefreshListener</code>是用来添加我们下拉刷新的具体操作的监听器的，这里是虚拟地去加载了新数据。</p>
+
+<p>OK，Enjoy! :-)</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

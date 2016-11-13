@@ -971,6 +971,7 @@ body:not(.post-template) .post-title {
 
 .read-more {
     text-decoration: none;
+    display: inline;
 }
 
 .post-meta {

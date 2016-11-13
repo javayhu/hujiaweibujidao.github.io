@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Life on Hujiawei Bujidao</title>
+    <link>https://hujiaweibujidao.github.io/tags/life/</link>
+    <description>Recent content in Life on Hujiawei Bujidao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved &amp;copy; 2016</copyright>
+    <lastBuildDate>Wed, 30 Dec 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://hujiaweibujidao.github.io/tags/life/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Things of Math</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</link>
+      <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
+      <description>
+
+&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》&lt;/p&gt;
+
+&lt;p&gt;因为近期换了博客主题，对Latex的支持较弱，而且以后可能会很少写和数学有关的内容，所以下线了之前数学专题下的所有文章，但竟然有网友评论希望重新上线，我还以为那些东西没人看呢(⊙o⊙)，最近抽空整理成pdf，需要的下载吧&lt;/p&gt;
+
+&lt;h3 id=&#34;1-微积分总结&#34;&gt;1.微积分总结&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/calculus_summary.pdf&#34;&gt;微积分总结&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-线性代数那些事&#34;&gt;2.线性代数那些事&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-1-Determinant---Hujiawei-Bujidao.pdf&#34;&gt;行列式&lt;/a&gt;：理解行列式的几何意义&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-2-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;矩阵&lt;/a&gt;：理解矩阵是线性变换，线性变换有哪些，逆矩阵和伴随矩阵以及矩阵的秩的意义&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-3-EigenVectors-and-Eigenvalues---Hujiawei-Bujidao.pdf&#34;&gt;特征向量和特征值&lt;/a&gt;：理解特征值和特征向量对于线性变换的几何意义&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-4-Similarity-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;相似矩阵&lt;/a&gt;：理解相似矩阵是同一个线性变换在不同坐标系下的不同表达&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-5-Orthogonal-Matrix---Hujiawei-Bujidao.pdf&#34;&gt;正交矩阵&lt;/a&gt;：理解正交矩阵对应的正交变换，介绍Givens旋转和Householder反射&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/LAS-6-Matrix-Decomposition---Hujiawei-Bujidao.pdf&#34;&gt;矩阵分解&lt;/a&gt;：理解并实现矩阵的各种分解：LU分解，Cholesky分解，QR分解，特征值分解和奇异值分解&lt;/p&gt;
+
+&lt;h3 id=&#34;3-数值算法与应用&#34;&gt;3.数值算法与应用&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter1.pdf&#34;&gt;第一章 线性方程组求解&lt;/a&gt;
+内容包括：高斯消去法，LU分解，Cholesky分解，矩阵的逆矩阵求解&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter2.pdf&#34;&gt;第二章 非线性方程求解&lt;/a&gt;
+内容包括：二分法，牛顿法，割线法，IQI法，Zeroin算法&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter3.pdf&#34;&gt;第三章 矩阵特征值和奇异值求解&lt;/a&gt;
+内容包括：基本幂法，逆幂法和移位幂法，QR分解，Householder变换，实用QR分解技术，奇异值分解SVD&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter4.pdf&#34;&gt;第四章 曲线拟合和多项式插值&lt;/a&gt;
+内容包括：曲线拟合，拉格朗日插值多项式，牛顿插值多项式，分段线性插值，保形分段三次插值，三次样条插值&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>You are My Sunshine</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</link>
+      <pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</guid>
+      <description>&lt;p&gt;代码小情诗&lt;strong&gt;《You are my sunshine》&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/miaosuwulimi.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+* 代码情诗：You are my sunshine
+* &amp;lt;p/&amp;gt;
+* 灵感来自英文歌曲《You are my sunshine》
+* &amp;lt;p/&amp;gt;
+* hujiawei 15/11/21
+*/
+public class YouAreMySunshine {
+
+    //情诗主要内容
+    public void poem() {
+        //You are my sunshine my only sunshine
+        I me = new I();
+        You you = MySunshine.getSingleInstance();/*你是我的唯一的太阳*/
+
+        //You make me happy when skies are gray
+        if (Sky.isGray(you)) {
+            you.makeMeHappy(me);/*当天空一片灰暗的时候你会逗我开心*/
+        }
+
+        //You&#39;ll never know dear how much I love you
+        while (true) {
+            you.neverKnow(Love.howMuch(me,you));/*你永远不知道我有多么得爱你*/
+        }
+
+        //Please don&#39;t take my sunshine away
+        try {
+            you.finalize();
+        } catch (Throwable throwable) {
+            you = MySunshine.getSingleInstance();/*当GC销毁你的时候我再造一个你*/
+        }
+    }
+
+    //天空
+    static class Sky {
+        //天空是否是灰色的，由你是否开心决定 ↖(^ω^)↗
+        static boolean isGray(You you) {
+            return !you.happy();
+        }
+    }
+
+    //我
+    static class I {
+        //我开心啦 ~\(≧▽≦)/~
+        public void happy() {
+        }
+    }
+
+    //你
+    static class You {
+        //你是否开心，希望你一直开心 (&amp;gt;^ω^&amp;lt;)
+        public boolean happy() {
+            return true;
+        }
+
+        //你能使我开心 ~\(≧▽≦)/~
+        public void makeMeHappy(I me) {
+            me.happy();
+        }
+
+        //你不知道我有多么爱你 (@﹏@)
+        public void neverKnow(String howMuch) {
+        }
+
+        //&amp;quot;Garbage Collector (GC) 要 take you away&amp;quot; ~~o(&amp;gt;_&amp;lt;)o ~~
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+        }
+    }
+
+    //我的太阳
+    static class MySunshine extends You {
+        //我的太阳我来&amp;quot;造&amp;quot; ↖(^ω^)↗
+        private MySunshine() {
+        }
+
+        //&amp;quot;单例模式&amp;quot; (⊙o⊙)
+        public static MySunshine getSingleInstance() {
+            return MySunshineHolder.instance;
+        }
+
+        //&amp;quot;为了单例模式的多线程安全&amp;quot; (⊙o⊙)
+        static class MySunshineHolder {
+            private static MySunshine instance = new MySunshine();
+        }
+    }
+
+    //爱
+    static class Love{
+        static final String INFINITE = &amp;quot;INFINITE&amp;quot;;
+        //我有多爱你，当然是无限爱啦 Y^o^Y
+        public static String howMuch(I me, You you){
+            return Love.INFINITE;
+        }
+    }
+
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Missing</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</link>
+      <pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</guid>
+      <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》&lt;/p&gt;
+
+&lt;p&gt;{% img /images/once.png %}&lt;/p&gt;
+
+&lt;p&gt;小摩羯长大了，要有满满的正能量！&lt;strong&gt;Take the sinking boat and point it HOME!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=4340758&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;
+
+&lt;!--
+想见
+
+想见，却不能见，
+封存的记忆，烫伤了自己
+
+想见，却不敢见，
+将来的眼泪，模糊了视线
+
+想见，却见不到，
+未知的距离，冻结了时间
+
+相见，想见，再见
+再见，想见，相见
+--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Job Hunting</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</link>
+      <pubDate>Fri, 09 Oct 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</guid>
+      <description>&lt;p&gt;今年我找Android开发工作的干货分享，祝大家找工作顺利。&lt;/p&gt;
+
+&lt;p&gt;最近正在整理新版本，地址在&lt;a href=&#34;https://github.com/hujiaweibujidao/AndroidInterviews&#34;&gt;AndroidInterviews&lt;/a&gt;，里面纠正了以前版本的很多错误，内容有大量更新，建议结合本博客中Android群英传和Android开发艺术探索的全部读书笔记一起看，因为读书笔记中的很多重点知识将不会在面试指南中再重复出现。&lt;/p&gt;
+
+&lt;p&gt;欢迎需要的小伙伴去下载下来阅读，如果有错误可以直接告知我或者提交PR，非常感谢。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;以下是2015年总结的版本，仅供参考。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;原本是保存在我的Evernote中的，但是Evernote暂时关闭了note分享功能，所以我只能导出pdf来，里面其实有很多的链接的，但是你点击了是无效的，因为它本来是链接我保存的另一个网摘note，所以只能麻烦你百度下查看相关链接文章啦。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_java.pdf&#34;&gt;Java部分&lt;/a&gt; &lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_android.pdf&#34;&gt;Android部分&lt;/a&gt; &lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_network.pdf&#34;&gt;网络部分&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;内容大部分是从书中或者网上摘取的，也并没有全部都测试过，加上小弟才疏学浅，所以难免有误，请大家在下面的评论栏批评指出，谢谢！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/android.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Interview of Alibaba</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</link>
+      <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</guid>
+      <description>&lt;p&gt;阿里实习的事情终于尘埃落定了，自己的坚持也算是有了一份答复，这个过程真的要感谢很多很多人，2015年注定是我遇见我的众多贵人的一年！&lt;/p&gt;
+
+&lt;p&gt;阿里一直是我想去的公司，在我心中它的Java技术已经完全可以笑傲江湖了，作为一个Java迷，很想有一天能够在牛逼的公司写着最牛逼的Java代码！本科毕业之后，和好友阿Q约好将来一起去阿里，就像大三那年和兄弟小熊约好一起去T大一样。下面就讲(tu)讲(cao)今年找实习的那些事情吧。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;神马搜索&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;去年秋天我就去试过了神马搜索（阿里系），因为它很近，就在五道口，来回很方便。当时一面还算顺利，面试官准备充分，先出了两道数据结构和算法（平衡二叉树和DP），好在不算难，我虽然没复习也差不多写出来了。然后就开始问JVM垃圾回收机制，线程同步和通信等问题，面试官人蛮好的，慢慢引导我回答出来，之后就聊我做的项目了。最后聊到实习时间的时候，我说不能保证每周4天以上，最多可以做到每周3天（因为项目例会和助教的缘故），但是面试官说这边要求时间一定要满足，否则就没戏了。后来我想了想，回了封邮件给面试官说我时间不行就这样结束了。今年返校后我又发了份邮件咨询当时的面试官，每周3天可否，还是不行，于是就放弃了神马搜索。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;友盟&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;在等待神马面试官回复的那段时间，我又去试了下友盟（已经被阿里收购了）。面试那天要坐公交车，结果晕车吐了，到了那个地方就快虚脱了，而且因为交通阻塞差点晚点了！第一面面试官问的问题不多，就问了下Android中组件的属性weight的作用是什么，我过年前刚做完贰货项目所以还记得，我还解释了几种常见的使用情况。面试官然后开始问我算法题，后来才知道是LeetCode上经典的Two Sum这道题，我当时觉得肯定要排序，所以这道题我的解法没有达到面试官的要求，其实使用hash可以做到线性时间。面试官觉得我有些项目经验，于是就让我过了，紧接着就是二面面试官来了。二面面试官看起来很拽的样子，上来问了问我做的人脸识别应用XFace的事情，问我用的什么人脸识别算法，然后我就简单解释了下PCA和LDA等算法。之后他就开始出题了，问我手机屏幕解锁的界面共有多少种可能的解锁图案，我当时觉得我算不出来就果断放弃了，然后他开始问一道算法题，又是后来我才知道他是想出LeetCode上的Median of Two sorted array，但是他把题目都记错了，说成在两个已经排好序的数组中的找某个数字（是不是很简单，ORZ），题目让我感觉很奇怪，然后我就问了几个问题确认下，他貌似没感觉有问题，然后就让我写代码吧，这时候他出去了，在我写完了之后他进来说题目出错了！就这样，二面就这么尴尬地结束了，然后就没有然后了，至今没有收到邮件说要还是不要。给友盟一个差评！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;腾讯&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;后来到了腾讯找实习生的时候了，我想了想还是投了简历报了名，结果很快就有人联系我。他是在北京的腾讯在线媒体事业部的，然后说找我面试，可我说我还没有笔试，他说不用，先面再说，然后就这么过去了。面试那天有些尴尬，我不知道他的名字和电话，好在最后还是面上了。面试官人很好，我们就是聊天，聊项目，聊Android，聊人生。面试官希望我在那里实习，然后在那里转正工作。但是，我说自己是南方人，毕业以后会回南方，不会呆在北京，然后又没有然后了。&lt;/p&gt;
+
+&lt;p&gt;再后来一个周五突然收到短信说明天笔试，结果就稀里糊涂地去笔试了，题目出得让我很不开心，我投的Android客户端开发，可是一道相关题目都没有，大部分是C++题目，还有JS和OC的题目，简直无语了。虽然我都会点，但是都已经忘记了啊，可幸运的是还是过了，然后去面试，结果那天人很多，还有不少霸面的，结果我在预约的时间晚了一个多小时后才面上了。当然我心情已经不太好了，而且人多很压抑。面试官比较严肃，先是出了LRU Cache这题（LeetCode上有），我很早做这题时是用Python写的，但是完全忘了，然后现场想的方案不是最优的，面试官一直就不搭理我，也不引导，就是让我写代码，写错了再写，时间就这么一点一滴地过去了。然后问他我可以用Java中的任何已有的数据结构么，他说可以，然后我提到了可以用LinkedHashMap，这题直接就搞定了，可是他貌似已经不想听我说了，然后我就感觉没戏了，慌了。然后他开始问Android相关的问题，Activity的生命周期，我当时脑抽了，画完了之后不确定onCreate和onStart哪个是先回调的，真的很久没写Android了！后面还问了ListView如何进行优化，判断链表是否有环存在等。面完之后已经觉得完了，果然，后面的结果就是被刷了。心虽不甘，但是没办法，都是我的错，一是没有好好准备，二是没有调整心态，三是没有跟面试官好好沟通。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;阿里&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;吸取前面的教训，阿里的面试之前我怒刷LeetCode，一面的时候加上以前做的题目已经将近100道题了（算法不强实在没办法快速刷完）。阿里面试给人的感觉很好，老远就有人在路口提醒你怎么过去，进楼之后马上有工作人员接待，看下通关卡之后就可以下去准备面试了，等待的时候还有零食可以吃。面试时间也是把握得相当好，我刚坐下没多久就开始面试了。一面面试官有点微胖，憨厚的样子，先给我出了一道数据结构题，将一颗二叉树变成一个双向链表，在问明白了题目意思之后我就开始写了，面试官说不用急，有的是时间，让我放轻松。写完之后，我解释了下代码，然后面试官看了下，让我修改下，节省点空间，然后我又开始写另一个版本。面试官还是很耐心地说，没事，慢慢写，有时间，我先去上个洗手间。哈哈哈，当时给我感觉就是很舒服，回来后面试官估计今天真的是累了饿了，然后开始吃点东西。完了之后，面试官就开始出题了，范围很广，计算机网络的题目比较多，协议模型，三次握手，一些协议在哪层，GET和POST方法之间的区别，交换机，CS模式下断开重新连接的情况，HTTP POST中的boundary，滑动窗口协议，URL编码等等，网络我真的记不得了。然后问了Android，Android Handler机制，Service(线程/进程，AIDL)，ANR怎么办，内存溢出/内存泄露的情况，Dalvik虚拟机存储结构，Android系统启动过程，NDK/JNI和反射，Dalvik如何执行dex文件等等。然后问了Java，回收机制，==和equals，copy方法，还问了装饰器模式和策略模式的区别，可惜我忘了策略模式是什么情况！整个面试过程就是很多我都能回答一些，但是不能回答地完整的样子，面试官感觉我还行，基础比较全面，也希望我以后能在某些领域（比如JNI等）好好深入了解下。一面就这么通过了，真心感谢面试官，现在我还和面试官加了微信呢，哈哈哈。&lt;/p&gt;
+
+&lt;p&gt;二面是在五一放假之后，五一这几天我都不管出去玩，就出去玩了一天，吃饭逛街。其他时间在准备Android的面试题以及LeetCode，这次面试之前LeetCode刷到130多题了，Android的面试题也是看的差不多了，所以信心满满的就过去了。这次面试等待了蛮久，足足等了一个多小时才到我，现在回想起来，感谢上帝这么安排，我的面试官竟然是无线事业部技术总监！面试官很平易近人的样子，首先是让我自我介绍下，然后我就聊了聊自己的情况，他对我做的项目比较感兴趣，然后就一个项目一个项目地聊，整个过程很轻松的样子。完了之后，面试官问我上次面试不会的题目回去看了么，我说大部分都看了，但是滑动窗口协议没看，面试官也笑了笑。接着他出了一道我怎么也想不知道的题，就是手机是怎么和服务器端进行通信的？看似简单，但是手机怎么和基站连接的，基站又是怎么和服务器连接的这些我都不知道，完全回答不上来。然后面试官问我Android 2.x版本存在的方法数目不能超过65535的问题，这个我刚好在浏览一个博客的时候喵到过，但是不记得应该怎么办，然后面试官让我想，我想估计应该就是用类加载器在运行的时候去动态加载吧，然后通过反射去调用类的方法(&lt;em&gt;最近看Google官网的一篇教程时看到了这个问题&lt;a href=&#34;https://developer.android.com/tools/building/multidex.html&#34;&gt;Building Apps with Over 65K Methods&lt;/a&gt;&lt;/em&gt;)。然后面试官问我如何实现应用的动态更新和动态部署，这样就不用频繁地提交给AppStore等待漫长的审核时间。我说没遇到过这种情况，然后面试官让我猜！当时，我感觉我一定要想出来，这一猜决定胜负啊！谢天谢地，我猜对了一些，我当时感觉用OSGi的方式实现模块化，后来面试官给我讲了很多手机淘宝的事情，去年他们是怎么实现模块化的，各部门开发的应用之间如何实现隔离性，还要保证质量的。就这样，我幸运地走向了最后的HR面。HR姐姐人也不错，整个过程中主要是问了我的项目的事情，我们聊了每个项目，她会对项目问得比较细，估计是想要看是不是你亲手做的吧。最后问了我的意向，我也不知道有哪些部门可选，然后就说了二面面试官说的手淘，感觉很有挑战性。&lt;/p&gt;
+
+&lt;p&gt;经过几天漫长的等待之后，终于接到电话说通过了，然后去参加了圆桌沙龙，认识了几个新朋友，大家以后都是无线事业部的，哈哈哈，加油，一起奋斗！期待暑假实习海豹突击队的时候圆满完成项目！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/ali_yuanzhuoshalong.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Tips about MacBook&#39;s battery health</title>
+      <link>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</link>
+      <pubDate>Sun, 15 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
+      <description>&lt;p&gt;内容摘自Mac上的一个灰常好的免费软件Battery Health中关于保养MacBook的电池寿命的建议，与大家一起分享&lt;/p&gt;
+
+&lt;p&gt;For any MacBook user, especially those who travel, a long battery life and top notch battery health are vital. The tips below will help ensure you get the most out of your MacBook’s battery over its lifetime.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;1) Turn off AirPort Wireless&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;If you do not require the Internet and if there are no WiFi networks within range, turning off AirPort will considerably save your computer’s battery life. It is also wiser to use an Ethernet cable over wireless if the option exists.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;2) Turn off bluetooth&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Once again, if there is no need for a Bluetooth device, the best thing to do is to turn off the Bluetooth feature of your MacBook.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;3) Minimize use of iSight Camera&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The iSight camera uses plenty of battery power. Keeps its use down to a minimum if trying to extend battery life.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;4) Remember to eject discs from the DVD drive&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;The motor in the optical drive required to spin DVDs and CDs can use a lot of power. Thus, eject your discs to maximize battery life. If you insist on watching DVDs, say on a long journey, rip them to your hard drive first instead.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;5) Reduce screen brightness&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Turn down the brightness of the screen to as low as you can comfortably work, and your battery life will significantly rise. The brighter the screen, the shorter your battery life.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;6) Turn down/off the backlit keyboard&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Similar to the brightness of the screen, keeping your backlit keyboard (if you have one) at its lowest or off will save plenty of battery juice.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;7) Turn down volume or use headphones&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Loud volume on your MacBook requires more energy. It is more energy efficient to plug in headphones instead if you fancy listening to loud audio/music.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;8) Run fewer applications at once/turn off unneeded applications&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;By running fewer applications simultaneously, or installing more RAM, you reduce your risks of having unused parts of your memory being called for tasks, thus saving battery life.
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;9) Do not disable a CPU core&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;For all MacBooks with more than one CPU core, disabling a core is NOT wise. Your MacBooks chips were designed to run most efficiently with multiple cores active. Disabling one not only requires more power, but also generates more heat. Some users have reported losing up to 40 minutes of battery life by turning off a core!
+ &lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;10) Calibrate the battery once ever 1-3 months&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Finally, if your battery is showing signs of shorter run times, you may want to calibrate the battery (once every 1-3 months). To calibrate the battery, follow these instructions:&lt;/p&gt;
+
+&lt;p&gt;a) Fully charge your MacBook.
+b) Once fully charged, leave it plugged in for at least another 2 hours.
+c) Remove the MagSafe power adapter, and use your computer until you get the battery level warning message.
+d) Ignore that message and keep running your notebook.
+e) Eventually the machine will go to sleep.
+f) Do NOT plug it in. Instead, let it sleep for at least 5 hours.
+g) After the time has passed, plug it back in, and let it fully charge.
+h) Once fully charged, your battery has been properly calibrated.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Talk big of West Travelling</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</link>
+      <pubDate>Fri, 24 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</guid>
+      <description>&lt;p&gt;《大话西游》观后感&lt;/p&gt;
+
+&lt;p&gt;最近网上关于星爷的话题层出不穷，星爷当年的经典之作《大话西游》也即将重新放映，欠星爷的这两张电影票大家都打算开始还了，不管这次重映谁是最大的受益者，也不管是否和星爷有关，作为星爷的影迷我只希望票房能够大卖！至少可以为当前国产电影做出一个好榜样，不要只追求无谓的哗众取宠，多思考如何通过一部电影让人深思。&lt;/p&gt;
+
+&lt;p&gt;今天下午实在是憋不住了，于是下载了这两部电影重新看了一遍，这一次竟然感动到眼角湿润了。&lt;/p&gt;
+
+&lt;p&gt;这部片子看似就是一堆堆的无厘头的搞笑，但却完美地阐释了人世间的爱与恨：至尊宝对晶晶姑娘的一见钟情，紫霞仙子对意中人的忠贞不渝，晶晶姑娘和师姐春三十娘的恨，紫霞仙子和姐姐青霞的恨等等，当至尊宝带上金箍咒的时候说，当他死去的时候才终于把一切看得清楚看得明白，人世间为什么会有那么多的恨？此时他也坚定了自己护送唐僧西天取经的信念，决定用经书来感化世人，放下所有的恩怨，放下所有的仇恨，让爱充满人间。当然，要放下人世间的所有情欲是多么的困难，结尾处紫霞仙子为了救至尊宝挨了牛魔王一叉，彼时的至尊宝可谓是痛苦到了极致，他一面不忍放开自己深爱着的紫霞仙子的手，一面要强忍着金箍咒带来的痛苦，爱之深，痛之深！&lt;/p&gt;
+
+&lt;p&gt;而后来的《西游降魔》虽然不能和经典媲美，但也还是可以的，结尾处陈玄奘手捧着为自己而牺牲的她痛哭流泪，领悟到人世间的爱没有大和小之分，众生之爱皆是爱！&lt;/p&gt;
+
+&lt;p&gt;永远支持星爷的电影，感谢一生有你！&lt;/p&gt;
+
+&lt;p&gt;大爱《一生所爱》这首歌，百听不厌，献上新旧两个不同的版本，都不错！&lt;/p&gt;
+
+&lt;p&gt;卢冠廷版本的《一生所爱》&lt;/p&gt;
+
+&lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=32785700&amp;auto=0&amp;height=66&#34;&gt;&lt;/iframe&gt;
+
+&lt;!-- &lt;audio width=&#34;300&#34; height=&#34;32&#34;
+style=&#34;margin: auto; top: 0; right: 0; bottom: 0; left: 0;&#34;
+controls=&#34;controls&#34;
+autoplay=&#34;autoplay&#34;
+name=&#34;media&#34;
+src=&#34;/music/loveforever-old.mp3&#34;&gt;
+&lt;/audio&gt; --&gt;
+
+&lt;p&gt;舒淇版本的《一生所爱》&lt;/p&gt;
+
+&lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=25727660&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;
+
+&lt;!-- &lt;audio width=&#34;300&#34; height=&#34;32&#34;
+style=&#34;margin: auto; top: 0; right: 0; bottom: 0; left: 0;&#34;
+controls=&#34;controls&#34;
+autoplay=&#34;autoplay&#34;
+name=&#34;media&#34;
+src=&#34;/music/loveforever-old.mp3&#34;&gt;
+&lt;/audio&gt; --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Download Coursera Courses in the Fastest Way</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</link>
+      <pubDate>Sat, 12 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
+      <description>&lt;p&gt;下载C站课程资源的方法&lt;/p&gt;
+
+&lt;p&gt;大家估计都上过C站的课吧？每个人都有自己的学习方式和下载方式，或许是看一节下一节，或者一次性全部下载，或者其他的方式等等。我是一个性子比较急的人，学东西喜欢一次性学完，所以我基本上没有去追C站的课程，都只是开课前加入，结课后我开始下载课程资料然后开始学习，嘿嘿，下面是我个人的C站课程一次性下载一门课程所有课程资源的方式，觉得还行特意共享一下&lt;/p&gt;
+
+&lt;p&gt;1.使用Firefox浏览器，安装&lt;a href=&#34;http://www.downthemall.net/&#34;&gt;DownloadThemAll扩展插件&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;2.修改下DownloadThemAll扩展插件的配置&lt;/p&gt;
+
+&lt;p&gt;添加两个Filter：一个&lt;code&gt;CourseraVedio&lt;/code&gt;，内容是&lt;code&gt;download.mp4?&lt;/code&gt;，用于过滤得到课程视频文件；另一个&lt;code&gt;CourseraSubtitls&lt;/code&gt;，内容是&lt;code&gt;subtitles?&lt;/code&gt;，用于过滤得到课程视频对应的字幕文件&lt;/p&gt;
+
+&lt;p&gt;3.进入课程的Video Lectures页面，点击&lt;code&gt;DownloadThemAll! Tools&lt;/code&gt;下的&lt;code&gt;DownloadThemAll!&lt;/code&gt;，选中新创建的两个filter再加上前面的&lt;code&gt;Documents&lt;/code&gt;过滤器，然后选择一个目录点击&lt;code&gt;Start&lt;/code&gt;就可以了，下载速度都是超快的哟！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Thanks to 360 CDN</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</link>
+      <pubDate>Sun, 22 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</guid>
+      <description>&lt;p&gt;给360前端CDN服务点个赞&lt;/p&gt;
+
+&lt;p&gt;由于众所周知的原因，最近各种网站(以Google、Dropbox为首)都纷纷被墙，作为码农，简直要了俺们的命根子啊，没办法生在天朝也就只能发发牢骚而已，可是，最令人无奈的是Github也时常被拒之于墙外，这可让我这个把个人博客搭在Github上的小屌丝更是吓得心惊胆战，难道真的是要闭关锁国的节奏吗？&lt;/p&gt;
+
+&lt;p&gt;有人说的对，一开始不知道为什么Evernote在中国国内要另搞一个印象笔记，现在想想这招真是太聪明了，Dropbox要学着点了，但即使是学过来了，面对国内各种免费送N个T云空间的网盘你的竞争优势有多大呢？&lt;/p&gt;
+
+&lt;p&gt;OK，不发牢骚了，因为Google被墙的厉害，而且博客中不少使用了Google API(js库和字体库)，导致博客前段时间访问速度特别慢，所以考完我就来整理整理下，这里要感谢&lt;a href=&#34;http://libs.useso.com/&#34;&gt;360网站卫士提供的常用前端公共库CDN服务&lt;/a&gt;，你们总是能够推出关乎码农们痛痒的东西，永远支持你们！&lt;/p&gt;
+
+&lt;p&gt;主要修改下面两处即可：&lt;/p&gt;
+
+&lt;p&gt;文件： &lt;code&gt;source/_includes&lt;/code&gt;目录下的&lt;code&gt;head.html&lt;/code&gt;，修改如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!--
+&amp;lt;script src=&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+--&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2&#39;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;文件： &lt;code&gt;source/_includes&lt;/code&gt;目录下的&lt;code&gt;header.html&lt;/code&gt;，修改如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- 注释掉下面的js --&amp;gt;
+&amp;lt;!--
+&amp;lt;script src=&amp;quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&amp;quot;&amp;gt;&amp;lt;/script&amp;gt;
+--&amp;gt;
+&amp;lt;!-- 添加下面的js --&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2&#39;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;!-- 省略部分代码 --&amp;gt;
+&amp;lt;!-- 我没有使用Google analytics，所以注释下面一行代码(略有删减) --&amp;gt;
+&amp;lt;!--
+inlcude google_analytics.html
+--&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;文件： &lt;code&gt;source/_includes/custom&lt;/code&gt;目录下的&lt;code&gt;head.html&lt;/code&gt;，修改如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;!-- 注释掉下面的css --&amp;gt;
+&amp;lt;!--Fonts from Google&amp;quot;s Web font directory at http://google.com/webfonts --&amp;gt;
+&amp;lt;!--
+&amp;lt;link href=&amp;quot;http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&amp;quot; rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot;&amp;gt;
+&amp;lt;link href=&amp;quot;http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic&amp;quot; rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot;&amp;gt;
+--&amp;gt;
+&amp;lt;!-- 添加下面的css --&amp;gt;
+&amp;lt;link href=&amp;quot;http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic&amp;quot; rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot;&amp;gt;
+&amp;lt;link href=&amp;quot;http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic&amp;quot; rel=&amp;quot;stylesheet&amp;quot; type=&amp;quot;text/css&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;OK，大功告成，更新文件，重新打开，你会瞬间感觉世界又重新美好了！&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>CSU beautiful scenery</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</link>
+      <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</guid>
+      <description>&lt;p&gt;在CSU经历了四年的青春，感谢母校的培养，感谢曾经一起欢笑的小伙伴们，想你们！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-004.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-005.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-006.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-007.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-008.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-010.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-011.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-012.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-013.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-018.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-029.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-017.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-022.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-023.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-025.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-026.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-032.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Love you</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</link>
+      <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</guid>
+      <description>&lt;p&gt;G.E.M 邓紫棋 翻唱的《喜欢你》，真的太好听了！&lt;/p&gt;
+
+&lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=28949444&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;
+
+&lt;!-- &lt;audio width=&#34;300&#34; height=&#34;32&#34;
+style=&#34;margin: auto; top: 0; right: 0; bottom: 0; left: 0;&#34;
+controls=&#34;controls&#34;
+autoplay=&#34;autoplay&#34;
+name=&#34;media&#34;
+src=&#34;/music/love-you.mp3&#34;&gt;
+&lt;/audio&gt; --&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Happy Mother&#39;s Day</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</link>
+      <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</guid>
+      <description>&lt;p&gt;老妈，节日快乐！祝您永远幸福健康！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/mothersday.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;使用的Python代码，&lt;a href=&#34;http://pythontip.sinaapp.com/coding/skulpt/&#34;&gt;源代码来源不记得了，可以看下这里&lt;/a&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import turtle
+import random
+
+def main():
+    tList = []
+    head = 0
+    numTurtles = 10
+    for i in range(numTurtles):
+        nt = turtle.Turtle()   # Make a new turtle, initialize values
+        nt.setheading(head)
+        nt.pensize(2)
+        nt.color(random.randrange(256),random.randrange(256),random.randrange(256))
+        nt.speed(10)
+        nt.tracer(30,0)
+        tList.append(nt)       # Add the new turtle to the list
+        head = head + 360/numTurtles
+
+    for i in range(100):
+        moveTurtles(tList,15,i)
+
+    w = tList[0]
+    w.up()
+    w.goto(-130,40)
+    w.write(&amp;quot;You are my favorite lady!&amp;quot;,True,&amp;quot;center&amp;quot;,&amp;quot;20px Arial&amp;quot;)
+    w.goto(-130,-35)
+    w.write(&amp;quot;Happy Mother&#39;s Day&amp;quot;,True,&amp;quot;center&amp;quot;,&amp;quot;24px Arial&amp;quot;)
+
+def moveTurtles(turtleList,dist,angle):
+    for turtle in turtleList:   # Make every turtle on the list do the same actions.
+        turtle.forward(dist)
+        turtle.right(angle)
+
+main()
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Tsinghua 9ers Pictures</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</link>
+      <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
+      <description>&lt;p&gt;清华9字班毕业生于海童拍摄制作，视频地址&lt;a href=&#34;http://v.youku.com/v_show/id_XNTkwNDYxNjIw/v.swf.html&#34;&gt;优酷视频 时光机：清华园的延时摄影&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;虽不是9字班的，但是在园子里生活了一年多了，感觉很亲切，很梦幻，我要继续努力成为一名真正合格的清华人！&lt;/p&gt;
+
+&lt;p&gt;我希望在这里度过研究生之后，也能无怨无悔地写下“如果研究生重来，我什么都不想改变”！&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/dalitang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/erxiaomen.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/hetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;!--![image](/images/pics/hetangdong.jpeg)--&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/litang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/qinghuaxuetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/qinghuaxuetangcaihong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/quanjing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/rigui.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;!--![image](/images/pics/shandian.jpeg)--&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/xiaoche.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/xingkong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/yekong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/yinyueting.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/zijing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Wouldn&#39;t it be nice</title>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</link>
+      <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</guid>
+      <description>&lt;p&gt;《向阳处的她》中的歌曲 Wouldn&amp;rsquo;t it be nice，超爱啊&lt;/p&gt;
+
+&lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=5042210&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;
+
+&lt;!-- &lt;audio width=&#34;300&#34; height=&#34;32&#34;
+style=&#34;margin: auto; top: 0; right: 0; bottom: 0; left: 0;&#34;
+controls=&#34;controls&#34;
+autoplay=&#34;autoplay&#34;
+name=&#34;media&#34;
+src=&#34;/music/Wouldnt-It-Be-Nice.mp3&#34;&gt;
+&lt;/audio&gt; --&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

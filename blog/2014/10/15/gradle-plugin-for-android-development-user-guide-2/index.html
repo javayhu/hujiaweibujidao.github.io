@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Gradle Plugin for Android Development User Guide 2 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2014-10-15T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Gradle Plugin for Android Development User Guide 2 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Gradle Plugin for Android Development User Guide 2</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2014-10-15T00:00:00Z">
+            Oct 15, 2014
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Gradle Plugin for Android Development User Guide (2)</p>
+
+<p>阅读本文前请先阅读第一部分：<a href="https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-user-guide-1/">gradle-plugin-user-guide-1</a></p>
+
+<p>原文地址：<a href="http://tools.android.com/tech-docs/new-build-system/user-guide">http://tools.android.com/tech-docs/new-build-system/user-guide</a></p>
+
+<h3 id="testing">Testing</h3>
+
+<p>[现在我们可以直接将test application集成到我们的application project中，没有必要再创建一个独立的test project了]</p>
+
+<p>Building a test application is integrated into the application project. There is no need for a separate test project anymore.</p>
+
+<h4 id="basics-and-configuration">Basics and Configuration</h4>
+
+<p>[测试代码默认存放在<code>src/androidTest/</code> 目录下，使用Android Testing Framework 我们可以创建unit tests，instrumentation tests, 和 uiautomator tests.]</p>
+
+<p>As mentioned previously, next to the <code>main</code> sourceSet is the <code>androidTest</code> sourceSet, located by default in <code>src/androidTest/</code></p>
+
+<p>From this sourceSet is built a test apk that can be deployed to a device to test the application using the <code>Android testing framework</code>. This can contain unit tests, instrumentation tests, and later uiautomator tests.</p>
+
+<p>[test app的<code>AndroidManifest.xml</code> 文件是自动生成的，所以它不需要指定位置，此外，我们没必要设置test application的instrumentation节点的<code>targetPackage</code> 属性，因为它会被test app的package name填充进去，这也就是为什么test app的Manifest文件是自动生成的]</p>
+
+<p>The sourceSet should not contain an <code>AndroidManifest.xml</code> as it is automatically generated.</p>
+
+<p>There are a few values that can be configured for the test app: [test app可以指定的属性]</p>
+
+<p><code>testPackageName</code><br />
+<code>testInstrumentationRunner</code><br />
+<code>testHandleProfiling</code><br />
+<code>testFunctionalTest</code></p>
+
+<p>As seen previously, those are configured in the defaultConfig object:</p>
+
+<pre><code class="language-java">android {
+    defaultConfig {
+        testPackageName &quot;com.test.foo&quot;
+        testInstrumentationRunner &quot;android.test.InstrumentationTestRunner&quot;
+        testHandleProfiling true
+        testFunctionalTest true
+    }
+}
+</code></pre>
+
+<p><strong>The value of the <code>targetPackage</code> attribute of the instrumentation node in the test application manifest is automatically filled with the package name of the tested app, even if it is customized through the <code>defaultConfig</code> and/or the Build Type objects. This is one of the reason the manifest is generated automatically.</strong></p>
+
+<p>Additionally, the sourceSet can be configured to have its own dependencies.
+By default, the application and its own dependencies are added to the test app classpath, but this can be extended with</p>
+
+<pre><code>dependencies {
+    androidTestCompile 'com.google.guava:guava:11.0.2'
+}
+</code></pre>
+
+<p>[test app是通过任务<code>assembleTest</code> 来构建的，它不是main assemble任务的依赖项，所以它是在test运行时自动调用的。目前只有debug这个build type会被测试，当然也可以自定义]</p>
+
+<p><strong>The test app is built by the task <code>assembleTest</code>. It is not a dependency of the main assemble task, and is instead called automatically when the tests are set to run.</strong></p>
+
+<p><strong>Currently only one Build Type is tested. By default it is the <code>debug</code> Build Type, but this can be reconfigured with:</strong></p>
+
+<pre><code>android {
+    ...
+    testBuildType &quot;staging&quot;
+}
+</code></pre>
+
+<h4 id="running-tests">Running tests</h4>
+
+<p>[前面提到过，在所有已连接的设备上进行check的任务是<code>connectedCheck</code>，它依赖任务<code>androidTest</code>，该任务的工作是并行地在所有已连接的设备上运行测试，任何一个设备测试失败的话，build就会失败。测试的结果会保存在XML文件中，存放在<code>build/androidTest-results</code> 目录下，当然也可以修改目标目录]</p>
+
+<p>As mentioned previously, checks requiring a connected device are launched with the anchor task called <code>connectedCheck</code>.</p>
+
+<p>This depends on the task <code>androidTest</code> and therefore will run it. This task does the following:  [<code>androidTest</code> 任务的工作流程]</p>
+
+<p>1 Ensure the app and the test app are built (depending on <code>assembleDebug</code> and <code>assembleTest</code>)<br />
+2 Install both apps<br />
+3 Run the tests<br />
+4 Uninstall both apps.</p>
+
+<p>If more than one device is connected, all tests are run in parallel on all connected devices. If one of the test fails, on any device, the build will fail.</p>
+
+<p>All test results are stored as XML files under</p>
+
+<p><code>build/androidTest-results</code></p>
+
+<p>(This is similar to regular jUnit results that are stored under <code>build/test-results</code>)</p>
+
+<p>This can be configured with</p>
+
+<pre><code>android {
+    ...
+
+    testOptions {
+        resultsDir = &quot;$project.buildDir/foo/results&quot;
+    }
+}
+</code></pre>
+
+<p><strong>The value of <code>android.testOptions.resultsDir</code> is evaluated with <code>Project.file(String)</code></strong></p>
+
+<h4 id="testing-android-libraries">Testing Android Libraries</h4>
+
+<p>[测试android library project和测试一般的application差不多，区别在于整个library和它的依赖项都会被自动添加到test app，Manifest文件也被整合到test app的Manifest中。此外，<code>androidTest</code> 任务只能安装和卸载test APK]</p>
+
+<p>Testing Android Library project is done exactly the same way as application projects.</p>
+
+<p>The only difference is that the whole library (and its dependencies) is automatically added as a Library dependency to the test app. The result is that the test APK includes not only its own code, but also the library itself and all its dependencies.</p>
+
+<p>The manifest of the Library is merged into the manifest of the test app (as is the case for any project referencing this Library).</p>
+
+<p>The <code>androidTest</code> task is changed to only install (and uninstall) the test APK (since there are no other APK to install.)</p>
+
+<p>Everything else is identical.</p>
+
+<h4 id="test-reports">Test reports</h4>
+
+<p>[在进行单元测试时，Gradle会输出一份HTML文档形式的报告。Android插件在此之上进行扩展，输出一份整合了所有已连接设备的测试结果的测试报告]</p>
+
+<p>When running unit tests, Gradle outputs an HTML report to easily look at the results.</p>
+
+<p>The Android plugins build on this and extends the HTML report to aggregate the results from all connected devices.</p>
+
+<h4 id="single-projects">Single projects</h4>
+
+<p>The project is automatically generated upon running the tests. Its default location is <code>build/reports/androidTests</code></p>
+
+<p>This is similar to the jUnit report location, which is <code>build/reports/tests</code>, or other reports usually located in <code>build/reports/&lt;plugin&gt;/</code></p>
+
+<p>The location can be customized with</p>
+
+<pre><code>android {
+    ...
+
+    testOptions {
+        reportDir = &quot;$project.buildDir/foo/report&quot;
+    }
+}
+</code></pre>
+
+<p>The report will aggregate tests that ran on different devices.</p>
+
+<h4 id="multi-projects-reports">Multi-projects reports</h4>
+
+<p>[对于多项目的测试，可以使用插件<code>android-reporting</code> 来将所有的测试结果输出到一个单一的报告中，而且这个设置必须是要设置在根项目的<code>build.gradle</code> 文件中]</p>
+
+<p>In a multi project setup with application(s) and library(ies) projects, when running all tests at the same time, it might be useful to generate a single reports for all tests.</p>
+
+<p>To do this, a different plugin is available in the same artifact. It can be applied with:</p>
+
+<pre><code>buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.6'
+    }
+}
+
+apply plugin: 'android-reporting'
+</code></pre>
+
+<p>This should be applied to the root project, ie in <code>build.gradle</code> next to <code>settings.gradle</code></p>
+
+<p>[在项目根目录下使用下面的命令可以保证运行所有的测试并聚合所有的测试结果，其中的<code>--continue</code> 选项能够保证即使某个设备在测试过程中出现了问题也不会打断其他的设备继续测试]</p>
+
+<p>Then from the root folder, the following command line will run all the tests and aggregate the reports:</p>
+
+<pre><code>gradle deviceCheck mergeAndroidReports --continue
+</code></pre>
+
+<p>Note: the <code>--continue</code> option ensure that all tests, from all sub-projects will be run even if one of them fails. Without it the first failing test will interrupt the run and not all projects may have their tests run.</p>
+
+<h4 id="lint-support">Lint support</h4>
+
+<p>[lint可以指出程序中可能出现的issue，android插件同样支持]</p>
+
+<p>As of version 0.7.0, you can run lint for a specific variant, or for all variants, in which case it produces a report which describes which specific variants a given issue applies to.</p>
+
+<p>You can configure lint by adding a <code>lintOptions</code> section like following. You typically only specify a few of these; this section shows all the available options.</p>
+
+<pre><code>android {
+    lintOptions {
+        // set to true to turn off analysis progress reporting by lint
+        quiet true
+        // if true, stop the gradle build if errors are found
+        abortOnError false
+        // if true, only report errors
+        ignoreWarnings true
+        // if true, emit full/absolute paths to files with errors (true by default)
+        //absolutePaths true
+        // if true, check all issues, including those that are off by default
+        checkAllWarnings true
+        // if true, treat all warnings as errors
+        warningsAsErrors true
+        // turn off checking the given issue id's
+        disable 'TypographyFractions','TypographyQuotes'
+        // turn on the given issue id's
+        enable 'RtlHardcoded','RtlCompat', 'RtlEnabled'
+        // check *only* the given issue id's
+        check 'NewApi', 'InlinedApi'
+        // if true, don't include source code lines in the error output
+        noLines true
+        // if true, show all locations for an error, do not truncate lists, etc.
+        showAll true
+        // Fallback lint configuration (default severities, etc.)
+        lintConfig file(&quot;default-lint.xml&quot;)
+        // if true, generate a text report of issues (false by default)
+        textReport true
+        // location to write the output; can be a file or 'stdout'
+        textOutput 'stdout'
+        // if true, generate an XML report for use by for example Jenkins
+        xmlReport false
+        // file to write report to (if not specified, defaults to lint-results.xml)
+        xmlOutput file(&quot;lint-report.xml&quot;)
+        // if true, generate an HTML report (with issue explanations, sourcecode, etc)
+        htmlReport true
+        // optional path to report (default will be lint-results.html in the builddir)
+        htmlOutput file(&quot;lint-report.html&quot;)
+
+   // set to true to have all release builds run lint on issues with severity=fatal
+   // and abort the build (controlled by abortOnError above) if fatal issues are found
+   checkReleaseBuilds true
+        // Set the severity of the given issues to fatal (which means they will be
+        // checked during release builds (even if the lint target is not included)
+        fatal 'NewApi', 'InlineApi'
+        // Set the severity of the given issues to error
+        error 'Wakelock', 'TextViewEdits'
+        // Set the severity of the given issues to warning
+        warning 'ResourceAsColor'
+        // Set the severity of the given issues to ignore (same as disabling the check)
+        ignore 'TypographyQuotes'
+    }
+}
+</code></pre>
+
+<h3 id="build-variants">Build Variants</h3>
+
+<p>One goal of the new build system is to enable creating different versions of the same application.</p>
+
+<p>There are two main use cases: [同一套程序代码生成多种不同的结果的应用场景]</p>
+
+<p>(1) Different versions of the same application</p>
+
+<p>For instance, a free/demo version vs the “pro” paid application. [一个是展示应用，另一个是真正的付费应用]</p>
+
+<p>Same application packaged differently for multi-apk in Google Play Store.
+See <a href="http://developer.android.com/google/play/publishing/multiple-apks.html">http://developer.android.com/google/play/publishing/multiple-apks.html </a> for more information.</p>
+
+<p>(2) A combination of 1. and 2.</p>
+
+<p>The goal was to be able to generate these different APKs from the same project, as opposed to using a single Library Projects and 2+ Application Projects.</p>
+
+<h4 id="product-flavors">Product flavors</h4>
+
+<p>[product flavor是一个项目的特别定制版的应用程序输出，单个项目可以有很多不同的product flavors，它们的名称不要和build type和sourceSet的名称相同]</p>
+
+<p>A product flavor defines a customized version of the application build by the project. A single project can have different flavors which change the generated application.</p>
+
+<p><strong>This new concept is designed to help when the differences are very minimum. If the answer to “Is this the same application?” is yes, then this is probably the way to go over Library Projects.</strong></p>
+
+<p>Product flavors are declared using a productFlavors DSL container:</p>
+
+<pre><code>android {
+    ....
+
+    productFlavors {
+        flavor1 {
+            ...
+        }
+
+        flavor2 {
+            ...
+        }
+    }
+}
+</code></pre>
+
+<p>This creates two flavors, called flavor1 and flavor2.</p>
+
+<p>Note: The name of the flavors cannot collide with existing Build Type names, or with the <code>androidTest</code> sourceSet.</p>
+
+<p>[重要的式子：每个build type和product flavor的组合就是一个build variant]</p>
+
+<p><strong>Build Type + Product Flavor = Build Variant</strong></p>
+
+<p>As we have seen before, each Build Type generates a new APK.</p>
+
+<p>Product Flavors do the same: the output of the project becomes all possible combinations of Build Types and, if applicable, Product Flavors.</p>
+
+<p><strong>Each (Build Type, Product Flavor) combination is called a Build Variant.</strong></p>
+
+<p>For instance, with the default <code>debug</code> and <code>release</code> Build Types, the above example generates four Build Variants:</p>
+
+<p><code>Flavor1 - debug</code><br />
+<code>Flavor1 - release</code><br />
+<code>Flavor2 - debug</code><br />
+<code>Flavor2 - release</code></p>
+
+<p>[没有配置flavor的项目会有一个默认的flavor配置]</p>
+
+<p>Projects with no flavors still have Build Variants, but the single default <code>flavor/config</code> is used, nameless, making the list of variants similar to the list of Build Types.</p>
+
+<h4 id="product-flavor-configuration">Product Flavor Configuration</h4>
+
+<p>Each flavors is configured with a closure:</p>
+
+<pre><code>android {
+    ...
+
+    defaultConfig {
+        minSdkVersion 8
+        versionCode 10
+    }
+
+    productFlavors {
+        flavor1 {
+            packageName &quot;com.example.flavor1&quot;
+            versionCode 20
+        }
+
+        flavor2 {
+            packageName &quot;com.example.flavor2&quot;
+            minSdkVersion 14
+        }
+    }
+}
+</code></pre>
+
+<p>[ProductFlavor对象和<code>android.defaultConfig</code> 对象有相同的属性，即可以使用类似的配置方式]</p>
+
+<p><strong>Note that the <code>android.productFlavors.*</code> objects are of type <code>ProductFlavor</code> which is the same type as the <code>android.defaultConfig</code> object. This means they share the same properties.</strong></p>
+
+<p><code>defaultConfig</code> provides the base configuration for all flavors and each flavor can override any value. In the example above, the configurations end up being:</p>
+
+<pre><code>flavor1
+packageName: com.example.flavor1
+minSdkVersion: 8
+versionCode: 20
+
+flavor2
+packageName: com.example.flavor2
+minSdkVersion: 14
+versionCode: 10
+</code></pre>
+
+<p>Usually, the Build Type configuration is an overlay over the other configuration. For instance, the Build Type&rsquo;s packageNameSuffix is appended to the Product Flavor&rsquo;s packageName.</p>
+
+<p>[有些情况下，我们希望一个设置同时作用在build type和product flavor上，例如<code>signingConfig</code> 就是其中的一种配置，我们既可以设置所有的build type使用相同的SigningConfig，又可以设置某些flavor使用某个特定的SigningConfig]</p>
+
+<p>There are cases where a setting is settable on both the Build Type and the Product Flavor. In this case, it’s is on a case by case basis.</p>
+
+<p>For instance, <code>signingConfig</code> is one of these properties.</p>
+
+<p>This enables either having all release packages share the same <code>SigningConfig</code>, by setting <code>android.buildTypes.release.signingConfig</code>, or have each release package use their own SigningConfig by setting each <code>android.productFlavors.*.signingConfig</code> objects separately.</p>
+
+<h4 id="sourcesets-and-dependencies">Sourcesets and Dependencies</h4>
+
+<p>[和build type类似，product flavor也会产生自己的sourceSets，这些sourceSets和build type的sourceSets以及<code>android.sourceSets.main</code> 组合起来构建最终的APK]</p>
+
+<p>Similar to Build Types, Product Flavors also contribute code and resources through their own sourceSets.</p>
+
+<p>The above example creates four sourceSets:</p>
+
+<p><code>android.sourceSets.flavor1</code>   Location <code>src/flavor1/</code><br />
+<code>android.sourceSets.flavor2</code>   Location <code>src/flavor2/</code><br />
+<code>android.sourceSets.androidTestFlavor1</code>   Location <code>src/androidTestFlavor1/</code><br />
+<code>android.sourceSets.androidTestFlavor2</code>   Location <code>src/androidTestFlavor2/</code></p>
+
+<p>Those sourceSets are used to build the APK, alongside <code>android.sourceSets.main</code> and the Build Type sourceSet.</p>
+
+<p>The following rules are used when dealing with all the sourcesets used to build a single APK:  <strong>[重点：在构建APK过程中处理所有源码和资源的规则]</strong></p>
+
+<p>1 All source code (<code>src/*/java</code>) are used together as multiple folders generating a single output.  [所有的源代码都会整合到一起作为输出]</p>
+
+<p>2 Manifests are all merged together into a single manifest. This allows Product Flavors to have different components and/or permissions, similarly to Build Types.  [所有的Manifest文件也都会整合成为一个Manifest文件，其中product flavor和build type类似，都可以有不同的components或者permissions]</p>
+
+<p>3 <strong>All resources (Android <code>res</code> and <code>assets</code>) are used using overlay priority where the Build Type overrides the Product Flavor, which overrides the main sourceSet.</strong> [所有的资源文件按照优先级的不同采用覆盖的方式整合，product flavor覆盖main，build type覆盖product flavor] <strong>[?这里的优先级总觉得有点问题?]</strong></p>
+
+<p>4 Each Build Variant generates its own <code>R</code> class (or other generated source code) from the resources. Nothing is shared between variants. [每个Build Variant都会根据它的资源文件产生一个R清单类，并且在variants之间不进行共享]</p>
+
+<p>5 Finally, like Build Types, Product Flavors can have their own dependencies. For instance, if the flavors are used to generate a ads-based app and a paid app, one of the flavors could have a dependency on an Ads SDK, while the other does not. [最后，build type和product flavor一样都可以有自己的依赖项]</p>
+
+<pre><code>dependencies {
+    flavor1Compile &quot;...&quot;
+}
+</code></pre>
+
+<p>In this particular case, the file <code>src/flavor1/AndroidManifest.xml</code> would probably need to include the internet permission.</p>
+
+<p>Additional sourcesets are also created for each variants:</p>
+
+<p><code>android.sourceSets.flavor1Debug</code>   Location <code>src/flavor1Debug/</code><br />
+<code>android.sourceSets.flavor1Release</code>   Location <code>src/flavor1Release/</code><br />
+<code>android.sourceSets.flavor2Debug</code>    Location <code>src/flavor2Debug/</code><br />
+<code>android.sourceSets.flavor2Release</code>    Location <code>src/flavor2Release/</code></p>
+
+<p>These have higher priority than the build type sourcesets, and allow customization at the variant level.</p>
+
+<p>[这些sourceSets的优先级比build type的sourceSets高，而且可以在variant层进行自定义]</p>
+
+<h4 id="building-and-tasks">Building and Tasks</h4>
+
+<p>We previously saw that each Build Type creates its own <code>assemble&lt;name&gt;</code> task, but that Build Variants are a combination of Build Type and Product Flavor.</p>
+
+<p>[当一个product flavor被使用时，更多的assemble类型的任务会被创建，它们分别针对了特定的variant或者build type或者flavor]</p>
+
+<p>When Product Flavors are used, more assemble-type tasks are created. These are:</p>
+
+<p><code>assemble&lt;Variant Name&gt;</code><br />
+<code>assemble&lt;Build Type Name&gt;</code><br />
+<code>assemble&lt;Product Flavor Name&gt;</code></p>
+
+<p>1 allows directly building a <code>single variant</code>. For instance <code>assembleFlavor1Debug</code>.</p>
+
+<p>2 allows building all APKs for a given <code>Build Type</code>. For instance <code>assembleDebug</code>will build both <code>Flavor1Debug</code> and <code>Flavor2Debug</code> variants.</p>
+
+<p>3 allows building all APKs for a given <code>flavor</code>. For instance <code>assembleFlavor1</code> will build both <code>Flavor1Debug</code> and <code>Flavor1Release</code> variants.</p>
+
+<p>The task <code>assemble</code> will build all possible variants.</p>
+
+<h4 id="testing-1">Testing</h4>
+
+<p>[测试包含多个<code>flavor</code> 的项目]</p>
+
+<p>Testing multi-flavors project is very similar to simpler projects.</p>
+
+<p>The <code>androidTest</code> sourceset is used for common tests across all flavors, while each flavor can also have its own tests.</p>
+
+<p>As mentioned above, sourceSets to test each flavor are created:</p>
+
+<p><code>android.sourceSets.androidTestFlavor1</code>    Location <code>src/androidTestFlavor1/</code><br />
+<code>android.sourceSets.androidTestFlavor2</code>    Location <code>src/androidTestFlavor2/</code></p>
+
+<p>Similarly, those can have their own dependencies:</p>
+
+<pre><code>dependencies {
+    androidTestFlavor1Compile &quot;...&quot;
+}
+</code></pre>
+
+<p>Running the tests can be done through the main <code>deviceCheck</code> anchor task, or the main <code>androidTest</code> tasks which acts as an anchor task when flavors are used.</p>
+
+<p>Each flavor has its own task to run <code>tests: androidTest&lt;VariantName&gt;</code>. For instance:</p>
+
+<p><code>androidTestFlavor1Debug</code><br />
+<code>androidTestFlavor2Debug</code></p>
+
+<p>Similarly, test APK building tasks and install/uninstall tasks are per variant:</p>
+
+<p><code>assembleFlavor1Test</code><br />
+<code>installFlavor1Debug</code><br />
+<code>installFlavor1Test</code><br />
+<code>uninstallFlavor1Debug</code><br />
+<code>...</code></p>
+
+<p>Finally the HTML report generation supports aggregation by flavor.
+The location of the test results and reports is as follows, first for the per flavor version, and then for the aggregated one:</p>
+
+<p><code>build/androidTest-results/flavors/&lt;FlavorName&gt;</code><br />
+<code>build/androidTest-results/all/</code><br />
+<code>build/reports/androidTests/flavors&lt;FlavorName&gt;</code><br />
+<code>build/reports/androidTests/all/</code></p>
+
+<p>Customizing either path, will only change the root folder and still create sub folders per-flavor and aggregated <code>results/reports</code>.</p>
+
+<h4 id="multi-flavor-variants">Multi-flavor variants</h4>
+
+<p>[使用<code>flavorGroups</code>，此处有些复杂，如果有这种需求请细读原文]</p>
+
+<p>In some case, one may want to create several versions of the same apps based on more than one criteria.</p>
+
+<p>For instance, multi-apk support in Google Play supports 4 different filters.</p>
+
+<p>Creating different APKs split on each filter requires being able to use more than one dimension of Product Flavors.</p>
+
+<p>Consider the example of a game that has a demo and a paid version and wants to use the ABI filter in the multi-apk support. With 3 ABIs and two versions of the application, 6 APKs needs to be generated (not counting the variants introduced by the different Build Types).</p>
+
+<p>However, the code of the paid version is the same for all three ABIs, so creating simply 6 flavors is not the way to go.Instead, there are two dimensions of flavors, and variants should automatically build all possible combinations.</p>
+
+<p>This feature is implemented using Flavor Groups. Each group represents a dimension, and flavors are assigned to a specific group.</p>
+
+<pre><code>android {
+    ...
+
+    flavorGroups &quot;abi&quot;, &quot;version&quot;
+
+    productFlavors {
+        freeapp {
+            flavorGroup &quot;version&quot;
+            ...
+        }
+
+        x86 {
+            flavorGroup &quot;abi&quot;
+            ...
+        }
+    }
+}
+</code></pre>
+
+<p>The <code>android.flavorGroups</code> array defines the possible groups, as well as the order. Each defined Product Flavor is assigned to a group.</p>
+
+<p>From the following grouped Product Flavors <code>[freeapp, paidapp]</code> and <code>[x86, arm, mips]</code> and the <code>[debug, release]</code> Build Types, the following build variants will be created:</p>
+
+<pre><code>x86-freeapp-debug
+x86-freeapp-release
+arm-freeapp-debug
+arm-freeapp-release
+mips-freeapp-debug
+mips-freeapp-release
+x86-paidapp-debug
+x86-paidapp-release
+arm-paidapp-debug
+arm-paidapp-release
+mips-paidapp-debug
+mips-paidapp-release
+</code></pre>
+
+<p>The order of the group as defined by <code>android.flavorGroups</code> is very important.</p>
+
+<p>Each variant is configured by several Product Flavor objects:
+<code>android.defaultConfig</code>
+One from the <code>abi</code> group
+One from the <code>version</code> group</p>
+
+<p>The order of the group drives which flavor override the other, which is important for resources when a value in a flavor replaces a value defined in a lower priority flavor.</p>
+
+<p>The flavor groups is defined with higher priority first. So in this case:
+<code>abi &gt; version &gt; defaultConfig</code></p>
+
+<p>Multi-flavors projects also have additional sourcesets, similar to the variant sourcesets but without the build type:</p>
+
+<p><code>android.sourceSets.x86Freeapp</code>   Location <code>src/x86Freeapp/</code><br />
+<code>android.sourceSets.armPaidapp</code>   Location <code>src/armPaidapp/</code><br />
+<code>etc...</code></p>
+
+<p><strong>These allow customization at the flavor-combination level. They have higher priority than the basic flavor sourcesets, but lower priority than the build type sourcesets.</strong></p>
+
+<h3 id="advanced-build-customization">Advanced Build Customization</h3>
+
+<h4 id="build-options">Build options</h4>
+
+<h5 id="java-compilation-options">Java Compilation options</h5>
+
+<pre><code>android {
+    compileOptions {
+        sourceCompatibility = &quot;1.6&quot;
+        targetCompatibility = &quot;1.6&quot;
+    }
+}
+</code></pre>
+
+<p>Default value is “1.6”. This affect all tasks compiling Java source code.</p>
+
+<h5 id="aapt-options">aapt options</h5>
+
+<pre><code>android {
+    aaptOptions {
+        noCompress 'foo', 'bar'
+        ignoreAssetsPattern &quot;!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir&gt;_*:!CVS:!thumbs.db:!picasa.ini:!*~&quot;
+    }
+}
+</code></pre>
+
+<p>This affects all tasks using aapt.</p>
+
+<h5 id="dex-options">dex options</h5>
+
+<pre><code>android {
+    dexOptions {
+        incremental false
+        preDexLibraries = false
+        jumboMode = false
+    }
+}
+</code></pre>
+
+<p>This affects all tasks using dex.</p>
+
+<h5 id="manipulating-tasks">Manipulating tasks</h5>
+
+<p>[简单的Java项目一般都是有限的任务一起工作然后得到一个输出，例如<code>classes</code> 任务是用来编译Java源代码的任务，在<code>build.gradle</code> 文件中可以使用<code>classes</code> 来引用]</p>
+
+<p>Basic Java projects have a finite set of tasks that all work together to create an output.</p>
+
+<p>The <code>classes</code> task is the one that compile the Java source code.
+It’s easy to access from <code>build.gradle</code> by simply using <code>classes</code> in a script. This is a shortcut for <code>project.tasks.classes</code>.</p>
+
+<p>[但是Android项目优点复杂，因为它可能有很多相同的任务，这些任务的名称是基于build type和product flavor来生成的]</p>
+
+<p>In Android projects, this is a bit more complicated because there could be a large number of the same task and their name is generated based on the Build Types and Product Flavors.</p>
+
+<p>In order to fix this, the android object has two properties:</p>
+
+<p><code>applicationVariants</code> (only for the app plugin)<br />
+<code>libraryVariants</code> (only for the library plugin)<br />
+<code>testVariants</code> (for both plugins)</p>
+
+<p>All three return a <code>DomainObjectCollection</code> of <code>ApplicationVariant</code>, <code>LibraryVariant</code>, and <code>TestVariant</code> objects respectively.</p>
+
+<p>Note that accessing any of these collections will trigger the creations of all the tasks. This means no (re)configuration should take place after accessing the collections.</p>
+
+<p>The <code>DomainObjectCollection</code> gives access to all the objects directly, or through filters which can be convenient.</p>
+
+<pre><code>android.applicationVariants.each { variant -&gt;
+    ....
+}
+</code></pre>
+
+<p>All three variant classes share the following properties:</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/gradle4.png" alt="image" /></p>
+
+<p>The ApplicationVariant class adds the following:</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/gradle5.png" alt="image" /></p>
+
+<p>The LibraryVariant class adds the following:</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/gradle6.png" alt="image" /></p>
+
+<p>The TestVariant class adds the following:</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/gradle7.png" alt="image" /></p>
+
+<p>API for Android specific task types.</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/gradle8.png" alt="image" /></p>
+
+<p><strong>The API for each task type is limited due to both <code>how Gradle works</code> and <code>how the Android plugin sets them up</code>.</strong></p>
+
+<p>1 First, Gradle is meant to have the tasks be only configured for <code>input/output</code> location and possible optional flags. So here, the tasks only define (some of) the inputs/outputs.</p>
+
+<p>2 Second, the input for most of those tasks is non-trivial, often coming from mixing values from the sourceSets, the Build Types, and the Product Flavors. To keep build files simple to read and understand, the goal is to let developers modify the build by tweak these objects through the DSL, rather than diving deep in the inputs and options of the tasks and changing them.</p>
+
+<p><strong>Also note, that except for the <code>ZipAlign</code> task type, all other types require setting up <code>private data</code> to make them work. This means it’s not possible to manually create new tasks of these types.</strong></p>
+
+<p>[除了ZipAlign任务之外，其他类型的任务都需要private data才能工作，所以没有办法manual创建这些类型的新任务]</p>
+
+<p><strong>This API is subject to change.</strong> In general the current API is around giving access to the outputs and inputs (when possible) of the tasks to add extra processing when required). Feedback is appreciated, especially around needs that may not have been foreseen.</p>
+
+<p>For Gradle tasks (<code>DefaultTask</code>, <code>JavaCompile</code>, <code>Copy</code>, <code>Zip</code>), refer to the Gradle documentation.</p>
+
+<h4 id="buildtype-and-product-flavor-property-reference">BuildType and Product Flavor property reference</h4>
+
+<p>coming soon.</p>
+
+<p>For Gradle tasks (<code>DefaultTask</code>, <code>JavaCompile</code>, <code>Copy</code>, <code>Zip</code>), refer to the Gradle documentation.</p>
+
+<h4 id="using-sourcecompatibility-1-7">Using sourceCompatibility 1.7</h4>
+
+<p>[兼容JDK 1.7的方式，使用某些特性时还需要注意项目<code>minSdkVersion</code> 的配置]</p>
+
+<p>With <code>Android KitKat (buildToolsVersion 19)</code> you can use the <code>diamond operator</code>, <code>multi-catch</code>, <code>strings in switches</code>, <code>try with resources</code>, etc. To do this, add the following to your build file:</p>
+
+<pre><code>android {
+    compileSdkVersion 19
+    buildToolsVersion &quot;19.0.0&quot;
+
+    defaultConfig {
+        minSdkVersion 7
+        targetSdkVersion 19
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+</code></pre>
+
+<p>Note that you can use <code>minSdkVersion</code> with a value earlier than 19, for all language features except <code>try with resources</code>. If you want to use <code>try with resources</code>, you will need to also use a <code>minSdkVersion</code> of 19.</p>
+
+<p>You also need to make sure that Gradle is using version 1.7 or later of the JDK. (And version 0.6.1 or later of the Android Gradle plugin.)</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

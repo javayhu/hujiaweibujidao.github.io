@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Head First Android Toolbar &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-06-02T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Head First Android Toolbar &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Head First Android Toolbar</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-06-02T00:00:00Z">
+            Jun 2, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文介绍Android Toolbar的使用</p>
+
+<p>上一节我们介绍了<a href="https://hujiaweibujidao.github.io/blog/2015/06/01/android-ui-1-actionbar/">ActionBar的使用</a>，这一节我们介绍<code>ActionBar</code> 的替代者——<code>Toolbar</code>，看看它有多大的能耐！</p>
+
+<p>1.Toolbar的来源</p>
+
+<p>参考<a href="http://android-developers.blogspot.com/2014/10/appcompat-v21-material-design-for-pre.html">AppCompat v21 — Material Design for Pre-Lollipop Devices!</a>
+参考<a href="http://android-developers.blogspot.in/2015/04/android-support-library-221.html">Android Support Library 22.1</a></p>
+
+<p>首先要介绍下AppCompat，这个库起初是是为了让以前低版本的Android系统能够用上ActionBar而开发的兼容支持库<strong>[right?]</strong>，现在这个库能够为低版本系统提供很多方面的兼容。自从Android 5.0引入了Material Design之后，这个兼容支持库增加了一个任务，那就是为低版本的系统提供与Material Design兼容的组件。</p>
+
+<p><strong>AppCompat (aka ActionBarCompat) started out as a backport of the Android 4.0 ActionBar API for devices running on Gingerbread, providing a common API layer on top of the backported implementation and the framework implementation. AppCompat v21 delivers an API and feature-set that is up-to-date with Android 5.0</strong></p>
+
+<p>参考网址<a href="http://android-developers.blogspot.in/2015/04/android-support-library-221.html">Android Support Library 22.1</a>中有一段Google工作人员录制的视频，介绍AppCompat。我的理解是大致如下图所示，如果没有AppCompat，我们开发的应用在不同版本的Android系统上显示起来会像上面一行的三个图片那样，没有统一的界面风格；而如果使用了AppCompat的话，就会像下面一行的三个图片那样，界面风格统一，操作方式一致，同时将Material Design的设计风格带到了以前低版本Android系统。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/appcompat.png" alt="image" /></p>
+
+<p>再来看下Toolbar，这是从AppCompat 21版本开始引入的，它的使用就像一个普通的View组件一样，同时它还可以充当ActionBar，这样我们设置的菜单项就会显示在它上面了。</p>
+
+<p><strong>In this release, Android introduces a new Toolbar widget. This is a generalization of the Action Bar pattern that gives you much more control and flexibility. Toolbar is a view in your hierarchy just like any other, making it easier to interleave with the rest of your views, animate it, and react to scroll events. You can also set it as your Activity’s action bar, meaning that your standard options menu actions will be display within it.</strong></p>
+
+<p>下面是我写的一个演示程序，得到的效果如下图所示，从左到右的Android系统版本分别是<code>5.1.0</code>、<code>4.4.4</code>、<code>2.3.7</code>，可以看出界面风格大致是一致的。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/toolbar_polaris_demo.png" alt="image" /></p>
+
+<p>2.Toolbar API简介</p>
+
+<p>参考<a href="https://developer.android.com/reference/android/support/v7/widget/Toolbar.html">Toolbar Class</a></p>
+
+<p>下面的内容摘自上面的<a href="https://developer.android.com/reference/android/support/v7/widget/Toolbar.html">Toolbar Class</a> 中的介绍，大致内容就是说Toolbar可以像一个普通的View组件一样使用，同时它还可以充当ActionBar的功能，默认提供了很多种元素可以放置在Toolbar上，其中包括导航按钮、logo图标、标题和子标题、一个或多个自定义的View以及菜单项。大家可以看下下图大致感受下(图片来自<a href="http://www.101apps.co.za/index.php/articles/using-toolbars-in-your-apps.html">Using Toolbars in your apps</a>)</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/toolbar_whole.jpg" alt="image" /></p>
+
+<p>A <code>Toolbar</code> is a generalization of action bars for use within application layouts. While an action bar is traditionally part of an Activity&rsquo;s opaque window decor controlled by the framework, a Toolbar may be placed at any arbitrary level of nesting within a view hierarchy. An application may choose to designate a Toolbar as the action bar for an Activity using the <code>setSupportActionBar()</code> method.</p>
+
+<p>Toolbar supports a more focused feature set than ActionBar. From start to end, a toolbar may contain a combination of the following optional elements:</p>
+
+<p><code>A navigation button.</code> This may be an Up arrow, navigation menu toggle, close, collapse, done or another glyph of the app&rsquo;s choosing. This button should always be used to access other navigational destinations within the container of the Toolbar and its signified content or otherwise leave the current context signified by the Toolbar.</p>
+
+<p><code>A branded logo image.</code> This may extend to the height of the bar and can be arbitrarily wide.</p>
+
+<p><code>A title and subtitle.</code> The title should be a signpost for the Toolbar&rsquo;s current position in the navigation hierarchy and the content contained there. The subtitle, if present should indicate any extended information about the current content. If an app uses a logo image it should strongly consider omitting a title and subtitle.</p>
+
+<p><code>One or more custom views.</code> The application may add arbitrary child views to the Toolbar. They will appear at this position within the layout. If a child view&rsquo;s <code>Toolbar.LayoutParams</code> indicates a <code>Gravity</code> value of <code>CENTER_HORIZONTAL</code> the view will attempt to center within the available space remaining in the Toolbar after all other elements have been measured.</p>
+
+<p><code>An action menu.</code> The menu of actions will pin to the end of the Toolbar offering a few frequent, important or typical actions along with an optional overflow menu for additional actions.</p>
+
+<p><strong>In modern Android UIs developers should lean more on a visually distinct color scheme for toolbars than on their application icon. The use of application icon plus title as a standard layout is discouraged on API 21 devices and newer.</strong></p>
+
+<p>3.让Toolbar充当ActionBar</p>
+
+<p>如何让Toolbar充当ActionBar？参考<a href="http://blog.xamarin.com/android-tips-hello-toolbar-goodbye-action-bar/">Android Tips: Hello Toolbar, Goodbye Action Bar</a> 和 <a href="http://javatechig.com/android/android-lollipop-toolbar-example">Android Lollipop Toolbar Example</a>。</p>
+
+<p>(3.1)设置Theme</p>
+
+<p>可以直接设置为<code>Theme.AppCompat.NoActionBar</code> 主题或者给原有Theme添加两个属性表示我们不使用ActionBar。</p>
+
+<p><strong>注意，这里有个bug，很容易出现 <code>AppCompat does not support the current theme features</code> 的错误。</strong> 例如下面的设置：</p>
+
+<pre><code class="language-java">&lt;!-- Base application theme. --&gt;
+&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat&quot;&gt;
+    &lt;item name=&quot;android:windowNoTitle&quot;&gt;true&lt;/item&gt;
+    &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;
+&lt;/style&gt;
+</code></pre>
+
+<p>正确的设置是要么直接设置为<code>Theme.AppCompat.NoActionBar</code> 主题；要么提供一个原有Theme的``扩展版本Theme，如下所示：</p>
+
+<p>参考<a href="http://stackoverflow.com/questions/29790070/upgraded-to-appcompat-v22-1-0-and-now-getting-illegalargumentexception-appcompa">StackOverflow: AppCompat does not support the current theme features</a></p>
+
+<pre><code>//**option 1**
+&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat.NoActionBar&quot;&gt;
+    &lt;!-- Customize your theme here. --&gt;
+
+&lt;/style&gt;
+
+//**option 2**
+&lt;style name=&quot;AppTheme&quot; parent=&quot;Theme.AppCompat&quot;&gt;
+    &lt;!-- Customize your theme here. --&gt;
+
+&lt;/style&gt;
+
+&lt;style name=&quot;AppTheme.NoActionBar&quot;&gt;
+    &lt;!-- Both of these are needed --&gt;
+    &lt;item name=&quot;windowActionBar&quot;&gt;false&lt;/item&gt;
+    &lt;item name=&quot;windowNoTitle&quot;&gt;true&lt;/item&gt;
+&lt;/style&gt;
+//不需要ActionBar的Activity的Theme设置为AppTheme.NoActionBar就好了
+</code></pre>
+
+<p>(3.2)添加Toolbar</p>
+
+<p>在Layout文件中添加Toolbar组件，就把它当做一个普通的View组件来使用即可</p>
+
+<pre><code>&lt;Toolbar xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:id=&quot;@+id/toolbar&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:minHeight=&quot;?android:attr/actionBarSize&quot;
+    android:background=&quot;?android:attr/colorPrimary&quot; /&gt;
+</code></pre>
+
+<p>(3.3)设置Toolbar为ActionBar</p>
+
+<p>在Activity的<code>onCreate</code> 方法中调用<code>setSupportActionBar(Toolbar)</code> 方法。</p>
+
+<pre><code>import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+
+public class MainActivity extends AppCompatActivity {//ActionBarActivity  AppCompatActivity 都可以
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        //Caused by: java.lang.IllegalArgumentException: AppCompat does not support the current theme features
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+}
+</code></pre>
+
+<p>显示结果如下：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/toolbar_demo.png" alt="image" /></p>
+
+<p>4.设置Toolbar的风格</p>
+
+<p>可以直接给Toolbar添加<code>app:theme</code> 或者<code>app:popupTheme</code> 等属性设置其风格，属性值最好是继承自AppCompat的样式。此外，虽然可以这么设置，但是目前AppCompat对于以前低版本Android系统提供的Material Design支持还是很有限的，参见<a href="http://blog.mohitkanwal.com/blog/2015/03/07/styling-material-toolbar-in-android/">Styling Material Toolbar in Android</a>。</p>
+
+<pre><code>&lt;android.support.v7.widget.Toolbar
+    android:id=&quot;@+id/toolbar&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:background=&quot;#2196F3&quot;
+    android:minHeight=&quot;?attr/actionBarSize&quot;
+    app:theme=&quot;@style/ThemeOverlay.AppCompat.Dark.ActionBar&quot;
+    app:popupTheme=&quot;@style/ThemeOverlay.AppCompat.Light&quot;&gt;
+&lt;/android.support.v7.widget.Toolbar&gt;
+</code></pre>
+
+<p><strong>关于几个颜色值</strong></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/toolbar_theme_color.png" alt="image" /></p>
+
+<p>OK，Toolbar介绍的差不多啦，估计大家应该能够随意地使用Toolbar啦。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

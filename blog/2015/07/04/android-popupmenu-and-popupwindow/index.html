@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Android PopupMenu and PopupWindow &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-07-04T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Android PopupMenu and PopupWindow &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Android PopupMenu and PopupWindow</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-07-04T00:00:00Z">
+            Jul 4, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      <p>本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。</p>
+
+<p>实例的代码使用了Android Annotations，但是代码读起来应该是没有障碍的，如果不太了解AA的话，可以参考下<a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-annotations/">此文</a>。</p>
+
+<p>1.PopupMenu和PopupWindow</p>
+
+<p>PopupMenu显示效果类似上下文菜单(Menu)，而PopupWindow的显示效果实际上类似对话框(Dialog)，两者效果如下图所示：</p>
+
+<p>PopupMenu显示效果</p>
+
+<p>{% img /images/showmenu1.png 144 256 %} {% img /images/showmenu2.png 144 256 %}</p>
+
+<p>PopupWindow显示效果</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/showwindow1.png" alt="image" /></p>
+
+<p>2.实例基础代码</p>
+
+<p>我们要实现的界面就是上面所示的界面，上下各有两个按钮，点击按钮分别在正确的位置弹出PopupMenu或者PopupWindow，下面是界面代码：</p>
+
+<pre><code>&lt;RelativeLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot;
+    android:paddingBottom=&quot;@dimen/activity_vertical_margin&quot;
+    android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
+    tools:context=&quot;hujiawei.xiaojian.ui.PopupwindowActivity&quot;&gt;
+
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentTop=&quot;true&quot;
+        android:orientation=&quot;vertical&quot;&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/window&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;show popup window&quot;/&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/menu&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_below=&quot;@id/window&quot;
+            android:text=&quot;show popup menu&quot;/&gt;
+
+    &lt;/LinearLayout&gt;
+
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_alignParentBottom=&quot;true&quot;
+        android:orientation=&quot;vertical&quot;&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/bottomwindow&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;show popup window&quot;/&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/bottommenu&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:layout_below=&quot;@id/window&quot;
+            android:text=&quot;show popup menu&quot;/&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/RelativeLayout&gt;
+</code></pre>
+
+<p>3.实现PopupMenu</p>
+
+<p>PopupMenu的实现稍微简单点，因为它就是普通的菜单！</p>
+
+<p>(1)在<code>res/menu</code>文件夹下新建文件<code>menu_popupmenu.xml</code></p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;menu
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;&gt;
+
+    &lt;item
+        android:id=&quot;@+id/item_movies&quot;
+        android:title=&quot;Movies&quot;
+        android:visible=&quot;true&quot;
+        app:showAsAction=&quot;ifRoom|withText&quot;/&gt;
+    &lt;item
+        android:id=&quot;@+id/item_music&quot;
+        android:title=&quot;Music&quot;
+        android:visible=&quot;true&quot;
+        app:showAsAction=&quot;ifRoom|withText&quot;/&gt;
+    &lt;item
+        android:id=&quot;@+id/item_photo&quot;
+        android:title=&quot;Photo&quot;
+        android:visible=&quot;true&quot;
+        app:showAsAction=&quot;ifRoom|withText&quot;/&gt;
+
+&lt;/menu&gt;
+</code></pre>
+
+<p>(2)然后在Activity中创建Menu并处理MenuItem的点击事件</p>
+
+<pre><code>@Click({R.id.menu, R.id.bottommenu})
+void menu(View view) {
+    PopupMenu popupMenu = new PopupMenu(this, view);
+    popupMenu.setOnMenuItemClickListener(this);
+    popupMenu.inflate(R.menu.menu_popupmenu);
+    popupMenu.show();
+}
+
+public boolean onMenuItemClick(MenuItem item) {
+    switch (item.getItemId()) {
+        case R.id.item_photo:
+            toastUtil.showShortToast(&quot;Photo&quot;);
+            return true;
+        case R.id.item_movies:
+            toastUtil.showShortToast(&quot;Movies&quot;);
+            return true;
+        case R.id.item_music:
+            toastUtil.showShortToast(&quot;Music&quot;);
+            return true;
+    }
+    return false;
+}
+</code></pre>
+
+<p>从上面的代码可以看出，不论是点击上面的还是下面的<code>show popup menu</code>按钮，结果都是弹出在当前按钮附近显示PopupMenu (因为这里设置了button view为anchor view)，而且它会自适应位置，在按钮的左下角或者左上角显示。</p>
+
+<p>4.实现PopupWindow</p>
+
+<p>实现PopupWindow稍微复杂些，但是自定义性更强，它可以将任意界面设置为PopupWindow。</p>
+
+<p>(1)新建布局文件<code>layout/window_popup.xml</code>，作为PopupWindow，其中只有4个按钮，最后一个是取消按钮，用于关闭PopupWindow</p>
+
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:layout_marginLeft=&quot;@dimen/activity_horizontal_margin&quot;
+    android:layout_marginRight=&quot;@dimen/activity_horizontal_margin&quot;
+    android:background=&quot;@android:color/background_dark&quot;
+    android:orientation=&quot;vertical&quot;&gt;
+
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:orientation=&quot;vertical&quot;&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/music&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Music&quot;/&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/movie&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Movie&quot;/&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/photo&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Photo&quot;/&gt;
+
+    &lt;/LinearLayout&gt;
+
+    &lt;LinearLayout
+        android:layout_width=&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_marginTop=&quot;10dp&quot;
+        android:orientation=&quot;vertical&quot;&gt;
+
+        &lt;Button
+            android:id=&quot;@+id/cancel&quot;
+            android:layout_width=&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot;
+            android:text=&quot;Cancel&quot;/&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre>
+
+<p>(2)在Activity中控制PopupWindow的显示和事件处理</p>
+
+<pre><code>@Click
+void window(View view) {
+    if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+        return;
+    }
+    LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.window_popup, null);
+    popupWindow = new PopupWindow(layout,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    popupWindow.setAnimationStyle(R.style.Popupwindow);//包括进入和退出两个动画
+    popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
+    //popupWindow.showAsDropDown(view);
+
+    setButtonListeners(layout);
+}
+
+@Click
+void bottomwindow(View view) {
+    if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+        return;
+    }
+    LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.window_popup, null);
+    popupWindow = new PopupWindow(layout,
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT);
+
+    popupWindow.setAnimationStyle(R.style.Popupwindow);
+    int[] location = new int[2];
+    view.getLocationOnScreen(location);
+    popupWindow.showAtLocation(view, Gravity.LEFT | Gravity.BOTTOM, 0, -location[1]);
+    //popupWindow.showAsDropDown(view);
+
+    setButtonListeners(layout);
+}
+
+private void setButtonListeners(LinearLayout layout) {
+    Button music = (Button) layout.findViewById(R.id.music);
+    music.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+                toastUtil.showShortToast(&quot;music&quot;);
+                popupWindow.dismiss();
+            }
+        }
+    });
+
+    Button movie = (Button) layout.findViewById(R.id.movie);
+    movie.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+                toastUtil.showShortToast(&quot;movie&quot;);
+                popupWindow.dismiss();
+            }
+        }
+    });
+
+    Button photo = (Button) layout.findViewById(R.id.photo);
+    photo.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+                toastUtil.showShortToast(&quot;photo&quot;);
+                popupWindow.dismiss();
+            }
+        }
+    });
+
+    Button cancel = (Button) layout.findViewById(R.id.cancel);
+    cancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+                popupWindow.dismiss();
+            }
+        }
+    });
+}
+</code></pre>
+
+<p>从上面代码可以看出，点击上面和下面的按钮代码略微不同，因为这里我希望PopupWindow一直是从界面的底部慢慢滑入进入的，所以要控制下位置。关于PopupWindow的显示位置，它既提供了<code>showAtLocation</code>方法精确控制，也提供了<code>showAsDropDown(view)</code>方法简单控制。</p>
+
+<p>滑入滑出的动画效果代码如下，需要注意的是，PopupWindow需要两个动画：一个进入，一个退出，如果只给定一个动画，可能会看不到动画的效果。</p>
+
+<pre><code>/res/values/styles.xml
+
+&lt;style name=&quot;Popupwindow&quot;&gt;
+    &lt;item name=&quot;android:windowEnterAnimation&quot;&gt;@anim/slide_in_bottom&lt;/item&gt;
+    &lt;item name=&quot;android:windowExitAnimation&quot;&gt;@anim/slide_out_bottom&lt;/item&gt;
+&lt;/style&gt;
+
+/res/anim/slide_in_bottom.xml
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+           android:interpolator=&quot;@android:anim/decelerate_interpolator&quot;
+           android:fromYDelta=&quot;100%&quot; android:toYDelta=&quot;0&quot;
+           android:duration=&quot;400&quot;/&gt;
+
+/res/anim/slide_out_bottom.xml
+
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;translate xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+           android:interpolator=&quot;@android:anim/accelerate_interpolator&quot;
+           android:fromYDelta=&quot;0&quot; android:toYDelta=&quot;100%&quot;
+           android:duration=&quot;200&quot;/&gt;
+</code></pre>
+
+<p>(3)使用PopupWindow还有不少需要注意的地方，例如你上面看到的代码中很多判断popupwindow是否为null或者是否正在显示等，有一个情况是，如果用户点击返回键，默认情况下Activity就要退出了，这个时候PopupWindow没有dismiss，容易出现内存泄露的报错，所以我们要处理下这个问题，如果用户点击返回键的时候PopupWindow正在显示的话那么就dismiss PopupWindow就好了。</p>
+
+<pre><code>@Override
+public void onBackPressed() {
+    if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
+        popupWindow.dismiss();
+    }else{
+        super.onBackPressed();
+    }
+}
+</code></pre>
+
+<p>OK，差不多就是这些了，希望会有帮助，Enjoy！:-)</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+

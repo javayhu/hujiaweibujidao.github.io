@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta property="og:title" content=" Art of Android Development Reading Notes 7 &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2015-11-30T00:00:00Z" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <title>
+       Art of Android Development Reading Notes 7 &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400|Inconsolata" />
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+    <meta name="generator" content="Hugo 0.16" />
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/" />
+
+    
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Blog</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+    </ul>
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+<header class="main-header post-head no-cover">
+  <nav class="main-nav clearfix">
+
+
+  
+      <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Home" /></a>
+  
+  
+      <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+  
+  </nav>
+</header>
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Art of Android Development Reading Notes 7</h1>
+        <small></small>
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2015-11-30T00:00:00Z">
+            Nov 30, 2015
+          </time>
+        
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析</p>
+
+<p>本节和《Android群英传》中的<strong>第七章Android动画机制与使用技巧</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">建议先阅读该章的总结</a></p>
+
+<h3 id="第7章-android动画深入分析">第7章 Android动画深入分析</h3>
+
+<h4 id="7-1-view动画">7.1 View动画</h4>
+
+<p>(1)android动画分为view动画、帧动画和属性动画，属性动画是API 11(Android 3.0)的新特性，帧动画一般也认为是view动画。
+(2)<code>AnimationSet</code>的属性<code>android:shareInterpolator</code>表示集合中的动画是否共享同一个插值器，如果集合不指定插值器，那么子动画需要单独指定所需的插值器或者使用默认值。
+(3)自定义动画需要继承<code>Animation</code>抽象类，并重新它的<code>initialize</code>和<code>applyTransformation</code>方法，在initialize方法中做一些初始化工作，在applyTransformation方法中进行相应的矩阵变换，很多时候需要采用<code>Camera</code>类来简化矩阵变换的过程。
+(4)帧动画使用比较简单，但是容易引起OOM，所以在使用的时候应尽量避免使用过多尺寸较大的图片。</p>
+
+<h4 id="7-2-view动画的特殊使用场景">7.2 view动画的特殊使用场景</h4>
+
+<p>(1)布局动画(<code>LayoutAnimation</code>)属性分析</p>
+
+<pre><code>&lt;layoutAnimation
+    xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:delay=&quot;0.5&quot;
+    android:animationOrder=&quot;reverse&quot;
+    android:animation=&quot;@anim/anim_item&quot;/&gt;
+</code></pre>
+
+<p><code>android:delay</code>：表示子元素开始动画的时间延迟，比如子元素入场动画的时间周期是300ms，那么0.5表示每个子元素都需要延迟150ms才能播放入场动画。</p>
+
+<p>给ViewGroup指定LayoutAnimation的两种方式</p>
+
+<pre><code>//xml
+android:layoutAnimation=&quot;xxx&quot;
+//java
+Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_item);
+LayoutAnimationController controller = new LayoutAnimationController(animation);
+controller.setDelay(0.5f);
+controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+listView.setLayoutAnimation(controller);
+</code></pre>
+
+<p>(2)Activity切换效果
+在startActivity方法后或者finish方法之后调用<code>overridePendingTransition(int inAnim, int outAnim)</code>方法设置进入或者退出的动画效果。
+还有其他方式可以给Activity添加切换动画效果，但是往往有兼容性限制，参见<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/Android-Heros-Reading-Notes-3/">《Android群英传》第七章Android动画机制与使用技巧</a>。</p>
+
+<h4 id="7-3-属性动画">7.3 属性动画</h4>
+
+<p>(1)属性动画可以对任意对象的属性进行动画而不仅仅是view，动画默认的时间间隔是<code>300ms</code>，默认帧率是<code>10ms/帧</code>。
+(2)属性动画几乎是无所不能，但是它是从API 11才有的，所以存在兼容性问题，可以考虑使用开源动画库<a href="http://nineoldandroids.com">nineoldandroids</a>。它的功能和系统原生的<code>android.animations.*</code>中的类的功能完全一致，使用方法也是完全一样，只要我们用nineoldandroids编写动画，那么就能运行在所有的android系统上。
+(3)属性<code>android:repeatMode</code>表示动画的重复模式，<code>repeat</code>表示连续重复播放，<code>reverse</code>表示逆向重复播放，也就是第一次播放完后第二次倒着播放动画，第三次还是重头开始播放动画，第四次再倒着播放，以此类推。
+(4)插值器和估值器：属性动画实现非匀速动画的重要手段
+时间插值器(<code>TimeInterpolator</code>)的作用是根据时间流逝的百分比计算出当前属性值改变的百分比，系统内置的插值器有线性插值器(<code>LinearInterpolator</code>)、加速减速插值器(<code>AccelerateDecelerateInterpolator</code>)和减速插值器(<code>DecelerateInterpolator</code>)。
+类型估值器(<code>TypeEvaluator</code>)的作用是根据当前属性改变的百分比计算出改变后的属性值，系统内置的估值器有<code>IntEvaluator</code>、<code>FloatEvaluator</code>和<code>ArgbEvaluator</code>。
+(5)动画监听器
+<code>AnimatorListener</code>：监听动画的开始、结束、取消以及重复播放；
+<code>AnimatorUpdateListener</code>：监听动画的整个过程，动画每播放一帧的时候<code>onAnimationUpdate</code>方法就会被回调一次。
+(6)对任意属性做动画的方法：封装原始对象或者<code>ValueAnimator</code>
+(7)属性动画的工作原理：属性动画需要运行在有Looper的线程中，反射调用get/set方法</p>
+
+<h4 id="7-4-使用动画的注意事项">7.4 使用动画的注意事项</h4>
+
+<p>(1)OOM：尽量避免使用帧动画，使用的话应尽量避免使用过多尺寸较大的图片；
+(2)内存泄露：属性动画中的无限循环动画需要在Activity退出的时候及时停止，否则将导致Activity无法释放而造成内存泄露。view动画不存在这个问题；
+(3)兼容性问题：某些动画在3.0以下系统上有兼容性问题；
+(4)view动画的问题：view动画是对view的影像做动画，并不是真正的改变view的状态，因此有时候动画完成之后view无法隐藏，即<code>setVisibility(View.GONE)</code>失效了，此时需要调用<code>view.clearAnimation()</code>清除view动画才行。
+(5)不要使用px；
+(6)动画元素的交互：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置</strong>；
+(7)硬件加速：使用动画的过程中，建议开启硬件加速，这样会提高动画的流畅性。</p>
+
+<p><strong>其他学习资料</strong>
+0.<a href="https://github.com/daimajia/AndroidViewAnimations">代码家的重要的开源项目AndroidViewAnimation</a>
+1.<a href="http://keeganlee.me/post/android/20151003">Android样式的开发:View Animation篇</a>
+2.<a href="http://keeganlee.me/post/android/20151026">Android样式的开发:Property Animation篇</a></p>
+
+<p>OK，本章结束，谢谢阅读。</p>
+
+    </section>
+
+
+  <footer class="post-footer">
+
+
+    
+    <figure class="author-image">
+        <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+    </figure>
+    
+
+    
+
+
+
+
+
+<section class="author">
+  <h4><a href="https://hujiaweibujidao.github.io/">hujiawei</a></h4>
+
+  <div class="author-meta">
+    <span class="author-bio">Android Developer</span>
+    <span class="author-location icon-location">Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/">https://hujiaweibujidao.github.io/</a></span>
+  </div>
+</section>
+
+
+    
+    
+
+  </footer>
+</article>
+
+</main>
+    <footer class="site-footer clearfix">
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme</section>
+        
+    </footer>
+    </div>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+    
+</body>
+</html>
+
