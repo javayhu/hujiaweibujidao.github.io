@@ -178,27 +178,27 @@
     </header>
 
     <section class="post-content">
-      <p>本文记录的是chromeadb项目的源码阅读总结。</p>
+      
 
-<p>chromeadb项目源码：<a href="https://github.com/importre/chromeadb">https://github.com/importre/chromeadb</a></p>
+<p>本文记录的是chromeadb项目的源码阅读总结。</p>
 
-<p>chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。</p>
+<p>chromeadb项目源码：<a href="https://github.com/importre/chromeadb">https://github.com/importre/chromeadb</a><br />
+chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。</p>
 
 <p><img src="https://hujiaweibujidao.github.io/images/chromeadb.png" alt="img" /></p>
 
 <p>从该项目的目前提交记录以及<a href="https://github.com/importre/chromeadb/issues/12">issue</a>来看，这个项目已经被放弃了，因为Google的Chrome浏览器未来将不支持Chrome扩展应用。此外，项目源码用的是Angular JS来开发的，我并不是很熟悉，所以主要是阅读下源码理解其大致的实现流程。要体验ChromeADB的MousePad功能还需要安装一个应用<a href="https://github.com/importre/chromeadb_for_android">chromeadb_for_android</a>，这个应用我们也会稍微介绍一下。</p>
 
-<p><strong>（1）源码结构</strong></p>
+<h3 id="1-源码结构">1.源码结构</h3>
 
-<p>1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；
-1.2 test目录下是测试代码；
+<p>1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；<br />
+1.2 test目录下是测试代码；<br />
 1.3 src目录下是核心源码，其中assets目录是资源文件夹，里面都是图片；styles目录是样式文件<code>chromeadb.css</code>；views目录是各个子界面的模板页面，例如<code>packages.html</code>、<code>controller.html</code>等；scripts目录是控制脚本，例如<code>chromeadb.js</code>、<code>controllers.js</code>等。</p>
 
-<p><strong>（2）核心文件及代码分析</strong></p>
+<h3 id="2-核心文件及代码分析">2.核心文件及代码分析</h3>
 
-<p><strong>2.1 index.html</strong></p>
-
-<p>控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。</p>
+<p><strong>2.1 index.html</strong><br />
+控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。</p>
 
 <pre><code class="language-html">&lt;div&gt;
     &lt;ul class=&quot;nav nav-pills nav-justified&quot; id=&quot;mytab&quot;&gt;
@@ -226,9 +226,8 @@
 &lt;/div&gt;
 </code></pre>
 
-<p><strong>2.2 utils.js</strong></p>
-
-<p>定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。</p>
+<p><strong>2.2 utils.js</strong><br />
+定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。</p>
 
 <pre><code class="language-js">/* exported arrayBufferToString */
 /* exported arrayBufferToBinaryString */
@@ -256,9 +255,8 @@ function arrayBufferToBinaryString(buf, callback) {
 }
 </code></pre>
 
-<p><strong>2.3 background.js</strong></p>
-
-<p>应用启动时的初始化，应用是从这里开始的。</p>
+<p><strong>2.3 background.js</strong><br />
+应用启动时的初始化，应用是从这里开始的。</p>
 
 <pre><code class="language-js">chrome.app.runtime.onLaunched.addListener(function () {
   chrome.app.window.create('../index.html', {
@@ -270,9 +268,8 @@ function arrayBufferToBinaryString(buf, callback) {
 });
 </code></pre>
 
-<p><strong>2.4 chromeadb.js</strong></p>
-
-<p>控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。</p>
+<p><strong>2.4 chromeadb.js</strong><br />
+控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。</p>
 
 <pre><code class="language-js">var adb = angular.module('chromeADB', ['ngRoute', 'ngSanitize']);
 
@@ -299,9 +296,8 @@ adb.config(function ($routeProvider) {//配置url路由控制转发
 });
 </code></pre>
 
-<p><strong>2.5  chrome.js</strong></p>
-
-<p>主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。</p>
+<p><strong>2.5  chrome.js</strong><br />
+主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。</p>
 
 <pre><code class="language-js">//initCmdToResp(); //三个初始化方法
 //initChromeSocket(chrome);
@@ -401,9 +397,8 @@ function initChromeRuntime(chrome) {//初始化ChromeRuntime
 }
 </code></pre>
 
-<p><strong>2.6 parser.js</strong></p>
-
-<p>主要是利用正则表达式来提供一些解析adb命令返回结果的方法</p>
+<p><strong>2.6 parser.js</strong><br />
+主要是利用正则表达式来提供一些解析adb命令返回结果的方法</p>
 
 <pre><code class="language-js">/* exported parseProcessList */
 /* exported parseDeviceInfoList */
@@ -431,9 +426,8 @@ function parsePackageList(data) {//解析包列表
 }
 </code></pre>
 
-<p><strong>2.7 services.js</strong></p>
-
-<p>利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。</p>
+<p><strong>2.7 services.js</strong><br />
+利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。</p>
 
 <pre><code class="language-js">  function connect(createInfo, host, port) {//建立连接
     var defer = $q.defer();
@@ -493,13 +487,11 @@ function parsePackageList(data) {//解析包列表
   }
 </code></pre>
 
-<p><strong>2.8 controllers.js</strong></p>
+<p><strong>2.8 controllers.js</strong><br />
+核心控制脚本</p>
 
-<p>核心控制脚本</p>
-
-<p>2.8.1 loadDevices</p>
-
-<p>命令：adb devices -l</p>
+<p>2.8.1 loadDevices<br />
+命令：adb devices -l</p>
 
 <pre><code>➜  ~ adb devices -l
 List of devices attached
@@ -508,9 +500,8 @@ List of devices attached
 
 <p>parseDeviceInfoList方法的作用就是从输出结果中解析出设备的序列号(serial)、usb、product、model、device、state等信息</p>
 
-<p>2.8.2 loadPackages</p>
-
-<p>命令：adb shell pm list packages</p>
+<p>2.8.2 loadPackages<br />
+命令：adb shell pm list packages</p>
 
 <pre><code>➜  ~ adb shell pm list packages
 package:com.oneplus.calculator
@@ -537,21 +528,18 @@ package:com.oneplus.opbugreport
 }
 </code></pre>
 
-<p>2.8.3 其他与package相关的方法</p>
-
-<p>installPackage：adb shell pm install -r <package>
-uninstallPackage：adb shell pm uninstall <package>
-stopPackage：adb shell am force-stop <package>
-clearData：adb shell pm clear <package>
+<p>2.8.3 其他与package相关的方法<br />
+installPackage：adb shell pm install -r <package><br />
+uninstallPackage：adb shell pm uninstall <package><br />
+stopPackage：adb shell am force-stop <package><br />
+clearData：adb shell pm clear <package><br />
 removeApkFile：adb shell rm -rf <packagePath></p>
 
-<p>从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的<code>/data/local/tmp/</code>目录，然后执行<code>adb shell pm install -r &lt;packagePath&gt;</code>方法来安装应用的。</p>
+<p>从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的<code>/data/local/tmp/</code>目录，然后执行<code>adb shell pm install -r &lt;packagePath&gt;</code>方法来安装应用的(这个操作步骤和Android Studio中安装apk的逻辑是一样的)。</p>
 
-<p>2.8.4 loadProcessList</p>
-
-<p>命令：adb shell ps</p>
-
-<p>parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。</p>
+<p>2.8.4 loadProcessList<br />
+命令：adb shell ps<br />
+parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。</p>
 
 <pre><code class="language-js">function parseProcessList(data) {
   // parse oldstyle ps result
@@ -576,11 +564,10 @@ removeApkFile：adb shell rm -rf <packagePath></p>
 }
 </code></pre>
 
-<p>2.8.5 loadMemInfo</p>
+<p>2.8.5 loadMemInfo<br />
+命令：adb shell dumpsys meminfo</p>
 
-<p>命令：adb shell dumpsys meminfo</p>
-
-<pre><code>➜  ~ adb shell dumpsys meminfo 
+<pre><code>➜  ~ adb shell dumpsys meminfo
 Applications Memory Usage (kB):
 Uptime: 46425131 Realtime: 178910170
 
@@ -635,9 +622,8 @@ Total PSS by process:
 }
 </code></pre>
 
-<p>命令：adb shell dumpsys meminfo [pid/package]</p>
-
-<p>带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息</p>
+<p>命令：adb shell dumpsys meminfo [pid/package]<br />
+带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息</p>
 
 <pre><code>➜  ~ adb shell dumpsys meminfo 2240
 Applications Memory Usage (kB):
@@ -705,9 +691,8 @@ Uptime: 47043593 Realtime: 179528632
 
 <p><img src="https://hujiaweibujidao.github.io/images/chromeadb_chart.png" alt="img" /></p>
 
-<p>2.8.6 loadDiskSpace</p>
-
-<p>命令：adb shell df</p>
+<p>2.8.6 loadDiskSpace<br />
+命令：adb shell df</p>
 
 <pre><code>➜  ~ adb shell df
 Filesystem               Size     Used     Free   Blksize
@@ -737,9 +722,8 @@ Filesystem               Size     Used     Free   Blksize
 }
 </code></pre>
 
-<p>2.8.7 controller面板下的操作</p>
-
-<p>sendText：adb shell input text <text>
+<p>2.8.7 controller面板下的操作<br />
+sendText：adb shell input text <text><br />
 onClickButton：adb shell input keyevent <keyCode></p>
 
 <p>chromeadb在controller面板中还有一个MousePad功能，但是这个功能需要先在手机上安装chromeadb_for_android应用。<a href="https://github.com/importre/chromeadb_for_android">ChromeADB for Android这个应用的源码地址</a>，这个项目创建于2年前，可能不太好编译，建议直接创建新项目然后拷贝源码过来进行编译。</p>
@@ -748,7 +732,7 @@ onClickButton：adb shell input keyevent <keyCode></p>
 
 <p><img src="https://hujiaweibujidao.github.io/images/chromeadb_mousepad_controller.png" alt="img" /></p>
 
-<p><strong>（3）chromeadb_for_android 应用源码分析</strong></p>
+<h3 id="3-chromeadb-for-android应用源码分析">3.chromeadb_for_android应用源码分析</h3>
 
 <p>从chromeadb的源码来看，chromeadb会启动这个应用中的ChromeAdbService，然后实现各种移动和点击操作，所以ChromeAdbService是该应用的核心。</p>
 
@@ -942,7 +926,7 @@ onClickButton：adb shell input keyevent <keyCode></p>
 
 <p>chromeadb_for_android应用的代码看起来很简单，那么chromeadb是如何将坐标发送到事件文件中的呢？其实就是执行类似下面的命令<code>adb shell echo move 522,1108,530,1108 &gt;&gt; /sdcard/chromeadb.event</code>而已。ChromeAdbService这个服务会监听那个文件的变化，一旦有新的数据过来了就会解析参数执行相应的命令。</p>
 
-<p>** (4) 与adbserver通信的秘密 **</p>
+<h3 id="4-与adbserver通信的秘密">4.与adbserver通信的秘密</h3>
 
 <p>通过前面的分析我们知道了chromeadb实际上是连接adbserver，将命令通过socket发送给adbserver，然后adbserver去执行命令并返回结果给chromeadb。那通过socket发送的是什么内容呢？</p>
 
@@ -1052,7 +1036,7 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
 }
 </code></pre>
 
-<p>** 总结 **</p>
+<h3 id="5-总结">5.总结</h3>
 
 <p>虽然chromeadb工具的功能有限而且未来可能真的不会再有新的进展，但是利用当前这个版本进行扩展使用更多有用的功能还是非常方便的，例如我最近利用之前开发的手机版本的悟空监视器改造了一个新的斯诺登监视器。</p>
 

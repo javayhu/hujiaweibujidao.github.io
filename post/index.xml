@@ -7,8 +7,52 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Thu, 10 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>App Launch Time Measurement</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</link>
+      <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
+Status: ok
+Activity: com.meizu.flyme.applaunch/.MainActivity
+ThisTime: 479
+TotalTime: 479
+WaitTime: 499
+Complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在执行完Activity的onCreate方法之后就可以调用reportFullyDrawn方法，方便我们去统计应用的启动时间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Report to the system that your app is now fully drawn, purely for diagnostic
+ * purposes (calling it does not impact the visible behavior of the activity).
+ * This is only used to help instrument application launch times, so that the
+ * app can report when it is fully in a usable state; without this, the only thing
+ * the system itself can determine is the point at which the activity&#39;s window
+ * is &amp;lt;em&amp;gt;first&amp;lt;/em&amp;gt; drawn and displayed.  To participate in app launch time
+ * measurement, you should always call this method after first launch (when
+ * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
+ * entirely drawn your UI and populated with all of the significant data.  You
+ * can safely call this method any time after first launch as well, in which case
+ * it will simply be ignored.
+ */
+public void reportFullyDrawn() {
+    if (mDoReportFullyDrawn) {
+        mDoReportFullyDrawn = false;
+        try {
+            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
+        } catch (RemoteException e) {
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Custom Lint in Action</title>
@@ -95,11 +139,11 @@ android studio的源码涉及到aosp中的sdk.git，ndk.git，external/qemu.git�
 &lt;code&gt;ndk.git&lt;/code&gt; is the project hosting the Android NDK source files.
 &lt;code&gt;external/qemu.git&lt;/code&gt; is the project for our qemu-based emulator.&lt;/p&gt;
 
-&lt;p&gt;sdk.git项目是一个核心项目，大部分基于Java开发的工具都在这个项目里面，包含了ddms，traceview， hierarchyviewer，lint等工具，其中的eclipse目录是android device monitor的工具的源码，包含了各种插件，例如ddms，traceview，hierarchyviewer等。&lt;/p&gt;
+&lt;p&gt;sdk.git项目是一个核心项目，大部分基于Java开发的工具都在这个项目里面，包含了ddms，hierarchyviewer，lint，traceview等工具，其中的eclipse目录是android device monitor的工具的源码，包含了各种插件，例如ddms，traceview，hierarchyviewer等。&lt;/p&gt;
 
-&lt;p&gt;sdk.git项目根目录下的&lt;a href=&#34;http://androidxref.com/7.0.0_r1/xref/sdk/&#34;&gt;README文档&lt;/a&gt;的主要内容是关于sdk.git这个项目的变化以及使用需知
-其中解答了几个重要的问题，例如如何只构建某个单独的工具？如何修改工具源码来构建一个新的sdk？
-(1)I don&amp;rsquo;t build full SDKs but I want to change tool X
+&lt;p&gt;sdk.git项目根目录下的&lt;a href=&#34;http://androidxref.com/7.0.0_r1/xref/sdk/&#34;&gt;README文档&lt;/a&gt;的主要内容是关于sdk.git这个项目的变化以及使用需知&lt;br /&gt;
+其中解答了几个重要的问题，例如如何只构建某个单独的工具？如何修改工具源码来构建一个新的sdk？&lt;br /&gt;
+(1)I don&amp;rsquo;t build full SDKs but I want to change tool X&lt;br /&gt;
 (2)How do I change some tools sources and build a new SDK using these?&lt;/p&gt;
 
 &lt;p&gt;文档&lt;a href=&#34;http://tools.android.com/build&#34;&gt;http://tools.android.com/build&lt;/a&gt;中给出了编译sdk的方法&lt;/p&gt;
@@ -118,7 +162,7 @@ android studio的源码涉及到aosp中的sdk.git，ndk.git，external/qemu.git�
 
 &lt;h3 id=&#34;3-编译源码&#34;&gt;3.编译源码&lt;/h3&gt;
 
-&lt;p&gt;3.1 使用ant
+&lt;p&gt;3.1 使用ant&lt;br /&gt;
 最简单的编译运行方式是在tools/idea目录下执行&lt;code&gt;ant&lt;/code&gt;，最终会在tools/idea/out/中生成可运行的Android Studio应用程序&lt;/p&gt;
 
 &lt;p&gt;3.2 使用Intellij (推荐)&lt;br /&gt;
@@ -137,25 +181,22 @@ tools/idea目录下的README.md文档说明了如何编译Android Studio源码&l
 
 &lt;p&gt;如果遇到&lt;code&gt;java: package com.sun.source.tree does not exist&lt;/code&gt;这个错误的话记得检查是否已经将&lt;code&gt;&amp;lt;JDK_HOME&amp;gt;/lib/tools.jar&lt;/code&gt;添加到IDEA jdk中&lt;/p&gt;
 
-&lt;p&gt;下面是README.md文档的原文，其中第一步执行tools/idea目录下的&lt;code&gt;getPlugins.sh&lt;/code&gt;脚本，这个脚本会去下载两个repository，但是&lt;strong&gt;这个步骤在我这里一直没能成功，两个git项目能访问但是网络连接很慢源码下载不下来&lt;/strong&gt;，不过幸运的是这个步骤对后面的操作并没有影响。
-&lt;code&gt;git clone git://git.jetbrains.org/idea/android.git android&lt;/code&gt;
+&lt;p&gt;下面是README.md文档的原文，其中第一步执行tools/idea目录下的&lt;code&gt;getPlugins.sh&lt;/code&gt;脚本，它会去下载两个repository，但是&lt;strong&gt;这个步骤在我这里一直没能成功，两个git项目能访问但是网络连接很慢源码下载不下来&lt;/strong&gt;，不过幸运的是这个步骤对后面的操作貌似并没有影响。&lt;br /&gt;
+&lt;code&gt;git clone git://git.jetbrains.org/idea/android.git android&lt;/code&gt;&lt;br /&gt;
 &lt;code&gt;git clone git://git.jetbrains.org/idea/adt-tools-base.git android/tools-base&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Building and Running from the IDE&lt;/strong&gt;
-To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or IntelliJ IDEA Ultimate not older than 15.0. To build and run the code:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.&lt;/li&gt;
-&lt;li&gt;If this git repository is not on &amp;lsquo;master&amp;rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.&lt;/li&gt;
-&lt;li&gt;Open the project.&lt;/li&gt;
-&lt;li&gt;If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.&lt;/li&gt;
-&lt;li&gt;Configure a JDK named &amp;ldquo;IDEA jdk&amp;rdquo; (case sensitive), pointing to an installation of JDK 1.6.&lt;/li&gt;
-&lt;li&gt;Unless you&amp;rsquo;re running on a Mac with an Apple JDK, add &lt;JDK_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;IDEA jdk&amp;rdquo; jars.&lt;/li&gt;
-&lt;li&gt;Configure a JDK named &amp;ldquo;1.8&amp;rdquo;, pointing to an installation of JDK 1.8.&lt;/li&gt;
-&lt;li&gt;Add &lt;JDK_18_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;1.8&amp;rdquo; jars.&lt;/li&gt;
-&lt;li&gt;Use Build | Make Project to build the code.&lt;/li&gt;
-&lt;li&gt;To run the code, use the provided shared run configuration &amp;ldquo;IDEA&amp;rdquo;.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Building and Running from the IDE&lt;/strong&gt;&lt;br /&gt;
+To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or IntelliJ IDEA Ultimate not older than 15.0.   To build and run the code:&lt;br /&gt;
+- Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.
+- If this git repository is not on &amp;lsquo;master&amp;rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.
+- Open the project.
+- If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.
+- Configure a JDK named &amp;ldquo;IDEA jdk&amp;rdquo; (case sensitive), pointing to an installation of JDK 1.6.
+- Unless you&amp;rsquo;re running on a Mac with an Apple JDK, add &lt;JDK_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;IDEA jdk&amp;rdquo; jars.
+- Configure a JDK named &amp;ldquo;1.8&amp;rdquo;, pointing to an installation of JDK 1.8.
+- Add &lt;JDK_18_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;1.8&amp;rdquo; jars.
+- Use Build | Make Project to build the code.
+- To run the code, use the provided shared run configuration &amp;ldquo;IDEA&amp;rdquo;.&lt;/p&gt;
 
 &lt;h3 id=&#34;4-其他参考资料&#34;&gt;4.其他参考资料&lt;/h3&gt;
 
@@ -211,22 +252,21 @@ private void getLoadAverage() {
 
 &lt;h5 id=&#34;2-cpu的频率&#34;&gt;2. CPU的频率&lt;/h5&gt;
 
-&lt;p&gt;CPU的核数：统计 &lt;code&gt;/sys/devices/system/cpu/&lt;/code&gt; 目录下名称以&lt;code&gt;cpu&lt;/code&gt;开始的文件夹的数目
-正在工作的核： &lt;code&gt;/sys/devices/system/cpu/online&lt;/code&gt;
-注意：可能是&lt;code&gt;1-4&lt;/code&gt;或者&lt;code&gt;2,3&lt;/code&gt;或者&lt;code&gt;1-3,5-7&lt;/code&gt;等各种组合形式&lt;/p&gt;
-
-&lt;p&gt;正在工作的核的频率，例如cpu0的频率节点： &lt;code&gt;/sys/devices/system/cpu/&lt;/code&gt;cpu0&lt;code&gt;/cpufreq/scaling_cur_freq&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;CPU的核数：统计 &lt;code&gt;/sys/devices/system/cpu/&lt;/code&gt; 目录下名称以&lt;code&gt;cpu&lt;/code&gt;开始的文件夹的数目&lt;br /&gt;
+正在工作的核： &lt;code&gt;/sys/devices/system/cpu/online&lt;/code&gt;&lt;br /&gt;
+注意：可能是&lt;code&gt;1-4&lt;/code&gt;或者&lt;code&gt;2,3&lt;/code&gt;或者&lt;code&gt;1-3,5-7&lt;/code&gt;等各种组合形式&lt;br /&gt;
+正在工作的核的频率，例如cpu0的频率节点： &lt;code&gt;/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq&lt;/code&gt;&lt;/p&gt;
 
 &lt;h5 id=&#34;3-内存碎片化程度&#34;&gt;3. 内存碎片化程度&lt;/h5&gt;
 
 &lt;p&gt;文件节点：&lt;code&gt;/sys/kernel/debug/extfrag/unusable_index&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ cat /sys/kernel/debug/extfrag/unusable_index                      
-Node 0, zone      DMA 0.000 0.802 0.894 0.971 0.985 0.995 1.000 1.000 1.000 1.000 1.000 
-Node 0, zone  Movable 0.000 0.000 0.000 0.000 0.002 0.003 0.003 0.003 0.004 0.006 0.006 
+Node 0, zone      DMA 0.000 0.802 0.894 0.971 0.985 0.995 1.000 1.000 1.000 1.000 1.000
+Node 0, zone  Movable 0.000 0.000 0.000 0.000 0.002 0.003 0.003 0.003 0.004 0.006 0.006
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;(1)zone的个数不确定，名称也不确定&lt;/em&gt;
+&lt;p&gt;&lt;em&gt;(1)zone的个数不确定，名称也不确定&lt;/em&gt;&lt;br /&gt;
 &lt;em&gt;(2)先计算单个zone的平均值，再计算zone的整体平均内存碎片化程度&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;参考资料：&lt;a href=&#34;https://chengyihe.wordpress.com/2015/11/28/kernel-mm-syskerneldebugextfragunusable_index/&#34;&gt;https://chengyihe.wordpress.com/2015/11/28/kernel-mm-syskerneldebugextfragunusable_index/&lt;/a&gt;&lt;/p&gt;
@@ -265,8 +305,8 @@ SwapFree:        1153856 kB
 Dirty:                 4 kB
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;em&gt;1.swap cached 不等于 swap used, swap used = swap total - swap free&lt;/em&gt;
-&lt;em&gt;2.Memory Free = MemFree + Cached + Buffers&lt;/em&gt;
+&lt;p&gt;&lt;em&gt;1.swap cached 不等于 swap used, swap used = swap total - swap free&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;2.Memory Free = MemFree + Cached + Buffers&lt;/em&gt;&lt;br /&gt;
 &lt;em&gt;3.Memory Used = Memory Total - Memory Free&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;参考资料：&lt;a href=&#34;http://www.cnblogs.com/zhaoyl/p/3695517.html&#34;&gt;linux内存管理原理&lt;/a&gt; &lt;a href=&#34;http://linuxperf.com/?p=32&#34;&gt;buffers和cached的区别&lt;/a&gt; &lt;a href=&#34;http://linuxperf.com/?p=97&#34;&gt;active和inactive的区别&lt;/a&gt;&lt;/p&gt;
@@ -282,39 +322,38 @@ cpu0 111250 7718 210302 3466017 764 6 209 0 0 0
 
 &lt;p&gt;jiffies是内核中的一个全局变量，用来记录自系统启动一来产生的节拍数。在linux中，一个节拍大致可理解为操作系统进程调度的最小时间片，不同linux内核可能值有不同，通常在1ms到10ms之间。&lt;/p&gt;
 
-&lt;p&gt;user (229649) 从系统启动开始累计到当前时刻，用户态的CPU时间（单位：jiffies），不包含nice值为负的进程。
-nice (59778) 从系统启动开始累计到当前时刻，nice值为负的进程所占用的CPU时间（单位：jiffies）
-system (316872) 从系统启动开始累计到当前时刻，核心系统进程占用的时间（单位：jiffies）
-idle (3688440) 从系统启动开始累计到当前时刻，除硬盘IO等待时间以外其它等待时间（单位：jiffies）
-iowait (3308) 从系统启动开始累计到当前时刻，硬盘IO等待时间（单位：jiffies）
-irq (6) 从系统启动开始累计到当前时刻，硬中断时间（单位：jiffies）
+&lt;p&gt;user (229649) 从系统启动开始累计到当前时刻，用户态的CPU时间（单位：jiffies），不包含nice值为负的进程&lt;br /&gt;
+nice (59778) 从系统启动开始累计到当前时刻，nice值为负的进程所占用的CPU时间（单位：jiffies）&lt;br /&gt;
+system (316872) 从系统启动开始累计到当前时刻，核心系统进程占用的时间（单位：jiffies）&lt;br /&gt;
+idle (3688440) 从系统启动开始累计到当前时刻，除硬盘IO等待时间以外其它等待时间（单位：jiffies）&lt;br /&gt;
+iowait (3308) 从系统启动开始累计到当前时刻，硬盘IO等待时间（单位：jiffies）&lt;br /&gt;
+irq (6) 从系统启动开始累计到当前时刻，硬中断时间（单位：jiffies）&lt;br /&gt;
 softirq (357) 从系统启动开始累计到当前时刻，软中断时间（单位：jiffies）&lt;/p&gt;
 
 &lt;p&gt;上面结果中的后面三个数据在Android中不统计，所以&lt;br /&gt;
-total = user + nice + system + idle + iowait + irq + softirq&lt;/p&gt;
-
-&lt;p&gt;百分比的计算方式一般是：&lt;br /&gt;
-USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+softirq)/total&lt;/p&gt;
+&lt;code&gt;total = user + nice + system + idle + iowait + irq + softirq&lt;/code&gt;&lt;br /&gt;
+百分比的计算方式一般是：&lt;br /&gt;
+&lt;code&gt;USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+softirq)/total&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;参考资料：&lt;a href=&#34;http://www.cnblogs.com/yjf512/p/3383915.html&#34;&gt;cpu被占用的时间比信息详解&lt;/a&gt;&lt;/p&gt;
 
 &lt;h5 id=&#34;7-进程-线程的占用信息&#34;&gt;7. 进程/线程的占用信息&lt;/h5&gt;
 
-&lt;p&gt;进程数据文件的节点： &lt;code&gt;/proc/[pid]&lt;/code&gt;
+&lt;p&gt;进程数据文件的节点： &lt;code&gt;/proc/[pid]&lt;/code&gt;&lt;br /&gt;
 线程数据文件的节点： &lt;code&gt;/proc/[pid]/task/[tid]&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;进程和线程的状态信息从&lt;code&gt;stat&lt;/code&gt;文件中获取，名称从&lt;code&gt;cmdline&lt;/code&gt;文件中获取，cpuset从&lt;code&gt;cpuset&lt;/code&gt;文件中获取等。进程的&lt;code&gt;stat&lt;/code&gt;文件中保存了该进程的&lt;code&gt;user time&lt;/code&gt;和&lt;code&gt;system time&lt;/code&gt;，两者之和可以用来对进程进行排序，一般进程和线程的排序方式都是按照它们占用的CPU时长来排序的。&lt;/p&gt;
 
-&lt;p&gt;&lt;em&gt;(1)Process.getPids方法既可以用来获取某个目录下的所有进程数组，也可以用来获取某个进程的task目录下的所有线程数组&lt;/em&gt;
+&lt;p&gt;&lt;em&gt;(1)Process.getPids方法既可以用来获取某个目录下的所有进程数组，也可以用来获取某个进程的task目录下的所有线程数组&lt;/em&gt;&lt;br /&gt;
 &lt;em&gt;(2)Process.getPss方法可以用来统计进程的pss数据，但是很多进程的pss数据都没法获取到&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;参考资料：&lt;a href=&#34;http://blog.csdn.net/zjl_1026_2001/article/details/2294036&#34;&gt;关于/proc/pid/stat&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;进程和线程部分的实现相对有点难度，一方面要统计系统所有的进程和线程的信息，另一方面要对它们进行排序。不过庆幸的是Android系统源码中有一个[&lt;code&gt;LoadAverageService&lt;/code&gt;]()，这个service也就是开发者选项中&lt;code&gt;显示CPU使用情况&lt;/code&gt;的内部实现，它的代码非常具有参考价值，我们可以在它的基础上进行扩展开发自己的工具。&lt;/p&gt;
+&lt;p&gt;进程和线程部分的实现相对有点难度，一方面要统计系统所有的进程和线程的信息，另一方面要对它们进行排序。不过庆幸的是Android系统源码中有一个&lt;a href=&#34;http://androidxref.com/6.0.0_r1/xref/frameworks/base/packages/SystemUI/src/com/android/systemui/LoadAverageService.java&#34;&gt;&lt;code&gt;LoadAverageService&lt;/code&gt;&lt;/a&gt;，这个service也就是开发者选项中&lt;code&gt;显示CPU使用情况&lt;/code&gt;的内部实现，它的代码非常具有参考价值，我们可以在它的基础上进行扩展开发自己的工具。&lt;/p&gt;
 
 &lt;p&gt;上面只是列举了部分常见的重要数据的获取方法，其他数据的获取方式也都差不多，主要是要知道当前平台的相应数据的文件节点，还需要注意的是是否具有文件的读权限。&lt;/p&gt;
 
-&lt;p&gt;下图是我最近开发的悟空监视器(公司内部项目，源码不能公开，仅供参考，原理同上)&lt;/p&gt;
+&lt;p&gt;下图是我最近开发的悟空监视器，入口在Flyme系统的开发者选项中(公司内部项目，源码不能公开，仅供参考，原理同上)&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/wukong.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 </description>
@@ -326,27 +365,27 @@ USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+soft
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
-      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;
+      <description>
 
-&lt;p&gt;chromeadb项目源码：&lt;a href=&#34;https://github.com/importre/chromeadb&#34;&gt;https://github.com/importre/chromeadb&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;
 
-&lt;p&gt;chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。&lt;/p&gt;
+&lt;p&gt;chromeadb项目源码：&lt;a href=&#34;https://github.com/importre/chromeadb&#34;&gt;https://github.com/importre/chromeadb&lt;/a&gt;&lt;br /&gt;
+chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;从该项目的目前提交记录以及&lt;a href=&#34;https://github.com/importre/chromeadb/issues/12&#34;&gt;issue&lt;/a&gt;来看，这个项目已经被放弃了，因为Google的Chrome浏览器未来将不支持Chrome扩展应用。此外，项目源码用的是Angular JS来开发的，我并不是很熟悉，所以主要是阅读下源码理解其大致的实现流程。要体验ChromeADB的MousePad功能还需要安装一个应用&lt;a href=&#34;https://github.com/importre/chromeadb_for_android&#34;&gt;chromeadb_for_android&lt;/a&gt;，这个应用我们也会稍微介绍一下。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;（1）源码结构&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;1-源码结构&#34;&gt;1.源码结构&lt;/h3&gt;
 
-&lt;p&gt;1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；
-1.2 test目录下是测试代码；
+&lt;p&gt;1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；&lt;br /&gt;
+1.2 test目录下是测试代码；&lt;br /&gt;
 1.3 src目录下是核心源码，其中assets目录是资源文件夹，里面都是图片；styles目录是样式文件&lt;code&gt;chromeadb.css&lt;/code&gt;；views目录是各个子界面的模板页面，例如&lt;code&gt;packages.html&lt;/code&gt;、&lt;code&gt;controller.html&lt;/code&gt;等；scripts目录是控制脚本，例如&lt;code&gt;chromeadb.js&lt;/code&gt;、&lt;code&gt;controllers.js&lt;/code&gt;等。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;（2）核心文件及代码分析&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;2-核心文件及代码分析&#34;&gt;2.核心文件及代码分析&lt;/h3&gt;
 
-&lt;p&gt;&lt;strong&gt;2.1 index.html&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.1 index.html&lt;/strong&gt;&lt;br /&gt;
+控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;div&amp;gt;
     &amp;lt;ul class=&amp;quot;nav nav-pills nav-justified&amp;quot; id=&amp;quot;mytab&amp;quot;&amp;gt;
@@ -374,9 +413,8 @@ USER%=(user+nice)/total，SYS%=system/total，IOW%=iowait/total，IRQ%=(irq+soft
 &amp;lt;/div&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.2 utils.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.2 utils.js&lt;/strong&gt;&lt;br /&gt;
+定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/* exported arrayBufferToString */
 /* exported arrayBufferToBinaryString */
@@ -404,9 +442,8 @@ function arrayBufferToBinaryString(buf, callback) {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.3 background.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;应用启动时的初始化，应用是从这里开始的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.3 background.js&lt;/strong&gt;&lt;br /&gt;
+应用启动时的初始化，应用是从这里开始的。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;chrome.app.runtime.onLaunched.addListener(function () {
   chrome.app.window.create(&#39;../index.html&#39;, {
@@ -418,9 +455,8 @@ function arrayBufferToBinaryString(buf, callback) {
 });
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.4 chromeadb.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.4 chromeadb.js&lt;/strong&gt;&lt;br /&gt;
+控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;var adb = angular.module(&#39;chromeADB&#39;, [&#39;ngRoute&#39;, &#39;ngSanitize&#39;]);
 
@@ -447,9 +483,8 @@ adb.config(function ($routeProvider) {//配置url路由控制转发
 });
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.5  chrome.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.5  chrome.js&lt;/strong&gt;&lt;br /&gt;
+主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;//initCmdToResp(); //三个初始化方法
 //initChromeSocket(chrome);
@@ -549,9 +584,8 @@ function initChromeRuntime(chrome) {//初始化ChromeRuntime
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.6 parser.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;主要是利用正则表达式来提供一些解析adb命令返回结果的方法&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.6 parser.js&lt;/strong&gt;&lt;br /&gt;
+主要是利用正则表达式来提供一些解析adb命令返回结果的方法&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;/* exported parseProcessList */
 /* exported parseDeviceInfoList */
@@ -579,9 +613,8 @@ function parsePackageList(data) {//解析包列表
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.7 services.js&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.7 services.js&lt;/strong&gt;&lt;br /&gt;
+利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;  function connect(createInfo, host, port) {//建立连接
     var defer = $q.defer();
@@ -641,13 +674,11 @@ function parsePackageList(data) {//解析包列表
   }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;strong&gt;2.8 controllers.js&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.8 controllers.js&lt;/strong&gt;&lt;br /&gt;
+核心控制脚本&lt;/p&gt;
 
-&lt;p&gt;核心控制脚本&lt;/p&gt;
-
-&lt;p&gt;2.8.1 loadDevices&lt;/p&gt;
-
-&lt;p&gt;命令：adb devices -l&lt;/p&gt;
+&lt;p&gt;2.8.1 loadDevices&lt;br /&gt;
+命令：adb devices -l&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;➜  ~ adb devices -l
 List of devices attached
@@ -656,9 +687,8 @@ List of devices attached
 
 &lt;p&gt;parseDeviceInfoList方法的作用就是从输出结果中解析出设备的序列号(serial)、usb、product、model、device、state等信息&lt;/p&gt;
 
-&lt;p&gt;2.8.2 loadPackages&lt;/p&gt;
-
-&lt;p&gt;命令：adb shell pm list packages&lt;/p&gt;
+&lt;p&gt;2.8.2 loadPackages&lt;br /&gt;
+命令：adb shell pm list packages&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;➜  ~ adb shell pm list packages
 package:com.oneplus.calculator
@@ -685,21 +715,18 @@ package:com.oneplus.opbugreport
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2.8.3 其他与package相关的方法&lt;/p&gt;
-
-&lt;p&gt;installPackage：adb shell pm install -r &lt;package&gt;
-uninstallPackage：adb shell pm uninstall &lt;package&gt;
-stopPackage：adb shell am force-stop &lt;package&gt;
-clearData：adb shell pm clear &lt;package&gt;
+&lt;p&gt;2.8.3 其他与package相关的方法&lt;br /&gt;
+installPackage：adb shell pm install -r &lt;package&gt;&lt;br /&gt;
+uninstallPackage：adb shell pm uninstall &lt;package&gt;&lt;br /&gt;
+stopPackage：adb shell am force-stop &lt;package&gt;&lt;br /&gt;
+clearData：adb shell pm clear &lt;package&gt;&lt;br /&gt;
 removeApkFile：adb shell rm -rf &lt;packagePath&gt;&lt;/p&gt;
 
-&lt;p&gt;从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的&lt;code&gt;/data/local/tmp/&lt;/code&gt;目录，然后执行&lt;code&gt;adb shell pm install -r &amp;lt;packagePath&amp;gt;&lt;/code&gt;方法来安装应用的。&lt;/p&gt;
+&lt;p&gt;从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的&lt;code&gt;/data/local/tmp/&lt;/code&gt;目录，然后执行&lt;code&gt;adb shell pm install -r &amp;lt;packagePath&amp;gt;&lt;/code&gt;方法来安装应用的(这个操作步骤和Android Studio中安装apk的逻辑是一样的)。&lt;/p&gt;
 
-&lt;p&gt;2.8.4 loadProcessList&lt;/p&gt;
-
-&lt;p&gt;命令：adb shell ps&lt;/p&gt;
-
-&lt;p&gt;parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。&lt;/p&gt;
+&lt;p&gt;2.8.4 loadProcessList&lt;br /&gt;
+命令：adb shell ps&lt;br /&gt;
+parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-js&#34;&gt;function parseProcessList(data) {
   // parse oldstyle ps result
@@ -724,11 +751,10 @@ removeApkFile：adb shell rm -rf &lt;packagePath&gt;&lt;/p&gt;
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2.8.5 loadMemInfo&lt;/p&gt;
+&lt;p&gt;2.8.5 loadMemInfo&lt;br /&gt;
+命令：adb shell dumpsys meminfo&lt;/p&gt;
 
-&lt;p&gt;命令：adb shell dumpsys meminfo&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;➜  ~ adb shell dumpsys meminfo 
+&lt;pre&gt;&lt;code&gt;➜  ~ adb shell dumpsys meminfo
 Applications Memory Usage (kB):
 Uptime: 46425131 Realtime: 178910170
 
@@ -783,9 +809,8 @@ Total PSS by process:
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;命令：adb shell dumpsys meminfo [pid/package]&lt;/p&gt;
-
-&lt;p&gt;带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息&lt;/p&gt;
+&lt;p&gt;命令：adb shell dumpsys meminfo [pid/package]&lt;br /&gt;
+带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;➜  ~ adb shell dumpsys meminfo 2240
 Applications Memory Usage (kB):
@@ -853,9 +878,8 @@ Uptime: 47043593 Realtime: 179528632
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb_chart.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;2.8.6 loadDiskSpace&lt;/p&gt;
-
-&lt;p&gt;命令：adb shell df&lt;/p&gt;
+&lt;p&gt;2.8.6 loadDiskSpace&lt;br /&gt;
+命令：adb shell df&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;➜  ~ adb shell df
 Filesystem               Size     Used     Free   Blksize
@@ -885,9 +909,8 @@ Filesystem               Size     Used     Free   Blksize
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;2.8.7 controller面板下的操作&lt;/p&gt;
-
-&lt;p&gt;sendText：adb shell input text &lt;text&gt;
+&lt;p&gt;2.8.7 controller面板下的操作&lt;br /&gt;
+sendText：adb shell input text &lt;text&gt;&lt;br /&gt;
 onClickButton：adb shell input keyevent &lt;keyCode&gt;&lt;/p&gt;
 
 &lt;p&gt;chromeadb在controller面板中还有一个MousePad功能，但是这个功能需要先在手机上安装chromeadb_for_android应用。&lt;a href=&#34;https://github.com/importre/chromeadb_for_android&#34;&gt;ChromeADB for Android这个应用的源码地址&lt;/a&gt;，这个项目创建于2年前，可能不太好编译，建议直接创建新项目然后拷贝源码过来进行编译。&lt;/p&gt;
@@ -896,7 +919,7 @@ onClickButton：adb shell input keyevent &lt;keyCode&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chromeadb_mousepad_controller.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;（3）chromeadb_for_android 应用源码分析&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;3-chromeadb-for-android应用源码分析&#34;&gt;3.chromeadb_for_android应用源码分析&lt;/h3&gt;
 
 &lt;p&gt;从chromeadb的源码来看，chromeadb会启动这个应用中的ChromeAdbService，然后实现各种移动和点击操作，所以ChromeAdbService是该应用的核心。&lt;/p&gt;
 
@@ -1090,7 +1113,7 @@ onClickButton：adb shell input keyevent &lt;keyCode&gt;&lt;/p&gt;
 
 &lt;p&gt;chromeadb_for_android应用的代码看起来很简单，那么chromeadb是如何将坐标发送到事件文件中的呢？其实就是执行类似下面的命令&lt;code&gt;adb shell echo move 522,1108,530,1108 &amp;gt;&amp;gt; /sdcard/chromeadb.event&lt;/code&gt;而已。ChromeAdbService这个服务会监听那个文件的变化，一旦有新的数据过来了就会解析参数执行相应的命令。&lt;/p&gt;
 
-&lt;p&gt;** (4) 与adbserver通信的秘密 **&lt;/p&gt;
+&lt;h3 id=&#34;4-与adbserver通信的秘密&#34;&gt;4.与adbserver通信的秘密&lt;/h3&gt;
 
 &lt;p&gt;通过前面的分析我们知道了chromeadb实际上是连接adbserver，将命令通过socket发送给adbserver，然后adbserver去执行命令并返回结果给chromeadb。那通过socket发送的是什么内容呢？&lt;/p&gt;
 
@@ -1200,7 +1223,7 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;** 总结 **&lt;/p&gt;
+&lt;h3 id=&#34;5-总结&#34;&gt;5.总结&lt;/h3&gt;
 
 &lt;p&gt;虽然chromeadb工具的功能有限而且未来可能真的不会再有新的进展，但是利用当前这个版本进行扩展使用更多有用的功能还是非常方便的，例如我最近利用之前开发的手机版本的悟空监视器改造了一个新的斯诺登监视器。&lt;/p&gt;
 
@@ -3743,28 +3766,6 @@ public Object getValue(float fraction) {
 &lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
 
 &lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gank for Mac</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
-      <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
-      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;
-
-&lt;p&gt;临近毕业，花了几天时间看了下Swift的语法，主要看的是资料是 &lt;strong&gt;&lt;a href=&#34;https://github.com/numbbbbb/the-swift-programming-language-in-chinese&#34;&gt;The Swift Programming Language&lt;/a&gt;&lt;/strong&gt;，在此非常感谢国内的翻译团队们的辛苦翻译，翻译质量相当不错。😘&lt;/p&gt;
-
-&lt;p&gt;看了一遍之后，感觉Swift的确是吸收了很多编程语言的诸多优点，从这个&lt;a href=&#34;https://www.zhihu.com/question/24007154&#34;&gt;知乎问答&lt;/a&gt;可见一斑，如此强大的新型编程语言还是非常值得一学的，加之苹果将其开源出来，势必吸引更多的开发者加入到开源的队伍中使其变得更加优秀。&lt;/p&gt;
-
-&lt;p&gt;看完The Swift Programming Language之后，我又把《从零开始学Swift》这门书前面几十个章节的源码看了一遍，没有书，只能猜测作者是想表达什么语法知识。（后来才想起来可以去图书馆找这本书，而且图书馆还真有这本书😂）&lt;/p&gt;
-
-&lt;p&gt;后来看到&lt;a href=&#34;https://github.com/judi0713&#34;&gt;这位开发者&lt;/a&gt;用Swift写的&lt;a href=&#34;http://walkginkgo.com/ios/2016/05/04/Toutiao.html?hmsr=toutiao.io&amp;amp;utm_medium=toutiao.io&amp;amp;utm_source=toutiao.io&#34;&gt;开发者头条的Mac版客户端&lt;/a&gt;感觉很有意思，想试着也写一个，想了想，正好干货集中营缺个Mac版客户端嘛，于是我就开始看&lt;a href=&#34;https://github.com/judi0713/TouTiao&#34;&gt;Toutiao for Mac的源码&lt;/a&gt;和&lt;a href=&#34;https://github.com/producthunt/producthunt-osx&#34;&gt;Product Hunt for Mac的源码&lt;/a&gt;。Toutiao for Mac是参考&lt;a href=&#34;https://github.com/kimar/Tailor&#34;&gt;Tailor的源码&lt;/a&gt;来写的，比较简单。Product Hunt for Mac也是使用Swift开发的，界面和代码都写得非常好，并且使用了&lt;a href=&#34;https://github.com/ReSwift/ReSwift&#34;&gt;ReSwift&lt;/a&gt;框架。但是我计划开发的这个应用太简单，用这个框架完全是小题大做了。借助这几个优秀的项目源码，我很快完成了Gank for Mac这个项目，项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank&#34;&gt;Gank for Mac&lt;/a&gt;，界面简洁清晰，功能简单完善，欢迎下载使用。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gank-screenshot.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;最后，期待使用Swift开发Android的那一天，哈哈哈😄&lt;/p&gt;
 </description>
     </item>
     
