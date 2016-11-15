@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       App Launch Time Measurement &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" App Launch Time Measurement &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-11-14T16:46:33&#43;08:00" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">App Launch Time Measurement</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post draft">
+
+    <header class="post-header">
+        <h1 class="post-title">App Launch Time Measurement</h1>
+        
+
+        <section class="post-meta">
+        
+        &nbsp;&nbsp;
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      <pre><code>$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
+Status: ok
+Activity: com.meizu.flyme.applaunch/.MainActivity
+ThisTime: 479
+TotalTime: 479
+WaitTime: 499
+Complete
+</code></pre>
+
+<p>在执行完Activity的onCreate方法之后就可以调用reportFullyDrawn方法，方便我们去统计应用的启动时间。</p>
+
+<pre><code class="language-java">/**
+ * Report to the system that your app is now fully drawn, purely for diagnostic
+ * purposes (calling it does not impact the visible behavior of the activity).
+ * This is only used to help instrument application launch times, so that the
+ * app can report when it is fully in a usable state; without this, the only thing
+ * the system itself can determine is the point at which the activity's window
+ * is &lt;em&gt;first&lt;/em&gt; drawn and displayed.  To participate in app launch time
+ * measurement, you should always call this method after first launch (when
+ * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
+ * entirely drawn your UI and populated with all of the significant data.  You
+ * can safely call this method any time after first launch as well, in which case
+ * it will simply be ignored.
+ */
+public void reportFullyDrawn() {
+    if (mDoReportFullyDrawn) {
+        mDoReportFullyDrawn = false;
+        try {
+            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
+        } catch (RemoteException e) {
+        }
+    }
+}
+</code></pre>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;"><strong>本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</strong></span>
+  </div>
+</section>
+
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="draft/2016-11-14-app-launch-time-measurement/" data-title="App Launch Time Measurement" data-url="https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

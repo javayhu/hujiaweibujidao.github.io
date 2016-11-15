@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Drafts on Hujiawei Bujidao</title>
+    <link>https://hujiaweibujidao.github.io/draft/</link>
+    <description>Recent content in Drafts on Hujiawei Bujidao</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>All rights reserved &amp;copy; 2016</copyright>
+    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
+    <atom:link href="https://hujiaweibujidao.github.io/draft/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>App Launch Time Measurement</title>
+      <link>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</link>
+      <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</guid>
+      <description>&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
+Status: ok
+Activity: com.meizu.flyme.applaunch/.MainActivity
+ThisTime: 479
+TotalTime: 479
+WaitTime: 499
+Complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在执行完Activity的onCreate方法之后就可以调用reportFullyDrawn方法，方便我们去统计应用的启动时间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Report to the system that your app is now fully drawn, purely for diagnostic
+ * purposes (calling it does not impact the visible behavior of the activity).
+ * This is only used to help instrument application launch times, so that the
+ * app can report when it is fully in a usable state; without this, the only thing
+ * the system itself can determine is the point at which the activity&#39;s window
+ * is &amp;lt;em&amp;gt;first&amp;lt;/em&amp;gt; drawn and displayed.  To participate in app launch time
+ * measurement, you should always call this method after first launch (when
+ * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
+ * entirely drawn your UI and populated with all of the significant data.  You
+ * can safely call this method any time after first launch as well, in which case
+ * it will simply be ignored.
+ */
+public void reportFullyDrawn() {
+    if (mDoReportFullyDrawn) {
+        mDoReportFullyDrawn = false;
+        try {
+            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
+        } catch (RemoteException e) {
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

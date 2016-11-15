@@ -12,10 +12,10 @@
     
     <item>
       <title>App Launch Time Measurement</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</link>
+      <link>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</link>
       <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</guid>
+      <guid>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</guid>
       <description>&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
 Status: ok
