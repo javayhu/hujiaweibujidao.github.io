@@ -16,7 +16,30 @@
       <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</guid>
-      <description>&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+      <description>
+
+&lt;p&gt;本文记录分析应用启动时间的的总结。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html&#34;&gt;测量Activity 的启动时间&lt;/a&gt;
+&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;amp;mid=2247483771&amp;amp;idx=1&amp;amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd&#34;&gt;Activity到底是什么时候显示到屏幕上的呢&lt;/a&gt;
+&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;1-查看display-time&#34;&gt;1.查看display time&lt;/h3&gt;
+
+&lt;p&gt;从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，也比较适合测量程序的启动时间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I/ActivityManager: Displayed packageName/activity: +xxxms
+//厂商定制过的OS可能会有些不同，例如FlymeOS中的输出
+I/ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面信息的打印来自&lt;code&gt;ActivityRecord&lt;/code&gt;类的&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法，它的实现和下面的fully drawn time类似，我们在下面会介绍它的实现过程。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
 Status: ok
 Activity: com.meizu.flyme.applaunch/.MainActivity
@@ -26,7 +49,25 @@ WaitTime: 499
 Complete
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;在执行完Activity的onCreate方法之后就可以调用reportFullyDrawn方法，方便我们去统计应用的启动时间。&lt;/p&gt;
+&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
+11-15 16:31:50.831  1213  4064 I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-查看fully-drawn-time&#34;&gt;2.查看fully drawn time&lt;/h3&gt;
+
+&lt;p&gt;通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用&lt;code&gt;activity.reportFullyDrawn()&lt;/code&gt;方法来告诉系统此时的状态，以便获取整个应用启动的耗时。&lt;/p&gt;
+
+&lt;p&gt;查看方式和输出结果类似上面的查看display time的过程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//Logcat中的输出
+I/ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +480ms
+//EventLog中的输出
+11-15 16:31:50.831  1213  4064 I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法的详情，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
  * Report to the system that your app is now fully drawn, purely for diagnostic
@@ -49,6 +90,109 @@ public void reportFullyDrawn() {
         } catch (RemoteException e) {
         }
     }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中的&lt;code&gt;ActivityManagerNative&lt;/code&gt;的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法会经过Binder调用到AMS的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法，最终会调用到&lt;code&gt;ActivityRecord&lt;/code&gt;的&lt;code&gt;reportFullyDrawnLocked&lt;/code&gt;方法，内容与&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法类似。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void reportFullyDrawnLocked() {
+    final long curTime = SystemClock.uptimeMillis();
+    if (displayStartTime != 0) {
+        reportLaunchTimeLocked(curTime);
+    }
+    final ActivityStack stack = task.stack;
+    if (fullyDrawnStartTime != 0 &amp;amp;&amp;amp; stack != null) {
+        final long thisTime = curTime - fullyDrawnStartTime;
+        final long totalTime = stack.mFullyDrawnStartTime != 0
+                ? (curTime - stack.mFullyDrawnStartTime) : thisTime;
+        if (SHOW_ACTIVITY_START_TIME) {
+            Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+            EventLog.writeEvent(EventLogTags.AM_ACTIVITY_FULLY_DRAWN_TIME,
+                    userId, System.identityHashCode(this), shortComponentName,
+                    thisTime, totalTime);
+            StringBuilder sb = service.mStringBuilder;
+            sb.setLength(0);
+            sb.append(&amp;quot;Fully drawn &amp;quot;);
+            sb.append(shortComponentName);
+            sb.append(&amp;quot;: &amp;quot;);
+            TimeUtils.formatDuration(thisTime, sb);
+            if (thisTime != totalTime) {
+                sb.append(&amp;quot; (total &amp;quot;);
+                TimeUtils.formatDuration(totalTime, sb);
+                sb.append(&amp;quot;)&amp;quot;);
+            }
+            Log.i(TAG, sb.toString());
+        }
+        if (totalTime &amp;gt; 0) {
+            //service.mUsageStatsService.noteFullyDrawnTime(realActivity, (int) totalTime);
+        }
+        stack.mFullyDrawnStartTime = 0;
+    }
+    fullyDrawnStartTime = 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码中有几个起始时间(startTime)，它们是在哪里设置的呢？&lt;br /&gt;
+它们是在&lt;code&gt;ActivityStack&lt;/code&gt;的&lt;code&gt;setLaunchTime&lt;/code&gt;方法中设置的。下面代码中的&lt;code&gt;Trace.asyncTraceBegin&lt;/code&gt;和&lt;code&gt;Trace.asyncTraceEnd&lt;/code&gt;实际上会调用到系统中&lt;code&gt;atrace&lt;/code&gt;的&lt;code&gt;async_start&lt;/code&gt;和&lt;code&gt;async_stop&lt;/code&gt;(可以通过&lt;code&gt;adb shell atrace -h&lt;/code&gt;查看到)。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void setLaunchTime(ActivityRecord r) {
+    if (r.displayStartTime == 0) {
+        r.fullyDrawnStartTime = r.displayStartTime = SystemClock.uptimeMillis();
+        if (mLaunchStartTime == 0) {
+            startLaunchTraces(r.packageName);
+            mLaunchStartTime = mFullyDrawnStartTime = r.displayStartTime;
+        }
+    } else if (mLaunchStartTime == 0) {
+        startLaunchTraces(r.packageName);
+        mLaunchStartTime = mFullyDrawnStartTime = SystemClock.uptimeMillis();
+    }
+}
+
+private void startLaunchTraces(String packageName) {
+    if (mFullyDrawnStartTime != 0)  {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+    }
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;launching: &amp;quot; + packageName, 0);
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+}
+
+private void stopFullyDrawnTraceIfNeeded() {
+    if (mFullyDrawnStartTime != 0 &amp;amp;&amp;amp; mLaunchStartTime == 0) {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+        mFullyDrawnStartTime = 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
+    // Is this activity&#39;s application already running?
+    ProcessRecord app = mService.getProcessRecordLocked(r.processName,
+            r.info.applicationInfo.uid, true);
+
+    r.task.stack.setLaunchTime(r);//在这里设置launch start time
+
+    if (app != null &amp;amp;&amp;amp; app.thread != null) {
+        try {
+            if ((r.info.flags&amp;amp;ActivityInfo.FLAG_MULTIPROCESS) == 0 || !&amp;quot;android&amp;quot;.equals(r.info.packageName)) {
+                // Don&#39;t add this if it is a platform component that is marked
+                // to run in multiple processes, because this is actually
+                // part of the framework so doesn&#39;t make sense to track as a
+                // separate apk in the process.
+                app.addPackage(r.info.packageName, r.info.applicationInfo.versionCode, mService.mProcessStats);
+            }
+            realStartActivityLocked(r, app, andResume, checkConfig);
+            return;
+        } catch (RemoteException e) {
+            Slog.w(TAG, &amp;quot;Exception when starting activity &amp;quot; + r.intent.getComponent().flattenToShortString(), e);
+        }
+
+        // If a dead object exception was thrown -- fall through to restart the application.
+    }
+
+    mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
+            &amp;quot;activity&amp;quot;, r.intent.getComponent(), false, false, true);
 }
 &lt;/code&gt;&lt;/pre&gt;
 </description>
