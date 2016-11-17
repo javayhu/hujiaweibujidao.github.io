@@ -7,8 +7,202 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Thu, 10 Nov 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>App Launch Time Measurement</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</link>
+      <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</guid>
+      <description>
+
+&lt;p&gt;本文记录下分析应用启动时间的总结。&lt;/p&gt;
+
+&lt;p&gt;关于应用启动时间测量的分析已经有不少不错的文章做了总结，下面是比较好的几篇：&lt;br /&gt;
+1.&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;br /&gt;
+2.&lt;a href=&#34;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html&#34;&gt;测量Activity 的启动时间&lt;/a&gt;&lt;br /&gt;
+3.&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;amp;mid=2247483771&amp;amp;idx=1&amp;amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd&#34;&gt;Activity到底是什么时候显示到屏幕上的呢&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上面的每篇都各有特色，我这篇也只是在他们的分析上记录下自己学习和研究过程的总结。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-查看display-time&#34;&gt;1.查看display time&lt;/h3&gt;
+
+&lt;p&gt;从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，比较适合测量程序的启动时间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;I ActivityManager: Displayed com.meizu.flyme.applaunch/.MainActivity: +379ms
+//厂商定制过的OS可能会有些不同，例如FlymeOS中的输出
+I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面信息的打印来自&lt;code&gt;ActivityRecord&lt;/code&gt;类的&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法，它的实现如下所示，整个过程和下面的fully drawn time类似，我们在下面会介绍它的详细实现过程。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
+Status: ok
+Activity: com.meizu.flyme.applaunch/.MainActivity
+ThisTime: 479
+TotalTime: 479
+WaitTime: 499
+Complete
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
+... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-查看fully-drawn-time&#34;&gt;2.查看fully drawn time&lt;/h3&gt;
+
+&lt;p&gt;通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，但是上面的display time是不包含异步加载所耗费的时间，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法来告诉系统加载完成，以便获取整个应用启动的耗时。&lt;/p&gt;
+
+&lt;p&gt;查看方式和输出结果类似上面的查看display time的过程&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//Logcat中的输出
+I ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +2s319ms
+//EventLog中的输出
+... I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法的实现，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Report to the system that your app is now fully drawn, purely for diagnostic
+ * purposes (calling it does not impact the visible behavior of the activity).
+ * This is only used to help instrument application launch times, so that the
+ * app can report when it is fully in a usable state; without this, the only thing
+ * the system itself can determine is the point at which the activity&#39;s window
+ * is &amp;lt;em&amp;gt;first&amp;lt;/em&amp;gt; drawn and displayed.  To participate in app launch time
+ * measurement, you should always call this method after first launch (when
+ * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
+ * entirely drawn your UI and populated with all of the significant data.  You
+ * can safely call this method any time after first launch as well, in which case
+ * it will simply be ignored.
+ */
+public void reportFullyDrawn() {
+    if (mDoReportFullyDrawn) {
+        mDoReportFullyDrawn = false;
+        try {
+            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
+        } catch (RemoteException e) {
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中的&lt;code&gt;ActivityManagerNative&lt;/code&gt;的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法会经过Binder调用到AMS的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法，最终会调用到&lt;code&gt;ActivityRecord&lt;/code&gt;的&lt;code&gt;reportFullyDrawnLocked&lt;/code&gt;方法，内容与&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法类似。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void reportFullyDrawnLocked() {
+    final long curTime = SystemClock.uptimeMillis();
+    if (displayStartTime != 0) {
+        reportLaunchTimeLocked(curTime);
+    }
+    final ActivityStack stack = task.stack;
+    if (fullyDrawnStartTime != 0 &amp;amp;&amp;amp; stack != null) {
+        final long thisTime = curTime - fullyDrawnStartTime;
+        final long totalTime = stack.mFullyDrawnStartTime != 0
+                ? (curTime - stack.mFullyDrawnStartTime) : thisTime;
+        if (SHOW_ACTIVITY_START_TIME) {
+            Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+            EventLog.writeEvent(EventLogTags.AM_ACTIVITY_FULLY_DRAWN_TIME,
+                    userId, System.identityHashCode(this), shortComponentName,
+                    thisTime, totalTime);//EventLog中的输出
+            StringBuilder sb = service.mStringBuilder;
+            sb.setLength(0);
+            sb.append(&amp;quot;Fully drawn &amp;quot;);
+            sb.append(shortComponentName);
+            sb.append(&amp;quot;: &amp;quot;);
+            TimeUtils.formatDuration(thisTime, sb);
+            if (thisTime != totalTime) {
+                sb.append(&amp;quot; (total &amp;quot;);
+                TimeUtils.formatDuration(totalTime, sb);
+                sb.append(&amp;quot;)&amp;quot;);
+            }
+            Log.i(TAG, sb.toString());//Logcat中的输出
+        }
+        if (totalTime &amp;gt; 0) {
+            //service.mUsageStatsService.noteFullyDrawnTime(realActivity, (int) totalTime);
+        }
+        stack.mFullyDrawnStartTime = 0;
+    }
+    fullyDrawnStartTime = 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面代码中有个起始时间(&lt;code&gt;fullyDrawnStartTime&lt;/code&gt;)，它是在哪里设置的呢？它是在&lt;code&gt;ActivityStack&lt;/code&gt;的&lt;code&gt;setLaunchTime&lt;/code&gt;方法中设置的。&lt;br /&gt;
+&lt;strong&gt;注：下面代码中的&lt;code&gt;Trace.asyncTraceBegin&lt;/code&gt;和&lt;code&gt;Trace.asyncTraceEnd&lt;/code&gt;实际上会调用到系统中&lt;code&gt;atrace&lt;/code&gt;的&lt;code&gt;async_start&lt;/code&gt;和&lt;code&gt;async_stop&lt;/code&gt;(可以通过&lt;code&gt;adb shell atrace -h&lt;/code&gt;查看到这两个命令的选项)。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void setLaunchTime(ActivityRecord r) {
+    if (r.displayStartTime == 0) {
+        r.fullyDrawnStartTime = r.displayStartTime = SystemClock.uptimeMillis();
+        if (mLaunchStartTime == 0) {
+            startLaunchTraces(r.packageName);
+            mLaunchStartTime = mFullyDrawnStartTime = r.displayStartTime;
+        }
+    } else if (mLaunchStartTime == 0) {
+        startLaunchTraces(r.packageName);
+        mLaunchStartTime = mFullyDrawnStartTime = SystemClock.uptimeMillis();
+    }
+}
+
+private void startLaunchTraces(String packageName) {
+    if (mFullyDrawnStartTime != 0)  {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+    }
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;launching: &amp;quot; + packageName, 0);
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+}
+
+private void stopFullyDrawnTraceIfNeeded() {
+    if (mFullyDrawnStartTime != 0 &amp;amp;&amp;amp; mLaunchStartTime == 0) {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
+        mFullyDrawnStartTime = 0;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;br /&gt;
+&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
+    // Is this activity&#39;s application already running?
+    ProcessRecord app = mService.getProcessRecordLocked(r.processName,
+            r.info.applicationInfo.uid, true);
+
+    r.task.stack.setLaunchTime(r);//在这里设置launch start time
+
+    if (app != null &amp;amp;&amp;amp; app.thread != null) {
+        try {
+            if ((r.info.flags&amp;amp;ActivityInfo.FLAG_MULTIPROCESS) == 0 || !&amp;quot;android&amp;quot;.equals(r.info.packageName)) {
+                // Don&#39;t add this if it is a platform component that is marked
+                // to run in multiple processes, because this is actually
+                // part of the framework so doesn&#39;t make sense to track as a
+                // separate apk in the process.
+                app.addPackage(r.info.packageName, r.info.applicationInfo.versionCode, mService.mProcessStats);
+            }
+            realStartActivityLocked(r, app, andResume, checkConfig);
+            return;
+        } catch (RemoteException e) {
+            Slog.w(TAG, &amp;quot;Exception when starting activity &amp;quot; + r.intent.getComponent().flattenToShortString(), e);
+        }
+
+        // If a dead object exception was thrown -- fall through to restart the application.
+    }
+
+    mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
+            &amp;quot;activity&amp;quot;, r.intent.getComponent(), false, false, true);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;还有一种方式是录屏然后测量，和使用高速相机录像然后测量差不多，由于比较麻烦，此处不表。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Custom Lint in Action</title>
@@ -3724,28 +3918,6 @@ public Object getValue(float fraction) {
 &lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
 
 &lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gank for Mac</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
-      <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
-      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;
-
-&lt;p&gt;临近毕业，花了几天时间看了下Swift的语法，主要看的是资料是 &lt;strong&gt;&lt;a href=&#34;https://github.com/numbbbbb/the-swift-programming-language-in-chinese&#34;&gt;The Swift Programming Language&lt;/a&gt;&lt;/strong&gt;，在此非常感谢国内的翻译团队们的辛苦翻译，翻译质量相当不错。😘&lt;/p&gt;
-
-&lt;p&gt;看了一遍之后，感觉Swift的确是吸收了很多编程语言的诸多优点，从这个&lt;a href=&#34;https://www.zhihu.com/question/24007154&#34;&gt;知乎问答&lt;/a&gt;可见一斑，如此强大的新型编程语言还是非常值得一学的，加之苹果将其开源出来，势必吸引更多的开发者加入到开源的队伍中使其变得更加优秀。&lt;/p&gt;
-
-&lt;p&gt;看完The Swift Programming Language之后，我又把《从零开始学Swift》这门书前面几十个章节的源码看了一遍，没有书，只能猜测作者是想表达什么语法知识。（后来才想起来可以去图书馆找这本书，而且图书馆还真有这本书😂）&lt;/p&gt;
-
-&lt;p&gt;后来看到&lt;a href=&#34;https://github.com/judi0713&#34;&gt;这位开发者&lt;/a&gt;用Swift写的&lt;a href=&#34;http://walkginkgo.com/ios/2016/05/04/Toutiao.html?hmsr=toutiao.io&amp;amp;utm_medium=toutiao.io&amp;amp;utm_source=toutiao.io&#34;&gt;开发者头条的Mac版客户端&lt;/a&gt;感觉很有意思，想试着也写一个，想了想，正好干货集中营缺个Mac版客户端嘛，于是我就开始看&lt;a href=&#34;https://github.com/judi0713/TouTiao&#34;&gt;Toutiao for Mac的源码&lt;/a&gt;和&lt;a href=&#34;https://github.com/producthunt/producthunt-osx&#34;&gt;Product Hunt for Mac的源码&lt;/a&gt;。Toutiao for Mac是参考&lt;a href=&#34;https://github.com/kimar/Tailor&#34;&gt;Tailor的源码&lt;/a&gt;来写的，比较简单。Product Hunt for Mac也是使用Swift开发的，界面和代码都写得非常好，并且使用了&lt;a href=&#34;https://github.com/ReSwift/ReSwift&#34;&gt;ReSwift&lt;/a&gt;框架。但是我计划开发的这个应用太简单，用这个框架完全是小题大做了。借助这几个优秀的项目源码，我很快完成了Gank for Mac这个项目，项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank&#34;&gt;Gank for Mac&lt;/a&gt;，界面简洁清晰，功能简单完善，欢迎下载使用。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gank-screenshot.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;最后，期待使用Swift开发Android的那一天，哈哈哈😄&lt;/p&gt;
 </description>
     </item>
     

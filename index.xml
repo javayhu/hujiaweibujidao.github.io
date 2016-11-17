@@ -12,32 +12,35 @@
     
     <item>
       <title>App Launch Time Measurement</title>
-      <link>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</link>
       <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/</guid>
       <description>
 
-&lt;p&gt;本文记录分析应用启动时间的的总结。&lt;/p&gt;
+&lt;p&gt;本文记录下分析应用启动时间的总结。&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html&#34;&gt;测量Activity 的启动时间&lt;/a&gt;
-&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;amp;mid=2247483771&amp;amp;idx=1&amp;amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd&#34;&gt;Activity到底是什么时候显示到屏幕上的呢&lt;/a&gt;
-&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于应用启动时间测量的分析已经有不少不错的文章做了总结，下面是比较好的几篇：&lt;br /&gt;
+1.&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;br /&gt;
+2.&lt;a href=&#34;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html&#34;&gt;测量Activity 的启动时间&lt;/a&gt;&lt;br /&gt;
+3.&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;amp;mid=2247483771&amp;amp;idx=1&amp;amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd&#34;&gt;Activity到底是什么时候显示到屏幕上的呢&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上面的每篇都各有特色，我这篇也只是在他们的分析上记录下自己学习和研究过程的总结。&lt;/p&gt;
 
 &lt;h3 id=&#34;1-查看display-time&#34;&gt;1.查看display time&lt;/h3&gt;
 
-&lt;p&gt;从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，也比较适合测量程序的启动时间。&lt;/p&gt;
+&lt;p&gt;从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，比较适合测量程序的启动时间。&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;I/ActivityManager: Displayed packageName/activity: +xxxms
+&lt;pre&gt;&lt;code&gt;I ActivityManager: Displayed com.meizu.flyme.applaunch/.MainActivity: +379ms
 //厂商定制过的OS可能会有些不同，例如FlymeOS中的输出
-I/ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
+I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;上面信息的打印来自&lt;code&gt;ActivityRecord&lt;/code&gt;类的&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法，它的实现和下面的fully drawn time类似，我们在下面会介绍它的实现过程。&lt;/p&gt;
+&lt;p&gt;上面信息的打印来自&lt;code&gt;ActivityRecord&lt;/code&gt;类的&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法，它的实现如下所示，整个过程和下面的fully drawn time类似，我们在下面会介绍它的详细实现过程。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
@@ -52,22 +55,22 @@ Complete
 &lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
-11-15 16:31:50.831  1213  4064 I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;2-查看fully-drawn-time&#34;&gt;2.查看fully drawn time&lt;/h3&gt;
 
-&lt;p&gt;通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用&lt;code&gt;activity.reportFullyDrawn()&lt;/code&gt;方法来告诉系统此时的状态，以便获取整个应用启动的耗时。&lt;/p&gt;
+&lt;p&gt;通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，但是上面的display time是不包含异步加载所耗费的时间，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法来告诉系统加载完成，以便获取整个应用启动的耗时。&lt;/p&gt;
 
 &lt;p&gt;查看方式和输出结果类似上面的查看display time的过程&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;//Logcat中的输出
-I/ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +480ms
+I ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +2s319ms
 //EventLog中的输出
-11-15 16:31:50.831  1213  4064 I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+... I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;下面是&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法的详情，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。&lt;/p&gt;
+&lt;p&gt;下面是&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法的实现，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
  * Report to the system that your app is now fully drawn, purely for diagnostic
@@ -109,7 +112,7 @@ public void reportFullyDrawn() {
             Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
             EventLog.writeEvent(EventLogTags.AM_ACTIVITY_FULLY_DRAWN_TIME,
                     userId, System.identityHashCode(this), shortComponentName,
-                    thisTime, totalTime);
+                    thisTime, totalTime);//EventLog中的输出
             StringBuilder sb = service.mStringBuilder;
             sb.setLength(0);
             sb.append(&amp;quot;Fully drawn &amp;quot;);
@@ -121,7 +124,7 @@ public void reportFullyDrawn() {
                 TimeUtils.formatDuration(totalTime, sb);
                 sb.append(&amp;quot;)&amp;quot;);
             }
-            Log.i(TAG, sb.toString());
+            Log.i(TAG, sb.toString());//Logcat中的输出
         }
         if (totalTime &amp;gt; 0) {
             //service.mUsageStatsService.noteFullyDrawnTime(realActivity, (int) totalTime);
@@ -132,8 +135,8 @@ public void reportFullyDrawn() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;上面代码中有几个起始时间(startTime)，它们是在哪里设置的呢？&lt;br /&gt;
-它们是在&lt;code&gt;ActivityStack&lt;/code&gt;的&lt;code&gt;setLaunchTime&lt;/code&gt;方法中设置的。下面代码中的&lt;code&gt;Trace.asyncTraceBegin&lt;/code&gt;和&lt;code&gt;Trace.asyncTraceEnd&lt;/code&gt;实际上会调用到系统中&lt;code&gt;atrace&lt;/code&gt;的&lt;code&gt;async_start&lt;/code&gt;和&lt;code&gt;async_stop&lt;/code&gt;(可以通过&lt;code&gt;adb shell atrace -h&lt;/code&gt;查看到)。&lt;/p&gt;
+&lt;p&gt;上面代码中有个起始时间(&lt;code&gt;fullyDrawnStartTime&lt;/code&gt;)，它是在哪里设置的呢？它是在&lt;code&gt;ActivityStack&lt;/code&gt;的&lt;code&gt;setLaunchTime&lt;/code&gt;方法中设置的。&lt;br /&gt;
+&lt;strong&gt;注：下面代码中的&lt;code&gt;Trace.asyncTraceBegin&lt;/code&gt;和&lt;code&gt;Trace.asyncTraceEnd&lt;/code&gt;实际上会调用到系统中&lt;code&gt;atrace&lt;/code&gt;的&lt;code&gt;async_start&lt;/code&gt;和&lt;code&gt;async_stop&lt;/code&gt;(可以通过&lt;code&gt;adb shell atrace -h&lt;/code&gt;查看到这两个命令的选项)。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void setLaunchTime(ActivityRecord r) {
     if (r.displayStartTime == 0) {
@@ -164,7 +167,8 @@ private void stopFullyDrawnTraceIfNeeded() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;/p&gt;
+&lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;br /&gt;
+&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
     // Is this activity&#39;s application already running?
@@ -195,6 +199,8 @@ private void stopFullyDrawnTraceIfNeeded() {
             &amp;quot;activity&amp;quot;, r.intent.getComponent(), false, false, true);
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;还有一种方式是录屏然后测量，和使用高速相机录像然后测量差不多，由于比较麻烦，此处不表。&lt;/p&gt;
 </description>
     </item>
     
