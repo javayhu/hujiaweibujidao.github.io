@@ -93,6 +93,7 @@
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
@@ -229,12 +230,14 @@ LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项�
 <p><strong>注意：该项目的release 1.0.0版本的lintrules依赖的是24.5.0版本的lint-api，演示的LogDetector来自下面参考资料中的美团的LogDetector。但是目前该项目最新的release 1.0.1版本依赖的是25.2.0版本的lint-api，演示的LogDetector参考自lint工具自带的LogDetector。</strong></p>
 
 <p><strong>其他参考资料</strong><br />
-<a href="http://tech.meituan.com/android_custom_lint.html">美团-Android自定义Lint实践</a><br />
-<a href="https://segmentfault.com/a/1190000004497435">segmentfault-自定义Lint规则简介</a><br />
-<a href="http://www.jianshu.com/p/7b3519dc1e5f">Android Studio配合Lint检测缺失Permission</a><br />
-<a href="http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html">Gradle Lint support</a></p>
+1.<a href="http://tech.meituan.com/android_custom_lint.html">美团-Android自定义Lint实践</a><br />
+2.<a href="https://segmentfault.com/a/1190000004497435">segmentfault-自定义Lint规则简介</a><br />
+3.<a href="http://www.jianshu.com/p/7b3519dc1e5f">Android Studio配合Lint检测缺失Permission</a><br />
+4.<a href="http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html">Gradle Lint support</a></p>
 
 <p>OK，感兴趣的话欢迎阅读<a href="https://github.com/hujiaweibujidao/customlint">customlint</a>项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。</p>
+
+<p>其实，看完本节你应该会有很多的疑惑，为什么自定义的lint规则打包成jar放在<code>~/.android/lint</code>目录下就可以使用了呢？还有，将lint.jar打包到aar中为什么也可以实现自定义lint检查呢？这些问题需要我们去阅读lint工具的源码才能够真正解开谜底，请等待后期的lint工具源码分析总结。</p>
 
     </section>
 
