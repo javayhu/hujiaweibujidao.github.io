@@ -7,1033 +7,8 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Sat, 19 Nov 2016 10:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Lint Tool Analysis (3)</title>
-      <link>https://hujiaweibujidao.github.io/draft/2016-11-19-lint-tool-analysis-3/</link>
-      <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/draft/2016-11-19-lint-tool-analysis-3/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(下篇)&lt;/p&gt;
-
-&lt;p&gt;(ast=abstract syntax tree)&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;注意：在最新的25.2.0版本的lint-api中JavaScanner已经被列为deprecated了，改为了JavaPsiScanner。&lt;/strong&gt;&lt;br /&gt;
-以&lt;code&gt;JavaPsiScanner&lt;/code&gt;为例，任何对Java文件进行lint检查的Detector都需要实现这个接口。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface JavaPsiScanner  {
-    /**
-     * Create a parse tree visitor to process the parse tree. All
-     * {@link JavaScanner} detectors must provide a visitor, unless they
-     * either return true from {@link #appliesToResourceRefs()} or return
-     * non null from {@link #getApplicableMethodNames()}.
-     * &amp;lt;p&amp;gt;
-     * If you return specific AST node types from
-     * {@link #getApplicablePsiTypes()}, then the visitor will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt;
-     * be called for the specific requested node types. This is more
-     * efficient, since it allows many detectors that apply to only a small
-     * part of the AST (such as method call nodes) to share iteration of the
-     * majority of the parse tree.
-     * &amp;lt;p&amp;gt;
-     * If you return null from {@link #getApplicablePsiTypes()}, then your
-     * visitor will be called from the top and all node types visited.
-     * &amp;lt;p&amp;gt;
-     * Note that a new visitor is created for each separate compilation
-     * unit, so you can store per file state in the visitor.
-     * &amp;lt;p&amp;gt;
-     * &amp;lt;b&amp;gt;
-     * NOTE: Your visitor should &amp;lt;b&amp;gt;NOT&amp;lt;/b&amp;gt; extend JavaRecursiveElementVisitor.
-     * Your visitor should only visit the current node type; the infrastructure
-     * will do the recursion. (Lint&#39;s unit test infrastructure will check and
-     * enforce this restriction.)
-     * &amp;lt;/b&amp;gt;
-     *
-     * @param context the {@link Context} for the file being analyzed
-     * @return a visitor, or null.
-     */
-    @Nullable
-    JavaElementVisitor createPsiVisitor(@NonNull JavaContext context);
-
-    /**
-     * Return the types of AST nodes that the visitor returned from
-     * {@link #createJavaVisitor(JavaContext)} should visit. See the
-     * documentation for {@link #createJavaVisitor(JavaContext)} for details
-     * on how the shared visitor is used.
-     * &amp;lt;p&amp;gt;
-     * If you return null from this method, then the visitor will process
-     * the full tree instead.
-     * &amp;lt;p&amp;gt;
-     * Note that for the shared visitor, the return codes from the visit
-     * methods are ignored: returning true will &amp;lt;b&amp;gt;not&amp;lt;/b&amp;gt; prune iteration
-     * of the subtree, since there may be other node types interested in the
-     * children. If you need to ensure that your visitor only processes a
-     * part of the tree, use a full visitor instead. See the
-     * OverdrawDetector implementation for an example of this.
-     *
-     * @return the list of applicable node types (AST node classes), or null
-     */
-    @Nullable
-    List&amp;lt;Class&amp;lt;? extends PsiElement&amp;gt;&amp;gt; getApplicablePsiTypes();
-
-    /**
-     * Return the list of method names this detector is interested in, or
-     * null. If this method returns non-null, then any AST nodes that match
-     * a method call in the list will be passed to the
-     * {@link #visitMethod(JavaContext, JavaElementVisitor, PsiMethodCallExpression, PsiMethod)}
-     * method for processing. The visitor created by
-     * {@link #createPsiVisitor(JavaContext)} is also passed to that
-     * method, although it can be null.
-     * &amp;lt;p&amp;gt;
-     * This makes it easy to write detectors that focus on some fixed calls.
-     * For example, the StringFormatDetector uses this mechanism to look for
-     * &amp;quot;format&amp;quot; calls, and when found it looks around (using the AST&#39;s
-     * {@link PsiElement#getParent()} method) to see if it&#39;s called on
-     * a String class instance, and if so do its normal processing. Note
-     * that since it doesn&#39;t need to do any other AST processing, that
-     * detector does not actually supply a visitor.
-     *
-     * @return a set of applicable method names, or null.
-     */
-    @Nullable
-    List&amp;lt;String&amp;gt; getApplicableMethodNames();
-
-    /**
-     * Method invoked for any method calls found that matches any names
-     * returned by {@link #getApplicableMethodNames()}. This also passes
-     * back the visitor that was created by
-     * {@link #createJavaVisitor(JavaContext)}, but a visitor is not
-     * required. It is intended for detectors that need to do additional AST
-     * processing, but also want the convenience of not having to look for
-     * method names on their own.
-     *
-     * @param context the context of the lint request
-     * @param visitor the visitor created from
-     *            {@link #createPsiVisitor(JavaContext)}, or null
-     * @param call the {@link PsiMethodCallExpression} node for the invoked method
-     * @param method the {@link PsiMethod} being called
-     */
-    void visitMethod(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiMethodCallExpression call,
-            @NonNull PsiMethod method);
-
-    /**
-     * Return the list of constructor types this detector is interested in, or
-     * null. If this method returns non-null, then any AST nodes that match
-     * a constructor call in the list will be passed to the
-     * {@link #visitConstructor(JavaContext, JavaElementVisitor, PsiNewExpression, PsiMethod)}
-     * method for processing. The visitor created by
-     * {@link #createJavaVisitor(JavaContext)} is also passed to that
-     * method, although it can be null.
-     * &amp;lt;p&amp;gt;
-     * This makes it easy to write detectors that focus on some fixed constructors.
-     *
-     * @return a set of applicable fully qualified types, or null.
-     */
-    @Nullable
-    List&amp;lt;String&amp;gt; getApplicableConstructorTypes();
-
-    /**
-     * Method invoked for any constructor calls found that matches any names
-     * returned by {@link #getApplicableConstructorTypes()}. This also passes
-     * back the visitor that was created by
-     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not
-     * required. It is intended for detectors that need to do additional AST
-     * processing, but also want the convenience of not having to look for
-     * method names on their own.
-     *
-     * @param context the context of the lint request
-     * @param visitor the visitor created from
-     *            {@link #createPsiVisitor(JavaContext)}, or null
-     * @param node the {@link PsiNewExpression} node for the invoked method
-     * @param constructor the called constructor method
-     */
-    void visitConstructor(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiNewExpression node,
-            @NonNull PsiMethod constructor);
-
-    /**
-     * Return the list of reference names types this detector is interested in, or null. If this
-     * method returns non-null, then any AST elements that match a reference in the list will be
-     * passed to the {@link #visitReference(JavaContext, JavaElementVisitor,
-     * PsiJavaCodeReferenceElement, PsiElement)} method for processing. The visitor created by
-     * {@link #createJavaVisitor(JavaContext)} is also passed to that method, although it can be
-     * null. &amp;lt;p&amp;gt; This makes it easy to write detectors that focus on some fixed references.
-     *
-     * @return a set of applicable reference names, or null.
-     */
-    @Nullable
-    List&amp;lt;String&amp;gt; getApplicableReferenceNames();
-
-    /**
-     * Method invoked for any references found that matches any names returned by {@link
-     * #getApplicableReferenceNames()}. This also passes back the visitor that was created by
-     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not required. It is intended for
-     * detectors that need to do additional AST processing, but also want the convenience of not
-     * having to look for method names on their own.
-     *
-     * @param context    the context of the lint request
-     * @param visitor    the visitor created from {@link #createPsiVisitor(JavaContext)}, or
-     *                   null
-     * @param reference  the {@link PsiJavaCodeReferenceElement} element
-     * @param referenced the referenced element
-     */
-    void visitReference(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiJavaCodeReferenceElement reference,
-            @NonNull PsiElement referenced);
-
-    /**
-     * Returns whether this detector cares about Android resource references
-     * (such as {@code R.layout.main} or {@code R.string.app_name}). If it
-     * does, then the visitor will look for these patterns, and if found, it
-     * will invoke {@link #visitResourceReference} passing the resource type
-     * and resource name. It also passes the visitor, if any, that was
-     * created by {@link #createJavaVisitor(JavaContext)}, such that a
-     * detector can do more than just look for resources.
-     *
-     * @return true if this detector wants to be notified of R resource
-     *         identifiers found in the code.
-     */
-    boolean appliesToResourceRefs();
-
-    /**
-     * Called for any resource references (such as {@code R.layout.main}
-     * found in Java code, provided this detector returned {@code true} from
-     * {@link #appliesToResourceRefs()}.
-     *
-     * @param context the lint scanning context
-     * @param visitor the visitor created from
-     *            {@link #createPsiVisitor(JavaContext)}, or null
-     * @param node the variable reference for the resource
-     * @param type the resource type, such as &amp;quot;layout&amp;quot; or &amp;quot;string&amp;quot;
-     * @param name the resource name, such as &amp;quot;main&amp;quot; from
-     *            {@code R.layout.main}
-     * @param isFramework whether the resource is a framework resource
-     *            (android.R) or a local project resource (R)
-     */
-    void visitResourceReference(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiElement node,
-            @NonNull ResourceType type,
-            @NonNull String name,
-            boolean isFramework);
-
-    /**
-     * Returns a list of fully qualified names for super classes that this
-     * detector cares about. If not null, this detector will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt; be called
-     * if the current class is a subclass of one of the specified superclasses.
-     *
-     * @return a list of fully qualified names
-     */
-    @Nullable
-    List&amp;lt;String&amp;gt; applicableSuperClasses();
-
-    /**
-     * Called for each class that extends one of the super classes specified with
-     * {@link #applicableSuperClasses()}.
-     * &amp;lt;p&amp;gt;
-     * Note: This method will not be called for {@link PsiTypeParameter} classes. These
-     * aren&#39;t really classes in the sense most lint detectors think of them, so these
-     * are excluded to avoid having lint checks that don&#39;t defensively code for these
-     * accidentally report errors on type parameters. If you really need to check these,
-     * use {@link #getApplicablePsiTypes} with {@code PsiTypeParameter.class} instead.
-     *
-     * @param context the lint scanning context
-     * @param declaration the class declaration node, or null for anonymous classes
-     */
-    void checkClass(@NonNull JavaContext context, @NonNull PsiClass declaration);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;compile &amp;lsquo;com.android.tools.lint:lint-api:24.5.0&amp;rsquo;
-可以使用JavaScanner =&amp;gt; older Lombok AST API&lt;/p&gt;
-
-&lt;p&gt;compile &amp;lsquo;com.android.tools.lint:lint-api:25.2.0&amp;rsquo;
-需要迁移到JavaPsiScanner =&amp;gt; IntelliJ IDEA&amp;rsquo;s &amp;ldquo;PSI&amp;rdquo; API&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Lint Tool Analysis (2)</title>
-      <link>https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/</link>
-      <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/</guid>
-      <description>
-
-&lt;p&gt;Lint工具的源码分析(中篇)&lt;/p&gt;
-
-&lt;p&gt;继续上篇的解析，本篇我们来详细分析下&lt;code&gt;client.api&lt;/code&gt;包中的重要类。&lt;/p&gt;
-
-&lt;h3 id=&#34;2-client-api中的重要类&#34;&gt;2. client.api中的重要类&lt;/h3&gt;
-
-&lt;p&gt;(1) &lt;code&gt;LintDriver&lt;/code&gt;类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，LintDriver是进行一次lint检查时的所有信息。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Analyzes Android projects and files
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public class LintDriver {
-    /**
-     * Max number of passes to run through the lint runner if requested by
-     * {@link #requestRepeat}
-     */
-    private static final int MAX_PHASES = 3;
-    private static final String SUPPRESS_LINT_VMSIG = &#39;/&#39; + SUPPRESS_LINT + &#39;;&#39;;
-    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
-    private static final String STUDIO_ID_PREFIX = &amp;quot;AndroidLint&amp;quot;;
-
-    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
-    private LintRequest mRequest;
-    private IssueRegistry mRegistry;//问题注册中心
-    private volatile boolean mCanceled;
-    private EnumSet&amp;lt;Scope&amp;gt; mScope;
-    private List&amp;lt;? extends Detector&amp;gt; mApplicableDetectors;
-    private Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; mScopeDetectors;
-    private List&amp;lt;LintListener&amp;gt; mListeners;
-    private int mPhase;
-    private List&amp;lt;Detector&amp;gt; mRepeatingDetectors;
-    private EnumSet&amp;lt;Scope&amp;gt; mRepeatScope;
-    private Project[] mCurrentProjects;
-    private Project mCurrentProject;
-    private boolean mAbbreviating = true;
-    private boolean mParserErrors;
-    private Map&amp;lt;Object,Object&amp;gt; mProperties;
-    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
-    private boolean mRunCompatChecks = true;
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(2) &lt;code&gt;IssueRegistry&lt;/code&gt;类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：&lt;code&gt;PARSER_ERROR&lt;/code&gt;表示lint解析xml文件出错了；&lt;code&gt;LINT_ERROR&lt;/code&gt;表示lint检查过程中出现错误，但不是用户代码的错误；&lt;code&gt;CANCELLED&lt;/code&gt;表示用户取消了lint检查。除此之外，该类中还有一个重要方法&lt;code&gt;createDetectors&lt;/code&gt;，用来根据指定的Configuration和Scope来创建检查器列表。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，IssueRegistry就是lint要检查的问题集合。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Registry which provides a list of checks to be performed on an Android project
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public abstract class IssueRegistry {
-    private static volatile List&amp;lt;Category&amp;gt; sCategories;//问题的类别列表
-    private static volatile Map&amp;lt;String, Issue&amp;gt; sIdToIssue;//问题及其对应的issue
-    private static Map&amp;lt;EnumSet&amp;lt;Scope&amp;gt;, List&amp;lt;Issue&amp;gt;&amp;gt; sScopeIssues = Maps.newHashMap();//某个特定的scope内的问题列表
-
-    /**
-     * Issue reported by lint (not a specific detector) when it cannot even
-     * parse an XML file prior to analysis
-     */
-    @NonNull
-    public static final Issue PARSER_ERROR = Issue.create(
-            &amp;quot;ParserError&amp;quot;, //$NON-NLS-1$
-            &amp;quot;Parser Errors&amp;quot;,
-            &amp;quot;Lint will ignore any files that contain fatal parsing errors. These may contain &amp;quot; +
-            &amp;quot;other errors, or contain code which affects issues in other files.&amp;quot;,
-            Category.CORRECTNESS,
-            10,
-            Severity.ERROR,
-            DUMMY_IMPLEMENTATION);
-
-    /**
-     * Issue reported by lint for various other issues which prevents lint from
-     * running normally when it&#39;s not necessarily an error in the user&#39;s code base.
-     */
-    @NonNull
-    public static final Issue LINT_ERROR = Issue.create(
-        &amp;quot;LintError&amp;quot;, //$NON-NLS-1$
-        &amp;quot;Lint Failure&amp;quot;,
-        &amp;quot;This issue type represents a problem running lint itself. Examples include &amp;quot; +
-        &amp;quot;failure to find bytecode for source files (which means certain detectors &amp;quot; +
-        &amp;quot;could not be run), parsing errors in lint configuration files, etc.&amp;quot; +
-        &amp;quot;\n&amp;quot; +
-        &amp;quot;These errors are not errors in your own code, but they are shown to make &amp;quot; +
-        &amp;quot;it clear that some checks were not completed.&amp;quot;,
-        Category.LINT,
-        10,
-        Severity.ERROR,
-        DUMMY_IMPLEMENTATION);
-
-        /**
-     * Creates a list of detectors applicable to the given scope, and with the
-     * given configuration.
-     *
-     * @param client the client to report errors to
-     * @param configuration the configuration to look up which issues are
-     *            enabled etc from
-     * @param scope the scope for the analysis, to filter out detectors that
-     *            require wider analysis than is currently being performed
-     * @param scopeToDetectors an optional map which (if not null) will be
-     *            filled by this method to contain mappings from each scope to
-     *            the applicable detectors for that scope
-     * @return a list of new detector instances
-     */
-    @NonNull
-    final List&amp;lt;? extends Detector&amp;gt; createDetectors(
-            @NonNull LintClient client,
-            @NonNull Configuration configuration,
-            @NonNull EnumSet&amp;lt;Scope&amp;gt; scope,
-            @Nullable Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; scopeToDetectors) {
-
-        List&amp;lt;Issue&amp;gt; issues = getIssuesForScope(scope);//获取该scope内的问题列表
-        if (issues.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        //检查器列表detectorClasses和检查器到范围的映射关系detectorToScope
-        Set&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt; detectorClasses = new HashSet&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt;();
-        Map&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt; detectorToScope =
-                new HashMap&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt;();
-
-        for (Issue issue : issues) {//遍历问题列表，取出它们的Detector以及scope集合
-            Implementation implementation = issue.getImplementation();
-            Class&amp;lt;? extends Detector&amp;gt; detectorClass = implementation.getDetectorClass();
-            EnumSet&amp;lt;Scope&amp;gt; issueScope = implementation.getScope();
-            if (!detectorClasses.contains(detectorClass)) {
-                // Determine if the issue is enabled
-                if (!configuration.isEnabled(issue)) {//看configuration中是否开启了这个问题
-                    continue;
-                }
-
-                assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
-
-                detectorClass = client.replaceDetector(detectorClass);
-
-                assert detectorClass != null : issue.getId();
-                detectorClasses.add(detectorClass);
-            }
-
-            if (scopeToDetectors != null) {
-                EnumSet&amp;lt;Scope&amp;gt; s = detectorToScope.get(detectorClass);
-                if (s == null) {
-                    detectorToScope.put(detectorClass, issueScope);
-                } else if (!s.containsAll(issueScope)) {
-                    EnumSet&amp;lt;Scope&amp;gt; union = EnumSet.copyOf(s);
-                    union.addAll(issueScope);
-                    detectorToScope.put(detectorClass, union);
-                }
-            }
-        }
-
-        //将detectorToScope转换成scopeToDetectors
-        List&amp;lt;Detector&amp;gt; detectors = new ArrayList&amp;lt;Detector&amp;gt;(detectorClasses.size());
-        for (Class&amp;lt;? extends Detector&amp;gt; clz : detectorClasses) {
-            try {
-                Detector detector = clz.newInstance();
-                detectors.add(detector);
-
-                if (scopeToDetectors != null) {
-                    EnumSet&amp;lt;Scope&amp;gt; union = detectorToScope.get(clz);
-                    for (Scope s : union) {
-                        List&amp;lt;Detector&amp;gt; list = scopeToDetectors.get(s);
-                        if (list == null) {
-                            list = new ArrayList&amp;lt;Detector&amp;gt;();
-                            scopeToDetectors.put(s, list);
-                        }
-                        list.add(detector);
-                    }
-
-                }
-            } catch (Throwable t) {
-                client.log(t, &amp;quot;Can&#39;t initialize detector %1$s&amp;quot;, clz.getName()); //$NON-NLS-1$
-            }
-        }
-
-        return detectors;
-    }
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(3) &lt;code&gt;LintClient&lt;/code&gt;类是指调用lint检查的来源，可能是在Android Studio中或者在gradle中，也可能是在cli(终端)等处。&lt;code&gt;LintClient&lt;/code&gt;只是一个抽象类，主要实现类有&lt;code&gt;IntellijLintClient&lt;/code&gt;，顾名思义它是指在Intellij(Android Studio)中执行lint，另一个实现是&lt;code&gt;LintClientWrapper&lt;/code&gt;，这个类定义在&lt;code&gt;LintDriver&lt;/code&gt;，它并没有具体去实现，而是采用代理模式的形式进行了一层封装而已。&lt;code&gt;LintClient&lt;/code&gt;中有两个重要的方法，&lt;code&gt;repoort&lt;/code&gt;和&lt;code&gt;log&lt;/code&gt;分别用于在lint过程中反馈发现问题和打印日志信息。这两个方法经常在&lt;code&gt;Detector&lt;/code&gt;中利用&lt;code&gt;Context&lt;/code&gt;类对象被间接调用。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，LintClient是指在哪里去调用的lint检查工具。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Information about the tool embedding the lint analyzer. IDEs and other tools
- * implementing lint support will extend this to integrate logging, displaying errors,
- * etc.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-public abstract class LintClient {
-    ...
-    /**
-     * Report the given issue. This method will only be called if the configuration
-     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
-     * issue as enabled and has not filtered out the issue with its
-     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
-     * &amp;lt;p&amp;gt;
-     * @param context the context used by the detector when the issue was found
-     * @param issue the issue that was found
-     * @param severity the severity of the issue
-     * @param location the location of the issue
-     * @param message the associated user message
-     * @param format the format of the description and location descriptions
-     */
-    public abstract void report(
-            @NonNull Context context,
-            @NonNull Issue issue,
-            @NonNull Severity severity,
-            @NonNull Location location,
-            @NonNull String message,
-            @NonNull TextFormat format);
-
-    /**
-     * Send an exception or error message (with warning severity) to the log
-     *
-     * @param exception the exception, possibly null
-     * @param format the error message using {@link String#format} syntax, possibly null
-     *    (though in that case the exception should not be null)
-     * @param args any arguments for the format string
-     */
-    public void log(
-            @Nullable Throwable exception,
-            @Nullable String format,
-            @Nullable Object... args) {
-        log(Severity.WARNING, exception, format, args);
-    }
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;() &lt;code&gt;JavaParser&lt;/code&gt;：解析Java文件的抽象类，实际实现类是&lt;code&gt;LombokPsiParser&lt;/code&gt;，位于&lt;studio_source_code_root&gt;/tools/adt/idea/android/src/org/jetbrains/android/inspections/lint/LombokPsiParser.java (idea: android/android/android/src)&lt;/p&gt;
-
-&lt;p&gt;When custom (third-party) lint rules are integrated in the IDE, they are not available as native IDE inspections, so the explanation text (which must be statically registered by a plugin) is not available. As a workaround, run the lint target in Gradle instead; the HTML report will include full explanations.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Lint Tool Analysis (1)</title>
-      <link>https://hujiaweibujidao.github.io/draft/2016-11-17-lint-tool-analysis-1/</link>
-      <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/draft/2016-11-17-lint-tool-analysis-1/</guid>
-      <description>
-
-&lt;p&gt;Lint工具的源码分析(上篇)&lt;/p&gt;
-
-&lt;p&gt;在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/&#34;&gt;Custom Lint in Action&lt;/a&gt;中我们了解到将自定义的lint规则打包成jar，然后放在&lt;code&gt;~/.android/lint/&lt;/code&gt;目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描的方式去检查看是否真的存在那些问题的过程。&lt;/strong&gt;&lt;br /&gt;
-从面向对象编程的角度来看，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)等内容进行封装，其实从本节的总结来看，lint工具的源码也是如此设计和封装的。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;lint-api&lt;/code&gt;主要分成&lt;code&gt;detector.api&lt;/code&gt;和&lt;code&gt;client.api&lt;/code&gt;这两个包，由于内容实在太多，故分成两篇分别来解析下。&lt;/p&gt;
-
-&lt;h3 id=&#34;1-detector-api中的重要类&#34;&gt;1. detector.api中的重要类&lt;/h3&gt;
-
-&lt;p&gt;(1) &lt;code&gt;Scope&lt;/code&gt;枚举类表示lint检查时需要检查的文件范围，例如&lt;code&gt;RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE&lt;/code&gt;等，各项含义与下面的片段代码类似。该类中的&lt;code&gt;infer&lt;/code&gt;方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，&lt;code&gt;checkSingleFile&lt;/code&gt;方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，Scope指的就是哪些文件需要被检查。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * The scope of a detector is the set of files a detector must consider when
- * performing its analysis. This can be used to determine when issues are
- * potentially obsolete, whether a detector should re-run on a file save, etc.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public enum Scope {
-    /**
-     * The analysis only considers a single XML resource file at a time.
-     * &amp;lt;p&amp;gt;
-     * Issues which are only affected by a single resource file can be checked
-     * for incrementally when a file is edited.
-     */
-    RESOURCE_FILE,//检查单个资源文件，可以增量式检查
-
-    /**
-     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
-     * &amp;lt;p&amp;gt;
-     * Issues which are only affected by a single resource file can be checked
-     * for incrementally when a file is edited.
-     */
-    BINARY_RESOURCE_FILE,//检查二进制形式的资源文件，例如bitmap
-
-    /**
-     * The analysis considers the resource folders (which also includes asset folders)
-     */
-    RESOURCE_FOLDER,//检查资源目录，包括asset目录
-
-    /**
-     * The analysis considers &amp;lt;b&amp;gt;all&amp;lt;/b&amp;gt; the resource file. This scope must not
-     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
-     * either considering just a single resource file or all the resources, not
-     * both.
-     */
-    ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(2) &lt;code&gt;Context&lt;/code&gt;类表示lint检查时需要进行分析的项目和文件的信息，例如&lt;code&gt;Project，File，LintDriver，Configuration&lt;/code&gt;等，详情请参考下面的代码及其注释理解。其子类包括&lt;code&gt;JavaContext，ClassContext，XmlContext，ResourceContext&lt;/code&gt;，顾名思义，JavaContext就是用来检查Java文件的Context。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，Context指的就是检查时的配置信息。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Context passed to the detectors during an analysis run. It provides
- * information about the file being analyzed, it allows shared properties (so
- * the detectors can share results), etc.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-public class Context {
-    /**
-     * The file being checked. Note that this may not always be to a concrete
-     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
-     * method, the context file is the directory of the project.
-     */
-    public final File file;//被检查的文件
-
-    /** The driver running through the checks */
-    protected final LintDriver mDriver;//运行所有检查的driver
-
-    /** The project containing the file being checked */
-    @NonNull
-    private final Project mProject;//包含需要检查的文件的项目
-
-    /**
-     * The &amp;quot;main&amp;quot; project. For normal projects, this is the same as {@link #mProject},
-     * but for library projects, it&#39;s the root project that includes (possibly indirectly)
-     * the various library projects and their library projects.
-     * &amp;lt;p&amp;gt;
-     * Note that this is a property on the {@link Context}, not the
-     * {@link Project}, since a library project can be included from multiple
-     * different top level projects, so there isn&#39;t &amp;lt;b&amp;gt;one&amp;lt;/b&amp;gt; main project,
-     * just one per main project being analyzed with its library projects.
-     */
-    private final Project mMainProject;//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
-
-    /** The current configuration controlling which checks are enabled etc */
-    private final Configuration mConfiguration;//检查器的配置信息，例如哪些检查器开启或关闭了
-
-    /** The contents of the file */
-    private String mContents;//文件的内容
-
-    /** Map of properties to share results between detectors */
-    private Map&amp;lt;String, Object&amp;gt; mProperties;//用于在检查器之间共享数据的键值对
-
-    /** Whether this file contains any suppress markers (null means not yet determined) */
-    private Boolean mContainsCommentSuppress;//文件是否包含suppress lint相关的注释，null表示还不确定
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(2.1) &lt;code&gt;Project&lt;/code&gt;类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等各种信息。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * A project contains information about an Android project being scanned for
- * Lint errors.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public class Project {
-    protected final LintClient mClient;
-    protected final File mDir;
-    protected final File mReferenceDir;
-    protected Configuration mConfiguration;
-    protected String mPackage;
-    protected int mBuildSdk = -1;
-    protected IAndroidTarget mTarget;
-
-    protected AndroidVersion mManifestMinSdk = AndroidVersion.DEFAULT;
-    protected AndroidVersion mManifestTargetSdk = AndroidVersion.DEFAULT;
-
-    protected boolean mLibrary;
-    protected String mName;
-    protected String mProguardPath;
-    protected boolean mMergeManifests;
-
-    /** The SDK info, if any */
-    protected SdkInfo mSdkInfo;
-
-    /**
-     * If non null, specifies a non-empty list of specific files under this
-     * project which should be checked.
-     */
-    protected List&amp;lt;File&amp;gt; mFiles;
-    protected List&amp;lt;File&amp;gt; mProguardFiles;
-    protected List&amp;lt;File&amp;gt; mGradleFiles;
-    protected List&amp;lt;File&amp;gt; mManifestFiles;
-    protected List&amp;lt;File&amp;gt; mJavaSourceFolders;
-    protected List&amp;lt;File&amp;gt; mJavaClassFolders;
-    protected List&amp;lt;File&amp;gt; mNonProvidedJavaLibraries;
-    protected List&amp;lt;File&amp;gt; mJavaLibraries;
-    protected List&amp;lt;File&amp;gt; mTestSourceFolders;
-    protected List&amp;lt;File&amp;gt; mResourceFolders;
-    protected List&amp;lt;File&amp;gt; mAssetFolders;
-    protected List&amp;lt;Project&amp;gt; mDirectLibraries;
-    protected List&amp;lt;Project&amp;gt; mAllLibraries;
-    protected boolean mReportIssues = true;
-    protected Boolean mGradleProject;
-    protected Boolean mSupportLib;
-    protected Boolean mAppCompat;
-    protected GradleVersion mGradleVersion;
-    private Map&amp;lt;String, String&amp;gt; mSuperClassMap;
-    private ResourceVisibilityLookup mResourceVisibility;
-    private BuildToolInfo mBuildTools;
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(2.2) &lt;code&gt;Configuration&lt;/code&gt;类是一个抽象类，用来判断或者配置lint检查规则是否开启。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Lint configuration for an Android project such as which specific rules to include,
- * which specific rules to exclude, and which specific errors to ignore.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public abstract class Configuration {
-    /**
-     * Checks whether this issue should be ignored because the user has already
-     * suppressed the error? Note that this refers to individual issues being
-     * suppressed/ignored, not a whole detector being disabled via something
-     * like {@link #isEnabled(Issue)}.
-     *
-     * @param context the context used by the detector when the issue was found
-     * @param issue the issue that was found
-     * @param location the location of the issue
-     * @param message the associated user message
-     * @return true if this issue should be suppressed
-     */
-    public boolean isIgnored(
-            @NonNull Context context,
-            @NonNull Issue issue,
-            @Nullable Location location,
-            @NonNull String message) {
-        return false;
-    }
-
-    /**
-     * Returns false if the given issue has been disabled. This is just
-     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
-     *
-     * @param issue the issue to check
-     * @return false if the issue has been disabled
-     */
-    public boolean isEnabled(@NonNull Issue issue) {
-        return getSeverity(issue) != Severity.IGNORE;
-    }
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;Configuration&lt;/code&gt;有个默认的实现&lt;code&gt;DefaultConfiguration&lt;/code&gt;，在client.api包中，它的主要作用是读写项目根目录下的&lt;code&gt;lint.xml&lt;/code&gt;配置文件。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Default implementation of a {@link Configuration} which reads and writes
- * configuration data into {@code lint.xml} in the project directory.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public class DefaultConfiguration extends Configuration {
-    private final LintClient mClient;
-    /** Default name of the configuration file */
-    public static final String CONFIG_FILE_NAME = &amp;quot;lint.xml&amp;quot;; //$NON-NLS-1$
-
-    // Lint XML File =&amp;gt; 定义lint.xml文件中的元素标签
-    @NonNull
-    private static final String TAG_ISSUE = &amp;quot;issue&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_ID = &amp;quot;id&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_SEVERITY = &amp;quot;severity&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_PATH = &amp;quot;path&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_REGEXP = &amp;quot;regexp&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String TAG_IGNORE = &amp;quot;ignore&amp;quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String VALUE_ALL = &amp;quot;all&amp;quot;; //$NON-NLS-1$
-
-    private final Configuration mParent;
-    private final Project mProject;
-    private final File mConfigFile;
-    private boolean mBulkEditing;
-
-    /** Map from id to list of project-relative paths for suppressed warnings */
-    private Map&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; mSuppressed;//指定issue有哪些不检查的路径列表
-
-    /** Map from id to regular expressions. */
-    @Nullable
-    private Map&amp;lt;String, List&amp;lt;Pattern&amp;gt;&amp;gt; mRegexps;
-
-    /**
-     * Map from id to custom {@link Severity} override
-     */
-    private Map&amp;lt;String, Severity&amp;gt; mSeverity;//指定issue对应的严重程度
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;下面是一个lint.xml文件的例子，方便我们来理解&lt;code&gt;DefaultConfiguration&lt;/code&gt;这个类的设计&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&amp;gt;
-&amp;lt;issue id=&amp;quot;ObsoleteLayoutParam&amp;quot;&amp;gt;
-    &amp;lt;ignore path=&amp;quot;res/layout/activation.xml&amp;quot; /&amp;gt;
-    &amp;lt;ignore path=&amp;quot;res/layout-xlarge/activation.xml&amp;quot; /&amp;gt;
-&amp;lt;/issue&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//从lint配置文件中读取lint规则的配置信息
-private void readConfig() {
-    mSuppressed = new HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt;();
-    mSeverity = new HashMap&amp;lt;String, Severity&amp;gt;();
-
-    if (!mConfigFile.exists()) {
-        return;
-    }
-
-    try {
-        Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
-        NodeList issues = document.getElementsByTagName(TAG_ISSUE);
-        Splitter splitter = Splitter.on(&#39;,&#39;).trimResults().omitEmptyStrings();
-        for (int i = 0, count = issues.getLength(); i &amp;lt; count; i++) {//遍历issue
-            Node node = issues.item(i);
-            Element element = (Element) node;
-            String idList = element.getAttribute(ATTR_ID);//读取id属性值
-            if (idList.isEmpty()) {
-                formatError(&amp;quot;Invalid lint config file: Missing required issue id attribute&amp;quot;);
-                continue;
-            }
-            Iterable&amp;lt;String&amp;gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
-
-            //下面这部分是处理severity属性值的配置
-            NamedNodeMap attributes = node.getAttributes();
-            for (int j = 0, n = attributes.getLength(); j &amp;lt; n; j++) {
-                Node attribute = attributes.item(j);
-                String name = attribute.getNodeName();
-                String value = attribute.getNodeValue();
-                if (ATTR_ID.equals(name)) {
-                    // already handled
-                } else if (ATTR_SEVERITY.equals(name)) {
-                    for (Severity severity : Severity.values()) {
-                        if (value.equalsIgnoreCase(severity.name())) {
-                            for (String id : ids) {
-                                mSeverity.put(id, severity);
-                            }
-                            break;
-                        }
-                    }
-                } else {
-                    formatError(&amp;quot;Unexpected attribute \&amp;quot;%1$s\&amp;quot;&amp;quot;, name);
-                }
-            }
-
-            //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
-            // Look up ignored errors
-            NodeList childNodes = element.getChildNodes();
-            if (childNodes.getLength() &amp;gt; 0) {
-                for (int j = 0, n = childNodes.getLength(); j &amp;lt; n; j++) {
-                    Node child = childNodes.item(j);
-                    if (child.getNodeType() == Node.ELEMENT_NODE) {
-                        Element ignore = (Element) child;
-                        String path = ignore.getAttribute(ATTR_PATH);
-                        if (path.isEmpty()) {//regexp的形式
-                            String regexp = ignore.getAttribute(ATTR_REGEXP);
-                            if (regexp.isEmpty()) {
-                                formatError(&amp;quot;Missing required attribute %1$s or %2$s under %3$s&amp;quot;,
-                                    ATTR_PATH, ATTR_REGEXP, idList);
-                            } else {
-                                addRegexp(idList, ids, n, regexp, false);
-                            }
-                        } else {//path的形式
-                            // Normalize path format to File.separator. Also
-                            // handle the file format containing / or \.
-                            if (File.separatorChar == &#39;/&#39;) {
-                                path = path.replace(&#39;\\&#39;, &#39;/&#39;);
-                            } else {
-                                path = path.replace(&#39;/&#39;, File.separatorChar);
-                            }
-
-                            if (path.indexOf(&#39;*&#39;) != -1) {
-                                String regexp = globToRegexp(path);
-                                addRegexp(idList, ids, n, regexp, false);
-                            } else {
-                                for (String id : ids) {
-                                    List&amp;lt;String&amp;gt; paths = mSuppressed.get(id);
-                                    if (paths == null) {
-                                        paths = new ArrayList&amp;lt;String&amp;gt;(n / 2 + 1);
-                                        mSuppressed.put(id, paths);
-                                    }
-                                    paths.add(path);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    } catch (SAXParseException e) {
-        formatError(e.getMessage());
-    } catch (Exception e) {
-        mClient.log(e, null);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(2.3) &lt;code&gt;LintDriver&lt;/code&gt;类很大很复杂，我们稍后会在下面介绍。&lt;/p&gt;
-
-&lt;p&gt;(3) &lt;code&gt;Detector&lt;/code&gt;类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是&lt;code&gt;Manifest文件 =&amp;gt; Resource文件 =&amp;gt; Java源码文件 =&amp;gt; Java Class文件 =&amp;gt; Gradle文件 =&amp;gt; Generic文件 =&amp;gt; Proguard文件 =&amp;gt; Property文件&lt;/code&gt;。Detector类中定义了很多检查器通用的一些方法，除此之外，&lt;code&gt;Detector&lt;/code&gt;类中还定义了很多不同类型文件的Scanner，例如&lt;code&gt;JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner&lt;/code&gt;。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，Detector指的就是不同的lint检查器。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Detector {
-    ...
-    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
-    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
-            @NonNull PsiMethodCallExpression call, @NonNull PsiMethod method) {
-    }//访问一个普通的方法
-
-    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
-    public void visitConstructor(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiNewExpression node,
-            @NonNull PsiMethod constructor) {
-    }//访问一个构造函数
-
-    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
-    public void visitResourceReference(@NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor, @NonNull PsiElement node,
-            @NonNull ResourceType type, @NonNull String name, boolean isFramework) {
-    }//访问一个资源引用
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(4) &lt;code&gt;Issue&lt;/code&gt;类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的&lt;code&gt;Severity&lt;/code&gt;类，表示问题类别的&lt;code&gt;Category&lt;/code&gt;类以及用来发现和检查这个问题的&lt;code&gt;Detector&lt;/code&gt;(包含在&lt;code&gt;Implementation&lt;/code&gt;类中)。&lt;br /&gt;
-&lt;strong&gt;通俗来讲，Issue指的就是检查器去检查文件时发现它可能出现的问题。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * An issue is a potential bug in an Android application. An issue is discovered
- * by a {@link Detector}, and has an associated {@link Severity}.
- * &amp;lt;p&amp;gt;
- * Issues and detectors are separate classes because a detector can discover
- * multiple different issues as it&#39;s analyzing code, and we want to be able to
- * different severities for different issues, the ability to suppress one but
- * not other issues from the same detector, and so on.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-public final class Issue implements Comparable&amp;lt;Issue&amp;gt; {
-    private final String mId;//问题id，名称标识
-    private final String mBriefDescription;//简单描述
-    private final String mExplanation;//详细解释
-    private final Category mCategory;//问题类别
-    private final int mPriority;//问题等级
-    private final Severity mSeverity;//问题严重程度
-    private Object mMoreInfoUrls;//问题的更多信息，可能是一个网址的url
-    private boolean mEnabledByDefault = true;//是否默认开启
-    private Implementation mImplementation;//这个问题的检查器相关信息
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(4.1) &lt;code&gt;Severity&lt;/code&gt;类是表示问题严重程度的枚举类，主要分为了&lt;code&gt;FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE&lt;/code&gt;这几种程度。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Severity of an issue found by lint
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public enum Severity {
-    /**
-     * Fatal: Use sparingly because a warning marked as fatal will be
-     * considered critical and will abort Export APK etc in ADT
-     */
-    @NonNull
-    FATAL(&amp;quot;Fatal&amp;quot;),//标记为Fatal将被视为非常危险，在导出apk时可能会终止
-
-    /**
-     * Errors: The issue is known to be a real error that must be addressed.
-     */
-    @NonNull
-    ERROR(&amp;quot;Error&amp;quot;),//的确是一个问题
-
-    /**
-     * Warning: Probably a problem.
-     */
-    @NonNull
-    WARNING(&amp;quot;Warning&amp;quot;),//警告，可能是一个问题
-
-    /**
-     * Information only: Might not be a problem, but the check has found
-     * something interesting to say about the code.
-     */
-    @NonNull
-    INFORMATIONAL(&amp;quot;Information&amp;quot;),//可能不是一个问题
-
-    /**
-     * Ignore: The user doesn&#39;t want to see this issue
-     */
-    @NonNull
-    IGNORE(&amp;quot;Ignore&amp;quot;);//用户不想看到的问题
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(4.2) &lt;code&gt;Category&lt;/code&gt;类表示问题的类别，主要有&lt;code&gt;Correctness，Security，Performance，Usability，Accessibility，Internationalization&lt;/code&gt;等，类别下面可以有子类别，每个类别都还有一个优先级。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * A category is a container for related issues.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-public final class Category implements Comparable&amp;lt;Category&amp;gt; {
-    private final String mName;//类别名称
-    private final int mPriority;//优先级
-    private final Category mParent;//父类别
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(4.3) &lt;code&gt;Implementation&lt;/code&gt;类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是&lt;code&gt;mScope&lt;/code&gt;和&lt;code&gt;mAnalysisScopes&lt;/code&gt;不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
- * class responsible for analyzing the issue, as well as the {@link Scope} required
- * by the detector to perform its analysis.
- * &amp;lt;p&amp;gt;
- * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
- */
-@Beta
-public class Implementation {
-    private final Class&amp;lt;? extends Detector&amp;gt; mClass;//问题对应的检查器
-    private final EnumSet&amp;lt;Scope&amp;gt; mScope;//检查器的检查范围，可能是存在很多的scope中
-    private EnumSet&amp;lt;Scope&amp;gt;[] mAnalysisScopes;//检查器分析问题时的范围
-    ...
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>App Launch Time Measurement</title>
@@ -1065,7 +40,7 @@ I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.Ma
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
@@ -1077,7 +52,7 @@ WaitTime: 499
 Complete
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;am_activity_launch_time&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
 ... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
@@ -1193,7 +168,7 @@ private void stopFullyDrawnTraceIfNeeded() {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;br /&gt;
-&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法。&lt;/p&gt;
+&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法，开始Activity的生命周期。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
     // Is this activity&#39;s application already running?
@@ -4393,6 +3368,556 @@ animator2.start();
 &lt;p&gt;关于&lt;code&gt;ValueAnimator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;之间的恩恩怨怨讲到这里其实已经讲得差不多了，猜猜下一节我会说啥？~(≧▽≦)/~&lt;/p&gt;
 
 &lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>When Math meets Android Animation (1)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</link>
+      <pubDate>Thu, 26 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
+      <description>
+
+&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(1)&lt;/p&gt;
+
+&lt;p&gt;其实关于&lt;code&gt;ValueAnimator&lt;/code&gt;的内部工作原理大家也都清楚，本文只是选择从数学函数的角度来解析这个原理，方便理解。看完了本节之后我们就更加清楚如何借助&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;来帮助我们实现动画等知识。&lt;/p&gt;
+
+&lt;p&gt;本系列文章共有三篇，第一篇通过源码解析&lt;code&gt;ValueAnimator&lt;/code&gt;类，第二篇通过实例解析&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;，第三篇分析常见动画背后的缓动函数，最后引出一个新的Android动画开发的辅助库&lt;a href=&#34;https://github.com/hujiaweibujidao/yava&#34;&gt;Yava&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-android动画基础知识&#34;&gt;&lt;strong&gt;1 Android动画基础知识&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;(1)狭义而言，动画一般就是指某个View组件的某个或者某些属性值在一段时间内不断变化的过程，这个变化过程往往有个起始值、结束值和一系列的中间值，&lt;code&gt;ValueAnimator&lt;/code&gt;就是用来反映这个属性值变化过程的重要类，所以本文的介绍主要是以分析&lt;code&gt;ValueAnimator&lt;/code&gt;为主。
+(2)如果将属性值的变化过程看做一个数学函数的话，从动画效果上来看它是连续的，但实际上它还是离散的，因为它实际上也就是通过插入中间值（简称插值）从而&amp;rdquo;一帧一帧&amp;rdquo;完成动画的，那每一帧在哪里取，取多少呢？这也就是&lt;code&gt;ValueAnimator&lt;/code&gt;类主要完成的作用。&lt;/p&gt;
+
+&lt;p&gt;那到底&lt;code&gt;ValueAnimator&lt;/code&gt;是怎么控制属性值的变化过程的呢？答案是借助&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;来帮忙！&lt;code&gt;TimeInterpolator&lt;/code&gt;用来控制在哪里取，而&lt;code&gt;TypeEvaluator&lt;/code&gt;用来控制取多少。（注：取多少个点进行插值是不确定的，例如动画持续时间1s，可能取60，也可能取54、57或者58个中间点进行插值）&lt;/p&gt;
+
+&lt;p&gt;先说本小节结论，&lt;strong&gt;每一个&lt;code&gt;ValueAnimator&lt;/code&gt;其实就是一个的&lt;code&gt;TimeInterpolator&lt;/code&gt;和一个&lt;code&gt;TypeEvaluator&lt;/code&gt;的结合体&lt;/strong&gt;。从数学的角度来看，&lt;code&gt;ValueAnimator&lt;/code&gt;就是由&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;这两个简单函数组合而成的一个复合函数。用图来表述如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valueanimator_math.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你也可以将&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;看作是工厂流水线上的两个小员工，那么&lt;code&gt;ValueAnimator&lt;/code&gt;就是车间主管啦。&lt;code&gt;TimeInterpolator&lt;/code&gt;这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度。而下一个生产线上的小员工&lt;code&gt;TypeEvaluator&lt;/code&gt;的任务就是打磨半成品得到成品，最后将成品输出。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-结合源码解释函数形式&#34;&gt;&lt;strong&gt;2 结合源码解释函数形式&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;p&gt;（1）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是函数x=f(t)，t表示&lt;strong&gt;动画已经完成的时间比率&lt;/strong&gt;（例如动画的总时长是10s，已经过了4s了，那么t=0.4），所以t的取值范围是[0,1]，0表示动画开始，1表示动画结束。该函数的返回值指的是&lt;strong&gt;动画实际插值的时间点&lt;/strong&gt;，一般是0到1之间，但是也可以小于0（&amp;rdquo;下冲&amp;rdquo;）或者大于1（&amp;rdquo;上冲&amp;rdquo;）。
+&lt;strong&gt;该函数的作用是把当前时间进度映射成另一个值，这样动画参照的时间由此被&amp;rdquo;篡改&amp;rdquo;，动画的速度由此被改变。&lt;/strong&gt; （后面还有详细介绍）&lt;/p&gt;
+
+&lt;p&gt;参考接口&lt;code&gt;TimeInterpolator&lt;/code&gt;的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * A time interpolator defines the rate of change of an animation. This allows animations
+ * to have non-linear motion, such as acceleration and deceleration.
+ */
+public interface TimeInterpolator {
+    /**
+     * Maps a value representing the elapsed fraction of an animation to a value that represents
+     * the interpolated fraction. This interpolated value is then multiplied by the change in
+     * value of an animation to derive the animated value at the current elapsed animation time.
+     */
+    float getInterpolation(float input);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;（2）假设&lt;code&gt;TypeEvaluator&lt;/code&gt;是函数y=g(x,a,b)，x就是前面函数f(t)篡改之后的插值的时间点，a、b分别表示属性动画的起始值和结束值。
+&lt;strong&gt;该函数的作用是通过起始值、结束值以及插值时间点来计算在该时间点的属性值应该是多少。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;参考接口&lt;code&gt;TypeEvaluator&lt;/code&gt;的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Interface for use with the {@link ValueAnimator#setEvaluator(TypeEvaluator)} function. Evaluators
+ * allow developers to create animations on arbitrary property types, by allowing them to supply
+ * custom evaluators for types that are not automatically understood and used by the animation
+ * system.
+ */
+public interface TypeEvaluator&amp;lt;T&amp;gt; {
+
+    /**
+     * This function returns the result of linearly interpolating the start and end values, with
+     * &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt; representing the proportion between the start and end values. The
+     * calculation is a simple parametric calculation: &amp;lt;code&amp;gt;result = x0 + t * (x1 - x0)&amp;lt;/code&amp;gt;,
+     * where &amp;lt;code&amp;gt;x0&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt;, &amp;lt;code&amp;gt;x1&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt;,
+     * and &amp;lt;code&amp;gt;t&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt;.
+     */
+    public T evaluate(float fraction, T startValue, T endValue);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;（3）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是上面两个简单函数，那么&lt;code&gt;ValueAnimator&lt;/code&gt;也是一个函数，它其实就是表示&lt;code&gt;TimeInterpolator&lt;/code&gt;的函数x=f(t)和表示&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数y=g(x,a,b)结合而成的复合函数&lt;code&gt;F=g(f(t),a,b)&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;中&lt;code&gt;animateValue&lt;/code&gt;方法的定义：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * This method is called with the elapsed fraction of the animation during every
+ * animation frame. This function turns the elapsed fraction into an interpolated fraction
+ * and then into an animated value (from the evaluator. The function is called mostly during
+ * animation updates, but it is also called when the &amp;lt;code&amp;gt;end()&amp;lt;/code&amp;gt;
+ * function is called, to set the final value on the property.
+ */
+void animateValue(float fraction) {
+    fraction = mInterpolator.getInterpolation(fraction); //TimeInterpolator 函数
+    mCurrentFraction = fraction;
+    int numValues = mValues.length;
+    for (int i = 0; i &amp;lt; numValues; ++i) {
+        mValues[i].calculateValue(fraction); //TypeEvaluator 函数
+    }
+    if (mUpdateListeners != null) { // 通知监听器
+        int numListeners = mUpdateListeners.size();
+        for (int i = 0; i &amp;lt; numListeners; ++i) {
+            mUpdateListeners.get(i).onAnimationUpdate(this);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-通俗解析各个击破&#34;&gt;&lt;strong&gt;3 通俗解析各个击破&lt;/strong&gt;&lt;/h3&gt;
+
+&lt;h4 id=&#34;3-1-关于valueanimator&#34;&gt;&lt;strong&gt;3.1 关于ValueAnimator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;(0)&lt;code&gt;ValueAnimator&lt;/code&gt;就是一个的&lt;code&gt;TypeEvaluator&lt;/code&gt;和一个&lt;code&gt;TimeInterpolator&lt;/code&gt;的结合体，所以该类有两个方法分别用来设置动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;。
+(1)&lt;code&gt;setInterpolator&lt;/code&gt;方法可以不调用，默认是加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;，但是如果调用且传入的参数为null的话，那么就会被设置成线性插值器&lt;code&gt;LinearInterpolator&lt;/code&gt; &lt;strong&gt;(暂时不清楚为什么要这样做)&lt;/strong&gt;。
+(2)&lt;code&gt;setEvaluator&lt;/code&gt;方法也可以不调用，默认会根据属性值的类型设置一个&lt;code&gt;IntEvaluator&lt;/code&gt;或者&lt;code&gt;FloatEvaluator&lt;/code&gt;。后面会讲到这类&lt;code&gt;TypeEvaluator&lt;/code&gt;可以看作是线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;（&lt;strong&gt;并没有这个说法，因故加上引号&lt;/strong&gt;）。&lt;/p&gt;
+
+&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;的部分源码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//默认的TimeInterpolator是AccelerateDecelerateInterpolator
+// The time interpolator to be used if none is set on the animation
+private static final TimeInterpolator sDefaultInterpolator = new AccelerateDecelerateInterpolator();
+
+/**
+* The time interpolator used in calculating the elapsed fraction of this animation. The
+* interpolator determines whether the animation runs with linear or non-linear motion,
+* such as acceleration and deceleration. The default value is
+* {@link android.view.animation.AccelerateDecelerateInterpolator}
+*
+* @param value the interpolator to be used by this animation. A value of &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt;
+* will result in linear interpolation.
+*/
+@Override
+public void setInterpolator(TimeInterpolator value) {
+   if (value != null) {
+       mInterpolator = value;
+   } else {
+       // 如果传入的TimeInterpolator是null的话就设置为LinearInterpolator
+       mInterpolator = new LinearInterpolator();
+   }
+}
+
+/**
+ * The type evaluator to be used when calculating the animated values of this animation.
+ * The system will automatically assign a float or int evaluator based on the type
+ * of &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt; in the constructor. But if these values
+ * are not one of these primitive types, or if different evaluation is desired (such as is
+ * necessary with int values that represent colors), a custom evaluator needs to be assigned.
+ * For example, when running an animation on color values, the {@link ArgbEvaluator}
+ * should be used to get correct RGB color interpolation.
+ *
+ * &amp;lt;p&amp;gt;If this ValueAnimator has only one set of values being animated between, this evaluator
+ * will be used for that set. If there are several sets of values being animated, which is
+ * the case if PropertyValuesHolder objects were set on the ValueAnimator, then the evaluator
+ * is assigned just to the first PropertyValuesHolder object.&amp;lt;/p&amp;gt;
+ *
+ * @param value the evaluator to be used this animation
+ */
+public void setEvaluator(TypeEvaluator value) {
+    if (value != null &amp;amp;&amp;amp; mValues != null &amp;amp;&amp;amp; mValues.length &amp;gt; 0) {
+        mValues[0].setEvaluator(value);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4)&lt;strong&gt;调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法时发生了什么&lt;/strong&gt;
+&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法是创建动画常用的方法，该方法会调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;，其中调用了&lt;code&gt;PropertyValuesHolder&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;方法，里面又调用了&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法用来得到动画的帧集合，该方法的实现如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;//根据提供的数字序列得到动画的核心帧集合
+public static KeyframeSet ofInt(int... values) {
+    int numKeyframes = values.length;//有多少个数字就有多少帧
+    IntKeyframe keyframes[] = new IntKeyframe[Math.max(numKeyframes,2)];//至少有2帧
+    if (numKeyframes == 1) {//如果只传入一个数字，那么该数字就是结束帧的值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f);
+        keyframes[1] = (IntKeyframe) Keyframe.ofInt(1f, values[0]);
+    } else {//如果传入多个数字，那么可以将整个动画时间间隔均分，每个数字按顺序在每个时间比率上占据一个属性值
+        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f, values[0]);
+        for (int i = 1; i &amp;lt; numKeyframes; ++i) {
+            keyframes[i] = (IntKeyframe) Keyframe.ofInt((float) i / (numKeyframes - 1), values[i]);
+        }
+    }
+    return new IntKeyframeSet(keyframes);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Keyframe&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法的签名为&lt;code&gt;Keyframe ofInt(float fraction, int value)&lt;/code&gt;：前者就是动画已经完成的时间比率，后者是该帧的属性值，它表示在这个特定的时间比率对应的时刻，函数曲线会经过或者非常接近这个属性值(&lt;strong&gt;可能是没有经过，而只是很接近很接近，毕竟是曲线拟合嘛&lt;/strong&gt;)。&lt;/p&gt;
+
+&lt;p&gt;上面得到的帧只是动画的几个核心帧，肯定不是动画的全部帧，那中间的其他帧是怎么计算的呢？
+这个问题我们可以看下&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;getValue&lt;/code&gt;方法，方法传入的参数就是动画的时间比率，返回值就是此帧的属性值。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;/**
+ * Gets the animated value, given the elapsed fraction of the animation (interpolated by the
+ * animation&#39;s interpolator) and the evaluator used to calculate in-between values. This
+ * function maps the input fraction to the appropriate keyframe interval and a fraction
+ * between them and returns the interpolated value. Note that the input fraction may fall
+ * outside the [0-1] bounds, if the animation&#39;s interpolator made that happen (e.g., a
+ * spring interpolation that might send the fraction past 1.0). We handle this situation by
+ * just using the two keyframes at the appropriate end when the value is outside those bounds.
+ */
+public Object getValue(float fraction) {
+    // Special-case optimization for the common case of only two keyframes
+    if (mNumKeyframes == 2) {//1.处理只有2帧的情况
+        if (mInterpolator != null) {
+            //先调用TimeInterpolator函数
+            fraction = mInterpolator.getInterpolation(fraction);
+        }
+        //再调用TypeEvaluator函数
+        return mEvaluator.evaluate(fraction, mFirstKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //2.处理上冲和下冲的情况
+    if (fraction &amp;lt;= 0f) {
+        final Keyframe nextKeyframe = mKeyframes.get(1);
+        final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = mFirstKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, mFirstKeyframe.getValue(), nextKeyframe.getValue());
+    } else if (fraction &amp;gt;= 1f) {
+        final Keyframe prevKeyframe = mKeyframes.get(mNumKeyframes - 2);
+        final TimeInterpolator interpolator = mLastKeyframe.getInterpolator();
+        if (interpolator != null) {
+            fraction = interpolator.getInterpolation(fraction);
+        }
+        final float prevFraction = prevKeyframe.getFraction();
+        float intervalFraction = (fraction - prevFraction) / (mLastKeyframe.getFraction() - prevFraction);
+        return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), mLastKeyframe.getValue());
+    }
+    //3.处理正常的多帧的情况
+    Keyframe prevKeyframe = mFirstKeyframe;
+    //首先要遍历前面计算出的主要KeyFrame集合，看当前的fraction是处在哪个区间的
+    for (int i = 1; i &amp;lt; mNumKeyframes; ++i) {
+        Keyframe nextKeyframe = mKeyframes.get(i);
+        if (fraction &amp;lt; nextKeyframe.getFraction()) {
+            final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+            final float prevFraction = prevKeyframe.getFraction();
+            //将当前的fraction折算成在这个区间内的时间比率，这个计算有意思吧
+            float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
+            // Apply interpolator on the proportional duration.
+            if (interpolator != null) {
+                //先调用TimeInterpolator函数
+                intervalFraction = interpolator.getInterpolation(intervalFraction);
+            }
+            //再调用TypeEvaluator函数
+            return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), nextKeyframe.getValue());
+        }
+        prevKeyframe = nextKeyframe;
+    }
+    // shouldn&#39;t reach here
+    return mLastKeyframe.getValue();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;举个简单的例子，下图中的&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;，它的&lt;code&gt;TypeEvaluator&lt;/code&gt;是&lt;code&gt;IntEvaluator&lt;/code&gt;，初始化的时候给定了5个数字，那么核心帧集合中有5帧，此时我们要求当fraction=0.4的时刻的value是多少。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/keyframeset_getvalue.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-2-关于timeinterpolator&#34;&gt;&lt;strong&gt;3.2 关于TimeInterpolator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;我们都知道时间是一秒一秒过去的，也就是线性的，匀速前进的。如果属性值从起始值到结束值是匀速变化的话，那么整个动画看起来就是慢慢地均匀地变化着。但是，如果我们想让动画变得很快或者变得很慢怎么办？答案是我们可以通过“篡改时间”来完成这个任务！这正是&lt;code&gt;TimeInterpolator&lt;/code&gt;类的工作，它实际上就是一条函数曲线。&lt;/p&gt;
+
+&lt;p&gt;举个栗子！如下图所示，x轴表示时间的比率，y轴表示属性值。在不考虑&lt;code&gt;TypeEvaluator&lt;/code&gt;的计算的情况下，假设属性值是从0变化到1，默认情况下线性插值器就和曲线y=x一样，在时间t的位置上的值为f(t)=t，&lt;strong&gt;当t=0.5的时刻传给TypeEvaluator的是t=0.5的时刻的值0.5&lt;/strong&gt;。但是，当我们将&lt;code&gt;TimeInterpolator&lt;/code&gt;设置为函数y=x^2或者y=x^(0.5)时，动画的效果就截然不同啦。在t=0.5的时刻，y=x^2=0.25 &amp;lt; 0.5，表示它将时间推迟了，&lt;strong&gt;传给TypeEvaluator的是0.25时刻的值0.25&lt;/strong&gt;；而y=x^(0.5)=0.71 &amp;gt; 0.5，表示它将时间提前了，&lt;strong&gt;传给TypeEvaluator的是0.71时刻的值0.71&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;此外，仔细观察曲线的斜率不难发现，&lt;strong&gt;曲线y=x^2的斜率在不断增加，说明变化越来越快，作用在View组件上就是刚开始挺慢的，然后不断加速的效果；而曲线y=x^(0.5)的斜率在不断减小，说明变化越来越慢，作用在View组件上就是刚开始挺快的，然后不断减速的效果。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/interpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;推荐在&lt;a href=&#34;http://cubic-bezier.com/&#34;&gt;cubic-bezier.com&lt;/a&gt;网站中简单绘制和上面两个曲线类似形状的曲线，然后选择线性曲线作为参考，查看方块的运动变化情况。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Android的动画框架中已经给我们提供了不少实现了&lt;code&gt;TimeInterpolator&lt;/code&gt;的插值器，包括AccelerateDecelerateInterpolator, AccelerateInterpolator, AnticipateInterpolator, AnticipateOvershootInterpolator, BounceInterpolator, CycleInterpolator, DecelerateInterpolator, LinearInterpolator, OvershootInterpolator, PathInterpolator。&lt;/p&gt;
+
+&lt;p&gt;基本上每个插值器其实就对应一条曲线，例如加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;对应的曲线如下，斜率是先增加后减小。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/adinterpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的&lt;code&gt;TimeInterpolator&lt;/code&gt;呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;不妨看看这个项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;，作者实现了30种常见动画的&lt;code&gt;TimeInterpolator&lt;/code&gt;，每个&lt;code&gt;TimeInterpolator&lt;/code&gt;的曲线形状大致如下图所示 （图片截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;，项目EaseInterpolator实现了其中的30个效果）
+这个项目中的&lt;code&gt;Ease[XXX]Interpolator&lt;/code&gt;都实现了&lt;code&gt;Interpolator&lt;/code&gt;接口，而&lt;code&gt;Interpolator&lt;/code&gt;接口继承自&lt;code&gt;TimeInterpolator&lt;/code&gt;接口。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/easingfuctions.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;3-3-关于typeevaluator&#34;&gt;&lt;strong&gt;3.3 关于TypeEvaluator&lt;/strong&gt;&lt;/h4&gt;
+
+&lt;p&gt;&lt;code&gt;TypeEvaluator&lt;/code&gt;实际上也是一条函数曲线，它的输入是&lt;code&gt;TimeInterpolator&lt;/code&gt;传进来的被“篡改”了的时间比率，还有动画的起始值和结束值信息，输出就是动画当前应该更新的属性值。假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;（&lt;strong&gt;f(t)=t&lt;/strong&gt;），也就是说时间比率不被“篡改”的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数其实就简化成了&lt;code&gt;TypeEvaluator&lt;/code&gt;函数（&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)&lt;/strong&gt;），即动画实际上只由&lt;code&gt;TypeEvaluator&lt;/code&gt;来控制。&lt;/p&gt;
+
+&lt;p&gt;Android系统动画框架中提供了几个&lt;code&gt;TypeEvaluator&lt;/code&gt;，例如IntEvaluator、FloatEvaluator、ArgbEvaluator、PointEvaluator、PathEvaluator等&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;IntEvaluator&lt;/code&gt;的&lt;code&gt;evaluate&lt;/code&gt;方法的实现：（这类&lt;code&gt;TypeEvaluator&lt;/code&gt;就是下一节提到的线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;）&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
+    int startInt = startValue;
+    return (int)(startInt + fraction * (endValue - startInt));
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的TypeEvaluator呢？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;这个时候不妨看看&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;的经典项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;，里面实现了28种常见动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;，每个&lt;code&gt;TypeEvaluator&lt;/code&gt;的曲线形状和上面的截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;的图片一样，代码家实现的动画效果也正是参考自那个项目的效果而想出来的。
+项目中的&lt;code&gt;[XXX]Ease[YYY]&lt;/code&gt;都继承自&lt;code&gt;BaseEasingMethod&lt;/code&gt;，而&lt;code&gt;BaseEasingMethod&lt;/code&gt;实现了&lt;code&gt;TypeEvaluator&lt;/code&gt;接口。&lt;/p&gt;
+
+&lt;p&gt;看到这里的话，机智的你肯定发现了，为什么那些&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数曲线形状一样一样的，到底&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是啥关系啊？在实现动画上它们又有啥区别呢？&lt;/p&gt;
+
+&lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/27/When-Math-meets-Android-Animation-2/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Learning Git by Animations</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
+      <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
+      <description>
+
+&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
+
+&lt;h3 id=&#34;head&#34;&gt;HEAD&lt;/h3&gt;
+
+&lt;p&gt;HEAD 是当前提交记录的符号名称 &amp;ndash; 其实就是你正在其基础进行工作的提交记录。HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;分离HEAD&lt;/strong&gt;：分离HEAD实际上就是指HEAD并没有指向某个分支，而是指向了某个具体的提交记录。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;相对引用&lt;/strong&gt;：把&lt;code&gt;^&lt;/code&gt;跟在引用名后面，表示寻找指定提交记录的父提交。例如&lt;code&gt;master^&lt;/code&gt;表示master的父提交，&lt;code&gt;master^^&lt;/code&gt;表示master的父父提交。如果要移动多步，可以使用&lt;code&gt;~&lt;/code&gt;加上数字快速移动。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -f master HEAD~3&lt;/code&gt;命令的含义是（强制）移动 master 指向 HEAD 的第3级父提交。&lt;/p&gt;
+
+&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout C1&lt;/code&gt;，中间执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout HEAD~4&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;多个父提交&lt;/strong&gt;：当有多个父提交记录的时候，该如何移动HEAD呢？&lt;/p&gt;
+
+&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout master^2&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;解析：注意区别&lt;code&gt;git checkout master^2&lt;/code&gt;和&lt;code&gt;git checkout master^^&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head_move.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;常见的两个合并分支的操作git merge和git rebase。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-merge&#34;&gt;git merge&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;merge&lt;/strong&gt;产生一个特殊的提交记录，它包含两个唯一父提交，有两个父提交的提交记录本质上指 “我想把这两个父提交本身及它们的父提交集合都包含进来”。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git merge [branch]&lt;/code&gt;操作是将指定的分支合并到当前的分支，该操作会创建一个新的提交记录，但是不会改变当前分支。&lt;/p&gt;
+
+&lt;p&gt;如下图所示，从左到右执行了&lt;code&gt;git merge bugFix&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_merge.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-rebase&#34;&gt;git rebase&lt;/h3&gt;
+
+&lt;p&gt;&lt;strong&gt;rebase&lt;/strong&gt; 是在分支之间合并工作的第二种方法。rebase 就是取出一系列的提交记录，“复制”它们，然后把它们放在别的地方。rebasing 的优势是可以创造更线性的提交历史。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git rebase [branch]&lt;/code&gt;操作也是用来合并分支，但是合并时并不产生新的提交记录，而是复制那个分支下的所有提交记录加入到当前的分支下面，同样地，&lt;strong&gt;该操作不改变当前分支&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;下图先执行了&lt;code&gt;git rebase master&lt;/code&gt;，后执行了&lt;code&gt;git checkout master; git rebase bugFix&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;快捷命令&lt;code&gt;git rabase [branch A] [branch B]&lt;/code&gt;，将分支B上的提交记录rebase到分支A&lt;/strong&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;常见的两个撤销更改的操作git reset和git revert。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-reset&#34;&gt;git reset&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt; 把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在&amp;rdquo;重写历史&amp;rdquo;。&lt;code&gt;git reset&lt;/code&gt; 往回移动分支，原来指向的提交记录好像重来没有提交过一样。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git reset&lt;/code&gt;修改的只是本地分支，这种“改写历史”的方法对别人的远端分支是无效的！&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git reset C1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_reset.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-revert&#34;&gt;git revert&lt;/h3&gt;
+
+&lt;p&gt;为了撤销更改并*传播*给别人，我们需要使用 &lt;code&gt;git revert&lt;/code&gt;。它会在在我们要撤销的提交记录后面增加一个新提交，而且新提交记录 &lt;code&gt;C2&#39;&lt;/code&gt; 引入的*更改*是刚好是用来撤销 &lt;code&gt;C2&lt;/code&gt;这个提交的。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git revert&lt;/code&gt;命令就是通过增加新提交来撤销之前的修改，而且能够将撤销传播给协作者。&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git revert HEAD&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_revert.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-cherry-pick&#34;&gt;git cherry-pick&lt;/h3&gt;
+
+&lt;p&gt;如果你想选择性地将一些提交“复制”到你当前的位置的话，可以考虑使用&lt;code&gt;git cherry-pick&lt;/code&gt;，命令形式：&lt;code&gt;git cherry-pick &amp;lt;Commit 1&amp;gt; &amp;lt;Commit 2&amp;gt; &amp;lt;...&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git cherry-pick&lt;/code&gt;方便我们选择所需的提交记录加入到某个分支下，使用&lt;code&gt;git rebase -i&lt;/code&gt;启动rebase的交互模式也可以完成该任务，它甚至可以对提交记录进行排序！&lt;/p&gt;
+
+&lt;p&gt;下图执行了&lt;code&gt;git cherry-pick C2 C4&lt;/code&gt;，从图中可以看出该命令并没有去合并分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_cherry.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-tag&#34;&gt;git tag&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git tag&lt;/code&gt;可以永远地指向某个特定的 commit，即使再有新的commit进来的时候，它都不会移动。你不可以 &amp;ldquo;checkout&amp;rdquo; 到 tag 指定的 commit上，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git tag&lt;/code&gt;就是给某个提交记录做个标签，就像是“里程碑”一样。&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git tag v1 C1&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_tag.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;远端分支&#34;&gt;远端分支&lt;/h3&gt;
+
+&lt;p&gt;远端分支（remote branch）一般命名为&lt;code&gt;&amp;lt;remote name&amp;gt;/&amp;lt;branch name&amp;gt;&lt;/code&gt;，而远端名称一般都是&lt;code&gt;origin&lt;/code&gt;。本地的远端分支仅伴随远端更新而更新，这个分支上创建的提交不会更新该分支，只会使其分离HEAD。&lt;/p&gt;
+
+&lt;h3 id=&#34;git-fetch&#34;&gt;git fetch&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt;命令用于从远端仓库获取数据，当我们更新远端的仓库时, 我们的远端分支也会更新并映射到最新的远端仓库。&lt;/p&gt;
+
+&lt;p&gt;解析：&lt;code&gt;git fetch&lt;/code&gt;完成了两个操作：（1）下载本地仓库未包含的提交对象；（2）更新我们的远端分支点(例如&lt;code&gt;o/master&lt;/code&gt;)。但是，它不会修改本地的状态，例如master分支。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;复杂的fetch操作：&lt;code&gt;git fetch origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;从远端指定的source位置拉取到本地指定的destination位置&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git fetch origin foo~1:bar&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch_more.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-pull&#34;&gt;git pull&lt;/h3&gt;
+
+&lt;p&gt;如前面&lt;code&gt;git fetch&lt;/code&gt;所示，它不会修改master分支的状态，但是一般我们在执行了&lt;code&gt;git fetch&lt;/code&gt;命令之后都需要执行&lt;code&gt;git rebase o/master&lt;/code&gt;或者&lt;code&gt;git merge o/master&lt;/code&gt;来修改master分支的状态，于是就有了&lt;code&gt;git pull&lt;/code&gt;命令，它是&lt;code&gt;git fetch + git merge&lt;/code&gt;两个命令的缩写，而&lt;code&gt;git pull --rebase&lt;/code&gt;是&lt;code&gt;git fetch + git rebase&lt;/code&gt;两个命令的缩写。&lt;/p&gt;
+
+&lt;p&gt;如下图，执行了&lt;code&gt;git pull&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git merge o/master&lt;/code&gt;两个命令&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，可以是执行了&lt;code&gt;git pull --rebase&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git rebase o/master&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;三个命令&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;git-push&#34;&gt;git push&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令将本地提交记录push到远端仓库中，它还会自动同步本地的远端分支。&lt;/p&gt;
+
+&lt;p&gt;如果远端仓库中存在超前于本地仓库的提交记录的话，那么git push操作会失败，此时需要先获取远端提交记录（&lt;code&gt;git fetch&lt;/code&gt;），在本地仓库完成合并过程，才能push。&lt;/p&gt;
+
+&lt;p&gt;复杂的push操作：&lt;code&gt;git push origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，执行&lt;code&gt;git push origin foo^:master&lt;/code&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_push.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;远端跟踪&#34;&gt;远端跟踪&lt;/h3&gt;
+
+&lt;p&gt;本地的master分支被设定为跟踪origin/master分支（它就是隐含的merge和push的目的地），它们之间的连接关系就是远端跟踪（remote tracking）。&lt;/p&gt;
+
+&lt;p&gt;你可以让做任意分支跟踪 &lt;code&gt;o/master&lt;/code&gt;, 然后分支就会隐含 push 的 destination(&lt;code&gt;o/master&lt;/code&gt;) 以及 merge 的 target (&lt;code&gt;o/master&lt;/code&gt;)。这意味着你可以在分支 &lt;code&gt;foo&lt;/code&gt; 上执行 &lt;code&gt;git push&lt;/code&gt;， 将工作推送到远端的&lt;code&gt;master&lt;/code&gt;。有两种方法设置：&lt;/p&gt;
+
+&lt;p&gt;（1）第一种就是通过远端分支检出一个新的分支，执行：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git checkout -b foo o/master&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;虽然分支名不叫master，但是在执行&lt;code&gt;git push&lt;/code&gt;的时候foo分支上的提交记录会同步到远端仓库&lt;/p&gt;
+
+&lt;p&gt;（2）第二种追踪远端分支的方法就是使用选项 : &lt;code&gt;git branch -u&lt;/code&gt;：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -u o/master foo&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;这样 &lt;code&gt;foo&lt;/code&gt; 就会跟踪 &lt;code&gt;o/master&lt;/code&gt; 了. 如果你处于 foo 分支, 那么可以省略 foo：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git branch -u o/master&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;如下图，两种方式变化到图三殊途同归。&lt;/p&gt;
+
+&lt;p&gt;从图一变化到图三执行了&lt;code&gt;git checkout -b foo o/master; git commit; git push&lt;/code&gt;；&lt;/p&gt;
+
+&lt;p&gt;从图二变化到图三执行了&lt;code&gt;git branch -u o/master; git commit; git push&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_remote_track.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;零碎知识点：&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Gank Alfred Workflow</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
+      <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
+      <description>
+
+&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;0-使用方式&#34;&gt;0.使用方式&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases&#34;&gt;下载最新版本的workflow文件双击使用Alfred打开即可&lt;/a&gt;，workflow也已提交到&lt;a href=&#34;http://www.packal.org/workflow/gank-alfred-workflow&#34;&gt;Packal&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;使用前提是Alfred Workflow开启了Powerpack功能。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
+
+&lt;h4 id=&#34;2-改进方案&#34;&gt;2.改进方案&lt;/h4&gt;
+
+&lt;p&gt;两个可供改进的点：&lt;/p&gt;
+
+&lt;p&gt;（1）搜索结果应该直接显示与搜索关键词相关的干货列表&lt;/p&gt;
+
+&lt;p&gt;（2）搜索过程应该考虑干货目标网页的内容&lt;/p&gt;
+
+&lt;h4 id=&#34;3-实现原理&#34;&gt;3.实现原理&lt;/h4&gt;
+
+&lt;p&gt;只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：&lt;/p&gt;
+
+&lt;h5 id=&#34;1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io&#34;&gt;（1）&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/h5&gt;
+
+&lt;p&gt;&lt;strong&gt;这个项目主要是利用&lt;a href=&#34;http://gank.io/api&#34;&gt;Gank的API&lt;/a&gt;来获取干货列表，除此之外，该项目还利用&lt;a href=&#34;https://github.com/seomoz/dragnet&#34;&gt;dragnet&lt;/a&gt;开源工具提取每一个干货的目标网页内容，最终利用&lt;a href=&#34;http://lucene.apache.org/&#34;&gt;Lucene&lt;/a&gt;和&lt;a href=&#34;http://sparkjava.com/&#34;&gt;Spark&lt;/a&gt;等开源工具提供一个高效的干货搜索接口，并将其部署在&lt;a href=&#34;https://www.heroku.com/&#34;&gt;Heroku&lt;/a&gt;平台。&lt;/strong&gt;   &lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;网站预览&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
+
+&lt;h5 id=&#34;2-gank-alfred-workflow&#34;&gt;（2）Gank Alfred Workflow&lt;/h5&gt;
+
+&lt;p&gt;有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库&lt;a href=&#34;https://github.com/deanishe/alfred-workflow/&#34;&gt;deanishe/alfred-workflow&lt;/a&gt;，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的&lt;a href=&#34;http://www.deanishe.net/alfred-workflow/tutorial.html&#34;&gt;入门教程&lt;/a&gt;方便开发者迅速上手。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。&lt;/strong&gt; 嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转&lt;a href=&#34;http://gank.io/api&#34;&gt;gank.io&lt;/a&gt;提供的API都行。&lt;/p&gt;
+
+&lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
+
+&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
 </description>
     </item>
     

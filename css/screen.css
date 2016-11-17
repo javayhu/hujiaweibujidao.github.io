@@ -1165,7 +1165,7 @@ body:not(.post-template) .post-title {
     /*font-size: 1.4rem;*/
     font-size: 1.5rem;
     line-height: 1;
-    font-style: italic;
+    /*font-style: italic;*/
     color: #9EABB3;
 }
 

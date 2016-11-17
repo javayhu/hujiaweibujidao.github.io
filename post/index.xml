@@ -40,7 +40,7 @@ I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.Ma
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
@@ -52,7 +52,7 @@ WaitTime: 499
 Complete
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;am_activity_launch_time&lt;/code&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
 ... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
@@ -168,7 +168,7 @@ private void stopFullyDrawnTraceIfNeeded() {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;br /&gt;
-&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法。&lt;/p&gt;
+&lt;code&gt;startSpecificActivityLocked&lt;/code&gt;方法中会判断应用进程是否启动了，如果没有启动就调用&lt;code&gt;startProcessLocked&lt;/code&gt;方法来启动进程，内部会调用&lt;code&gt;Process&lt;/code&gt;类的&lt;code&gt;start&lt;/code&gt;方法来启动新进程；否则调用&lt;code&gt;realStartActivityLocked&lt;/code&gt;方法继续执行，这个方法会调用&lt;code&gt;scheduleLaunchActivity&lt;/code&gt;方法，内部将会调用&lt;code&gt;Activity&lt;/code&gt;的&lt;code&gt;onCreate&lt;/code&gt;方法，开始Activity的生命周期。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
     // Is this activity&#39;s application already running?

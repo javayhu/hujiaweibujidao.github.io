@@ -202,7 +202,7 @@ I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.Ma
 
 <p><img src="https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png" alt="img" /></p>
 
-<p>除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如下面的使用<code>am start</code>的方式查看<code>TotalTime</code></p>
+<p>除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如使用<code>am start</code>的方式查看<code>TotalTime</code></p>
 
 <pre><code>$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
 Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
@@ -214,7 +214,7 @@ WaitTime: 499
 Complete
 </code></pre>
 
-<p>或者查看EventLog的方法来查看<code>activity_launch_time</code></p>
+<p>或者查看EventLog的方法来查看<code>am_activity_launch_time</code></p>
 
 <pre><code>$adb shell logcat -b events
 ... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
@@ -330,7 +330,7 @@ private void stopFullyDrawnTraceIfNeeded() {
 </code></pre>
 
 <p>那<code>setLaunchTime</code>方法是何时调用的呢？它是在<code>ActivityStackSupervisor.startSpecificActivityLocked</code>方法中调用的！<br />
-<code>startSpecificActivityLocked</code>方法中会判断应用进程是否启动了，如果没有启动就调用<code>startProcessLocked</code>方法来启动进程，内部会调用<code>Process</code>类的<code>start</code>方法来启动新进程；否则调用<code>realStartActivityLocked</code>方法继续执行，这个方法会调用<code>scheduleLaunchActivity</code>方法，内部将会调用<code>Activity</code>的<code>onCreate</code>方法。</p>
+<code>startSpecificActivityLocked</code>方法中会判断应用进程是否启动了，如果没有启动就调用<code>startProcessLocked</code>方法来启动进程，内部会调用<code>Process</code>类的<code>start</code>方法来启动新进程；否则调用<code>realStartActivityLocked</code>方法继续执行，这个方法会调用<code>scheduleLaunchActivity</code>方法，内部将会调用<code>Activity</code>的<code>onCreate</code>方法，开始Activity的生命周期。</p>
 
 <pre><code class="language-java">void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
     // Is this activity's application already running?
@@ -396,9 +396,6 @@ private void stopFullyDrawnTraceIfNeeded() {
       
   
 
-  
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/draft/2016-11-17-lint-tool-analysis-1/"><h4>Lint Tool Analysis (1)</h4></a></span>
-      
   
 </aside>
 <br/>
