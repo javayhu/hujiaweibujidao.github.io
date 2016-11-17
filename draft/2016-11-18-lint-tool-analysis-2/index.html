@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       Lint Tool Analysis (2) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" Lint Tool Analysis (2) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-11-18T10:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">Lint Tool Analysis (2)</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post draft">
+
+    <header class="post-header">
+        <h1 class="post-title">Lint Tool Analysis (2)</h1>
+        
+
+        <section class="post-meta">
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Lint工具的源码分析(中篇)</p>
+
+<p>继续上篇的解析，本篇我们来详细分析下<code>client.api</code>包中的重要类。</p>
+
+<h3 id="2-client-api中的重要类">2. client.api中的重要类</h3>
+
+<p>(1) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。<br />
+<strong>通俗来讲，LintDriver是进行一次lint检查时的所有信息。</strong></p>
+
+<pre><code class="language-java">/**
+ * Analyzes Android projects and files
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public class LintDriver {
+    /**
+     * Max number of passes to run through the lint runner if requested by
+     * {@link #requestRepeat}
+     */
+    private static final int MAX_PHASES = 3;
+    private static final String SUPPRESS_LINT_VMSIG = '/' + SUPPRESS_LINT + ';';
+    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
+    private static final String STUDIO_ID_PREFIX = &quot;AndroidLint&quot;;
+
+    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
+    private LintRequest mRequest;
+    private IssueRegistry mRegistry;//问题注册中心
+    private volatile boolean mCanceled;
+    private EnumSet&lt;Scope&gt; mScope;
+    private List&lt;? extends Detector&gt; mApplicableDetectors;
+    private Map&lt;Scope, List&lt;Detector&gt;&gt; mScopeDetectors;
+    private List&lt;LintListener&gt; mListeners;
+    private int mPhase;
+    private List&lt;Detector&gt; mRepeatingDetectors;
+    private EnumSet&lt;Scope&gt; mRepeatScope;
+    private Project[] mCurrentProjects;
+    private Project mCurrentProject;
+    private boolean mAbbreviating = true;
+    private boolean mParserErrors;
+    private Map&lt;Object,Object&gt; mProperties;
+    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
+    private boolean mRunCompatChecks = true;
+    ...
+}
+</code></pre>
+
+<p>(2) <code>IssueRegistry</code>类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：<code>PARSER_ERROR</code>表示lint解析xml文件出错了；<code>LINT_ERROR</code>表示lint检查过程中出现错误，但不是用户代码的错误；<code>CANCELLED</code>表示用户取消了lint检查。除此之外，该类中还有一个重要方法<code>createDetectors</code>，用来根据指定的Configuration和Scope来创建检查器列表。<br />
+<strong>通俗来讲，IssueRegistry就是lint要检查的问题集合。</strong></p>
+
+<pre><code class="language-java">/**
+ * Registry which provides a list of checks to be performed on an Android project
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public abstract class IssueRegistry {
+    private static volatile List&lt;Category&gt; sCategories;//问题的类别列表
+    private static volatile Map&lt;String, Issue&gt; sIdToIssue;//问题及其对应的issue
+    private static Map&lt;EnumSet&lt;Scope&gt;, List&lt;Issue&gt;&gt; sScopeIssues = Maps.newHashMap();//某个特定的scope内的问题列表
+
+    /**
+     * Issue reported by lint (not a specific detector) when it cannot even
+     * parse an XML file prior to analysis
+     */
+    @NonNull
+    public static final Issue PARSER_ERROR = Issue.create(
+            &quot;ParserError&quot;, //$NON-NLS-1$
+            &quot;Parser Errors&quot;,
+            &quot;Lint will ignore any files that contain fatal parsing errors. These may contain &quot; +
+            &quot;other errors, or contain code which affects issues in other files.&quot;,
+            Category.CORRECTNESS,
+            10,
+            Severity.ERROR,
+            DUMMY_IMPLEMENTATION);
+
+    /**
+     * Issue reported by lint for various other issues which prevents lint from
+     * running normally when it's not necessarily an error in the user's code base.
+     */
+    @NonNull
+    public static final Issue LINT_ERROR = Issue.create(
+        &quot;LintError&quot;, //$NON-NLS-1$
+        &quot;Lint Failure&quot;,
+        &quot;This issue type represents a problem running lint itself. Examples include &quot; +
+        &quot;failure to find bytecode for source files (which means certain detectors &quot; +
+        &quot;could not be run), parsing errors in lint configuration files, etc.&quot; +
+        &quot;\n&quot; +
+        &quot;These errors are not errors in your own code, but they are shown to make &quot; +
+        &quot;it clear that some checks were not completed.&quot;,
+        Category.LINT,
+        10,
+        Severity.ERROR,
+        DUMMY_IMPLEMENTATION);
+
+        /**
+     * Creates a list of detectors applicable to the given scope, and with the
+     * given configuration.
+     *
+     * @param client the client to report errors to
+     * @param configuration the configuration to look up which issues are
+     *            enabled etc from
+     * @param scope the scope for the analysis, to filter out detectors that
+     *            require wider analysis than is currently being performed
+     * @param scopeToDetectors an optional map which (if not null) will be
+     *            filled by this method to contain mappings from each scope to
+     *            the applicable detectors for that scope
+     * @return a list of new detector instances
+     */
+    @NonNull
+    final List&lt;? extends Detector&gt; createDetectors(
+            @NonNull LintClient client,
+            @NonNull Configuration configuration,
+            @NonNull EnumSet&lt;Scope&gt; scope,
+            @Nullable Map&lt;Scope, List&lt;Detector&gt;&gt; scopeToDetectors) {
+
+        List&lt;Issue&gt; issues = getIssuesForScope(scope);//获取该scope内的问题列表
+        if (issues.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //检查器列表detectorClasses和检查器到范围的映射关系detectorToScope
+        Set&lt;Class&lt;? extends Detector&gt;&gt; detectorClasses = new HashSet&lt;Class&lt;? extends Detector&gt;&gt;();
+        Map&lt;Class&lt;? extends Detector&gt;, EnumSet&lt;Scope&gt;&gt; detectorToScope =
+                new HashMap&lt;Class&lt;? extends Detector&gt;, EnumSet&lt;Scope&gt;&gt;();
+
+        for (Issue issue : issues) {//遍历问题列表，取出它们的Detector以及scope集合
+            Implementation implementation = issue.getImplementation();
+            Class&lt;? extends Detector&gt; detectorClass = implementation.getDetectorClass();
+            EnumSet&lt;Scope&gt; issueScope = implementation.getScope();
+            if (!detectorClasses.contains(detectorClass)) {
+                // Determine if the issue is enabled
+                if (!configuration.isEnabled(issue)) {//看configuration中是否开启了这个问题
+                    continue;
+                }
+
+                assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
+
+                detectorClass = client.replaceDetector(detectorClass);
+
+                assert detectorClass != null : issue.getId();
+                detectorClasses.add(detectorClass);
+            }
+
+            if (scopeToDetectors != null) {
+                EnumSet&lt;Scope&gt; s = detectorToScope.get(detectorClass);
+                if (s == null) {
+                    detectorToScope.put(detectorClass, issueScope);
+                } else if (!s.containsAll(issueScope)) {
+                    EnumSet&lt;Scope&gt; union = EnumSet.copyOf(s);
+                    union.addAll(issueScope);
+                    detectorToScope.put(detectorClass, union);
+                }
+            }
+        }
+
+        //将detectorToScope转换成scopeToDetectors
+        List&lt;Detector&gt; detectors = new ArrayList&lt;Detector&gt;(detectorClasses.size());
+        for (Class&lt;? extends Detector&gt; clz : detectorClasses) {
+            try {
+                Detector detector = clz.newInstance();
+                detectors.add(detector);
+
+                if (scopeToDetectors != null) {
+                    EnumSet&lt;Scope&gt; union = detectorToScope.get(clz);
+                    for (Scope s : union) {
+                        List&lt;Detector&gt; list = scopeToDetectors.get(s);
+                        if (list == null) {
+                            list = new ArrayList&lt;Detector&gt;();
+                            scopeToDetectors.put(s, list);
+                        }
+                        list.add(detector);
+                    }
+
+                }
+            } catch (Throwable t) {
+                client.log(t, &quot;Can't initialize detector %1$s&quot;, clz.getName()); //$NON-NLS-1$
+            }
+        }
+
+        return detectors;
+    }
+    ...
+}
+</code></pre>
+
+<p>(3) <code>LintClient</code>类是指调用lint检查的来源，可能是在Android Studio中或者在gradle中，也可能是在cli(终端)等处。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>，它并没有具体去实现，而是采用代理模式的形式进行了一层封装而已。<code>LintClient</code>中有两个重要的方法，<code>repoort</code>和<code>log</code>分别用于在lint过程中反馈发现问题和打印日志信息。这两个方法经常在<code>Detector</code>中利用<code>Context</code>类对象被间接调用。<br />
+<strong>通俗来讲，LintClient是指在哪里去调用的lint检查工具。</strong></p>
+
+<pre><code class="language-java">/**
+ * Information about the tool embedding the lint analyzer. IDEs and other tools
+ * implementing lint support will extend this to integrate logging, displaying errors,
+ * etc.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+public abstract class LintClient {
+    ...
+    /**
+     * Report the given issue. This method will only be called if the configuration
+     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+     * issue as enabled and has not filtered out the issue with its
+     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+     * &lt;p&gt;
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param severity the severity of the issue
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @param format the format of the description and location descriptions
+     */
+    public abstract void report(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @NonNull Severity severity,
+            @NonNull Location location,
+            @NonNull String message,
+            @NonNull TextFormat format);
+
+    /**
+     * Send an exception or error message (with warning severity) to the log
+     *
+     * @param exception the exception, possibly null
+     * @param format the error message using {@link String#format} syntax, possibly null
+     *    (though in that case the exception should not be null)
+     * @param args any arguments for the format string
+     */
+    public void log(
+            @Nullable Throwable exception,
+            @Nullable String format,
+            @Nullable Object... args) {
+        log(Severity.WARNING, exception, format, args);
+    }
+    ...
+}
+</code></pre>
+
+<p>() <code>JavaParser</code>：解析Java文件的抽象类，实际实现类是<code>LombokPsiParser</code>，位于<studio_source_code_root>/tools/adt/idea/android/src/org/jetbrains/android/inspections/lint/LombokPsiParser.java (idea: android/android/android/src)</p>
+
+<p>When custom (third-party) lint rules are integrated in the IDE, they are not available as native IDE inspections, so the explanation text (which must be statically registered by a plugin) is not available. As a workaround, run the lint target in Gradle instead; the HTML report will include full explanations.</p>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="draft/2016-11-18-lint-tool-analysis-2/" data-title="Lint Tool Analysis (2)" data-url="https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

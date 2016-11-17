@@ -7,194 +7,1031 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Nov 2016 10:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/draft/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
-      <title>App Launch Time Measurement</title>
-      <link>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</link>
-      <pubDate>Mon, 14 Nov 2016 16:46:33 +0800</pubDate>
+      <title>Lint Tool Analysis (3)</title>
+      <link>https://hujiaweibujidao.github.io/draft/2016-11-19-lint-tool-analysis-3/</link>
+      <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/draft/2016-11-14-app-launch-time-measurement/</guid>
+      <guid>https://hujiaweibujidao.github.io/draft/2016-11-19-lint-tool-analysis-3/</guid>
+      <description>&lt;p&gt;Lint工具的源码分析(下篇)&lt;/p&gt;
+
+&lt;p&gt;(ast=abstract syntax tree)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：在最新的25.2.0版本的lint-api中JavaScanner已经被列为deprecated了，改为了JavaPsiScanner。&lt;/strong&gt;&lt;br /&gt;
+以&lt;code&gt;JavaPsiScanner&lt;/code&gt;为例，任何对Java文件进行lint检查的Detector都需要实现这个接口。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface JavaPsiScanner  {
+    /**
+     * Create a parse tree visitor to process the parse tree. All
+     * {@link JavaScanner} detectors must provide a visitor, unless they
+     * either return true from {@link #appliesToResourceRefs()} or return
+     * non null from {@link #getApplicableMethodNames()}.
+     * &amp;lt;p&amp;gt;
+     * If you return specific AST node types from
+     * {@link #getApplicablePsiTypes()}, then the visitor will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt;
+     * be called for the specific requested node types. This is more
+     * efficient, since it allows many detectors that apply to only a small
+     * part of the AST (such as method call nodes) to share iteration of the
+     * majority of the parse tree.
+     * &amp;lt;p&amp;gt;
+     * If you return null from {@link #getApplicablePsiTypes()}, then your
+     * visitor will be called from the top and all node types visited.
+     * &amp;lt;p&amp;gt;
+     * Note that a new visitor is created for each separate compilation
+     * unit, so you can store per file state in the visitor.
+     * &amp;lt;p&amp;gt;
+     * &amp;lt;b&amp;gt;
+     * NOTE: Your visitor should &amp;lt;b&amp;gt;NOT&amp;lt;/b&amp;gt; extend JavaRecursiveElementVisitor.
+     * Your visitor should only visit the current node type; the infrastructure
+     * will do the recursion. (Lint&#39;s unit test infrastructure will check and
+     * enforce this restriction.)
+     * &amp;lt;/b&amp;gt;
+     *
+     * @param context the {@link Context} for the file being analyzed
+     * @return a visitor, or null.
+     */
+    @Nullable
+    JavaElementVisitor createPsiVisitor(@NonNull JavaContext context);
+
+    /**
+     * Return the types of AST nodes that the visitor returned from
+     * {@link #createJavaVisitor(JavaContext)} should visit. See the
+     * documentation for {@link #createJavaVisitor(JavaContext)} for details
+     * on how the shared visitor is used.
+     * &amp;lt;p&amp;gt;
+     * If you return null from this method, then the visitor will process
+     * the full tree instead.
+     * &amp;lt;p&amp;gt;
+     * Note that for the shared visitor, the return codes from the visit
+     * methods are ignored: returning true will &amp;lt;b&amp;gt;not&amp;lt;/b&amp;gt; prune iteration
+     * of the subtree, since there may be other node types interested in the
+     * children. If you need to ensure that your visitor only processes a
+     * part of the tree, use a full visitor instead. See the
+     * OverdrawDetector implementation for an example of this.
+     *
+     * @return the list of applicable node types (AST node classes), or null
+     */
+    @Nullable
+    List&amp;lt;Class&amp;lt;? extends PsiElement&amp;gt;&amp;gt; getApplicablePsiTypes();
+
+    /**
+     * Return the list of method names this detector is interested in, or
+     * null. If this method returns non-null, then any AST nodes that match
+     * a method call in the list will be passed to the
+     * {@link #visitMethod(JavaContext, JavaElementVisitor, PsiMethodCallExpression, PsiMethod)}
+     * method for processing. The visitor created by
+     * {@link #createPsiVisitor(JavaContext)} is also passed to that
+     * method, although it can be null.
+     * &amp;lt;p&amp;gt;
+     * This makes it easy to write detectors that focus on some fixed calls.
+     * For example, the StringFormatDetector uses this mechanism to look for
+     * &amp;quot;format&amp;quot; calls, and when found it looks around (using the AST&#39;s
+     * {@link PsiElement#getParent()} method) to see if it&#39;s called on
+     * a String class instance, and if so do its normal processing. Note
+     * that since it doesn&#39;t need to do any other AST processing, that
+     * detector does not actually supply a visitor.
+     *
+     * @return a set of applicable method names, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableMethodNames();
+
+    /**
+     * Method invoked for any method calls found that matches any names
+     * returned by {@link #getApplicableMethodNames()}. This also passes
+     * back the visitor that was created by
+     * {@link #createJavaVisitor(JavaContext)}, but a visitor is not
+     * required. It is intended for detectors that need to do additional AST
+     * processing, but also want the convenience of not having to look for
+     * method names on their own.
+     *
+     * @param context the context of the lint request
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param call the {@link PsiMethodCallExpression} node for the invoked method
+     * @param method the {@link PsiMethod} being called
+     */
+    void visitMethod(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression call,
+            @NonNull PsiMethod method);
+
+    /**
+     * Return the list of constructor types this detector is interested in, or
+     * null. If this method returns non-null, then any AST nodes that match
+     * a constructor call in the list will be passed to the
+     * {@link #visitConstructor(JavaContext, JavaElementVisitor, PsiNewExpression, PsiMethod)}
+     * method for processing. The visitor created by
+     * {@link #createJavaVisitor(JavaContext)} is also passed to that
+     * method, although it can be null.
+     * &amp;lt;p&amp;gt;
+     * This makes it easy to write detectors that focus on some fixed constructors.
+     *
+     * @return a set of applicable fully qualified types, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableConstructorTypes();
+
+    /**
+     * Method invoked for any constructor calls found that matches any names
+     * returned by {@link #getApplicableConstructorTypes()}. This also passes
+     * back the visitor that was created by
+     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not
+     * required. It is intended for detectors that need to do additional AST
+     * processing, but also want the convenience of not having to look for
+     * method names on their own.
+     *
+     * @param context the context of the lint request
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param node the {@link PsiNewExpression} node for the invoked method
+     * @param constructor the called constructor method
+     */
+    void visitConstructor(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiNewExpression node,
+            @NonNull PsiMethod constructor);
+
+    /**
+     * Return the list of reference names types this detector is interested in, or null. If this
+     * method returns non-null, then any AST elements that match a reference in the list will be
+     * passed to the {@link #visitReference(JavaContext, JavaElementVisitor,
+     * PsiJavaCodeReferenceElement, PsiElement)} method for processing. The visitor created by
+     * {@link #createJavaVisitor(JavaContext)} is also passed to that method, although it can be
+     * null. &amp;lt;p&amp;gt; This makes it easy to write detectors that focus on some fixed references.
+     *
+     * @return a set of applicable reference names, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableReferenceNames();
+
+    /**
+     * Method invoked for any references found that matches any names returned by {@link
+     * #getApplicableReferenceNames()}. This also passes back the visitor that was created by
+     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not required. It is intended for
+     * detectors that need to do additional AST processing, but also want the convenience of not
+     * having to look for method names on their own.
+     *
+     * @param context    the context of the lint request
+     * @param visitor    the visitor created from {@link #createPsiVisitor(JavaContext)}, or
+     *                   null
+     * @param reference  the {@link PsiJavaCodeReferenceElement} element
+     * @param referenced the referenced element
+     */
+    void visitReference(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiJavaCodeReferenceElement reference,
+            @NonNull PsiElement referenced);
+
+    /**
+     * Returns whether this detector cares about Android resource references
+     * (such as {@code R.layout.main} or {@code R.string.app_name}). If it
+     * does, then the visitor will look for these patterns, and if found, it
+     * will invoke {@link #visitResourceReference} passing the resource type
+     * and resource name. It also passes the visitor, if any, that was
+     * created by {@link #createJavaVisitor(JavaContext)}, such that a
+     * detector can do more than just look for resources.
+     *
+     * @return true if this detector wants to be notified of R resource
+     *         identifiers found in the code.
+     */
+    boolean appliesToResourceRefs();
+
+    /**
+     * Called for any resource references (such as {@code R.layout.main}
+     * found in Java code, provided this detector returned {@code true} from
+     * {@link #appliesToResourceRefs()}.
+     *
+     * @param context the lint scanning context
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param node the variable reference for the resource
+     * @param type the resource type, such as &amp;quot;layout&amp;quot; or &amp;quot;string&amp;quot;
+     * @param name the resource name, such as &amp;quot;main&amp;quot; from
+     *            {@code R.layout.main}
+     * @param isFramework whether the resource is a framework resource
+     *            (android.R) or a local project resource (R)
+     */
+    void visitResourceReference(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiElement node,
+            @NonNull ResourceType type,
+            @NonNull String name,
+            boolean isFramework);
+
+    /**
+     * Returns a list of fully qualified names for super classes that this
+     * detector cares about. If not null, this detector will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt; be called
+     * if the current class is a subclass of one of the specified superclasses.
+     *
+     * @return a list of fully qualified names
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; applicableSuperClasses();
+
+    /**
+     * Called for each class that extends one of the super classes specified with
+     * {@link #applicableSuperClasses()}.
+     * &amp;lt;p&amp;gt;
+     * Note: This method will not be called for {@link PsiTypeParameter} classes. These
+     * aren&#39;t really classes in the sense most lint detectors think of them, so these
+     * are excluded to avoid having lint checks that don&#39;t defensively code for these
+     * accidentally report errors on type parameters. If you really need to check these,
+     * use {@link #getApplicablePsiTypes} with {@code PsiTypeParameter.class} instead.
+     *
+     * @param context the lint scanning context
+     * @param declaration the class declaration node, or null for anonymous classes
+     */
+    void checkClass(@NonNull JavaContext context, @NonNull PsiClass declaration);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;compile &amp;lsquo;com.android.tools.lint:lint-api:24.5.0&amp;rsquo;
+可以使用JavaScanner =&amp;gt; older Lombok AST API&lt;/p&gt;
+
+&lt;p&gt;compile &amp;lsquo;com.android.tools.lint:lint-api:25.2.0&amp;rsquo;
+需要迁移到JavaPsiScanner =&amp;gt; IntelliJ IDEA&amp;rsquo;s &amp;ldquo;PSI&amp;rdquo; API&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Lint Tool Analysis (2)</title>
+      <link>https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/</link>
+      <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/draft/2016-11-18-lint-tool-analysis-2/</guid>
       <description>
 
-&lt;p&gt;本文记录分析应用启动时间的的总结。&lt;/p&gt;
+&lt;p&gt;Lint工具的源码分析(中篇)&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html&#34;&gt;测量Activity 的启动时间&lt;/a&gt;
-&lt;a href=&#34;http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;amp;mid=2247483771&amp;amp;idx=1&amp;amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;amp;mpshare=1&amp;amp;scene=1&amp;amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd&#34;&gt;Activity到底是什么时候显示到屏幕上的呢&lt;/a&gt;
-&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;继续上篇的解析，本篇我们来详细分析下&lt;code&gt;client.api&lt;/code&gt;包中的重要类。&lt;/p&gt;
 
-&lt;h3 id=&#34;1-查看display-time&#34;&gt;1.查看display time&lt;/h3&gt;
+&lt;h3 id=&#34;2-client-api中的重要类&#34;&gt;2. client.api中的重要类&lt;/h3&gt;
 
-&lt;p&gt;从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，也比较适合测量程序的启动时间。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;I/ActivityManager: Displayed packageName/activity: +xxxms
-//厂商定制过的OS可能会有些不同，例如FlymeOS中的输出
-I/ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;上面信息的打印来自&lt;code&gt;ActivityRecord&lt;/code&gt;类的&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法，它的实现和下面的fully drawn time类似，我们在下面会介绍它的实现过程。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;reportLaunchTimeLocked.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;还有其他的方式来查看上面的时间，例如下面的使用&lt;code&gt;am start&lt;/code&gt;的方式查看&lt;code&gt;TotalTime&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
-Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
-Status: ok
-Activity: com.meizu.flyme.applaunch/.MainActivity
-ThisTime: 479
-TotalTime: 479
-WaitTime: 499
-Complete
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;或者查看EventLog的方法来查看&lt;code&gt;activity_launch_time&lt;/code&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$adb shell logcat -b events
-11-15 16:31:50.831  1213  4064 I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;2-查看fully-drawn-time&#34;&gt;2.查看fully drawn time&lt;/h3&gt;
-
-&lt;p&gt;通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用&lt;code&gt;activity.reportFullyDrawn()&lt;/code&gt;方法来告诉系统此时的状态，以便获取整个应用启动的耗时。&lt;/p&gt;
-
-&lt;p&gt;查看方式和输出结果类似上面的查看display time的过程&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//Logcat中的输出
-I/ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +480ms
-//EventLog中的输出
-11-15 16:31:50.831  1213  4064 I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;下面是&lt;code&gt;Activity.reportFullyDrawn()&lt;/code&gt;方法的详情，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。&lt;/p&gt;
+&lt;p&gt;(1) &lt;code&gt;LintDriver&lt;/code&gt;类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，LintDriver是进行一次lint检查时的所有信息。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
- * Report to the system that your app is now fully drawn, purely for diagnostic
- * purposes (calling it does not impact the visible behavior of the activity).
- * This is only used to help instrument application launch times, so that the
- * app can report when it is fully in a usable state; without this, the only thing
- * the system itself can determine is the point at which the activity&#39;s window
- * is &amp;lt;em&amp;gt;first&amp;lt;/em&amp;gt; drawn and displayed.  To participate in app launch time
- * measurement, you should always call this method after first launch (when
- * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
- * entirely drawn your UI and populated with all of the significant data.  You
- * can safely call this method any time after first launch as well, in which case
- * it will simply be ignored.
+ * Analyzes Android projects and files
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
  */
-public void reportFullyDrawn() {
-    if (mDoReportFullyDrawn) {
-        mDoReportFullyDrawn = false;
-        try {
-            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
-        } catch (RemoteException e) {
-        }
-    }
+@Beta
+public class LintDriver {
+    /**
+     * Max number of passes to run through the lint runner if requested by
+     * {@link #requestRepeat}
+     */
+    private static final int MAX_PHASES = 3;
+    private static final String SUPPRESS_LINT_VMSIG = &#39;/&#39; + SUPPRESS_LINT + &#39;;&#39;;
+    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
+    private static final String STUDIO_ID_PREFIX = &amp;quot;AndroidLint&amp;quot;;
+
+    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
+    private LintRequest mRequest;
+    private IssueRegistry mRegistry;//问题注册中心
+    private volatile boolean mCanceled;
+    private EnumSet&amp;lt;Scope&amp;gt; mScope;
+    private List&amp;lt;? extends Detector&amp;gt; mApplicableDetectors;
+    private Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; mScopeDetectors;
+    private List&amp;lt;LintListener&amp;gt; mListeners;
+    private int mPhase;
+    private List&amp;lt;Detector&amp;gt; mRepeatingDetectors;
+    private EnumSet&amp;lt;Scope&amp;gt; mRepeatScope;
+    private Project[] mCurrentProjects;
+    private Project mCurrentProject;
+    private boolean mAbbreviating = true;
+    private boolean mParserErrors;
+    private Map&amp;lt;Object,Object&amp;gt; mProperties;
+    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
+    private boolean mRunCompatChecks = true;
+    ...
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;其中的&lt;code&gt;ActivityManagerNative&lt;/code&gt;的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法会经过Binder调用到AMS的&lt;code&gt;reportActivityFullyDrawn&lt;/code&gt;方法，最终会调用到&lt;code&gt;ActivityRecord&lt;/code&gt;的&lt;code&gt;reportFullyDrawnLocked&lt;/code&gt;方法，内容与&lt;code&gt;reportLaunchTimeLocked&lt;/code&gt;方法类似。&lt;/p&gt;
+&lt;p&gt;(2) &lt;code&gt;IssueRegistry&lt;/code&gt;类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：&lt;code&gt;PARSER_ERROR&lt;/code&gt;表示lint解析xml文件出错了；&lt;code&gt;LINT_ERROR&lt;/code&gt;表示lint检查过程中出现错误，但不是用户代码的错误；&lt;code&gt;CANCELLED&lt;/code&gt;表示用户取消了lint检查。除此之外，该类中还有一个重要方法&lt;code&gt;createDetectors&lt;/code&gt;，用来根据指定的Configuration和Scope来创建检查器列表。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，IssueRegistry就是lint要检查的问题集合。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public void reportFullyDrawnLocked() {
-    final long curTime = SystemClock.uptimeMillis();
-    if (displayStartTime != 0) {
-        reportLaunchTimeLocked(curTime);
-    }
-    final ActivityStack stack = task.stack;
-    if (fullyDrawnStartTime != 0 &amp;amp;&amp;amp; stack != null) {
-        final long thisTime = curTime - fullyDrawnStartTime;
-        final long totalTime = stack.mFullyDrawnStartTime != 0
-                ? (curTime - stack.mFullyDrawnStartTime) : thisTime;
-        if (SHOW_ACTIVITY_START_TIME) {
-            Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
-            EventLog.writeEvent(EventLogTags.AM_ACTIVITY_FULLY_DRAWN_TIME,
-                    userId, System.identityHashCode(this), shortComponentName,
-                    thisTime, totalTime);
-            StringBuilder sb = service.mStringBuilder;
-            sb.setLength(0);
-            sb.append(&amp;quot;Fully drawn &amp;quot;);
-            sb.append(shortComponentName);
-            sb.append(&amp;quot;: &amp;quot;);
-            TimeUtils.formatDuration(thisTime, sb);
-            if (thisTime != totalTime) {
-                sb.append(&amp;quot; (total &amp;quot;);
-                TimeUtils.formatDuration(totalTime, sb);
-                sb.append(&amp;quot;)&amp;quot;);
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Registry which provides a list of checks to be performed on an Android project
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public abstract class IssueRegistry {
+    private static volatile List&amp;lt;Category&amp;gt; sCategories;//问题的类别列表
+    private static volatile Map&amp;lt;String, Issue&amp;gt; sIdToIssue;//问题及其对应的issue
+    private static Map&amp;lt;EnumSet&amp;lt;Scope&amp;gt;, List&amp;lt;Issue&amp;gt;&amp;gt; sScopeIssues = Maps.newHashMap();//某个特定的scope内的问题列表
+
+    /**
+     * Issue reported by lint (not a specific detector) when it cannot even
+     * parse an XML file prior to analysis
+     */
+    @NonNull
+    public static final Issue PARSER_ERROR = Issue.create(
+            &amp;quot;ParserError&amp;quot;, //$NON-NLS-1$
+            &amp;quot;Parser Errors&amp;quot;,
+            &amp;quot;Lint will ignore any files that contain fatal parsing errors. These may contain &amp;quot; +
+            &amp;quot;other errors, or contain code which affects issues in other files.&amp;quot;,
+            Category.CORRECTNESS,
+            10,
+            Severity.ERROR,
+            DUMMY_IMPLEMENTATION);
+
+    /**
+     * Issue reported by lint for various other issues which prevents lint from
+     * running normally when it&#39;s not necessarily an error in the user&#39;s code base.
+     */
+    @NonNull
+    public static final Issue LINT_ERROR = Issue.create(
+        &amp;quot;LintError&amp;quot;, //$NON-NLS-1$
+        &amp;quot;Lint Failure&amp;quot;,
+        &amp;quot;This issue type represents a problem running lint itself. Examples include &amp;quot; +
+        &amp;quot;failure to find bytecode for source files (which means certain detectors &amp;quot; +
+        &amp;quot;could not be run), parsing errors in lint configuration files, etc.&amp;quot; +
+        &amp;quot;\n&amp;quot; +
+        &amp;quot;These errors are not errors in your own code, but they are shown to make &amp;quot; +
+        &amp;quot;it clear that some checks were not completed.&amp;quot;,
+        Category.LINT,
+        10,
+        Severity.ERROR,
+        DUMMY_IMPLEMENTATION);
+
+        /**
+     * Creates a list of detectors applicable to the given scope, and with the
+     * given configuration.
+     *
+     * @param client the client to report errors to
+     * @param configuration the configuration to look up which issues are
+     *            enabled etc from
+     * @param scope the scope for the analysis, to filter out detectors that
+     *            require wider analysis than is currently being performed
+     * @param scopeToDetectors an optional map which (if not null) will be
+     *            filled by this method to contain mappings from each scope to
+     *            the applicable detectors for that scope
+     * @return a list of new detector instances
+     */
+    @NonNull
+    final List&amp;lt;? extends Detector&amp;gt; createDetectors(
+            @NonNull LintClient client,
+            @NonNull Configuration configuration,
+            @NonNull EnumSet&amp;lt;Scope&amp;gt; scope,
+            @Nullable Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; scopeToDetectors) {
+
+        List&amp;lt;Issue&amp;gt; issues = getIssuesForScope(scope);//获取该scope内的问题列表
+        if (issues.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //检查器列表detectorClasses和检查器到范围的映射关系detectorToScope
+        Set&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt; detectorClasses = new HashSet&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt;();
+        Map&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt; detectorToScope =
+                new HashMap&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt;();
+
+        for (Issue issue : issues) {//遍历问题列表，取出它们的Detector以及scope集合
+            Implementation implementation = issue.getImplementation();
+            Class&amp;lt;? extends Detector&amp;gt; detectorClass = implementation.getDetectorClass();
+            EnumSet&amp;lt;Scope&amp;gt; issueScope = implementation.getScope();
+            if (!detectorClasses.contains(detectorClass)) {
+                // Determine if the issue is enabled
+                if (!configuration.isEnabled(issue)) {//看configuration中是否开启了这个问题
+                    continue;
+                }
+
+                assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
+
+                detectorClass = client.replaceDetector(detectorClass);
+
+                assert detectorClass != null : issue.getId();
+                detectorClasses.add(detectorClass);
             }
-            Log.i(TAG, sb.toString());
-        }
-        if (totalTime &amp;gt; 0) {
-            //service.mUsageStatsService.noteFullyDrawnTime(realActivity, (int) totalTime);
-        }
-        stack.mFullyDrawnStartTime = 0;
-    }
-    fullyDrawnStartTime = 0;
-}
-&lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;上面代码中有几个起始时间(startTime)，它们是在哪里设置的呢？&lt;br /&gt;
-它们是在&lt;code&gt;ActivityStack&lt;/code&gt;的&lt;code&gt;setLaunchTime&lt;/code&gt;方法中设置的。下面代码中的&lt;code&gt;Trace.asyncTraceBegin&lt;/code&gt;和&lt;code&gt;Trace.asyncTraceEnd&lt;/code&gt;实际上会调用到系统中&lt;code&gt;atrace&lt;/code&gt;的&lt;code&gt;async_start&lt;/code&gt;和&lt;code&gt;async_stop&lt;/code&gt;(可以通过&lt;code&gt;adb shell atrace -h&lt;/code&gt;查看到)。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void setLaunchTime(ActivityRecord r) {
-    if (r.displayStartTime == 0) {
-        r.fullyDrawnStartTime = r.displayStartTime = SystemClock.uptimeMillis();
-        if (mLaunchStartTime == 0) {
-            startLaunchTraces(r.packageName);
-            mLaunchStartTime = mFullyDrawnStartTime = r.displayStartTime;
-        }
-    } else if (mLaunchStartTime == 0) {
-        startLaunchTraces(r.packageName);
-        mLaunchStartTime = mFullyDrawnStartTime = SystemClock.uptimeMillis();
-    }
-}
-
-private void startLaunchTraces(String packageName) {
-    if (mFullyDrawnStartTime != 0)  {
-        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
-    }
-    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;launching: &amp;quot; + packageName, 0);
-    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
-}
-
-private void stopFullyDrawnTraceIfNeeded() {
-    if (mFullyDrawnStartTime != 0 &amp;amp;&amp;amp; mLaunchStartTime == 0) {
-        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &amp;quot;drawing&amp;quot;, 0);
-        mFullyDrawnStartTime = 0;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;那&lt;code&gt;setLaunchTime&lt;/code&gt;方法是何时调用的呢？它是在&lt;code&gt;ActivityStackSupervisor.startSpecificActivityLocked&lt;/code&gt;方法中调用的！&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
-    // Is this activity&#39;s application already running?
-    ProcessRecord app = mService.getProcessRecordLocked(r.processName,
-            r.info.applicationInfo.uid, true);
-
-    r.task.stack.setLaunchTime(r);//在这里设置launch start time
-
-    if (app != null &amp;amp;&amp;amp; app.thread != null) {
-        try {
-            if ((r.info.flags&amp;amp;ActivityInfo.FLAG_MULTIPROCESS) == 0 || !&amp;quot;android&amp;quot;.equals(r.info.packageName)) {
-                // Don&#39;t add this if it is a platform component that is marked
-                // to run in multiple processes, because this is actually
-                // part of the framework so doesn&#39;t make sense to track as a
-                // separate apk in the process.
-                app.addPackage(r.info.packageName, r.info.applicationInfo.versionCode, mService.mProcessStats);
+            if (scopeToDetectors != null) {
+                EnumSet&amp;lt;Scope&amp;gt; s = detectorToScope.get(detectorClass);
+                if (s == null) {
+                    detectorToScope.put(detectorClass, issueScope);
+                } else if (!s.containsAll(issueScope)) {
+                    EnumSet&amp;lt;Scope&amp;gt; union = EnumSet.copyOf(s);
+                    union.addAll(issueScope);
+                    detectorToScope.put(detectorClass, union);
+                }
             }
-            realStartActivityLocked(r, app, andResume, checkConfig);
-            return;
-        } catch (RemoteException e) {
-            Slog.w(TAG, &amp;quot;Exception when starting activity &amp;quot; + r.intent.getComponent().flattenToShortString(), e);
         }
 
-        // If a dead object exception was thrown -- fall through to restart the application.
-    }
+        //将detectorToScope转换成scopeToDetectors
+        List&amp;lt;Detector&amp;gt; detectors = new ArrayList&amp;lt;Detector&amp;gt;(detectorClasses.size());
+        for (Class&amp;lt;? extends Detector&amp;gt; clz : detectorClasses) {
+            try {
+                Detector detector = clz.newInstance();
+                detectors.add(detector);
 
-    mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
-            &amp;quot;activity&amp;quot;, r.intent.getComponent(), false, false, true);
+                if (scopeToDetectors != null) {
+                    EnumSet&amp;lt;Scope&amp;gt; union = detectorToScope.get(clz);
+                    for (Scope s : union) {
+                        List&amp;lt;Detector&amp;gt; list = scopeToDetectors.get(s);
+                        if (list == null) {
+                            list = new ArrayList&amp;lt;Detector&amp;gt;();
+                            scopeToDetectors.put(s, list);
+                        }
+                        list.add(detector);
+                    }
+
+                }
+            } catch (Throwable t) {
+                client.log(t, &amp;quot;Can&#39;t initialize detector %1$s&amp;quot;, clz.getName()); //$NON-NLS-1$
+            }
+        }
+
+        return detectors;
+    }
+    ...
 }
 &lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3) &lt;code&gt;LintClient&lt;/code&gt;类是指调用lint检查的来源，可能是在Android Studio中或者在gradle中，也可能是在cli(终端)等处。&lt;code&gt;LintClient&lt;/code&gt;只是一个抽象类，主要实现类有&lt;code&gt;IntellijLintClient&lt;/code&gt;，顾名思义它是指在Intellij(Android Studio)中执行lint，另一个实现是&lt;code&gt;LintClientWrapper&lt;/code&gt;，这个类定义在&lt;code&gt;LintDriver&lt;/code&gt;，它并没有具体去实现，而是采用代理模式的形式进行了一层封装而已。&lt;code&gt;LintClient&lt;/code&gt;中有两个重要的方法，&lt;code&gt;repoort&lt;/code&gt;和&lt;code&gt;log&lt;/code&gt;分别用于在lint过程中反馈发现问题和打印日志信息。这两个方法经常在&lt;code&gt;Detector&lt;/code&gt;中利用&lt;code&gt;Context&lt;/code&gt;类对象被间接调用。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，LintClient是指在哪里去调用的lint检查工具。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Information about the tool embedding the lint analyzer. IDEs and other tools
+ * implementing lint support will extend this to integrate logging, displaying errors,
+ * etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public abstract class LintClient {
+    ...
+    /**
+     * Report the given issue. This method will only be called if the configuration
+     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+     * issue as enabled and has not filtered out the issue with its
+     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+     * &amp;lt;p&amp;gt;
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param severity the severity of the issue
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @param format the format of the description and location descriptions
+     */
+    public abstract void report(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @NonNull Severity severity,
+            @NonNull Location location,
+            @NonNull String message,
+            @NonNull TextFormat format);
+
+    /**
+     * Send an exception or error message (with warning severity) to the log
+     *
+     * @param exception the exception, possibly null
+     * @param format the error message using {@link String#format} syntax, possibly null
+     *    (though in that case the exception should not be null)
+     * @param args any arguments for the format string
+     */
+    public void log(
+            @Nullable Throwable exception,
+            @Nullable String format,
+            @Nullable Object... args) {
+        log(Severity.WARNING, exception, format, args);
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;() &lt;code&gt;JavaParser&lt;/code&gt;：解析Java文件的抽象类，实际实现类是&lt;code&gt;LombokPsiParser&lt;/code&gt;，位于&lt;studio_source_code_root&gt;/tools/adt/idea/android/src/org/jetbrains/android/inspections/lint/LombokPsiParser.java (idea: android/android/android/src)&lt;/p&gt;
+
+&lt;p&gt;When custom (third-party) lint rules are integrated in the IDE, they are not available as native IDE inspections, so the explanation text (which must be statically registered by a plugin) is not available. As a workaround, run the lint target in Gradle instead; the HTML report will include full explanations.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Lint Tool Analysis (1)</title>
+      <link>https://hujiaweibujidao.github.io/draft/2016-11-17-lint-tool-analysis-1/</link>
+      <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/draft/2016-11-17-lint-tool-analysis-1/</guid>
+      <description>
+
+&lt;p&gt;Lint工具的源码分析(上篇)&lt;/p&gt;
+
+&lt;p&gt;在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/&#34;&gt;Custom Lint in Action&lt;/a&gt;中我们了解到将自定义的lint规则打包成jar，然后放在&lt;code&gt;~/.android/lint/&lt;/code&gt;目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描的方式去检查看是否真的存在那些问题的过程。&lt;/strong&gt;&lt;br /&gt;
+从面向对象编程的角度来看，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)等内容进行封装，其实从本节的总结来看，lint工具的源码也是如此设计和封装的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lint-api&lt;/code&gt;主要分成&lt;code&gt;detector.api&lt;/code&gt;和&lt;code&gt;client.api&lt;/code&gt;这两个包，由于内容实在太多，故分成两篇分别来解析下。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-detector-api中的重要类&#34;&gt;1. detector.api中的重要类&lt;/h3&gt;
+
+&lt;p&gt;(1) &lt;code&gt;Scope&lt;/code&gt;枚举类表示lint检查时需要检查的文件范围，例如&lt;code&gt;RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE&lt;/code&gt;等，各项含义与下面的片段代码类似。该类中的&lt;code&gt;infer&lt;/code&gt;方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，&lt;code&gt;checkSingleFile&lt;/code&gt;方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Scope指的就是哪些文件需要被检查。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * The scope of a detector is the set of files a detector must consider when
+ * performing its analysis. This can be used to determine when issues are
+ * potentially obsolete, whether a detector should re-run on a file save, etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public enum Scope {
+    /**
+     * The analysis only considers a single XML resource file at a time.
+     * &amp;lt;p&amp;gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    RESOURCE_FILE,//检查单个资源文件，可以增量式检查
+
+    /**
+     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
+     * &amp;lt;p&amp;gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    BINARY_RESOURCE_FILE,//检查二进制形式的资源文件，例如bitmap
+
+    /**
+     * The analysis considers the resource folders (which also includes asset folders)
+     */
+    RESOURCE_FOLDER,//检查资源目录，包括asset目录
+
+    /**
+     * The analysis considers &amp;lt;b&amp;gt;all&amp;lt;/b&amp;gt; the resource file. This scope must not
+     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
+     * either considering just a single resource file or all the resources, not
+     * both.
+     */
+    ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2) &lt;code&gt;Context&lt;/code&gt;类表示lint检查时需要进行分析的项目和文件的信息，例如&lt;code&gt;Project，File，LintDriver，Configuration&lt;/code&gt;等，详情请参考下面的代码及其注释理解。其子类包括&lt;code&gt;JavaContext，ClassContext，XmlContext，ResourceContext&lt;/code&gt;，顾名思义，JavaContext就是用来检查Java文件的Context。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Context指的就是检查时的配置信息。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Context passed to the detectors during an analysis run. It provides
+ * information about the file being analyzed, it allows shared properties (so
+ * the detectors can share results), etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public class Context {
+    /**
+     * The file being checked. Note that this may not always be to a concrete
+     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
+     * method, the context file is the directory of the project.
+     */
+    public final File file;//被检查的文件
+
+    /** The driver running through the checks */
+    protected final LintDriver mDriver;//运行所有检查的driver
+
+    /** The project containing the file being checked */
+    @NonNull
+    private final Project mProject;//包含需要检查的文件的项目
+
+    /**
+     * The &amp;quot;main&amp;quot; project. For normal projects, this is the same as {@link #mProject},
+     * but for library projects, it&#39;s the root project that includes (possibly indirectly)
+     * the various library projects and their library projects.
+     * &amp;lt;p&amp;gt;
+     * Note that this is a property on the {@link Context}, not the
+     * {@link Project}, since a library project can be included from multiple
+     * different top level projects, so there isn&#39;t &amp;lt;b&amp;gt;one&amp;lt;/b&amp;gt; main project,
+     * just one per main project being analyzed with its library projects.
+     */
+    private final Project mMainProject;//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
+
+    /** The current configuration controlling which checks are enabled etc */
+    private final Configuration mConfiguration;//检查器的配置信息，例如哪些检查器开启或关闭了
+
+    /** The contents of the file */
+    private String mContents;//文件的内容
+
+    /** Map of properties to share results between detectors */
+    private Map&amp;lt;String, Object&amp;gt; mProperties;//用于在检查器之间共享数据的键值对
+
+    /** Whether this file contains any suppress markers (null means not yet determined) */
+    private Boolean mContainsCommentSuppress;//文件是否包含suppress lint相关的注释，null表示还不确定
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.1) &lt;code&gt;Project&lt;/code&gt;类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等各种信息。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * A project contains information about an Android project being scanned for
+ * Lint errors.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class Project {
+    protected final LintClient mClient;
+    protected final File mDir;
+    protected final File mReferenceDir;
+    protected Configuration mConfiguration;
+    protected String mPackage;
+    protected int mBuildSdk = -1;
+    protected IAndroidTarget mTarget;
+
+    protected AndroidVersion mManifestMinSdk = AndroidVersion.DEFAULT;
+    protected AndroidVersion mManifestTargetSdk = AndroidVersion.DEFAULT;
+
+    protected boolean mLibrary;
+    protected String mName;
+    protected String mProguardPath;
+    protected boolean mMergeManifests;
+
+    /** The SDK info, if any */
+    protected SdkInfo mSdkInfo;
+
+    /**
+     * If non null, specifies a non-empty list of specific files under this
+     * project which should be checked.
+     */
+    protected List&amp;lt;File&amp;gt; mFiles;
+    protected List&amp;lt;File&amp;gt; mProguardFiles;
+    protected List&amp;lt;File&amp;gt; mGradleFiles;
+    protected List&amp;lt;File&amp;gt; mManifestFiles;
+    protected List&amp;lt;File&amp;gt; mJavaSourceFolders;
+    protected List&amp;lt;File&amp;gt; mJavaClassFolders;
+    protected List&amp;lt;File&amp;gt; mNonProvidedJavaLibraries;
+    protected List&amp;lt;File&amp;gt; mJavaLibraries;
+    protected List&amp;lt;File&amp;gt; mTestSourceFolders;
+    protected List&amp;lt;File&amp;gt; mResourceFolders;
+    protected List&amp;lt;File&amp;gt; mAssetFolders;
+    protected List&amp;lt;Project&amp;gt; mDirectLibraries;
+    protected List&amp;lt;Project&amp;gt; mAllLibraries;
+    protected boolean mReportIssues = true;
+    protected Boolean mGradleProject;
+    protected Boolean mSupportLib;
+    protected Boolean mAppCompat;
+    protected GradleVersion mGradleVersion;
+    private Map&amp;lt;String, String&amp;gt; mSuperClassMap;
+    private ResourceVisibilityLookup mResourceVisibility;
+    private BuildToolInfo mBuildTools;
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.2) &lt;code&gt;Configuration&lt;/code&gt;类是一个抽象类，用来判断或者配置lint检查规则是否开启。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Lint configuration for an Android project such as which specific rules to include,
+ * which specific rules to exclude, and which specific errors to ignore.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public abstract class Configuration {
+    /**
+     * Checks whether this issue should be ignored because the user has already
+     * suppressed the error? Note that this refers to individual issues being
+     * suppressed/ignored, not a whole detector being disabled via something
+     * like {@link #isEnabled(Issue)}.
+     *
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @return true if this issue should be suppressed
+     */
+    public boolean isIgnored(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @Nullable Location location,
+            @NonNull String message) {
+        return false;
+    }
+
+    /**
+     * Returns false if the given issue has been disabled. This is just
+     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
+     *
+     * @param issue the issue to check
+     * @return false if the issue has been disabled
+     */
+    public boolean isEnabled(@NonNull Issue issue) {
+        return getSeverity(issue) != Severity.IGNORE;
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Configuration&lt;/code&gt;有个默认的实现&lt;code&gt;DefaultConfiguration&lt;/code&gt;，在client.api包中，它的主要作用是读写项目根目录下的&lt;code&gt;lint.xml&lt;/code&gt;配置文件。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Default implementation of a {@link Configuration} which reads and writes
+ * configuration data into {@code lint.xml} in the project directory.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class DefaultConfiguration extends Configuration {
+    private final LintClient mClient;
+    /** Default name of the configuration file */
+    public static final String CONFIG_FILE_NAME = &amp;quot;lint.xml&amp;quot;; //$NON-NLS-1$
+
+    // Lint XML File =&amp;gt; 定义lint.xml文件中的元素标签
+    @NonNull
+    private static final String TAG_ISSUE = &amp;quot;issue&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_ID = &amp;quot;id&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_SEVERITY = &amp;quot;severity&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_PATH = &amp;quot;path&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_REGEXP = &amp;quot;regexp&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String TAG_IGNORE = &amp;quot;ignore&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String VALUE_ALL = &amp;quot;all&amp;quot;; //$NON-NLS-1$
+
+    private final Configuration mParent;
+    private final Project mProject;
+    private final File mConfigFile;
+    private boolean mBulkEditing;
+
+    /** Map from id to list of project-relative paths for suppressed warnings */
+    private Map&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; mSuppressed;//指定issue有哪些不检查的路径列表
+
+    /** Map from id to regular expressions. */
+    @Nullable
+    private Map&amp;lt;String, List&amp;lt;Pattern&amp;gt;&amp;gt; mRegexps;
+
+    /**
+     * Map from id to custom {@link Severity} override
+     */
+    private Map&amp;lt;String, Severity&amp;gt; mSeverity;//指定issue对应的严重程度
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是一个lint.xml文件的例子，方便我们来理解&lt;code&gt;DefaultConfiguration&lt;/code&gt;这个类的设计&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&amp;gt;
+&amp;lt;issue id=&amp;quot;ObsoleteLayoutParam&amp;quot;&amp;gt;
+    &amp;lt;ignore path=&amp;quot;res/layout/activation.xml&amp;quot; /&amp;gt;
+    &amp;lt;ignore path=&amp;quot;res/layout-xlarge/activation.xml&amp;quot; /&amp;gt;
+&amp;lt;/issue&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//从lint配置文件中读取lint规则的配置信息
+private void readConfig() {
+    mSuppressed = new HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt;();
+    mSeverity = new HashMap&amp;lt;String, Severity&amp;gt;();
+
+    if (!mConfigFile.exists()) {
+        return;
+    }
+
+    try {
+        Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
+        NodeList issues = document.getElementsByTagName(TAG_ISSUE);
+        Splitter splitter = Splitter.on(&#39;,&#39;).trimResults().omitEmptyStrings();
+        for (int i = 0, count = issues.getLength(); i &amp;lt; count; i++) {//遍历issue
+            Node node = issues.item(i);
+            Element element = (Element) node;
+            String idList = element.getAttribute(ATTR_ID);//读取id属性值
+            if (idList.isEmpty()) {
+                formatError(&amp;quot;Invalid lint config file: Missing required issue id attribute&amp;quot;);
+                continue;
+            }
+            Iterable&amp;lt;String&amp;gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
+
+            //下面这部分是处理severity属性值的配置
+            NamedNodeMap attributes = node.getAttributes();
+            for (int j = 0, n = attributes.getLength(); j &amp;lt; n; j++) {
+                Node attribute = attributes.item(j);
+                String name = attribute.getNodeName();
+                String value = attribute.getNodeValue();
+                if (ATTR_ID.equals(name)) {
+                    // already handled
+                } else if (ATTR_SEVERITY.equals(name)) {
+                    for (Severity severity : Severity.values()) {
+                        if (value.equalsIgnoreCase(severity.name())) {
+                            for (String id : ids) {
+                                mSeverity.put(id, severity);
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    formatError(&amp;quot;Unexpected attribute \&amp;quot;%1$s\&amp;quot;&amp;quot;, name);
+                }
+            }
+
+            //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
+            // Look up ignored errors
+            NodeList childNodes = element.getChildNodes();
+            if (childNodes.getLength() &amp;gt; 0) {
+                for (int j = 0, n = childNodes.getLength(); j &amp;lt; n; j++) {
+                    Node child = childNodes.item(j);
+                    if (child.getNodeType() == Node.ELEMENT_NODE) {
+                        Element ignore = (Element) child;
+                        String path = ignore.getAttribute(ATTR_PATH);
+                        if (path.isEmpty()) {//regexp的形式
+                            String regexp = ignore.getAttribute(ATTR_REGEXP);
+                            if (regexp.isEmpty()) {
+                                formatError(&amp;quot;Missing required attribute %1$s or %2$s under %3$s&amp;quot;,
+                                    ATTR_PATH, ATTR_REGEXP, idList);
+                            } else {
+                                addRegexp(idList, ids, n, regexp, false);
+                            }
+                        } else {//path的形式
+                            // Normalize path format to File.separator. Also
+                            // handle the file format containing / or \.
+                            if (File.separatorChar == &#39;/&#39;) {
+                                path = path.replace(&#39;\\&#39;, &#39;/&#39;);
+                            } else {
+                                path = path.replace(&#39;/&#39;, File.separatorChar);
+                            }
+
+                            if (path.indexOf(&#39;*&#39;) != -1) {
+                                String regexp = globToRegexp(path);
+                                addRegexp(idList, ids, n, regexp, false);
+                            } else {
+                                for (String id : ids) {
+                                    List&amp;lt;String&amp;gt; paths = mSuppressed.get(id);
+                                    if (paths == null) {
+                                        paths = new ArrayList&amp;lt;String&amp;gt;(n / 2 + 1);
+                                        mSuppressed.put(id, paths);
+                                    }
+                                    paths.add(path);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    } catch (SAXParseException e) {
+        formatError(e.getMessage());
+    } catch (Exception e) {
+        mClient.log(e, null);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.3) &lt;code&gt;LintDriver&lt;/code&gt;类很大很复杂，我们稍后会在下面介绍。&lt;/p&gt;
+
+&lt;p&gt;(3) &lt;code&gt;Detector&lt;/code&gt;类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是&lt;code&gt;Manifest文件 =&amp;gt; Resource文件 =&amp;gt; Java源码文件 =&amp;gt; Java Class文件 =&amp;gt; Gradle文件 =&amp;gt; Generic文件 =&amp;gt; Proguard文件 =&amp;gt; Property文件&lt;/code&gt;。Detector类中定义了很多检查器通用的一些方法，除此之外，&lt;code&gt;Detector&lt;/code&gt;类中还定义了很多不同类型文件的Scanner，例如&lt;code&gt;JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner&lt;/code&gt;。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Detector指的就是不同的lint检查器。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Detector {
+    ...
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression call, @NonNull PsiMethod method) {
+    }//访问一个普通的方法
+
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitConstructor(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiNewExpression node,
+            @NonNull PsiMethod constructor) {
+    }//访问一个构造函数
+
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitResourceReference(@NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor, @NonNull PsiElement node,
+            @NonNull ResourceType type, @NonNull String name, boolean isFramework) {
+    }//访问一个资源引用
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4) &lt;code&gt;Issue&lt;/code&gt;类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的&lt;code&gt;Severity&lt;/code&gt;类，表示问题类别的&lt;code&gt;Category&lt;/code&gt;类以及用来发现和检查这个问题的&lt;code&gt;Detector&lt;/code&gt;(包含在&lt;code&gt;Implementation&lt;/code&gt;类中)。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Issue指的就是检查器去检查文件时发现它可能出现的问题。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * An issue is a potential bug in an Android application. An issue is discovered
+ * by a {@link Detector}, and has an associated {@link Severity}.
+ * &amp;lt;p&amp;gt;
+ * Issues and detectors are separate classes because a detector can discover
+ * multiple different issues as it&#39;s analyzing code, and we want to be able to
+ * different severities for different issues, the ability to suppress one but
+ * not other issues from the same detector, and so on.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public final class Issue implements Comparable&amp;lt;Issue&amp;gt; {
+    private final String mId;//问题id，名称标识
+    private final String mBriefDescription;//简单描述
+    private final String mExplanation;//详细解释
+    private final Category mCategory;//问题类别
+    private final int mPriority;//问题等级
+    private final Severity mSeverity;//问题严重程度
+    private Object mMoreInfoUrls;//问题的更多信息，可能是一个网址的url
+    private boolean mEnabledByDefault = true;//是否默认开启
+    private Implementation mImplementation;//这个问题的检查器相关信息
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.1) &lt;code&gt;Severity&lt;/code&gt;类是表示问题严重程度的枚举类，主要分为了&lt;code&gt;FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE&lt;/code&gt;这几种程度。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Severity of an issue found by lint
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public enum Severity {
+    /**
+     * Fatal: Use sparingly because a warning marked as fatal will be
+     * considered critical and will abort Export APK etc in ADT
+     */
+    @NonNull
+    FATAL(&amp;quot;Fatal&amp;quot;),//标记为Fatal将被视为非常危险，在导出apk时可能会终止
+
+    /**
+     * Errors: The issue is known to be a real error that must be addressed.
+     */
+    @NonNull
+    ERROR(&amp;quot;Error&amp;quot;),//的确是一个问题
+
+    /**
+     * Warning: Probably a problem.
+     */
+    @NonNull
+    WARNING(&amp;quot;Warning&amp;quot;),//警告，可能是一个问题
+
+    /**
+     * Information only: Might not be a problem, but the check has found
+     * something interesting to say about the code.
+     */
+    @NonNull
+    INFORMATIONAL(&amp;quot;Information&amp;quot;),//可能不是一个问题
+
+    /**
+     * Ignore: The user doesn&#39;t want to see this issue
+     */
+    @NonNull
+    IGNORE(&amp;quot;Ignore&amp;quot;);//用户不想看到的问题
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.2) &lt;code&gt;Category&lt;/code&gt;类表示问题的类别，主要有&lt;code&gt;Correctness，Security，Performance，Usability，Accessibility，Internationalization&lt;/code&gt;等，类别下面可以有子类别，每个类别都还有一个优先级。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * A category is a container for related issues.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public final class Category implements Comparable&amp;lt;Category&amp;gt; {
+    private final String mName;//类别名称
+    private final int mPriority;//优先级
+    private final Category mParent;//父类别
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.3) &lt;code&gt;Implementation&lt;/code&gt;类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是&lt;code&gt;mScope&lt;/code&gt;和&lt;code&gt;mAnalysisScopes&lt;/code&gt;不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
+ * class responsible for analyzing the issue, as well as the {@link Scope} required
+ * by the detector to perform its analysis.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class Implementation {
+    private final Class&amp;lt;? extends Detector&amp;gt; mClass;//问题对应的检查器
+    private final EnumSet&amp;lt;Scope&amp;gt; mScope;//检查器的检查范围，可能是存在很多的scope中
+    private EnumSet&amp;lt;Scope&amp;gt;[] mAnalysisScopes;//检查器分析问题时的范围
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
 </description>
     </item>
     

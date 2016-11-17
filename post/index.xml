@@ -337,15 +337,15 @@ tools/idea目录下的README.md文档说明了如何编译Android Studio源码&l
 
 &lt;p&gt;&lt;strong&gt;Building and Running from the IDE&lt;/strong&gt;&lt;br /&gt;
 To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or IntelliJ IDEA Ultimate not older than 15.0.   To build and run the code:&lt;br /&gt;
-- Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.
-- If this git repository is not on &amp;lsquo;master&amp;rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.
-- Open the project.
-- If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.
-- Configure a JDK named &amp;ldquo;IDEA jdk&amp;rdquo; (case sensitive), pointing to an installation of JDK 1.6.
-- Unless you&amp;rsquo;re running on a Mac with an Apple JDK, add &lt;JDK_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;IDEA jdk&amp;rdquo; jars.
-- Configure a JDK named &amp;ldquo;1.8&amp;rdquo;, pointing to an installation of JDK 1.8.
-- Add &lt;JDK_18_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;1.8&amp;rdquo; jars.
-- Use Build | Make Project to build the code.
+- Run getPlugins.sh / getPlugins.bat from the project root directory to check out additional modules.&lt;br /&gt;
+- If this git repository is not on &amp;lsquo;master&amp;rsquo; branch you need to checkout the same branches/tags in android and android/tools-base git repositories.&lt;br /&gt;
+- Open the project.&lt;br /&gt;
+- If an error notification about a missing required plugin (e.g. Kotlin) is shown enable or install that plugin.&lt;br /&gt;
+- Configure a JDK named &amp;ldquo;IDEA jdk&amp;rdquo; (case sensitive), pointing to an installation of JDK 1.6.&lt;br /&gt;
+- Unless you&amp;rsquo;re running on a Mac with an Apple JDK, add &lt;JDK_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;IDEA jdk&amp;rdquo; jars.&lt;br /&gt;
+- Configure a JDK named &amp;ldquo;1.8&amp;rdquo;, pointing to an installation of JDK 1.8.&lt;br /&gt;
+- Add &lt;JDK_18_HOME&gt;/lib/tools.jar to the set of &amp;ldquo;1.8&amp;rdquo; jars.&lt;br /&gt;
+- Use Build | Make Project to build the code.&lt;br /&gt;
 - To run the code, use the provided shared run configuration &amp;ldquo;IDEA&amp;rdquo;.&lt;/p&gt;
 
 &lt;h3 id=&#34;4-其他参考资料&#34;&gt;4.其他参考资料&lt;/h3&gt;

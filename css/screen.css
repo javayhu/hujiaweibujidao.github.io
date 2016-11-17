@@ -44,7 +44,7 @@ a:focus { outline: thin dotted; }
 a:active, a:hover { outline: 0; }
 h1 { font-size: 2em; margin: 0.67em 0; }
 abbr[title] { border-bottom: 1px dotted; }
-b, strong { font-weight: 700; }
+b, strong { font-weight: 700; color: #df5000; }
 dfn { font-style: italic; }
 hr {
    -moz-box-sizing: content-box;
@@ -53,7 +53,7 @@ hr {
 }
 mark { background: #FF0; color: #000; }
 code, kbd, pre,
-samp { font-family: monospace, serif; font-size: 1em; }
+samp { font-family: monospace, serif; font-size: 1em; color: #795da3;}
 pre { white-space: pre-wrap; }
 q { quotes: "\201C" "\201D" "\2018" "\2019"; }
 small { font-size: 80%; }
@@ -198,7 +198,9 @@ html {
 body {
     height: 100%;
     max-height: 100%;
-    font-family: "Merriweather", serif;
+    /*font-family: "Merriweather", serif;*/
+    /*font-family: monospace, serif;*/
+    font-family: Inconsolata, monospace, sans-serif;
     letter-spacing: 0.01rem;
     /*font-size: 1.8rem;*/
     /*line-height: 1.75em;*/
@@ -224,7 +226,8 @@ h4, h5, h6 {
     -webkit-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
     -moz-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
     -o-font-feature-settings: 'dlig' 1, 'liga' 1, 'lnum' 1, 'kern' 1;
-    color: #2E2E2E;
+    /*color: #2E2E2E;*/
+    color: #a71d5d;
     line-height: 1.15em;
     margin: 0 0 0.4em 0;
     font-family: "Open Sans", sans-serif;
