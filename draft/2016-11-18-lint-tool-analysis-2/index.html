@@ -93,6 +93,7 @@
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
@@ -176,51 +177,387 @@
     <section class="post-content">
       
 
-<p>Lint工具的源码分析(中篇)</p>
+<p>Lint工具的源码分析(2)</p>
 
-<p>继续上篇的解析，本篇我们来详细分析下<code>client.api</code>包中的重要类。</p>
+<p>继续上一篇的解析，本篇我们来详细分析下<code>client.api</code>包中的重要类。</p>
 
-<h3 id="2-client-api中的重要类">2. client.api中的重要类</h3>
+<h3 id="2-client-api包中的重要类">2. client.api包中的重要类</h3>
 
-<p>(1) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。<br />
-<strong>通俗来讲，LintDriver是进行一次lint检查时的所有信息。</strong></p>
+<p>(1) <code>LintClient</code>类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的<code>BatchLintClient</code>和针对当前编辑器中单个文件执行lint检查的<code>EditorLintClient</code>；另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的<code>LintClient</code>可能是<code>IntellijLintClient</code>或者<code>BatchLintClient</code>或者<code>EditorLintClient</code>。<br />
+<strong>通俗来讲，LintClient是指去调用的lint检查的来源(客户端)。</strong></p>
+
+<p><code>LintClient</code>中有两个重要的方法，<code>repoort</code>和<code>log</code>分别用于在lint过程中向调用者(客户端)反馈发现的问题和打印日志信息，这两个方法经常在检查器<code>Detector</code>中通过<code>Context</code>类对象间接被调用。</p>
 
 <pre><code class="language-java">/**
- * Analyzes Android projects and files
+ * Information about the tool embedding the lint analyzer. IDEs and other tools
+ * implementing lint support will extend this to integrate logging, displaying errors,
+ * etc.
  * &lt;p&gt;
  * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
  * to adjust your code for the next tools release.&lt;/b&gt;
  */
-@Beta
-public class LintDriver {
-    /**
-     * Max number of passes to run through the lint runner if requested by
-     * {@link #requestRepeat}
-     */
-    private static final int MAX_PHASES = 3;
-    private static final String SUPPRESS_LINT_VMSIG = '/' + SUPPRESS_LINT + ';';
-    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
-    private static final String STUDIO_ID_PREFIX = &quot;AndroidLint&quot;;
-
-    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
-    private LintRequest mRequest;
-    private IssueRegistry mRegistry;//问题注册中心
-    private volatile boolean mCanceled;
-    private EnumSet&lt;Scope&gt; mScope;
-    private List&lt;? extends Detector&gt; mApplicableDetectors;
-    private Map&lt;Scope, List&lt;Detector&gt;&gt; mScopeDetectors;
-    private List&lt;LintListener&gt; mListeners;
-    private int mPhase;
-    private List&lt;Detector&gt; mRepeatingDetectors;
-    private EnumSet&lt;Scope&gt; mRepeatScope;
-    private Project[] mCurrentProjects;
-    private Project mCurrentProject;
-    private boolean mAbbreviating = true;
-    private boolean mParserErrors;
-    private Map&lt;Object,Object&gt; mProperties;
-    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
-    private boolean mRunCompatChecks = true;
+public abstract class LintClient {
+    private static final String PROP_BIN_DIR  = &quot;com.android.tools.lint.bindir&quot;;
     ...
+    /**
+     * Report the given issue. This method will only be called if the configuration
+     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+     * issue as enabled and has not filtered out the issue with its
+     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+     * &lt;p&gt;
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param severity the severity of the issue
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @param format the format of the description and location descriptions
+     */
+    public abstract void report(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @NonNull Severity severity,
+            @NonNull Location location,
+            @NonNull String message,
+            @NonNull TextFormat format);
+
+    /**
+     * Send an exception or error message (with warning severity) to the log
+     *
+     * @param exception the exception, possibly null
+     * @param format the error message using {@link String#format} syntax, possibly null
+     *    (though in that case the exception should not be null)
+     * @param args any arguments for the format string
+     */
+    public void log(
+            @Nullable Throwable exception,
+            @Nullable String format,
+            @Nullable Object... args) {
+        log(Severity.WARNING, exception, format, args);
+    }
+    ...
+}
+</code></pre>
+
+<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源。</p>
+
+<pre><code class="language-java">/**
+ * Returns the File corresponding to the system property or the environment variable
+ * for {@link #PROP_BIN_DIR}.
+ * This property is typically set by the SDK/tools/lint[.bat] wrapper.
+ * It denotes the path of the wrapper on disk.
+ *
+ * @return A new File corresponding to {@link LintClient#PROP_BIN_DIR} or null.
+ */
+@Nullable
+private static File getLintBinDir() {
+    // First check the Java properties (e.g. set using &quot;java -jar ... -Dname=value&quot;)
+    String path = System.getProperty(PROP_BIN_DIR);
+    if (path == null || path.isEmpty()) {
+        // If not found, check environment variables.
+        path = System.getenv(PROP_BIN_DIR);
+    }
+    if (path != null &amp;&amp; !path.isEmpty()) {
+        File file = new File(path);
+        if (file.exists()) {
+            return file;
+        }
+    }
+    return null;
+}
+</code></pre>
+
+<p><code>LintClient</code>中还定义了很多内容，比如下面的<code>ClassPathInfo</code>内部类，它用来封装一个Project的各个文件夹，例如源码文件夹，class文件夹，库文件集合等等，以及一个<code>getClassPath</code>的方法去获取<code>ClassPathInfo</code>数据。</p>
+
+<pre><code class="language-java">/**
+ * Information about class paths (sources, class files and libraries)
+ * usually associated with a project.
+ */
+protected static class ClassPathInfo {
+    private final List&lt;File&gt; mClassFolders;
+    private final List&lt;File&gt; mSourceFolders;
+    private final List&lt;File&gt; mLibraries;
+    private final List&lt;File&gt; mNonProvidedLibraries;
+    private final List&lt;File&gt; mTestFolders;
+
+    public ClassPathInfo(
+            @NonNull List&lt;File&gt; sourceFolders,
+            @NonNull List&lt;File&gt; classFolders,
+            @NonNull List&lt;File&gt; libraries,
+            @NonNull List&lt;File&gt; nonProvidedLibraries,
+            @NonNull List&lt;File&gt; testFolders) {
+        mSourceFolders = sourceFolders;
+        mClassFolders = classFolders;
+        mLibraries = libraries;
+        mNonProvidedLibraries = nonProvidedLibraries;
+        mTestFolders = testFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getSourceFolders() {
+        return mSourceFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getClassFolders() {
+        return mClassFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getLibraries(boolean includeProvided) {
+        return includeProvided ? mLibraries : mNonProvidedLibraries;
+    }
+
+    public List&lt;File&gt; getTestSourceFolders() {
+        return mTestFolders;
+    }
+}
+
+/**
+ * Considers the given project as an Eclipse project and returns class path
+ * information for the project - the source folder(s), the output folder and
+ * any libraries.
+ * &lt;p&gt;
+ * Callers will not cache calls to this method, so if it's expensive to compute
+ * the classpath info, this method should perform its own caching.
+ *
+ * @param project the project to look up class path info for
+ * @return a class path info object, never null
+ */
+@NonNull
+protected ClassPathInfo getClassPath(@NonNull Project project) {
+    ClassPathInfo info;
+    if (mProjectInfo == null) {
+        mProjectInfo = Maps.newHashMap();
+        info = null;
+    } else {
+        info = mProjectInfo.get(project);
+    }
+
+    if (info == null) {
+        List&lt;File&gt; sources = new ArrayList&lt;File&gt;(2);
+        List&lt;File&gt; classes = new ArrayList&lt;File&gt;(1);
+        List&lt;File&gt; libraries = new ArrayList&lt;File&gt;();
+        // No test folders in Eclipse:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=224708
+        List&lt;File&gt; tests = Collections.emptyList();
+
+        //将project视为eclipse的project，那么项目根目录下有个.classpath文件，解析这个文件来获取classpath信息
+        File projectDir = project.getDir();
+        File classpathFile = new File(projectDir, &quot;.classpath&quot;); //$NON-NLS-1$
+        if (classpathFile.exists()) {
+            String classpathXml = readFile(classpathFile);
+            try {
+                Document document = XmlUtils.parseDocument(classpathXml, false);
+                NodeList tags = document.getElementsByTagName(&quot;classpathentry&quot;); //$NON-NLS-1$
+                for (int i = 0, n = tags.getLength(); i &lt; n; i++) {
+                    Element element = (Element) tags.item(i);
+                    String kind = element.getAttribute(&quot;kind&quot;); //$NON-NLS-1$
+                    List&lt;File&gt; addTo = null;
+                    if (kind.equals(&quot;src&quot;)) {            //$NON-NLS-1$
+                        addTo = sources;
+                    } else if (kind.equals(&quot;output&quot;)) {  //$NON-NLS-1$
+                        addTo = classes;
+                    } else if (kind.equals(&quot;lib&quot;)) {     //$NON-NLS-1$
+                        addTo = libraries;
+                    }
+                    if (addTo != null) {
+                        String path = element.getAttribute(&quot;path&quot;); //$NON-NLS-1$
+                        File folder = new File(projectDir, path);
+                        if (folder.exists()) {
+                            addTo.add(folder);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log(null, null);
+            }
+        }
+
+        // Add in libraries that aren't specified in the .classpath file
+        File libs = new File(project.getDir(), LIBS_FOLDER);//添加 libs 目录下的jar文件
+        if (libs.isDirectory()) {
+            File[] jars = libs.listFiles();
+            if (jars != null) {
+                for (File jar : jars) {
+                    if (endsWith(jar.getPath(), DOT_JAR)
+                            &amp;&amp; !libraries.contains(jar)) {
+                        libraries.add(jar);
+                    }
+                }
+            }
+        }
+
+        if (classes.isEmpty()) {
+            File folder = new File(projectDir, CLASS_FOLDER);//添加 bin/classes 文件夹
+            if (folder.exists()) {
+                classes.add(folder);
+            } else {//检查是否是maven项目，如果是的话编译得到的class文件是在 target/classes 目录下
+                // Maven checks
+                folder = new File(projectDir,
+                        &quot;target&quot; + File.separator + &quot;classes&quot;); //$NON-NLS-1$ //$NON-NLS-2$
+                if (folder.exists()) {
+                    classes.add(folder);
+
+                    // If it's maven, also correct the source path, &quot;src&quot; works but
+                    // it's in a more specific subfolder
+                    if (sources.isEmpty()) {//如果真的是maven项目的话，那么src/main/java目录是一个源码目录
+                        File src = new File(projectDir,
+                                &quot;src&quot; + File.separator     //$NON-NLS-1$
+                                + &quot;main&quot; + File.separator  //$NON-NLS-1$
+                                + &quot;java&quot;);                 //$NON-NLS-1$
+                        if (src.exists()) {
+                            sources.add(src);
+                        } else {
+                            src = new File(projectDir, SRC_FOLDER);
+                            if (src.exists()) {
+                                sources.add(src);
+                            }
+                        }
+
+                        //有些class文件是自动生成的，存放在 target/generated-sources/r 目录下
+                        File gen = new File(projectDir,
+                                &quot;target&quot; + File.separator                  //$NON-NLS-1$
+                                + &quot;generated-sources&quot; + File.separator     //$NON-NLS-1$
+                                + &quot;r&quot;);                                    //$NON-NLS-1$
+                        if (gen.exists()) {
+                            sources.add(gen);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback, in case there is no Eclipse project metadata here
+        if (sources.isEmpty()) {
+            File src = new File(projectDir, SRC_FOLDER);
+            if (src.exists()) {
+                sources.add(src);
+            }
+            File gen = new File(projectDir, GEN_FOLDER);
+            if (gen.exists()) {
+                sources.add(gen);
+            }
+        }
+
+        info = new ClassPathInfo(sources, classes, libraries, libraries, tests);
+        mProjectInfo.put(project, info);
+    }
+
+    return info;
+}
+</code></pre>
+
+<p>最有意思的是，<strong>lint规则的查找过程也是在<code>LintClient</code>中定义的</strong>，下面的代码片段中包含两个重要的查找自定义lint规则的方法。从下面的代码片段中我们终于可以知道为什么放在<code>~/.android/lint</code>目录下的自定义lint规则的jar包能够被识别，放在aar中的<code>lint.jar</code>能够被识别！<br />
+- <strong><code>findGlobalRuleJars</code>方法会在<code>~/.android/lint/</code>目录下找jar包，或者由<code>$ANDROID_LINT_JARS</code>环境变量指定的jar包，这些自定义的lint规则都是作用于全局的，也就是对于本机的所有Android工程都生效。</strong><br />
+- <strong><code>findRuleJars</code>方法是针对指定的project去查找自定义的lint规则，从源码来看，针对project自定义lint规则时只适用于基于Gradle的项目，包括普通的项目和库项目(library project)。</strong></p>
+
+<pre><code class="language-java">/**
+ * Finds any custom lint rule jars that should be included for analysis,
+ * regardless of project.
+ * &lt;p&gt;
+ * The default implementation locates custom lint jars in ~/.android/lint/ and
+ * in $ANDROID_LINT_JARS
+ *
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&quot;MethodMayBeStatic&quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&lt;File&gt; findGlobalRuleJars() {
+    // Look for additional detectors registered by the user, via
+    // (1) an environment variable (useful for build servers etc), and
+    // (2) via jar files in the .android/lint directory
+    List&lt;File&gt; files = null;
+    try {
+        String androidHome = AndroidLocation.getFolder();//在 .android/lint 目录下找
+        File lint = new File(androidHome + File.separator + &quot;lint&quot;); //$NON-NLS-1$
+        if (lint.exists()) {
+            File[] list = lint.listFiles();
+            if (list != null) {
+                for (File jarFile : list) {
+                    if (endsWith(jarFile.getName(), DOT_JAR)) {
+                        if (files == null) {
+                            files = new ArrayList&lt;File&gt;();
+                        }
+                        files.add(jarFile);
+                    }
+                }
+            }
+        }
+    } catch (AndroidLocation.AndroidLocationException e) {
+        // Ignore -- no android dir, so no rules to load.
+    }
+
+    //在环境变量 ANDROID_LINT_JARS 目录下找
+    String lintClassPath = System.getenv(&quot;ANDROID_LINT_JARS&quot;); //$NON-NLS-1$
+    if (lintClassPath != null &amp;&amp; !lintClassPath.isEmpty()) {
+        String[] paths = lintClassPath.split(File.pathSeparator);
+        for (String path : paths) {
+            File jarFile = new File(path);
+            if (jarFile.exists()) {
+                if (files == null) {
+                    files = new ArrayList&lt;File&gt;();
+                } else if (files.contains(jarFile)) {
+                    continue;
+                }
+                files.add(jarFile);
+            }
+        }
+    }
+
+    return files != null ? files : Collections.&lt;File&gt;emptyList();
+}
+
+/**
+ * Finds any custom lint rule jars that should be included for analysis
+ * in the given project
+ *
+ * @param project the project to look up rule jars from
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&quot;MethodMayBeStatic&quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&lt;File&gt; findRuleJars(@NonNull Project project) {
+    if (project.isGradleProject()) {
+        if (project.isLibrary()) {//如果是gradle library项目，查找其中的 lint.jar 文件
+            AndroidLibrary model = project.getGradleLibraryModel();
+            if (model != null) {
+                File lintJar = model.getLintJar();
+                if (lintJar.exists()) {
+                    return Collections.singletonList(lintJar);
+                }
+            }
+        } else if (project.getSubset() != null) {
+          //如果该项目有很多个子项目，那就检查当前variant下的依赖中的library project中是否包含了lint.jar
+            // Probably just analyzing a single file: we still want to look for custom
+            // rules applicable to the file
+            List&lt;File&gt; rules = null;
+            final Variant variant = project.getCurrentVariant();
+            if (variant != null) {
+                Collection&lt;AndroidLibrary&gt; libraries = variant.getMainArtifact()
+                    .getDependencies().getLibraries();
+                for (AndroidLibrary library : libraries) {
+                    File lintJar = library.getLintJar();
+                    if (lintJar.exists()) {
+                        if (rules == null) {
+                            rules = Lists.newArrayListWithExpectedSize(4);
+                        }
+                        rules.add(lintJar);
+                    }
+                }
+                if (rules != null) {
+                    return rules;
+                }
+            }
+        } else if (project.getDir().getPath().endsWith(DOT_AAR)) {
+            //这种情况是project就是一个aar，查找其中的lint.jar文件
+            File lintJar = new File(project.getDir(), &quot;lint.jar&quot;); //$NON-NLS-1$
+            if (lintJar.exists()) {
+                return Collections.singletonList(lintJar);
+            }
+        }
+    }
+
+    return Collections.emptyList();
 }
 </code></pre>
 
@@ -364,61 +701,53 @@ public abstract class IssueRegistry {
 }
 </code></pre>
 
-<p>(3) <code>LintClient</code>类是指调用lint检查的来源，可能是在Android Studio中或者在gradle中，也可能是在cli(终端)等处。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>，它并没有具体去实现，而是采用代理模式的形式进行了一层封装而已。<code>LintClient</code>中有两个重要的方法，<code>repoort</code>和<code>log</code>分别用于在lint过程中反馈发现问题和打印日志信息。这两个方法经常在<code>Detector</code>中利用<code>Context</code>类对象被间接调用。<br />
-<strong>通俗来讲，LintClient是指在哪里去调用的lint检查工具。</strong></p>
+<p>(3) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。<br />
+<strong>通俗来讲，LintDriver是进行一次lint检查时的所有信息。</strong></p>
 
 <pre><code class="language-java">/**
- * Information about the tool embedding the lint analyzer. IDEs and other tools
- * implementing lint support will extend this to integrate logging, displaying errors,
- * etc.
+ * Analyzes Android projects and files
  * &lt;p&gt;
  * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
  * to adjust your code for the next tools release.&lt;/b&gt;
  */
-public abstract class LintClient {
-    ...
+@Beta
+public class LintDriver {
     /**
-     * Report the given issue. This method will only be called if the configuration
-     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
-     * issue as enabled and has not filtered out the issue with its
-     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
-     * &lt;p&gt;
-     * @param context the context used by the detector when the issue was found
-     * @param issue the issue that was found
-     * @param severity the severity of the issue
-     * @param location the location of the issue
-     * @param message the associated user message
-     * @param format the format of the description and location descriptions
+     * Max number of passes to run through the lint runner if requested by
+     * {@link #requestRepeat}
      */
-    public abstract void report(
-            @NonNull Context context,
-            @NonNull Issue issue,
-            @NonNull Severity severity,
-            @NonNull Location location,
-            @NonNull String message,
-            @NonNull TextFormat format);
+    private static final int MAX_PHASES = 3;
+    private static final String SUPPRESS_LINT_VMSIG = '/' + SUPPRESS_LINT + ';';
+    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
+    private static final String STUDIO_ID_PREFIX = &quot;AndroidLint&quot;;
 
-    /**
-     * Send an exception or error message (with warning severity) to the log
-     *
-     * @param exception the exception, possibly null
-     * @param format the error message using {@link String#format} syntax, possibly null
-     *    (though in that case the exception should not be null)
-     * @param args any arguments for the format string
-     */
-    public void log(
-            @Nullable Throwable exception,
-            @Nullable String format,
-            @Nullable Object... args) {
-        log(Severity.WARNING, exception, format, args);
-    }
+    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
+    private LintRequest mRequest;
+    private IssueRegistry mRegistry;//问题注册中心
+    private volatile boolean mCanceled;
+    private EnumSet&lt;Scope&gt; mScope;
+    private List&lt;? extends Detector&gt; mApplicableDetectors;
+    private Map&lt;Scope, List&lt;Detector&gt;&gt; mScopeDetectors;
+    private List&lt;LintListener&gt; mListeners;
+    private int mPhase;
+    private List&lt;Detector&gt; mRepeatingDetectors;
+    private EnumSet&lt;Scope&gt; mRepeatScope;
+    private Project[] mCurrentProjects;
+    private Project mCurrentProject;
+    private boolean mAbbreviating = true;
+    private boolean mParserErrors;
+    private Map&lt;Object,Object&gt; mProperties;
+    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
+    private boolean mRunCompatChecks = true;
     ...
 }
 </code></pre>
 
-<p>() <code>JavaParser</code>：解析Java文件的抽象类，实际实现类是<code>LombokPsiParser</code>，位于<studio_source_code_root>/tools/adt/idea/android/src/org/jetbrains/android/inspections/lint/LombokPsiParser.java (idea: android/android/android/src)</p>
+<p>(4) <code>JavaParser</code>：解析Java文件的抽象类，实际实现类是<code>LombokPsiParser</code>，位于<studio_source_code_root>/tools/adt/idea/android/src/org/jetbrains/android/inspections/lint/LombokPsiParser.java (idea: android/android/android/src)</p>
 
 <p>When custom (third-party) lint rules are integrated in the IDE, they are not available as native IDE inspections, so the explanation text (which must be statically registered by a plugin) is not available. As a workaround, run the lint target in Gradle instead; the HTML report will include full explanations.</p>
+
+<p>未完待续&hellip;</p>
 
     </section>
 

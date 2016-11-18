@@ -93,6 +93,7 @@
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
         <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
@@ -176,19 +177,19 @@
     <section class="post-content">
       
 
-<p>Lint工具的源码分析(上篇)</p>
+<p>Lint工具的源码分析(1)</p>
 
 <p>在前面的<a href="https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/">Custom Lint in Action</a>中我们了解到将自定义的lint规则打包成jar，然后放在<code>~/.android/lint/</code>目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！</p>
 
 <p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描的方式去检查看是否真的存在那些问题的过程。</strong><br />
-从面向对象编程的角度来看，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)等内容进行封装，其实从本节的总结来看，lint工具的源码也是如此设计和封装的。</p>
+针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)等内容进行封装，其实从本节的总结来看，lint工具的源码也是如此设计和封装的。</p>
 
-<p><code>lint-api</code>主要分成<code>detector.api</code>和<code>client.api</code>这两个包，由于内容实在太多，故分成两篇分别来解析下。</p>
+<p><code>lint</code>工具源码主要分成两部分：<code>lint-api</code>和<code>lint-checks</code>，其中<code>lint-api</code>又分为<code>detector.api</code>和<code>client.api</code>这两个包，由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是<code>detector.api</code>包中的重要类。</p>
 
-<h3 id="1-detector-api中的重要类">1. detector.api中的重要类</h3>
+<h3 id="1-detector-api包中的重要类">1. detector.api包中的重要类</h3>
 
-<p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的片段代码类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br />
-<strong>通俗来讲，Scope指的就是哪些文件需要被检查。</strong></p>
+<p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的代码片段类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br />
+<strong>通俗来讲，Scope指的就是哪些文件或者文件集合需要被检查。</strong></p>
 
 <pre><code class="language-java">/**
  * The scope of a detector is the set of files a detector must consider when
@@ -228,12 +229,12 @@ public enum Scope {
      * both.
      */
     ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
-    ...
+    ...//其他类型的scope
 }
 </code></pre>
 
-<p>(2) <code>Context</code>类表示lint检查时需要进行分析的项目和文件的信息，例如<code>Project，File，LintDriver，Configuration</code>等，详情请参考下面的代码及其注释理解。其子类包括<code>JavaContext，ClassContext，XmlContext，ResourceContext</code>，顾名思义，JavaContext就是用来检查Java文件的Context。<br />
-<strong>通俗来讲，Context指的就是检查时的配置信息。</strong></p>
+<p>(2) <code>Context</code>类表示lint检查时的上下文环境，包括需要进行分析的项目和文件的信息以及lint规则的配置信息，例如<code>Project，File，LintDriver，Configuration</code>等，详情请参考下面的代码及其注释理解。其子类包括<code>JavaContext，ClassContext，XmlContext，ResourceContext</code>，顾名思义，JavaContext就是用来检查Java文件的Context。<br />
+<strong>通俗来讲，Context指的就是lint检查时的上下文信息。</strong></p>
 
 <pre><code class="language-java">/**
  * Context passed to the detectors during an analysis run. It provides
@@ -285,7 +286,7 @@ public class Context {
 }
 </code></pre>
 
-<p>(2.1) <code>Project</code>类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等各种信息。</p>
+<p>(2.1) <code>Project</code>类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等信息。</p>
 
 <pre><code class="language-java">/**
  * A project contains information about an Android project being scanned for
@@ -296,7 +297,7 @@ public class Context {
  */
 @Beta
 public class Project {
-    protected final LintClient mClient;
+    protected final LintClient mClient;//下一篇会详细分析这个 LintClient
     protected final File mDir;
     protected final File mReferenceDir;
     protected Configuration mConfiguration;
@@ -344,7 +345,7 @@ public class Project {
 }
 </code></pre>
 
-<p>(2.2) <code>Configuration</code>类是一个抽象类，用来判断或者配置lint检查规则是否开启。</p>
+<p>(2.2) <code>Configuration</code>类是一个抽象类，主要用来判断或者配置某个lint检查规则是否开启、是否忽略等。</p>
 
 <pre><code class="language-java">/**
  * Lint configuration for an Android project such as which specific rules to include,
@@ -372,7 +373,7 @@ public abstract class Configuration {
             @NonNull Issue issue,
             @Nullable Location location,
             @NonNull String message) {
-        return false;
+        return false;//有些issue是开启了，但是用户可能以某种方式suppress了这种错误
     }
 
     /**
@@ -383,15 +384,24 @@ public abstract class Configuration {
      * @return false if the issue has been disabled
      */
     public boolean isEnabled(@NonNull Issue issue) {
-        return getSeverity(issue) != Severity.IGNORE;
+        return getSeverity(issue) != Severity.IGNORE;//只要严重程度不是IGNORE的话那就是开启了
     }
     ...
 }
 </code></pre>
 
-<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在client.api包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件。</p>
+<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件。下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及下面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
 
-<pre><code class="language-java">/**
+<pre><code class="language-xml">//lint.xml文件的例子
+&lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
+&lt;issue id=&quot;ObsoleteLayoutParam&quot;&gt;
+    &lt;ignore path=&quot;res/layout/activation.xml&quot; /&gt;
+    &lt;ignore path=&quot;res/layout-xlarge/activation.xml&quot; /&gt;
+&lt;/issue&gt;
+</code></pre>
+
+<pre><code class="language-java">//默认的Configuration的实现
+/**
  * Default implementation of a {@link Configuration} which reads and writes
  * configuration data into {@code lint.xml} in the project directory.
  * &lt;p&gt;
@@ -437,119 +447,108 @@ public class DefaultConfiguration extends Configuration {
      */
     private Map&lt;String, Severity&gt; mSeverity;//指定issue对应的严重程度
     ...
-}
-</code></pre>
+    //从lint配置文件中读取lint规则的配置信息
+    private void readConfig() {
+        mSuppressed = new HashMap&lt;String, List&lt;String&gt;&gt;();
+        mSeverity = new HashMap&lt;String, Severity&gt;();
 
-<p>下面是一个lint.xml文件的例子，方便我们来理解<code>DefaultConfiguration</code>这个类的设计</p>
+        if (!mConfigFile.exists()) {
+            return;
+        }
 
-<pre><code class="language-xml">&lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
-&lt;issue id=&quot;ObsoleteLayoutParam&quot;&gt;
-    &lt;ignore path=&quot;res/layout/activation.xml&quot; /&gt;
-    &lt;ignore path=&quot;res/layout-xlarge/activation.xml&quot; /&gt;
-&lt;/issue&gt;
-</code></pre>
-
-<pre><code class="language-java">//从lint配置文件中读取lint规则的配置信息
-private void readConfig() {
-    mSuppressed = new HashMap&lt;String, List&lt;String&gt;&gt;();
-    mSeverity = new HashMap&lt;String, Severity&gt;();
-
-    if (!mConfigFile.exists()) {
-        return;
-    }
-
-    try {
-        Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
-        NodeList issues = document.getElementsByTagName(TAG_ISSUE);
-        Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-        for (int i = 0, count = issues.getLength(); i &lt; count; i++) {//遍历issue
-            Node node = issues.item(i);
-            Element element = (Element) node;
-            String idList = element.getAttribute(ATTR_ID);//读取id属性值
-            if (idList.isEmpty()) {
-                formatError(&quot;Invalid lint config file: Missing required issue id attribute&quot;);
-                continue;
-            }
-            Iterable&lt;String&gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
-
-            //下面这部分是处理severity属性值的配置
-            NamedNodeMap attributes = node.getAttributes();
-            for (int j = 0, n = attributes.getLength(); j &lt; n; j++) {
-                Node attribute = attributes.item(j);
-                String name = attribute.getNodeName();
-                String value = attribute.getNodeValue();
-                if (ATTR_ID.equals(name)) {
-                    // already handled
-                } else if (ATTR_SEVERITY.equals(name)) {
-                    for (Severity severity : Severity.values()) {
-                        if (value.equalsIgnoreCase(severity.name())) {
-                            for (String id : ids) {
-                                mSeverity.put(id, severity);
-                            }
-                            break;
-                        }
-                    }
-                } else {
-                    formatError(&quot;Unexpected attribute \&quot;%1$s\&quot;&quot;, name);
+        try {
+            Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
+            NodeList issues = document.getElementsByTagName(TAG_ISSUE);
+            Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
+            for (int i = 0, count = issues.getLength(); i &lt; count; i++) {//遍历issue
+                Node node = issues.item(i);
+                Element element = (Element) node;
+                String idList = element.getAttribute(ATTR_ID);//读取id属性值
+                if (idList.isEmpty()) {
+                    formatError(&quot;Invalid lint config file: Missing required issue id attribute&quot;);
+                    continue;
                 }
-            }
+                Iterable&lt;String&gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
 
-            //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
-            // Look up ignored errors
-            NodeList childNodes = element.getChildNodes();
-            if (childNodes.getLength() &gt; 0) {
-                for (int j = 0, n = childNodes.getLength(); j &lt; n; j++) {
-                    Node child = childNodes.item(j);
-                    if (child.getNodeType() == Node.ELEMENT_NODE) {
-                        Element ignore = (Element) child;
-                        String path = ignore.getAttribute(ATTR_PATH);
-                        if (path.isEmpty()) {//regexp的形式
-                            String regexp = ignore.getAttribute(ATTR_REGEXP);
-                            if (regexp.isEmpty()) {
-                                formatError(&quot;Missing required attribute %1$s or %2$s under %3$s&quot;,
-                                    ATTR_PATH, ATTR_REGEXP, idList);
-                            } else {
-                                addRegexp(idList, ids, n, regexp, false);
-                            }
-                        } else {//path的形式
-                            // Normalize path format to File.separator. Also
-                            // handle the file format containing / or \.
-                            if (File.separatorChar == '/') {
-                                path = path.replace('\\', '/');
-                            } else {
-                                path = path.replace('/', File.separatorChar);
-                            }
-
-                            if (path.indexOf('*') != -1) {
-                                String regexp = globToRegexp(path);
-                                addRegexp(idList, ids, n, regexp, false);
-                            } else {
+                //下面这部分是处理severity属性值的配置
+                NamedNodeMap attributes = node.getAttributes();
+                for (int j = 0, n = attributes.getLength(); j &lt; n; j++) {
+                    Node attribute = attributes.item(j);
+                    String name = attribute.getNodeName();
+                    String value = attribute.getNodeValue();
+                    if (ATTR_ID.equals(name)) {
+                        // already handled
+                    } else if (ATTR_SEVERITY.equals(name)) {
+                        for (Severity severity : Severity.values()) {
+                            if (value.equalsIgnoreCase(severity.name())) {
                                 for (String id : ids) {
-                                    List&lt;String&gt; paths = mSuppressed.get(id);
-                                    if (paths == null) {
-                                        paths = new ArrayList&lt;String&gt;(n / 2 + 1);
-                                        mSuppressed.put(id, paths);
+                                    mSeverity.put(id, severity);
+                                }
+                                break;
+                            }
+                        }
+                    } else {
+                        formatError(&quot;Unexpected attribute \&quot;%1$s\&quot;&quot;, name);
+                    }
+                }
+
+                //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
+                // Look up ignored errors
+                NodeList childNodes = element.getChildNodes();
+                if (childNodes.getLength() &gt; 0) {
+                    for (int j = 0, n = childNodes.getLength(); j &lt; n; j++) {
+                        Node child = childNodes.item(j);
+                        if (child.getNodeType() == Node.ELEMENT_NODE) {
+                            Element ignore = (Element) child;
+                            String path = ignore.getAttribute(ATTR_PATH);
+                            if (path.isEmpty()) {//regexp的形式
+                                String regexp = ignore.getAttribute(ATTR_REGEXP);
+                                if (regexp.isEmpty()) {
+                                    formatError(&quot;Missing required attribute %1$s or %2$s under %3$s&quot;,
+                                        ATTR_PATH, ATTR_REGEXP, idList);
+                                } else {
+                                    addRegexp(idList, ids, n, regexp, false);
+                                }
+                            } else {//path的形式
+                                // Normalize path format to File.separator. Also
+                                // handle the file format containing / or \.
+                                if (File.separatorChar == '/') {
+                                    path = path.replace('\\', '/');
+                                } else {
+                                    path = path.replace('/', File.separatorChar);
+                                }
+
+                                if (path.indexOf('*') != -1) {
+                                    String regexp = globToRegexp(path);
+                                    addRegexp(idList, ids, n, regexp, false);
+                                } else {
+                                    for (String id : ids) {
+                                        List&lt;String&gt; paths = mSuppressed.get(id);
+                                        if (paths == null) {
+                                            paths = new ArrayList&lt;String&gt;(n / 2 + 1);
+                                            mSuppressed.put(id, paths);
+                                        }
+                                        paths.add(path);
                                     }
-                                    paths.add(path);
                                 }
                             }
                         }
                     }
                 }
             }
+        } catch (SAXParseException e) {
+            formatError(e.getMessage());
+        } catch (Exception e) {
+            mClient.log(e, null);
         }
-    } catch (SAXParseException e) {
-        formatError(e.getMessage());
-    } catch (Exception e) {
-        mClient.log(e, null);
     }
 }
 </code></pre>
 
-<p>(2.3) <code>LintDriver</code>类很大很复杂，我们稍后会在下面介绍。</p>
+<p>(2.3) <code>LintDriver</code>类很大很复杂，而且是在<code>client.api</code>包中，我们将在下一节介绍。</p>
 
-<p>(3) <code>Detector</code>类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。Detector类中定义了很多检查器通用的一些方法，除此之外，<code>Detector</code>类中还定义了很多不同类型文件的Scanner，例如<code>JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner</code>。<br />
-<strong>通俗来讲，Detector指的就是不同的lint检查器。</strong></p>
+<p>(3) <code>Detector</code>类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。Detector类中定义了很多检查器通用的一些方法，比如下面代码片段中的<code>visitMethod</code>、<code>visitConstructor</code>等等，除此之外，<code>Detector</code>类中还定义了很多不同类型文件的扫描器(Scanner)接口，例如<code>JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner</code>，后面我们会详细介绍其中的<code>JavaPsiScanner</code>。<br />
+<strong>通俗来讲，Detector指的就是一个个的lint检查器。</strong></p>
 
 <pre><code class="language-java">public class Detector {
     ...
@@ -665,7 +664,7 @@ public final class Category implements Comparable&lt;Category&gt; {
 }
 </code></pre>
 
-<p>(4.3) <code>Implementation</code>类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是<code>mScope</code>和<code>mAnalysisScopes</code>不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。</p>
+<p>(4.3) <code>Implementation</code>类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是<code>mScope</code>和<code>mAnalysisScopes</code>的含义是不同的，表示的具体范围也不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。</p>
 
 <pre><code class="language-java">/**
  * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
