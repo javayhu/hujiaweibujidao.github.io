@@ -1664,7 +1664,7 @@ Lint工具以及现有的检查项的源码在&lt;a href=&#34;https://android.go
 lint --list
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;除了将自定义lint规则的jar包复制到&lt;code&gt;~/.android/lint&lt;/code&gt;目录下这种方式外，我们还可以通过设置环境变量&lt;code&gt;ANDROID_LINT_JARS&lt;/code&gt;来将自定义的lint规则添加到系统全局默认的lint规则集合中。下面是一个参考使用方式，虽然我们并没有将自定义的lint规则放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下，但是照样能够应用这些规则。&lt;/p&gt;
+&lt;p&gt;除了将自定义lint规则的jar包复制到&lt;code&gt;~/.android/lint&lt;/code&gt;目录下这种方式外，我们还可以通过设置环境变量&lt;code&gt;ANDROID_LINT_JARS&lt;/code&gt;来将自定义的lint规则添加到系统全局默认的lint规则集合中，如果你有多个jar可以使用&lt;code&gt;:&lt;/code&gt;来将它们连接起来。下面是一个参考使用方式，虽然我们并没有将自定义的lint规则放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下，但是照样能够应用这些规则。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;export ANDROID_LINT_JARS=~/.android/lint_bak/android-custom-lint-rules.jar
 lint --list
@@ -1751,13 +1751,13 @@ project.afterEvaluate{
 
 &lt;p&gt;&lt;strong&gt;注意：该项目的release 1.0.0版本的lintrules依赖的是24.5.0版本的lint-api，演示的LogDetector来自下面参考资料中的美团的LogDetector。但是目前该项目最新的release 1.0.1版本依赖的是25.2.0版本的lint-api，演示的LogDetector参考自lint工具自带的LogDetector。&lt;/strong&gt;&lt;/p&gt;
 
+&lt;p&gt;OK，感兴趣的话欢迎阅读&lt;a href=&#34;https://github.com/hujiaweibujidao/customlint&#34;&gt;customlint&lt;/a&gt;项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。&lt;/p&gt;
+
 &lt;p&gt;&lt;strong&gt;7.其他参考资料&lt;/strong&gt;&lt;br /&gt;
 1.&lt;a href=&#34;http://tech.meituan.com/android_custom_lint.html&#34;&gt;美团-Android自定义Lint实践&lt;/a&gt;&lt;br /&gt;
 2.&lt;a href=&#34;https://segmentfault.com/a/1190000004497435&#34;&gt;segmentfault-自定义Lint规则简介&lt;/a&gt;&lt;br /&gt;
 3.&lt;a href=&#34;http://www.jianshu.com/p/7b3519dc1e5f&#34;&gt;Android Studio配合Lint检测缺失Permission&lt;/a&gt;&lt;br /&gt;
 4.&lt;a href=&#34;http://avatarqing.github.io/Gradle-Plugin-User-Guide-Chinese-Verision/testing/lint_supportlint.html&#34;&gt;Gradle Lint support&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;OK，感兴趣的话欢迎阅读&lt;a href=&#34;https://github.com/hujiaweibujidao/customlint&#34;&gt;customlint&lt;/a&gt;项目源码，感谢Linkedin和MeiTuan提供的技术文档和实践源码。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;One More Thing&amp;hellip;&lt;/strong&gt;&lt;br /&gt;
 其实，看完本节你应该会有很多的疑惑，为什么自定义的lint规则打包成jar放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下就可以使用了呢？为什么设置那个环境变量也行呢？还有，将lint.jar打包到aar中为什么也可以实现自定义lint检查呢？这些问题需要我们去阅读lint工具的源码才能够真正解开谜底，请等待后期的lint工具源码分析总结系列，内容很多，正在加紧写作中&amp;hellip;&lt;/p&gt;
