@@ -184,9 +184,9 @@
 <h3 id="2-client-api包中的重要类">2. client.api包中的重要类</h3>
 
 <p>(1) <code>LintClient</code>类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的<code>BatchLintClient</code>和针对当前编辑器中单个文件执行lint检查的<code>EditorLintClient</code>；另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的<code>LintClient</code>可能是<code>IntellijLintClient</code>或者<code>BatchLintClient</code>或者<code>EditorLintClient</code>。<br />
-<strong>通俗来讲，LintClient是指去调用的lint检查的来源(客户端)。</strong></p>
+<strong>通俗来讲，LintClient是指去调用lint检查的来源(客户端)，它会提供执行lint检查的相关环境信息。</strong></p>
 
-<p><code>LintClient</code>中有两个重要的方法，<code>repoort</code>和<code>log</code>分别用于在lint过程中向调用者(客户端)反馈发现的问题和打印日志信息，这两个方法经常在检查器<code>Detector</code>中通过<code>Context</code>类对象间接被调用。</p>
+<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源，例如其中的<code>getSdkHome</code>和<code>findResource</code>方法。</p>
 
 <pre><code class="language-java">/**
  * Information about the tool embedding the lint analyzer. IDEs and other tools
@@ -200,70 +200,153 @@ public abstract class LintClient {
     private static final String PROP_BIN_DIR  = &quot;com.android.tools.lint.bindir&quot;;
     ...
     /**
-     * Report the given issue. This method will only be called if the configuration
-     * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
-     * issue as enabled and has not filtered out the issue with its
-     * {@link Configuration#ignore(Context,Issue,Location,String)} method.
-     * &lt;p&gt;
-     * @param context the context used by the detector when the issue was found
-     * @param issue the issue that was found
-     * @param severity the severity of the issue
-     * @param location the location of the issue
-     * @param message the associated user message
-     * @param format the format of the description and location descriptions
-     */
-    public abstract void report(
-            @NonNull Context context,
-            @NonNull Issue issue,
-            @NonNull Severity severity,
-            @NonNull Location location,
-            @NonNull String message,
-            @NonNull TextFormat format);
-
-    /**
-     * Send an exception or error message (with warning severity) to the log
+     * Returns the File corresponding to the system property or the environment variable
+     * for {@link #PROP_BIN_DIR}.
+     * This property is typically set by the SDK/tools/lint[.bat] wrapper.
+     * It denotes the path of the wrapper on disk.
      *
-     * @param exception the exception, possibly null
-     * @param format the error message using {@link String#format} syntax, possibly null
-     *    (though in that case the exception should not be null)
-     * @param args any arguments for the format string
+     * @return A new File corresponding to {@link LintClient#PROP_BIN_DIR} or null.
      */
-    public void log(
-            @Nullable Throwable exception,
-            @Nullable String format,
-            @Nullable Object... args) {
-        log(Severity.WARNING, exception, format, args);
+    @Nullable
+    private static File getLintBinDir() {
+        // First check the Java properties (e.g. set using &quot;java -jar ... -Dname=value&quot;)
+        String path = System.getProperty(PROP_BIN_DIR);
+        if (path == null || path.isEmpty()) {
+            // If not found, check environment variables.
+            path = System.getenv(PROP_BIN_DIR);
+        }
+        if (path != null &amp;&amp; !path.isEmpty()) {
+            File file = new File(path);
+            if (file.exists()) {
+                return file;
+            }
+        }
+        return null;
     }
     ...
+    /**
+     * Returns the File pointing to the user's SDK install area. This is generally
+     * the root directory containing the lint tool (but also platforms/ etc).
+     *
+     * @return a file pointing to the user's install area
+     */
+    @Nullable
+    public File getSdkHome() {
+        File binDir = getLintBinDir();
+        if (binDir != null) {
+            assert binDir.getName().equals(&quot;tools&quot;);
+
+            File root = binDir.getParentFile();
+            if (root != null &amp;&amp; root.isDirectory()) {
+                return root;
+            }
+        }
+
+        String home = System.getenv(&quot;ANDROID_HOME&quot;); //$NON-NLS-1$
+        if (home != null) {
+            return new File(home);
+        }
+
+        return null;
+    }
+
+    /**
+     * Locates an SDK resource (relative to the SDK root directory).
+     * &lt;p&gt;
+     * TODO: Consider switching to a {@link URL} return type instead.
+     *
+     * @param relativePath A relative path (using {@link File#separator} to
+     *            separate path components) to the given resource
+     * @return a {@link File} pointing to the resource, or null if it does not
+     *         exist
+     */
+    @Nullable
+    public File findResource(@NonNull String relativePath) {
+        File top = getSdkHome();
+        if (top == null) {
+            throw new IllegalArgumentException(&quot;Lint must be invoked with the System property &quot;
+                   + PROP_BIN_DIR + &quot; pointing to the ANDROID_SDK tools directory&quot;);
+        }
+
+        File file = new File(top, relativePath);
+        if (file.exists()) {
+            return file;
+        } else {
+            return null;
+        }
+    }
 }
 </code></pre>
 
-<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源。</p>
+<p><code>LintClient</code>中定义了5个抽象方法，其中<code>repoort</code>和<code>log</code>方法分别用于在lint过程中向调用者(客户端)反馈发现的问题和打印日志信息，这两个方法经常在检查器<code>Detector</code>中通过<code>Context</code>类对象间接被调用。<code>getXmlParser</code>和<code>getJavaParser</code>方法分别用来返回解析XML文件和解析Java文件的处理类，<code>readFile</code>方法则是用来读取指定的文件内容的。</p>
 
 <pre><code class="language-java">/**
- * Returns the File corresponding to the system property or the environment variable
- * for {@link #PROP_BIN_DIR}.
- * This property is typically set by the SDK/tools/lint[.bat] wrapper.
- * It denotes the path of the wrapper on disk.
+ * Report the given issue. This method will only be called if the configuration
+ * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+ * issue as enabled and has not filtered out the issue with its
+ * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+ * &lt;p&gt;
+ * @param context the context used by the detector when the issue was found
+ * @param issue the issue that was found
+ * @param severity the severity of the issue
+ * @param location the location of the issue
+ * @param message the associated user message
+ * @param format the format of the description and location descriptions
+ */
+public abstract void report(
+        @NonNull Context context,
+        @NonNull Issue issue,
+        @NonNull Severity severity,
+        @NonNull Location location,
+        @NonNull String message,
+        @NonNull TextFormat format);
+
+/**
+ * Send an exception or error message to the log
  *
- * @return A new File corresponding to {@link LintClient#PROP_BIN_DIR} or null.
+ * @param severity the severity of the warning
+ * @param exception the exception, possibly null
+ * @param format the error message using {@link String#format} syntax, possibly null
+ *    (though in that case the exception should not be null)
+ * @param args any arguments for the format string
+ */
+public abstract void log(
+        @NonNull Severity severity,
+        @Nullable Throwable exception,
+        @Nullable String format,
+        @Nullable Object... args);
+
+/**
+ * Returns a {@link XmlParser} to use to parse XML
+ *
+ * @return a new {@link XmlParser}, or null if this client does not support
+ *         XML analysis
  */
 @Nullable
-private static File getLintBinDir() {
-    // First check the Java properties (e.g. set using &quot;java -jar ... -Dname=value&quot;)
-    String path = System.getProperty(PROP_BIN_DIR);
-    if (path == null || path.isEmpty()) {
-        // If not found, check environment variables.
-        path = System.getenv(PROP_BIN_DIR);
-    }
-    if (path != null &amp;&amp; !path.isEmpty()) {
-        File file = new File(path);
-        if (file.exists()) {
-            return file;
-        }
-    }
-    return null;
-}
+public abstract XmlParser getXmlParser();
+
+/**
+ * Returns a {@link JavaParser} to use to parse Java
+ *
+ * @param project the project to parse, if known (this can be used to look up
+ *                the class path for type attribution etc, and it can also be used
+ *                to more efficiently process a set of files, for example to
+ *                perform type attribution for multiple units in a single pass)
+ * @return a new {@link JavaParser}, or null if this client does not
+ *         support Java analysis
+ */
+@Nullable
+public abstract JavaParser getJavaParser(@Nullable Project project);
+
+/**
+ * Reads the given text file and returns the content as a string
+ *
+ * @param file the file to read
+ * @return the string to return, never null (will be empty if there is an
+ *         I/O error)
+ */
+@NonNull
+public abstract String readFile(@NonNull File file);
 </code></pre>
 
 <p><code>LintClient</code>中还定义了很多内容，比如下面的<code>ClassPathInfo</code>内部类，它用来封装一个Project的各个文件夹，例如源码文件夹，class文件夹，库文件集合等等，以及一个<code>getClassPath</code>的方法去获取<code>ClassPathInfo</code>数据。</p>
@@ -444,6 +527,98 @@ protected ClassPathInfo getClassPath(@NonNull Project project) {
     }
 
     return info;
+}
+</code></pre>
+
+<p>除了<code>ClassPathInfo</code>之外，还有很多其他的数据也会在<code>LintClient</code>中处理，例如本机的Android SDK的信息以及项目中使用的<code>buildtool</code>、<code>compileSdk</code>等。</p>
+
+<pre><code class="language-java">protected AndroidSdkHandler mSdk;//获取本机的 Android SDK 的相关信息
+
+/**
+ * Returns the SDK installation (used to look up platforms etc)
+ *
+ * @return the SDK if known
+ */
+@Nullable
+public AndroidSdkHandler getSdk() {
+    if (mSdk == null) {
+        File sdkHome = getSdkHome();
+        if (sdkHome != null) {
+            mSdk = AndroidSdkHandler.getInstance(sdkHome);
+        }
+    }
+
+    return mSdk;
+}
+
+protected IAndroidTarget[] mTargets;//获取 Android SDK 中已有的 Platform targets
+
+/**
+ * Returns all the {@link IAndroidTarget} versions installed in the user's SDK install
+ * area.
+ *
+ * @return all the installed targets
+ */
+@NonNull
+public IAndroidTarget[] getTargets() {//获取 Android SDK 中已有的 Platform targets
+    if (mTargets == null) {
+        AndroidSdkHandler sdkHandler = getSdk();
+        if (sdkHandler != null) {
+            ProgressIndicator logger = getRepositoryLogger();
+            Collection&lt;IAndroidTarget&gt; targets = sdkHandler.getAndroidTargetManager(logger)
+                    .getTargets(logger);
+            mTargets = targets.toArray(new IAndroidTarget[targets.size()]);
+        } else {
+            mTargets = new IAndroidTarget[0];
+        }
+    }
+
+    return mTargets;
+}
+
+/**
+ * Returns the compile target to use for the given project
+ *
+ * @param project the project in question
+ *
+ * @return the compile target to use to build the given project
+ */
+@Nullable
+public IAndroidTarget getCompileTarget(@NonNull Project project) {//获取项目中使用的 compileSdkVersion
+    int buildSdk = project.getBuildSdk();
+    IAndroidTarget[] targets = getTargets();
+    for (int i = targets.length - 1; i &gt;= 0; i--) {
+        IAndroidTarget target = targets[i];
+        if (target.isPlatform() &amp;&amp; target.getVersion().getApiLevel() == buildSdk) {
+            return target;
+        }
+    }
+
+    return null;
+}
+/**
+ * Returns the specific version of the build tools being used for the given project, if known
+ *
+ * @param project the project in question
+ *
+ * @return the build tools version in use by the project, or null if not known
+ */
+@Nullable
+public BuildToolInfo getBuildTools(@NonNull Project project) {//获取 build tools 的信息
+    AndroidSdkHandler sdk = getSdk();
+    // Build systems like Eclipse and ant just use the latest available
+    // build tools, regardless of project metadata. In Gradle, this
+    // method is overridden to use the actual build tools specified in the
+    // project.
+    if (sdk != null) {
+        IAndroidTarget compileTarget = getCompileTarget(project);
+        if (compileTarget != null) {
+            return compileTarget.getBuildToolInfo();
+        }
+        return sdk.getLatestBuildTool(getRepositoryLogger(), false);
+    }
+
+    return null;
 }
 </code></pre>
 
