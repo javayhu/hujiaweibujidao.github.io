@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       Lint Tool Analysis (1) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" Lint Tool Analysis (1) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-11-17T10:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">Lint Tool Analysis (1)</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Lint Tool Analysis (1)</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-11-17T10:46:33&#43;08:00">
+            Nov 17, 2016
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Lint工具的源码分析(1)</p>
+
+<p>在前面的<a href="https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/">Custom Lint in Action</a>中我们了解到将自定义的lint规则打包成jar，然后放在<code>~/.android/lint/</code>目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，这是为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！</p>
+
+<p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描源文件的方式去检查看是否真的存在那些问题的过程。</strong><br />
+针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)以及源代码文件如何进行静态扫描(Scanner)等内容进行封装，其实lint工具的源码就是这么设计和封装的。</p>
+
+<p><code>lint</code>工具源码主要分成两部分：<code>lint-api</code>和<code>lint-checks</code>，前者主要是lint的核心API，后者是利用API定义的检查器。其中<code>lint-api</code>又分为<code>detector.api</code>和<code>client.api</code>这两个包，其中<code>detector.api</code>这个包主要是和lint检查器相关的类，<code>client.api</code>这个包主要是和调用lint检查有关的类。由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是<code>detector.api</code>包中的重要类。</p>
+
+<h3 id="1-detector-api包中的重要类">1. detector.api包中的重要类</h3>
+
+<p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的代码片段类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br />
+<strong>通俗来讲，Scope指的就是哪个文件或者哪些文件需要被检查。</strong></p>
+
+<pre><code class="language-java">/**
+ * The scope of a detector is the set of files a detector must consider when
+ * performing its analysis. This can be used to determine when issues are
+ * potentially obsolete, whether a detector should re-run on a file save, etc.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public enum Scope {
+    /**
+     * The analysis only considers a single XML resource file at a time.
+     * &lt;p&gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    RESOURCE_FILE,//检查单个资源文件，可以增量式检查
+
+    /**
+     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
+     * &lt;p&gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    BINARY_RESOURCE_FILE,//检查二进制形式的资源文件，例如bitmap
+
+    /**
+     * The analysis considers the resource folders (which also includes asset folders)
+     */
+    RESOURCE_FOLDER,//检查资源目录，包括asset目录
+
+    /**
+     * The analysis considers &lt;b&gt;all&lt;/b&gt; the resource file. This scope must not
+     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
+     * either considering just a single resource file or all the resources, not
+     * both.
+     */
+    ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
+    ...//其他类型的scope
+}
+</code></pre>
+
+<p>(2) <code>Context</code>类表示lint检查时的上下文环境，包括需要进行分析的项目和文件的信息以及lint规则的配置信息，例如<code>Project，File，LintDriver，Configuration</code>等，详情请参考下面的代码及其注释理解。其子类包括<code>JavaContext，ClassContext，XmlContext，ResourceContext</code>，顾名思义，JavaContext就是用来检查Java文件的Context。<br />
+<strong>通俗来讲，Context指的就是lint检查时的上下文信息。</strong></p>
+
+<pre><code class="language-java">/**
+ * Context passed to the detectors during an analysis run. It provides
+ * information about the file being analyzed, it allows shared properties (so
+ * the detectors can share results), etc.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+public class Context {
+    /**
+     * The file being checked. Note that this may not always be to a concrete
+     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
+     * method, the context file is the directory of the project.
+     */
+    public final File file;//被检查的文件
+
+    /** The driver running through the checks */
+    protected final LintDriver mDriver;//运行所有检查的driver
+
+    /** The project containing the file being checked */
+    @NonNull
+    private final Project mProject;//包含需要检查的文件的项目
+
+    /**
+     * The &quot;main&quot; project. For normal projects, this is the same as {@link #mProject},
+     * but for library projects, it's the root project that includes (possibly indirectly)
+     * the various library projects and their library projects.
+     * &lt;p&gt;
+     * Note that this is a property on the {@link Context}, not the
+     * {@link Project}, since a library project can be included from multiple
+     * different top level projects, so there isn't &lt;b&gt;one&lt;/b&gt; main project,
+     * just one per main project being analyzed with its library projects.
+     */
+    private final Project mMainProject;//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
+
+    /** The current configuration controlling which checks are enabled etc */
+    private final Configuration mConfiguration;//检查器的配置信息，例如哪些检查器开启或关闭了
+
+    /** The contents of the file */
+    private String mContents;//文件的内容
+
+    /** Map of properties to share results between detectors */
+    private Map&lt;String, Object&gt; mProperties;//用于在检查器之间共享数据的键值对
+
+    /** Whether this file contains any suppress markers (null means not yet determined) */
+    private Boolean mContainsCommentSuppress;//文件是否包含suppress lint相关的注释，null表示还不确定
+    ...
+}
+</code></pre>
+
+<p>(2.1) <code>Project</code>类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等信息。</p>
+
+<pre><code class="language-java">/**
+ * A project contains information about an Android project being scanned for
+ * Lint errors.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public class Project {
+    protected final LintClient mClient;//下一篇会详细分析这个 LintClient
+    protected final File mDir;
+    protected final File mReferenceDir;
+    protected Configuration mConfiguration;
+    protected String mPackage;
+    protected int mBuildSdk = -1;
+    protected IAndroidTarget mTarget;
+
+    protected AndroidVersion mManifestMinSdk = AndroidVersion.DEFAULT;
+    protected AndroidVersion mManifestTargetSdk = AndroidVersion.DEFAULT;
+
+    protected boolean mLibrary;
+    protected String mName;
+    protected String mProguardPath;
+    protected boolean mMergeManifests;
+
+    /** The SDK info, if any */
+    protected SdkInfo mSdkInfo;
+
+    /**
+     * If non null, specifies a non-empty list of specific files under this
+     * project which should be checked.
+     */
+    protected List&lt;File&gt; mFiles;
+    protected List&lt;File&gt; mProguardFiles;
+    protected List&lt;File&gt; mGradleFiles;
+    protected List&lt;File&gt; mManifestFiles;
+    protected List&lt;File&gt; mJavaSourceFolders;
+    protected List&lt;File&gt; mJavaClassFolders;
+    protected List&lt;File&gt; mNonProvidedJavaLibraries;
+    protected List&lt;File&gt; mJavaLibraries;
+    protected List&lt;File&gt; mTestSourceFolders;
+    protected List&lt;File&gt; mResourceFolders;
+    protected List&lt;File&gt; mAssetFolders;
+    protected List&lt;Project&gt; mDirectLibraries;
+    protected List&lt;Project&gt; mAllLibraries;
+    protected boolean mReportIssues = true;
+    protected Boolean mGradleProject;
+    protected Boolean mSupportLib;
+    protected Boolean mAppCompat;
+    protected GradleVersion mGradleVersion;
+    private Map&lt;String, String&gt; mSuperClassMap;
+    private ResourceVisibilityLookup mResourceVisibility;
+    private BuildToolInfo mBuildTools;
+    ...
+}
+</code></pre>
+
+<p>(2.2) <code>Configuration</code>类是一个抽象类，主要用来判断或者配置某个lint检查规则是否开启、是否忽略等。</p>
+
+<pre><code class="language-java">/**
+ * Lint configuration for an Android project such as which specific rules to include,
+ * which specific rules to exclude, and which specific errors to ignore.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public abstract class Configuration {
+    /**
+     * Checks whether this issue should be ignored because the user has already
+     * suppressed the error? Note that this refers to individual issues being
+     * suppressed/ignored, not a whole detector being disabled via something
+     * like {@link #isEnabled(Issue)}.
+     *
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @return true if this issue should be suppressed
+     */
+    public boolean isIgnored(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @Nullable Location location,
+            @NonNull String message) {
+        return false;//有些issue是开启了，但是用户可能以某种方式suppress了这种错误
+    }
+
+    /**
+     * Returns false if the given issue has been disabled. This is just
+     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
+     *
+     * @param issue the issue to check
+     * @return false if the issue has been disabled
+     */
+    public boolean isEnabled(@NonNull Issue issue) {
+        return getSeverity(issue) != Severity.IGNORE;//只要严重程度不是IGNORE的话那就是开启了
+    }
+    ...
+}
+</code></pre>
+
+<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件，下面是lint.xml文件的一个例子。</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;lint&gt;
+    &lt;!-- Disable the given check in this project --&gt;
+    &lt;issue id=&quot;IconMissingDensityFolder&quot; severity=&quot;ignore&quot; /&gt;
+
+    &lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
+    &lt;issue id=&quot;ObsoleteLayoutParam&quot;&gt;
+        &lt;ignore regexp=&quot;res/.*/activation.xml&quot; /&gt;
+    &lt;/issue&gt;
+
+    &lt;!-- Ignore the UselessLeaf issue in the specified file --&gt;
+    &lt;issue id=&quot;UselessLeaf&quot;&gt;
+        &lt;ignore path=&quot;res/layout/main.xml&quot; /&gt;
+    &lt;/issue&gt;
+
+    &lt;!-- Change the severity of hardcoded strings to &quot;error&quot; --&gt;
+    &lt;issue id=&quot;HardcodedText&quot; severity=&quot;error&quot; /&gt;
+&lt;/lint&gt;
+</code></pre>
+
+<p>下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及上面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
+
+<pre><code class="language-java">//默认的Configuration的实现
+/**
+ * Default implementation of a {@link Configuration} which reads and writes
+ * configuration data into {@code lint.xml} in the project directory.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public class DefaultConfiguration extends Configuration {
+    private final LintClient mClient;
+    /** Default name of the configuration file */
+    public static final String CONFIG_FILE_NAME = &quot;lint.xml&quot;; //$NON-NLS-1$
+
+    // Lint XML File =&gt; 定义lint.xml文件中的元素标签
+    @NonNull
+    private static final String TAG_ISSUE = &quot;issue&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_ID = &quot;id&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_SEVERITY = &quot;severity&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_PATH = &quot;path&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_REGEXP = &quot;regexp&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String TAG_IGNORE = &quot;ignore&quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String VALUE_ALL = &quot;all&quot;; //$NON-NLS-1$
+
+    private final Configuration mParent;
+    private final Project mProject;
+    private final File mConfigFile;
+    private boolean mBulkEditing;
+
+    /** Map from id to list of project-relative paths for suppressed warnings */
+    private Map&lt;String, List&lt;String&gt;&gt; mSuppressed;//指定issue有哪些不检查的路径列表
+
+    /** Map from id to regular expressions. */
+    @Nullable
+    private Map&lt;String, List&lt;Pattern&gt;&gt; mRegexps;
+
+    /**
+     * Map from id to custom {@link Severity} override
+     */
+    private Map&lt;String, Severity&gt; mSeverity;//指定issue对应的严重程度
+    ...
+    //从lint配置文件中读取lint规则的配置信息
+    private void readConfig() {
+        mSuppressed = new HashMap&lt;String, List&lt;String&gt;&gt;();
+        mSeverity = new HashMap&lt;String, Severity&gt;();
+
+        if (!mConfigFile.exists()) {
+            return;
+        }
+
+        try {
+            Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
+            NodeList issues = document.getElementsByTagName(TAG_ISSUE);
+            Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
+            for (int i = 0, count = issues.getLength(); i &lt; count; i++) {//遍历issue
+                Node node = issues.item(i);
+                Element element = (Element) node;
+                String idList = element.getAttribute(ATTR_ID);//读取id属性值
+                if (idList.isEmpty()) {
+                    formatError(&quot;Invalid lint config file: Missing required issue id attribute&quot;);
+                    continue;
+                }
+                Iterable&lt;String&gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
+
+                //下面这部分是处理severity属性值的配置
+                NamedNodeMap attributes = node.getAttributes();
+                for (int j = 0, n = attributes.getLength(); j &lt; n; j++) {
+                    Node attribute = attributes.item(j);
+                    String name = attribute.getNodeName();
+                    String value = attribute.getNodeValue();
+                    if (ATTR_ID.equals(name)) {
+                        // already handled
+                    } else if (ATTR_SEVERITY.equals(name)) {
+                        for (Severity severity : Severity.values()) {
+                            if (value.equalsIgnoreCase(severity.name())) {
+                                for (String id : ids) {
+                                    mSeverity.put(id, severity);
+                                }
+                                break;
+                            }
+                        }
+                    } else {
+                        formatError(&quot;Unexpected attribute \&quot;%1$s\&quot;&quot;, name);
+                    }
+                }
+
+                //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
+                // Look up ignored errors
+                NodeList childNodes = element.getChildNodes();
+                if (childNodes.getLength() &gt; 0) {
+                    for (int j = 0, n = childNodes.getLength(); j &lt; n; j++) {
+                        Node child = childNodes.item(j);
+                        if (child.getNodeType() == Node.ELEMENT_NODE) {
+                            Element ignore = (Element) child;
+                            String path = ignore.getAttribute(ATTR_PATH);
+                            if (path.isEmpty()) {//regexp的形式
+                                String regexp = ignore.getAttribute(ATTR_REGEXP);
+                                if (regexp.isEmpty()) {
+                                    formatError(&quot;Missing required attribute %1$s or %2$s under %3$s&quot;,
+                                        ATTR_PATH, ATTR_REGEXP, idList);
+                                } else {
+                                    addRegexp(idList, ids, n, regexp, false);
+                                }
+                            } else {//path的形式
+                                // Normalize path format to File.separator. Also
+                                // handle the file format containing / or \.
+                                if (File.separatorChar == '/') {
+                                    path = path.replace('\\', '/');
+                                } else {
+                                    path = path.replace('/', File.separatorChar);
+                                }
+
+                                if (path.indexOf('*') != -1) {
+                                    String regexp = globToRegexp(path);
+                                    addRegexp(idList, ids, n, regexp, false);
+                                } else {
+                                    for (String id : ids) {
+                                        List&lt;String&gt; paths = mSuppressed.get(id);
+                                        if (paths == null) {
+                                            paths = new ArrayList&lt;String&gt;(n / 2 + 1);
+                                            mSuppressed.put(id, paths);
+                                        }
+                                        paths.add(path);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SAXParseException e) {
+            formatError(e.getMessage());
+        } catch (Exception e) {
+            mClient.log(e, null);
+        }
+    }
+}
+</code></pre>
+
+<p>(2.3) <code>LintDriver</code>类很大很复杂，而且是在<code>client.api</code>包中，我们将在下一节介绍。</p>
+
+<p>(3) <code>Detector</code>类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。Detector类中定义了很多检查器通用的一些方法，比如下面代码片段中的<code>visitMethod</code>、<code>visitConstructor</code>等等。<br />
+<strong>通俗来讲，Detector指的就是一个个的lint检查器。</strong></p>
+
+<pre><code class="language-java">public class Detector {
+    ...
+    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
+    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression call, @NonNull PsiMethod method) {
+    }//访问一个普通的方法
+
+    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
+    public void visitConstructor(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiNewExpression node,
+            @NonNull PsiMethod constructor) {
+    }//访问一个构造函数
+
+    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
+    public void visitResourceReference(@NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor, @NonNull PsiElement node,
+            @NonNull ResourceType type, @NonNull String name, boolean isFramework) {
+    }//访问一个资源引用
+    ...
+}
+</code></pre>
+
+<p>除此之外，<code>Detector</code>类中还定义了很多不同类型文件的扫描器(Scanner)接口，例如<code>JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner</code>，后面我们会详细介绍其中的<code>JavaPsiScanner</code>。有意思的是，这些Scanner接口中定义的所有方法都在Detector类中都对应有相同签名的方法，也就是<code>Detector</code>是所有的<code>Scanner</code>的适配器，所以检查器一般会继承<code>Detector</code>类并实现某个<code>Scanner</code>接口。下面是<code>XmlScanner</code>和<code>GradleScanner</code>两个接口的定义。</p>
+
+<pre><code class="language-java">/** Specialized interface for detectors that scan XML files */
+public interface XmlScanner {
+    /**
+     * Visit the given document. The detector is responsible for its own iteration
+     * through the document.
+     * @param context information about the document being analyzed
+     * @param document the document to examine
+     */
+    void visitDocument(@NonNull XmlContext context, @NonNull Document document);
+
+    /**
+     * Visit the given element.
+     * @param context information about the document being analyzed
+     * @param element the element to examine
+     */
+    void visitElement(@NonNull XmlContext context, @NonNull Element element);
+
+    /**
+     * Visit the given element after its children have been analyzed.
+     * @param context information about the document being analyzed
+     * @param element the element to examine
+     */
+    void visitElementAfter(@NonNull XmlContext context, @NonNull Element element);
+
+    /**
+     * Visit the given attribute.
+     * @param context information about the document being analyzed
+     * @param attribute the attribute node to examine
+     */
+    void visitAttribute(@NonNull XmlContext context, @NonNull Attr attribute);
+
+    /**
+     * Returns the list of elements that this detector wants to analyze. If non
+     * null, this detector will be called (specifically, the
+     * {@link #visitElement} method) for each matching element in the document.
+     * &lt;p&gt;
+     * If this method returns null, and {@link #getApplicableAttributes()} also returns
+     * null, then the {@link #visitDocument} method will be called instead.
+     *
+     * @return a collection of elements, or null, or the special
+     *         {@link XmlScanner#ALL} marker to indicate that every single
+     *         element should be analyzed.
+     */
+    @Nullable
+    Collection&lt;String&gt; getApplicableElements();
+
+    /**
+     * Returns the list of attributes that this detector wants to analyze. If non
+     * null, this detector will be called (specifically, the
+     * {@link #visitAttribute} method) for each matching attribute in the document.
+     * &lt;p&gt;
+     * If this method returns null, and {@link #getApplicableElements()} also returns
+     * null, then the {@link #visitDocument} method will be called instead.
+     *
+     * @return a collection of attributes, or null, or the special
+     *         {@link XmlScanner#ALL} marker to indicate that every single
+     *         attribute should be analyzed.
+     */
+    @Nullable
+    Collection&lt;String&gt; getApplicableAttributes();
+
+    /**
+     * Special marker collection returned by {@link #getApplicableElements()} or
+     * {@link #getApplicableAttributes()} to indicate that the check should be
+     * invoked on all elements or all attributes
+     */
+    @NonNull
+    List&lt;String&gt; ALL = new ArrayList&lt;String&gt;(0); // NOT Collections.EMPTY!
+    // We want to distinguish this from just an *empty* list returned by the caller!
+}
+
+/** Specialized interface for detectors that scan Gradle files */
+public interface GradleScanner {
+    void visitBuildScript(@NonNull Context context, Map&lt;String, Object&gt; sharedData);
+}
+</code></pre>
+
+<p>(4) <code>Issue</code>类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的<code>Severity</code>类，表示问题类别的<code>Category</code>类以及用来发现和检查这个问题的<code>Detector</code>(包含在<code>Implementation</code>类中)。<br />
+<strong>通俗来讲，Issue指的就是检查器去检查文件时发现它可能出现的问题。</strong></p>
+
+<pre><code class="language-java">/**
+ * An issue is a potential bug in an Android application. An issue is discovered
+ * by a {@link Detector}, and has an associated {@link Severity}.
+ * &lt;p&gt;
+ * Issues and detectors are separate classes because a detector can discover
+ * multiple different issues as it's analyzing code, and we want to be able to
+ * different severities for different issues, the ability to suppress one but
+ * not other issues from the same detector, and so on.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+public final class Issue implements Comparable&lt;Issue&gt; {
+    private final String mId;//问题id，名称标识
+    private final String mBriefDescription;//简单描述
+    private final String mExplanation;//详细解释
+    private final Category mCategory;//问题类别
+    private final int mPriority;//问题等级
+    private final Severity mSeverity;//问题严重程度
+    private Object mMoreInfoUrls;//问题的更多信息，可能是一个网址的url
+    private boolean mEnabledByDefault = true;//是否默认开启
+    private Implementation mImplementation;//这个问题的检查器相关信息
+    ...
+}
+</code></pre>
+
+<p>(4.1) <code>Severity</code>类是表示问题严重程度的枚举类，主要分为了<code>FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE</code>这几种程度。</p>
+
+<pre><code class="language-java">/**
+ * Severity of an issue found by lint
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public enum Severity {
+    /**
+     * Fatal: Use sparingly because a warning marked as fatal will be
+     * considered critical and will abort Export APK etc in ADT
+     */
+    @NonNull
+    FATAL(&quot;Fatal&quot;),//标记为Fatal将被视为非常危险，在导出apk时可能会终止
+
+    /**
+     * Errors: The issue is known to be a real error that must be addressed.
+     */
+    @NonNull
+    ERROR(&quot;Error&quot;),//的确是一个问题
+
+    /**
+     * Warning: Probably a problem.
+     */
+    @NonNull
+    WARNING(&quot;Warning&quot;),//警告，可能是一个问题
+
+    /**
+     * Information only: Might not be a problem, but the check has found
+     * something interesting to say about the code.
+     */
+    @NonNull
+    INFORMATIONAL(&quot;Information&quot;),//可能不是一个问题
+
+    /**
+     * Ignore: The user doesn't want to see this issue
+     */
+    @NonNull
+    IGNORE(&quot;Ignore&quot;);//用户不想看到的问题
+    ...
+}
+</code></pre>
+
+<p>(4.2) <code>Category</code>类表示问题的类别，主要有<code>Correctness，Security，Performance，Usability，Accessibility，Internationalization</code>等，类别下面可以有子类别，每个类别都还有一个优先级。</p>
+
+<pre><code class="language-java">/**
+ * A category is a container for related issues.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+public final class Category implements Comparable&lt;Category&gt; {
+    private final String mName;//类别名称
+    private final int mPriority;//优先级
+    private final Category mParent;//父类别
+    ...
+}
+</code></pre>
+
+<p>(4.3) <code>Implementation</code>类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是<code>mScope</code>和<code>mAnalysisScopes</code>的含义是不同的，表示的具体范围也不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。</p>
+
+<pre><code class="language-java">/**
+ * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
+ * class responsible for analyzing the issue, as well as the {@link Scope} required
+ * by the detector to perform its analysis.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public class Implementation {
+    private final Class&lt;? extends Detector&gt; mClass;//问题对应的检查器
+    private final EnumSet&lt;Scope&gt; mScope;//检查器的检查范围，可能是存在很多的scope中
+    private EnumSet&lt;Scope&gt;[] mAnalysisScopes;//检查器分析问题时的范围
+    ...
+}
+</code></pre>
+
+<p>未完待续&hellip;</p>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/14/app-launch-time-measurement/"><h4>App Launch Time Measurement</h4></a></span>
+      
+  
+
+  
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/"><h4>Lint Tool Analysis (2)</h4></a></span>
+      
+  
+</aside>
+<br/>
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="blog/2016/11/17/lint-tool-analysis-1/" data-title="Lint Tool Analysis (1)" data-url="https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

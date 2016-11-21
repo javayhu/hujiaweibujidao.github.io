@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       Lint Tool Analysis (2) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" Lint Tool Analysis (2) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-11-18T10:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">Lint Tool Analysis (2)</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Lint Tool Analysis (2)</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-11-18T10:46:33&#43;08:00">
+            Nov 18, 2016
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>Lint工具的源码分析(2)</p>
+
+<p>继续上一篇的解析，本篇我们来详细分析下<code>client.api</code>包中的重要类。</p>
+
+<h3 id="2-client-api包中的重要类">2. client.api包中的重要类</h3>
+
+<p>(1) <code>LintClient</code>类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的<code>BatchLintClient</code>和针对当前编辑器中单个文件执行lint检查的<code>EditorLintClient</code>；另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的<code>LintClient</code>可能是<code>IntellijLintClient</code>或者<code>BatchLintClient</code>或者<code>EditorLintClient</code>等。<br />
+<strong>通俗来讲，LintClient是指去调用lint检查的来源(客户端)，它会提供执行lint检查的相关环境信息。</strong></p>
+
+<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源，参见其中的<code>getSdkHome</code>和<code>findResource</code>方法。当我们在终端输入<code>lint</code>命令的时候，lint脚本会自动帮我们设置<code>com.android.tools.lint.bindir</code>的值，这个我们后面分析lint脚本源码的时候可以看到。</p>
+
+<pre><code class="language-java">/**
+ * Information about the tool embedding the lint analyzer. IDEs and other tools
+ * implementing lint support will extend this to integrate logging, displaying errors,
+ * etc.
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+public abstract class LintClient {
+    private static final String PROP_BIN_DIR  = &quot;com.android.tools.lint.bindir&quot;;
+    ...
+    /**
+     * Returns the File corresponding to the system property or the environment variable
+     * for {@link #PROP_BIN_DIR}.
+     * This property is typically set by the SDK/tools/lint[.bat] wrapper.
+     * It denotes the path of the wrapper on disk.
+     *
+     * @return A new File corresponding to {@link LintClient#PROP_BIN_DIR} or null.
+     */
+    @Nullable
+    private static File getLintBinDir() {
+        // First check the Java properties (e.g. set using &quot;java -jar ... -Dname=value&quot;)
+        String path = System.getProperty(PROP_BIN_DIR);
+        if (path == null || path.isEmpty()) {
+            // If not found, check environment variables.
+            path = System.getenv(PROP_BIN_DIR);
+        }
+        if (path != null &amp;&amp; !path.isEmpty()) {
+            File file = new File(path);
+            if (file.exists()) {
+                return file;
+            }
+        }
+        return null;
+    }
+    ...
+    /**
+     * Returns the File pointing to the user's SDK install area. This is generally
+     * the root directory containing the lint tool (but also platforms/ etc).
+     *
+     * @return a file pointing to the user's install area
+     */
+    @Nullable
+    public File getSdkHome() {
+        File binDir = getLintBinDir();
+        if (binDir != null) {
+            assert binDir.getName().equals(&quot;tools&quot;);
+
+            File root = binDir.getParentFile();
+            if (root != null &amp;&amp; root.isDirectory()) {
+                return root;
+            }
+        }
+
+        String home = System.getenv(&quot;ANDROID_HOME&quot;); //$NON-NLS-1$
+        if (home != null) {
+            return new File(home);
+        }
+
+        return null;
+    }
+
+    /**
+     * Locates an SDK resource (relative to the SDK root directory).
+     * &lt;p&gt;
+     * TODO: Consider switching to a {@link URL} return type instead.
+     *
+     * @param relativePath A relative path (using {@link File#separator} to
+     *            separate path components) to the given resource
+     * @return a {@link File} pointing to the resource, or null if it does not
+     *         exist
+     */
+    @Nullable
+    public File findResource(@NonNull String relativePath) {
+        File top = getSdkHome();
+        if (top == null) {
+            throw new IllegalArgumentException(&quot;Lint must be invoked with the System property &quot;
+                   + PROP_BIN_DIR + &quot; pointing to the ANDROID_SDK tools directory&quot;);
+        }
+
+        File file = new File(top, relativePath);
+        if (file.exists()) {
+            return file;
+        } else {
+            return null;
+        }
+    }
+}
+</code></pre>
+
+<p><code>LintClient</code>中定义了5个抽象方法，其中<code>repoort</code>和<code>log</code>方法分别用于在lint过程中向调用者(客户端)反馈发现的问题和打印日志信息，这两个方法经常在检查器<code>Detector</code>中通过<code>Context</code>类对象间接被调用。<code>getXmlParser</code>和<code>getJavaParser</code>方法分别用来返回解析XML文件和解析Java文件的处理类，<code>readFile</code>方法则是用来读取指定的文件内容的。</p>
+
+<pre><code class="language-java">/**
+ * Report the given issue. This method will only be called if the configuration
+ * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+ * issue as enabled and has not filtered out the issue with its
+ * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+ * &lt;p&gt;
+ * @param context the context used by the detector when the issue was found
+ * @param issue the issue that was found
+ * @param severity the severity of the issue
+ * @param location the location of the issue
+ * @param message the associated user message
+ * @param format the format of the description and location descriptions
+ */
+public abstract void report(
+        @NonNull Context context,
+        @NonNull Issue issue,
+        @NonNull Severity severity,
+        @NonNull Location location,
+        @NonNull String message,
+        @NonNull TextFormat format);
+
+/**
+ * Send an exception or error message to the log
+ *
+ * @param severity the severity of the warning
+ * @param exception the exception, possibly null
+ * @param format the error message using {@link String#format} syntax, possibly null
+ *    (though in that case the exception should not be null)
+ * @param args any arguments for the format string
+ */
+public abstract void log(
+        @NonNull Severity severity,
+        @Nullable Throwable exception,
+        @Nullable String format,
+        @Nullable Object... args);
+
+/**
+ * Returns a {@link XmlParser} to use to parse XML
+ *
+ * @return a new {@link XmlParser}, or null if this client does not support
+ *         XML analysis
+ */
+@Nullable
+public abstract XmlParser getXmlParser();
+
+/**
+ * Returns a {@link JavaParser} to use to parse Java
+ *
+ * @param project the project to parse, if known (this can be used to look up
+ *                the class path for type attribution etc, and it can also be used
+ *                to more efficiently process a set of files, for example to
+ *                perform type attribution for multiple units in a single pass)
+ * @return a new {@link JavaParser}, or null if this client does not
+ *         support Java analysis
+ */
+@Nullable
+public abstract JavaParser getJavaParser(@Nullable Project project);
+
+/**
+ * Reads the given text file and returns the content as a string
+ *
+ * @param file the file to read
+ * @return the string to return, never null (will be empty if there is an
+ *         I/O error)
+ */
+@NonNull
+public abstract String readFile(@NonNull File file);
+</code></pre>
+
+<p><code>LintClient</code>中还定义了很多内容，比如下面的<code>ClassPathInfo</code>内部类，它用来封装一个Project的各个文件夹，例如源码文件夹，class文件夹，库文件集合等等，以及一个<code>getClassPath</code>的方法去获取<code>ClassPathInfo</code>数据。</p>
+
+<pre><code class="language-java">/**
+ * Information about class paths (sources, class files and libraries)
+ * usually associated with a project.
+ */
+protected static class ClassPathInfo {
+    private final List&lt;File&gt; mClassFolders;
+    private final List&lt;File&gt; mSourceFolders;
+    private final List&lt;File&gt; mLibraries;
+    private final List&lt;File&gt; mNonProvidedLibraries;
+    private final List&lt;File&gt; mTestFolders;
+
+    public ClassPathInfo(
+            @NonNull List&lt;File&gt; sourceFolders,
+            @NonNull List&lt;File&gt; classFolders,
+            @NonNull List&lt;File&gt; libraries,
+            @NonNull List&lt;File&gt; nonProvidedLibraries,
+            @NonNull List&lt;File&gt; testFolders) {
+        mSourceFolders = sourceFolders;
+        mClassFolders = classFolders;
+        mLibraries = libraries;
+        mNonProvidedLibraries = nonProvidedLibraries;
+        mTestFolders = testFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getSourceFolders() {
+        return mSourceFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getClassFolders() {
+        return mClassFolders;
+    }
+
+    @NonNull
+    public List&lt;File&gt; getLibraries(boolean includeProvided) {
+        return includeProvided ? mLibraries : mNonProvidedLibraries;
+    }
+
+    public List&lt;File&gt; getTestSourceFolders() {
+        return mTestFolders;
+    }
+}
+
+/**
+ * Considers the given project as an Eclipse project and returns class path
+ * information for the project - the source folder(s), the output folder and
+ * any libraries.
+ * &lt;p&gt;
+ * Callers will not cache calls to this method, so if it's expensive to compute
+ * the classpath info, this method should perform its own caching.
+ *
+ * @param project the project to look up class path info for
+ * @return a class path info object, never null
+ */
+@NonNull
+protected ClassPathInfo getClassPath(@NonNull Project project) {
+    ClassPathInfo info;
+    if (mProjectInfo == null) {
+        mProjectInfo = Maps.newHashMap();
+        info = null;
+    } else {
+        info = mProjectInfo.get(project);
+    }
+
+    if (info == null) {
+        List&lt;File&gt; sources = new ArrayList&lt;File&gt;(2);
+        List&lt;File&gt; classes = new ArrayList&lt;File&gt;(1);
+        List&lt;File&gt; libraries = new ArrayList&lt;File&gt;();
+        // No test folders in Eclipse:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=224708
+        List&lt;File&gt; tests = Collections.emptyList();
+
+        //将project视为eclipse的project，那么项目根目录下有个.classpath文件，解析这个文件来获取classpath信息
+        File projectDir = project.getDir();
+        File classpathFile = new File(projectDir, &quot;.classpath&quot;); //$NON-NLS-1$
+        if (classpathFile.exists()) {
+            String classpathXml = readFile(classpathFile);
+            try {
+                Document document = XmlUtils.parseDocument(classpathXml, false);
+                NodeList tags = document.getElementsByTagName(&quot;classpathentry&quot;); //$NON-NLS-1$
+                for (int i = 0, n = tags.getLength(); i &lt; n; i++) {
+                    Element element = (Element) tags.item(i);
+                    String kind = element.getAttribute(&quot;kind&quot;); //$NON-NLS-1$
+                    List&lt;File&gt; addTo = null;
+                    if (kind.equals(&quot;src&quot;)) {            //$NON-NLS-1$
+                        addTo = sources;
+                    } else if (kind.equals(&quot;output&quot;)) {  //$NON-NLS-1$
+                        addTo = classes;
+                    } else if (kind.equals(&quot;lib&quot;)) {     //$NON-NLS-1$
+                        addTo = libraries;
+                    }
+                    if (addTo != null) {
+                        String path = element.getAttribute(&quot;path&quot;); //$NON-NLS-1$
+                        File folder = new File(projectDir, path);
+                        if (folder.exists()) {
+                            addTo.add(folder);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log(null, null);
+            }
+        }
+
+        // Add in libraries that aren't specified in the .classpath file
+        File libs = new File(project.getDir(), LIBS_FOLDER);//添加 libs 目录下的jar文件
+        if (libs.isDirectory()) {
+            File[] jars = libs.listFiles();
+            if (jars != null) {
+                for (File jar : jars) {
+                    if (endsWith(jar.getPath(), DOT_JAR)
+                            &amp;&amp; !libraries.contains(jar)) {
+                        libraries.add(jar);
+                    }
+                }
+            }
+        }
+
+        if (classes.isEmpty()) {
+            File folder = new File(projectDir, CLASS_FOLDER);//添加 bin/classes 文件夹
+            if (folder.exists()) {
+                classes.add(folder);
+            } else {//检查是否是maven项目，如果是的话编译得到的class文件是在 target/classes 目录下
+                // Maven checks
+                folder = new File(projectDir,
+                        &quot;target&quot; + File.separator + &quot;classes&quot;); //$NON-NLS-1$ //$NON-NLS-2$
+                if (folder.exists()) {
+                    classes.add(folder);
+
+                    // If it's maven, also correct the source path, &quot;src&quot; works but
+                    // it's in a more specific subfolder
+                    if (sources.isEmpty()) {//如果真的是maven项目的话，那么src/main/java目录是一个源码目录
+                        File src = new File(projectDir,
+                                &quot;src&quot; + File.separator     //$NON-NLS-1$
+                                + &quot;main&quot; + File.separator  //$NON-NLS-1$
+                                + &quot;java&quot;);                 //$NON-NLS-1$
+                        if (src.exists()) {
+                            sources.add(src);
+                        } else {
+                            src = new File(projectDir, SRC_FOLDER);
+                            if (src.exists()) {
+                                sources.add(src);
+                            }
+                        }
+
+                        //有些class文件是自动生成的，存放在 target/generated-sources/r 目录下
+                        File gen = new File(projectDir,
+                                &quot;target&quot; + File.separator                  //$NON-NLS-1$
+                                + &quot;generated-sources&quot; + File.separator     //$NON-NLS-1$
+                                + &quot;r&quot;);                                    //$NON-NLS-1$
+                        if (gen.exists()) {
+                            sources.add(gen);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback, in case there is no Eclipse project metadata here
+        if (sources.isEmpty()) {
+            File src = new File(projectDir, SRC_FOLDER);
+            if (src.exists()) {
+                sources.add(src);
+            }
+            File gen = new File(projectDir, GEN_FOLDER);
+            if (gen.exists()) {
+                sources.add(gen);
+            }
+        }
+
+        info = new ClassPathInfo(sources, classes, libraries, libraries, tests);
+        mProjectInfo.put(project, info);
+    }
+
+    return info;
+}
+</code></pre>
+
+<p>除了<code>ClassPathInfo</code>之外，还有很多其他的数据也会在<code>LintClient</code>中处理，例如本机的Android SDK的信息以及项目中使用的<code>buildtool</code>、<code>compileSdk</code>等。</p>
+
+<pre><code class="language-java">protected AndroidSdkHandler mSdk;//获取本机的 Android SDK 的相关信息
+
+/**
+ * Returns the SDK installation (used to look up platforms etc)
+ *
+ * @return the SDK if known
+ */
+@Nullable
+public AndroidSdkHandler getSdk() {
+    if (mSdk == null) {
+        File sdkHome = getSdkHome();
+        if (sdkHome != null) {
+            mSdk = AndroidSdkHandler.getInstance(sdkHome);
+        }
+    }
+
+    return mSdk;
+}
+
+protected IAndroidTarget[] mTargets;//获取 Android SDK 中已有的 Platform targets
+
+/**
+ * Returns all the {@link IAndroidTarget} versions installed in the user's SDK install
+ * area.
+ *
+ * @return all the installed targets
+ */
+@NonNull
+public IAndroidTarget[] getTargets() {//获取 Android SDK 中已有的 Platform targets
+    if (mTargets == null) {
+        AndroidSdkHandler sdkHandler = getSdk();
+        if (sdkHandler != null) {
+            ProgressIndicator logger = getRepositoryLogger();
+            Collection&lt;IAndroidTarget&gt; targets = sdkHandler.getAndroidTargetManager(logger)
+                    .getTargets(logger);
+            mTargets = targets.toArray(new IAndroidTarget[targets.size()]);
+        } else {
+            mTargets = new IAndroidTarget[0];
+        }
+    }
+
+    return mTargets;
+}
+
+/**
+ * Returns the compile target to use for the given project
+ *
+ * @param project the project in question
+ *
+ * @return the compile target to use to build the given project
+ */
+@Nullable
+public IAndroidTarget getCompileTarget(@NonNull Project project) {//获取项目中使用的 compileSdkVersion
+    int buildSdk = project.getBuildSdk();
+    IAndroidTarget[] targets = getTargets();
+    for (int i = targets.length - 1; i &gt;= 0; i--) {
+        IAndroidTarget target = targets[i];
+        if (target.isPlatform() &amp;&amp; target.getVersion().getApiLevel() == buildSdk) {
+            return target;
+        }
+    }
+
+    return null;
+}
+/**
+ * Returns the specific version of the build tools being used for the given project, if known
+ *
+ * @param project the project in question
+ *
+ * @return the build tools version in use by the project, or null if not known
+ */
+@Nullable
+public BuildToolInfo getBuildTools(@NonNull Project project) {//获取 build tools 的信息
+    AndroidSdkHandler sdk = getSdk();
+    // Build systems like Eclipse and ant just use the latest available
+    // build tools, regardless of project metadata. In Gradle, this
+    // method is overridden to use the actual build tools specified in the
+    // project.
+    if (sdk != null) {
+        IAndroidTarget compileTarget = getCompileTarget(project);
+        if (compileTarget != null) {
+            return compileTarget.getBuildToolInfo();
+        }
+        return sdk.getLatestBuildTool(getRepositoryLogger(), false);
+    }
+
+    return null;
+}
+</code></pre>
+
+<p>最有意思的是，<strong>lint规则的查找过程也是在<code>LintClient</code>中定义的</strong>，下面的代码片段中包含两个重要的查找自定义lint规则的方法。从下面的代码片段中我们终于可以知道为什么放在<code>~/.android/lint</code>目录下的自定义lint规则的jar包能够被识别，指定<code>ANDROID_LINT_JARS</code>环境变量也能够识别，或者将<code>lint.jar</code>放在aar中也能够被识别！<br />
+- <strong><code>findGlobalRuleJars</code>方法会在<code>~/.android/lint/</code>目录下找jar包，或者由<code>$ANDROID_LINT_JARS</code>环境变量指定的jar包，这些自定义的lint规则都是作用于全局的，也就是对于本机的所有Android工程都生效。</strong><br />
+- <strong><code>findRuleJars</code>方法是针对指定的project去查找自定义的lint规则，从源码来看，针对project自定义lint规则时只适用于基于Gradle的项目，包括普通的项目和库项目(library project)。</strong></p>
+
+<pre><code class="language-java">/**
+ * Finds any custom lint rule jars that should be included for analysis,
+ * regardless of project.
+ * &lt;p&gt;
+ * The default implementation locates custom lint jars in ~/.android/lint/ and
+ * in $ANDROID_LINT_JARS
+ *
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&quot;MethodMayBeStatic&quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&lt;File&gt; findGlobalRuleJars() {
+    // Look for additional detectors registered by the user, via
+    // (1) an environment variable (useful for build servers etc), and
+    // (2) via jar files in the .android/lint directory
+    List&lt;File&gt; files = null;
+    try {
+        String androidHome = AndroidLocation.getFolder();//在 .android/lint 目录下找
+        File lint = new File(androidHome + File.separator + &quot;lint&quot;); //$NON-NLS-1$
+        if (lint.exists()) {
+            File[] list = lint.listFiles();
+            if (list != null) {
+                for (File jarFile : list) {
+                    if (endsWith(jarFile.getName(), DOT_JAR)) {
+                        if (files == null) {
+                            files = new ArrayList&lt;File&gt;();
+                        }
+                        files.add(jarFile);
+                    }
+                }
+            }
+        }
+    } catch (AndroidLocation.AndroidLocationException e) {
+        // Ignore -- no android dir, so no rules to load.
+    }
+
+    //在环境变量 ANDROID_LINT_JARS 目录下找
+    String lintClassPath = System.getenv(&quot;ANDROID_LINT_JARS&quot;); //$NON-NLS-1$
+    if (lintClassPath != null &amp;&amp; !lintClassPath.isEmpty()) {
+        String[] paths = lintClassPath.split(File.pathSeparator);
+        for (String path : paths) {
+            File jarFile = new File(path);
+            if (jarFile.exists()) {
+                if (files == null) {
+                    files = new ArrayList&lt;File&gt;();
+                } else if (files.contains(jarFile)) {
+                    continue;
+                }
+                files.add(jarFile);
+            }
+        }
+    }
+
+    return files != null ? files : Collections.&lt;File&gt;emptyList();
+}
+
+/**
+ * Finds any custom lint rule jars that should be included for analysis
+ * in the given project
+ *
+ * @param project the project to look up rule jars from
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&quot;MethodMayBeStatic&quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&lt;File&gt; findRuleJars(@NonNull Project project) {
+    if (project.isGradleProject()) {
+        if (project.isLibrary()) {//如果是gradle library项目，查找其中的 lint.jar 文件
+            AndroidLibrary model = project.getGradleLibraryModel();
+            if (model != null) {
+                File lintJar = model.getLintJar();
+                if (lintJar.exists()) {
+                    return Collections.singletonList(lintJar);
+                }
+            }
+        } else if (project.getSubset() != null) {
+          //如果该项目有很多个子项目，那就检查当前variant下的依赖中的library project中是否包含了lint.jar
+            // Probably just analyzing a single file: we still want to look for custom
+            // rules applicable to the file
+            List&lt;File&gt; rules = null;
+            final Variant variant = project.getCurrentVariant();
+            if (variant != null) {
+                Collection&lt;AndroidLibrary&gt; libraries = variant.getMainArtifact()
+                    .getDependencies().getLibraries();
+                for (AndroidLibrary library : libraries) {
+                    File lintJar = library.getLintJar();
+                    if (lintJar.exists()) {
+                        if (rules == null) {
+                            rules = Lists.newArrayListWithExpectedSize(4);
+                        }
+                        rules.add(lintJar);
+                    }
+                }
+                if (rules != null) {
+                    return rules;
+                }
+            }
+        } else if (project.getDir().getPath().endsWith(DOT_AAR)) {
+            //这种情况是project就是一个aar，查找其中的lint.jar文件
+            File lintJar = new File(project.getDir(), &quot;lint.jar&quot;); //$NON-NLS-1$
+            if (lintJar.exists()) {
+                return Collections.singletonList(lintJar);
+            }
+        }
+    }
+
+    return Collections.emptyList();
+}
+</code></pre>
+
+<p>(2) <code>IssueRegistry</code>类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：<code>PARSER_ERROR</code>表示lint解析文件时出错了；<code>LINT_ERROR</code>表示lint检查过程中出现错误，但不是用户代码的错误；<code>CANCELLED</code>表示用户取消了lint检查。除此之外，该类中还有一个重要方法<code>createDetectors</code>，用来根据指定的Configuration和Scope来创建检查器列表。<br />
+<strong>通俗来讲，IssueRegistry就是lint要检查的问题集合。</strong></p>
+
+<pre><code class="language-java">/**
+ * Registry which provides a list of checks to be performed on an Android project
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public abstract class IssueRegistry {
+    private static volatile List&lt;Category&gt; sCategories;//问题的类别列表
+    private static volatile Map&lt;String, Issue&gt; sIdToIssue;//问题及其对应的issue
+    private static Map&lt;EnumSet&lt;Scope&gt;, List&lt;Issue&gt;&gt; sScopeIssues = Maps.newHashMap();//某个特定的scope内的问题列表
+
+    /**
+     * Issue reported by lint (not a specific detector) when it cannot even
+     * parse an XML file prior to analysis
+     */
+    @NonNull
+    public static final Issue PARSER_ERROR = Issue.create(
+            &quot;ParserError&quot;, //$NON-NLS-1$
+            &quot;Parser Errors&quot;,
+            &quot;Lint will ignore any files that contain fatal parsing errors. These may contain &quot; +
+            &quot;other errors, or contain code which affects issues in other files.&quot;,
+            Category.CORRECTNESS,
+            10,
+            Severity.ERROR,
+            DUMMY_IMPLEMENTATION);
+
+    /**
+     * Issue reported by lint for various other issues which prevents lint from
+     * running normally when it's not necessarily an error in the user's code base.
+     */
+    @NonNull
+    public static final Issue LINT_ERROR = Issue.create(
+        &quot;LintError&quot;, //$NON-NLS-1$
+        &quot;Lint Failure&quot;,
+        &quot;This issue type represents a problem running lint itself. Examples include &quot; +
+        &quot;failure to find bytecode for source files (which means certain detectors &quot; +
+        &quot;could not be run), parsing errors in lint configuration files, etc.&quot; +
+        &quot;\n&quot; +
+        &quot;These errors are not errors in your own code, but they are shown to make &quot; +
+        &quot;it clear that some checks were not completed.&quot;,
+        Category.LINT,
+        10,
+        Severity.ERROR,
+        DUMMY_IMPLEMENTATION);
+
+    /**
+     * Creates a list of detectors applicable to the given scope, and with the
+     * given configuration.
+     *
+     * @param client the client to report errors to
+     * @param configuration the configuration to look up which issues are
+     *            enabled etc from
+     * @param scope the scope for the analysis, to filter out detectors that
+     *            require wider analysis than is currently being performed
+     * @param scopeToDetectors an optional map which (if not null) will be
+     *            filled by this method to contain mappings from each scope to
+     *            the applicable detectors for that scope
+     * @return a list of new detector instances
+     */
+    @NonNull
+    final List&lt;? extends Detector&gt; createDetectors(
+            @NonNull LintClient client,
+            @NonNull Configuration configuration,
+            @NonNull EnumSet&lt;Scope&gt; scope,
+            @Nullable Map&lt;Scope, List&lt;Detector&gt;&gt; scopeToDetectors) {
+
+        List&lt;Issue&gt; issues = getIssuesForScope(scope);//获取该scope内的问题列表
+        if (issues.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //检查器列表detectorClasses和检查器到范围的映射关系detectorToScope
+        Set&lt;Class&lt;? extends Detector&gt;&gt; detectorClasses = new HashSet&lt;Class&lt;? extends Detector&gt;&gt;();
+        Map&lt;Class&lt;? extends Detector&gt;, EnumSet&lt;Scope&gt;&gt; detectorToScope =
+                new HashMap&lt;Class&lt;? extends Detector&gt;, EnumSet&lt;Scope&gt;&gt;();
+
+        for (Issue issue : issues) {//遍历问题列表，取出它们的Detector以及scope集合
+            Implementation implementation = issue.getImplementation();
+            Class&lt;? extends Detector&gt; detectorClass = implementation.getDetectorClass();
+            EnumSet&lt;Scope&gt; issueScope = implementation.getScope();
+            if (!detectorClasses.contains(detectorClass)) {
+                // Determine if the issue is enabled
+                if (!configuration.isEnabled(issue)) {//看configuration中是否开启了这个问题
+                    continue;
+                }
+
+                assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
+                detectorClass = client.replaceDetector(detectorClass);
+                assert detectorClass != null : issue.getId();
+                detectorClasses.add(detectorClass);
+            }
+
+            if (scopeToDetectors != null) {
+                EnumSet&lt;Scope&gt; s = detectorToScope.get(detectorClass);
+                if (s == null) {
+                    detectorToScope.put(detectorClass, issueScope);
+                } else if (!s.containsAll(issueScope)) {
+                    EnumSet&lt;Scope&gt; union = EnumSet.copyOf(s);
+                    union.addAll(issueScope);
+                    detectorToScope.put(detectorClass, union);
+                }
+            }
+        }
+
+        //将detectorToScope转换成scopeToDetectors
+        List&lt;Detector&gt; detectors = new ArrayList&lt;Detector&gt;(detectorClasses.size());
+        for (Class&lt;? extends Detector&gt; clz : detectorClasses) {
+            try {
+                Detector detector = clz.newInstance();
+                detectors.add(detector);
+
+                if (scopeToDetectors != null) {
+                    EnumSet&lt;Scope&gt; union = detectorToScope.get(clz);
+                    for (Scope s : union) {
+                        List&lt;Detector&gt; list = scopeToDetectors.get(s);
+                        if (list == null) {
+                            list = new ArrayList&lt;Detector&gt;();
+                            scopeToDetectors.put(s, list);
+                        }
+                        list.add(detector);
+                    }
+
+                }
+            } catch (Throwable t) {
+                client.log(t, &quot;Can't initialize detector %1$s&quot;, clz.getName()); //$NON-NLS-1$
+            }
+        }
+
+        return detectors;
+    }
+    ...
+}
+</code></pre>
+
+<p><code>IssueRegistry</code>类是一个抽象类，它只有一个抽象方法<code>getIssues</code>，返回需要检查的问题集合就行，所以特别容易实现。</p>
+
+<pre><code class="language-java">public abstract List&lt;Issue&gt; getIssues();
+</code></pre>
+
+<p><code>IssueRegistry</code>类有几个特别重要的实现子类，例如<code>BuiltinIssueRegistry</code>是系统内置的lint检查器集合，目前共有263个issue；<code>CompositeIssueRegistry</code>是一个将很多<code>IssueRegistry</code>中的issue整合到一起的IssueRegistry；还有一个很重要的用于加载jar文件中的<code>IssueRegistry</code>的类<code>JarFileIssueRegistry</code>，前面我们自定义的lint规则的jar包就是由它来解析并加载的。<br />
+<strong>在自定义lint规则生成jar包时我们提到过要在<code>build.gradle</code>文件中给jar文件添加<code>Lint-Registry</code>的属性值，因为这里会进行检查，如果没有配置的话就不算是合法的lint包。此外，这个类使用了缓存机制来保存已经加载过的jar文件，所以也就导致了我们在自定义lint中出现的更改jar包但是Android Studio并没有更新lint规则的bug！</strong></p>
+
+<pre><code class="language-java">/**
+ * &lt;p&gt; An {@link IssueRegistry} for a custom lint rule jar file. The rule jar should provide a
+ * manifest entry with the key {@code Lint-Registry} and the value of the fully qualified name of an
+ * implementation of {@link IssueRegistry} (with a default constructor). &lt;/p&gt;
+ *
+ * &lt;p&gt; NOTE: The custom issue registry should not extend this file; it should be a plain
+ * IssueRegistry! This file is used internally to wrap the given issue registry.&lt;/p&gt;
+ */
+class JarFileIssueRegistry extends IssueRegistry {
+    /**
+     * Manifest constant for declaring an issue provider. Example: Lint-Registry:
+     * foo.bar.CustomIssueRegistry
+     */
+    private static final String MF_LINT_REGISTRY_OLD = &quot;Lint-Registry&quot;; //$NON-NLS-1$
+    private static final String MF_LINT_REGISTRY = &quot;Lint-Registry-v2&quot;; //$NON-NLS-1$
+
+    private static Map&lt;File, SoftReference&lt;JarFileIssueRegistry&gt;&gt; sCache;
+    private final List&lt;Issue&gt; myIssues;
+    private boolean mHasLegacyDetectors;
+
+    /** True if one or more java detectors were found that use the old Lombok-based API */
+    public boolean hasLegacyDetectors() {
+        return mHasLegacyDetectors;
+    }
+
+    @NonNull
+    static JarFileIssueRegistry get(@NonNull LintClient client, @NonNull File jarFile)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+            InstantiationException {
+        if (sCache == null) {
+           sCache = new HashMap&lt;File, SoftReference&lt;JarFileIssueRegistry&gt;&gt;();
+        } else {
+            SoftReference&lt;JarFileIssueRegistry&gt; reference = sCache.get(jarFile);
+            if (reference != null) {
+                JarFileIssueRegistry registry = reference.get();
+                if (registry != null) {
+                    return registry;
+                }
+            }
+        }
+
+        // Ensure that the scope-to-detector map doesn't return stale results
+        IssueRegistry.reset();
+
+        JarFileIssueRegistry registry = new JarFileIssueRegistry(client, jarFile);
+        sCache.put(jarFile, new SoftReference&lt;JarFileIssueRegistry&gt;(registry));
+        return registry;
+    }
+
+    private JarFileIssueRegistry(@NonNull LintClient client, @NonNull File file)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+                    InstantiationException {
+        myIssues = Lists.newArrayList();
+        JarFile jarFile = null;
+        try {
+            //noinspection IOResourceOpenedButNotSafelyClosed
+            jarFile = new JarFile(file);
+            Manifest manifest = jarFile.getManifest();
+            Attributes attrs = manifest.getMainAttributes();
+            Object object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY));
+            boolean isLegacy = false;
+            //检查jar包的MANIFEST.MF文件中是否配置了Lint-Registry-v2或者Lint-Registry属性值
+            if (object == null) {
+                object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY_OLD));
+                //noinspection VariableNotUsedInsideIf
+                if (object != null) {
+                    // It's an old rule. We don't yet conclude that
+                    //   mHasLegacyDetectors=true
+                    // because the lint checks may not be Java related.
+                    isLegacy = true;
+                }
+            }
+            //如果配置了的话，对应的值就是继承自IssueRegistry的类，我们需要去加载它
+            if (object instanceof String) {
+                String className = (String) object;
+                // Make a class loader for this jar
+                URL url = SdkUtils.fileToUrl(file);
+                ClassLoader loader = client.createUrlClassLoader(new URL[]{url},
+                        JarFileIssueRegistry.class.getClassLoader());
+                Class&lt;?&gt; registryClass = Class.forName(className, true, loader);
+                IssueRegistry registry = (IssueRegistry) registryClass.newInstance();
+                myIssues.addAll(registry.getIssues());
+
+                if (isLegacy) {
+                    // If it's an old registry, look through the issues to see if it
+                    // provides Java scanning and if so create the old style visitors
+                    for (Issue issue : myIssues) {
+                        EnumSet&lt;Scope&gt; scope = issue.getImplementation().getScope();
+                        if (scope.contains(Scope.JAVA_FILE) || scope.contains(Scope.JAVA_LIBRARIES)
+                                || scope.contains(Scope.ALL_JAVA_FILES)) {
+                            mHasLegacyDetectors = true;
+                            break;
+                        }
+                    }
+                }
+
+                //利用这个ClassLoader去加载jar包中的class
+                if (loader instanceof URLClassLoader) {
+                    loadAndCloseURLClassLoader(client, file, (URLClassLoader)loader);
+                }
+            } else {
+                client.log(Severity.ERROR, null,
+                    &quot;Custom lint rule jar %1$s does not contain a valid registry manifest key &quot; +
+                    &quot;(%2$s).\n&quot; +
+                    &quot;Either the custom jar is invalid, or it uses an outdated API not supported &quot; +
+                    &quot;this lint client&quot;, file.getPath(), MF_LINT_REGISTRY);
+            }
+        } finally {
+            if (jarFile != null) {
+                jarFile.close();
+            }
+        }
+    }
+    ...
+}
+</code></pre>
+
+<p>(3) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程或文件进行Lint检查所需的主要元素，包含了上面的<code>LintClient</code>和<code>IssueRegistry</code>等重要类，还有表示一次lint检查的请求<code>LintClient</code>以及监听lint检查过程的<code>LintListener</code>集合等数据。<br />
+<strong>通俗来讲，LintDriver包含了一次lint检查时的所有信息，由它来进行lint检查的过程。</strong></p>
+
+<pre><code class="language-java">/**
+ * Analyzes Android projects and files
+ * &lt;p&gt;
+ * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&lt;/b&gt;
+ */
+@Beta
+public class LintDriver {
+    /**
+     * Max number of passes to run through the lint runner if requested by
+     * {@link #requestRepeat}
+     */
+    private static final int MAX_PHASES = 3;
+    private static final String SUPPRESS_LINT_VMSIG = '/' + SUPPRESS_LINT + ';';
+    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
+    private static final String STUDIO_ID_PREFIX = &quot;AndroidLint&quot;;
+
+    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
+    private LintRequest mRequest;
+    private IssueRegistry mRegistry;//问题注册中心
+    private volatile boolean mCanceled;
+    private EnumSet&lt;Scope&gt; mScope;
+    private List&lt;? extends Detector&gt; mApplicableDetectors;
+    private Map&lt;Scope, List&lt;Detector&gt;&gt; mScopeDetectors;
+    private List&lt;LintListener&gt; mListeners;
+    private int mPhase;
+    private List&lt;Detector&gt; mRepeatingDetectors;
+    private EnumSet&lt;Scope&gt; mRepeatScope;
+    private Project[] mCurrentProjects;
+    private Project mCurrentProject;
+    private boolean mAbbreviating = true;
+    private boolean mParserErrors;
+    private Map&lt;Object,Object&gt; mProperties;
+    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
+    private boolean mRunCompatChecks = true;
+    ...
+}
+</code></pre>
+
+<p>前面我们在<code>LintClient</code>中看到了lint工具是如何查找自定义的lint规则，但是并没有看到这些规则是如何注册到<code>IssueRegistry</code>上去的，而这个艰巨的任务实际上是在<code>LintDriver</code>中完成的，主要流程都在方法<code>registerCustomDetectors</code>中。</p>
+
+<pre><code class="language-java">private Set&lt;Issue&gt; myCustomIssues;//自定义的lint规则集合
+
+/**
+* Returns true if the given issue is an issue that was loaded as a custom rule
+* (e.g. a 3rd-party library provided the detector, it's not built in)
+*
+* @param issue the issue to be looked up
+* @return true if this is a custom (non-builtin) check
+*/
+public boolean isCustomIssue(@NonNull Issue issue) {//判断某个issue是否是自定义的issue
+   return myCustomIssues != null &amp;&amp; myCustomIssues.contains(issue);
+}
+
+//注册自定义的检查器，检查器来源于参数中指定的projects中
+private void registerCustomDetectors(Collection&lt;Project&gt; projects) {
+   // Look at the various projects, and if any of them provide a custom
+   // lint jar, &quot;add&quot; them (this will replace the issue registry with
+   // a CompositeIssueRegistry containing the original issue registry
+   // plus JarFileIssueRegistry instances for each lint jar
+   Set&lt;File&gt; jarFiles = Sets.newHashSet();
+   for (Project project : projects) {//遍历所有的project以及它们的library project，找出其中所有的lint.jar文件
+       jarFiles.addAll(mClient.findRuleJars(project));
+       for (Project library : project.getAllLibraries()) {
+           jarFiles.addAll(mClient.findRuleJars(library));
+       }
+   }
+
+   jarFiles.addAll(mClient.findGlobalRuleJars());//查找全局的自定义的lint规则的jar包
+
+   if (!jarFiles.isEmpty()) {
+       List&lt;IssueRegistry&gt; registries = Lists.newArrayListWithExpectedSize(jarFiles.size());
+       registries.add(mRegistry);
+       for (File jarFile : jarFiles) {
+           try {
+               JarFileIssueRegistry registry = JarFileIssueRegistry.get(mClient, jarFile);
+               if (registry.hasLegacyDetectors()) {
+                   mRunCompatChecks = true;
+               }
+               if (myCustomIssues == null) {
+                   myCustomIssues = Sets.newHashSet();
+               }
+               myCustomIssues.addAll(registry.getIssues());
+               registries.add(registry);
+           } catch (Throwable e) {
+               mClient.log(e, &quot;Could not load custom rule jar file %1$s&quot;, jarFile);
+           }
+       }
+       if (registries.size() &gt; 1) { // the first item is mRegistry itself
+           mRegistry = new CompositeIssueRegistry(registries);
+       }
+   }
+}
+</code></pre>
+
+<p><code>LintDriver</code>还有一个重要的方法就是<code>analyze</code>，lint检查就是从这里正式开始的。其中的<code>mRequest</code>是<code>LintRequest</code>对象，类似HTTPRequest一样，表示一次lint检查的请求，它包含了这次lint检查的一些基本信息。其中还调用了<code>registerCustomDetectors</code>方法，这个方法就是用来注册那些自定义的lint规则的。此外，其中会遍历所有的project，然后调用<code>runExtraPhases</code>方法就该project进行lint检查。</p>
+
+<pre><code class="language-java">/** Runs the driver to analyze the requested files */
+private void analyze() {
+    mCanceled = false;
+    mScope = mRequest.getScope();
+    assert mScope == null || !mScope.contains(Scope.ALL_RESOURCE_FILES) ||
+            mScope.contains(Scope.RESOURCE_FILE);
+
+    Collection&lt;Project&gt; projects;
+    try {
+        projects = mRequest.getProjects();
+        if (projects == null) {
+            projects = computeProjects(mRequest.getFiles());
+        }
+    } catch (CircularDependencyException e) {
+        mCurrentProject = e.getProject();
+        if (mCurrentProject != null) {
+            Location location = e.getLocation();
+            File file = location != null ? location.getFile() : mCurrentProject.getDir();
+            Context context = new Context(this, mCurrentProject, null, file);
+            context.report(IssueRegistry.LINT_ERROR, e.getLocation(), e.getMessage());
+            mCurrentProject = null;
+        }
+        return;
+    }
+    if (projects.isEmpty()) {
+        mClient.log(null, &quot;No projects found for %1$s&quot;, mRequest.getFiles().toString());
+        return;
+    }
+    if (mCanceled) {
+        return;
+    }
+    registerCustomDetectors(projects);//注册自定义的lint检查器
+    if (mScope == null) {//如果范围为空，那么就根据projects来推断范围
+        mScope = Scope.infer(projects);
+    }
+    fireEvent(EventType.STARTING, null);//fireEvent用于触发相应的事件，通知LintListener
+    for (Project project : projects) {
+        mPhase = 1;
+        Project main = mRequest.getMainProject(project);
+        // The set of available detectors varies between projects
+        computeDetectors(project);
+        if (mApplicableDetectors.isEmpty()) {
+            // No detectors enabled in this project: skip it
+            continue;
+        }
+        checkProject(project, main);
+        if (mCanceled) {
+            break;
+        }
+        runExtraPhases(project, main);
+    }
+    fireEvent(mCanceled ? EventType.CANCELED : EventType.COMPLETED, null);
+}
+</code></pre>
+
+<p><code>runExtraPhases</code>方法中会调用<code>checkProject</code>方法去对指定的project进行lint检查，其中调用了另一个核心方法<code>runFileDetectors</code>。</p>
+
+<pre><code class="language-java">private void checkProject(@NonNull Project project, @NonNull Project main) {
+    File projectDir = project.getDir();
+
+    Context projectContext = new Context(this, project, null, projectDir);
+    fireEvent(EventType.SCANNING_PROJECT, projectContext);
+
+    List&lt;Project&gt; allLibraries = project.getAllLibraries();
+    Set&lt;Project&gt; allProjects = new HashSet&lt;Project&gt;(allLibraries.size() + 1);
+    allProjects.add(project);
+    allProjects.addAll(allLibraries);
+    mCurrentProjects = allProjects.toArray(new Project[allProjects.size()]);
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.beforeCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    assert mCurrentProject == project;
+    runFileDetectors(project, main);
+    if (!Scope.checkSingleFile(mScope)) {
+        List&lt;Project&gt; libraries = project.getAllLibraries();
+        for (Project library : libraries) {
+            Context libraryContext = new Context(this, library, project, projectDir);
+            fireEvent(EventType.SCANNING_LIBRARY_PROJECT, libraryContext);
+            mCurrentProject = library;
+
+            for (Detector check : mApplicableDetectors) {
+                check.beforeCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+            assert mCurrentProject == library;
+            runFileDetectors(library, main);
+            if (mCanceled) {
+                return;
+            }
+
+            assert mCurrentProject == library;
+            for (Detector check : mApplicableDetectors) {
+                check.afterCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+        }
+    }
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.afterCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    if (mCanceled) {
+        mClient.report(
+            projectContext,
+            // Must provide an issue since API guarantees that the issue parameter
+            IssueRegistry.CANCELLED,
+            Severity.INFORMATIONAL,
+            Location.create(project.getDir()),
+            &quot;Lint canceled by user&quot;, TextFormat.RAW);
+    }
+    mCurrentProjects = null;
+}
+</code></pre>
+
+<p>方法<code>runFileDetectors</code>的作用就是对文件进行lint检查，上一篇我们提到过lint检查的顺序，从下面的代码我们也可以看出检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。</p>
+
+<pre><code class="language-java">private void runFileDetectors(@NonNull Project project, @Nullable Project main) {
+    // Look up manifest information (but not for library projects)
+    if (project.isAndroidProject()) {
+      //如果是Android项目的话，使用XmlParser去读取Manifest.xml文件的信息
+        for (File manifestFile : project.getManifestFiles()) {
+            XmlParser parser = mClient.getXmlParser();
+            if (parser != null) {
+                XmlContext context = new XmlContext(this, project, main, manifestFile, null, parser);
+                context.document = parser.parseXml(context);
+                if (context.document != null) {
+                    try {
+                        project.readManifest(context.document);
+
+                        //执行lint检查时会先获取Scope.MANIFEST下的所有detector
+                        //然后创建ResourceVisitor去对文件进行lint检查
+                        if ((!project.isLibrary() || (main != null
+                                &amp;&amp; main.isMergingManifests()))
+                                &amp;&amp; mScope.contains(Scope.MANIFEST)) {
+                            List&lt;Detector&gt; detectors = mScopeDetectors.get(Scope.MANIFEST);
+                            if (detectors != null) {
+                                ResourceVisitor v = new ResourceVisitor(parser, detectors, null);
+                                fireEvent(EventType.SCANNING_FILE, context);
+                                v.visitFile(context, manifestFile);
+                            }
+                        }
+                    } finally {
+                      if (context.document != null) { // else: freed by XmlVisitor above
+                          parser.dispose(context, context.document);
+                      }
+                    }
+                }
+            }
+        }
+
+        //检查资源文件
+        // Process both Scope.RESOURCE_FILE and Scope.ALL_RESOURCE_FILES detectors together
+        // in a single pass through the resource directories.
+        if (mScope.contains(Scope.ALL_RESOURCE_FILES)
+                || mScope.contains(Scope.RESOURCE_FILE)
+                || mScope.contains(Scope.RESOURCE_FOLDER)
+                || mScope.contains(Scope.BINARY_RESOURCE_FILE)) {
+            List&lt;Detector&gt; dirChecks = mScopeDetectors.get(Scope.RESOURCE_FOLDER);
+            List&lt;Detector&gt; binaryChecks = mScopeDetectors.get(Scope.BINARY_RESOURCE_FILE);
+            List&lt;Detector&gt; checks = union(mScopeDetectors.get(Scope.RESOURCE_FILE),
+                    mScopeDetectors.get(Scope.ALL_RESOURCE_FILES));
+            boolean haveXmlChecks = checks != null &amp;&amp; !checks.isEmpty();
+            List&lt;ResourceXmlDetector&gt; xmlDetectors;
+            if (haveXmlChecks) {
+                xmlDetectors = new ArrayList&lt;ResourceXmlDetector&gt;(checks.size());
+                for (Detector detector : checks) {
+                    if (detector instanceof ResourceXmlDetector) {
+                        xmlDetectors.add((ResourceXmlDetector) detector);
+                    }
+                }
+                haveXmlChecks = !xmlDetectors.isEmpty();
+            } else {
+                xmlDetectors = Collections.emptyList();
+            }
+            if (haveXmlChecks
+                    || dirChecks != null &amp;&amp; !dirChecks.isEmpty()
+                    || binaryChecks != null &amp;&amp; !binaryChecks.isEmpty()) {
+                List&lt;File&gt; files = project.getSubset();
+                if (files != null) {
+                    checkIndividualResources(project, main, xmlDetectors, dirChecks,
+                            binaryChecks, files);
+                } else {
+                    List&lt;File&gt; resourceFolders = project.getResourceFolders();
+                    if (!resourceFolders.isEmpty()) {
+                        for (File res : resourceFolders) {
+                            checkResFolder(project, main, res, xmlDetectors, dirChecks,
+                                    binaryChecks);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    //检查java文件
+    if (mScope.contains(Scope.JAVA_FILE) || mScope.contains(Scope.ALL_JAVA_FILES)) {
+        List&lt;Detector&gt; checks = union(mScopeDetectors.get(Scope.JAVA_FILE),
+                mScopeDetectors.get(Scope.ALL_JAVA_FILES));
+        if (checks != null &amp;&amp; !checks.isEmpty()) {
+            List&lt;File&gt; files = project.getSubset();
+            if (files != null) {
+                checkIndividualJavaFiles(project, main, checks, files);
+            } else {
+                List&lt;File&gt; sourceFolders = project.getJavaSourceFolders();
+                if (mScope.contains(Scope.TEST_SOURCES)) {
+                    List&lt;File&gt; testFolders = project.getTestSourceFolders();
+                    if (!testFolders.isEmpty()) {
+                        List&lt;File&gt; combined = Lists.newArrayListWithExpectedSize(
+                                sourceFolders.size() + testFolders.size());
+                        combined.addAll(sourceFolders);
+                        combined.addAll(testFolders);
+                        sourceFolders = combined;
+                    }
+                }
+
+                checkJava(project, main, sourceFolders, checks);
+
+            }
+        }
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查class文件
+    if (mScope.contains(Scope.CLASS_FILE)
+            || mScope.contains(Scope.ALL_CLASS_FILES)
+            || mScope.contains(Scope.JAVA_LIBRARIES)) {
+        checkClasses(project, main);
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查gradle文件
+    if (mScope.contains(Scope.GRADLE_FILE)) {
+        checkBuildScripts(project, main);
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查其他的Generic文件
+    if (mScope.contains(Scope.OTHER)) {
+        List&lt;Detector&gt; checks = mScopeDetectors.get(Scope.OTHER);
+        if (checks != null) {
+            OtherFileVisitor visitor = new OtherFileVisitor(checks);
+            visitor.scan(this, project, main);
+        }
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查proguard文件
+    if (project == main &amp;&amp; mScope.contains(Scope.PROGUARD_FILE) &amp;&amp;
+            project.isAndroidProject()) {
+        checkProGuard(project, main);
+    }
+
+    //检查property文件
+    if (project == main &amp;&amp; mScope.contains(Scope.PROPERTY_FILE)) {
+        checkProperties(project, main);
+    }
+}
+</code></pre>
+
+<p>下面我们看下Java文件是如何进行lint检查的，我们在下一篇将会详细介绍这部分代码的实现细节。</p>
+
+<pre><code class="language-java">private void checkIndividualJavaFiles(//检查单个的Java文件
+        @NonNull Project project,
+        @Nullable Project main,
+        @NonNull List&lt;Detector&gt; checks,
+        @NonNull List&lt;File&gt; files) {
+
+    JavaParser javaParser = mClient.getJavaParser(project);
+    if (javaParser == null) {
+        mClient.log(null, &quot;No java parser provided to lint: not running Java checks&quot;);
+        return;
+    }
+
+    List&lt;JavaContext&gt; contexts = Lists.newArrayListWithExpectedSize(files.size());
+    for (File file : files) {
+        if (file.isFile() &amp;&amp; file.getPath().endsWith(DOT_JAVA)) {
+            contexts.add(new JavaContext(this, project, main, file, javaParser));
+        }
+    }
+
+    if (contexts.isEmpty()) {
+        return;
+    }
+
+    visitJavaFiles(checks, javaParser, contexts);
+}
+
+//访问java文件，进行lint检查
+private void visitJavaFiles(@NonNull List&lt;Detector&gt; checks, JavaParser javaParser,
+        List&lt;JavaContext&gt; contexts) {
+    // Temporary: we still have some builtin checks that aren't migrated to
+    // PSI. Until that's complete, remove them from the list here
+    //List&lt;Detector&gt; scanners = checks;
+    //当前新版的Java检查器都是实现了JavaPsiScanner接口，由它可以创建JavaPsiVisitor
+    List&lt;Detector&gt; scanners = Lists.newArrayListWithCapacity(checks.size());
+    for (Detector detector : checks) {
+        if (detector instanceof Detector.JavaPsiScanner) {
+            scanners.add(detector);
+        }
+    }
+
+    JavaPsiVisitor visitor = new JavaPsiVisitor(javaParser, scanners);
+    visitor.prepare(contexts);
+    for (JavaContext context : contexts) {
+        fireEvent(EventType.SCANNING_FILE, context);
+        visitor.visitFile(context);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    visitor.dispose();
+
+    //下面是为了兼容以前版本的Java检查器而做的检查，它会创建JavaScanner以及JavaVisitor去对文件进行检查
+    // Only if the user is using some custom lint rules that haven't been updated
+    // yet noinspection ConstantConditions
+    if (mRunCompatChecks) {
+        // Filter the checks to only those that implement JavaScanner
+        List&lt;Detector&gt; filtered = Lists.newArrayListWithCapacity(checks.size());
+        for (Detector detector : checks) {
+            if (detector instanceof Detector.JavaScanner) {
+                filtered.add(detector);
+            }
+        }
+
+        if (!filtered.isEmpty()) {
+            List&lt;String&gt; detectorNames = Lists.newArrayListWithCapacity(filtered.size());
+            for (Detector detector : filtered) {
+                detectorNames.add(detector.getClass().getName());
+            }
+            Collections.sort(detectorNames);
+            JavaVisitor oldVisitor = new JavaVisitor(javaParser, filtered);
+
+            oldVisitor.prepare(contexts);
+            for (JavaContext context : contexts) {
+                fireEvent(EventType.SCANNING_FILE, context);
+                oldVisitor.visitFile(context);
+                if (mCanceled) {
+                    return;
+                }
+            }
+            oldVisitor.dispose();
+        }
+    }
+}
+</code></pre>
+
+<p>未完待续&hellip;</p>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/"><h4>Lint Tool Analysis (1)</h4></a></span>
+      
+  
+
+  
+</aside>
+<br/>
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="blog/2016/11/18/lint-tool-analysis-2/" data-title="Lint Tool Analysis (2)" data-url="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

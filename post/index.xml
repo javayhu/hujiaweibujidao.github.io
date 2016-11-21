@@ -7,8 +7,1931 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Mon, 14 Nov 2016 16:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 18 Nov 2016 10:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Lint Tool Analysis (2)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</link>
+      <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</guid>
+      <description>
+
+&lt;p&gt;Lint工具的源码分析(2)&lt;/p&gt;
+
+&lt;p&gt;继续上一篇的解析，本篇我们来详细分析下&lt;code&gt;client.api&lt;/code&gt;包中的重要类。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-client-api包中的重要类&#34;&gt;2. client.api包中的重要类&lt;/h3&gt;
+
+&lt;p&gt;(1) &lt;code&gt;LintClient&lt;/code&gt;类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。&lt;code&gt;LintClient&lt;/code&gt;只是一个抽象类，主要实现类有&lt;code&gt;IntellijLintClient&lt;/code&gt;，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的&lt;code&gt;BatchLintClient&lt;/code&gt;和针对当前编辑器中单个文件执行lint检查的&lt;code&gt;EditorLintClient&lt;/code&gt;；另一个实现是&lt;code&gt;LintClientWrapper&lt;/code&gt;，这个类定义在&lt;code&gt;LintDriver&lt;/code&gt;中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的&lt;code&gt;LintClient&lt;/code&gt;可能是&lt;code&gt;IntellijLintClient&lt;/code&gt;或者&lt;code&gt;BatchLintClient&lt;/code&gt;或者&lt;code&gt;EditorLintClient&lt;/code&gt;等。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，LintClient是指去调用lint检查的来源(客户端)，它会提供执行lint检查的相关环境信息。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;LintClient&lt;/code&gt;中定义了一个值为&lt;code&gt;com.android.tools.lint.bindir&lt;/code&gt;的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是&lt;code&gt;getLintBinDir&lt;/code&gt;，它先会去系统属性中查找(用&lt;code&gt;java -jar xxx -Dcom.android.tools.lint.bindir=value&lt;/code&gt;的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源，参见其中的&lt;code&gt;getSdkHome&lt;/code&gt;和&lt;code&gt;findResource&lt;/code&gt;方法。当我们在终端输入&lt;code&gt;lint&lt;/code&gt;命令的时候，lint脚本会自动帮我们设置&lt;code&gt;com.android.tools.lint.bindir&lt;/code&gt;的值，这个我们后面分析lint脚本源码的时候可以看到。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Information about the tool embedding the lint analyzer. IDEs and other tools
+ * implementing lint support will extend this to integrate logging, displaying errors,
+ * etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public abstract class LintClient {
+    private static final String PROP_BIN_DIR  = &amp;quot;com.android.tools.lint.bindir&amp;quot;;
+    ...
+    /**
+     * Returns the File corresponding to the system property or the environment variable
+     * for {@link #PROP_BIN_DIR}.
+     * This property is typically set by the SDK/tools/lint[.bat] wrapper.
+     * It denotes the path of the wrapper on disk.
+     *
+     * @return A new File corresponding to {@link LintClient#PROP_BIN_DIR} or null.
+     */
+    @Nullable
+    private static File getLintBinDir() {
+        // First check the Java properties (e.g. set using &amp;quot;java -jar ... -Dname=value&amp;quot;)
+        String path = System.getProperty(PROP_BIN_DIR);
+        if (path == null || path.isEmpty()) {
+            // If not found, check environment variables.
+            path = System.getenv(PROP_BIN_DIR);
+        }
+        if (path != null &amp;amp;&amp;amp; !path.isEmpty()) {
+            File file = new File(path);
+            if (file.exists()) {
+                return file;
+            }
+        }
+        return null;
+    }
+    ...
+    /**
+     * Returns the File pointing to the user&#39;s SDK install area. This is generally
+     * the root directory containing the lint tool (but also platforms/ etc).
+     *
+     * @return a file pointing to the user&#39;s install area
+     */
+    @Nullable
+    public File getSdkHome() {
+        File binDir = getLintBinDir();
+        if (binDir != null) {
+            assert binDir.getName().equals(&amp;quot;tools&amp;quot;);
+
+            File root = binDir.getParentFile();
+            if (root != null &amp;amp;&amp;amp; root.isDirectory()) {
+                return root;
+            }
+        }
+
+        String home = System.getenv(&amp;quot;ANDROID_HOME&amp;quot;); //$NON-NLS-1$
+        if (home != null) {
+            return new File(home);
+        }
+
+        return null;
+    }
+
+    /**
+     * Locates an SDK resource (relative to the SDK root directory).
+     * &amp;lt;p&amp;gt;
+     * TODO: Consider switching to a {@link URL} return type instead.
+     *
+     * @param relativePath A relative path (using {@link File#separator} to
+     *            separate path components) to the given resource
+     * @return a {@link File} pointing to the resource, or null if it does not
+     *         exist
+     */
+    @Nullable
+    public File findResource(@NonNull String relativePath) {
+        File top = getSdkHome();
+        if (top == null) {
+            throw new IllegalArgumentException(&amp;quot;Lint must be invoked with the System property &amp;quot;
+                   + PROP_BIN_DIR + &amp;quot; pointing to the ANDROID_SDK tools directory&amp;quot;);
+        }
+
+        File file = new File(top, relativePath);
+        if (file.exists()) {
+            return file;
+        } else {
+            return null;
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;LintClient&lt;/code&gt;中定义了5个抽象方法，其中&lt;code&gt;repoort&lt;/code&gt;和&lt;code&gt;log&lt;/code&gt;方法分别用于在lint过程中向调用者(客户端)反馈发现的问题和打印日志信息，这两个方法经常在检查器&lt;code&gt;Detector&lt;/code&gt;中通过&lt;code&gt;Context&lt;/code&gt;类对象间接被调用。&lt;code&gt;getXmlParser&lt;/code&gt;和&lt;code&gt;getJavaParser&lt;/code&gt;方法分别用来返回解析XML文件和解析Java文件的处理类，&lt;code&gt;readFile&lt;/code&gt;方法则是用来读取指定的文件内容的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Report the given issue. This method will only be called if the configuration
+ * provided by {@link #getConfiguration(Project,LintDriver)} has reported the corresponding
+ * issue as enabled and has not filtered out the issue with its
+ * {@link Configuration#ignore(Context,Issue,Location,String)} method.
+ * &amp;lt;p&amp;gt;
+ * @param context the context used by the detector when the issue was found
+ * @param issue the issue that was found
+ * @param severity the severity of the issue
+ * @param location the location of the issue
+ * @param message the associated user message
+ * @param format the format of the description and location descriptions
+ */
+public abstract void report(
+        @NonNull Context context,
+        @NonNull Issue issue,
+        @NonNull Severity severity,
+        @NonNull Location location,
+        @NonNull String message,
+        @NonNull TextFormat format);
+
+/**
+ * Send an exception or error message to the log
+ *
+ * @param severity the severity of the warning
+ * @param exception the exception, possibly null
+ * @param format the error message using {@link String#format} syntax, possibly null
+ *    (though in that case the exception should not be null)
+ * @param args any arguments for the format string
+ */
+public abstract void log(
+        @NonNull Severity severity,
+        @Nullable Throwable exception,
+        @Nullable String format,
+        @Nullable Object... args);
+
+/**
+ * Returns a {@link XmlParser} to use to parse XML
+ *
+ * @return a new {@link XmlParser}, or null if this client does not support
+ *         XML analysis
+ */
+@Nullable
+public abstract XmlParser getXmlParser();
+
+/**
+ * Returns a {@link JavaParser} to use to parse Java
+ *
+ * @param project the project to parse, if known (this can be used to look up
+ *                the class path for type attribution etc, and it can also be used
+ *                to more efficiently process a set of files, for example to
+ *                perform type attribution for multiple units in a single pass)
+ * @return a new {@link JavaParser}, or null if this client does not
+ *         support Java analysis
+ */
+@Nullable
+public abstract JavaParser getJavaParser(@Nullable Project project);
+
+/**
+ * Reads the given text file and returns the content as a string
+ *
+ * @param file the file to read
+ * @return the string to return, never null (will be empty if there is an
+ *         I/O error)
+ */
+@NonNull
+public abstract String readFile(@NonNull File file);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;LintClient&lt;/code&gt;中还定义了很多内容，比如下面的&lt;code&gt;ClassPathInfo&lt;/code&gt;内部类，它用来封装一个Project的各个文件夹，例如源码文件夹，class文件夹，库文件集合等等，以及一个&lt;code&gt;getClassPath&lt;/code&gt;的方法去获取&lt;code&gt;ClassPathInfo&lt;/code&gt;数据。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Information about class paths (sources, class files and libraries)
+ * usually associated with a project.
+ */
+protected static class ClassPathInfo {
+    private final List&amp;lt;File&amp;gt; mClassFolders;
+    private final List&amp;lt;File&amp;gt; mSourceFolders;
+    private final List&amp;lt;File&amp;gt; mLibraries;
+    private final List&amp;lt;File&amp;gt; mNonProvidedLibraries;
+    private final List&amp;lt;File&amp;gt; mTestFolders;
+
+    public ClassPathInfo(
+            @NonNull List&amp;lt;File&amp;gt; sourceFolders,
+            @NonNull List&amp;lt;File&amp;gt; classFolders,
+            @NonNull List&amp;lt;File&amp;gt; libraries,
+            @NonNull List&amp;lt;File&amp;gt; nonProvidedLibraries,
+            @NonNull List&amp;lt;File&amp;gt; testFolders) {
+        mSourceFolders = sourceFolders;
+        mClassFolders = classFolders;
+        mLibraries = libraries;
+        mNonProvidedLibraries = nonProvidedLibraries;
+        mTestFolders = testFolders;
+    }
+
+    @NonNull
+    public List&amp;lt;File&amp;gt; getSourceFolders() {
+        return mSourceFolders;
+    }
+
+    @NonNull
+    public List&amp;lt;File&amp;gt; getClassFolders() {
+        return mClassFolders;
+    }
+
+    @NonNull
+    public List&amp;lt;File&amp;gt; getLibraries(boolean includeProvided) {
+        return includeProvided ? mLibraries : mNonProvidedLibraries;
+    }
+
+    public List&amp;lt;File&amp;gt; getTestSourceFolders() {
+        return mTestFolders;
+    }
+}
+
+/**
+ * Considers the given project as an Eclipse project and returns class path
+ * information for the project - the source folder(s), the output folder and
+ * any libraries.
+ * &amp;lt;p&amp;gt;
+ * Callers will not cache calls to this method, so if it&#39;s expensive to compute
+ * the classpath info, this method should perform its own caching.
+ *
+ * @param project the project to look up class path info for
+ * @return a class path info object, never null
+ */
+@NonNull
+protected ClassPathInfo getClassPath(@NonNull Project project) {
+    ClassPathInfo info;
+    if (mProjectInfo == null) {
+        mProjectInfo = Maps.newHashMap();
+        info = null;
+    } else {
+        info = mProjectInfo.get(project);
+    }
+
+    if (info == null) {
+        List&amp;lt;File&amp;gt; sources = new ArrayList&amp;lt;File&amp;gt;(2);
+        List&amp;lt;File&amp;gt; classes = new ArrayList&amp;lt;File&amp;gt;(1);
+        List&amp;lt;File&amp;gt; libraries = new ArrayList&amp;lt;File&amp;gt;();
+        // No test folders in Eclipse:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=224708
+        List&amp;lt;File&amp;gt; tests = Collections.emptyList();
+
+        //将project视为eclipse的project，那么项目根目录下有个.classpath文件，解析这个文件来获取classpath信息
+        File projectDir = project.getDir();
+        File classpathFile = new File(projectDir, &amp;quot;.classpath&amp;quot;); //$NON-NLS-1$
+        if (classpathFile.exists()) {
+            String classpathXml = readFile(classpathFile);
+            try {
+                Document document = XmlUtils.parseDocument(classpathXml, false);
+                NodeList tags = document.getElementsByTagName(&amp;quot;classpathentry&amp;quot;); //$NON-NLS-1$
+                for (int i = 0, n = tags.getLength(); i &amp;lt; n; i++) {
+                    Element element = (Element) tags.item(i);
+                    String kind = element.getAttribute(&amp;quot;kind&amp;quot;); //$NON-NLS-1$
+                    List&amp;lt;File&amp;gt; addTo = null;
+                    if (kind.equals(&amp;quot;src&amp;quot;)) {            //$NON-NLS-1$
+                        addTo = sources;
+                    } else if (kind.equals(&amp;quot;output&amp;quot;)) {  //$NON-NLS-1$
+                        addTo = classes;
+                    } else if (kind.equals(&amp;quot;lib&amp;quot;)) {     //$NON-NLS-1$
+                        addTo = libraries;
+                    }
+                    if (addTo != null) {
+                        String path = element.getAttribute(&amp;quot;path&amp;quot;); //$NON-NLS-1$
+                        File folder = new File(projectDir, path);
+                        if (folder.exists()) {
+                            addTo.add(folder);
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                log(null, null);
+            }
+        }
+
+        // Add in libraries that aren&#39;t specified in the .classpath file
+        File libs = new File(project.getDir(), LIBS_FOLDER);//添加 libs 目录下的jar文件
+        if (libs.isDirectory()) {
+            File[] jars = libs.listFiles();
+            if (jars != null) {
+                for (File jar : jars) {
+                    if (endsWith(jar.getPath(), DOT_JAR)
+                            &amp;amp;&amp;amp; !libraries.contains(jar)) {
+                        libraries.add(jar);
+                    }
+                }
+            }
+        }
+
+        if (classes.isEmpty()) {
+            File folder = new File(projectDir, CLASS_FOLDER);//添加 bin/classes 文件夹
+            if (folder.exists()) {
+                classes.add(folder);
+            } else {//检查是否是maven项目，如果是的话编译得到的class文件是在 target/classes 目录下
+                // Maven checks
+                folder = new File(projectDir,
+                        &amp;quot;target&amp;quot; + File.separator + &amp;quot;classes&amp;quot;); //$NON-NLS-1$ //$NON-NLS-2$
+                if (folder.exists()) {
+                    classes.add(folder);
+
+                    // If it&#39;s maven, also correct the source path, &amp;quot;src&amp;quot; works but
+                    // it&#39;s in a more specific subfolder
+                    if (sources.isEmpty()) {//如果真的是maven项目的话，那么src/main/java目录是一个源码目录
+                        File src = new File(projectDir,
+                                &amp;quot;src&amp;quot; + File.separator     //$NON-NLS-1$
+                                + &amp;quot;main&amp;quot; + File.separator  //$NON-NLS-1$
+                                + &amp;quot;java&amp;quot;);                 //$NON-NLS-1$
+                        if (src.exists()) {
+                            sources.add(src);
+                        } else {
+                            src = new File(projectDir, SRC_FOLDER);
+                            if (src.exists()) {
+                                sources.add(src);
+                            }
+                        }
+
+                        //有些class文件是自动生成的，存放在 target/generated-sources/r 目录下
+                        File gen = new File(projectDir,
+                                &amp;quot;target&amp;quot; + File.separator                  //$NON-NLS-1$
+                                + &amp;quot;generated-sources&amp;quot; + File.separator     //$NON-NLS-1$
+                                + &amp;quot;r&amp;quot;);                                    //$NON-NLS-1$
+                        if (gen.exists()) {
+                            sources.add(gen);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Fallback, in case there is no Eclipse project metadata here
+        if (sources.isEmpty()) {
+            File src = new File(projectDir, SRC_FOLDER);
+            if (src.exists()) {
+                sources.add(src);
+            }
+            File gen = new File(projectDir, GEN_FOLDER);
+            if (gen.exists()) {
+                sources.add(gen);
+            }
+        }
+
+        info = new ClassPathInfo(sources, classes, libraries, libraries, tests);
+        mProjectInfo.put(project, info);
+    }
+
+    return info;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;除了&lt;code&gt;ClassPathInfo&lt;/code&gt;之外，还有很多其他的数据也会在&lt;code&gt;LintClient&lt;/code&gt;中处理，例如本机的Android SDK的信息以及项目中使用的&lt;code&gt;buildtool&lt;/code&gt;、&lt;code&gt;compileSdk&lt;/code&gt;等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;protected AndroidSdkHandler mSdk;//获取本机的 Android SDK 的相关信息
+
+/**
+ * Returns the SDK installation (used to look up platforms etc)
+ *
+ * @return the SDK if known
+ */
+@Nullable
+public AndroidSdkHandler getSdk() {
+    if (mSdk == null) {
+        File sdkHome = getSdkHome();
+        if (sdkHome != null) {
+            mSdk = AndroidSdkHandler.getInstance(sdkHome);
+        }
+    }
+
+    return mSdk;
+}
+
+protected IAndroidTarget[] mTargets;//获取 Android SDK 中已有的 Platform targets
+
+/**
+ * Returns all the {@link IAndroidTarget} versions installed in the user&#39;s SDK install
+ * area.
+ *
+ * @return all the installed targets
+ */
+@NonNull
+public IAndroidTarget[] getTargets() {//获取 Android SDK 中已有的 Platform targets
+    if (mTargets == null) {
+        AndroidSdkHandler sdkHandler = getSdk();
+        if (sdkHandler != null) {
+            ProgressIndicator logger = getRepositoryLogger();
+            Collection&amp;lt;IAndroidTarget&amp;gt; targets = sdkHandler.getAndroidTargetManager(logger)
+                    .getTargets(logger);
+            mTargets = targets.toArray(new IAndroidTarget[targets.size()]);
+        } else {
+            mTargets = new IAndroidTarget[0];
+        }
+    }
+
+    return mTargets;
+}
+
+/**
+ * Returns the compile target to use for the given project
+ *
+ * @param project the project in question
+ *
+ * @return the compile target to use to build the given project
+ */
+@Nullable
+public IAndroidTarget getCompileTarget(@NonNull Project project) {//获取项目中使用的 compileSdkVersion
+    int buildSdk = project.getBuildSdk();
+    IAndroidTarget[] targets = getTargets();
+    for (int i = targets.length - 1; i &amp;gt;= 0; i--) {
+        IAndroidTarget target = targets[i];
+        if (target.isPlatform() &amp;amp;&amp;amp; target.getVersion().getApiLevel() == buildSdk) {
+            return target;
+        }
+    }
+
+    return null;
+}
+/**
+ * Returns the specific version of the build tools being used for the given project, if known
+ *
+ * @param project the project in question
+ *
+ * @return the build tools version in use by the project, or null if not known
+ */
+@Nullable
+public BuildToolInfo getBuildTools(@NonNull Project project) {//获取 build tools 的信息
+    AndroidSdkHandler sdk = getSdk();
+    // Build systems like Eclipse and ant just use the latest available
+    // build tools, regardless of project metadata. In Gradle, this
+    // method is overridden to use the actual build tools specified in the
+    // project.
+    if (sdk != null) {
+        IAndroidTarget compileTarget = getCompileTarget(project);
+        if (compileTarget != null) {
+            return compileTarget.getBuildToolInfo();
+        }
+        return sdk.getLatestBuildTool(getRepositoryLogger(), false);
+    }
+
+    return null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最有意思的是，&lt;strong&gt;lint规则的查找过程也是在&lt;code&gt;LintClient&lt;/code&gt;中定义的&lt;/strong&gt;，下面的代码片段中包含两个重要的查找自定义lint规则的方法。从下面的代码片段中我们终于可以知道为什么放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下的自定义lint规则的jar包能够被识别，指定&lt;code&gt;ANDROID_LINT_JARS&lt;/code&gt;环境变量也能够识别，或者将&lt;code&gt;lint.jar&lt;/code&gt;放在aar中也能够被识别！&lt;br /&gt;
+- &lt;strong&gt;&lt;code&gt;findGlobalRuleJars&lt;/code&gt;方法会在&lt;code&gt;~/.android/lint/&lt;/code&gt;目录下找jar包，或者由&lt;code&gt;$ANDROID_LINT_JARS&lt;/code&gt;环境变量指定的jar包，这些自定义的lint规则都是作用于全局的，也就是对于本机的所有Android工程都生效。&lt;/strong&gt;&lt;br /&gt;
+- &lt;strong&gt;&lt;code&gt;findRuleJars&lt;/code&gt;方法是针对指定的project去查找自定义的lint规则，从源码来看，针对project自定义lint规则时只适用于基于Gradle的项目，包括普通的项目和库项目(library project)。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Finds any custom lint rule jars that should be included for analysis,
+ * regardless of project.
+ * &amp;lt;p&amp;gt;
+ * The default implementation locates custom lint jars in ~/.android/lint/ and
+ * in $ANDROID_LINT_JARS
+ *
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&amp;quot;MethodMayBeStatic&amp;quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&amp;lt;File&amp;gt; findGlobalRuleJars() {
+    // Look for additional detectors registered by the user, via
+    // (1) an environment variable (useful for build servers etc), and
+    // (2) via jar files in the .android/lint directory
+    List&amp;lt;File&amp;gt; files = null;
+    try {
+        String androidHome = AndroidLocation.getFolder();//在 .android/lint 目录下找
+        File lint = new File(androidHome + File.separator + &amp;quot;lint&amp;quot;); //$NON-NLS-1$
+        if (lint.exists()) {
+            File[] list = lint.listFiles();
+            if (list != null) {
+                for (File jarFile : list) {
+                    if (endsWith(jarFile.getName(), DOT_JAR)) {
+                        if (files == null) {
+                            files = new ArrayList&amp;lt;File&amp;gt;();
+                        }
+                        files.add(jarFile);
+                    }
+                }
+            }
+        }
+    } catch (AndroidLocation.AndroidLocationException e) {
+        // Ignore -- no android dir, so no rules to load.
+    }
+
+    //在环境变量 ANDROID_LINT_JARS 目录下找
+    String lintClassPath = System.getenv(&amp;quot;ANDROID_LINT_JARS&amp;quot;); //$NON-NLS-1$
+    if (lintClassPath != null &amp;amp;&amp;amp; !lintClassPath.isEmpty()) {
+        String[] paths = lintClassPath.split(File.pathSeparator);
+        for (String path : paths) {
+            File jarFile = new File(path);
+            if (jarFile.exists()) {
+                if (files == null) {
+                    files = new ArrayList&amp;lt;File&amp;gt;();
+                } else if (files.contains(jarFile)) {
+                    continue;
+                }
+                files.add(jarFile);
+            }
+        }
+    }
+
+    return files != null ? files : Collections.&amp;lt;File&amp;gt;emptyList();
+}
+
+/**
+ * Finds any custom lint rule jars that should be included for analysis
+ * in the given project
+ *
+ * @param project the project to look up rule jars from
+ * @return a list of rule jars (possibly empty).
+ */
+@SuppressWarnings(&amp;quot;MethodMayBeStatic&amp;quot;) // Intentionally instance method so it can be overridden
+@NonNull
+public List&amp;lt;File&amp;gt; findRuleJars(@NonNull Project project) {
+    if (project.isGradleProject()) {
+        if (project.isLibrary()) {//如果是gradle library项目，查找其中的 lint.jar 文件
+            AndroidLibrary model = project.getGradleLibraryModel();
+            if (model != null) {
+                File lintJar = model.getLintJar();
+                if (lintJar.exists()) {
+                    return Collections.singletonList(lintJar);
+                }
+            }
+        } else if (project.getSubset() != null) {
+          //如果该项目有很多个子项目，那就检查当前variant下的依赖中的library project中是否包含了lint.jar
+            // Probably just analyzing a single file: we still want to look for custom
+            // rules applicable to the file
+            List&amp;lt;File&amp;gt; rules = null;
+            final Variant variant = project.getCurrentVariant();
+            if (variant != null) {
+                Collection&amp;lt;AndroidLibrary&amp;gt; libraries = variant.getMainArtifact()
+                    .getDependencies().getLibraries();
+                for (AndroidLibrary library : libraries) {
+                    File lintJar = library.getLintJar();
+                    if (lintJar.exists()) {
+                        if (rules == null) {
+                            rules = Lists.newArrayListWithExpectedSize(4);
+                        }
+                        rules.add(lintJar);
+                    }
+                }
+                if (rules != null) {
+                    return rules;
+                }
+            }
+        } else if (project.getDir().getPath().endsWith(DOT_AAR)) {
+            //这种情况是project就是一个aar，查找其中的lint.jar文件
+            File lintJar = new File(project.getDir(), &amp;quot;lint.jar&amp;quot;); //$NON-NLS-1$
+            if (lintJar.exists()) {
+                return Collections.singletonList(lintJar);
+            }
+        }
+    }
+
+    return Collections.emptyList();
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2) &lt;code&gt;IssueRegistry&lt;/code&gt;类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：&lt;code&gt;PARSER_ERROR&lt;/code&gt;表示lint解析文件时出错了；&lt;code&gt;LINT_ERROR&lt;/code&gt;表示lint检查过程中出现错误，但不是用户代码的错误；&lt;code&gt;CANCELLED&lt;/code&gt;表示用户取消了lint检查。除此之外，该类中还有一个重要方法&lt;code&gt;createDetectors&lt;/code&gt;，用来根据指定的Configuration和Scope来创建检查器列表。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，IssueRegistry就是lint要检查的问题集合。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Registry which provides a list of checks to be performed on an Android project
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public abstract class IssueRegistry {
+    private static volatile List&amp;lt;Category&amp;gt; sCategories;//问题的类别列表
+    private static volatile Map&amp;lt;String, Issue&amp;gt; sIdToIssue;//问题及其对应的issue
+    private static Map&amp;lt;EnumSet&amp;lt;Scope&amp;gt;, List&amp;lt;Issue&amp;gt;&amp;gt; sScopeIssues = Maps.newHashMap();//某个特定的scope内的问题列表
+
+    /**
+     * Issue reported by lint (not a specific detector) when it cannot even
+     * parse an XML file prior to analysis
+     */
+    @NonNull
+    public static final Issue PARSER_ERROR = Issue.create(
+            &amp;quot;ParserError&amp;quot;, //$NON-NLS-1$
+            &amp;quot;Parser Errors&amp;quot;,
+            &amp;quot;Lint will ignore any files that contain fatal parsing errors. These may contain &amp;quot; +
+            &amp;quot;other errors, or contain code which affects issues in other files.&amp;quot;,
+            Category.CORRECTNESS,
+            10,
+            Severity.ERROR,
+            DUMMY_IMPLEMENTATION);
+
+    /**
+     * Issue reported by lint for various other issues which prevents lint from
+     * running normally when it&#39;s not necessarily an error in the user&#39;s code base.
+     */
+    @NonNull
+    public static final Issue LINT_ERROR = Issue.create(
+        &amp;quot;LintError&amp;quot;, //$NON-NLS-1$
+        &amp;quot;Lint Failure&amp;quot;,
+        &amp;quot;This issue type represents a problem running lint itself. Examples include &amp;quot; +
+        &amp;quot;failure to find bytecode for source files (which means certain detectors &amp;quot; +
+        &amp;quot;could not be run), parsing errors in lint configuration files, etc.&amp;quot; +
+        &amp;quot;\n&amp;quot; +
+        &amp;quot;These errors are not errors in your own code, but they are shown to make &amp;quot; +
+        &amp;quot;it clear that some checks were not completed.&amp;quot;,
+        Category.LINT,
+        10,
+        Severity.ERROR,
+        DUMMY_IMPLEMENTATION);
+
+    /**
+     * Creates a list of detectors applicable to the given scope, and with the
+     * given configuration.
+     *
+     * @param client the client to report errors to
+     * @param configuration the configuration to look up which issues are
+     *            enabled etc from
+     * @param scope the scope for the analysis, to filter out detectors that
+     *            require wider analysis than is currently being performed
+     * @param scopeToDetectors an optional map which (if not null) will be
+     *            filled by this method to contain mappings from each scope to
+     *            the applicable detectors for that scope
+     * @return a list of new detector instances
+     */
+    @NonNull
+    final List&amp;lt;? extends Detector&amp;gt; createDetectors(
+            @NonNull LintClient client,
+            @NonNull Configuration configuration,
+            @NonNull EnumSet&amp;lt;Scope&amp;gt; scope,
+            @Nullable Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; scopeToDetectors) {
+
+        List&amp;lt;Issue&amp;gt; issues = getIssuesForScope(scope);//获取该scope内的问题列表
+        if (issues.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        //检查器列表detectorClasses和检查器到范围的映射关系detectorToScope
+        Set&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt; detectorClasses = new HashSet&amp;lt;Class&amp;lt;? extends Detector&amp;gt;&amp;gt;();
+        Map&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt; detectorToScope =
+                new HashMap&amp;lt;Class&amp;lt;? extends Detector&amp;gt;, EnumSet&amp;lt;Scope&amp;gt;&amp;gt;();
+
+        for (Issue issue : issues) {//遍历问题列表，取出它们的Detector以及scope集合
+            Implementation implementation = issue.getImplementation();
+            Class&amp;lt;? extends Detector&amp;gt; detectorClass = implementation.getDetectorClass();
+            EnumSet&amp;lt;Scope&amp;gt; issueScope = implementation.getScope();
+            if (!detectorClasses.contains(detectorClass)) {
+                // Determine if the issue is enabled
+                if (!configuration.isEnabled(issue)) {//看configuration中是否开启了这个问题
+                    continue;
+                }
+
+                assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
+                detectorClass = client.replaceDetector(detectorClass);
+                assert detectorClass != null : issue.getId();
+                detectorClasses.add(detectorClass);
+            }
+
+            if (scopeToDetectors != null) {
+                EnumSet&amp;lt;Scope&amp;gt; s = detectorToScope.get(detectorClass);
+                if (s == null) {
+                    detectorToScope.put(detectorClass, issueScope);
+                } else if (!s.containsAll(issueScope)) {
+                    EnumSet&amp;lt;Scope&amp;gt; union = EnumSet.copyOf(s);
+                    union.addAll(issueScope);
+                    detectorToScope.put(detectorClass, union);
+                }
+            }
+        }
+
+        //将detectorToScope转换成scopeToDetectors
+        List&amp;lt;Detector&amp;gt; detectors = new ArrayList&amp;lt;Detector&amp;gt;(detectorClasses.size());
+        for (Class&amp;lt;? extends Detector&amp;gt; clz : detectorClasses) {
+            try {
+                Detector detector = clz.newInstance();
+                detectors.add(detector);
+
+                if (scopeToDetectors != null) {
+                    EnumSet&amp;lt;Scope&amp;gt; union = detectorToScope.get(clz);
+                    for (Scope s : union) {
+                        List&amp;lt;Detector&amp;gt; list = scopeToDetectors.get(s);
+                        if (list == null) {
+                            list = new ArrayList&amp;lt;Detector&amp;gt;();
+                            scopeToDetectors.put(s, list);
+                        }
+                        list.add(detector);
+                    }
+
+                }
+            } catch (Throwable t) {
+                client.log(t, &amp;quot;Can&#39;t initialize detector %1$s&amp;quot;, clz.getName()); //$NON-NLS-1$
+            }
+        }
+
+        return detectors;
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;IssueRegistry&lt;/code&gt;类是一个抽象类，它只有一个抽象方法&lt;code&gt;getIssues&lt;/code&gt;，返回需要检查的问题集合就行，所以特别容易实现。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public abstract List&amp;lt;Issue&amp;gt; getIssues();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;IssueRegistry&lt;/code&gt;类有几个特别重要的实现子类，例如&lt;code&gt;BuiltinIssueRegistry&lt;/code&gt;是系统内置的lint检查器集合，目前共有263个issue；&lt;code&gt;CompositeIssueRegistry&lt;/code&gt;是一个将很多&lt;code&gt;IssueRegistry&lt;/code&gt;中的issue整合到一起的IssueRegistry；还有一个很重要的用于加载jar文件中的&lt;code&gt;IssueRegistry&lt;/code&gt;的类&lt;code&gt;JarFileIssueRegistry&lt;/code&gt;，前面我们自定义的lint规则的jar包就是由它来解析并加载的。&lt;br /&gt;
+&lt;strong&gt;在自定义lint规则生成jar包时我们提到过要在&lt;code&gt;build.gradle&lt;/code&gt;文件中给jar文件添加&lt;code&gt;Lint-Registry&lt;/code&gt;的属性值，因为这里会进行检查，如果没有配置的话就不算是合法的lint包。此外，这个类使用了缓存机制来保存已经加载过的jar文件，所以也就导致了我们在自定义lint中出现的更改jar包但是Android Studio并没有更新lint规则的bug！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * &amp;lt;p&amp;gt; An {@link IssueRegistry} for a custom lint rule jar file. The rule jar should provide a
+ * manifest entry with the key {@code Lint-Registry} and the value of the fully qualified name of an
+ * implementation of {@link IssueRegistry} (with a default constructor). &amp;lt;/p&amp;gt;
+ *
+ * &amp;lt;p&amp;gt; NOTE: The custom issue registry should not extend this file; it should be a plain
+ * IssueRegistry! This file is used internally to wrap the given issue registry.&amp;lt;/p&amp;gt;
+ */
+class JarFileIssueRegistry extends IssueRegistry {
+    /**
+     * Manifest constant for declaring an issue provider. Example: Lint-Registry:
+     * foo.bar.CustomIssueRegistry
+     */
+    private static final String MF_LINT_REGISTRY_OLD = &amp;quot;Lint-Registry&amp;quot;; //$NON-NLS-1$
+    private static final String MF_LINT_REGISTRY = &amp;quot;Lint-Registry-v2&amp;quot;; //$NON-NLS-1$
+
+    private static Map&amp;lt;File, SoftReference&amp;lt;JarFileIssueRegistry&amp;gt;&amp;gt; sCache;
+    private final List&amp;lt;Issue&amp;gt; myIssues;
+    private boolean mHasLegacyDetectors;
+
+    /** True if one or more java detectors were found that use the old Lombok-based API */
+    public boolean hasLegacyDetectors() {
+        return mHasLegacyDetectors;
+    }
+
+    @NonNull
+    static JarFileIssueRegistry get(@NonNull LintClient client, @NonNull File jarFile)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+            InstantiationException {
+        if (sCache == null) {
+           sCache = new HashMap&amp;lt;File, SoftReference&amp;lt;JarFileIssueRegistry&amp;gt;&amp;gt;();
+        } else {
+            SoftReference&amp;lt;JarFileIssueRegistry&amp;gt; reference = sCache.get(jarFile);
+            if (reference != null) {
+                JarFileIssueRegistry registry = reference.get();
+                if (registry != null) {
+                    return registry;
+                }
+            }
+        }
+
+        // Ensure that the scope-to-detector map doesn&#39;t return stale results
+        IssueRegistry.reset();
+
+        JarFileIssueRegistry registry = new JarFileIssueRegistry(client, jarFile);
+        sCache.put(jarFile, new SoftReference&amp;lt;JarFileIssueRegistry&amp;gt;(registry));
+        return registry;
+    }
+
+    private JarFileIssueRegistry(@NonNull LintClient client, @NonNull File file)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+                    InstantiationException {
+        myIssues = Lists.newArrayList();
+        JarFile jarFile = null;
+        try {
+            //noinspection IOResourceOpenedButNotSafelyClosed
+            jarFile = new JarFile(file);
+            Manifest manifest = jarFile.getManifest();
+            Attributes attrs = manifest.getMainAttributes();
+            Object object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY));
+            boolean isLegacy = false;
+            //检查jar包的MANIFEST.MF文件中是否配置了Lint-Registry-v2或者Lint-Registry属性值
+            if (object == null) {
+                object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY_OLD));
+                //noinspection VariableNotUsedInsideIf
+                if (object != null) {
+                    // It&#39;s an old rule. We don&#39;t yet conclude that
+                    //   mHasLegacyDetectors=true
+                    // because the lint checks may not be Java related.
+                    isLegacy = true;
+                }
+            }
+            //如果配置了的话，对应的值就是继承自IssueRegistry的类，我们需要去加载它
+            if (object instanceof String) {
+                String className = (String) object;
+                // Make a class loader for this jar
+                URL url = SdkUtils.fileToUrl(file);
+                ClassLoader loader = client.createUrlClassLoader(new URL[]{url},
+                        JarFileIssueRegistry.class.getClassLoader());
+                Class&amp;lt;?&amp;gt; registryClass = Class.forName(className, true, loader);
+                IssueRegistry registry = (IssueRegistry) registryClass.newInstance();
+                myIssues.addAll(registry.getIssues());
+
+                if (isLegacy) {
+                    // If it&#39;s an old registry, look through the issues to see if it
+                    // provides Java scanning and if so create the old style visitors
+                    for (Issue issue : myIssues) {
+                        EnumSet&amp;lt;Scope&amp;gt; scope = issue.getImplementation().getScope();
+                        if (scope.contains(Scope.JAVA_FILE) || scope.contains(Scope.JAVA_LIBRARIES)
+                                || scope.contains(Scope.ALL_JAVA_FILES)) {
+                            mHasLegacyDetectors = true;
+                            break;
+                        }
+                    }
+                }
+
+                //利用这个ClassLoader去加载jar包中的class
+                if (loader instanceof URLClassLoader) {
+                    loadAndCloseURLClassLoader(client, file, (URLClassLoader)loader);
+                }
+            } else {
+                client.log(Severity.ERROR, null,
+                    &amp;quot;Custom lint rule jar %1$s does not contain a valid registry manifest key &amp;quot; +
+                    &amp;quot;(%2$s).\n&amp;quot; +
+                    &amp;quot;Either the custom jar is invalid, or it uses an outdated API not supported &amp;quot; +
+                    &amp;quot;this lint client&amp;quot;, file.getPath(), MF_LINT_REGISTRY);
+            }
+        } finally {
+            if (jarFile != null) {
+                jarFile.close();
+            }
+        }
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3) &lt;code&gt;LintDriver&lt;/code&gt;类是一个核心类，其中汇集了对Android工程或文件进行Lint检查所需的主要元素，包含了上面的&lt;code&gt;LintClient&lt;/code&gt;和&lt;code&gt;IssueRegistry&lt;/code&gt;等重要类，还有表示一次lint检查的请求&lt;code&gt;LintClient&lt;/code&gt;以及监听lint检查过程的&lt;code&gt;LintListener&lt;/code&gt;集合等数据。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，LintDriver包含了一次lint检查时的所有信息，由它来进行lint检查的过程。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Analyzes Android projects and files
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class LintDriver {
+    /**
+     * Max number of passes to run through the lint runner if requested by
+     * {@link #requestRepeat}
+     */
+    private static final int MAX_PHASES = 3;
+    private static final String SUPPRESS_LINT_VMSIG = &#39;/&#39; + SUPPRESS_LINT + &#39;;&#39;;
+    /** Prefix used by the comment suppress mechanism in Studio/IntelliJ */
+    private static final String STUDIO_ID_PREFIX = &amp;quot;AndroidLint&amp;quot;;
+
+    private final LintClient mClient;//检查器调用端，可能是android studio或者gradle或者cli
+    private LintRequest mRequest;
+    private IssueRegistry mRegistry;//问题注册中心
+    private volatile boolean mCanceled;
+    private EnumSet&amp;lt;Scope&amp;gt; mScope;
+    private List&amp;lt;? extends Detector&amp;gt; mApplicableDetectors;
+    private Map&amp;lt;Scope, List&amp;lt;Detector&amp;gt;&amp;gt; mScopeDetectors;
+    private List&amp;lt;LintListener&amp;gt; mListeners;
+    private int mPhase;
+    private List&amp;lt;Detector&amp;gt; mRepeatingDetectors;
+    private EnumSet&amp;lt;Scope&amp;gt; mRepeatScope;
+    private Project[] mCurrentProjects;
+    private Project mCurrentProject;
+    private boolean mAbbreviating = true;
+    private boolean mParserErrors;
+    private Map&amp;lt;Object,Object&amp;gt; mProperties;
+    /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
+    private boolean mRunCompatChecks = true;
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;前面我们在&lt;code&gt;LintClient&lt;/code&gt;中看到了lint工具是如何查找自定义的lint规则，但是并没有看到这些规则是如何注册到&lt;code&gt;IssueRegistry&lt;/code&gt;上去的，而这个艰巨的任务实际上是在&lt;code&gt;LintDriver&lt;/code&gt;中完成的，主要流程都在方法&lt;code&gt;registerCustomDetectors&lt;/code&gt;中。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private Set&amp;lt;Issue&amp;gt; myCustomIssues;//自定义的lint规则集合
+
+/**
+* Returns true if the given issue is an issue that was loaded as a custom rule
+* (e.g. a 3rd-party library provided the detector, it&#39;s not built in)
+*
+* @param issue the issue to be looked up
+* @return true if this is a custom (non-builtin) check
+*/
+public boolean isCustomIssue(@NonNull Issue issue) {//判断某个issue是否是自定义的issue
+   return myCustomIssues != null &amp;amp;&amp;amp; myCustomIssues.contains(issue);
+}
+
+//注册自定义的检查器，检查器来源于参数中指定的projects中
+private void registerCustomDetectors(Collection&amp;lt;Project&amp;gt; projects) {
+   // Look at the various projects, and if any of them provide a custom
+   // lint jar, &amp;quot;add&amp;quot; them (this will replace the issue registry with
+   // a CompositeIssueRegistry containing the original issue registry
+   // plus JarFileIssueRegistry instances for each lint jar
+   Set&amp;lt;File&amp;gt; jarFiles = Sets.newHashSet();
+   for (Project project : projects) {//遍历所有的project以及它们的library project，找出其中所有的lint.jar文件
+       jarFiles.addAll(mClient.findRuleJars(project));
+       for (Project library : project.getAllLibraries()) {
+           jarFiles.addAll(mClient.findRuleJars(library));
+       }
+   }
+
+   jarFiles.addAll(mClient.findGlobalRuleJars());//查找全局的自定义的lint规则的jar包
+
+   if (!jarFiles.isEmpty()) {
+       List&amp;lt;IssueRegistry&amp;gt; registries = Lists.newArrayListWithExpectedSize(jarFiles.size());
+       registries.add(mRegistry);
+       for (File jarFile : jarFiles) {
+           try {
+               JarFileIssueRegistry registry = JarFileIssueRegistry.get(mClient, jarFile);
+               if (registry.hasLegacyDetectors()) {
+                   mRunCompatChecks = true;
+               }
+               if (myCustomIssues == null) {
+                   myCustomIssues = Sets.newHashSet();
+               }
+               myCustomIssues.addAll(registry.getIssues());
+               registries.add(registry);
+           } catch (Throwable e) {
+               mClient.log(e, &amp;quot;Could not load custom rule jar file %1$s&amp;quot;, jarFile);
+           }
+       }
+       if (registries.size() &amp;gt; 1) { // the first item is mRegistry itself
+           mRegistry = new CompositeIssueRegistry(registries);
+       }
+   }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;LintDriver&lt;/code&gt;还有一个重要的方法就是&lt;code&gt;analyze&lt;/code&gt;，lint检查就是从这里正式开始的。其中的&lt;code&gt;mRequest&lt;/code&gt;是&lt;code&gt;LintRequest&lt;/code&gt;对象，类似HTTPRequest一样，表示一次lint检查的请求，它包含了这次lint检查的一些基本信息。其中还调用了&lt;code&gt;registerCustomDetectors&lt;/code&gt;方法，这个方法就是用来注册那些自定义的lint规则的。此外，其中会遍历所有的project，然后调用&lt;code&gt;runExtraPhases&lt;/code&gt;方法就该project进行lint检查。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** Runs the driver to analyze the requested files */
+private void analyze() {
+    mCanceled = false;
+    mScope = mRequest.getScope();
+    assert mScope == null || !mScope.contains(Scope.ALL_RESOURCE_FILES) ||
+            mScope.contains(Scope.RESOURCE_FILE);
+
+    Collection&amp;lt;Project&amp;gt; projects;
+    try {
+        projects = mRequest.getProjects();
+        if (projects == null) {
+            projects = computeProjects(mRequest.getFiles());
+        }
+    } catch (CircularDependencyException e) {
+        mCurrentProject = e.getProject();
+        if (mCurrentProject != null) {
+            Location location = e.getLocation();
+            File file = location != null ? location.getFile() : mCurrentProject.getDir();
+            Context context = new Context(this, mCurrentProject, null, file);
+            context.report(IssueRegistry.LINT_ERROR, e.getLocation(), e.getMessage());
+            mCurrentProject = null;
+        }
+        return;
+    }
+    if (projects.isEmpty()) {
+        mClient.log(null, &amp;quot;No projects found for %1$s&amp;quot;, mRequest.getFiles().toString());
+        return;
+    }
+    if (mCanceled) {
+        return;
+    }
+    registerCustomDetectors(projects);//注册自定义的lint检查器
+    if (mScope == null) {//如果范围为空，那么就根据projects来推断范围
+        mScope = Scope.infer(projects);
+    }
+    fireEvent(EventType.STARTING, null);//fireEvent用于触发相应的事件，通知LintListener
+    for (Project project : projects) {
+        mPhase = 1;
+        Project main = mRequest.getMainProject(project);
+        // The set of available detectors varies between projects
+        computeDetectors(project);
+        if (mApplicableDetectors.isEmpty()) {
+            // No detectors enabled in this project: skip it
+            continue;
+        }
+        checkProject(project, main);
+        if (mCanceled) {
+            break;
+        }
+        runExtraPhases(project, main);
+    }
+    fireEvent(mCanceled ? EventType.CANCELED : EventType.COMPLETED, null);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;runExtraPhases&lt;/code&gt;方法中会调用&lt;code&gt;checkProject&lt;/code&gt;方法去对指定的project进行lint检查，其中调用了另一个核心方法&lt;code&gt;runFileDetectors&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private void checkProject(@NonNull Project project, @NonNull Project main) {
+    File projectDir = project.getDir();
+
+    Context projectContext = new Context(this, project, null, projectDir);
+    fireEvent(EventType.SCANNING_PROJECT, projectContext);
+
+    List&amp;lt;Project&amp;gt; allLibraries = project.getAllLibraries();
+    Set&amp;lt;Project&amp;gt; allProjects = new HashSet&amp;lt;Project&amp;gt;(allLibraries.size() + 1);
+    allProjects.add(project);
+    allProjects.addAll(allLibraries);
+    mCurrentProjects = allProjects.toArray(new Project[allProjects.size()]);
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.beforeCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    assert mCurrentProject == project;
+    runFileDetectors(project, main);
+    if (!Scope.checkSingleFile(mScope)) {
+        List&amp;lt;Project&amp;gt; libraries = project.getAllLibraries();
+        for (Project library : libraries) {
+            Context libraryContext = new Context(this, library, project, projectDir);
+            fireEvent(EventType.SCANNING_LIBRARY_PROJECT, libraryContext);
+            mCurrentProject = library;
+
+            for (Detector check : mApplicableDetectors) {
+                check.beforeCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+            assert mCurrentProject == library;
+            runFileDetectors(library, main);
+            if (mCanceled) {
+                return;
+            }
+
+            assert mCurrentProject == library;
+            for (Detector check : mApplicableDetectors) {
+                check.afterCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+        }
+    }
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.afterCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    if (mCanceled) {
+        mClient.report(
+            projectContext,
+            // Must provide an issue since API guarantees that the issue parameter
+            IssueRegistry.CANCELLED,
+            Severity.INFORMATIONAL,
+            Location.create(project.getDir()),
+            &amp;quot;Lint canceled by user&amp;quot;, TextFormat.RAW);
+    }
+    mCurrentProjects = null;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;方法&lt;code&gt;runFileDetectors&lt;/code&gt;的作用就是对文件进行lint检查，上一篇我们提到过lint检查的顺序，从下面的代码我们也可以看出检查的顺序依次是&lt;code&gt;Manifest文件 =&amp;gt; Resource文件 =&amp;gt; Java源码文件 =&amp;gt; Java Class文件 =&amp;gt; Gradle文件 =&amp;gt; Generic文件 =&amp;gt; Proguard文件 =&amp;gt; Property文件&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private void runFileDetectors(@NonNull Project project, @Nullable Project main) {
+    // Look up manifest information (but not for library projects)
+    if (project.isAndroidProject()) {
+      //如果是Android项目的话，使用XmlParser去读取Manifest.xml文件的信息
+        for (File manifestFile : project.getManifestFiles()) {
+            XmlParser parser = mClient.getXmlParser();
+            if (parser != null) {
+                XmlContext context = new XmlContext(this, project, main, manifestFile, null, parser);
+                context.document = parser.parseXml(context);
+                if (context.document != null) {
+                    try {
+                        project.readManifest(context.document);
+
+                        //执行lint检查时会先获取Scope.MANIFEST下的所有detector
+                        //然后创建ResourceVisitor去对文件进行lint检查
+                        if ((!project.isLibrary() || (main != null
+                                &amp;amp;&amp;amp; main.isMergingManifests()))
+                                &amp;amp;&amp;amp; mScope.contains(Scope.MANIFEST)) {
+                            List&amp;lt;Detector&amp;gt; detectors = mScopeDetectors.get(Scope.MANIFEST);
+                            if (detectors != null) {
+                                ResourceVisitor v = new ResourceVisitor(parser, detectors, null);
+                                fireEvent(EventType.SCANNING_FILE, context);
+                                v.visitFile(context, manifestFile);
+                            }
+                        }
+                    } finally {
+                      if (context.document != null) { // else: freed by XmlVisitor above
+                          parser.dispose(context, context.document);
+                      }
+                    }
+                }
+            }
+        }
+
+        //检查资源文件
+        // Process both Scope.RESOURCE_FILE and Scope.ALL_RESOURCE_FILES detectors together
+        // in a single pass through the resource directories.
+        if (mScope.contains(Scope.ALL_RESOURCE_FILES)
+                || mScope.contains(Scope.RESOURCE_FILE)
+                || mScope.contains(Scope.RESOURCE_FOLDER)
+                || mScope.contains(Scope.BINARY_RESOURCE_FILE)) {
+            List&amp;lt;Detector&amp;gt; dirChecks = mScopeDetectors.get(Scope.RESOURCE_FOLDER);
+            List&amp;lt;Detector&amp;gt; binaryChecks = mScopeDetectors.get(Scope.BINARY_RESOURCE_FILE);
+            List&amp;lt;Detector&amp;gt; checks = union(mScopeDetectors.get(Scope.RESOURCE_FILE),
+                    mScopeDetectors.get(Scope.ALL_RESOURCE_FILES));
+            boolean haveXmlChecks = checks != null &amp;amp;&amp;amp; !checks.isEmpty();
+            List&amp;lt;ResourceXmlDetector&amp;gt; xmlDetectors;
+            if (haveXmlChecks) {
+                xmlDetectors = new ArrayList&amp;lt;ResourceXmlDetector&amp;gt;(checks.size());
+                for (Detector detector : checks) {
+                    if (detector instanceof ResourceXmlDetector) {
+                        xmlDetectors.add((ResourceXmlDetector) detector);
+                    }
+                }
+                haveXmlChecks = !xmlDetectors.isEmpty();
+            } else {
+                xmlDetectors = Collections.emptyList();
+            }
+            if (haveXmlChecks
+                    || dirChecks != null &amp;amp;&amp;amp; !dirChecks.isEmpty()
+                    || binaryChecks != null &amp;amp;&amp;amp; !binaryChecks.isEmpty()) {
+                List&amp;lt;File&amp;gt; files = project.getSubset();
+                if (files != null) {
+                    checkIndividualResources(project, main, xmlDetectors, dirChecks,
+                            binaryChecks, files);
+                } else {
+                    List&amp;lt;File&amp;gt; resourceFolders = project.getResourceFolders();
+                    if (!resourceFolders.isEmpty()) {
+                        for (File res : resourceFolders) {
+                            checkResFolder(project, main, res, xmlDetectors, dirChecks,
+                                    binaryChecks);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    //检查java文件
+    if (mScope.contains(Scope.JAVA_FILE) || mScope.contains(Scope.ALL_JAVA_FILES)) {
+        List&amp;lt;Detector&amp;gt; checks = union(mScopeDetectors.get(Scope.JAVA_FILE),
+                mScopeDetectors.get(Scope.ALL_JAVA_FILES));
+        if (checks != null &amp;amp;&amp;amp; !checks.isEmpty()) {
+            List&amp;lt;File&amp;gt; files = project.getSubset();
+            if (files != null) {
+                checkIndividualJavaFiles(project, main, checks, files);
+            } else {
+                List&amp;lt;File&amp;gt; sourceFolders = project.getJavaSourceFolders();
+                if (mScope.contains(Scope.TEST_SOURCES)) {
+                    List&amp;lt;File&amp;gt; testFolders = project.getTestSourceFolders();
+                    if (!testFolders.isEmpty()) {
+                        List&amp;lt;File&amp;gt; combined = Lists.newArrayListWithExpectedSize(
+                                sourceFolders.size() + testFolders.size());
+                        combined.addAll(sourceFolders);
+                        combined.addAll(testFolders);
+                        sourceFolders = combined;
+                    }
+                }
+
+                checkJava(project, main, sourceFolders, checks);
+
+            }
+        }
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查class文件
+    if (mScope.contains(Scope.CLASS_FILE)
+            || mScope.contains(Scope.ALL_CLASS_FILES)
+            || mScope.contains(Scope.JAVA_LIBRARIES)) {
+        checkClasses(project, main);
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查gradle文件
+    if (mScope.contains(Scope.GRADLE_FILE)) {
+        checkBuildScripts(project, main);
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查其他的Generic文件
+    if (mScope.contains(Scope.OTHER)) {
+        List&amp;lt;Detector&amp;gt; checks = mScopeDetectors.get(Scope.OTHER);
+        if (checks != null) {
+            OtherFileVisitor visitor = new OtherFileVisitor(checks);
+            visitor.scan(this, project, main);
+        }
+    }
+
+    if (mCanceled) {
+        return;
+    }
+
+    //检查proguard文件
+    if (project == main &amp;amp;&amp;amp; mScope.contains(Scope.PROGUARD_FILE) &amp;amp;&amp;amp;
+            project.isAndroidProject()) {
+        checkProGuard(project, main);
+    }
+
+    //检查property文件
+    if (project == main &amp;amp;&amp;amp; mScope.contains(Scope.PROPERTY_FILE)) {
+        checkProperties(project, main);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面我们看下Java文件是如何进行lint检查的，我们在下一篇将会详细介绍这部分代码的实现细节。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;private void checkIndividualJavaFiles(//检查单个的Java文件
+        @NonNull Project project,
+        @Nullable Project main,
+        @NonNull List&amp;lt;Detector&amp;gt; checks,
+        @NonNull List&amp;lt;File&amp;gt; files) {
+
+    JavaParser javaParser = mClient.getJavaParser(project);
+    if (javaParser == null) {
+        mClient.log(null, &amp;quot;No java parser provided to lint: not running Java checks&amp;quot;);
+        return;
+    }
+
+    List&amp;lt;JavaContext&amp;gt; contexts = Lists.newArrayListWithExpectedSize(files.size());
+    for (File file : files) {
+        if (file.isFile() &amp;amp;&amp;amp; file.getPath().endsWith(DOT_JAVA)) {
+            contexts.add(new JavaContext(this, project, main, file, javaParser));
+        }
+    }
+
+    if (contexts.isEmpty()) {
+        return;
+    }
+
+    visitJavaFiles(checks, javaParser, contexts);
+}
+
+//访问java文件，进行lint检查
+private void visitJavaFiles(@NonNull List&amp;lt;Detector&amp;gt; checks, JavaParser javaParser,
+        List&amp;lt;JavaContext&amp;gt; contexts) {
+    // Temporary: we still have some builtin checks that aren&#39;t migrated to
+    // PSI. Until that&#39;s complete, remove them from the list here
+    //List&amp;lt;Detector&amp;gt; scanners = checks;
+    //当前新版的Java检查器都是实现了JavaPsiScanner接口，由它可以创建JavaPsiVisitor
+    List&amp;lt;Detector&amp;gt; scanners = Lists.newArrayListWithCapacity(checks.size());
+    for (Detector detector : checks) {
+        if (detector instanceof Detector.JavaPsiScanner) {
+            scanners.add(detector);
+        }
+    }
+
+    JavaPsiVisitor visitor = new JavaPsiVisitor(javaParser, scanners);
+    visitor.prepare(contexts);
+    for (JavaContext context : contexts) {
+        fireEvent(EventType.SCANNING_FILE, context);
+        visitor.visitFile(context);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    visitor.dispose();
+
+    //下面是为了兼容以前版本的Java检查器而做的检查，它会创建JavaScanner以及JavaVisitor去对文件进行检查
+    // Only if the user is using some custom lint rules that haven&#39;t been updated
+    // yet noinspection ConstantConditions
+    if (mRunCompatChecks) {
+        // Filter the checks to only those that implement JavaScanner
+        List&amp;lt;Detector&amp;gt; filtered = Lists.newArrayListWithCapacity(checks.size());
+        for (Detector detector : checks) {
+            if (detector instanceof Detector.JavaScanner) {
+                filtered.add(detector);
+            }
+        }
+
+        if (!filtered.isEmpty()) {
+            List&amp;lt;String&amp;gt; detectorNames = Lists.newArrayListWithCapacity(filtered.size());
+            for (Detector detector : filtered) {
+                detectorNames.add(detector.getClass().getName());
+            }
+            Collections.sort(detectorNames);
+            JavaVisitor oldVisitor = new JavaVisitor(javaParser, filtered);
+
+            oldVisitor.prepare(contexts);
+            for (JavaContext context : contexts) {
+                fireEvent(EventType.SCANNING_FILE, context);
+                oldVisitor.visitFile(context);
+                if (mCanceled) {
+                    return;
+                }
+            }
+            oldVisitor.dispose();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Lint Tool Analysis (1)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</link>
+      <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</guid>
+      <description>
+
+&lt;p&gt;Lint工具的源码分析(1)&lt;/p&gt;
+
+&lt;p&gt;在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/&#34;&gt;Custom Lint in Action&lt;/a&gt;中我们了解到将自定义的lint规则打包成jar，然后放在&lt;code&gt;~/.android/lint/&lt;/code&gt;目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，这是为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描源文件的方式去检查看是否真的存在那些问题的过程。&lt;/strong&gt;&lt;br /&gt;
+针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)以及源代码文件如何进行静态扫描(Scanner)等内容进行封装，其实lint工具的源码就是这么设计和封装的。&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;lint&lt;/code&gt;工具源码主要分成两部分：&lt;code&gt;lint-api&lt;/code&gt;和&lt;code&gt;lint-checks&lt;/code&gt;，前者主要是lint的核心API，后者是利用API定义的检查器。其中&lt;code&gt;lint-api&lt;/code&gt;又分为&lt;code&gt;detector.api&lt;/code&gt;和&lt;code&gt;client.api&lt;/code&gt;这两个包，其中&lt;code&gt;detector.api&lt;/code&gt;这个包主要是和lint检查器相关的类，&lt;code&gt;client.api&lt;/code&gt;这个包主要是和调用lint检查有关的类。由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是&lt;code&gt;detector.api&lt;/code&gt;包中的重要类。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-detector-api包中的重要类&#34;&gt;1. detector.api包中的重要类&lt;/h3&gt;
+
+&lt;p&gt;(1) &lt;code&gt;Scope&lt;/code&gt;枚举类表示lint检查时需要检查的文件范围，例如&lt;code&gt;RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE&lt;/code&gt;等，各项含义与下面的代码片段类似。该类中的&lt;code&gt;infer&lt;/code&gt;方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，&lt;code&gt;checkSingleFile&lt;/code&gt;方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Scope指的就是哪个文件或者哪些文件需要被检查。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * The scope of a detector is the set of files a detector must consider when
+ * performing its analysis. This can be used to determine when issues are
+ * potentially obsolete, whether a detector should re-run on a file save, etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public enum Scope {
+    /**
+     * The analysis only considers a single XML resource file at a time.
+     * &amp;lt;p&amp;gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    RESOURCE_FILE,//检查单个资源文件，可以增量式检查
+
+    /**
+     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
+     * &amp;lt;p&amp;gt;
+     * Issues which are only affected by a single resource file can be checked
+     * for incrementally when a file is edited.
+     */
+    BINARY_RESOURCE_FILE,//检查二进制形式的资源文件，例如bitmap
+
+    /**
+     * The analysis considers the resource folders (which also includes asset folders)
+     */
+    RESOURCE_FOLDER,//检查资源目录，包括asset目录
+
+    /**
+     * The analysis considers &amp;lt;b&amp;gt;all&amp;lt;/b&amp;gt; the resource file. This scope must not
+     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
+     * either considering just a single resource file or all the resources, not
+     * both.
+     */
+    ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
+    ...//其他类型的scope
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2) &lt;code&gt;Context&lt;/code&gt;类表示lint检查时的上下文环境，包括需要进行分析的项目和文件的信息以及lint规则的配置信息，例如&lt;code&gt;Project，File，LintDriver，Configuration&lt;/code&gt;等，详情请参考下面的代码及其注释理解。其子类包括&lt;code&gt;JavaContext，ClassContext，XmlContext，ResourceContext&lt;/code&gt;，顾名思义，JavaContext就是用来检查Java文件的Context。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Context指的就是lint检查时的上下文信息。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Context passed to the detectors during an analysis run. It provides
+ * information about the file being analyzed, it allows shared properties (so
+ * the detectors can share results), etc.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public class Context {
+    /**
+     * The file being checked. Note that this may not always be to a concrete
+     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
+     * method, the context file is the directory of the project.
+     */
+    public final File file;//被检查的文件
+
+    /** The driver running through the checks */
+    protected final LintDriver mDriver;//运行所有检查的driver
+
+    /** The project containing the file being checked */
+    @NonNull
+    private final Project mProject;//包含需要检查的文件的项目
+
+    /**
+     * The &amp;quot;main&amp;quot; project. For normal projects, this is the same as {@link #mProject},
+     * but for library projects, it&#39;s the root project that includes (possibly indirectly)
+     * the various library projects and their library projects.
+     * &amp;lt;p&amp;gt;
+     * Note that this is a property on the {@link Context}, not the
+     * {@link Project}, since a library project can be included from multiple
+     * different top level projects, so there isn&#39;t &amp;lt;b&amp;gt;one&amp;lt;/b&amp;gt; main project,
+     * just one per main project being analyzed with its library projects.
+     */
+    private final Project mMainProject;//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
+
+    /** The current configuration controlling which checks are enabled etc */
+    private final Configuration mConfiguration;//检查器的配置信息，例如哪些检查器开启或关闭了
+
+    /** The contents of the file */
+    private String mContents;//文件的内容
+
+    /** Map of properties to share results between detectors */
+    private Map&amp;lt;String, Object&amp;gt; mProperties;//用于在检查器之间共享数据的键值对
+
+    /** Whether this file contains any suppress markers (null means not yet determined) */
+    private Boolean mContainsCommentSuppress;//文件是否包含suppress lint相关的注释，null表示还不确定
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.1) &lt;code&gt;Project&lt;/code&gt;类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等信息。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * A project contains information about an Android project being scanned for
+ * Lint errors.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class Project {
+    protected final LintClient mClient;//下一篇会详细分析这个 LintClient
+    protected final File mDir;
+    protected final File mReferenceDir;
+    protected Configuration mConfiguration;
+    protected String mPackage;
+    protected int mBuildSdk = -1;
+    protected IAndroidTarget mTarget;
+
+    protected AndroidVersion mManifestMinSdk = AndroidVersion.DEFAULT;
+    protected AndroidVersion mManifestTargetSdk = AndroidVersion.DEFAULT;
+
+    protected boolean mLibrary;
+    protected String mName;
+    protected String mProguardPath;
+    protected boolean mMergeManifests;
+
+    /** The SDK info, if any */
+    protected SdkInfo mSdkInfo;
+
+    /**
+     * If non null, specifies a non-empty list of specific files under this
+     * project which should be checked.
+     */
+    protected List&amp;lt;File&amp;gt; mFiles;
+    protected List&amp;lt;File&amp;gt; mProguardFiles;
+    protected List&amp;lt;File&amp;gt; mGradleFiles;
+    protected List&amp;lt;File&amp;gt; mManifestFiles;
+    protected List&amp;lt;File&amp;gt; mJavaSourceFolders;
+    protected List&amp;lt;File&amp;gt; mJavaClassFolders;
+    protected List&amp;lt;File&amp;gt; mNonProvidedJavaLibraries;
+    protected List&amp;lt;File&amp;gt; mJavaLibraries;
+    protected List&amp;lt;File&amp;gt; mTestSourceFolders;
+    protected List&amp;lt;File&amp;gt; mResourceFolders;
+    protected List&amp;lt;File&amp;gt; mAssetFolders;
+    protected List&amp;lt;Project&amp;gt; mDirectLibraries;
+    protected List&amp;lt;Project&amp;gt; mAllLibraries;
+    protected boolean mReportIssues = true;
+    protected Boolean mGradleProject;
+    protected Boolean mSupportLib;
+    protected Boolean mAppCompat;
+    protected GradleVersion mGradleVersion;
+    private Map&amp;lt;String, String&amp;gt; mSuperClassMap;
+    private ResourceVisibilityLookup mResourceVisibility;
+    private BuildToolInfo mBuildTools;
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.2) &lt;code&gt;Configuration&lt;/code&gt;类是一个抽象类，主要用来判断或者配置某个lint检查规则是否开启、是否忽略等。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Lint configuration for an Android project such as which specific rules to include,
+ * which specific rules to exclude, and which specific errors to ignore.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public abstract class Configuration {
+    /**
+     * Checks whether this issue should be ignored because the user has already
+     * suppressed the error? Note that this refers to individual issues being
+     * suppressed/ignored, not a whole detector being disabled via something
+     * like {@link #isEnabled(Issue)}.
+     *
+     * @param context the context used by the detector when the issue was found
+     * @param issue the issue that was found
+     * @param location the location of the issue
+     * @param message the associated user message
+     * @return true if this issue should be suppressed
+     */
+    public boolean isIgnored(
+            @NonNull Context context,
+            @NonNull Issue issue,
+            @Nullable Location location,
+            @NonNull String message) {
+        return false;//有些issue是开启了，但是用户可能以某种方式suppress了这种错误
+    }
+
+    /**
+     * Returns false if the given issue has been disabled. This is just
+     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
+     *
+     * @param issue the issue to check
+     * @return false if the issue has been disabled
+     */
+    public boolean isEnabled(@NonNull Issue issue) {
+        return getSeverity(issue) != Severity.IGNORE;//只要严重程度不是IGNORE的话那就是开启了
+    }
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;Configuration&lt;/code&gt;有个默认的实现&lt;code&gt;DefaultConfiguration&lt;/code&gt;，在&lt;code&gt;client.api&lt;/code&gt;包中，它的主要作用是读写项目根目录下的&lt;code&gt;lint.xml&lt;/code&gt;配置文件，下面是lint.xml文件的一个例子。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;lint&amp;gt;
+    &amp;lt;!-- Disable the given check in this project --&amp;gt;
+    &amp;lt;issue id=&amp;quot;IconMissingDensityFolder&amp;quot; severity=&amp;quot;ignore&amp;quot; /&amp;gt;
+
+    &amp;lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&amp;gt;
+    &amp;lt;issue id=&amp;quot;ObsoleteLayoutParam&amp;quot;&amp;gt;
+        &amp;lt;ignore regexp=&amp;quot;res/.*/activation.xml&amp;quot; /&amp;gt;
+    &amp;lt;/issue&amp;gt;
+
+    &amp;lt;!-- Ignore the UselessLeaf issue in the specified file --&amp;gt;
+    &amp;lt;issue id=&amp;quot;UselessLeaf&amp;quot;&amp;gt;
+        &amp;lt;ignore path=&amp;quot;res/layout/main.xml&amp;quot; /&amp;gt;
+    &amp;lt;/issue&amp;gt;
+
+    &amp;lt;!-- Change the severity of hardcoded strings to &amp;quot;error&amp;quot; --&amp;gt;
+    &amp;lt;issue id=&amp;quot;HardcodedText&amp;quot; severity=&amp;quot;error&amp;quot; /&amp;gt;
+&amp;lt;/lint&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及上面的lint.xml文件的例子来看，处理流程相对还比较清晰。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//默认的Configuration的实现
+/**
+ * Default implementation of a {@link Configuration} which reads and writes
+ * configuration data into {@code lint.xml} in the project directory.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class DefaultConfiguration extends Configuration {
+    private final LintClient mClient;
+    /** Default name of the configuration file */
+    public static final String CONFIG_FILE_NAME = &amp;quot;lint.xml&amp;quot;; //$NON-NLS-1$
+
+    // Lint XML File =&amp;gt; 定义lint.xml文件中的元素标签
+    @NonNull
+    private static final String TAG_ISSUE = &amp;quot;issue&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_ID = &amp;quot;id&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_SEVERITY = &amp;quot;severity&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_PATH = &amp;quot;path&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String ATTR_REGEXP = &amp;quot;regexp&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String TAG_IGNORE = &amp;quot;ignore&amp;quot;; //$NON-NLS-1$
+    @NonNull
+    private static final String VALUE_ALL = &amp;quot;all&amp;quot;; //$NON-NLS-1$
+
+    private final Configuration mParent;
+    private final Project mProject;
+    private final File mConfigFile;
+    private boolean mBulkEditing;
+
+    /** Map from id to list of project-relative paths for suppressed warnings */
+    private Map&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt; mSuppressed;//指定issue有哪些不检查的路径列表
+
+    /** Map from id to regular expressions. */
+    @Nullable
+    private Map&amp;lt;String, List&amp;lt;Pattern&amp;gt;&amp;gt; mRegexps;
+
+    /**
+     * Map from id to custom {@link Severity} override
+     */
+    private Map&amp;lt;String, Severity&amp;gt; mSeverity;//指定issue对应的严重程度
+    ...
+    //从lint配置文件中读取lint规则的配置信息
+    private void readConfig() {
+        mSuppressed = new HashMap&amp;lt;String, List&amp;lt;String&amp;gt;&amp;gt;();
+        mSeverity = new HashMap&amp;lt;String, Severity&amp;gt;();
+
+        if (!mConfigFile.exists()) {
+            return;
+        }
+
+        try {
+            Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
+            NodeList issues = document.getElementsByTagName(TAG_ISSUE);
+            Splitter splitter = Splitter.on(&#39;,&#39;).trimResults().omitEmptyStrings();
+            for (int i = 0, count = issues.getLength(); i &amp;lt; count; i++) {//遍历issue
+                Node node = issues.item(i);
+                Element element = (Element) node;
+                String idList = element.getAttribute(ATTR_ID);//读取id属性值
+                if (idList.isEmpty()) {
+                    formatError(&amp;quot;Invalid lint config file: Missing required issue id attribute&amp;quot;);
+                    continue;
+                }
+                Iterable&amp;lt;String&amp;gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
+
+                //下面这部分是处理severity属性值的配置
+                NamedNodeMap attributes = node.getAttributes();
+                for (int j = 0, n = attributes.getLength(); j &amp;lt; n; j++) {
+                    Node attribute = attributes.item(j);
+                    String name = attribute.getNodeName();
+                    String value = attribute.getNodeValue();
+                    if (ATTR_ID.equals(name)) {
+                        // already handled
+                    } else if (ATTR_SEVERITY.equals(name)) {
+                        for (Severity severity : Severity.values()) {
+                            if (value.equalsIgnoreCase(severity.name())) {
+                                for (String id : ids) {
+                                    mSeverity.put(id, severity);
+                                }
+                                break;
+                            }
+                        }
+                    } else {
+                        formatError(&amp;quot;Unexpected attribute \&amp;quot;%1$s\&amp;quot;&amp;quot;, name);
+                    }
+                }
+
+                //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
+                // Look up ignored errors
+                NodeList childNodes = element.getChildNodes();
+                if (childNodes.getLength() &amp;gt; 0) {
+                    for (int j = 0, n = childNodes.getLength(); j &amp;lt; n; j++) {
+                        Node child = childNodes.item(j);
+                        if (child.getNodeType() == Node.ELEMENT_NODE) {
+                            Element ignore = (Element) child;
+                            String path = ignore.getAttribute(ATTR_PATH);
+                            if (path.isEmpty()) {//regexp的形式
+                                String regexp = ignore.getAttribute(ATTR_REGEXP);
+                                if (regexp.isEmpty()) {
+                                    formatError(&amp;quot;Missing required attribute %1$s or %2$s under %3$s&amp;quot;,
+                                        ATTR_PATH, ATTR_REGEXP, idList);
+                                } else {
+                                    addRegexp(idList, ids, n, regexp, false);
+                                }
+                            } else {//path的形式
+                                // Normalize path format to File.separator. Also
+                                // handle the file format containing / or \.
+                                if (File.separatorChar == &#39;/&#39;) {
+                                    path = path.replace(&#39;\\&#39;, &#39;/&#39;);
+                                } else {
+                                    path = path.replace(&#39;/&#39;, File.separatorChar);
+                                }
+
+                                if (path.indexOf(&#39;*&#39;) != -1) {
+                                    String regexp = globToRegexp(path);
+                                    addRegexp(idList, ids, n, regexp, false);
+                                } else {
+                                    for (String id : ids) {
+                                        List&amp;lt;String&amp;gt; paths = mSuppressed.get(id);
+                                        if (paths == null) {
+                                            paths = new ArrayList&amp;lt;String&amp;gt;(n / 2 + 1);
+                                            mSuppressed.put(id, paths);
+                                        }
+                                        paths.add(path);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SAXParseException e) {
+            formatError(e.getMessage());
+        } catch (Exception e) {
+            mClient.log(e, null);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(2.3) &lt;code&gt;LintDriver&lt;/code&gt;类很大很复杂，而且是在&lt;code&gt;client.api&lt;/code&gt;包中，我们将在下一节介绍。&lt;/p&gt;
+
+&lt;p&gt;(3) &lt;code&gt;Detector&lt;/code&gt;类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是&lt;code&gt;Manifest文件 =&amp;gt; Resource文件 =&amp;gt; Java源码文件 =&amp;gt; Java Class文件 =&amp;gt; Gradle文件 =&amp;gt; Generic文件 =&amp;gt; Proguard文件 =&amp;gt; Property文件&lt;/code&gt;。Detector类中定义了很多检查器通用的一些方法，比如下面代码片段中的&lt;code&gt;visitMethod&lt;/code&gt;、&lt;code&gt;visitConstructor&lt;/code&gt;等等。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Detector指的就是一个个的lint检查器。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public class Detector {
+    ...
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression call, @NonNull PsiMethod method) {
+    }//访问一个普通的方法
+
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitConstructor(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiNewExpression node,
+            @NonNull PsiMethod constructor) {
+    }//访问一个构造函数
+
+    @SuppressWarnings({&amp;quot;UnusedParameters&amp;quot;, &amp;quot;unused&amp;quot;, &amp;quot;javadoc&amp;quot;})
+    public void visitResourceReference(@NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor, @NonNull PsiElement node,
+            @NonNull ResourceType type, @NonNull String name, boolean isFramework) {
+    }//访问一个资源引用
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;除此之外，&lt;code&gt;Detector&lt;/code&gt;类中还定义了很多不同类型文件的扫描器(Scanner)接口，例如&lt;code&gt;JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner&lt;/code&gt;，后面我们会详细介绍其中的&lt;code&gt;JavaPsiScanner&lt;/code&gt;。有意思的是，这些Scanner接口中定义的所有方法都在Detector类中都对应有相同签名的方法，也就是&lt;code&gt;Detector&lt;/code&gt;是所有的&lt;code&gt;Scanner&lt;/code&gt;的适配器，所以检查器一般会继承&lt;code&gt;Detector&lt;/code&gt;类并实现某个&lt;code&gt;Scanner&lt;/code&gt;接口。下面是&lt;code&gt;XmlScanner&lt;/code&gt;和&lt;code&gt;GradleScanner&lt;/code&gt;两个接口的定义。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/** Specialized interface for detectors that scan XML files */
+public interface XmlScanner {
+    /**
+     * Visit the given document. The detector is responsible for its own iteration
+     * through the document.
+     * @param context information about the document being analyzed
+     * @param document the document to examine
+     */
+    void visitDocument(@NonNull XmlContext context, @NonNull Document document);
+
+    /**
+     * Visit the given element.
+     * @param context information about the document being analyzed
+     * @param element the element to examine
+     */
+    void visitElement(@NonNull XmlContext context, @NonNull Element element);
+
+    /**
+     * Visit the given element after its children have been analyzed.
+     * @param context information about the document being analyzed
+     * @param element the element to examine
+     */
+    void visitElementAfter(@NonNull XmlContext context, @NonNull Element element);
+
+    /**
+     * Visit the given attribute.
+     * @param context information about the document being analyzed
+     * @param attribute the attribute node to examine
+     */
+    void visitAttribute(@NonNull XmlContext context, @NonNull Attr attribute);
+
+    /**
+     * Returns the list of elements that this detector wants to analyze. If non
+     * null, this detector will be called (specifically, the
+     * {@link #visitElement} method) for each matching element in the document.
+     * &amp;lt;p&amp;gt;
+     * If this method returns null, and {@link #getApplicableAttributes()} also returns
+     * null, then the {@link #visitDocument} method will be called instead.
+     *
+     * @return a collection of elements, or null, or the special
+     *         {@link XmlScanner#ALL} marker to indicate that every single
+     *         element should be analyzed.
+     */
+    @Nullable
+    Collection&amp;lt;String&amp;gt; getApplicableElements();
+
+    /**
+     * Returns the list of attributes that this detector wants to analyze. If non
+     * null, this detector will be called (specifically, the
+     * {@link #visitAttribute} method) for each matching attribute in the document.
+     * &amp;lt;p&amp;gt;
+     * If this method returns null, and {@link #getApplicableElements()} also returns
+     * null, then the {@link #visitDocument} method will be called instead.
+     *
+     * @return a collection of attributes, or null, or the special
+     *         {@link XmlScanner#ALL} marker to indicate that every single
+     *         attribute should be analyzed.
+     */
+    @Nullable
+    Collection&amp;lt;String&amp;gt; getApplicableAttributes();
+
+    /**
+     * Special marker collection returned by {@link #getApplicableElements()} or
+     * {@link #getApplicableAttributes()} to indicate that the check should be
+     * invoked on all elements or all attributes
+     */
+    @NonNull
+    List&amp;lt;String&amp;gt; ALL = new ArrayList&amp;lt;String&amp;gt;(0); // NOT Collections.EMPTY!
+    // We want to distinguish this from just an *empty* list returned by the caller!
+}
+
+/** Specialized interface for detectors that scan Gradle files */
+public interface GradleScanner {
+    void visitBuildScript(@NonNull Context context, Map&amp;lt;String, Object&amp;gt; sharedData);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4) &lt;code&gt;Issue&lt;/code&gt;类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的&lt;code&gt;Severity&lt;/code&gt;类，表示问题类别的&lt;code&gt;Category&lt;/code&gt;类以及用来发现和检查这个问题的&lt;code&gt;Detector&lt;/code&gt;(包含在&lt;code&gt;Implementation&lt;/code&gt;类中)。&lt;br /&gt;
+&lt;strong&gt;通俗来讲，Issue指的就是检查器去检查文件时发现它可能出现的问题。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * An issue is a potential bug in an Android application. An issue is discovered
+ * by a {@link Detector}, and has an associated {@link Severity}.
+ * &amp;lt;p&amp;gt;
+ * Issues and detectors are separate classes because a detector can discover
+ * multiple different issues as it&#39;s analyzing code, and we want to be able to
+ * different severities for different issues, the ability to suppress one but
+ * not other issues from the same detector, and so on.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public final class Issue implements Comparable&amp;lt;Issue&amp;gt; {
+    private final String mId;//问题id，名称标识
+    private final String mBriefDescription;//简单描述
+    private final String mExplanation;//详细解释
+    private final Category mCategory;//问题类别
+    private final int mPriority;//问题等级
+    private final Severity mSeverity;//问题严重程度
+    private Object mMoreInfoUrls;//问题的更多信息，可能是一个网址的url
+    private boolean mEnabledByDefault = true;//是否默认开启
+    private Implementation mImplementation;//这个问题的检查器相关信息
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.1) &lt;code&gt;Severity&lt;/code&gt;类是表示问题严重程度的枚举类，主要分为了&lt;code&gt;FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE&lt;/code&gt;这几种程度。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Severity of an issue found by lint
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public enum Severity {
+    /**
+     * Fatal: Use sparingly because a warning marked as fatal will be
+     * considered critical and will abort Export APK etc in ADT
+     */
+    @NonNull
+    FATAL(&amp;quot;Fatal&amp;quot;),//标记为Fatal将被视为非常危险，在导出apk时可能会终止
+
+    /**
+     * Errors: The issue is known to be a real error that must be addressed.
+     */
+    @NonNull
+    ERROR(&amp;quot;Error&amp;quot;),//的确是一个问题
+
+    /**
+     * Warning: Probably a problem.
+     */
+    @NonNull
+    WARNING(&amp;quot;Warning&amp;quot;),//警告，可能是一个问题
+
+    /**
+     * Information only: Might not be a problem, but the check has found
+     * something interesting to say about the code.
+     */
+    @NonNull
+    INFORMATIONAL(&amp;quot;Information&amp;quot;),//可能不是一个问题
+
+    /**
+     * Ignore: The user doesn&#39;t want to see this issue
+     */
+    @NonNull
+    IGNORE(&amp;quot;Ignore&amp;quot;);//用户不想看到的问题
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.2) &lt;code&gt;Category&lt;/code&gt;类表示问题的类别，主要有&lt;code&gt;Correctness，Security，Performance，Usability，Accessibility，Internationalization&lt;/code&gt;等，类别下面可以有子类别，每个类别都还有一个优先级。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * A category is a container for related issues.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+public final class Category implements Comparable&amp;lt;Category&amp;gt; {
+    private final String mName;//类别名称
+    private final int mPriority;//优先级
+    private final Category mParent;//父类别
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(4.3) &lt;code&gt;Implementation&lt;/code&gt;类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是&lt;code&gt;mScope&lt;/code&gt;和&lt;code&gt;mAnalysisScopes&lt;/code&gt;的含义是不同的，表示的具体范围也不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
+ * class responsible for analyzing the issue, as well as the {@link Scope} required
+ * by the detector to perform its analysis.
+ * &amp;lt;p&amp;gt;
+ * &amp;lt;b&amp;gt;NOTE: This is not a public or final API; if you rely on this be prepared
+ * to adjust your code for the next tools release.&amp;lt;/b&amp;gt;
+ */
+@Beta
+public class Implementation {
+    private final Class&amp;lt;? extends Detector&amp;gt; mClass;//问题对应的检查器
+    private final EnumSet&amp;lt;Scope&amp;gt; mScope;//检查器的检查范围，可能是存在很多的scope中
+    private EnumSet&amp;lt;Scope&amp;gt;[] mAnalysisScopes;//检查器分析问题时的范围
+    ...
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>App Launch Time Measurement</title>
@@ -3727,258 +5650,6 @@ public Object getValue(float fraction) {
 &lt;p&gt;看到这里的话，机智的你肯定发现了，为什么那些&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数曲线形状一样一样的，到底&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是啥关系啊？在实现动画上它们又有啥区别呢？&lt;/p&gt;
 
 &lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/27/When-Math-meets-Android-Animation-2/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Learning Git by Animations</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
-      <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
-      <description>
-
-&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
-
-&lt;h3 id=&#34;head&#34;&gt;HEAD&lt;/h3&gt;
-
-&lt;p&gt;HEAD 是当前提交记录的符号名称 &amp;ndash; 其实就是你正在其基础进行工作的提交记录。HEAD 总是指向最近一次提交记录，表现为当前工作树。大多数修改工作树的 Git 命令都开始于改变 HEAD 指向。HEAD 通常指向分支名（比如 bugFix）。你提交时，改变了 bugFix 的状态，这一变化通过 HEAD 变得可见。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;分离HEAD&lt;/strong&gt;：分离HEAD实际上就是指HEAD并没有指向某个分支，而是指向了某个具体的提交记录。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;相对引用&lt;/strong&gt;：把&lt;code&gt;^&lt;/code&gt;跟在引用名后面，表示寻找指定提交记录的父提交。例如&lt;code&gt;master^&lt;/code&gt;表示master的父提交，&lt;code&gt;master^^&lt;/code&gt;表示master的父父提交。如果要移动多步，可以使用&lt;code&gt;~&lt;/code&gt;加上数字快速移动。&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git branch -f master HEAD~3&lt;/code&gt;命令的含义是（强制）移动 master 指向 HEAD 的第3级父提交。&lt;/p&gt;
-
-&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout C1&lt;/code&gt;，中间执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout HEAD~4&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;多个父提交&lt;/strong&gt;：当有多个父提交记录的时候，该如何移动HEAD呢？&lt;/p&gt;
-
-&lt;p&gt;如下图，左边执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout master^2&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;解析：注意区别&lt;code&gt;git checkout master^2&lt;/code&gt;和&lt;code&gt;git checkout master^^&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head_move.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;常见的两个合并分支的操作git merge和git rebase。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-merge&#34;&gt;git merge&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;merge&lt;/strong&gt;产生一个特殊的提交记录，它包含两个唯一父提交，有两个父提交的提交记录本质上指 “我想把这两个父提交本身及它们的父提交集合都包含进来”。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git merge [branch]&lt;/code&gt;操作是将指定的分支合并到当前的分支，该操作会创建一个新的提交记录，但是不会改变当前分支。&lt;/p&gt;
-
-&lt;p&gt;如下图所示，从左到右执行了&lt;code&gt;git merge bugFix&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_merge.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-rebase&#34;&gt;git rebase&lt;/h3&gt;
-
-&lt;p&gt;&lt;strong&gt;rebase&lt;/strong&gt; 是在分支之间合并工作的第二种方法。rebase 就是取出一系列的提交记录，“复制”它们，然后把它们放在别的地方。rebasing 的优势是可以创造更线性的提交历史。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git rebase [branch]&lt;/code&gt;操作也是用来合并分支，但是合并时并不产生新的提交记录，而是复制那个分支下的所有提交记录加入到当前的分支下面，同样地，&lt;strong&gt;该操作不改变当前分支&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;下图先执行了&lt;code&gt;git rebase master&lt;/code&gt;，后执行了&lt;code&gt;git checkout master; git rebase bugFix&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;快捷命令&lt;code&gt;git rabase [branch A] [branch B]&lt;/code&gt;，将分支B上的提交记录rebase到分支A&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;常见的两个撤销更改的操作git reset和git revert。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-reset&#34;&gt;git reset&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;git reset&lt;/code&gt; 把分支记录回退到上一个提交记录来实现撤销改动。你可以认为这是在&amp;rdquo;重写历史&amp;rdquo;。&lt;code&gt;git reset&lt;/code&gt; 往回移动分支，原来指向的提交记录好像重来没有提交过一样。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git reset&lt;/code&gt;修改的只是本地分支，这种“改写历史”的方法对别人的远端分支是无效的！&lt;/p&gt;
-
-&lt;p&gt;下图执行了&lt;code&gt;git reset C1&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_reset.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-revert&#34;&gt;git revert&lt;/h3&gt;
-
-&lt;p&gt;为了撤销更改并*传播*给别人，我们需要使用 &lt;code&gt;git revert&lt;/code&gt;。它会在在我们要撤销的提交记录后面增加一个新提交，而且新提交记录 &lt;code&gt;C2&#39;&lt;/code&gt; 引入的*更改*是刚好是用来撤销 &lt;code&gt;C2&lt;/code&gt;这个提交的。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git revert&lt;/code&gt;命令就是通过增加新提交来撤销之前的修改，而且能够将撤销传播给协作者。&lt;/p&gt;
-
-&lt;p&gt;下图执行了&lt;code&gt;git revert HEAD&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_revert.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-cherry-pick&#34;&gt;git cherry-pick&lt;/h3&gt;
-
-&lt;p&gt;如果你想选择性地将一些提交“复制”到你当前的位置的话，可以考虑使用&lt;code&gt;git cherry-pick&lt;/code&gt;，命令形式：&lt;code&gt;git cherry-pick &amp;lt;Commit 1&amp;gt; &amp;lt;Commit 2&amp;gt; &amp;lt;...&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git cherry-pick&lt;/code&gt;方便我们选择所需的提交记录加入到某个分支下，使用&lt;code&gt;git rebase -i&lt;/code&gt;启动rebase的交互模式也可以完成该任务，它甚至可以对提交记录进行排序！&lt;/p&gt;
-
-&lt;p&gt;下图执行了&lt;code&gt;git cherry-pick C2 C4&lt;/code&gt;，从图中可以看出该命令并没有去合并分支。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_cherry.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-tag&#34;&gt;git tag&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;git tag&lt;/code&gt;可以永远地指向某个特定的 commit，即使再有新的commit进来的时候，它都不会移动。你不可以 &amp;ldquo;checkout&amp;rdquo; 到 tag 指定的 commit上，tag 的存在就像是一个在 commit tree 上的表示特定讯息的一个锚。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git tag&lt;/code&gt;就是给某个提交记录做个标签，就像是“里程碑”一样。&lt;/p&gt;
-
-&lt;p&gt;如下图，执行&lt;code&gt;git tag v1 C1&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_tag.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;远端分支&#34;&gt;远端分支&lt;/h3&gt;
-
-&lt;p&gt;远端分支（remote branch）一般命名为&lt;code&gt;&amp;lt;remote name&amp;gt;/&amp;lt;branch name&amp;gt;&lt;/code&gt;，而远端名称一般都是&lt;code&gt;origin&lt;/code&gt;。本地的远端分支仅伴随远端更新而更新，这个分支上创建的提交不会更新该分支，只会使其分离HEAD。&lt;/p&gt;
-
-&lt;h3 id=&#34;git-fetch&#34;&gt;git fetch&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;git fetch&lt;/code&gt;命令用于从远端仓库获取数据，当我们更新远端的仓库时, 我们的远端分支也会更新并映射到最新的远端仓库。&lt;/p&gt;
-
-&lt;p&gt;解析：&lt;code&gt;git fetch&lt;/code&gt;完成了两个操作：（1）下载本地仓库未包含的提交对象；（2）更新我们的远端分支点(例如&lt;code&gt;o/master&lt;/code&gt;)。但是，它不会修改本地的状态，例如master分支。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;复杂的fetch操作：&lt;code&gt;git fetch origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;从远端指定的source位置拉取到本地指定的destination位置&lt;/p&gt;
-
-&lt;p&gt;如下图，执行&lt;code&gt;git fetch origin foo~1:bar&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch_more.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-pull&#34;&gt;git pull&lt;/h3&gt;
-
-&lt;p&gt;如前面&lt;code&gt;git fetch&lt;/code&gt;所示，它不会修改master分支的状态，但是一般我们在执行了&lt;code&gt;git fetch&lt;/code&gt;命令之后都需要执行&lt;code&gt;git rebase o/master&lt;/code&gt;或者&lt;code&gt;git merge o/master&lt;/code&gt;来修改master分支的状态，于是就有了&lt;code&gt;git pull&lt;/code&gt;命令，它是&lt;code&gt;git fetch + git merge&lt;/code&gt;两个命令的缩写，而&lt;code&gt;git pull --rebase&lt;/code&gt;是&lt;code&gt;git fetch + git rebase&lt;/code&gt;两个命令的缩写。&lt;/p&gt;
-
-&lt;p&gt;如下图，执行了&lt;code&gt;git pull&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git merge o/master&lt;/code&gt;两个命令&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;如下图，可以是执行了&lt;code&gt;git pull --rebase&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git rebase o/master&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;三个命令&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;git-push&#34;&gt;git push&lt;/h3&gt;
-
-&lt;p&gt;&lt;code&gt;git push&lt;/code&gt;命令将本地提交记录push到远端仓库中，它还会自动同步本地的远端分支。&lt;/p&gt;
-
-&lt;p&gt;如果远端仓库中存在超前于本地仓库的提交记录的话，那么git push操作会失败，此时需要先获取远端提交记录（&lt;code&gt;git fetch&lt;/code&gt;），在本地仓库完成合并过程，才能push。&lt;/p&gt;
-
-&lt;p&gt;复杂的push操作：&lt;code&gt;git push origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;如下图，执行&lt;code&gt;git push origin foo^:master&lt;/code&gt;：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_push.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;远端跟踪&#34;&gt;远端跟踪&lt;/h3&gt;
-
-&lt;p&gt;本地的master分支被设定为跟踪origin/master分支（它就是隐含的merge和push的目的地），它们之间的连接关系就是远端跟踪（remote tracking）。&lt;/p&gt;
-
-&lt;p&gt;你可以让做任意分支跟踪 &lt;code&gt;o/master&lt;/code&gt;, 然后分支就会隐含 push 的 destination(&lt;code&gt;o/master&lt;/code&gt;) 以及 merge 的 target (&lt;code&gt;o/master&lt;/code&gt;)。这意味着你可以在分支 &lt;code&gt;foo&lt;/code&gt; 上执行 &lt;code&gt;git push&lt;/code&gt;， 将工作推送到远端的&lt;code&gt;master&lt;/code&gt;。有两种方法设置：&lt;/p&gt;
-
-&lt;p&gt;（1）第一种就是通过远端分支检出一个新的分支，执行：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git checkout -b foo o/master&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;虽然分支名不叫master，但是在执行&lt;code&gt;git push&lt;/code&gt;的时候foo分支上的提交记录会同步到远端仓库&lt;/p&gt;
-
-&lt;p&gt;（2）第二种追踪远端分支的方法就是使用选项 : &lt;code&gt;git branch -u&lt;/code&gt;：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git branch -u o/master foo&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;这样 &lt;code&gt;foo&lt;/code&gt; 就会跟踪 &lt;code&gt;o/master&lt;/code&gt; 了. 如果你处于 foo 分支, 那么可以省略 foo：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git branch -u o/master&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;如下图，两种方式变化到图三殊途同归。&lt;/p&gt;
-
-&lt;p&gt;从图一变化到图三执行了&lt;code&gt;git checkout -b foo o/master; git commit; git push&lt;/code&gt;；&lt;/p&gt;
-
-&lt;p&gt;从图二变化到图三执行了&lt;code&gt;git branch -u o/master; git commit; git push&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_remote_track.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;零碎知识点：&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Gank Alfred Workflow</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
-      <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
-      <description>
-
-&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;0-使用方式&#34;&gt;0.使用方式&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases&#34;&gt;下载最新版本的workflow文件双击使用Alfred打开即可&lt;/a&gt;，workflow也已提交到&lt;a href=&#34;http://www.packal.org/workflow/gank-alfred-workflow&#34;&gt;Packal&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;使用前提是Alfred Workflow开启了Powerpack功能。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
-
-&lt;h4 id=&#34;2-改进方案&#34;&gt;2.改进方案&lt;/h4&gt;
-
-&lt;p&gt;两个可供改进的点：&lt;/p&gt;
-
-&lt;p&gt;（1）搜索结果应该直接显示与搜索关键词相关的干货列表&lt;/p&gt;
-
-&lt;p&gt;（2）搜索过程应该考虑干货目标网页的内容&lt;/p&gt;
-
-&lt;h4 id=&#34;3-实现原理&#34;&gt;3.实现原理&lt;/h4&gt;
-
-&lt;p&gt;只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：&lt;/p&gt;
-
-&lt;h5 id=&#34;1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io&#34;&gt;（1）&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/h5&gt;
-
-&lt;p&gt;&lt;strong&gt;这个项目主要是利用&lt;a href=&#34;http://gank.io/api&#34;&gt;Gank的API&lt;/a&gt;来获取干货列表，除此之外，该项目还利用&lt;a href=&#34;https://github.com/seomoz/dragnet&#34;&gt;dragnet&lt;/a&gt;开源工具提取每一个干货的目标网页内容，最终利用&lt;a href=&#34;http://lucene.apache.org/&#34;&gt;Lucene&lt;/a&gt;和&lt;a href=&#34;http://sparkjava.com/&#34;&gt;Spark&lt;/a&gt;等开源工具提供一个高效的干货搜索接口，并将其部署在&lt;a href=&#34;https://www.heroku.com/&#34;&gt;Heroku&lt;/a&gt;平台。&lt;/strong&gt;   &lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;网站预览&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
-
-&lt;h5 id=&#34;2-gank-alfred-workflow&#34;&gt;（2）Gank Alfred Workflow&lt;/h5&gt;
-
-&lt;p&gt;有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库&lt;a href=&#34;https://github.com/deanishe/alfred-workflow/&#34;&gt;deanishe/alfred-workflow&lt;/a&gt;，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的&lt;a href=&#34;http://www.deanishe.net/alfred-workflow/tutorial.html&#34;&gt;入门教程&lt;/a&gt;方便开发者迅速上手。&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。&lt;/strong&gt; 嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转&lt;a href=&#34;http://gank.io/api&#34;&gt;gank.io&lt;/a&gt;提供的API都行。&lt;/p&gt;
-
-&lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
-
-&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
 </description>
     </item>
     
