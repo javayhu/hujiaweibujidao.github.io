@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       App Launch Time Measurement &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" App Launch Time Measurement &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-11-10T16:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">App Launch Time Measurement</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">App Launch Time Measurement</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-11-10T16:46:33&#43;08:00">
+            Nov 10, 2016
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      
+
+<p>本文记录下分析应用启动时间的总结。</p>
+
+<p>关于应用启动时间测量的分析已经有不少不错的文章做了总结，下面是比较好的几篇：<br />
+1.<a href="http://hukai.me/android-performance-patterns-season-6/">Android性能优化典范-第6季</a><br />
+2.<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/1101/3647.html">测量Activity 的启动时间</a><br />
+3.<a href="http://mp.weixin.qq.com/s?__biz=MzIwOTQ1MjAwMg==&amp;mid=2247483771&amp;idx=1&amp;sn=fc2a36bddd29a0bb9d6512ba7e9b71ad&amp;chksm=9772eff6a00566e0424e3bccfcf61df5bff709739ece80c6641ca6cf742e9949c27f29bc48f0&amp;mpshare=1&amp;scene=1&amp;srcid=1008ksnBumwlSEhlQl3Qe45O#rd">Activity到底是什么时候显示到屏幕上的呢</a></p>
+
+<p>上面的每篇都各有特色，我这篇也只是在他们的分析上记录下自己学习和研究过程的总结。</p>
+
+<h3 id="1-查看display-time">1.查看display time</h3>
+
+<p>从Android KitKat版本开始，Logcat中会输出从程序启动到Activity显示到屏幕上所花费的时间，这个时间包含了进程启动的时间，比较适合测量程序的启动时间。</p>
+
+<pre><code>I ActivityManager: Displayed com.meizu.flyme.applaunch/.MainActivity: +379ms
+//厂商定制过的OS可能会有些不同，例如FlymeOS中的输出
+I ActivityManager: [AppLaunch] Displayed Displayed com.meizu.flyme.applaunch/.MainActivity: +480ms
+</code></pre>
+
+<p>上面信息的打印来自<code>ActivityRecord</code>类的<code>reportLaunchTimeLocked</code>方法，它的实现如下所示，整个过程和下面的fully drawn time类似，我们在下面会介绍它的详细实现过程。</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/reportLaunchTimeLocked.png" alt="img" /></p>
+
+<p>除了看Logcat之外，我们还有其他的方式来查看上面的时间，例如使用<code>am start</code>的方式查看<code>TotalTime</code></p>
+
+<pre><code>$ adb shell am start -W com.meizu.flyme.applaunch/.MainActivity
+Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=com.meizu.flyme.applaunch/.MainActivity }
+Status: ok
+Activity: com.meizu.flyme.applaunch/.MainActivity
+ThisTime: 479
+TotalTime: 479
+WaitTime: 499
+Complete
+</code></pre>
+
+<p>或者查看EventLog的方法来查看<code>am_activity_launch_time</code></p>
+
+<pre><code>$adb shell logcat -b events
+... I am_activity_launch_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+</code></pre>
+
+<h3 id="2-查看fully-drawn-time">2.查看fully drawn time</h3>
+
+<p>通常应用启动的时候都会以异步加载的方式来加快应用的启动速度，但是上面的display time是不包含异步加载所耗费的时间，所以为了准确衡量应用的启动时间，我们可以在异步加载完毕之后调用<code>Activity.reportFullyDrawn()</code>方法来告诉系统加载完成，以便获取整个应用启动的耗时。</p>
+
+<p>查看方式和输出结果类似上面的查看display time的过程</p>
+
+<pre><code>//Logcat中的输出
+I ActivityManager: Fully drawn com.meizu.flyme.applaunch/.MainActivity: +2s319ms
+//EventLog中的输出
+... I am_activity_fully_drawn_time: [0,200792421,com.meizu.flyme.applaunch/.MainActivity,478,478]
+</code></pre>
+
+<p>下面是<code>Activity.reportFullyDrawn()</code>方法的实现，从注释来看，这个方法主要是用来帮助我们测量应用的启动时间，因为系统最多只能确定应用的window第一次绘制和显示的时间点，不能确定应用真正加载完成处于可以使用状态的时间点，所以需要开发者来显式调用这个方法以通知系统应用已经启动完毕可以使用了。</p>
+
+<pre><code class="language-java">/**
+ * Report to the system that your app is now fully drawn, purely for diagnostic
+ * purposes (calling it does not impact the visible behavior of the activity).
+ * This is only used to help instrument application launch times, so that the
+ * app can report when it is fully in a usable state; without this, the only thing
+ * the system itself can determine is the point at which the activity's window
+ * is &lt;em&gt;first&lt;/em&gt; drawn and displayed.  To participate in app launch time
+ * measurement, you should always call this method after first launch (when
+ * {@link #onCreate(android.os.Bundle)} is called), at the point where you have
+ * entirely drawn your UI and populated with all of the significant data.  You
+ * can safely call this method any time after first launch as well, in which case
+ * it will simply be ignored.
+ */
+public void reportFullyDrawn() {
+    if (mDoReportFullyDrawn) {
+        mDoReportFullyDrawn = false;
+        try {
+            ActivityManagerNative.getDefault().reportActivityFullyDrawn(mToken);
+        } catch (RemoteException e) {
+        }
+    }
+}
+</code></pre>
+
+<p>其中的<code>ActivityManagerNative</code>的<code>reportActivityFullyDrawn</code>方法会经过Binder调用到AMS的<code>reportActivityFullyDrawn</code>方法，最终会调用到<code>ActivityRecord</code>的<code>reportFullyDrawnLocked</code>方法，内容与<code>reportLaunchTimeLocked</code>方法类似。</p>
+
+<pre><code class="language-java">public void reportFullyDrawnLocked() {
+    final long curTime = SystemClock.uptimeMillis();
+    if (displayStartTime != 0) {
+        reportLaunchTimeLocked(curTime);
+    }
+    final ActivityStack stack = task.stack;
+    if (fullyDrawnStartTime != 0 &amp;&amp; stack != null) {
+        final long thisTime = curTime - fullyDrawnStartTime;
+        final long totalTime = stack.mFullyDrawnStartTime != 0
+                ? (curTime - stack.mFullyDrawnStartTime) : thisTime;
+        if (SHOW_ACTIVITY_START_TIME) {
+            Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;drawing&quot;, 0);
+            EventLog.writeEvent(EventLogTags.AM_ACTIVITY_FULLY_DRAWN_TIME,
+                    userId, System.identityHashCode(this), shortComponentName,
+                    thisTime, totalTime);//EventLog中的输出
+            StringBuilder sb = service.mStringBuilder;
+            sb.setLength(0);
+            sb.append(&quot;Fully drawn &quot;);
+            sb.append(shortComponentName);
+            sb.append(&quot;: &quot;);
+            TimeUtils.formatDuration(thisTime, sb);
+            if (thisTime != totalTime) {
+                sb.append(&quot; (total &quot;);
+                TimeUtils.formatDuration(totalTime, sb);
+                sb.append(&quot;)&quot;);
+            }
+            Log.i(TAG, sb.toString());//Logcat中的输出
+        }
+        if (totalTime &gt; 0) {
+            //service.mUsageStatsService.noteFullyDrawnTime(realActivity, (int) totalTime);
+        }
+        stack.mFullyDrawnStartTime = 0;
+    }
+    fullyDrawnStartTime = 0;
+}
+</code></pre>
+
+<p>上面代码中有个起始时间(<code>fullyDrawnStartTime</code>)，它是在哪里设置的呢？它是在<code>ActivityStack</code>的<code>setLaunchTime</code>方法中设置的。<br />
+<strong>注：下面代码中的<code>Trace.asyncTraceBegin</code>和<code>Trace.asyncTraceEnd</code>实际上会调用到系统中<code>atrace</code>的<code>async_start</code>和<code>async_stop</code>(可以通过<code>adb shell atrace -h</code>查看到这两个命令的选项)。</strong></p>
+
+<pre><code class="language-java">void setLaunchTime(ActivityRecord r) {
+    if (r.displayStartTime == 0) {
+        r.fullyDrawnStartTime = r.displayStartTime = SystemClock.uptimeMillis();
+        if (mLaunchStartTime == 0) {
+            startLaunchTraces(r.packageName);
+            mLaunchStartTime = mFullyDrawnStartTime = r.displayStartTime;
+        }
+    } else if (mLaunchStartTime == 0) {
+        startLaunchTraces(r.packageName);
+        mLaunchStartTime = mFullyDrawnStartTime = SystemClock.uptimeMillis();
+    }
+}
+
+private void startLaunchTraces(String packageName) {
+    if (mFullyDrawnStartTime != 0)  {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;drawing&quot;, 0);
+    }
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;launching: &quot; + packageName, 0);
+    Trace.asyncTraceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;drawing&quot;, 0);
+}
+
+private void stopFullyDrawnTraceIfNeeded() {
+    if (mFullyDrawnStartTime != 0 &amp;&amp; mLaunchStartTime == 0) {
+        Trace.asyncTraceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER, &quot;drawing&quot;, 0);
+        mFullyDrawnStartTime = 0;
+    }
+}
+</code></pre>
+
+<p>那<code>setLaunchTime</code>方法是何时调用的呢？它是在<code>ActivityStackSupervisor.startSpecificActivityLocked</code>方法中调用的！<br />
+<code>startSpecificActivityLocked</code>方法中会判断应用进程是否启动了，如果没有启动就调用<code>startProcessLocked</code>方法来启动进程，内部会调用<code>Process</code>类的<code>start</code>方法来启动新进程；否则调用<code>realStartActivityLocked</code>方法继续执行，这个方法会调用<code>scheduleLaunchActivity</code>方法，内部将会调用<code>Activity</code>的<code>onCreate</code>方法，开始Activity的生命周期。</p>
+
+<pre><code class="language-java">void startSpecificActivityLocked(ActivityRecord r, boolean andResume, boolean checkConfig) {
+    // Is this activity's application already running?
+    ProcessRecord app = mService.getProcessRecordLocked(r.processName,
+            r.info.applicationInfo.uid, true);
+
+    r.task.stack.setLaunchTime(r);//在这里设置launch start time
+
+    if (app != null &amp;&amp; app.thread != null) {
+        try {
+            if ((r.info.flags&amp;ActivityInfo.FLAG_MULTIPROCESS) == 0 || !&quot;android&quot;.equals(r.info.packageName)) {
+                // Don't add this if it is a platform component that is marked
+                // to run in multiple processes, because this is actually
+                // part of the framework so doesn't make sense to track as a
+                // separate apk in the process.
+                app.addPackage(r.info.packageName, r.info.applicationInfo.versionCode, mService.mProcessStats);
+            }
+            realStartActivityLocked(r, app, andResume, checkConfig);
+            return;
+        } catch (RemoteException e) {
+            Slog.w(TAG, &quot;Exception when starting activity &quot; + r.intent.getComponent().flattenToShortString(), e);
+        }
+
+        // If a dead object exception was thrown -- fall through to restart the application.
+    }
+
+    mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
+            &quot;activity&quot;, r.intent.getComponent(), false, false, true);
+}
+</code></pre>
+
+<p>还有一种方式是录屏然后测量，和使用高速相机录像然后测量差不多，由于比较麻烦，此处不表。</p>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/"><h4>Build Android Studio Source Code</h4></a></span>
+      
+  
+
+  
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/11/14/custom-lint-in-action/"><h4>Custom Lint in Action</h4></a></span>
+      
+  
+</aside>
+<br/>
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="blog/2016/11/10/app-launch-time-measurement/" data-title="App Launch Time Measurement" data-url="https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+
