@@ -179,17 +179,17 @@
 
 <p>Lint工具的源码分析(1)</p>
 
-<p>在前面的<a href="https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/">Custom Lint in Action</a>中我们了解到将自定义的lint规则打包成jar，然后放在<code>~/.android/lint/</code>目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！</p>
+<p>在前面的<a href="https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/">Custom Lint in Action</a>中我们了解到将自定义的lint规则打包成jar，然后放在<code>~/.android/lint/</code>目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，这是为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！</p>
 
-<p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描的方式去检查看是否真的存在那些问题的过程。</strong><br />
-针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)等内容进行封装，其实从本节的总结来看，lint工具的源码也是如此设计和封装的。</p>
+<p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描源文件的方式去检查看是否真的存在那些问题的过程。</strong><br />
+针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)以及源代码文件如何进行静态扫描(Scanner)等内容进行封装，其实lint工具的源码就是这么设计和封装的。</p>
 
-<p><code>lint</code>工具源码主要分成两部分：<code>lint-api</code>和<code>lint-checks</code>，其中<code>lint-api</code>又分为<code>detector.api</code>和<code>client.api</code>这两个包，由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是<code>detector.api</code>包中的重要类。</p>
+<p><code>lint</code>工具源码主要分成两部分：<code>lint-api</code>和<code>lint-checks</code>，前者主要是lint的核心API，后者是利用API定义的检查器。其中<code>lint-api</code>又分为<code>detector.api</code>和<code>client.api</code>这两个包，其中<code>detector.api</code>这个包主要是和lint检查器相关的类，<code>client.api</code>这个包主要是和调用lint检查有关的类。由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是<code>detector.api</code>包中的重要类。</p>
 
 <h3 id="1-detector-api包中的重要类">1. detector.api包中的重要类</h3>
 
 <p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的代码片段类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br />
-<strong>通俗来讲，Scope指的就是哪些文件或者文件集合需要被检查。</strong></p>
+<strong>通俗来讲，Scope指的就是哪个文件或者哪些文件需要被检查。</strong></p>
 
 <pre><code class="language-java">/**
  * The scope of a detector is the set of files a detector must consider when
@@ -390,15 +390,16 @@ public abstract class Configuration {
 }
 </code></pre>
 
-<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件。下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及下面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
+<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件，下面是lint.xml文件的一个例子。</p>
 
-<pre><code class="language-xml">//lint.xml文件的例子
-&lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
-&lt;issue id=&quot;ObsoleteLayoutParam&quot;&gt;
+<pre><code class="language-xml">&lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
+&lt;issue id=&quot;ObsoleteLayoutParam&quot; severity=&quot;Error&quot;&gt;
     &lt;ignore path=&quot;res/layout/activation.xml&quot; /&gt;
-    &lt;ignore path=&quot;res/layout-xlarge/activation.xml&quot; /&gt;
+    &lt;ignore regexp=&quot;res/.*/activation.xml&quot; /&gt;
 &lt;/issue&gt;
 </code></pre>
+
+<p>下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及上面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
 
 <pre><code class="language-java">//默认的Configuration的实现
 /**

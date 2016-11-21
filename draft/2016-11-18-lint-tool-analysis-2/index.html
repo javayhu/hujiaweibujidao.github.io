@@ -183,10 +183,10 @@
 
 <h3 id="2-client-api包中的重要类">2. client.api包中的重要类</h3>
 
-<p>(1) <code>LintClient</code>类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的<code>BatchLintClient</code>和针对当前编辑器中单个文件执行lint检查的<code>EditorLintClient</code>；另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的<code>LintClient</code>可能是<code>IntellijLintClient</code>或者<code>BatchLintClient</code>或者<code>EditorLintClient</code>。<br />
+<p>(1) <code>LintClient</code>类是指调用lint检查的来源(客户端)，可能是在Android Studio中或者在gradle中，也可能是在终端通过命令行的形式来调用。<code>LintClient</code>只是一个抽象类，主要实现类有<code>IntellijLintClient</code>，顾名思义它是指在Intellij(Android Studio)中执行lint，它还有两个子类，分别是批量进行lint检查的<code>BatchLintClient</code>和针对当前编辑器中单个文件执行lint检查的<code>EditorLintClient</code>；另一个实现是<code>LintClientWrapper</code>，这个类定义在<code>LintDriver</code>中，它并没有具体去实现那些方法，而是采用代理模式的形式进行了一层封装，被封装的<code>LintClient</code>可能是<code>IntellijLintClient</code>或者<code>BatchLintClient</code>或者<code>EditorLintClient</code>等。<br />
 <strong>通俗来讲，LintClient是指去调用lint检查的来源(客户端)，它会提供执行lint检查的相关环境信息。</strong></p>
 
-<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源，例如其中的<code>getSdkHome</code>和<code>findResource</code>方法。</p>
+<p><code>LintClient</code>中定义了一个值为<code>com.android.tools.lint.bindir</code>的常量，它是作为键值用来指向lint命令所在的目录，获取这个目录的方法是<code>getLintBinDir</code>，它先会去系统属性中查找(用<code>java -jar xxx -Dcom.android.tools.lint.bindir=value</code>的形式设置的)，如果没找到的话会再去系统环境变量中查找，有了这个路径的话可以利用相对路径从而方便去获取其他资源，参见其中的<code>getSdkHome</code>和<code>findResource</code>方法。当我们在终端输入<code>lint</code>命令的时候，lint脚本会自动帮我们设置<code>com.android.tools.lint.bindir</code>的值，这个我们后面分析lint脚本源码的时候可以看到。</p>
 
 <pre><code class="language-java">/**
  * Information about the tool embedding the lint analyzer. IDEs and other tools
@@ -622,7 +622,7 @@ public BuildToolInfo getBuildTools(@NonNull Project project) {//获取 build too
 }
 </code></pre>
 
-<p>最有意思的是，<strong>lint规则的查找过程也是在<code>LintClient</code>中定义的</strong>，下面的代码片段中包含两个重要的查找自定义lint规则的方法。从下面的代码片段中我们终于可以知道为什么放在<code>~/.android/lint</code>目录下的自定义lint规则的jar包能够被识别，放在aar中的<code>lint.jar</code>能够被识别！<br />
+<p>最有意思的是，<strong>lint规则的查找过程也是在<code>LintClient</code>中定义的</strong>，下面的代码片段中包含两个重要的查找自定义lint规则的方法。从下面的代码片段中我们终于可以知道为什么放在<code>~/.android/lint</code>目录下的自定义lint规则的jar包能够被识别，指定<code>ANDROID_LINT_JARS</code>环境变量也能够识别，或者将<code>lint.jar</code>放在aar中也能够被识别！<br />
 - <strong><code>findGlobalRuleJars</code>方法会在<code>~/.android/lint/</code>目录下找jar包，或者由<code>$ANDROID_LINT_JARS</code>环境变量指定的jar包，这些自定义的lint规则都是作用于全局的，也就是对于本机的所有Android工程都生效。</strong><br />
 - <strong><code>findRuleJars</code>方法是针对指定的project去查找自定义的lint规则，从源码来看，针对project自定义lint规则时只适用于基于Gradle的项目，包括普通的项目和库项目(library project)。</strong></p>
 
@@ -736,7 +736,7 @@ public List&lt;File&gt; findRuleJars(@NonNull Project project) {
 }
 </code></pre>
 
-<p>(2) <code>IssueRegistry</code>类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：<code>PARSER_ERROR</code>表示lint解析xml文件出错了；<code>LINT_ERROR</code>表示lint检查过程中出现错误，但不是用户代码的错误；<code>CANCELLED</code>表示用户取消了lint检查。除此之外，该类中还有一个重要方法<code>createDetectors</code>，用来根据指定的Configuration和Scope来创建检查器列表。<br />
+<p>(2) <code>IssueRegistry</code>类用来管理需要检查的问题列表，其中还定义了三个特殊的问题：<code>PARSER_ERROR</code>表示lint解析文件时出错了；<code>LINT_ERROR</code>表示lint检查过程中出现错误，但不是用户代码的错误；<code>CANCELLED</code>表示用户取消了lint检查。除此之外，该类中还有一个重要方法<code>createDetectors</code>，用来根据指定的Configuration和Scope来创建检查器列表。<br />
 <strong>通俗来讲，IssueRegistry就是lint要检查的问题集合。</strong></p>
 
 <pre><code class="language-java">/**
@@ -785,7 +785,7 @@ public abstract class IssueRegistry {
         Severity.ERROR,
         DUMMY_IMPLEMENTATION);
 
-        /**
+    /**
      * Creates a list of detectors applicable to the given scope, and with the
      * given configuration.
      *
@@ -827,9 +827,7 @@ public abstract class IssueRegistry {
                 }
 
                 assert implementation.isAdequate(scope); // Ensured by getIssuesForScope above
-
                 detectorClass = client.replaceDetector(detectorClass);
-
                 assert detectorClass != null : issue.getId();
                 detectorClasses.add(detectorClass);
             }
@@ -876,8 +874,133 @@ public abstract class IssueRegistry {
 }
 </code></pre>
 
-<p>(3) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程和文件进行Lint检查所需的主要元素。<br />
-<strong>通俗来讲，LintDriver是进行一次lint检查时的所有信息。</strong></p>
+<p><code>IssueRegistry</code>类是一个抽象类，它只有一个抽象方法<code>getIssues</code>，返回需要检查的问题集合就行，所以特别容易实现。</p>
+
+<pre><code class="language-java">public abstract List&lt;Issue&gt; getIssues();
+</code></pre>
+
+<p><code>IssueRegistry</code>类有几个特别重要的实现子类，例如<code>BuiltinIssueRegistry</code>是系统内置的lint检查器集合，目前共有263个issue；<code>CompositeIssueRegistry</code>是一个将很多<code>IssueRegistry</code>中的issue整合到一起的IssueRegistry；还有一个很重要的用于加载jar文件中的<code>IssueRegistry</code>的类<code>JarFileIssueRegistry</code>，前面我们自定义的lint规则的jar包就是由它来解析并加载的。<br />
+<strong>在自定义lint规则生成jar包时我们提到过要在<code>build.gradle</code>文件中给jar文件添加<code>Lint-Registry</code>的属性值，因为这里会进行检查，如果没有配置的话就不算是合法的lint包。此外，这个类使用了缓存机制来保存已经加载过的jar文件，所以也就导致了我们在自定义lint中出现的更改jar包但是Android Studio并没有更新lint规则的bug！</strong></p>
+
+<pre><code class="language-java">/**
+ * &lt;p&gt; An {@link IssueRegistry} for a custom lint rule jar file. The rule jar should provide a
+ * manifest entry with the key {@code Lint-Registry} and the value of the fully qualified name of an
+ * implementation of {@link IssueRegistry} (with a default constructor). &lt;/p&gt;
+ *
+ * &lt;p&gt; NOTE: The custom issue registry should not extend this file; it should be a plain
+ * IssueRegistry! This file is used internally to wrap the given issue registry.&lt;/p&gt;
+ */
+class JarFileIssueRegistry extends IssueRegistry {
+    /**
+     * Manifest constant for declaring an issue provider. Example: Lint-Registry:
+     * foo.bar.CustomIssueRegistry
+     */
+    private static final String MF_LINT_REGISTRY_OLD = &quot;Lint-Registry&quot;; //$NON-NLS-1$
+    private static final String MF_LINT_REGISTRY = &quot;Lint-Registry-v2&quot;; //$NON-NLS-1$
+
+    private static Map&lt;File, SoftReference&lt;JarFileIssueRegistry&gt;&gt; sCache;
+    private final List&lt;Issue&gt; myIssues;
+    private boolean mHasLegacyDetectors;
+
+    /** True if one or more java detectors were found that use the old Lombok-based API */
+    public boolean hasLegacyDetectors() {
+        return mHasLegacyDetectors;
+    }
+
+    @NonNull
+    static JarFileIssueRegistry get(@NonNull LintClient client, @NonNull File jarFile)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+            InstantiationException {
+        if (sCache == null) {
+           sCache = new HashMap&lt;File, SoftReference&lt;JarFileIssueRegistry&gt;&gt;();
+        } else {
+            SoftReference&lt;JarFileIssueRegistry&gt; reference = sCache.get(jarFile);
+            if (reference != null) {
+                JarFileIssueRegistry registry = reference.get();
+                if (registry != null) {
+                    return registry;
+                }
+            }
+        }
+
+        // Ensure that the scope-to-detector map doesn't return stale results
+        IssueRegistry.reset();
+
+        JarFileIssueRegistry registry = new JarFileIssueRegistry(client, jarFile);
+        sCache.put(jarFile, new SoftReference&lt;JarFileIssueRegistry&gt;(registry));
+        return registry;
+    }
+
+    private JarFileIssueRegistry(@NonNull LintClient client, @NonNull File file)
+            throws IOException, ClassNotFoundException, IllegalAccessException,
+                    InstantiationException {
+        myIssues = Lists.newArrayList();
+        JarFile jarFile = null;
+        try {
+            //noinspection IOResourceOpenedButNotSafelyClosed
+            jarFile = new JarFile(file);
+            Manifest manifest = jarFile.getManifest();
+            Attributes attrs = manifest.getMainAttributes();
+            Object object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY));
+            boolean isLegacy = false;
+            //检查jar包的MANIFEST.MF文件中是否配置了Lint-Registry-v2或者Lint-Registry属性值
+            if (object == null) {
+                object = attrs.get(new Attributes.Name(MF_LINT_REGISTRY_OLD));
+                //noinspection VariableNotUsedInsideIf
+                if (object != null) {
+                    // It's an old rule. We don't yet conclude that
+                    //   mHasLegacyDetectors=true
+                    // because the lint checks may not be Java related.
+                    isLegacy = true;
+                }
+            }
+            //如果配置了的话，对应的值就是继承自IssueRegistry的类，我们需要去加载它
+            if (object instanceof String) {
+                String className = (String) object;
+                // Make a class loader for this jar
+                URL url = SdkUtils.fileToUrl(file);
+                ClassLoader loader = client.createUrlClassLoader(new URL[]{url},
+                        JarFileIssueRegistry.class.getClassLoader());
+                Class&lt;?&gt; registryClass = Class.forName(className, true, loader);
+                IssueRegistry registry = (IssueRegistry) registryClass.newInstance();
+                myIssues.addAll(registry.getIssues());
+
+                if (isLegacy) {
+                    // If it's an old registry, look through the issues to see if it
+                    // provides Java scanning and if so create the old style visitors
+                    for (Issue issue : myIssues) {
+                        EnumSet&lt;Scope&gt; scope = issue.getImplementation().getScope();
+                        if (scope.contains(Scope.JAVA_FILE) || scope.contains(Scope.JAVA_LIBRARIES)
+                                || scope.contains(Scope.ALL_JAVA_FILES)) {
+                            mHasLegacyDetectors = true;
+                            break;
+                        }
+                    }
+                }
+
+                //利用这个ClassLoader去加载jar包中的class
+                if (loader instanceof URLClassLoader) {
+                    loadAndCloseURLClassLoader(client, file, (URLClassLoader)loader);
+                }
+            } else {
+                client.log(Severity.ERROR, null,
+                    &quot;Custom lint rule jar %1$s does not contain a valid registry manifest key &quot; +
+                    &quot;(%2$s).\n&quot; +
+                    &quot;Either the custom jar is invalid, or it uses an outdated API not supported &quot; +
+                    &quot;this lint client&quot;, file.getPath(), MF_LINT_REGISTRY);
+            }
+        } finally {
+            if (jarFile != null) {
+                jarFile.close();
+            }
+        }
+    }
+    ...
+}
+</code></pre>
+
+<p>(3) <code>LintDriver</code>类是一个核心类，其中汇集了对Android工程或文件进行Lint检查所需的主要元素，包含了上面的<code>LintClient</code>和<code>IssueRegistry</code>等重要类，还有表示一次lint检查的请求<code>LintClient</code>以及监听lint检查过程的<code>LintListener</code>集合等数据。<br />
+<strong>通俗来讲，LintDriver包含了一次lint检查时的所有信息，由它来进行lint检查的过程。</strong></p>
 
 <pre><code class="language-java">/**
  * Analyzes Android projects and files
@@ -915,6 +1038,193 @@ public class LintDriver {
     /** Whether we need to look for legacy (old Lombok-based Java API) detectors */
     private boolean mRunCompatChecks = true;
     ...
+}
+</code></pre>
+
+<p>前面我们在<code>LintClient</code>中看到了lint工具是如何查找自定义的lint规则，但是并没有看到这些规则是如何注册到<code>IssueRegistry</code>上去的，而这个艰巨的任务实际上是在<code>LintDriver</code>中完成的，主要流程都在方法<code>registerCustomDetectors</code>中。</p>
+
+<pre><code class="language-java">private Set&lt;Issue&gt; myCustomIssues;//自定义的lint规则集合
+
+/**
+* Returns true if the given issue is an issue that was loaded as a custom rule
+* (e.g. a 3rd-party library provided the detector, it's not built in)
+*
+* @param issue the issue to be looked up
+* @return true if this is a custom (non-builtin) check
+*/
+public boolean isCustomIssue(@NonNull Issue issue) {//判断某个issue是否是自定义的issue
+   return myCustomIssues != null &amp;&amp; myCustomIssues.contains(issue);
+}
+
+//注册自定义的检查器，检查器来源于参数中指定的projects中
+private void registerCustomDetectors(Collection&lt;Project&gt; projects) {
+   // Look at the various projects, and if any of them provide a custom
+   // lint jar, &quot;add&quot; them (this will replace the issue registry with
+   // a CompositeIssueRegistry containing the original issue registry
+   // plus JarFileIssueRegistry instances for each lint jar
+   Set&lt;File&gt; jarFiles = Sets.newHashSet();
+   for (Project project : projects) {//遍历所有的project以及它们的library project，找出其中所有的lint.jar文件
+       jarFiles.addAll(mClient.findRuleJars(project));
+       for (Project library : project.getAllLibraries()) {
+           jarFiles.addAll(mClient.findRuleJars(library));
+       }
+   }
+
+   jarFiles.addAll(mClient.findGlobalRuleJars());//查找全局的自定义的lint规则的jar包
+
+   if (!jarFiles.isEmpty()) {
+       List&lt;IssueRegistry&gt; registries = Lists.newArrayListWithExpectedSize(jarFiles.size());
+       registries.add(mRegistry);
+       for (File jarFile : jarFiles) {
+           try {
+               JarFileIssueRegistry registry = JarFileIssueRegistry.get(mClient, jarFile);
+               if (registry.hasLegacyDetectors()) {
+                   mRunCompatChecks = true;
+               }
+               if (myCustomIssues == null) {
+                   myCustomIssues = Sets.newHashSet();
+               }
+               myCustomIssues.addAll(registry.getIssues());
+               registries.add(registry);
+           } catch (Throwable e) {
+               mClient.log(e, &quot;Could not load custom rule jar file %1$s&quot;, jarFile);
+           }
+       }
+       if (registries.size() &gt; 1) { // the first item is mRegistry itself
+           mRegistry = new CompositeIssueRegistry(registries);
+       }
+   }
+}
+</code></pre>
+
+<p><code>LintDriver</code>还有一个重要的方法就是<code>analyze</code>，lint检查就是从这里正式开始的。其中的<code>mRequest</code>是<code>LintRequest</code>对象，类似HTTPRequest一样，表示一次lint检查的请求，它包含了这次lint检查的一些基本信息。</p>
+
+<pre><code class="language-java">/** Runs the driver to analyze the requested files */
+private void analyze() {
+    mCanceled = false;
+    mScope = mRequest.getScope();
+    assert mScope == null || !mScope.contains(Scope.ALL_RESOURCE_FILES) ||
+            mScope.contains(Scope.RESOURCE_FILE);
+
+    Collection&lt;Project&gt; projects;
+    try {
+        projects = mRequest.getProjects();
+        if (projects == null) {
+            projects = computeProjects(mRequest.getFiles());
+        }
+    } catch (CircularDependencyException e) {
+        mCurrentProject = e.getProject();
+        if (mCurrentProject != null) {
+            Location location = e.getLocation();
+            File file = location != null ? location.getFile() : mCurrentProject.getDir();
+            Context context = new Context(this, mCurrentProject, null, file);
+            context.report(IssueRegistry.LINT_ERROR, e.getLocation(), e.getMessage());
+            mCurrentProject = null;
+        }
+        return;
+    }
+    if (projects.isEmpty()) {
+        mClient.log(null, &quot;No projects found for %1$s&quot;, mRequest.getFiles().toString());
+        return;
+    }
+    if (mCanceled) {
+        return;
+    }
+    registerCustomDetectors(projects);//注册自定义的lint检查器
+    if (mScope == null) {//如果范围为空，那么就根据projects来推断范围
+        mScope = Scope.infer(projects);
+    }
+    fireEvent(EventType.STARTING, null);//fireEvent用于触发相应的事件，通知LintListener
+    for (Project project : projects) {
+        mPhase = 1;
+        Project main = mRequest.getMainProject(project);
+        // The set of available detectors varies between projects
+        computeDetectors(project);
+        if (mApplicableDetectors.isEmpty()) {
+            // No detectors enabled in this project: skip it
+            continue;
+        }
+        checkProject(project, main);
+        if (mCanceled) {
+            break;
+        }
+        runExtraPhases(project, main);
+    }
+    fireEvent(mCanceled ? EventType.CANCELED : EventType.COMPLETED, null);
+}
+</code></pre>
+
+<p><code>runExtraPhases</code>方法中会调用<code>checkProject</code>方法去对指定的project进行lint检查。</p>
+
+<pre><code class="language-java">private void checkProject(@NonNull Project project, @NonNull Project main) {
+    File projectDir = project.getDir();
+
+    Context projectContext = new Context(this, project, null, projectDir);
+    fireEvent(EventType.SCANNING_PROJECT, projectContext);
+
+    List&lt;Project&gt; allLibraries = project.getAllLibraries();
+    Set&lt;Project&gt; allProjects = new HashSet&lt;Project&gt;(allLibraries.size() + 1);
+    allProjects.add(project);
+    allProjects.addAll(allLibraries);
+    mCurrentProjects = allProjects.toArray(new Project[allProjects.size()]);
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.beforeCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    assert mCurrentProject == project;
+    runFileDetectors(project, main);
+    if (!Scope.checkSingleFile(mScope)) {
+        List&lt;Project&gt; libraries = project.getAllLibraries();
+        for (Project library : libraries) {
+            Context libraryContext = new Context(this, library, project, projectDir);
+            fireEvent(EventType.SCANNING_LIBRARY_PROJECT, libraryContext);
+            mCurrentProject = library;
+
+            for (Detector check : mApplicableDetectors) {
+                check.beforeCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+            assert mCurrentProject == library;
+            runFileDetectors(library, main);
+            if (mCanceled) {
+                return;
+            }
+
+            assert mCurrentProject == library;
+            for (Detector check : mApplicableDetectors) {
+                check.afterCheckLibraryProject(libraryContext);
+                if (mCanceled) {
+                    return;
+                }
+            }
+        }
+    }
+
+    mCurrentProject = project;
+    for (Detector check : mApplicableDetectors) {
+        check.afterCheckProject(projectContext);
+        if (mCanceled) {
+            return;
+        }
+    }
+
+    if (mCanceled) {
+        mClient.report(
+            projectContext,
+            // Must provide an issue since API guarantees that the issue parameter
+            IssueRegistry.CANCELLED,
+            Severity.INFORMATIONAL,
+            Location.create(project.getDir()),
+            &quot;Lint canceled by user&quot;, TextFormat.RAW);
+    }
+    mCurrentProjects = null;
 }
 </code></pre>
 

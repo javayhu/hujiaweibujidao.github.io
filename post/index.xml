@@ -243,7 +243,8 @@ lint --list
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/as_lintresult.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;注意：测试发现AS这块可能存在bug，如果修改了&lt;code&gt;~/.android/lint&lt;/code&gt;目录下的jar的话，AS并不会重新加载，需要重启AS才行。另外，在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下存放多个jar也是可以的。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意：测试发现AS这块可能存在bug，如果修改了&lt;code&gt;~/.android/lint&lt;/code&gt;目录下的jar的话，AS并不会重新加载，需要重启AS才行。另外，在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下存放多个jar也是可以的。&lt;/strong&gt;&lt;br /&gt;
+[前面那个bug我后来在看lint工具源码中找到了原因，和&lt;code&gt;JarFileIssueRegistry&lt;/code&gt;这个类有关，它内部有个缓存机制]&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;4.Google方案的改进：LinkedIn的aar方案&lt;/strong&gt;&lt;br /&gt;
 LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项目依赖这个aar完成自定义lint检查。利用这种方案我们就可以针对项目进行自定义Lint规则，lint.jar只对当前项目有效。详情参考&lt;a href=&#34;https://engineering.linkedin.com/android/writing-custom-lint-checks-gradle&#34;&gt;LinkedIn-自定义Lint规则并封装成aar的方案&lt;/a&gt;，它对应的lint demo项目源码包含两部分，一部分是&lt;a href=&#34;https://github.com/yangcheng/CustomLint&#34;&gt;自定义lint规则-CustomLint项目&lt;/a&gt;，另一部分是在Android工程中&lt;a href=&#34;https://github.com/yangcheng/LintDemoApp&#34;&gt;使用lint规则-LintDemoApp项目&lt;/a&gt;。&lt;/p&gt;
@@ -256,7 +257,8 @@ LinkedIn提供了另一种思路：将jar放到一个aar中，然后Android项�
 &lt;pre&gt;&lt;code&gt;//use these configurations to build lint jar
 jar {
     manifest {
-        //将 IssueRegistry 的子类配置在这里
+        //下面这个配置将在lint.jar的META-INF/MANIFEST.MF中添加Lint-Registry: com.meizu.flyme.FlymeLint
+        //这一步也很重要，我们将在后面的源码解析中分析到这一步
         attributes &#39;Lint-Registry&#39;: &#39;com.meizu.flyme.FlymeLint&#39;
     }
 }
