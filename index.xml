@@ -20,6 +20,8 @@
 
 &lt;p&gt;Lint工具的源码分析(2)&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
+
 &lt;p&gt;继续上一篇的解析，本篇我们来详细分析下&lt;code&gt;client.api&lt;/code&gt;包中的重要类。&lt;/p&gt;
 
 &lt;h3 id=&#34;2-client-api包中的重要类&#34;&gt;2. client.api包中的重要类&lt;/h3&gt;
@@ -1331,6 +1333,8 @@ private void visitJavaFiles(@NonNull List&amp;lt;Detector&amp;gt; checks, JavaPa
       <description>
 
 &lt;p&gt;Lint工具的源码分析(1)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/&#34;&gt;Custom Lint in Action&lt;/a&gt;中我们了解到将自定义的lint规则打包成jar，然后放在&lt;code&gt;~/.android/lint/&lt;/code&gt;目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，这是为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！&lt;/p&gt;
 
