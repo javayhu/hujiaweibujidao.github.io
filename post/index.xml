@@ -438,7 +438,9 @@ public class LogDetector extends Detector implements JavaPsiScanner {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;上面是一个简单的Java检查器的实现，但是足以让我们理解lint检查是如何进行的，以及辅助我们去了解其他的检查器的实现，甚至是针对其他类型的文件比如XML文件的检查器，它们的实现过程也大致类似，下一节我们会总结下lint工具中自带的一些和Android有关的检查器的功能。&lt;/p&gt;
+&lt;p&gt;上面是一个简单的Java检查器的实现，但是足以让我们理解lint检查是如何进行的，以及辅助我们去了解其他的检查器的实现，甚至是针对其他类型的文件比如XML文件的检查器，它们的实现过程也大致类似。那如果我们的检查器既需要检查Java文件，又需要检查XML文件怎么办呢？其实也就是多实现一个接口就行了，很多自带的检查器都是实现了&lt;code&gt;XmlScanner&lt;/code&gt;和&lt;code&gt;JavaPsiScanner&lt;/code&gt;两个接口的。&lt;/p&gt;
+
+&lt;p&gt;下一节我们会总结下lint工具中自带的一些和Android有关的检查器的功能。&lt;/p&gt;
 </description>
     </item>
     
