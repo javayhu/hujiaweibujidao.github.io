@@ -7,8 +7,440 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Fri, 18 Nov 2016 10:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 19 Nov 2016 10:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Lint Tool Analysis (3)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</link>
+      <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</guid>
+      <description>
+
+&lt;p&gt;Lint工具的源码分析(3)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;前面我们提了很多lint工具中&lt;code&gt;detector.api&lt;/code&gt;和&lt;code&gt;client.api&lt;/code&gt;包下的类，但是还没介绍到lint检查器到底是如何对文件进行检查的，这也就是本节需要介绍的知识点。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-lint检查器的前提知识&#34;&gt;3. Lint检查器的前提知识&lt;/h3&gt;
+
+&lt;p&gt;首先我们需要了解的是，lint工具在实现lint检查时使用了Visitor设计模式，推荐阅读&lt;a href=&#34;http://en.wikipedia.org/wiki/Visitor_pattern&#34;&gt;这篇文章&lt;/a&gt;看下一般如何来实现这个设计模式。我们每个lint检查器在使用之前都要进行注册，注册的时候它也指明了它的工作范围以及它感兴趣的文件、方法甚至语句等。当lint工具开始扫描项目文件进行lint检查时，如果发现某个检查器感兴趣的内容就会交给对应的检查器去做相应的检查，如果有错就会报出错误，如果没有就表示代码通过检查，这就是一种visitor模式的体现。&lt;/p&gt;
+
+&lt;p&gt;其次我们需要知道的是关于Java代码的解析，一般来说，对代码的解析都是将其转换成抽象语法树，英文名是Abstract Syntax Tree，它是开发工具中很多功能的内部实现原理，例如删除无用的声明语句，变量重命名等。推荐阅读&lt;a href=&#34;http://www.eclipse.org/articles/Article-JavaCodeManipulation_AST/&#34;&gt;Abstract Syntax Tree&lt;/a&gt;这篇文章来了解AST，其中也介绍到了Visitor设计模式，并简单道出了lint检查的核心原理。&lt;/p&gt;
+
+&lt;p&gt;最后，关于lint工具的实现还有不少有意思的槽点，下面的几段英文内容摘录自&lt;a href=&#34;http://code.google.com/p/android/issues/detail?id=224584&#34;&gt;google code上关于lint工具的一个讨论&lt;/a&gt;，其中lint开发者解释了他们在实现Java文件解析时的技术方案选型原因、目前存在的问题以及将来的开发方向。&lt;/p&gt;
+
+&lt;p&gt;In 2.2, I&amp;rsquo;ve completely rewritten the Java handling in lint. This was necessary in order to support Java 8 (which Nougat now supports). To do this, I replaced the Lombok AST stuff (which didn&amp;rsquo;t even properly support Java 7) with &amp;ldquo;PSI&amp;rdquo; (which are the same APIs as IntelliJ is using internally, except in lint&amp;rsquo;s case, it&amp;rsquo;s backed by a bridge to ECJ). This has a bunch of advantages: the PSI API is much cleaner, it contains type resolution right built in (instead of the ugly parallel ResolvedNode hierarchy I built up to augment Lombok which didn&amp;rsquo;t support type resolution). So for example, when you&amp;rsquo;re handed a method call node, you can call .resolve() on it and it will return the method the call invokes etc etc.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;[大致内容]&lt;/strong&gt; 在Android Studio 2.2版本中，为了支持Java 8(Android Nougat支持Java 8)，开发者完全重写了lint工具中对Java代码的解析。以前使用的是&lt;code&gt;Lombok AST&lt;/code&gt;(连Java 7都不支持)，现在使用的是&lt;code&gt;PSI&lt;/code&gt;(和Intellij内部对Java代码解析使用的是同一套API，但是lint除外，它使用的是&lt;code&gt;ECJ [Eclipse Compiler for Java]&lt;/code&gt;)。&lt;br /&gt;
+PSI API有很多好处，它更加简洁，并且内置了类型解析功能(Lombok不知道类型解析)。所以，开发者将原有的lint检查项基本上全部使用PSI API重写了一遍，下面是重写的&lt;a href=&#34;https://android.googlesource.com/platform/tools/base/+/8cdccd1bdf595b9b5e9a040a380d5a3372807fb2&#34;&gt;提交记录&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;However, I didn&amp;rsquo;t actually delete the old Lombok code path, since some people my have custom rules using Lombok. So, if lint comes across a project that is using custom lint rules, it has to process the file TWICE: first using the PSI bridge, and then all over again with Lombok. This obviously slows downs things.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;[大致内容]&lt;/strong&gt; 但是，考虑到还是有人会使用Lombok API来开发自定义的lint规则，所以开发者并没有删除旧的Lombok相关代码。这也导致如果项目中使用了旧的API自定义的lint规则的话，lint会对这个文件检查两次，从而使得lint检查的速度变慢。&lt;/p&gt;
+
+&lt;p&gt;I have a commented out warning in the lint driver which emits a warning when this is the case (basically explaining that lint came across a custom lint rule which is using the old APIs, which still works, but slows things down and may not work in the future.)&lt;/p&gt;
+
+&lt;p&gt;However, I disabled that because I may still do another big change to the APIs &amp;ndash; and I don&amp;rsquo;t want to force everyone to jump through hoops of porting their lint checks to the new 2.2 APIs, only to have them change them again shortly.&lt;/p&gt;
+
+&lt;p&gt;The API change I&amp;rsquo;m referring to is UAST; a &amp;ldquo;universal AST&amp;rdquo; that JetBrains is working on. It&amp;rsquo;s pretty similar to PSI (so certainly porting to the current PSI apis will make a much smaller migration to UAST than straight from Lombok), but the idea is that it&amp;rsquo;s a bit more language agnostic, so for example a single lint AST check can work not just with Java but also transparently with Kotlin, etc.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;[大致内容]&lt;/strong&gt; 虽然开发者目前已经将Lombok API升级到PSI API，但是他们正在计划着做另一个重大的变化，也就是升级到&lt;code&gt;UAST&lt;/code&gt; API，这个是JetBrains目前正在做的。它和PSI API类似，但是思想上更加先进，更加与语言无关，例如一个简单的lint检查可能不止可以作用在Java代码上，也能作用在Kotlin代码上。&lt;/p&gt;
+
+&lt;p&gt;假设现在我们想要将原来的Lombok API形式的lint检查升级到PSI API形式，我们该如何做呢？&lt;br /&gt;
+详情可以参考&lt;code&gt;JavaPsiScanner&lt;/code&gt;类的注释内容，其中详细介绍了如何将API轻松迁移，但是轻松只是相对于那些熟悉PSI API的开发者，对于不熟悉它的开发者来说，这种迁移还是比较困难的。当我们自定义lint检查器的时候需要注意 &lt;strong&gt;lint-api的版本问题&lt;/strong&gt;，不同版本的Java检查器需要实现的接口有差异。&lt;br /&gt;
+(1) &lt;code&gt;compile &#39;com.android.tools.lint:lint-api:24.5.0&#39;&lt;/code&gt;&lt;br /&gt;
+使用&lt;code&gt;JavaScanner&lt;/code&gt; =&amp;gt; older Lombok AST API&lt;br /&gt;
+(2) &lt;code&gt;compile &#39;com.android.tools.lint:lint-api:25.2.0&#39;&lt;/code&gt;&lt;br /&gt;
+需要迁移到&lt;code&gt;JavaPsiScanner&lt;/code&gt; =&amp;gt; IntelliJ IDEA&amp;rsquo;s &amp;ldquo;PSI&amp;rdquo; API&lt;/p&gt;
+
+&lt;h3 id=&#34;4-java代码的lint检查器&#34;&gt;4. Java代码的Lint检查器&lt;/h3&gt;
+
+&lt;p&gt;(1) &lt;code&gt;JavaParser&lt;/code&gt;&lt;br /&gt;
+解析Java文件的抽象类，实际实现类是&lt;code&gt;LombokPsiParser&lt;/code&gt;，将来可能会被修改为其他的Parser。&lt;/p&gt;
+
+&lt;p&gt;(2) &lt;code&gt;JavaPsiScanner&lt;/code&gt;&lt;br /&gt;
+&lt;strong&gt;注意：在最新的25.2.0版本的lint-api中JavaScanner已经被注明为deprecated了，推荐使用JavaPsiScanner。&lt;/strong&gt;&lt;br /&gt;
+下面是&lt;code&gt;JavaPsiScanner&lt;/code&gt;接口的源码，任何对Java源代码文件进行lint检查的Detector都需要实现这个接口，主要是定义了几个&lt;code&gt;visit&lt;/code&gt;方法。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;public interface JavaPsiScanner  {
+    /**
+     * Create a parse tree visitor to process the parse tree. All
+     * {@link JavaScanner} detectors must provide a visitor, unless they
+     * either return true from {@link #appliesToResourceRefs()} or return
+     * non null from {@link #getApplicableMethodNames()}.
+     * &amp;lt;p&amp;gt;
+     * If you return specific AST node types from
+     * {@link #getApplicablePsiTypes()}, then the visitor will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt;
+     * be called for the specific requested node types. This is more
+     * efficient, since it allows many detectors that apply to only a small
+     * part of the AST (such as method call nodes) to share iteration of the
+     * majority of the parse tree.
+     * &amp;lt;p&amp;gt;
+     * If you return null from {@link #getApplicablePsiTypes()}, then your
+     * visitor will be called from the top and all node types visited.
+     * &amp;lt;p&amp;gt;
+     * Note that a new visitor is created for each separate compilation
+     * unit, so you can store per file state in the visitor.
+     * &amp;lt;p&amp;gt;
+     * &amp;lt;b&amp;gt;
+     * NOTE: Your visitor should &amp;lt;b&amp;gt;NOT&amp;lt;/b&amp;gt; extend JavaRecursiveElementVisitor.
+     * Your visitor should only visit the current node type; the infrastructure
+     * will do the recursion. (Lint&#39;s unit test infrastructure will check and
+     * enforce this restriction.)
+     * &amp;lt;/b&amp;gt;
+     *
+     * @param context the {@link Context} for the file being analyzed
+     * @return a visitor, or null.
+     */
+    @Nullable
+    JavaElementVisitor createPsiVisitor(@NonNull JavaContext context);
+
+    /**
+     * Return the types of AST nodes that the visitor returned from
+     * {@link #createJavaVisitor(JavaContext)} should visit. See the
+     * documentation for {@link #createJavaVisitor(JavaContext)} for details
+     * on how the shared visitor is used.
+     * &amp;lt;p&amp;gt;
+     * If you return null from this method, then the visitor will process
+     * the full tree instead.
+     * &amp;lt;p&amp;gt;
+     * Note that for the shared visitor, the return codes from the visit
+     * methods are ignored: returning true will &amp;lt;b&amp;gt;not&amp;lt;/b&amp;gt; prune iteration
+     * of the subtree, since there may be other node types interested in the
+     * children. If you need to ensure that your visitor only processes a
+     * part of the tree, use a full visitor instead. See the
+     * OverdrawDetector implementation for an example of this.
+     *
+     * @return the list of applicable node types (AST node classes), or null
+     */
+    @Nullable
+    List&amp;lt;Class&amp;lt;? extends PsiElement&amp;gt;&amp;gt; getApplicablePsiTypes();
+
+    /**
+     * Return the list of method names this detector is interested in, or
+     * null. If this method returns non-null, then any AST nodes that match
+     * a method call in the list will be passed to the
+     * {@link #visitMethod(JavaContext, JavaElementVisitor, PsiMethodCallExpression, PsiMethod)}
+     * method for processing. The visitor created by
+     * {@link #createPsiVisitor(JavaContext)} is also passed to that
+     * method, although it can be null.
+     * &amp;lt;p&amp;gt;
+     * This makes it easy to write detectors that focus on some fixed calls.
+     * For example, the StringFormatDetector uses this mechanism to look for
+     * &amp;quot;format&amp;quot; calls, and when found it looks around (using the AST&#39;s
+     * {@link PsiElement#getParent()} method) to see if it&#39;s called on
+     * a String class instance, and if so do its normal processing. Note
+     * that since it doesn&#39;t need to do any other AST processing, that
+     * detector does not actually supply a visitor.
+     *
+     * @return a set of applicable method names, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableMethodNames();
+
+    /**
+     * Method invoked for any method calls found that matches any names
+     * returned by {@link #getApplicableMethodNames()}. This also passes
+     * back the visitor that was created by
+     * {@link #createJavaVisitor(JavaContext)}, but a visitor is not
+     * required. It is intended for detectors that need to do additional AST
+     * processing, but also want the convenience of not having to look for
+     * method names on their own.
+     *
+     * @param context the context of the lint request
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param call the {@link PsiMethodCallExpression} node for the invoked method
+     * @param method the {@link PsiMethod} being called
+     */
+    void visitMethod(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression call,
+            @NonNull PsiMethod method);
+
+    /**
+     * Return the list of constructor types this detector is interested in, or
+     * null. If this method returns non-null, then any AST nodes that match
+     * a constructor call in the list will be passed to the
+     * {@link #visitConstructor(JavaContext, JavaElementVisitor, PsiNewExpression, PsiMethod)}
+     * method for processing. The visitor created by
+     * {@link #createJavaVisitor(JavaContext)} is also passed to that
+     * method, although it can be null.
+     * &amp;lt;p&amp;gt;
+     * This makes it easy to write detectors that focus on some fixed constructors.
+     *
+     * @return a set of applicable fully qualified types, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableConstructorTypes();
+
+    /**
+     * Method invoked for any constructor calls found that matches any names
+     * returned by {@link #getApplicableConstructorTypes()}. This also passes
+     * back the visitor that was created by
+     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not
+     * required. It is intended for detectors that need to do additional AST
+     * processing, but also want the convenience of not having to look for
+     * method names on their own.
+     *
+     * @param context the context of the lint request
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param node the {@link PsiNewExpression} node for the invoked method
+     * @param constructor the called constructor method
+     */
+    void visitConstructor(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiNewExpression node,
+            @NonNull PsiMethod constructor);
+
+    /**
+     * Return the list of reference names types this detector is interested in, or null. If this
+     * method returns non-null, then any AST elements that match a reference in the list will be
+     * passed to the {@link #visitReference(JavaContext, JavaElementVisitor,
+     * PsiJavaCodeReferenceElement, PsiElement)} method for processing. The visitor created by
+     * {@link #createJavaVisitor(JavaContext)} is also passed to that method, although it can be
+     * null. &amp;lt;p&amp;gt; This makes it easy to write detectors that focus on some fixed references.
+     *
+     * @return a set of applicable reference names, or null.
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; getApplicableReferenceNames();
+
+    /**
+     * Method invoked for any references found that matches any names returned by {@link
+     * #getApplicableReferenceNames()}. This also passes back the visitor that was created by
+     * {@link #createPsiVisitor(JavaContext)}, but a visitor is not required. It is intended for
+     * detectors that need to do additional AST processing, but also want the convenience of not
+     * having to look for method names on their own.
+     *
+     * @param context    the context of the lint request
+     * @param visitor    the visitor created from {@link #createPsiVisitor(JavaContext)}, or
+     *                   null
+     * @param reference  the {@link PsiJavaCodeReferenceElement} element
+     * @param referenced the referenced element
+     */
+    void visitReference(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiJavaCodeReferenceElement reference,
+            @NonNull PsiElement referenced);
+
+    /**
+     * Returns whether this detector cares about Android resource references
+     * (such as {@code R.layout.main} or {@code R.string.app_name}). If it
+     * does, then the visitor will look for these patterns, and if found, it
+     * will invoke {@link #visitResourceReference} passing the resource type
+     * and resource name. It also passes the visitor, if any, that was
+     * created by {@link #createJavaVisitor(JavaContext)}, such that a
+     * detector can do more than just look for resources.
+     *
+     * @return true if this detector wants to be notified of R resource
+     *         identifiers found in the code.
+     */
+    boolean appliesToResourceRefs();
+
+    /**
+     * Called for any resource references (such as {@code R.layout.main}
+     * found in Java code, provided this detector returned {@code true} from
+     * {@link #appliesToResourceRefs()}.
+     *
+     * @param context the lint scanning context
+     * @param visitor the visitor created from
+     *            {@link #createPsiVisitor(JavaContext)}, or null
+     * @param node the variable reference for the resource
+     * @param type the resource type, such as &amp;quot;layout&amp;quot; or &amp;quot;string&amp;quot;
+     * @param name the resource name, such as &amp;quot;main&amp;quot; from
+     *            {@code R.layout.main}
+     * @param isFramework whether the resource is a framework resource
+     *            (android.R) or a local project resource (R)
+     */
+    void visitResourceReference(
+            @NonNull JavaContext context,
+            @Nullable JavaElementVisitor visitor,
+            @NonNull PsiElement node,
+            @NonNull ResourceType type,
+            @NonNull String name,
+            boolean isFramework);
+
+    /**
+     * Returns a list of fully qualified names for super classes that this
+     * detector cares about. If not null, this detector will &amp;lt;b&amp;gt;only&amp;lt;/b&amp;gt; be called
+     * if the current class is a subclass of one of the specified superclasses.
+     *
+     * @return a list of fully qualified names
+     */
+    @Nullable
+    List&amp;lt;String&amp;gt; applicableSuperClasses();
+
+    /**
+     * Called for each class that extends one of the super classes specified with
+     * {@link #applicableSuperClasses()}.
+     * &amp;lt;p&amp;gt;
+     * Note: This method will not be called for {@link PsiTypeParameter} classes. These
+     * aren&#39;t really classes in the sense most lint detectors think of them, so these
+     * are excluded to avoid having lint checks that don&#39;t defensively code for these
+     * accidentally report errors on type parameters. If you really need to check these,
+     * use {@link #getApplicablePsiTypes} with {@code PsiTypeParameter.class} instead.
+     *
+     * @param context the lint scanning context
+     * @param declaration the class declaration node, or null for anonymous classes
+     */
+    void checkClass(@NonNull JavaContext context, @NonNull PsiClass declaration);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;(3) 下面以&lt;code&gt;LogDetector&lt;/code&gt;为例，介绍下一个Java代码的Lint检查器的大致结构：&lt;br /&gt;
+① 首先声明&lt;code&gt;LogDetector&lt;/code&gt;继承自&lt;code&gt;Detector&lt;/code&gt;并实现了&lt;code&gt;JavaPsiScanner&lt;/code&gt;接口，&lt;code&gt;Detector&lt;/code&gt;类是检查器的适配器类，&lt;code&gt;JavaPsiScanner&lt;/code&gt;接口是对Java代码文件进行检查的接口；&lt;br /&gt;
+② 接着定义一个&lt;code&gt;Implementation&lt;/code&gt;实例，声明这个检查器的实现类是&lt;code&gt;LogDetector.class&lt;/code&gt;，它的检查范围是&lt;code&gt;Scope.JAVA_FILE_SCOPE&lt;/code&gt;，也就是Java代码文件；&lt;br /&gt;
+③ 然后定义这个检查器将会检查代码中是否存在的&lt;code&gt;Issue&lt;/code&gt;，每个问题有名称(&lt;code&gt;LogConditional&lt;/code&gt;)、描述、类别(&lt;code&gt;Category.PERFORMANCE&lt;/code&gt;)、等级(&lt;code&gt;5&lt;/code&gt;)、严重程度(&lt;code&gt;Severity.WARNING&lt;/code&gt;)、检查器的实现类以及是否默认开启等信息；&lt;br /&gt;
+④ 接着在方法&lt;code&gt;getApplicableMethodNames&lt;/code&gt;中声明这个检查器关心的方法，因为这个检查器是检查应用中的log是否符合规范，所以比较关心&lt;code&gt;d/e/i/v/w&lt;/code&gt;等常见的log打印方法；&lt;br /&gt;
+⑤ 最后就是在方法&lt;code&gt;visitMethod&lt;/code&gt;中对上面声明的并且在lint检查时遇到的那些方法进行检查，看它们是否符合规范，如果不符合规范的话就会report出错误信息。源代码文件中声明其他的变量和私有方法都是为了完成检查过程定义的。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;/**
+ * Detector for finding inefficiencies and errors in logging calls.
+ */
+public class LogDetector extends Detector implements JavaPsiScanner {
+    private static final Implementation IMPLEMENTATION = new Implementation(
+          LogDetector.class, Scope.JAVA_FILE_SCOPE);
+
+    /** Log call missing surrounding if */
+    public static final Issue CONDITIONAL = Issue.create(
+            &amp;quot;LogConditional&amp;quot;, //$NON-NLS-1$
+            &amp;quot;Unconditional Logging Calls&amp;quot;,
+            &amp;quot;The BuildConfig class (available in Tools 17) provides a constant, \&amp;quot;DEBUG\&amp;quot;, &amp;quot; +
+            &amp;quot;which indicates whether the code is being built in release mode or in debug &amp;quot; +
+            &amp;quot;mode. In release mode, you typically want to strip out all the logging calls. &amp;quot; +
+            &amp;quot;Since the compiler will automatically remove all code which is inside a &amp;quot; +
+            &amp;quot;\&amp;quot;if (false)\&amp;quot; check, surrounding your logging calls with a check for &amp;quot; +
+            &amp;quot;BuildConfig.DEBUG is a good idea.\n&amp;quot; +
+            &amp;quot;\n&amp;quot; +
+            &amp;quot;If you *really* intend for the logging to be present in release mode, you can &amp;quot; +
+            &amp;quot;suppress this warning with a @SuppressLint annotation for the intentional &amp;quot; +
+            &amp;quot;logging calls.&amp;quot;,
+
+            Category.PERFORMANCE,
+            5,
+            Severity.WARNING,
+            IMPLEMENTATION).setEnabledByDefault(false);
+
+    /** Mismatched tags between isLogging and log calls within it */
+    public static final Issue WRONG_TAG = Issue.create(
+            &amp;quot;LogTagMismatch&amp;quot;, //$NON-NLS-1$
+            &amp;quot;Mismatched Log Tags&amp;quot;,
+            &amp;quot;When guarding a `Log.v(tag, ...)` call with `Log.isLoggable(tag)`, the &amp;quot; +
+            &amp;quot;tag passed to both calls should be the same. Similarly, the level passed &amp;quot; +
+            &amp;quot;in to `Log.isLoggable` should typically match the type of `Log` call, e.g. &amp;quot; +
+            &amp;quot;if checking level `Log.DEBUG`, the corresponding `Log` call should be `Log.d`, &amp;quot; +
+            &amp;quot;not `Log.i`.&amp;quot;,
+
+            Category.CORRECTNESS,
+            5,
+            Severity.ERROR,
+            IMPLEMENTATION);
+
+    /** Log tag is too long */
+    public static final Issue LONG_TAG = Issue.create(
+            &amp;quot;LongLogTag&amp;quot;, //$NON-NLS-1$
+            &amp;quot;Too Long Log Tags&amp;quot;,
+            &amp;quot;Log tags are only allowed to be at most 23 tag characters long.&amp;quot;,
+
+            Category.CORRECTNESS,
+            5,
+            Severity.ERROR,
+            IMPLEMENTATION);
+
+    @SuppressWarnings(&amp;quot;SpellCheckingInspection&amp;quot;)
+    private static final String IS_LOGGABLE = &amp;quot;isLoggable&amp;quot;;       //$NON-NLS-1$
+    public static final String LOG_CLS = &amp;quot;android.util.Log&amp;quot;;     //$NON-NLS-1$
+    private static final String PRINTLN = &amp;quot;println&amp;quot;;              //$NON-NLS-1$
+
+    // ---- Implements Detector.JavaScanner ----
+
+    @Override
+    public List&amp;lt;String&amp;gt; getApplicableMethodNames() {
+        return Arrays.asList(
+                &amp;quot;d&amp;quot;,           //$NON-NLS-1$
+                &amp;quot;e&amp;quot;,           //$NON-NLS-1$
+                &amp;quot;i&amp;quot;,           //$NON-NLS-1$
+                &amp;quot;v&amp;quot;,           //$NON-NLS-1$
+                &amp;quot;w&amp;quot;,           //$NON-NLS-1$
+                PRINTLN,
+                IS_LOGGABLE);
+    }
+
+    @Override
+    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
+            @NonNull PsiMethodCallExpression node, @NonNull PsiMethod method) {
+        JavaEvaluator evaluator = context.getEvaluator();
+        if (!evaluator.isMemberInClass(method, LOG_CLS)) {
+            return;
+        }
+
+        String name = method.getName();
+        boolean withinConditional = IS_LOGGABLE.equals(name) ||
+                checkWithinConditional(context, node.getParent(), node);
+
+        // See if it&#39;s surrounded by an if statement (and it&#39;s one of the non-error, spammy
+        // log methods (info, verbose, etc))
+        if ((&amp;quot;i&amp;quot;.equals(name) || &amp;quot;d&amp;quot;.equals(name) || &amp;quot;v&amp;quot;.equals(name) || PRINTLN.equals(name))
+                &amp;amp;&amp;amp; !withinConditional
+                &amp;amp;&amp;amp; performsWork(context, node)
+                &amp;amp;&amp;amp; context.isEnabled(CONDITIONAL)) {
+            String message = String.format(&amp;quot;The log call Log.%1$s(...) should be &amp;quot; +
+                            &amp;quot;conditional: surround with `if (Log.isLoggable(...))` or &amp;quot; +
+                            &amp;quot;`if (BuildConfig.DEBUG) { ... }`&amp;quot;,
+                    node.getMethodExpression().getReferenceName());
+            context.report(CONDITIONAL, node, context.getLocation(node), message);
+        }
+
+        // Check tag length
+        if (context.isEnabled(LONG_TAG)) {
+            int tagArgumentIndex = PRINTLN.equals(name) ? 1 : 0;
+            PsiParameterList parameterList = method.getParameterList();
+            PsiExpressionList argumentList = node.getArgumentList();
+            if (evaluator.parameterHasType(method, tagArgumentIndex, TYPE_STRING)
+                    &amp;amp;&amp;amp; parameterList.getParametersCount() == argumentList.getExpressions().length) {
+                PsiExpression argument = argumentList.getExpressions()[tagArgumentIndex];
+                String tag = ConstantEvaluator.evaluateString(context, argument, true);
+                if (tag != null &amp;amp;&amp;amp; tag.length() &amp;gt; 23) {
+                    String message = String.format(
+                            &amp;quot;The logging tag can be at most 23 characters, was %1$d (%2$s)&amp;quot;,
+                            tag.length(), tag);
+                    context.report(LONG_TAG, node, context.getLocation(node), message);
+                }
+            }
+        }
+    }
+
+    /** Returns true if the given logging call performs &amp;quot;work&amp;quot; to compute the message */
+    private static boolean performsWork(
+            @NonNull JavaContext context,
+            @NonNull PsiMethodCallExpression node) {
+        //...
+    }
+
+    private static boolean checkWithinConditional(
+            @NonNull JavaContext context, @Nullable PsiElement curr, @NonNull PsiMethodCallExpression logCall) {
+        //...
+    }
+
+    /** Checks that the tag passed to Log.s and Log.isLoggable match */
+    private static void checkTagConsistent(JavaContext context, PsiMethodCallExpression logCall,
+            PsiMethodCallExpression isLoggableCall) {
+        //...
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;上面是一个简单的Java检查器的实现，但是足以让我们理解lint检查是如何进行的，以及辅助我们去了解其他的检查器的实现，甚至是针对其他类型的文件比如XML文件的检查器，它们的实现过程也大致类似，下一节我们会总结下lint工具中自带的一些和Android有关的检查器的功能。&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Lint Tool Analysis (2)</title>
@@ -5358,304 +5790,6 @@ animator2.start();
 &lt;p&gt;关于&lt;code&gt;ValueAnimator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;之间的恩恩怨怨讲到这里其实已经讲得差不多了，猜猜下一节我会说啥？~(≧▽≦)/~&lt;/p&gt;
 
 &lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>When Math meets Android Animation (1)</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</link>
-      <pubDate>Thu, 26 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
-      <description>
-
-&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(1)&lt;/p&gt;
-
-&lt;p&gt;其实关于&lt;code&gt;ValueAnimator&lt;/code&gt;的内部工作原理大家也都清楚，本文只是选择从数学函数的角度来解析这个原理，方便理解。看完了本节之后我们就更加清楚如何借助&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;来帮助我们实现动画等知识。&lt;/p&gt;
-
-&lt;p&gt;本系列文章共有三篇，第一篇通过源码解析&lt;code&gt;ValueAnimator&lt;/code&gt;类，第二篇通过实例解析&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;，第三篇分析常见动画背后的缓动函数，最后引出一个新的Android动画开发的辅助库&lt;a href=&#34;https://github.com/hujiaweibujidao/yava&#34;&gt;Yava&lt;/a&gt;。&lt;/p&gt;
-
-&lt;h3 id=&#34;1-android动画基础知识&#34;&gt;&lt;strong&gt;1 Android动画基础知识&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;(1)狭义而言，动画一般就是指某个View组件的某个或者某些属性值在一段时间内不断变化的过程，这个变化过程往往有个起始值、结束值和一系列的中间值，&lt;code&gt;ValueAnimator&lt;/code&gt;就是用来反映这个属性值变化过程的重要类，所以本文的介绍主要是以分析&lt;code&gt;ValueAnimator&lt;/code&gt;为主。
-(2)如果将属性值的变化过程看做一个数学函数的话，从动画效果上来看它是连续的，但实际上它还是离散的，因为它实际上也就是通过插入中间值（简称插值）从而&amp;rdquo;一帧一帧&amp;rdquo;完成动画的，那每一帧在哪里取，取多少呢？这也就是&lt;code&gt;ValueAnimator&lt;/code&gt;类主要完成的作用。&lt;/p&gt;
-
-&lt;p&gt;那到底&lt;code&gt;ValueAnimator&lt;/code&gt;是怎么控制属性值的变化过程的呢？答案是借助&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;来帮忙！&lt;code&gt;TimeInterpolator&lt;/code&gt;用来控制在哪里取，而&lt;code&gt;TypeEvaluator&lt;/code&gt;用来控制取多少。（注：取多少个点进行插值是不确定的，例如动画持续时间1s，可能取60，也可能取54、57或者58个中间点进行插值）&lt;/p&gt;
-
-&lt;p&gt;先说本小节结论，&lt;strong&gt;每一个&lt;code&gt;ValueAnimator&lt;/code&gt;其实就是一个的&lt;code&gt;TimeInterpolator&lt;/code&gt;和一个&lt;code&gt;TypeEvaluator&lt;/code&gt;的结合体&lt;/strong&gt;。从数学的角度来看，&lt;code&gt;ValueAnimator&lt;/code&gt;就是由&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;这两个简单函数组合而成的一个复合函数。用图来表述如下：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valueanimator_math.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;你也可以将&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;看作是工厂流水线上的两个小员工，那么&lt;code&gt;ValueAnimator&lt;/code&gt;就是车间主管啦。&lt;code&gt;TimeInterpolator&lt;/code&gt;这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度。而下一个生产线上的小员工&lt;code&gt;TypeEvaluator&lt;/code&gt;的任务就是打磨半成品得到成品，最后将成品输出。&lt;/p&gt;
-
-&lt;h3 id=&#34;2-结合源码解释函数形式&#34;&gt;&lt;strong&gt;2 结合源码解释函数形式&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;（1）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是函数x=f(t)，t表示&lt;strong&gt;动画已经完成的时间比率&lt;/strong&gt;（例如动画的总时长是10s，已经过了4s了，那么t=0.4），所以t的取值范围是[0,1]，0表示动画开始，1表示动画结束。该函数的返回值指的是&lt;strong&gt;动画实际插值的时间点&lt;/strong&gt;，一般是0到1之间，但是也可以小于0（&amp;rdquo;下冲&amp;rdquo;）或者大于1（&amp;rdquo;上冲&amp;rdquo;）。
-&lt;strong&gt;该函数的作用是把当前时间进度映射成另一个值，这样动画参照的时间由此被&amp;rdquo;篡改&amp;rdquo;，动画的速度由此被改变。&lt;/strong&gt; （后面还有详细介绍）&lt;/p&gt;
-
-&lt;p&gt;参考接口&lt;code&gt;TimeInterpolator&lt;/code&gt;的定义：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/**
- * A time interpolator defines the rate of change of an animation. This allows animations
- * to have non-linear motion, such as acceleration and deceleration.
- */
-public interface TimeInterpolator {
-    /**
-     * Maps a value representing the elapsed fraction of an animation to a value that represents
-     * the interpolated fraction. This interpolated value is then multiplied by the change in
-     * value of an animation to derive the animated value at the current elapsed animation time.
-     */
-    float getInterpolation(float input);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;（2）假设&lt;code&gt;TypeEvaluator&lt;/code&gt;是函数y=g(x,a,b)，x就是前面函数f(t)篡改之后的插值的时间点，a、b分别表示属性动画的起始值和结束值。
-&lt;strong&gt;该函数的作用是通过起始值、结束值以及插值时间点来计算在该时间点的属性值应该是多少。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;参考接口&lt;code&gt;TypeEvaluator&lt;/code&gt;的定义：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/**
- * Interface for use with the {@link ValueAnimator#setEvaluator(TypeEvaluator)} function. Evaluators
- * allow developers to create animations on arbitrary property types, by allowing them to supply
- * custom evaluators for types that are not automatically understood and used by the animation
- * system.
- */
-public interface TypeEvaluator&amp;lt;T&amp;gt; {
-
-    /**
-     * This function returns the result of linearly interpolating the start and end values, with
-     * &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt; representing the proportion between the start and end values. The
-     * calculation is a simple parametric calculation: &amp;lt;code&amp;gt;result = x0 + t * (x1 - x0)&amp;lt;/code&amp;gt;,
-     * where &amp;lt;code&amp;gt;x0&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt;, &amp;lt;code&amp;gt;x1&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt;,
-     * and &amp;lt;code&amp;gt;t&amp;lt;/code&amp;gt; is &amp;lt;code&amp;gt;fraction&amp;lt;/code&amp;gt;.
-     */
-    public T evaluate(float fraction, T startValue, T endValue);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;（3）假设&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是上面两个简单函数，那么&lt;code&gt;ValueAnimator&lt;/code&gt;也是一个函数，它其实就是表示&lt;code&gt;TimeInterpolator&lt;/code&gt;的函数x=f(t)和表示&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数y=g(x,a,b)结合而成的复合函数&lt;code&gt;F=g(f(t),a,b)&lt;/code&gt;。&lt;/p&gt;
-
-&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;中&lt;code&gt;animateValue&lt;/code&gt;方法的定义：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/**
- * This method is called with the elapsed fraction of the animation during every
- * animation frame. This function turns the elapsed fraction into an interpolated fraction
- * and then into an animated value (from the evaluator. The function is called mostly during
- * animation updates, but it is also called when the &amp;lt;code&amp;gt;end()&amp;lt;/code&amp;gt;
- * function is called, to set the final value on the property.
- */
-void animateValue(float fraction) {
-    fraction = mInterpolator.getInterpolation(fraction); //TimeInterpolator 函数
-    mCurrentFraction = fraction;
-    int numValues = mValues.length;
-    for (int i = 0; i &amp;lt; numValues; ++i) {
-        mValues[i].calculateValue(fraction); //TypeEvaluator 函数
-    }
-    if (mUpdateListeners != null) { // 通知监听器
-        int numListeners = mUpdateListeners.size();
-        for (int i = 0; i &amp;lt; numListeners; ++i) {
-            mUpdateListeners.get(i).onAnimationUpdate(this);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;3-通俗解析各个击破&#34;&gt;&lt;strong&gt;3 通俗解析各个击破&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;h4 id=&#34;3-1-关于valueanimator&#34;&gt;&lt;strong&gt;3.1 关于ValueAnimator&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;p&gt;(0)&lt;code&gt;ValueAnimator&lt;/code&gt;就是一个的&lt;code&gt;TypeEvaluator&lt;/code&gt;和一个&lt;code&gt;TimeInterpolator&lt;/code&gt;的结合体，所以该类有两个方法分别用来设置动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;。
-(1)&lt;code&gt;setInterpolator&lt;/code&gt;方法可以不调用，默认是加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;，但是如果调用且传入的参数为null的话，那么就会被设置成线性插值器&lt;code&gt;LinearInterpolator&lt;/code&gt; &lt;strong&gt;(暂时不清楚为什么要这样做)&lt;/strong&gt;。
-(2)&lt;code&gt;setEvaluator&lt;/code&gt;方法也可以不调用，默认会根据属性值的类型设置一个&lt;code&gt;IntEvaluator&lt;/code&gt;或者&lt;code&gt;FloatEvaluator&lt;/code&gt;。后面会讲到这类&lt;code&gt;TypeEvaluator&lt;/code&gt;可以看作是线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;（&lt;strong&gt;并没有这个说法，因故加上引号&lt;/strong&gt;）。&lt;/p&gt;
-
-&lt;p&gt;参考&lt;code&gt;ValueAnimator&lt;/code&gt;的部分源码：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//默认的TimeInterpolator是AccelerateDecelerateInterpolator
-// The time interpolator to be used if none is set on the animation
-private static final TimeInterpolator sDefaultInterpolator = new AccelerateDecelerateInterpolator();
-
-/**
-* The time interpolator used in calculating the elapsed fraction of this animation. The
-* interpolator determines whether the animation runs with linear or non-linear motion,
-* such as acceleration and deceleration. The default value is
-* {@link android.view.animation.AccelerateDecelerateInterpolator}
-*
-* @param value the interpolator to be used by this animation. A value of &amp;lt;code&amp;gt;null&amp;lt;/code&amp;gt;
-* will result in linear interpolation.
-*/
-@Override
-public void setInterpolator(TimeInterpolator value) {
-   if (value != null) {
-       mInterpolator = value;
-   } else {
-       // 如果传入的TimeInterpolator是null的话就设置为LinearInterpolator
-       mInterpolator = new LinearInterpolator();
-   }
-}
-
-/**
- * The type evaluator to be used when calculating the animated values of this animation.
- * The system will automatically assign a float or int evaluator based on the type
- * of &amp;lt;code&amp;gt;startValue&amp;lt;/code&amp;gt; and &amp;lt;code&amp;gt;endValue&amp;lt;/code&amp;gt; in the constructor. But if these values
- * are not one of these primitive types, or if different evaluation is desired (such as is
- * necessary with int values that represent colors), a custom evaluator needs to be assigned.
- * For example, when running an animation on color values, the {@link ArgbEvaluator}
- * should be used to get correct RGB color interpolation.
- *
- * &amp;lt;p&amp;gt;If this ValueAnimator has only one set of values being animated between, this evaluator
- * will be used for that set. If there are several sets of values being animated, which is
- * the case if PropertyValuesHolder objects were set on the ValueAnimator, then the evaluator
- * is assigned just to the first PropertyValuesHolder object.&amp;lt;/p&amp;gt;
- *
- * @param value the evaluator to be used this animation
- */
-public void setEvaluator(TypeEvaluator value) {
-    if (value != null &amp;amp;&amp;amp; mValues != null &amp;amp;&amp;amp; mValues.length &amp;gt; 0) {
-        mValues[0].setEvaluator(value);
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;(4)&lt;strong&gt;调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法时发生了什么&lt;/strong&gt;
-&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法是创建动画常用的方法，该方法会调用&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;，其中调用了&lt;code&gt;PropertyValuesHolder&lt;/code&gt;的&lt;code&gt;setIntValues&lt;/code&gt;方法，里面又调用了&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法用来得到动画的帧集合，该方法的实现如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//根据提供的数字序列得到动画的核心帧集合
-public static KeyframeSet ofInt(int... values) {
-    int numKeyframes = values.length;//有多少个数字就有多少帧
-    IntKeyframe keyframes[] = new IntKeyframe[Math.max(numKeyframes,2)];//至少有2帧
-    if (numKeyframes == 1) {//如果只传入一个数字，那么该数字就是结束帧的值
-        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f);
-        keyframes[1] = (IntKeyframe) Keyframe.ofInt(1f, values[0]);
-    } else {//如果传入多个数字，那么可以将整个动画时间间隔均分，每个数字按顺序在每个时间比率上占据一个属性值
-        keyframes[0] = (IntKeyframe) Keyframe.ofInt(0f, values[0]);
-        for (int i = 1; i &amp;lt; numKeyframes; ++i) {
-            keyframes[i] = (IntKeyframe) Keyframe.ofInt((float) i / (numKeyframes - 1), values[i]);
-        }
-    }
-    return new IntKeyframeSet(keyframes);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;Keyframe&lt;/code&gt;的&lt;code&gt;ofInt&lt;/code&gt;方法的签名为&lt;code&gt;Keyframe ofInt(float fraction, int value)&lt;/code&gt;：前者就是动画已经完成的时间比率，后者是该帧的属性值，它表示在这个特定的时间比率对应的时刻，函数曲线会经过或者非常接近这个属性值(&lt;strong&gt;可能是没有经过，而只是很接近很接近，毕竟是曲线拟合嘛&lt;/strong&gt;)。&lt;/p&gt;
-
-&lt;p&gt;上面得到的帧只是动画的几个核心帧，肯定不是动画的全部帧，那中间的其他帧是怎么计算的呢？
-这个问题我们可以看下&lt;code&gt;KeyframeSet&lt;/code&gt;的&lt;code&gt;getValue&lt;/code&gt;方法，方法传入的参数就是动画的时间比率，返回值就是此帧的属性值。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;/**
- * Gets the animated value, given the elapsed fraction of the animation (interpolated by the
- * animation&#39;s interpolator) and the evaluator used to calculate in-between values. This
- * function maps the input fraction to the appropriate keyframe interval and a fraction
- * between them and returns the interpolated value. Note that the input fraction may fall
- * outside the [0-1] bounds, if the animation&#39;s interpolator made that happen (e.g., a
- * spring interpolation that might send the fraction past 1.0). We handle this situation by
- * just using the two keyframes at the appropriate end when the value is outside those bounds.
- */
-public Object getValue(float fraction) {
-    // Special-case optimization for the common case of only two keyframes
-    if (mNumKeyframes == 2) {//1.处理只有2帧的情况
-        if (mInterpolator != null) {
-            //先调用TimeInterpolator函数
-            fraction = mInterpolator.getInterpolation(fraction);
-        }
-        //再调用TypeEvaluator函数
-        return mEvaluator.evaluate(fraction, mFirstKeyframe.getValue(), mLastKeyframe.getValue());
-    }
-    //2.处理上冲和下冲的情况
-    if (fraction &amp;lt;= 0f) {
-        final Keyframe nextKeyframe = mKeyframes.get(1);
-        final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
-        if (interpolator != null) {
-            fraction = interpolator.getInterpolation(fraction);
-        }
-        final float prevFraction = mFirstKeyframe.getFraction();
-        float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
-        return mEvaluator.evaluate(intervalFraction, mFirstKeyframe.getValue(), nextKeyframe.getValue());
-    } else if (fraction &amp;gt;= 1f) {
-        final Keyframe prevKeyframe = mKeyframes.get(mNumKeyframes - 2);
-        final TimeInterpolator interpolator = mLastKeyframe.getInterpolator();
-        if (interpolator != null) {
-            fraction = interpolator.getInterpolation(fraction);
-        }
-        final float prevFraction = prevKeyframe.getFraction();
-        float intervalFraction = (fraction - prevFraction) / (mLastKeyframe.getFraction() - prevFraction);
-        return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), mLastKeyframe.getValue());
-    }
-    //3.处理正常的多帧的情况
-    Keyframe prevKeyframe = mFirstKeyframe;
-    //首先要遍历前面计算出的主要KeyFrame集合，看当前的fraction是处在哪个区间的
-    for (int i = 1; i &amp;lt; mNumKeyframes; ++i) {
-        Keyframe nextKeyframe = mKeyframes.get(i);
-        if (fraction &amp;lt; nextKeyframe.getFraction()) {
-            final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
-            final float prevFraction = prevKeyframe.getFraction();
-            //将当前的fraction折算成在这个区间内的时间比率，这个计算有意思吧
-            float intervalFraction = (fraction - prevFraction) / (nextKeyframe.getFraction() - prevFraction);
-            // Apply interpolator on the proportional duration.
-            if (interpolator != null) {
-                //先调用TimeInterpolator函数
-                intervalFraction = interpolator.getInterpolation(intervalFraction);
-            }
-            //再调用TypeEvaluator函数
-            return mEvaluator.evaluate(intervalFraction, prevKeyframe.getValue(), nextKeyframe.getValue());
-        }
-        prevKeyframe = nextKeyframe;
-    }
-    // shouldn&#39;t reach here
-    return mLastKeyframe.getValue();
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;举个简单的例子，下图中的&lt;code&gt;ValueAnimator&lt;/code&gt;的&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;，它的&lt;code&gt;TypeEvaluator&lt;/code&gt;是&lt;code&gt;IntEvaluator&lt;/code&gt;，初始化的时候给定了5个数字，那么核心帧集合中有5帧，此时我们要求当fraction=0.4的时刻的value是多少。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/keyframeset_getvalue.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;3-2-关于timeinterpolator&#34;&gt;&lt;strong&gt;3.2 关于TimeInterpolator&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;p&gt;我们都知道时间是一秒一秒过去的，也就是线性的，匀速前进的。如果属性值从起始值到结束值是匀速变化的话，那么整个动画看起来就是慢慢地均匀地变化着。但是，如果我们想让动画变得很快或者变得很慢怎么办？答案是我们可以通过“篡改时间”来完成这个任务！这正是&lt;code&gt;TimeInterpolator&lt;/code&gt;类的工作，它实际上就是一条函数曲线。&lt;/p&gt;
-
-&lt;p&gt;举个栗子！如下图所示，x轴表示时间的比率，y轴表示属性值。在不考虑&lt;code&gt;TypeEvaluator&lt;/code&gt;的计算的情况下，假设属性值是从0变化到1，默认情况下线性插值器就和曲线y=x一样，在时间t的位置上的值为f(t)=t，&lt;strong&gt;当t=0.5的时刻传给TypeEvaluator的是t=0.5的时刻的值0.5&lt;/strong&gt;。但是，当我们将&lt;code&gt;TimeInterpolator&lt;/code&gt;设置为函数y=x^2或者y=x^(0.5)时，动画的效果就截然不同啦。在t=0.5的时刻，y=x^2=0.25 &amp;lt; 0.5，表示它将时间推迟了，&lt;strong&gt;传给TypeEvaluator的是0.25时刻的值0.25&lt;/strong&gt;；而y=x^(0.5)=0.71 &amp;gt; 0.5，表示它将时间提前了，&lt;strong&gt;传给TypeEvaluator的是0.71时刻的值0.71&lt;/strong&gt;。&lt;/p&gt;
-
-&lt;p&gt;此外，仔细观察曲线的斜率不难发现，&lt;strong&gt;曲线y=x^2的斜率在不断增加，说明变化越来越快，作用在View组件上就是刚开始挺慢的，然后不断加速的效果；而曲线y=x^(0.5)的斜率在不断减小，说明变化越来越慢，作用在View组件上就是刚开始挺快的，然后不断减速的效果。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/interpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;推荐在&lt;a href=&#34;http://cubic-bezier.com/&#34;&gt;cubic-bezier.com&lt;/a&gt;网站中简单绘制和上面两个曲线类似形状的曲线，然后选择线性曲线作为参考，查看方块的运动变化情况。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;Android的动画框架中已经给我们提供了不少实现了&lt;code&gt;TimeInterpolator&lt;/code&gt;的插值器，包括AccelerateDecelerateInterpolator, AccelerateInterpolator, AnticipateInterpolator, AnticipateOvershootInterpolator, BounceInterpolator, CycleInterpolator, DecelerateInterpolator, LinearInterpolator, OvershootInterpolator, PathInterpolator。&lt;/p&gt;
-
-&lt;p&gt;基本上每个插值器其实就对应一条曲线，例如加速减速插值器&lt;code&gt;AccelerateDecelerateInterpolator&lt;/code&gt;对应的曲线如下，斜率是先增加后减小。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/adinterpolator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的&lt;code&gt;TimeInterpolator&lt;/code&gt;呢？&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;不妨看看这个项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;，作者实现了30种常见动画的&lt;code&gt;TimeInterpolator&lt;/code&gt;，每个&lt;code&gt;TimeInterpolator&lt;/code&gt;的曲线形状大致如下图所示 （图片截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;，项目EaseInterpolator实现了其中的30个效果）
-这个项目中的&lt;code&gt;Ease[XXX]Interpolator&lt;/code&gt;都实现了&lt;code&gt;Interpolator&lt;/code&gt;接口，而&lt;code&gt;Interpolator&lt;/code&gt;接口继承自&lt;code&gt;TimeInterpolator&lt;/code&gt;接口。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/easingfuctions.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h4 id=&#34;3-3-关于typeevaluator&#34;&gt;&lt;strong&gt;3.3 关于TypeEvaluator&lt;/strong&gt;&lt;/h4&gt;
-
-&lt;p&gt;&lt;code&gt;TypeEvaluator&lt;/code&gt;实际上也是一条函数曲线，它的输入是&lt;code&gt;TimeInterpolator&lt;/code&gt;传进来的被“篡改”了的时间比率，还有动画的起始值和结束值信息，输出就是动画当前应该更新的属性值。假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;（&lt;strong&gt;f(t)=t&lt;/strong&gt;），也就是说时间比率不被“篡改”的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数其实就简化成了&lt;code&gt;TypeEvaluator&lt;/code&gt;函数（&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)&lt;/strong&gt;），即动画实际上只由&lt;code&gt;TypeEvaluator&lt;/code&gt;来控制。&lt;/p&gt;
-
-&lt;p&gt;Android系统动画框架中提供了几个&lt;code&gt;TypeEvaluator&lt;/code&gt;，例如IntEvaluator、FloatEvaluator、ArgbEvaluator、PointEvaluator、PathEvaluator等&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;IntEvaluator&lt;/code&gt;的&lt;code&gt;evaluate&lt;/code&gt;方法的实现：（这类&lt;code&gt;TypeEvaluator&lt;/code&gt;就是下一节提到的线性估值器&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;）&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-    int startInt = startValue;
-    return (int)(startInt + fraction * (endValue - startInt));
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;那除了Android系统自带的这些，还有哪些常见的TypeEvaluator呢？&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;这个时候不妨看看&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;的经典项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;，里面实现了28种常见动画的&lt;code&gt;TypeEvaluator&lt;/code&gt;，每个&lt;code&gt;TypeEvaluator&lt;/code&gt;的曲线形状和上面的截自&lt;a href=&#34;http://easings.net/&#34;&gt;easings.net&lt;/a&gt;的图片一样，代码家实现的动画效果也正是参考自那个项目的效果而想出来的。
-项目中的&lt;code&gt;[XXX]Ease[YYY]&lt;/code&gt;都继承自&lt;code&gt;BaseEasingMethod&lt;/code&gt;，而&lt;code&gt;BaseEasingMethod&lt;/code&gt;实现了&lt;code&gt;TypeEvaluator&lt;/code&gt;接口。&lt;/p&gt;
-
-&lt;p&gt;看到这里的话，机智的你肯定发现了，为什么那些&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;的函数曲线形状一样一样的，到底&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;是啥关系啊？在实现动画上它们又有啥区别呢？&lt;/p&gt;
-
-&lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/27/When-Math-meets-Android-Animation-2/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
 </description>
     </item>
     
