@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       Builtin Lint Detectors (1) &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.16" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" Builtin Lint Detectors (1) &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2016-12-01T10:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="android" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="https://hujiaweibujidao.github.io/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="https://hujiaweibujidao.github.io/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://hujiaweibujidao.github.io/css/github-gist.css">
+    
+    <script src="https://hujiaweibujidao.github.io/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="https://hujiaweibujidao.github.io/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/swift/">tags/swift</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="https://hujiaweibujidao.github.io/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://hujiaweibujidao.github.io/images/default.jpg)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="https://hujiaweibujidao.github.io/"><img src="https://hujiaweibujidao.github.io/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">Builtin Lint Detectors (1)</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">Builtin Lint Detectors (1)</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2016-12-01T10:46:33&#43;08:00">
+            Dec 1, 2016
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="https://hujiaweibujidao.github.io/tags/android/">#android</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      <p>Lint工具中自带的与Android开发相关的lint检查项。</p>
+
+<!-- ![img](lint_android_checks.png) -->
+
+<p>本文主要介绍的是Lint工具中自带的与Android开发相关的lint检查项，通过查看lint检查项的描述及其代码实现，我发现这里面存在不少应用开发编码的Best Practice，有些是平常编码中非常常见的错误(这类问题建议看下对应的参考资料)，有些却有点隐晦(这类问题我们会仔细研究下)，这些lint检查项对于我们在平常编码过程中都会有不少启发。</p>
+
+<p>这里先提一下如何在Java和XML代码中屏蔽掉某个lint检查项，这是在某个检查项开启但是某个特殊位置想忽略这个检查错误的一种方式。至于如何将检查项开启或者关闭或者配置某个检查项忽略某些文件或者文件夹等内容请参见之前的几篇Lint文档。</p>
+
+<p>在Java代码中屏蔽掉某个lint检查可以使用<code>@SuppressLint</code>这个注解，例如<code>@SuppressLint(&quot;UseSparseArrays&quot;)</code><br />
+在XML代码中屏蔽掉某个lint检查可以使用<code>tools:ignore</code>属性声明，例如<code>tools:ignore=&quot;ContentDescription&quot;</code></p>
+
+<p>下面是一些lint检查项的具体细节，我们一个个来介绍它们。</p>
+
+<p><strong>(1) Image without <code>contentDescription</code></strong><br />
+实现：<code>AccessibilityDetector</code><br />
+说明：<code>ImageView</code>和<code>ImageButton</code>需要有<code>contentDescription</code>属性来指定它的文字描述，除非它们声明了<code>tools:ignore=&quot;ContentDescription&quot;</code>。此外，如果设置了<code>contentDescription</code>属性就不需要再设置<code>hint</code>属性了，它会将<code>hint</code>属性覆盖掉不显示。</p>
+
+<p><strong>(2) Missing <code>labelFor</code> attribute</strong><br />
+实现：<code>LabelForDetector</code><br />
+说明：<code>EditText</code>、<code>AutoCompleteTextView</code>以及<code>MultiAutoCompleteTextView</code>这三个特别的View，它们一般都是等待用户在里面输入内容，所以往往需要有其他的View例如<code>TextView</code>通过<code>labelFor</code>属性指向它们，这样的话<code>Textview</code>的内容也就表明前面三个View是在等待用户输入什么内容。</p>
+
+<p><strong>(3) FrameLayout can be replaced with <code>&lt;merge&gt;</code> tag</strong><br />
+实现：<code>MergeRootFrameLayoutDetector</code><br />
+说明：检查<code>FrameLayout</code>能否使用<code>merge</code>标签进行布局优化，在某些情况下，如果<code>Framelayout</code>是根布局，并且没有背景和padding的设置，那么它就有可能可以通过<code>merge</code>标签对布局进行优化，但是到底是否可以还是需要开发者自行决定。<br />
+参考：<a href="http://www.cnblogs.com/dukc/p/5136310.html">Android中的merge标签</a></p>
+
+<p><strong>(4) Handler reference leaks</strong><br />
+实现：<code>HandlerDetector</code><br />
+说明：这是很常见的Handler导致内存泄露的情景。如果Handler被定义为内部类的话，它可能会阻止它的外部类被GC掉。如果这个Handler是在非主线程的<code>Looper</code>或者<code>MessageQueue</code>中使用的话不会有问题；但是如果是在主线程中使用的话，那么就需要进行修复，方法是：将Handler定义为静态内部类(static inner class)，在实例化Handler的时候将外部类的弱引用(WeakReference)传递给Handler，并且在Handler内部将所有对外部类的引用都改为弱引用的形式。<br />
+参考：<a href="http://droidyue.com/blog/2014/12/28/in-android-handler-classes-should-be-static-or-leaks-might-occur/">Android Handler引起的内存泄露问题</a></p>
+
+<p><strong>(5) HashMap can be replaced with <code>SparseArray</code></strong><br />
+实现：<code>JavaPerformanceDetector</code><br />
+说明：如果Map的key是Integer类型，推荐使用<code>SparseArray</code>，而不是HashMap。特别地，如果Map的value的类型是int的话，推荐使用<code>SparseIntArray</code>，因为它会避免int和Integer之间的封箱拆箱操作。同理，如果Map的value类型是long的话，推荐使用<code>SparseLongArray</code>。HashMap内部采用的是数组+链表的结构存储数据，但是SparseArray内部采用的是双数组的结构存储数据，而且key是按照int的大小顺序来存放的，所以查找、删除操作都会先进行二分查找，这就导致了在数据量很大的情况下，SparseArray的性能反而不如HashMap。其次，Android还提供了另一个ArrayMap的类，它类似SparseArray的存储结构，只是key可以不是int类型。这两个数据结构一般用于数据量在千级以下，否则性能差于HashMap。<br />
+参考：<a href="http://blog.csdn.net/u010687392/article/details/47809295">Android SparseArray和ArrayMap</a></p>
+
+<p><strong>(6) Memory allocation within drawing code</strong><br />
+实现：<code>JavaPerformanceDetector</code><br />
+说明：在Android中，draw和layout的过程的调用非常频繁，我们应该避免在这两个过程中创建对象，因为创建对象就要分配内存，如果内存不够的话就会GC，GC太长的话可能会导致界面出现卡顿现象。解决方案一般是将对象创建的操作提前，然后在draw的过程中重复使用，比如对于<code>Bitmap.create</code>这类方法的调用就需要这么处理。这一点在众多性能优化的文章中反复提到，draw方法的调用时间必须要尽可能的短。</p>
+
+<p><strong>(7) Should use <code>valueOf</code> instead of <code>new</code></strong><br />
+实现：<code>JavaPerformanceDetector</code><br />
+说明：对于封装类，例如<code>Integer</code>、<code>Long</code>、<code>Boolean</code>等，我们最好不要直接调用封装类的构造器方法，例如<code>new Integer(42)</code>，推荐使用封装类的<code>valueOf</code>这个工厂方法，例如<code>Integer.valueOf(42)</code>。<br />
+为什么要这样做呢？我们看下Integer的<code>valueOf</code>方法的实现，它先会判断参数<code>i</code>的范围，如果它是在<code>IntegerCache</code>的缓存的int范围之内(一般默认情况下是[-128,127])的话就直接使用缓存的Integer，如果不是的话就还是使用<code>new Integer</code>来创建对象。</p>
+
+<pre><code class="language-java">//IntegerCache的实现
+private static class IntegerCache {
+    static final int low = -128;
+    static final int high;//默认是127
+    static final Integer cache[];//通过new Integer创建了从low到high的Integer
+}
+
+public static Integer valueOf(int i) {
+    assert IntegerCache.high &gt;= 127;
+    if (i &gt;= IntegerCache.low &amp;&amp; i &lt;= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
+}
+</code></pre>
+
+<p><strong>(8) Inefficient layout weight</strong><br />
+实现：<code>InefficientWeightDetector</code><br />
+说明：如果在一个LinearLayout中只定义了一个包含weight属性值的组件时，推荐直接指定这个组件的width或者height是<code>0dp</code>，这两种方式的效果是相同的，这个组件会占据父容器中的剩余空间(一般来说，剩余空间=父容器的总空间-没有设置<code>weight</code>属性值的子组件的空间之和)。它们的区别在于，如果设置了width或者height的属性值，那么就省掉了计算这个组件自己的大小的过程。这里我们需要注意效果等价的前提条件是在一个LinearLayout中只定义了一个包含weight属性值的组件，此外如果LinearLayout的orientation是horizontal的话，推荐将组件的<code>layout_width</code>设置为<code>0dp</code>，而如果LinearLayout的orientation是vertical的话，推荐将组件的<code>layout_height</code>设置为<code>0dp</code>。如下面的例子所示，推荐将<code>android:layout_weight=&quot;1&quot;</code>改为<code>android:layout_width=&quot;0dp&quot;</code>。</p>
+
+<pre><code class="language-xml">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;&gt;
+
+    &lt;TextView
+        android:layout_width=&quot;wrap_content&quot;  //推荐改成 0dp
+        android:layout_height=&quot;wrap_content&quot;
+        android:layout_weight=&quot;1&quot;
+        android:text=&quot;@string/app_name&quot;/&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre>
+
+<p>参考：<a href="http://www.jianshu.com/p/17da46223da9">从源码角度彻底分析layout_weight使用</a>  <a href="http://blog.csdn.net/fumier/article/details/48024407">彻底搞明白layout_weight</a></p>
+
+<p><strong>(9) Suspicious 0dp dimension</strong><br />
+实现：<code>InefficientWeightDetector</code><br />
+说明：当水平方向的LinearLayout中的子组件的大小只是依据它们的weight属性值来确定的时候，我们通常会使用<code>0dp</code>作为组件的width，因为这样可以省掉子组件的measure调用次数，这也就是前面的第(8)条。但是，如果我们没有给这个组件设置<code>weight</code>属性的话那么这个组件就会因为width为0而不可见；或者如果我们将LinearLayout的orientation设置为vertical的话，虽然这个组件的height不为0，但是因为width为0导致这个组件也会变得不可见。</p>
+
+<p><strong>(10) Nested layout weights</strong><br />
+实现：<code>InefficientWeightDetector</code><br />
+说明：如果组件设置了<code>weight</code>属性的话，这个组件将会被measure两次。当一个weight属性值非零的组件中被包含在另一个weight属性值非零的组件的时候(也就是weight属性嵌套了)，这些组件被measure的次数将呈指数增长，如下所示，这种情况需要尽可能避免发生。</p>
+
+<pre><code class="language-xml">&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    //...&gt;
+
+    &lt;TextView
+        //...
+        android:layout_weight=&quot;1&quot;/&gt;
+
+    &lt;LinearLayout
+        //...
+        android:layout_weight=&quot;3&quot;&gt;
+
+        &lt;TextView
+            //...
+            android:layout_weight=&quot;1&quot; /&gt;
+        &lt;TextView
+            //...
+            android:layout_weight=&quot;2&quot; /&gt;
+    &lt;/LinearLayout&gt;
+&lt;/LinearLayout&gt;
+</code></pre>
+
+<p><strong>(11) Missing <code>baselineAligned</code> attribute</strong><br />
+实现：<code>InefficientWeightDetector</code><br />
+说明：当一个LinearLayout是水平方向布局且它的子组件都是Layout，并且至少有一个Layout有weight属性值时候，推荐将这个LinearLayout的<code>android:baselineAligned</code>属性值设置为<code>false</code>，这样的话将加快布局大小的计算速度。<br />
+参考：<a href="http://www.cnblogs.com/JohnTsai/p/4074643.html">Android中LinearLayout的baselineAligned属性的作用</a></p>
+
+<p><strong>(12) Missing explicit orientation</strong><br />
+实现：<code>InefficientWeightDetector</code><br />
+说明：LinearLayout默认的orientation是horizontal(水平方向)，但是很容易被误解为是vertical(垂直方向)，所以当LinearLayout中有很多个子组件并且其中至少有个组件设置了<code>layout_width</code>是<code>match_parent</code>或者<code>fill_parent</code>的时候，lint就会提示要求显式设置orientation。
+或者没有子组件但是定义了<code>id</code>属性值的时候，lint检查器就会提醒建议显式声明LinearLayout的orientation属性值。</p>
+
+<p>持续添加中&hellip;</p>
+
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="https://hujiaweibujidao.github.io/" style="background-image: url(https://hujiaweibujidao.github.io/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is an Android Developer.</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="https://github.com/hujiaweibujidao"> https://github.com/hujiaweibujidao</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/"><h4>Lint Tool Analysis (3)</h4></a></span>
+      
+  
+
+  
+</aside>
+<br/>
+
+      
+      
+
+
+<div style="font-weight:bold;" class="ds-thread" data-thread-key="blog/2016/12/01/builtin-lint-detectors-1/" data-title="Builtin Lint Detectors (1)" data-url="https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/"></div>
+
+
+<script type="text/javascript">
+ var duoshuoQuery = {short_name:'hujiaweibujidao'};
+   (function() {
+     var ds = document.createElement('script');
+     ds.type = 'text/javascript';ds.async = true;
+     ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+     ds.charset = 'UTF-8';
+     (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+   })();
+</script>
+
+
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2016</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://hujiaweibujidao.github.io/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+

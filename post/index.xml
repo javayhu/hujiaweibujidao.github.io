@@ -7,8 +7,136 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Sat, 19 Nov 2016 10:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 01 Dec 2016 10:46:33 +0800</lastBuildDate>
     <atom:link href="https://hujiaweibujidao.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Builtin Lint Detectors (1)</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</link>
+      <pubDate>Thu, 01 Dec 2016 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</guid>
+      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。&lt;/p&gt;
+
+&lt;!-- ![img](lint_android_checks.png) --&gt;
+
+&lt;p&gt;本文主要介绍的是Lint工具中自带的与Android开发相关的lint检查项，通过查看lint检查项的描述及其代码实现，我发现这里面存在不少应用开发编码的Best Practice，有些是平常编码中非常常见的错误(这类问题建议看下对应的参考资料)，有些却有点隐晦(这类问题我们会仔细研究下)，这些lint检查项对于我们在平常编码过程中都会有不少启发。&lt;/p&gt;
+
+&lt;p&gt;这里先提一下如何在Java和XML代码中屏蔽掉某个lint检查项，这是在某个检查项开启但是某个特殊位置想忽略这个检查错误的一种方式。至于如何将检查项开启或者关闭或者配置某个检查项忽略某些文件或者文件夹等内容请参见之前的几篇Lint文档。&lt;/p&gt;
+
+&lt;p&gt;在Java代码中屏蔽掉某个lint检查可以使用&lt;code&gt;@SuppressLint&lt;/code&gt;这个注解，例如&lt;code&gt;@SuppressLint(&amp;quot;UseSparseArrays&amp;quot;)&lt;/code&gt;&lt;br /&gt;
+在XML代码中屏蔽掉某个lint检查可以使用&lt;code&gt;tools:ignore&lt;/code&gt;属性声明，例如&lt;code&gt;tools:ignore=&amp;quot;ContentDescription&amp;quot;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;下面是一些lint检查项的具体细节，我们一个个来介绍它们。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(1) Image without &lt;code&gt;contentDescription&lt;/code&gt;&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;AccessibilityDetector&lt;/code&gt;&lt;br /&gt;
+说明：&lt;code&gt;ImageView&lt;/code&gt;和&lt;code&gt;ImageButton&lt;/code&gt;需要有&lt;code&gt;contentDescription&lt;/code&gt;属性来指定它的文字描述，除非它们声明了&lt;code&gt;tools:ignore=&amp;quot;ContentDescription&amp;quot;&lt;/code&gt;。此外，如果设置了&lt;code&gt;contentDescription&lt;/code&gt;属性就不需要再设置&lt;code&gt;hint&lt;/code&gt;属性了，它会将&lt;code&gt;hint&lt;/code&gt;属性覆盖掉不显示。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(2) Missing &lt;code&gt;labelFor&lt;/code&gt; attribute&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;LabelForDetector&lt;/code&gt;&lt;br /&gt;
+说明：&lt;code&gt;EditText&lt;/code&gt;、&lt;code&gt;AutoCompleteTextView&lt;/code&gt;以及&lt;code&gt;MultiAutoCompleteTextView&lt;/code&gt;这三个特别的View，它们一般都是等待用户在里面输入内容，所以往往需要有其他的View例如&lt;code&gt;TextView&lt;/code&gt;通过&lt;code&gt;labelFor&lt;/code&gt;属性指向它们，这样的话&lt;code&gt;Textview&lt;/code&gt;的内容也就表明前面三个View是在等待用户输入什么内容。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(3) FrameLayout can be replaced with &lt;code&gt;&amp;lt;merge&amp;gt;&lt;/code&gt; tag&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;MergeRootFrameLayoutDetector&lt;/code&gt;&lt;br /&gt;
+说明：检查&lt;code&gt;FrameLayout&lt;/code&gt;能否使用&lt;code&gt;merge&lt;/code&gt;标签进行布局优化，在某些情况下，如果&lt;code&gt;Framelayout&lt;/code&gt;是根布局，并且没有背景和padding的设置，那么它就有可能可以通过&lt;code&gt;merge&lt;/code&gt;标签对布局进行优化，但是到底是否可以还是需要开发者自行决定。&lt;br /&gt;
+参考：&lt;a href=&#34;http://www.cnblogs.com/dukc/p/5136310.html&#34;&gt;Android中的merge标签&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(4) Handler reference leaks&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;HandlerDetector&lt;/code&gt;&lt;br /&gt;
+说明：这是很常见的Handler导致内存泄露的情景。如果Handler被定义为内部类的话，它可能会阻止它的外部类被GC掉。如果这个Handler是在非主线程的&lt;code&gt;Looper&lt;/code&gt;或者&lt;code&gt;MessageQueue&lt;/code&gt;中使用的话不会有问题；但是如果是在主线程中使用的话，那么就需要进行修复，方法是：将Handler定义为静态内部类(static inner class)，在实例化Handler的时候将外部类的弱引用(WeakReference)传递给Handler，并且在Handler内部将所有对外部类的引用都改为弱引用的形式。&lt;br /&gt;
+参考：&lt;a href=&#34;http://droidyue.com/blog/2014/12/28/in-android-handler-classes-should-be-static-or-leaks-might-occur/&#34;&gt;Android Handler引起的内存泄露问题&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(5) HashMap can be replaced with &lt;code&gt;SparseArray&lt;/code&gt;&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;JavaPerformanceDetector&lt;/code&gt;&lt;br /&gt;
+说明：如果Map的key是Integer类型，推荐使用&lt;code&gt;SparseArray&lt;/code&gt;，而不是HashMap。特别地，如果Map的value的类型是int的话，推荐使用&lt;code&gt;SparseIntArray&lt;/code&gt;，因为它会避免int和Integer之间的封箱拆箱操作。同理，如果Map的value类型是long的话，推荐使用&lt;code&gt;SparseLongArray&lt;/code&gt;。HashMap内部采用的是数组+链表的结构存储数据，但是SparseArray内部采用的是双数组的结构存储数据，而且key是按照int的大小顺序来存放的，所以查找、删除操作都会先进行二分查找，这就导致了在数据量很大的情况下，SparseArray的性能反而不如HashMap。其次，Android还提供了另一个ArrayMap的类，它类似SparseArray的存储结构，只是key可以不是int类型。这两个数据结构一般用于数据量在千级以下，否则性能差于HashMap。&lt;br /&gt;
+参考：&lt;a href=&#34;http://blog.csdn.net/u010687392/article/details/47809295&#34;&gt;Android SparseArray和ArrayMap&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(6) Memory allocation within drawing code&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;JavaPerformanceDetector&lt;/code&gt;&lt;br /&gt;
+说明：在Android中，draw和layout的过程的调用非常频繁，我们应该避免在这两个过程中创建对象，因为创建对象就要分配内存，如果内存不够的话就会GC，GC太长的话可能会导致界面出现卡顿现象。解决方案一般是将对象创建的操作提前，然后在draw的过程中重复使用，比如对于&lt;code&gt;Bitmap.create&lt;/code&gt;这类方法的调用就需要这么处理。这一点在众多性能优化的文章中反复提到，draw方法的调用时间必须要尽可能的短。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(7) Should use &lt;code&gt;valueOf&lt;/code&gt; instead of &lt;code&gt;new&lt;/code&gt;&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;JavaPerformanceDetector&lt;/code&gt;&lt;br /&gt;
+说明：对于封装类，例如&lt;code&gt;Integer&lt;/code&gt;、&lt;code&gt;Long&lt;/code&gt;、&lt;code&gt;Boolean&lt;/code&gt;等，我们最好不要直接调用封装类的构造器方法，例如&lt;code&gt;new Integer(42)&lt;/code&gt;，推荐使用封装类的&lt;code&gt;valueOf&lt;/code&gt;这个工厂方法，例如&lt;code&gt;Integer.valueOf(42)&lt;/code&gt;。&lt;br /&gt;
+为什么要这样做呢？我们看下Integer的&lt;code&gt;valueOf&lt;/code&gt;方法的实现，它先会判断参数&lt;code&gt;i&lt;/code&gt;的范围，如果它是在&lt;code&gt;IntegerCache&lt;/code&gt;的缓存的int范围之内(一般默认情况下是[-128,127])的话就直接使用缓存的Integer，如果不是的话就还是使用&lt;code&gt;new Integer&lt;/code&gt;来创建对象。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;//IntegerCache的实现
+private static class IntegerCache {
+    static final int low = -128;
+    static final int high;//默认是127
+    static final Integer cache[];//通过new Integer创建了从low到high的Integer
+}
+
+public static Integer valueOf(int i) {
+    assert IntegerCache.high &amp;gt;= 127;
+    if (i &amp;gt;= IntegerCache.low &amp;amp;&amp;amp; i &amp;lt;= IntegerCache.high)
+        return IntegerCache.cache[i + (-IntegerCache.low)];
+    return new Integer(i);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;(8) Inefficient layout weight&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;InefficientWeightDetector&lt;/code&gt;&lt;br /&gt;
+说明：如果在一个LinearLayout中只定义了一个包含weight属性值的组件时，推荐直接指定这个组件的width或者height是&lt;code&gt;0dp&lt;/code&gt;，这两种方式的效果是相同的，这个组件会占据父容器中的剩余空间(一般来说，剩余空间=父容器的总空间-没有设置&lt;code&gt;weight&lt;/code&gt;属性值的子组件的空间之和)。它们的区别在于，如果设置了width或者height的属性值，那么就省掉了计算这个组件自己的大小的过程。这里我们需要注意效果等价的前提条件是在一个LinearLayout中只定义了一个包含weight属性值的组件，此外如果LinearLayout的orientation是horizontal的话，推荐将组件的&lt;code&gt;layout_width&lt;/code&gt;设置为&lt;code&gt;0dp&lt;/code&gt;，而如果LinearLayout的orientation是vertical的话，推荐将组件的&lt;code&gt;layout_height&lt;/code&gt;设置为&lt;code&gt;0dp&lt;/code&gt;。如下面的例子所示，推荐将&lt;code&gt;android:layout_weight=&amp;quot;1&amp;quot;&lt;/code&gt;改为&lt;code&gt;android:layout_width=&amp;quot;0dp&amp;quot;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;LinearLayout xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;
+    android:layout_width=&amp;quot;match_parent&amp;quot;
+    android:layout_height=&amp;quot;match_parent&amp;quot;&amp;gt;
+
+    &amp;lt;TextView
+        android:layout_width=&amp;quot;wrap_content&amp;quot;  //推荐改成 0dp
+        android:layout_height=&amp;quot;wrap_content&amp;quot;
+        android:layout_weight=&amp;quot;1&amp;quot;
+        android:text=&amp;quot;@string/app_name&amp;quot;/&amp;gt;
+
+&amp;lt;/LinearLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;参考：&lt;a href=&#34;http://www.jianshu.com/p/17da46223da9&#34;&gt;从源码角度彻底分析layout_weight使用&lt;/a&gt;  &lt;a href=&#34;http://blog.csdn.net/fumier/article/details/48024407&#34;&gt;彻底搞明白layout_weight&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(9) Suspicious 0dp dimension&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;InefficientWeightDetector&lt;/code&gt;&lt;br /&gt;
+说明：当水平方向的LinearLayout中的子组件的大小只是依据它们的weight属性值来确定的时候，我们通常会使用&lt;code&gt;0dp&lt;/code&gt;作为组件的width，因为这样可以省掉子组件的measure调用次数，这也就是前面的第(8)条。但是，如果我们没有给这个组件设置&lt;code&gt;weight&lt;/code&gt;属性的话那么这个组件就会因为width为0而不可见；或者如果我们将LinearLayout的orientation设置为vertical的话，虽然这个组件的height不为0，但是因为width为0导致这个组件也会变得不可见。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(10) Nested layout weights&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;InefficientWeightDetector&lt;/code&gt;&lt;br /&gt;
+说明：如果组件设置了&lt;code&gt;weight&lt;/code&gt;属性的话，这个组件将会被measure两次。当一个weight属性值非零的组件中被包含在另一个weight属性值非零的组件的时候(也就是weight属性嵌套了)，这些组件被measure的次数将呈指数增长，如下所示，这种情况需要尽可能避免发生。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;LinearLayout xmlns:android=&amp;quot;http://schemas.android.com/apk/res/android&amp;quot;
+    //...&amp;gt;
+
+    &amp;lt;TextView
+        //...
+        android:layout_weight=&amp;quot;1&amp;quot;/&amp;gt;
+
+    &amp;lt;LinearLayout
+        //...
+        android:layout_weight=&amp;quot;3&amp;quot;&amp;gt;
+
+        &amp;lt;TextView
+            //...
+            android:layout_weight=&amp;quot;1&amp;quot; /&amp;gt;
+        &amp;lt;TextView
+            //...
+            android:layout_weight=&amp;quot;2&amp;quot; /&amp;gt;
+    &amp;lt;/LinearLayout&amp;gt;
+&amp;lt;/LinearLayout&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;(11) Missing &lt;code&gt;baselineAligned&lt;/code&gt; attribute&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;InefficientWeightDetector&lt;/code&gt;&lt;br /&gt;
+说明：当一个LinearLayout是水平方向布局且它的子组件都是Layout，并且至少有一个Layout有weight属性值时候，推荐将这个LinearLayout的&lt;code&gt;android:baselineAligned&lt;/code&gt;属性值设置为&lt;code&gt;false&lt;/code&gt;，这样的话将加快布局大小的计算速度。&lt;br /&gt;
+参考：&lt;a href=&#34;http://www.cnblogs.com/JohnTsai/p/4074643.html&#34;&gt;Android中LinearLayout的baselineAligned属性的作用&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;(12) Missing explicit orientation&lt;/strong&gt;&lt;br /&gt;
+实现：&lt;code&gt;InefficientWeightDetector&lt;/code&gt;&lt;br /&gt;
+说明：LinearLayout默认的orientation是horizontal(水平方向)，但是很容易被误解为是vertical(垂直方向)，所以当LinearLayout中有很多个子组件并且其中至少有个组件设置了&lt;code&gt;layout_width&lt;/code&gt;是&lt;code&gt;match_parent&lt;/code&gt;或者&lt;code&gt;fill_parent&lt;/code&gt;的时候，lint就会提示要求显式设置orientation。
+或者没有子组件但是定义了&lt;code&gt;id&lt;/code&gt;属性值的时候，lint检查器就会提醒建议显式声明LinearLayout的orientation属性值。&lt;/p&gt;
+
+&lt;p&gt;持续添加中&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Lint Tool Analysis (3)</title>
@@ -5589,209 +5717,6 @@ animator2.start();
 &lt;p&gt;恭喜你终于看完了，也恭喜自己终于写完了。至此，你可能还有一个疑惑，那就是那些函数曲线是怎么想出来的？这个&amp;hellip;我也不知道，我也想知道，别问我，去问&lt;a href=&#34;https://www.linkedin.com/in/robertpenner&#34;&gt;Robert Penner&lt;/a&gt;吧 😌&lt;/p&gt;
 
 &lt;p&gt;最后，我还准备写另一个Android动画效果库&lt;a href=&#34;https://github.com/hujiaweibujidao/wava&#34;&gt;wava&lt;/a&gt;，神一样的&lt;a href=&#34;https://github.com/daimajia&#34;&gt;代码家&lt;/a&gt;还做了一个超厉害的项目&lt;a href=&#34;https://github.com/daimajia/AndroidViewAnimations&#34;&gt;AndroidViewAnimations&lt;/a&gt;，目前我的&lt;code&gt;wava&lt;/code&gt;只是基于它做些改进，后期我打算加上一些很特别的东西，暂时不表，欢迎关注项目&lt;a href=&#34;https://github.com/hujiaweibujidao/wava&#34;&gt;wava&lt;/a&gt; 😘&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>When Math meets Android Animation (2)</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</link>
-      <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</guid>
-      <description>
-
-&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(2)&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/&#34;&gt;上一节&lt;/a&gt;的结论是，&lt;code&gt;ValueAnimator&lt;/code&gt;就是由&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;这两个简单函数组合而成的一个复合函数。如下图所示：&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valueanimator_math.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;上一节我们还将&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;看作是工厂流水线上的两个小员工，那么&lt;code&gt;ValueAnimator&lt;/code&gt;就是车间主管，&lt;code&gt;TimeInterpolator&lt;/code&gt;这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度，而下一个生产线上的小员工&lt;code&gt;TypeEvaluator&lt;/code&gt;的任务就是打磨半成品得到成品，最后将成品输出。&lt;/p&gt;
-
-&lt;p&gt;本小节进一步深究&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;在动画实现过程中承担的作用以及它们之间的联系与差异。
-还是先说结论，借助&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;&lt;strong&gt;&amp;ldquo;单独&amp;rdquo;&lt;/strong&gt;来控制动画所产生的动画效果殊途同归！&lt;/p&gt;
-
-&lt;h3 id=&#34;1-两种特殊情况下的valueanimator&#34;&gt;&lt;strong&gt;1 两种特殊情况下的ValueAnimator&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;(1)上一节提到过，假设&lt;code&gt;TimeInterpolator&lt;/code&gt;是&lt;code&gt;LinearInterpolator&lt;/code&gt;（线性插值器，&lt;strong&gt;f(t)=t&lt;/strong&gt;），也就是说时间比率不被“篡改”的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数其实就简化成了&lt;code&gt;TypeEvaluator&lt;/code&gt;函数（&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)&lt;/strong&gt;），即动画实际上只由&lt;code&gt;TypeEvaluator&lt;/code&gt;来控制。&lt;/p&gt;
-
-&lt;p&gt;这里可以理解为，&lt;code&gt;TimeInterpolator&lt;/code&gt;这个员工请假了，但是工厂为了不停止生产安排了一个自动机器人代替他的工作，它只会匀速地将半成品输入到下一个生产线。&lt;/p&gt;
-
-&lt;p&gt;(2)同理，我们假设&lt;code&gt;TypeEvaluator&lt;/code&gt;是&lt;code&gt;“LinearTypeEvaluator”&lt;/code&gt;（线性估值器，并没有这个说法，所以加上引号，计算方式就是&lt;strong&gt;g(x,a,b)=a+x*(b-a)&lt;/strong&gt;）的话，那么&lt;code&gt;ValueAnimator&lt;/code&gt;对应的函数也可以简化，&lt;strong&gt;F=g(x,a,b)=g(f(t),a,b)=a+f(t)*(b-a)&lt;/strong&gt;，即动画实际上只由&lt;code&gt;TimeInterpolator&lt;/code&gt;来控制。&lt;/p&gt;
-
-&lt;p&gt;同样的，这里可以理解为，&lt;code&gt;TypeEvaluator&lt;/code&gt;这个员工请假了，默认也有个自动机器人采用默认的操作将半成品加工成最终成品输出。&lt;/p&gt;
-
-&lt;p&gt;(3)综上所述，我们来思考上一节留下的问题，即&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;到底啥关系？
-其实&lt;code&gt;TimeInterpolator&lt;/code&gt;是用来控制动画速度的，而&lt;code&gt;TypeEvaluator&lt;/code&gt;是用来控制动画中值的变化曲线的。
-虽然它们本质的作用是不同的，但是它们两个既可以联手来控制动画，也可以&lt;code&gt;&amp;quot;单独&amp;quot;&lt;/code&gt;来控制动画（&lt;strong&gt;并非真的单独，而是另一方有个默认操作&lt;/strong&gt;）。
-单独控制动画的典型例子就是上一节提到的&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;和&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;，这两个项目对于制作动画起到殊途同归作用。&lt;/p&gt;
-
-&lt;p&gt;为什么说&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;对于制作动画有着殊途同归的作用呢？
-不难想象，&lt;strong&gt;在某些定制的情况下，上面两种特殊情况下的构造出来的&lt;code&gt;ValueAnimator&lt;/code&gt;所产生的动画效果是一样的！&lt;/strong&gt;
-那如何来验证我们的这个结论呢？我们可以通过构造两个不同的特殊情况下的&lt;code&gt;ValueAnimator&lt;/code&gt;来验证。&lt;/p&gt;
-
-&lt;p&gt;下面的代码显示了两个&lt;code&gt;ValueAnimator&lt;/code&gt;，都是在1s中内将float类型的数值从0变化到1。第一个&lt;code&gt;ValueAnimator&lt;/code&gt;使用的是&lt;code&gt;LinearInterpolator&lt;/code&gt;和自定义的&lt;code&gt;TypeEvaluator&lt;/code&gt;，第二个&lt;code&gt;ValueAnimator&lt;/code&gt;使用的是自定义的&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;。打印输出的是两个&lt;code&gt;ValueAnimator&lt;/code&gt;每次值变化的时候的大小。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;ValueAnimator animator1 = new ValueAnimator();
-animator1.setFloatValues(0.0f, 1.0f);
-animator1.setDuration(1000);
-animator1.setInterpolator(new LinearInterpolator());//传入null也是LinearInterpolator
-animator1.setEvaluator(new TypeEvaluator() {
-    @Override
-    public Object evaluate(float fraction, Object startValue, Object endValue) {
-        return 100 * fraction;
-    }
-});
-animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-    @Override
-    public void onAnimationUpdate(ValueAnimator animation) {
-        Log.e(&amp;quot;demo 1&amp;quot;, &amp;quot;&amp;quot; + animation.getAnimatedValue());
-    }
-});
-
-ValueAnimator animator2 = new ValueAnimator();
-animator2.setFloatValues(0.0f, 1.0f);
-animator2.setDuration(1000);
-animator2.setInterpolator(new Interpolator() {
-    @Override
-    public float getInterpolation(float input) {
-        return 100 * input;
-    }
-});
-animator2.setEvaluator(new TypeEvaluator() {
-    @Override
-    public Object evaluate(float fraction, Object startValue, Object endValue) {
-        return fraction;
-    }
-});
-animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-    @Override
-    public void onAnimationUpdate(ValueAnimator animation) {
-        Log.e(&amp;quot;demo 2&amp;quot;, &amp;quot;&amp;quot; + animation.getAnimatedValue());
-    }
-});
-
-animator1.start();
-animator2.start();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;打印输出的结果如下图所示，从图中可以看出，两个&lt;code&gt;ValueAnimator&lt;/code&gt;的在真实时间序列中的输出结果是一样的，也就说明如果将它们作用在同一个View组件的某个属性上的话，那么产生的动画效果是完全一样的。例如，可以将两个&lt;code&gt;ValueAnimator&lt;/code&gt;改成&lt;code&gt;ObjectAnimator&lt;/code&gt;，并将其作用在两个不同的TextView的&lt;code&gt;translationY&lt;/code&gt;属性上，你可以看到一样的动画效果。所以说，在特殊的单独控制动画的情况下，&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;对于制作动画有着殊途同归的作用。（注意结论的前提，那就是在我们理解了&lt;code&gt;ValueAnimator&lt;/code&gt;内部动画原理之后自己定制的一些特殊情况，它们并非总是能够产生一样的动画效果）&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/valuaanimator.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&#34;2-简单动画实例分析-弹跳&#34;&gt;&lt;strong&gt;2 简单动画实例分析：弹跳！&lt;/strong&gt;&lt;/h3&gt;
-
-&lt;p&gt;经过前面的分析，我们差不多理解了&lt;code&gt;ValueAnimator&lt;/code&gt;是怎么借助&lt;code&gt;TimeInterpolator&lt;/code&gt;和&lt;code&gt;TypeEvaluator&lt;/code&gt;来实现动画的了。在实现动画的时候，为了简便，我们常常可以选择将&lt;code&gt;TimeInterpolator&lt;/code&gt;设置为&lt;code&gt;LinearInterpolator&lt;/code&gt;或者将&lt;code&gt;TypeEvaluator&lt;/code&gt;设置为&lt;code&gt;&amp;quot;LinearTypeEvaluator&amp;quot;&lt;/code&gt;这两种特殊的方式。&lt;/p&gt;
-
-&lt;p&gt;举个栗子！假设我们要来实现弹跳的动画效果。首先我们要确定一个弹跳效果的函数曲线，自己想不太好想，我们先来看看项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;中的&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;内部表示的函数曲线的形态。如下图所示，它是一个分段函数，每个段内都是一个简单的二次曲线。如果将这个曲线作用在View组件的&lt;code&gt;translationY&lt;/code&gt;属性上，那么组件将在垂直方向上来回地跳动从而就形成了弹跳的效果。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bounce_curve.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;我们先看下&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;的核心方法&lt;code&gt;getInterpolation&lt;/code&gt;的实现，它其实就是刻画了上面的函数曲线。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//传入的参数input就是动画的时间比率值fraction
-public float getInterpolation(float input) {
-  if (input &amp;lt; (1 / 2.75))
-    return (7.5625f * input * input);
-  else if (input &amp;lt; (2 / 2.75))
-    return (7.5625f * (input -= (1.5f / 2.75f)) * input + 0.75f);
-  else if (input &amp;lt; (2.5 / 2.75))
-    return (7.5625f * (input -= (2.25f / 2.75f)) * input + 0.9375f);
-  else
-    return (7.5625f * (input -= (2.625f / 2.75f)) * input + 0.984375f);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;我们再看下&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;项目中实现这个效果的Easing函数类&lt;code&gt;BounceEaseOut&lt;/code&gt;，它继承自&lt;code&gt;BaseEasingMethod&lt;/code&gt;，而&lt;code&gt;BaseEasingMethod&lt;/code&gt;类实现了&lt;code&gt;TypeEvaluator&lt;/code&gt;接口。
-&lt;code&gt;BounceEaseOut&lt;/code&gt;类整理出来得到的核心方法&lt;code&gt;evaluate&lt;/code&gt;的实现如下：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;@Override
-public final Float evaluate(float fraction, Number startValue, Number endValue) {
-    float t = mDuration * fraction;//已经过去的时间
-    float b = startValue.floatValue();//起始值
-    float c = endValue.floatValue() - startValue.floatValue();//结束值与起始值之间的差值
-    float d = mDuration;//总的时间间隔，t/d 就是已经过去的时间占总时间间隔的比率
-
-    if ((t /= d) &amp;lt; (1 / 2.75f)) {
-        return c * (7.5625f * t * t) + b;
-    } else if (t &amp;lt; (2 / 2.75f)) {
-        return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
-    } else if (t &amp;lt; (2.5 / 2.75)) {
-        return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
-    } else {
-        return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;仔细看下这两个函数的实现很不难发现，如果&lt;code&gt;EaseBounceOutInterpolator&lt;/code&gt;+&lt;code&gt;&amp;quot;LinearEvaluator&amp;quot;&lt;/code&gt;（IntEvaluator或者FloatEvaluator）得到的结果与&lt;code&gt;LinearInterpolator&lt;/code&gt;+&lt;code&gt;BounceEaseOut&lt;/code&gt;(TypeEvaluator)得到的结果是一样的啊！我们可以再写个例子作用在两个View上看下效果。&lt;/p&gt;
-
-&lt;p&gt;例子代码，作用在两个不同的TextView上的两个不同的ObjectAnimator：&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;//第一个ObjectAnimator
-final ObjectAnimator animator1 = new ObjectAnimator();
-animator1.setTarget(textView1);
-animator1.setPropertyName(&amp;quot;translationY&amp;quot;);
-animator1.setFloatValues(0f, -100f);
-animator1.setDuration(1000);
-animator1.setInterpolator(new LinearInterpolator());//使用线性插值器
-animator1.setEvaluator(new TypeEvaluator&amp;lt;Number&amp;gt;() {//自定义的TypeEvaluator
-    @Override
-    public Number evaluate(float fraction, Number startValue, Number endValue) {
-        float t = animator1.getDuration() * fraction;//已经过去的时间
-        float b = startValue.floatValue();//起始值
-        float c = endValue.floatValue() - startValue.floatValue();//结束值与起始值之间的差值
-        float d = animator1.getDuration();//总的时间间隔，t/d 就是已经过去的时间占总时间间隔的比率
-
-        if ((t /= d) &amp;lt; (1 / 2.75f)) {
-            return c * (7.5625f * t * t) + b;
-        } else if (t &amp;lt; (2 / 2.75f)) {
-            return c * (7.5625f * (t -= (1.5f / 2.75f)) * t + .75f) + b;
-        } else if (t &amp;lt; (2.5 / 2.75)) {
-            return c * (7.5625f * (t -= (2.25f / 2.75f)) * t + .9375f) + b;
-        } else {
-            return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
-        }
-    }
-});
-animator1.start();
-
-//第二个ObjectAnimator
-final ObjectAnimator animator2 = new ObjectAnimator();
-animator2.setTarget(textView2);
-animator2.setPropertyName(&amp;quot;translationY&amp;quot;);
-animator2.setFloatValues(0f, -100f);
-animator2.setDuration(1000);
-animator2.setInterpolator(new TimeInterpolator() {//自定义的TimeInterpolator
-    @Override
-    public float getInterpolation(float input) {
-        if (input &amp;lt; (1 / 2.75))
-            return (7.5625f * input * input);
-        else if (input &amp;lt; (2 / 2.75))
-            return (7.5625f * (input -= (1.5f / 2.75f)) * input + 0.75f);
-        else if (input &amp;lt; (2.5 / 2.75))
-            return (7.5625f * (input -= (2.25f / 2.75f)) * input + 0.9375f);
-        else
-            return (7.5625f * (input -= (2.625f / 2.75f)) * input + 0.984375f);
-    }
-});
-animator2.setEvaluator(new FloatEvaluator());//使用&amp;quot;线性估值器&amp;quot;
-animator2.start();
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;接下来看下效果吧，两个动画效果一模一样，这下你相信我说的了吧？哈哈哈，殊途同归！&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bounce_animation.gif&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;其他的动画效果也是一样的，也就是说项目&lt;a href=&#34;https://github.com/daimajia/AnimationEasingFunctions&#34;&gt;AnimationEasingFunctions&lt;/a&gt;和项目&lt;a href=&#34;https://github.com/cimi-chen/EaseInterpolator&#34;&gt;EaseInterpolator&lt;/a&gt;本质上是差不多的，都是定义了一些动画效果对应的函数曲线。前者是将其封装成了TypeEvaluator，后者是将其封装成了Interpolator！
-（注：&lt;code&gt;Interpolator&lt;/code&gt;继承自&lt;code&gt;TimeInterpolator&lt;/code&gt;，而且接口内部是空的，所以和&lt;code&gt;TimeInterpolator&lt;/code&gt;本质是一样的，它是为了兼容低版本而添加的。）&lt;/p&gt;
-
-&lt;p&gt;本文只是想验证本文开头的结论，借助&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;&lt;strong&gt;&amp;ldquo;单独&amp;rdquo;&lt;/strong&gt;来控制动画所产生的动画效果殊途同归！当然，你肯定可以同时使用自定义的&lt;code&gt;TimeInterpolator&lt;/code&gt;和自定义的&lt;code&gt;TypeEvaluator&lt;/code&gt;结合来控制动画，但是很显然，这种情况下的动画不容易控制。
-从数学中函数的角度上来说那就是复合函数肯定比简单函数复杂，我们解决问题的时候要可能化繁为简，所以自然会考虑将&lt;code&gt;ValueAnimator&lt;/code&gt;这个复杂函数简化成特殊情况下的简单函数&lt;code&gt;TimeInterpolator&lt;/code&gt;或者&lt;code&gt;TypeEvaluator&lt;/code&gt;来处理对吧？&lt;/p&gt;
-
-&lt;p&gt;关于&lt;code&gt;ValueAnimator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;之间的恩恩怨怨讲到这里其实已经讲得差不多了，猜猜下一节我会说啥？~(≧▽≦)/~&lt;/p&gt;
-
-&lt;p&gt;请继续看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/&#34;&gt;下一节&lt;/a&gt;。&lt;/p&gt;
 </description>
     </item>
     
