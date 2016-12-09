@@ -181,11 +181,9 @@
     <section class="post-content">
       <p>Lint工具中自带的与Android开发相关的lint检查项。</p>
 
-<!-- ![img](lint_android_checks.png) -->
-
 <p>本文主要介绍的是Lint工具中自带的与Android开发相关的lint检查项，通过查看lint检查项的描述及其代码实现，我发现这里面存在不少应用开发编码的Best Practice，有些是平常编码中非常常见的错误(这类问题建议看下对应的参考资料)，有些却有点隐晦(这类问题我们会仔细研究下)，这些lint检查项对于我们在平常编码过程中都会有不少启发。</p>
 
-<p>这里先提一下如何在Java和XML代码中屏蔽掉某个lint检查项，这是在某个检查项开启但是某个特殊位置想忽略这个检查错误的一种方式。至于如何将检查项开启或者关闭或者配置某个检查项忽略某些文件或者文件夹等内容请参见之前的几篇Lint文档。</p>
+<p>这里先提一下如何在Java和XML代码中屏蔽掉某个lint检查项，这是在某个检查项开启但是某个特殊位置想忽略这个检查错误的一种方式。至于如何将检查项开启/关闭或者配置某个检查项忽略某些文件或文件夹等内容请参见之前的几篇Lint文档。</p>
 
 <p>在Java代码中屏蔽掉某个lint检查可以使用<code>@SuppressLint</code>这个注解，例如<code>@SuppressLint(&quot;UseSparseArrays&quot;)</code><br />
 在XML代码中屏蔽掉某个lint检查可以使用<code>tools:ignore</code>属性声明，例如<code>tools:ignore=&quot;ContentDescription&quot;</code></p>
@@ -224,11 +222,12 @@
 说明：对于封装类，例如<code>Integer</code>、<code>Long</code>、<code>Boolean</code>等，我们最好不要直接调用封装类的构造器方法，例如<code>new Integer(42)</code>，推荐使用封装类的<code>valueOf</code>这个工厂方法，例如<code>Integer.valueOf(42)</code>。<br />
 为什么要这样做呢？我们看下Integer的<code>valueOf</code>方法的实现，它先会判断参数<code>i</code>的范围，如果它是在<code>IntegerCache</code>的缓存的int范围之内(一般默认情况下是[-128,127])的话就直接使用缓存的Integer，如果不是的话就还是使用<code>new Integer</code>来创建对象。</p>
 
-<pre><code class="language-java">//IntegerCache的实现
+<pre><code class="language-java">//Integer的内部类IntegerCache的实现
 private static class IntegerCache {
     static final int low = -128;
     static final int high;//默认是127
     static final Integer cache[];//通过new Integer创建了从low到high的Integer
+    //...忽略静态初始块代码
 }
 
 public static Integer valueOf(int i) {
@@ -296,6 +295,54 @@ public static Integer valueOf(int i) {
 实现：<code>InefficientWeightDetector</code><br />
 说明：LinearLayout默认的orientation是horizontal(水平方向)，但是很容易被误解为是vertical(垂直方向)，所以当LinearLayout中有很多个子组件并且其中至少有个组件设置了<code>layout_width</code>是<code>match_parent</code>或者<code>fill_parent</code>的时候，lint就会提示要求显式设置orientation。
 或者没有子组件但是定义了<code>id</code>属性值的时候，lint检查器就会提醒建议显式声明LinearLayout的orientation属性值。</p>
+
+<p><strong>(13) Layout has too many views</strong><br />
+实现：<code>TooManyViewsDetector</code><br />
+说明：在一个单独的layout中不应该有太多的view，因为view太多了会影响性能，可以考虑使用Compound Drawable(例如TextView有上下左右共4个Compound Drawable)等技术来减少layout中的view的数目。默认的最大的view的数目是80，但是我们可以通过<code>ANDROID_LINT_MAX_VIEW_COUNT</code>这个环境变量来修改它。</p>
+
+<p><strong>(14) Layout hierarchy is too deep</strong><br />
+实现：<code>TooManyViewsDetector</code><br />
+说明：布局嵌套太深同样非常影响性能，推荐使用flatter layout，例如RelativeLayout、GridLayout等。默认的最大深度是10，但是我们可以通过<code>ANDROID_LINT_MAX_DEPTH</code>这个环境变量来修改它。</p>
+
+<p><strong>(15) Missing recycle() calls</strong><br />
+实现：<code>CleanupDetector</code><br />
+说明：很多资源例如<code>TypedArrays</code>、<code>VelocityTracker</code>等在使用完之后都需要调用<code>recycle()</code>方法将资源释放掉，其他的例如<code>Cursor</code>对象则需要在使用完之后调用<code>close()</code>方法来释放资源。</p>
+
+<p><strong>(16) Missing commit() calls</strong><br />
+实现：<code>CleanupDetector</code><br />
+说明：<code>FragmentTransaction</code>在创建并使用了之后一般都要调用<code>commit</code>方法。</p>
+
+<p><strong>(17) Missing commit() on SharedPreference editor</strong><br />
+实现：<code>CleanupDetector</code><br />
+说明：在<code>SharedPreference</code>调用了<code>edit()</code>方法之后，我们都需要在editor上调用<code>commit()</code>或者<code>apply()</code>方法来保存结果。</p>
+
+<p><strong>(18) Node can be replaced by a TextView with compound drawables</strong><br />
+实现：<code>UseCompoundDrawableDetector</code><br />
+说明：如果一个LinearLayout中包含一个ImageView和一个Textview的话可以用一个单独的Textview(Compound Drawable)代替它，并使用<code>drawableLeft</code>、<code>drawableTop</code>等属性来设置图片和文本的对齐方式。此外，如果需要设置两个组件之间的间隔(margin)，可以使用<code>drawablePadding</code>属性。从源码实现上来看，如果LinearLayout有设置<code>background</code>或者ImageView有设置<code>scaleType</code>的话就不会提示这个问题。</p>
+
+<p><strong>(19) Overdraw: Painting regions more than once</strong><br />
+实现：<code>OverdrawDetector</code><br />
+说明：如果你给一个root view设置了一个background，那么你应该自定义一个theme并设置theme的background是null，否则theme的background会先绘制上去，然后自定义的background再绘制上去并完全覆盖它，这就造成了过度绘制的问题。需要注意的是，这个检查器依赖于layout和activity之间的映射关系，这个关系的确定需要检查Java代码(所以<code>OverdrawDetector</code>既实现了<code>XmlScanner</code>又实现了<code>JavaPsiScanner</code>)。目前这个检查器使用的是一个不完全正确的模式匹配算法，所以它的检查结果可能有误。</p>
+
+<p><strong>(20) Obsolete layout params</strong><br />
+实现：<code>ObsoleteLayoutParamsDetector</code><br />
+说明：这个检查器检查layout/view的layout参数，有些layout参数只在某些layout中存在，对于其他layout没有效果，比如<code>layout_weight</code>属性只会在LinearLayout中使用才有效，如果在其他的layout中使用的话会造成运行时多余的属性值处理而影响性能，所以最好是删除。</p>
+
+<p><strong>(21) Static Field Leaks</strong><br />
+实现：<code>LeakDetector</code><br />
+说明：这个检查器检查是否存在类中定义的静态变量而造成的内存泄露问题。从源码实现来看，主要检查的是Java类中是否存在static修饰的<code>Context</code>、<code>View</code>、<code>Fragment</code>等类。</p>
+
+<p><strong>(22) Tagged object leaks</strong><br />
+实现：<code>ViewTagDetector</code><br />
+说明：在Android 4.0(API 14)之前，<code>View.setTag(int, object)</code>方法的实现是将objects存储在静态的map中，而且values是强引用的，所以，如果object中包含对某个context的引用的话，就可能造成对应的context的内存泄露。如果传入的是一个view，view对于创建它的context持有引用，同理，view holder通常也包含一个view，cursors也经常是和view关联的，它们都有可能会出现这种内存泄露的情况。注意这个问题只是有可能在4.0版本之前出现，之后这个内存泄露问题已经解决了，所以不检查。</p>
+
+<p><strong>(23) Unconditional Logging Calls</strong><br />
+实现：<code>LogDetector</code><br />
+说明：<code>BuildConfig</code>类(它是从Tools 17开始有的)提供了一个变量<code>DEBUG</code>，用来表示这个代码是在release模式还是debug模式下。如果是在release模式下，通常我们需要将所有的日志输出部分的代码去掉，庆幸的是，编译器会自动地将所有代码中用<code>if(false)</code>包围的语句块删除掉，所以推荐打log的时候加上对<code>BuildConfig.DEBUG</code>的判断。</p>
+
+<p><strong>(24) Mismatched Log Tags</strong><br />
+实现：<code>LogDetector</code><br />
+说明：这个检查项是检查打log时判断是否可以打印的tag与实际打印的log的tag是否是统一的，也就是<code>Log.isLoggable(tag)</code>和<code>Log.v(tag, ...)</code>这两个语句中的tag必须是一致的。</p>
 
 <p>持续添加中&hellip;</p>
 
