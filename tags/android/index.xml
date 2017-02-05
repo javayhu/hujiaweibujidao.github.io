@@ -59,6 +59,7 @@ Powerstat的功能很强大，但是要求手机是root过的 (所以有个备�
 
 &lt;p&gt;&lt;strong&gt;2.Battery Historian (Google官方出品)&lt;/strong&gt;&lt;br /&gt;
 项目源码：&lt;a href=&#34;https://github.com/google/battery-historian&#34;&gt;https://github.com/google/battery-historian&lt;/a&gt;&lt;br /&gt;
+Battery Historian is a tool to analyze battery consumers using Android &amp;ldquo;bugreport&amp;rdquo; files.&lt;br /&gt;
 Battery Historian是Google提供的针对Android 5.0及以上系统使用的分析电量相关信息的工具。&lt;/p&gt;
 
 &lt;p&gt;Battery Historian is a tool to inspect battery related information and events on an Android device running Android 5.0 Lollipop (API level 21) and later, while the device was not plugged in. It allows application developers to visualize system and application level events on a timeline with panning and zooming functionality, easily see various aggregated statistics since the device was last fully charged, and select an application and inspect the metrics that impact battery specific to the chosen application. It also allows an A/B comparison of two bugreports, highlighting differences in key battery related metrics.&lt;/p&gt;
@@ -78,6 +79,14 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;打开这个转换过后的html文件，可以看到类似TraceView生成的列表数据，其中的数据信息量很大&lt;/p&gt;
+
+&lt;p&gt;旧版本的详细使用流程以及分析过程可以参考&lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian.html&#34;&gt;Batterystats &amp;amp; Battery Historian Walkthrough&lt;/a&gt; 和 &lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian-charts.html&#34;&gt;Battery Historian Charts&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;其中有些术语可能不太好理解，这里有个简略的&lt;a href=&#34;http://www.cnblogs.com/sjjg/p/5451519.html&#34;&gt;中文的解释版本&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;下图很重要，它对不同类别的电量消耗进行了解释&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery_categories.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;2.2 Battery Historian 2.x&lt;/strong&gt;&lt;br /&gt;
 第二个版本是go语言写的，代码很多，功能也更加完善，但是环境配置也更加复杂！&lt;/p&gt;
@@ -136,6 +145,23 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery-historian-appstats.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;其中我们可以看到&lt;code&gt;Device estimated power use&lt;/code&gt;中显示了估算的应用耗电量值为0.18%&lt;/p&gt;
+
+&lt;p&gt;需要注意的是，一般开始统计数据之前需要使用下面的命令将以前的累积数据清空&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adb shell dumpsys batterystats --reset
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By default, Android does not record timestamps for application-specific userspace wakelock transitions even though aggregate statistics are maintained on a running basis. If you want Historian to display detailed information about each individual wakelock on the timeline, you should enable full wakelock reporting using the following command before starting your experiment:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;adb shell dumpsys batterystats --enable full-wake-history
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;关于bugreport相关的知识推荐阅读&lt;a href=&#34;http://blog.csdn.net/createchance/article/details/51954142&#34;&gt;Android adb bugreport工具分析和使用&lt;/a&gt;这篇文章，作者简单地从源码角度分析了&lt;code&gt;adb bugreport&lt;/code&gt;命令的运行原理，结论是bugreport其实是启动了dumpstate service来输出数据，其中数据来源包括：
+1.系统属性&lt;br /&gt;
+2./proc和/sys节点文件&lt;br /&gt;
+3.执行shell命令获得相关输出&lt;br /&gt;
+4.logcat输出&lt;br /&gt;
+5.Android Framework Services信息基本使用dumpsys命令通过binder调用服务中的dump函数获得信息&lt;/p&gt;
 
 &lt;p&gt;下面是其他的几篇关于battery-historian使用的文章可供参考&lt;br /&gt;
 (1)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/44084159&#34;&gt;Android性能专项测试之battery-historian使用&lt;/a&gt;&lt;br /&gt;
