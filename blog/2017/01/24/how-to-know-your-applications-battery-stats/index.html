@@ -185,7 +185,17 @@
 
 <p><strong>(1)Android系统是如何进行应用的耗电量统计的？</strong></p>
 
-<p>如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：<a href="http://gityuan.com/2016/01/10/power_rank/">Android耗电统计算法</a>这篇文章，作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。</p>
+<p>如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：<a href="http://gityuan.com/2016/01/10/power_rank/">Android耗电统计算法</a>这篇文章，作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。阅读上文可知，耗电量计算包括软件耗电量计算和硬件耗电量计算，并且有各自的计算方法。</p>
+
+<p>下图是软件的耗电量统计项以及它的功耗计算公式：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/battery_software_items.png" alt="img" /></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/battery_software.png" alt="img" /></p>
+
+<p>下图是硬件的功耗计算公式：</p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/battery_hardware.png" alt="img" /></p>
 
 <p>其他文章推荐：<br />
 1.<a href="http://blog.csdn.net/itfootball/article/details/49155979">Android性能专项测试之耗电量统计API</a><br />
@@ -243,9 +253,7 @@ $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指�
 
 <p>打开这个转换过后的html文件，可以看到类似TraceView生成的列表数据，其中的数据信息量很大</p>
 
-<p>旧版本的详细使用流程以及分析过程可以参考<a href="https://developer.android.com/studio/profile/battery-historian.html">Batterystats &amp; Battery Historian Walkthrough</a> 和 <a href="https://developer.android.com/studio/profile/battery-historian-charts.html">Battery Historian Charts</a></p>
-
-<p>其中有些术语可能不太好理解，这里有个简略的<a href="http://www.cnblogs.com/sjjg/p/5451519.html">中文的解释版本</a></p>
+<p>旧版本的详细使用流程以及分析过程可以参考<a href="https://developer.android.com/studio/profile/battery-historian.html">Batterystats &amp; Battery Historian Walkthrough</a> 和 <a href="https://developer.android.com/studio/profile/battery-historian-charts.html">Battery Historian Charts</a>，其中有些术语可能不太好理解，这里有个简略的<a href="http://www.cnblogs.com/sjjg/p/5451519.html">中文的解释版本</a></p>
 
 <p>下图很重要，它对不同类别的电量消耗进行了解释</p>
 

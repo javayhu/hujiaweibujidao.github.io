@@ -22,7 +22,17 @@
 
 &lt;p&gt;&lt;strong&gt;(1)Android系统是如何进行应用的耗电量统计的？&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：&lt;a href=&#34;http://gityuan.com/2016/01/10/power_rank/&#34;&gt;Android耗电统计算法&lt;/a&gt;这篇文章，作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。&lt;/p&gt;
+&lt;p&gt;如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：&lt;a href=&#34;http://gityuan.com/2016/01/10/power_rank/&#34;&gt;Android耗电统计算法&lt;/a&gt;这篇文章，作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。阅读上文可知，耗电量计算包括软件耗电量计算和硬件耗电量计算，并且有各自的计算方法。&lt;/p&gt;
+
+&lt;p&gt;下图是软件的耗电量统计项以及它的功耗计算公式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery_software_items.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery_software.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;下图是硬件的功耗计算公式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery_hardware.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;其他文章推荐：&lt;br /&gt;
 1.&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/49155979&#34;&gt;Android性能专项测试之耗电量统计API&lt;/a&gt;&lt;br /&gt;
@@ -80,9 +90,7 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 
 &lt;p&gt;打开这个转换过后的html文件，可以看到类似TraceView生成的列表数据，其中的数据信息量很大&lt;/p&gt;
 
-&lt;p&gt;旧版本的详细使用流程以及分析过程可以参考&lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian.html&#34;&gt;Batterystats &amp;amp; Battery Historian Walkthrough&lt;/a&gt; 和 &lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian-charts.html&#34;&gt;Battery Historian Charts&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;其中有些术语可能不太好理解，这里有个简略的&lt;a href=&#34;http://www.cnblogs.com/sjjg/p/5451519.html&#34;&gt;中文的解释版本&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;旧版本的详细使用流程以及分析过程可以参考&lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian.html&#34;&gt;Batterystats &amp;amp; Battery Historian Walkthrough&lt;/a&gt; 和 &lt;a href=&#34;https://developer.android.com/studio/profile/battery-historian-charts.html&#34;&gt;Battery Historian Charts&lt;/a&gt;，其中有些术语可能不太好理解，这里有个简略的&lt;a href=&#34;http://www.cnblogs.com/sjjg/p/5451519.html&#34;&gt;中文的解释版本&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;下图很重要，它对不同类别的电量消耗进行了解释&lt;/p&gt;
 
