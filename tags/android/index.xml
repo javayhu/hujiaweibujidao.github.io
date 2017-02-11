@@ -16,9 +16,7 @@
       <pubDate>Tue, 24 Jan 2017 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/</guid>
-      <description>&lt;p&gt;本文总结下关于Android应用的耗电量的统计分析。&lt;/p&gt;
-
-&lt;p&gt;本文简单总结下关于Android应用的耗电量的统计分析方法和工具。&lt;/p&gt;
+      <description>&lt;p&gt;本文简单总结下关于Android应用的耗电量的统计分析方法和工具。&lt;/p&gt;
 
 &lt;p&gt;众所周知，Android系统内置了应用的耗电量统计分析功能，但是并没有提供相应的API和文档，只是可以查看耗电量排行榜前10的应用的耗电百分比。此外，随着Android系统版本的迭代，各个版本耗电量统计的方式略有不同，但庆幸的是其统计模型并没有什么大变化。本文在前人的研究基础上总结Android平台的耗电量统计相关的计算方法和辅助工具。&lt;/p&gt;
 
