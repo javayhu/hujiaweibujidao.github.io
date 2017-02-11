@@ -18,11 +18,13 @@
       <guid>https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/</guid>
       <description>&lt;p&gt;本文总结下关于Android应用的耗电量的统计分析。&lt;/p&gt;
 
+&lt;p&gt;本文简单总结下关于Android应用的耗电量的统计分析方法和工具。&lt;/p&gt;
+
 &lt;p&gt;众所周知，Android系统内置了应用的耗电量统计分析功能，但是并没有提供相应的API和文档，只是可以查看耗电量排行榜前10的应用的耗电百分比。此外，随着Android系统版本的迭代，各个版本耗电量统计的方式略有不同，但庆幸的是其统计模型并没有什么大变化。本文在前人的研究基础上总结Android平台的耗电量统计相关的计算方法和辅助工具。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;(1)Android系统是如何进行应用的耗电量统计的？&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：&lt;a href=&#34;http://gityuan.com/2016/01/10/power_rank/&#34;&gt;Android耗电统计算法&lt;/a&gt;这篇文章，作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。阅读上文可知，耗电量计算包括软件耗电量计算和硬件耗电量计算，并且有各自的计算方法。&lt;/p&gt;
+&lt;p&gt;如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：&lt;a href=&#34;http://gityuan.com/2016/01/10/power_rank/&#34;&gt;Android耗电统计算法&lt;/a&gt;这篇文章，&lt;strong&gt;作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客中文章的质量都非常高)&lt;/strong&gt;，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。阅读上文可知，耗电量计算包括软件耗电量计算和硬件耗电量计算，并且有各自的计算方法。&lt;/p&gt;
 
 &lt;p&gt;下图是软件的耗电量统计项以及它的功耗计算公式：&lt;/p&gt;
 
@@ -53,7 +55,7 @@
 
 &lt;p&gt;二是那张“购物清单”，这是Android的&lt;code&gt;BatteryStatsService&lt;/code&gt;类提供的。上文说到的&lt;code&gt;BatteryStatsHelper&lt;/code&gt;类使用AIDL调用&lt;code&gt;BatteryStatsService&lt;/code&gt;类的&lt;code&gt;getStatisticsStream&lt;/code&gt;方法获取相关数据。&lt;/p&gt;
 
-&lt;p&gt;从上面几篇文章中可以看出，各个Android版本的系统源码中耗电量统计的方式虽略有不同，但是大致的统计模型是不变的，而且统计的方式越来越科学可靠。&lt;/p&gt;
+&lt;p&gt;从上面几篇文章中可以看出，&lt;strong&gt;各个Android版本的系统源码中耗电量统计的方式虽略有不同，但是大致的统计模型是不变的，而且统计的方式越来越科学可靠。Google官方对耗电量的统计给出的解释都是不能代表真实数据，只能作为参考值，因为受power_profile.xml的干扰太大，如果手机厂商没有严格设置这个文件，那可想而知出来的值可能是不合理的。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;(2)普通的应用开发者可以怎么统计应用的耗电量？&lt;/strong&gt;&lt;/p&gt;
 
@@ -65,11 +67,12 @@
 项目地址：&lt;a href=&#34;http://gt.tencent.com/&#34;&gt;http://gt.tencent.com/&lt;/a&gt;&lt;br /&gt;
 Powerstat的功能很强大，但是要求手机是root过的 (所以有个备用的高配电脑，随时能够编译Android源码，再有个备用安卓机，刷着原生的userdebug/debug版固件，这个世界不要太美好啊)&lt;/p&gt;
 
-&lt;p&gt;Powerstat用户手册中有说明：Android 电量测试工具 Powerstat V1.x 版本支持 Android4.1~4.4的系统(4.4及以上系统上需要系统签名，在已获取root权限的情况下，可将apk包置于&lt;code&gt;/system/priv-app/&lt;/code&gt;目录下，作为系统应用运行)。工具的 V1.x2 版本在V1.x 版本的基础上进行开发，细分耗电项，增加定时自动保存功能，适配 Android5.0。同样，在 Android4.4 及以上系统也需要root权限才能安装使用。&lt;/p&gt;
+&lt;p&gt;Powerstat用户手册中有说明：Android 电量测试工具 Powerstat V1.x 版本支持 Android4.1~4.4的系统(4.4及以上系统上需要系统签名，在已获取root权限的情况下，可将apk包置于&lt;code&gt;/system/priv-app/&lt;/code&gt;目录下，作为系统应用运行)。工具的 V1.x2 版本在V1.x 版本的基础上进行开发，细分耗电项，增加定时自动保存功能，适配Android5.0。同样，在 Android4.4 及以上系统也需要root权限才能安装使用。&lt;/p&gt;
+
+&lt;p&gt;Powerstat的应用耗电量计算方法基本上和系统的应用耗电量计算方法是一样的，它是通过各种方式包括反射的方法来获取应用在一段时间内的数据(例如占用的CPU时间、流进流出的数据量等)，然后利用系统的统计类&lt;code&gt;BatteryStatsHelper&lt;/code&gt;做些修改来计算应用的耗电量。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;2.Battery Historian (Google官方出品)&lt;/strong&gt;&lt;br /&gt;
 项目源码：&lt;a href=&#34;https://github.com/google/battery-historian&#34;&gt;https://github.com/google/battery-historian&lt;/a&gt;&lt;br /&gt;
-Battery Historian is a tool to analyze battery consumers using Android &amp;ldquo;bugreport&amp;rdquo; files.&lt;br /&gt;
 Battery Historian是Google提供的针对Android 5.0及以上系统使用的分析电量相关信息的工具。&lt;/p&gt;
 
 &lt;p&gt;Battery Historian is a tool to inspect battery related information and events on an Android device running Android 5.0 Lollipop (API level 21) and later, while the device was not plugged in. It allows application developers to visualize system and application level events on a timeline with panning and zooming functionality, easily see various aggregated statistics since the device was last fully charged, and select an application and inspect the metrics that impact battery specific to the chosen application. It also allows an A/B comparison of two bugreports, highlighting differences in key battery related metrics.&lt;/p&gt;
@@ -107,7 +110,7 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 
 &lt;p&gt;之后在浏览器中输入 &lt;a href=&#34;http://localhost:&#34;&gt;http://localhost:&lt;/a&gt;&lt;port&gt; 就可以查看，然后上传bugreport文件进行分析了。&lt;/p&gt;
 
-&lt;p&gt;(2)如果是使用Windows平台的话，也可以使用docker，但是机子要在BIOS中开启虚拟化，为了保险起见，这里选择源码编译方式。&lt;br /&gt;
+&lt;p&gt;(2)如果是使用Windows平台的话，也可以使用docker，但是机子要在BIOS中开启虚拟化，这里我选择源码编译方式，主要流程有：&lt;br /&gt;
 1.首先下载配置Java环境 (要配置PATH)&lt;br /&gt;
 2.接着下载配置Git环境 (要配置PATH)&lt;br /&gt;
 3.接着下载配置Python 2.7环境 (要配置PATH)&lt;br /&gt;
@@ -140,11 +143,11 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery-historian-web.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;其次，这个版本的输入是bugreport文件，根据系统版本不同它的获取方式略有差别：&lt;br /&gt;
-如果是Android 7.0及以上版本的话可以通过 &lt;code&gt;adb bugreport bugreport.zip&lt;/code&gt; 来获取bugreport文件&lt;br /&gt;
-如果是Android 6.0及以下版本的话可以通过 &lt;code&gt;adb bugreport &amp;gt; bugreport.txt&lt;/code&gt; 来获取bugreport文件&lt;/p&gt;
+&lt;p&gt;其次，这个版本的输入是bugreport文件，根据系统版本不同它的获取方式略有差别：
+如果是Android 7.0及以上版本的话可以通过 &lt;code&gt;adb bugreport bugreport.zip&lt;/code&gt; 来获取bugreport
+如果是Android 6.0及以下版本的话可以通过 &lt;code&gt;adb bugreport &amp;gt; bugreport.txt&lt;/code&gt; 来获取bugreport&lt;/p&gt;
 
-&lt;p&gt;获取到bugreport文件之后，我们就可以将其上传到Battery Historian上进行分析，下面是它的输出结果&lt;/p&gt;
+&lt;p&gt;获取到bugreport文件之后，我们就可以将其上传到Battery Historian上进行分析，下面是它的输出结果(注意如果是在开发网的话需要开启临时访问外网才行)&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery-historian-chart.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
@@ -152,7 +155,11 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery-historian-appstats.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;其中我们可以看到&lt;code&gt;Device estimated power use&lt;/code&gt;中显示了估算的应用耗电量值为0.18%&lt;/p&gt;
+&lt;p&gt;其中我们可以看到&lt;code&gt;Device estimated power use&lt;/code&gt;中显示了估算的应用耗电量值为 &lt;code&gt;0.18%&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Battery Historian还有个比较功能，在首页选择 Switch to Bugreport Comparisor，然后就可以上传两个不同的bugreport文件，submit之后就可以看到它们的对比结果了，这个功能用来分析同一个应用的两个不同版本前后的耗电量非常有用。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/battery_historian_compare.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;需要注意的是，一般开始统计数据之前需要使用下面的命令将以前的累积数据清空&lt;/p&gt;
 
@@ -164,26 +171,24 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 &lt;pre&gt;&lt;code&gt;adb shell dumpsys batterystats --enable full-wake-history
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;关于bugreport相关的知识推荐阅读&lt;a href=&#34;http://blog.csdn.net/createchance/article/details/51954142&#34;&gt;Android adb bugreport工具分析和使用&lt;/a&gt;这篇文章，作者简单地从源码角度分析了&lt;code&gt;adb bugreport&lt;/code&gt;命令的运行原理，结论是bugreport其实是启动了dumpstate service来输出数据，其中数据来源包括：
+&lt;p&gt;关于bugreport相关的知识推荐阅读&lt;a href=&#34;http://blog.csdn.net/createchance/article/details/51954142&#34;&gt;Android adb bugreport工具分析和使用&lt;/a&gt;这篇文章，作者简单地从源码角度分析了&lt;code&gt;adb bugreport&lt;/code&gt;命令的运行原理，结论是bugreport其实是启动了dumpstate服务来输出数据，其中数据来源包括：
 1.系统属性&lt;br /&gt;
 2./proc和/sys节点文件&lt;br /&gt;
 3.执行shell命令获得相关输出&lt;br /&gt;
 4.logcat输出&lt;br /&gt;
 5.Android Framework Services信息基本使用dumpsys命令通过binder调用服务中的dump函数获得信息&lt;/p&gt;
 
-&lt;p&gt;下面是其他的几篇关于battery-historian使用的文章可供参考&lt;br /&gt;
-(1)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/44084159&#34;&gt;Android性能专项测试之battery-historian使用&lt;/a&gt;&lt;br /&gt;
-(2)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/49004699&#34;&gt;Android性能专项测试之Batterystats&lt;/a&gt;&lt;br /&gt;
+&lt;p&gt;下面是其他的几篇关于battery-historian使用的文章可供参考
+(1)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/44084159&#34;&gt;Android性能专项测试之battery-historian使用&lt;/a&gt;
+(2)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/49004699&#34;&gt;Android性能专项测试之Batterystats&lt;/a&gt;
 (3)&lt;a href=&#34;http://www.07net01.com/linux/2016/01/1207924.html&#34;&gt;Battery Historian 2.0 for windows环境搭建&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;3.关于电量方面的Android性能优化&lt;/strong&gt;&lt;br /&gt;
+&lt;p&gt;&lt;strong&gt;3.关于电量方面的Android性能优化&lt;/strong&gt;
 电量方面的性能优化可以参考
 &lt;a href=&#34;http://hukai.me/android-performance-battery/&#34;&gt;性能优化典范中的Android性能优化之电量篇&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求&lt;br /&gt;
+&lt;p&gt;(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求
 (2)使用Job Scheduler，应用需要做的事情就是判断哪些任务是不紧急的，可以交给Job Scheduler来处理，Job Scheduler集中处理收到的任务，选择合适的时间，合适的网络，再一起执行&lt;/p&gt;
-
-&lt;p&gt;OK，暂时说这些，剩下的年后来补全。&lt;/p&gt;
 </description>
     </item>
     
