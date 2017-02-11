@@ -188,7 +188,7 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 (2)&lt;a href=&#34;http://blog.csdn.net/itfootball/article/details/49004699&#34;&gt;Android性能专项测试之Batterystats&lt;/a&gt;&lt;br /&gt;
 (3)&lt;a href=&#34;http://www.07net01.com/linux/2016/01/1207924.html&#34;&gt;Battery Historian 2.0 for windows环境搭建&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;3.关于电量方面的Android性能优化&lt;/strong&gt;
+&lt;p&gt;&lt;strong&gt;3.关于电量方面的Android性能优化&lt;/strong&gt;&lt;br /&gt;
 电量方面的性能优化可以参考
 &lt;a href=&#34;http://hukai.me/android-performance-battery/&#34;&gt;性能优化典范中的Android性能优化之电量篇&lt;/a&gt;&lt;/p&gt;
 
