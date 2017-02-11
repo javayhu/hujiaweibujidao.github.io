@@ -201,22 +201,29 @@
 
 <p>其他文章推荐：<br />
 1.<a href="http://blog.csdn.net/itfootball/article/details/49155979">Android性能专项测试之耗电量统计API</a><br />
-该文也是以Android 6.0系统源码来分析应用耗电量统计</p>
-
-<p>2.<a href="http://www.cnblogs.com/hyddd/p/4402621.html">深入浅出Android App耗电量统计</a><br />
-该文是耗电量统计方面最早的文章，分析的是Android 4.3系统源码中的应用耗电量统计</p>
-
-<p>3.<a href="http://blog.csdn.net/tangdl86/article/details/46958175">Android应用的耗电量统计</a><br />
+该文也是以Android 6.0系统源码来分析应用耗电量统计<br />
+2.<a href="http://www.cnblogs.com/hyddd/p/4402621.html">深入浅出Android App耗电量统计</a><br />
+该文是耗电量统计方面最早的文章，分析的是Android 4.3系统源码中的应用耗电量统计<br />
+3.<a href="http://blog.csdn.net/tangdl86/article/details/46958175">Android应用的耗电量统计</a><br />
 该文是在上面的文章2的基础上做的分析，分析的是Android 5.1系统源码</p>
 
 <p>下面是从源码的分析得出的对于电量统计的通俗介绍：<br />
-<code>PowerUsageSummary</code>类的作用是筛选耗电量最多的前10个应用，并且展示。真正计算耗电量数据的，是<code>com.android.internal.os.BatteryStatsHelper</code>类，它计算所有应用的耗电。其中软件排行榜的计算算法：<code>BatteryStatsHelper</code>类中的<code>processAppUsage()</code>方法，硬件排行榜的计算算法：<code>BatteryStatsHelper</code>类中的<code>processMiscUsage()</code>方法。</p>
-
-<p>这个计算方法很有趣，有点象在超市购物：有一张“价格表”，记录每种硬件1秒钟耗多少电。有一张“购物清单”，记录apk使用了哪几种硬件，每种硬件用了多长时间。假设某个应用累计使用了60秒的cpu，cpu1秒钟耗1mAh，那这个应用就消耗了60mAh的电，实际的算法比这个例子复杂很多。从这里可以看出，Android自带的耗电量统计的准确性，受两个大方面的因素影响：</p>
+耗电量计算的方法很有趣，有点象在超市购物：有一张“价格表”，记录每种硬件1秒钟耗多少电。有一张“购物清单”，记录apk使用了哪几种硬件，每种硬件用了多长时间。假设某个应用累计使用了60秒的cpu，cpu1秒钟耗1mAh，那这个应用就消耗了60mAh的电，实际的算法比这个例子复杂很多。从这里可以看出，Android自带的耗电量统计的准确性，受两个大方面的因素影响：</p>
 
 <p>一是那张“价格表”，由<code>PowerProfile</code>类提供，它用于获取各个组件的电流数值，而<code>power_profile.xml</code>是一个可配置的功耗数据文件。手机的硬件是各不相同的，所以每一款手机都会有一张自己的“价格表”。这张表的准确性由手机厂商负责，所以，尽量用大厂的机子，并且只使用该厂商提供的Android系统。</p>
 
 <p>二是那张“购物清单”，这是Android的<code>BatteryStatsService</code>类提供的。上文说到的<code>BatteryStatsHelper</code>类使用AIDL调用<code>BatteryStatsService</code>类的<code>getStatisticsStream</code>方法获取相关数据。</p>
+
+<p>下面是其中几个模块的耗电量计算方式</p>
+
+<p>WIFI模块的耗电量和应用流进流出的流量总量、wifi扫描时间、wifi模块运行时间有关
+<img src="https://hujiaweibujidao.github.io/images/battery_wifi.png" alt="img" /></p>
+
+<p>Sensor模块的耗电量与sensor的使用时间成正比
+<img src="https://hujiaweibujidao.github.io/images/battery_sensor.png" alt="img" /></p>
+
+<p>Wakelock的耗电量与wakelock的时间成正比
+<img src="https://hujiaweibujidao.github.io/images/battery_wakelock.png" alt="img" /></p>
 
 <p>从上面几篇文章中可以看出，<strong>各个Android版本的系统源码中耗电量统计的方式虽略有不同，但是大致的统计模型是不变的，而且统计的方式越来越科学可靠。Google官方对耗电量的统计给出的解释都是不能代表真实数据，只能作为参考值，因为受power_profile.xml的干扰太大，如果手机厂商没有严格设置这个文件，那可想而知出来的值可能是不合理的。</strong></p>
 
@@ -232,7 +239,7 @@ Powerstat的功能很强大，但是要求手机是root过的 (所以有个备�
 
 <p>Powerstat用户手册中有说明：Android 电量测试工具 Powerstat V1.x 版本支持 Android4.1~4.4的系统(4.4及以上系统上需要系统签名，在已获取root权限的情况下，可将apk包置于<code>/system/priv-app/</code>目录下，作为系统应用运行)。工具的 V1.x2 版本在V1.x 版本的基础上进行开发，细分耗电项，增加定时自动保存功能，适配Android5.0。同样，在 Android4.4 及以上系统也需要root权限才能安装使用。</p>
 
-<p>Powerstat的应用耗电量计算方法基本上和系统的应用耗电量计算方法是一样的，它是通过各种方式包括反射的方法来获取应用在一段时间内的数据(例如占用的CPU时间、流进流出的数据量等)，然后利用系统的统计类<code>BatteryStatsHelper</code>做些修改来计算应用的耗电量。</p>
+<p>Powerstat的应用耗电量计算方法基本上和系统的应用耗电量计算方法是一样的，它是通过各种方式包括反射的方法来获取应用在一段时间内的数据(例如占用的CPU时间、流进流出的数据量等)，然后利用系统的统计类<code>BatteryStatsHelper</code>做些修改来计算应用的耗电量。比较有意思的是其中有个用来计算应用的屏幕耗电量的类。为啥屏幕耗电量计算这么麻烦呢？因为在测试的过程中测试应用并非一直在前台，为了计算的应用耗电量准确些，需要将屏幕的总耗电量按照应用在前台的时间进行分配。计算方法就是根据屏幕总耗电量和所有应用的forground cpu time总和来计算每个forground cpu time消耗的电量，并根据每个应用占用的forground cpu time来计算其对应的屏幕耗电量。这个就类似统计一个应用占用的内存时我们常常关注PSS，而不是USS的道理是一样的，共享库占用的内存要均摊到使用了它的每个应用中。</p>
 
 <p><strong>2.Battery Historian (Google官方出品)</strong><br />
 项目源码：<a href="https://github.com/google/battery-historian">https://github.com/google/battery-historian</a><br />
