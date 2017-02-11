@@ -346,16 +346,16 @@ $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指�
 4.logcat输出<br />
 5.Android Framework Services信息基本使用dumpsys命令通过binder调用服务中的dump函数获得信息</p>
 
-<p>下面是其他的几篇关于battery-historian使用的文章可供参考
-(1)<a href="http://blog.csdn.net/itfootball/article/details/44084159">Android性能专项测试之battery-historian使用</a>
-(2)<a href="http://blog.csdn.net/itfootball/article/details/49004699">Android性能专项测试之Batterystats</a>
+<p>下面是其他的几篇关于battery-historian使用的文章可供参考<br />
+(1)<a href="http://blog.csdn.net/itfootball/article/details/44084159">Android性能专项测试之battery-historian使用</a><br />
+(2)<a href="http://blog.csdn.net/itfootball/article/details/49004699">Android性能专项测试之Batterystats</a><br />
 (3)<a href="http://www.07net01.com/linux/2016/01/1207924.html">Battery Historian 2.0 for windows环境搭建</a></p>
 
 <p><strong>3.关于电量方面的Android性能优化</strong>
 电量方面的性能优化可以参考
 <a href="http://hukai.me/android-performance-battery/">性能优化典范中的Android性能优化之电量篇</a></p>
 
-<p>(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求
+<p>(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求<br />
 (2)使用Job Scheduler，应用需要做的事情就是判断哪些任务是不紧急的，可以交给Job Scheduler来处理，Job Scheduler集中处理收到的任务，选择合适的时间，合适的网络，再一起执行</p>
 
     </section>
