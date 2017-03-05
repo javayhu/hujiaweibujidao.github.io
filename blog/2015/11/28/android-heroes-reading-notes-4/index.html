@@ -322,8 +322,11 @@ proguard不仅可以用来混淆代码（用无意义的字母来重命名类、
 浅红： 意味着overdraw 3倍。像素绘制了四次，小范围可以接受。
 暗红： 意味着overdraw 4倍。像素绘制了五次或者更多。这是错误的，要修复它们。</p>
 
-<p>{%img /images/androidheros_gpu.png 200 360%} &nbsp;&nbsp; {%img /images/androidheros_overdraw.png 200 360%}
-(3)优化布局层级，Google在文档中建议View树的高度不宜超过10层
+<p><img src="https://hujiaweibujidao.github.io/images/androidheros_gpu.png" alt="img" /></p>
+
+<p><img src="https://hujiaweibujidao.github.io/images/androidheros_overdraw.png" alt="img" /></p>
+
+<p>(3)优化布局层级，Google在文档中建议View树的高度不宜超过10层
 避免嵌套过多无用布局：
 ①使用<include>标签重用layout
 <strong>如果需要在<include>标签中覆盖类似原布局中的android:layout_xxx的属性，就必须在<include>标签中同时指定android:layout_width和android:layout_height属性。</strong>
@@ -339,7 +342,7 @@ ViewStub是一个非常轻量级的组件，它不仅不可见，而且大小为
 (2)栈：存放基本数据类型和对象的引用；
 (3)堆：存放对象和数组，由虚拟机GC来管理；
 (4)静态存储区域(static field)：在固定的位置存放应用程序运行时一直存在的数据，Java在内存中专门划分了一个静态存储区域来管理一些特殊的数据变量，如静态的数据变量；
-(5)常量池(constant pool)：虚拟机必须为每个被装在的类维护一个常量池，常量池就是这个类所用的常量的一个有序集合，包括直接常量（基本类型、string）和对其他类型、字段和方法的符号引用。</p>
+(5)常量池(constant pool)：虚拟机必须为每个被装载的类维护一个常量池，常量池就是这个类所用的常量的一个有序集合，包括直接常量（基本类型、string）和对其他类型、字段和方法的符号引用。</p>
 
 <p><strong>内存优化实例</strong>
 (1)Bitmap优化
@@ -349,7 +352,7 @@ ViewStub是一个非常轻量级的组件，它不仅不可见，而且大小为
 
 <p>(2)代码优化
 使用静态方法，它比普通方法会提高15%左右的访问速度；
-尽量不要使用枚举，少用迭代器；<strong>[我还不知道为什么]</strong>
+尽量不要使用枚举，少用迭代器；
 对Cursor、Receiver、Sensor、File等对象，要非常注意对它们的创建、回收与注册、解注册；
 使用SurfaceView来替代view进行大量的、频繁的绘图操作；
 尽量使用视图缓存，而不是每次都执行inflate方法解析视图。</p>
