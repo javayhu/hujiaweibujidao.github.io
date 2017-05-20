@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/java/</link>
+    <link>https://hujiaweibujidao.github.io/tags/java/index.xml</link>
     <description>Recent content in Java on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Tue, 01 Mar 2016 00:00:00 +0000</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,7 +15,7 @@
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
-      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。&lt;/p&gt;
+      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。 &lt;/p&gt;
 
 &lt;p&gt;毕业需求是第一驱动力啊！毕业之后一定远离学术圈！&lt;/p&gt;
 
@@ -119,8 +118,7 @@
 3.&lt;a href=&#34;http://www.tuicool.com/articles/aM3aEf&#34;&gt;使用Maven自动部署Java Web项目到Tomcat问题小记&lt;/a&gt;
 4.&lt;a href=&#34;http://www.yiibai.com/maven/create-a-web-application-project-with-maven.html&#34;&gt;使用Maven创建Web应用程序项目&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;OK，就是这样啦，hope it helps!&lt;/p&gt;
-</description>
+&lt;p&gt;OK，就是这样啦，hope it helps!&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -129,9 +127,7 @@
       <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
-      <description>
-
-&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。&lt;/p&gt;
+      <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 &lt;/p&gt;
 
 &lt;p&gt;本教程的开发需求是编写一个包含爬虫程序的Java项目，并且能够方便地服务器端编译部署和启动爬虫程序。&lt;/p&gt;
 
@@ -354,8 +350,7 @@ export PATH=$PATH:${JAVA_HOME}
 &lt;p&gt;下图是新华字典的爬虫的最后输出，显示总共耗时约6个小时
 &lt;img src=&#34;https://hujiaweibujidao.github.io/images/crawl_zd.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;OK，就是这样，暂记于此，hope it helps！&lt;/p&gt;
-</description>
+&lt;p&gt;OK，就是这样，暂记于此，hope it helps！&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dev on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/dev/</link>
+    <link>https://hujiaweibujidao.github.io/tags/dev/index.xml</link>
     <description>Recent content in Dev on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Fri, 20 May 2016 00:00:00 +0000</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,9 +15,7 @@
       <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
-      <description>
-
-&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
+      <description>&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
 
 &lt;h3 id=&#34;head&#34;&gt;HEAD&lt;/h3&gt;
 
@@ -182,8 +179,7 @@
 
 &lt;p&gt;零碎知识点：&lt;/p&gt;
 
-&lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;code&gt;git checkout -b [branch name]&lt;/code&gt; = &lt;code&gt;git branch [branch name]&lt;/code&gt; + &lt;code&gt;git checkout [branch name]&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -192,9 +188,7 @@
       <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
-      <description>
-
-&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
+      <description>&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
 
@@ -258,8 +252,7 @@
 
 &lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
 
-&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;
-</description>
+&lt;p&gt;很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/GankHub&#34;&gt;GankHub&lt;/a&gt;，从名字中可以看出这是要做一个增强版的&lt;code&gt;干货集中营&lt;/code&gt;，其中的数据既包含了&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net&#34;&gt;Ganks-for-andoirdweekly.net&lt;/a&gt;做的事情。还有一个棘手的问题是，&lt;strong&gt;如何及时处理后台干货数据的更新？&lt;/strong&gt; Heroku的定时任务要收费！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -352,8 +345,7 @@ fatal: unpack-objects failed
 Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;已经很久没有更新brew了，更加不记得这段日子干了啥。可以尝试下面的操作，进入到&lt;code&gt;/usr/local&lt;/code&gt;目录，执行&lt;code&gt;git pull&lt;/code&gt;，然后肯定会有冲突出现，因为上面我们修改了&lt;code&gt;Library/brew.rb&lt;/code&gt;文件，只要解决这个冲突再执行&lt;code&gt;brew update&lt;/code&gt;就好了。从打印输出的内容来看，brew的变化很大。&lt;/p&gt;
-</description>
+&lt;p&gt;已经很久没有更新brew了，更加不记得这段日子干了啥。可以尝试下面的操作，进入到&lt;code&gt;/usr/local&lt;/code&gt;目录，执行&lt;code&gt;git pull&lt;/code&gt;，然后肯定会有冲突出现，因为上面我们修改了&lt;code&gt;Library/brew.rb&lt;/code&gt;文件，只要解决这个冲突再执行&lt;code&gt;brew update&lt;/code&gt;就好了。从打印输出的内容来看，brew的变化很大。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -362,7 +354,7 @@ Error: Failure while executing: git pull -q origin refs/heads/master:refs/remote
       <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
-      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥&lt;/p&gt;
+      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥 &lt;/p&gt;
 
 &lt;p&gt;很多时候，如果我们在多个网站有了Git账号，例如Github、GitCafe、CodingNet等，当我们与不同网站的代码库进行连接的时候可能会因为我们没有配置或者配置不当，导致我们需要重复输入账号密码的问题，本文就是介绍如何同时使用多个公秘钥。&lt;/p&gt;
 
@@ -429,8 +421,7 @@ The key&#39;s randomart image is:
 
 &lt;p&gt;测试通过后，你就可以使用独立的一套公秘钥来使用 CodingNet 了。&lt;/p&gt;
 
-&lt;p&gt;Enjoy！&lt;/p&gt;
-</description>
+&lt;p&gt;Enjoy！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -439,7 +430,7 @@ The key&#39;s randomart image is:
       <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
-      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务&lt;/p&gt;
+      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务 &lt;/p&gt;
 
 &lt;p&gt;参考网址：&lt;a href=&#34;https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9#wiki&#34;&gt;WIKI for GitCafe Pages&lt;/a&gt;&lt;/p&gt;
 
@@ -468,8 +459,7 @@ git commit -m &amp;quot;test&amp;quot;
 git push
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;6.通过访问&lt;code&gt;username.gitcafe.io/projectname/&lt;/code&gt;，例如&lt;code&gt;http://hujiawei.gitcafe.io/resourcerepository/&lt;/code&gt;即可看到页面显示&lt;code&gt;Hello, hujiawei&lt;/code&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;6.通过访问&lt;code&gt;username.gitcafe.io/projectname/&lt;/code&gt;，例如&lt;code&gt;http://hujiawei.gitcafe.io/resourcerepository/&lt;/code&gt;即可看到页面显示&lt;code&gt;Hello, hujiawei&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -480,7 +470,7 @@ git push
       <guid>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
       <description>&lt;p&gt;本文主要介绍如何在另一台电脑上搭建Octopress的环境。&lt;/p&gt;
 
-&lt;p&gt;最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。&lt;/p&gt;
+&lt;p&gt;最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。HUGOMORE42&lt;/p&gt;
 
 &lt;p&gt;后来我发现下面的网址：&lt;a href=&#34;http://94it.net/a/jingxuanboke/2014/0114/237386.html&#34;&gt;Octopress重装或者多台电脑上并行写作同步&lt;/a&gt;&lt;/p&gt;
 
@@ -519,8 +509,7 @@ bundle install
 $ git pull origin source # update the local source branch
 $ cd ./_deploy
 $ git pull origin master # update the local master branch
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -655,8 +644,7 @@ domain: &#39;YOUR_DOMAIN_NAME&#39;,
                 $(&#39;#inputurl&#39;).val($(&#39;#videourl&#39;).attr(&amp;quot;href&amp;quot;));//url
 
             },
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -665,7 +653,7 @@ domain: &#39;YOUR_DOMAIN_NAME&#39;,
       <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
-      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp&lt;/p&gt;
+      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp &lt;/p&gt;
 
 &lt;p&gt;最近接了一个项目，用Django开发一个网站，于是打算看看用Django开发的开源网站，推荐一个网站 &lt;a href=&#34;https://www.djangosites.org/with-source/&#34;&gt;djangosites&lt;/a&gt;，上面有大量用django开发的网站源码。最后我找到了Bootcamp，一个包含了Feed、Article和QA三部分的社交网站，界面简洁大方，功能基本齐全，相当适合我这个新手拿来学习&lt;/p&gt;
 
@@ -728,8 +716,7 @@ Not synced (use migrations):
 
 &lt;p&gt;网站界面如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/others/bootcamp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/others/bootcamp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -738,7 +725,7 @@ Not synced (use migrations):
       <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
-      <description>&lt;p&gt;关于Python的好文章集锦&lt;/p&gt;
+      <description>&lt;p&gt;关于Python的好文章集锦 &lt;/p&gt;
 
 &lt;p&gt;1.&lt;a href=&#34;http://www.toptal.com/python/top-10-mistakes-that-python-programmers-make&#34;&gt;Top 10 Mistakes that Python Programmers Make&lt;/a&gt;&lt;/p&gt;
 
@@ -764,8 +751,7 @@ Not synced (use migrations):
 
 &lt;p&gt;7.描述器，元类，上下文管理库的介绍参见&lt;a href=&#34;http://blog.jobbole.com/61171/&#34;&gt;伯乐在线-python高级编程技巧&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;TO BE CONTINUED&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;TO BE CONTINUED&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -774,7 +760,7 @@ Not synced (use migrations):
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
-      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程&lt;/p&gt;
+      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程 &lt;/p&gt;
 
 &lt;p&gt;上学期在Mac上搭建好了Hadoop，因为这学期开学重装了系统就没了，以为不会再折腾，结果大数据作业又要整hadoop，于是乎，爱折腾的程序猿又来折腾咯，有过上一次安装的经历，这次简单多了，下面简单的列举主要步骤。&lt;/p&gt;
 
@@ -938,8 +924,7 @@ sudo chmod 750 tmp #我习惯用777
 
 &lt;p&gt;如果你需要配置成集群模式的话还是可以参考好友&lt;a href=&#34;http://www.tianjun.ml/essays/16&#34;&gt;田俊童鞋的Hadoop的安装部署与配置&lt;/a&gt;，如果喜欢的话不防看下好友的这篇&lt;a href=&#34;http://www.tianjun.ml/essays/19&#34;&gt;【翻译】Writing an Hadoop MapReduce Program in Python&lt;/a&gt;，不能推荐的更多，哈哈哈&lt;/p&gt;
 
-&lt;p&gt;安装过程中所有执行的命令及其输出见&lt;a href=&#34;https://gist.github.com/hujiaweibujidao/a83fca7b7f40d0029c60&#34;&gt;这个Gist&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;安装过程中所有执行的命令及其输出见&lt;a href=&#34;https://gist.github.com/hujiaweibujidao/a83fca7b7f40d0029c60&#34;&gt;这个Gist&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -948,7 +933,7 @@ sudo chmod 750 tmp #我习惯用777
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
-      <description>&lt;p&gt;Python代码片段&lt;/p&gt;
+      <description>&lt;p&gt;Python代码片段 &lt;/p&gt;
 
 &lt;p&gt;1.使用&lt;code&gt;glob&lt;/code&gt;模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list&lt;/p&gt;
 
@@ -1307,8 +1292,7 @@ print lst
 
 &lt;!--
 (2)得到int类型的最大值使用`sys.maxint`，
---&gt;
-</description>
+--&gt;</description>
     </item>
     
     <item>
@@ -1384,8 +1368,7 @@ rake generate
 rake deploy
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;可以按照&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/&#34;&gt;Make Your Octopress Easy&lt;/a&gt;的方式建立一个shell脚本简化处理流程，方法略过。&lt;/p&gt;
-</description>
+&lt;p&gt;可以按照&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/&#34;&gt;Make Your Octopress Easy&lt;/a&gt;的方式建立一个shell脚本简化处理流程，方法略过。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1643,8 +1626,7 @@ Linking /usr/local/Cellar/isl/0.12.1... 6 symlinks created
 
 &lt;p&gt;&lt;strong&gt;更新内容 2016-5-10&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;1.之前将Ruby版本设置为1.9，现在需要使用2.0以上版本的Ruby，所有又将Ruby版本改了回来，正好现在博客不再使用Octopress，改为Hexo了。&lt;/p&gt;
-</description>
+&lt;p&gt;1.之前将Ruby版本设置为1.9，现在需要使用2.0以上版本的Ruby，所有又将Ruby版本改了回来，正好现在博客不再使用Octopress，改为Hexo了。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1780,8 +1762,7 @@ for i=1:part
     result(:,fstart:fend)=f;
 end
 end
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -1790,9 +1771,7 @@ end
       <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
-      <description>
-
-&lt;p&gt;本文介绍如何在Mac OS X上进行OpenCV项目的开发，尝试的开发工具有Xcode(版本是4.6.1)和Eclipse，使用的OpenCV版本是2.4.6。&lt;/p&gt;
+      <description>&lt;p&gt;本文介绍如何在Mac OS X上进行OpenCV项目的开发，尝试的开发工具有Xcode(版本是4.6.1)和Eclipse，使用的OpenCV版本是2.4.6。&lt;/p&gt;
 
 &lt;p&gt;如果只是需要OpenCV的相关头文件以及动态库，请直接执行&lt;code&gt;brew install opencv&lt;/code&gt;（如果安装了Homebrew的话），如果不行，请看下面的OpenCV源码编译安装过程。&lt;/p&gt;
 
@@ -1892,8 +1871,7 @@ cp $OpenCV_DIR/../data/lbpcascades/lbpcascade_frontalface.xml .
 cp $OpenCV_DIR/../data/haarcascades/haarcascade_eye.xml .
 cp $OpenCV_DIR/../data/haarcascades/haarcascade_eye_tree_eyeglasses.xml .
 cmake -G Xcode -D OpenCV_DIR=$OpenCV_DIR ..
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

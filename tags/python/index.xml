@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/python/</link>
+    <link>https://hujiaweibujidao.github.io/tags/python/index.xml</link>
     <description>Recent content in Python on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Tue, 01 Jul 2014 00:00:00 +0000</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,9 +15,7 @@
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
-      <description>
-
-&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;ol&gt;
@@ -104,8 +101,7 @@ print t2 #3.68582415581
 
 &lt;p&gt;A simple and quite scalable solution would be to sort the characters in each string and compare the results. (In theory, counting the character frequencies, possibly using collections.Counter, would scale even better.) A really poor solution would be to compare all possible orderings of one string with the other. I can’t overstate how poor this solution is; in fact, algorithms don’t get much worse than this. Feel free to code it up, and see how large anagrams you can check. I bet you won’t get far.&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -114,9 +110,7 @@ print t2 #3.68582415581
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
-      <description>
-
-&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Tracey: I didn’t know you were out there.&lt;br /&gt;
@@ -491,8 +485,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;The advantages and disadvantages depend on what you’re using it for. It works well for looking up edge weights efficiently but less well for iterating over the graph’s nodes or a node’s neighbors, for example. You could improve that part by using some extra structures (for example, a global list of nodes, if that’s what you need or a simple adjacency list structure, if that’s required).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -501,7 +494,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
-      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;The greatest shortcoming of the human race is our inability to understand the exponential function.&lt;br /&gt;
@@ -542,8 +535,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;不喜欢本节的可以跳过，不留练习了这次，嘿嘿，想练习的话刷算法导论的题目吧&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -552,7 +544,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;You must never think of the whole street at once, understand? You must only concentrate on the next step, the next breath, the next stroke of the broom, and the next, and the next. Nothing else.&lt;br /&gt;
@@ -847,8 +839,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
 
 &lt;p&gt;[注意是使用&lt;code&gt;append&lt;/code&gt;然后&lt;code&gt;reverse&lt;/code&gt;，而不要使用&lt;code&gt;insert&lt;/code&gt;]&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -857,7 +848,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
-      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;You are in a narrow hallway. This continues for several metres and ends in a doorway. Halfway along the passage you can see an archway where some steps lead downwards. Will you go forwards to the door (turn to 5), or creep down the steps (turn to 344)?&lt;br /&gt;
@@ -1185,8 +1176,7 @@ print list(map(list, scc(G)))
 
 &lt;p&gt;Try finding a simple example where this would give the wrong answer. (You can do it with a really small graph.)&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1195,7 +1185,7 @@ print list(map(list, scc(G)))
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
-      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Divide and rule, a sound motto; Unite and lead, a better one.&lt;br /&gt;
@@ -1396,8 +1386,7 @@ def mergesort(seq):
 &lt;p&gt;The asymptotic running time would be the same. The number of comparison goes up, however. To see this, consider the recurrences B(n) = B(n/2) + 1 and T(n) = T(n/3) + 2 for binary and ternary search, respectively (with base cases B(1) = T(1) = 0 and B(2) = T(2) = 1). You can show (by induction) that
 B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1406,7 +1395,7 @@ B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
-      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it!&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;It’s not a question of enough, pal.&lt;br /&gt;
@@ -1706,8 +1695,7 @@ def greedy(E, S, w):
 
 &lt;p&gt;练习：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/20/delete-number-problem/&#34;&gt;试试这道删数问题吧，这里对比了贪心算法和动态规划算法两种解法&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1716,7 +1704,7 @@ def greedy(E, S, w):
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
-      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Twice, adv. Once too often.&lt;br /&gt;
@@ -1948,8 +1936,7 @@ Professor Stewart is consulting for the president of a corporation that is plann
 
 &lt;p&gt;最后就是求max(dp[root][0], dp[root][1])&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1958,7 +1945,7 @@ Professor Stewart is consulting for the president of a corporation that is plann
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
-      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;The shortest distance between two points is under construction.&lt;br /&gt;
@@ -2368,8 +2355,7 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans1.png&#34; alt=&#34;image&#34; /&gt;
 &lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2378,7 +2364,7 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
-      <description>&lt;p&gt;Python代码片段&lt;/p&gt;
+      <description>&lt;p&gt;Python代码片段 &lt;/p&gt;
 
 &lt;p&gt;1.使用&lt;code&gt;glob&lt;/code&gt;模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list&lt;/p&gt;
 
@@ -2737,8 +2723,7 @@ print lst
 
 &lt;!--
 (2)得到int类型的最大值使用`sys.maxint`，
---&gt;
-</description>
+--&gt;</description>
     </item>
     
     <item>
@@ -2747,9 +2732,7 @@ print lst
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
-      <description>
-
-&lt;p&gt;Python数据结构篇(4) 树&lt;/p&gt;
+      <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
 1.&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/index.html&#34;&gt;Problem Solving with Python&lt;/a&gt;&lt;br /&gt;
@@ -3276,8 +3259,7 @@ mytree.levelorder(mytree.root)
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_avl.png&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;[本人能力有限，因为使用的次数不多所以对于AVL树还未有深刻的理解，如果有深刻理解之后会对此处内容及代码进行更新]&lt;/p&gt;
-</description>
+&lt;p&gt;[本人能力有限，因为使用的次数不多所以对于AVL树还未有深刻的理解，如果有深刻理解之后会对此处内容及代码进行更新]&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3286,9 +3268,7 @@ mytree.levelorder(mytree.root)
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
-      <description>
-
-&lt;p&gt;Python数据结构篇(3) 数据结构&lt;/p&gt;
+      <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
 1.&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/index.html&#34;&gt;Problem Solving with Python&lt;/a&gt;&lt;br /&gt;
@@ -3655,8 +3635,7 @@ print(bh.heap_list)
 print(bh.current_size)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;关于二叉查找树等内容请见&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;树的总结&lt;/a&gt;。&lt;/p&gt;
-</description>
+&lt;p&gt;关于二叉查找树等内容请见&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;树的总结&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3665,9 +3644,7 @@ print(bh.current_size)
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
-      <description>
-
-&lt;p&gt;Python数据结构篇(2) 排序&lt;/p&gt;
+      <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
 1.&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/index.html&#34;&gt;Problem Solving with Python&lt;/a&gt;&lt;br /&gt;
@@ -4026,8 +4003,7 @@ seq = counting_sort(seq)
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/sortbucket.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/&#34;&gt;Python算法设计篇之Induction&amp;amp;Recursion&amp;amp;Reduction&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/&#34;&gt;Python算法设计篇之Induction&amp;amp;Recursion&amp;amp;Reduction&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4036,9 +4012,7 @@ seq = counting_sort(seq)
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
-      <description>
-
-&lt;p&gt;Python数据结构篇(1) 搜索&lt;/p&gt;
+      <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
 1.&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/index.html&#34;&gt;Problem Solving with Python&lt;/a&gt;&lt;br /&gt;
@@ -4223,8 +4197,7 @@ if __name__ == &#39;__main__&#39;:
 
 # [77, 44, 55, None, 26, 93, 17, None, None, 20, 54]
 # [&#39;bird&#39;, &#39;goat&#39;, &#39;pig&#39;, None, &#39;dog&#39;, &#39;lion&#39;, &#39;tiger&#39;, None, None, &#39;chicken&#39;, &#39;cat&#39;]
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
   </channel>

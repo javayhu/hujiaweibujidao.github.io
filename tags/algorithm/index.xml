@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Algorithm on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/algorithm/</link>
+    <link>https://hujiaweibujidao.github.io/tags/algorithm/index.xml</link>
     <description>Recent content in Algorithm on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,9 +15,7 @@
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/04/01/head-first-stanford-nlp-4/</guid>
-      <description>
-
-&lt;p&gt;(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。&lt;/p&gt;
+      <description>&lt;p&gt;(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。&lt;/p&gt;
 
 &lt;p&gt;前面我们介绍过Stanford CoreNLP的server的本地搭建，但是在使用它对中文句子进行操作的时候一直显示不出效果，所以有必要通过源码研究下StanfordCoreNLPServer的具体实现，这样就可以知道如何对它进行配置。&lt;/p&gt;
 
@@ -129,8 +126,7 @@ depparse.model = edu/stanford/nlp/models/parser/nndep/CTB_CoNLL_params.txt.gz
 
 &lt;p&gt;其他资源：&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://blog.sectong.com/blog/corenlp_segment.html&#34;&gt;使用CoreNLP进行中文分词的实践示例&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;a href=&#34;https://blog.sectong.com/blog/corenlp_segment.html&#34;&gt;使用CoreNLP进行中文分词的实践示例&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -184,8 +180,7 @@ model文件的选择可以直接选择model.jar然后按照提示选择其中的
 哈工大语言技术平台演示地址：&lt;a href=&#34;http://www.ltp-cloud.com/demo/&#34;&gt;http://www.ltp-cloud.com/demo/&lt;/a&gt;
 BosonNLP在线演示地址：&lt;a href=&#34;http://bosonnlp.com/demo&#34;&gt;http://bosonnlp.com/demo&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;ok，enjoy！&lt;/p&gt;
-</description>
+&lt;p&gt;ok，enjoy！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -194,9 +189,7 @@ BosonNLP在线演示地址：&lt;a href=&#34;http://bosonnlp.com/demo&#34;&gt;ht
       <pubDate>Wed, 30 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/03/30/head-first-stanford-nlp-2/</guid>
-      <description>
-
-&lt;p&gt;(深入浅出Stanford NLP 进阶篇) 本文接着介绍Stanford NLP工具的使用方法。&lt;/p&gt;
+      <description>&lt;p&gt;(深入浅出Stanford NLP 进阶篇) 本文接着介绍Stanford NLP工具的使用方法。&lt;/p&gt;
 
 &lt;p&gt;从基础篇可以看出，Stanford NLP的使用主要是要熟悉其中的Annotator，所以本文以&lt;code&gt;ParserAnnotator&lt;/code&gt;和&lt;code&gt;DependencyParseAnnotator&lt;/code&gt;为例来介绍annotator的使用。前者是用来得到短语结构树，后者是用来得到依存结构树，这两个工具都在Stanford Parser中，所以如果只是需要这两个工具的话可以直接使用Stanford Parser，而不需要使用完整的CoreNLP。&lt;/p&gt;
 
@@ -374,8 +367,7 @@ This parser supports English (with Universal Dependencies, Stanford Dependencies
 &lt;p&gt;&lt;strong&gt;Dependency scoring&lt;/strong&gt; 对dependency parser的结果进行评分
 The package includes a tool for scoring of generic dependency parses, in a class edu.stanford.nlp.trees.DependencyScoring. This tool measures scores for dependency trees, doing F1 and labeled attachment scoring. The included usage message gives a detailed description of how to use the tool.&lt;/p&gt;
 
-&lt;p&gt;ok，有点乱乱的，希望你能看明白，嘿嘿，enjoy！&lt;/p&gt;
-</description>
+&lt;p&gt;ok，有点乱乱的，希望你能看明白，嘿嘿，enjoy！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -384,9 +376,7 @@ The package includes a tool for scoring of generic dependency parses, in a class
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
-      <description>
-
-&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。&lt;/p&gt;
+      <description>&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。 &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;因为毕设缘故需要调研下Stanford NLP工具，我发现这套工具非常强大而且非常有趣，但是目前网上的资源太少，抑或是很久未更新了，所以我打算写一个深入浅出Stanford NLP系列，简单介绍这套工具以及它的使用。&lt;/strong&gt;&lt;/p&gt;
 
@@ -567,8 +557,7 @@ wget &amp;quot;localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`&amp;quot;
 
 &lt;p&gt;参考网址：&lt;a href=&#34;http://stanfordnlp.github.io/CoreNLP/other-languages.html&#34;&gt;http://stanfordnlp.github.io/CoreNLP/other-languages.html&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;OK，暂时介绍到这里，enjoy！&lt;/p&gt;
-</description>
+&lt;p&gt;OK，暂时介绍到这里，enjoy！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -577,9 +566,7 @@ wget &amp;quot;localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`&amp;quot;
       <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
-      <description>
-
-&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》&lt;/p&gt;
+      <description>&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》 &lt;/p&gt;
 
 &lt;p&gt;因为近期换了博客主题，对Latex的支持较弱，而且以后可能会很少写和数学有关的内容，所以下线了之前数学专题下的所有文章，但竟然有网友评论希望重新上线，我还以为那些东西没人看呢(⊙o⊙)，最近抽空整理成pdf，需要的下载吧&lt;/p&gt;
 
@@ -605,8 +592,7 @@ wget &amp;quot;localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`&amp;quot;
 &lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter3.pdf&#34;&gt;第三章 矩阵特征值和奇异值求解&lt;/a&gt;&lt;br /&gt;
 内容包括：基本幂法，逆幂法和移位幂法，QR分解，Householder变换，实用QR分解技术，奇异值分解SVD&lt;br /&gt;
 &lt;a href=&#34;https://hujiaweibujidao.github.io/files/nm-chapter4.pdf&#34;&gt;第四章 曲线拟合和多项式插值&lt;/a&gt;&lt;br /&gt;
-内容包括：曲线拟合，拉格朗日插值多项式，牛顿插值多项式，分段线性插值，保形分段三次插值，三次样条插值&lt;/p&gt;
-</description>
+内容包括：曲线拟合，拉格朗日插值多项式，牛顿插值多项式，分段线性插值，保形分段三次插值，三次样条插值&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -615,7 +601,7 @@ wget &amp;quot;localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`&amp;quot;
       <pubDate>Sun, 09 Nov 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
-      <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D&lt;/p&gt;
+      <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D &lt;/p&gt;
 
 &lt;p&gt;前段时间才知道的Google APAC比赛，于是乎注册了今天下午的比赛，Round D，总共四道题，只过了两道，完了之后现在过了三道。这三道都不难只是觉得很奇怪，不熟悉这种比赛模式，它是让你下载输入文件，然后你在给定时间内提交输出文件和源程序即可，对于每道题目都有一个小测试集和大测试集。&lt;/p&gt;
 
@@ -1210,8 +1196,7 @@ class Chess {
         this.c = c;
     }
 }
-&lt;/code&gt;&lt;/pre&gt;
-</description>
+&lt;/code&gt;&lt;/pre&gt;</description>
     </item>
     
     <item>
@@ -1220,9 +1205,7 @@ class Chess {
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
-      <description>
-
-&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;ol&gt;
@@ -1308,8 +1291,7 @@ print t2 #3.68582415581
 
 &lt;p&gt;A simple and quite scalable solution would be to sort the characters in each string and compare the results. (In theory, counting the character frequencies, possibly using collections.Counter, would scale even better.) A really poor solution would be to compare all possible orderings of one string with the other. I can’t overstate how poor this solution is; in fact, algorithms don’t get much worse than this. Feel free to code it up, and see how large anagrams you can check. I bet you won’t get far.&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1318,9 +1300,7 @@ print t2 #3.68582415581
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
-      <description>
-
-&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Tracey: I didn’t know you were out there.&lt;br /&gt;
@@ -1695,8 +1675,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;The advantages and disadvantages depend on what you’re using it for. It works well for looking up edge weights efficiently but less well for iterating over the graph’s nodes or a node’s neighbors, for example. You could improve that part by using some extra structures (for example, a global list of nodes, if that’s what you need or a simple adjacency list structure, if that’s required).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1705,7 +1684,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
-      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;The greatest shortcoming of the human race is our inability to understand the exponential function.&lt;br /&gt;
@@ -1746,8 +1725,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;不喜欢本节的可以跳过，不留练习了这次，嘿嘿，想练习的话刷算法导论的题目吧&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1756,7 +1734,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;You must never think of the whole street at once, understand? You must only concentrate on the next step, the next breath, the next stroke of the broom, and the next, and the next. Nothing else.&lt;br /&gt;
@@ -2051,8 +2029,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
 
 &lt;p&gt;[注意是使用&lt;code&gt;append&lt;/code&gt;然后&lt;code&gt;reverse&lt;/code&gt;，而不要使用&lt;code&gt;insert&lt;/code&gt;]&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2061,7 +2038,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
-      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;You are in a narrow hallway. This continues for several metres and ends in a doorway. Halfway along the passage you can see an archway where some steps lead downwards. Will you go forwards to the door (turn to 5), or creep down the steps (turn to 344)?&lt;br /&gt;
@@ -2389,8 +2366,7 @@ print list(map(list, scc(G)))
 
 &lt;p&gt;Try finding a simple example where this would give the wrong answer. (You can do it with a really small graph.)&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2399,7 +2375,7 @@ print list(map(list, scc(G)))
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
-      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Divide and rule, a sound motto; Unite and lead, a better one.&lt;br /&gt;
@@ -2600,8 +2576,7 @@ def mergesort(seq):
 &lt;p&gt;The asymptotic running time would be the same. The number of comparison goes up, however. To see this, consider the recurrences B(n) = B(n/2) + 1 and T(n) = T(n/3) + 2 for binary and ternary search, respectively (with base cases B(1) = T(1) = 0 and B(2) = T(2) = 1). You can show (by induction) that
 B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2610,7 +2585,7 @@ B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
-      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it!&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;It’s not a question of enough, pal.&lt;br /&gt;
@@ -2910,8 +2885,7 @@ def greedy(E, S, w):
 
 &lt;p&gt;练习：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/20/delete-number-problem/&#34;&gt;试试这道删数问题吧，这里对比了贪心算法和动态规划算法两种解法&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2920,7 +2894,7 @@ def greedy(E, S, w):
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
-      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;Twice, adv. Once too often.&lt;br /&gt;
@@ -3152,8 +3126,7 @@ Professor Stewart is consulting for the president of a corporation that is plann
 
 &lt;p&gt;最后就是求max(dp[root][0], dp[root][1])&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3162,7 +3135,7 @@ Professor Stewart is consulting for the president of a corporation that is plann
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
-      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends&lt;/p&gt;
+      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;The shortest distance between two points is under construction.&lt;br /&gt;
@@ -3572,8 +3545,7 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans1.png&#34; alt=&#34;image&#34; /&gt;
 &lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

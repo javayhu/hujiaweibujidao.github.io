@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Swift on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/swift/</link>
+    <link>https://hujiaweibujidao.github.io/tags/swift/index.xml</link>
     <description>Recent content in Swift on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Sun, 15 May 2016 00:00:00 +0000</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -16,7 +15,7 @@
       <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
-      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;
+      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。 &lt;/p&gt;
 
 &lt;p&gt;临近毕业，花了几天时间看了下Swift的语法，主要看的是资料是 &lt;strong&gt;&lt;a href=&#34;https://github.com/numbbbbb/the-swift-programming-language-in-chinese&#34;&gt;The Swift Programming Language&lt;/a&gt;&lt;/strong&gt;，在此非常感谢国内的翻译团队们的辛苦翻译，翻译质量相当不错。😘&lt;/p&gt;
 
@@ -28,8 +27,7 @@
 
 &lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gank-screenshot.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;最后，期待使用Swift开发Android的那一天，哈哈哈😄&lt;/p&gt;
-</description>
+&lt;p&gt;最后，期待使用Swift开发Android的那一天，哈哈哈😄&lt;/p&gt;</description>
     </item>
     
   </channel>

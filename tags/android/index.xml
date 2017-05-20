@@ -2,12 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Android on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/android/</link>
+    <link>https://hujiaweibujidao.github.io/tags/android/index.xml</link>
     <description>Recent content in Android on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2016</copyright>
-    <lastBuildDate>Tue, 24 Jan 2017 10:46:33 +0800</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
     <atom:link href="https://hujiaweibujidao.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
@@ -191,8 +190,7 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
 &lt;a href=&#34;http://hukai.me/android-performance-battery/&#34;&gt;性能优化典范中的Android性能优化之电量篇&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求&lt;br /&gt;
-(2)使用Job Scheduler，应用需要做的事情就是判断哪些任务是不紧急的，可以交给Job Scheduler来处理，Job Scheduler集中处理收到的任务，选择合适的时间，合适的网络，再一起执行&lt;/p&gt;
-</description>
+(2)使用Job Scheduler，应用需要做的事情就是判断哪些任务是不紧急的，可以交给Job Scheduler来处理，Job Scheduler集中处理收到的任务，选择合适的时间，合适的网络，再一起执行&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -201,7 +199,7 @@ $ adb shell dumpsys batterystats &amp;gt; com.package.name &amp;gt; xxx.txt //�
       <pubDate>Thu, 01 Dec 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</guid>
-      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。&lt;/p&gt;
+      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。 &lt;/p&gt;
 
 &lt;p&gt;本文主要介绍的是Lint工具中自带的与Android开发相关的lint检查项，通过查看lint检查项的描述及其代码实现，我发现这里面存在不少应用开发编码的Best Practice，有些是平常编码中非常常见的错误(这类问题建议看下对应的参考资料)，有些却有点隐晦(这类问题我们会仔细研究下)，这些lint检查项对于我们在平常编码过程中都会有不少启发。&lt;/p&gt;
 
@@ -366,8 +364,7 @@ public static Integer valueOf(int i) {
 实现：&lt;code&gt;LogDetector&lt;/code&gt;&lt;br /&gt;
 说明：这个检查项是检查打log时判断是否可以打印的tag与实际打印的log的tag是否是统一的，也就是&lt;code&gt;Log.isLoggable(tag)&lt;/code&gt;和&lt;code&gt;Log.v(tag, ...)&lt;/code&gt;这两个语句中的tag必须是一致的。&lt;/p&gt;
 
-&lt;p&gt;持续添加中&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;持续添加中&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -376,9 +373,7 @@ public static Integer valueOf(int i) {
       <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</guid>
-      <description>
-
-&lt;p&gt;Lint工具的源码分析(3)&lt;/p&gt;
+      <description>&lt;p&gt;Lint工具的源码分析(3)  &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
 
@@ -800,8 +795,7 @@ public class LogDetector extends Detector implements JavaPsiScanner {
 
 &lt;p&gt;上面是一个简单的Java检查器的实现，但是足以让我们理解lint检查是如何进行的，以及辅助我们去了解其他的检查器的实现，甚至是针对其他类型的文件比如XML文件的检查器，它们的实现过程也大致类似。那如果我们的检查器既需要检查Java文件，又需要检查XML文件怎么办呢？其实也就是多实现一个接口就行了，很多自带的检查器都是实现了&lt;code&gt;XmlScanner&lt;/code&gt;和&lt;code&gt;JavaPsiScanner&lt;/code&gt;两个接口的。&lt;/p&gt;
 
-&lt;p&gt;下一节我们会总结下lint工具中自带的一些和Android有关的检查器的功能。&lt;/p&gt;
-</description>
+&lt;p&gt;下一节我们会总结下lint工具中自带的一些和Android有关的检查器的功能。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -810,9 +804,7 @@ public class LogDetector extends Detector implements JavaPsiScanner {
       <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</guid>
-      <description>
-
-&lt;p&gt;Lint工具的源码分析(2)&lt;/p&gt;
+      <description>&lt;p&gt;Lint工具的源码分析(2)  &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
 
@@ -2114,8 +2106,7 @@ private void visitJavaFiles(@NonNull List&amp;lt;Detector&amp;gt; checks, JavaPa
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2124,9 +2115,7 @@ private void visitJavaFiles(@NonNull List&amp;lt;Detector&amp;gt; checks, JavaPa
       <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</guid>
-      <description>
-
-&lt;p&gt;Lint工具的源码分析(1)&lt;/p&gt;
+      <description>&lt;p&gt;Lint工具的源码分析(1)  &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。&lt;/strong&gt;&lt;/p&gt;
 
@@ -2727,8 +2716,7 @@ public class Implementation {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;
-</description>
+&lt;p&gt;未完待续&amp;hellip;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2856,8 +2844,7 @@ project.afterEvaluate{
 &lt;strong&gt;这篇文章是我写完后才发现的，比我的这篇文章要详细很多，内容更加丰富，灰常推荐阅读。博主除了写了这篇自定义lint规则的文章之外，还写了两篇文章来分析其实现原理。我其实也已经写了几篇文章来解析其源码，但是在仔细读完那位博主的总结之后，发现自己的总结没有那位博主写得好，所以我将自己的总结进行了修改，那位博主没有写的内容我来补充，其他内容还是推荐看那位博主的，当然很多重要的核心内容还是会交叉介绍到的。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;One More Thing&amp;hellip;&lt;/strong&gt;&lt;br /&gt;
-其实，看完本节你应该会有很多的疑惑，为什么自定义的lint规则打包成jar放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下就可以使用了呢？为什么设置那个环境变量也行呢？还有，将lint.jar打包到aar中为什么也可以实现自定义lint检查呢？这些问题需要我们去阅读lint工具的源码才能够真正解开谜底，欢迎阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/&#34;&gt;Lint工具源码解析(1)&lt;/a&gt;。&lt;/p&gt;
-</description>
+其实，看完本节你应该会有很多的疑惑，为什么自定义的lint规则打包成jar放在&lt;code&gt;~/.android/lint&lt;/code&gt;目录下就可以使用了呢？为什么设置那个环境变量也行呢？还有，将lint.jar打包到aar中为什么也可以实现自定义lint检查呢？这些问题需要我们去阅读lint工具的源码才能够真正解开谜底，欢迎阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/&#34;&gt;Lint工具源码解析(1)&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -2866,9 +2853,7 @@ project.afterEvaluate{
       <pubDate>Thu, 10 Nov 2016 16:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/</guid>
-      <description>
-
-&lt;p&gt;本文记录下分析应用启动时间的总结。&lt;/p&gt;
+      <description>&lt;p&gt;本文记录下分析应用启动时间的总结。 &lt;/p&gt;
 
 &lt;p&gt;关于应用启动时间测量的分析已经有不少不错的文章做了总结，下面是比较好的几篇：&lt;br /&gt;
 1.&lt;a href=&#34;http://hukai.me/android-performance-patterns-season-6/&#34;&gt;Android性能优化典范-第6季&lt;/a&gt;&lt;br /&gt;
@@ -3050,8 +3035,7 @@ private void stopFullyDrawnTraceIfNeeded() {
 }
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;还有一种方式是录屏然后测量，和使用高速相机录像然后测量差不多，由于比较麻烦，此处不表。&lt;/p&gt;
-</description>
+&lt;p&gt;还有一种方式是录屏然后测量，和使用高速相机录像然后测量差不多，由于比较麻烦，此处不表。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3060,9 +3044,7 @@ private void stopFullyDrawnTraceIfNeeded() {
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
-      <description>
-
-&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。&lt;/p&gt;
+      <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。 &lt;/p&gt;
 
 &lt;h3 id=&#34;1-简单说明&#34;&gt;1.简单说明&lt;/h3&gt;
 
@@ -3139,8 +3121,7 @@ To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or 
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/07/30/2614353.html&lt;/a&gt;
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/03/2618753.html&lt;/a&gt;
 &lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/08/2627614.html&lt;/a&gt;
-&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&lt;/a&gt;&lt;/p&gt;
-</description>
+&lt;a href=&#34;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&#34;&gt;http://www.cnblogs.com/vowei/archive/2012/08/22/2650722.html&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3149,9 +3130,7 @@ To develop IntelliJ IDEA, you can use either IntelliJ IDEA Community Edition or 
       <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
-      <description>
-
-&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。&lt;/p&gt;
+      <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。 &lt;/p&gt;
 
 &lt;h5 id=&#34;1-cpu平均负载&#34;&gt;1. CPU平均负载&lt;/h5&gt;
 
@@ -3289,8 +3268,7 @@ softirq (357) 从系统启动开始累计到当前时刻，软中断时间（单
 
 &lt;p&gt;下图是我最近开发的悟空监视器，入口在Flyme系统的开发者选项中(公司内部项目，源码不能公开，仅供参考，原理同上)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/wukong.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/wukong.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -3299,9 +3277,7 @@ softirq (357) 从系统启动开始累计到当前时刻，软中断时间（单
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
-      <description>
-
-&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;
+      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。 &lt;/p&gt;
 
 &lt;p&gt;chromeadb项目源码：&lt;a href=&#34;https://github.com/importre/chromeadb&#34;&gt;https://github.com/importre/chromeadb&lt;/a&gt;&lt;br /&gt;
 chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。&lt;/p&gt;
@@ -4161,8 +4137,7 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
 
 &lt;p&gt;虽然chromeadb工具的功能有限而且未来可能真的不会再有新的进展，但是利用当前这个版本进行扩展使用更多有用的功能还是非常方便的，例如我最近利用之前开发的手机版本的悟空监视器改造了一个新的斯诺登监视器。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/SnowdenMonitor.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
-</description>
+&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/SnowdenMonitor.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4171,7 +4146,7 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
-      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。&lt;/p&gt;
+      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。 &lt;/p&gt;
 
 &lt;p&gt;Pury的源码：&lt;a href=&#34;https://github.com/NikitaKozlov/Pury&#34;&gt;https://github.com/NikitaKozlov/Pury&lt;/a&gt;&lt;/p&gt;
 
@@ -4494,8 +4469,7 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
 &lt;p&gt;发布到maven使用的gradle插件是&lt;code&gt;https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle&lt;/code&gt;
 实现注解解析的gradle插件是&lt;code&gt;com.nikitakozlov.weaverlite&lt;/code&gt;，这个是作者自己封装的插件&lt;a href=&#34;https://github.com/NikitaKozlov/WeaverLite&#34;&gt;WeaverLite&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;Pury的源码就分析到这里吧，感兴趣的建议再扫一遍源码看下，还是会有挺多收获的。&lt;/p&gt;
-</description>
+&lt;p&gt;Pury的源码就分析到这里吧，感兴趣的建议再扫一遍源码看下，还是会有挺多收获的。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4504,7 +4478,7 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
-      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。&lt;/p&gt;
+      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。 &lt;/p&gt;
 
 &lt;p&gt;趁着国庆长假，抽出些时间来记录下最近倒腾的一些内容，第一个需要记录的自然是Android源码编译的流程。上班第一天就干了一件事，编译Android 6.0源码，第二天就是编译Flyme系统啦！但是编完系统之后刷到PRO6里面还有点小鸡冻呢！&lt;/p&gt;
 
@@ -4544,8 +4518,7 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
 
 &lt;p&gt;最后一步是执行编译，lunch时我选择&lt;code&gt;aosp_arm64_eng&lt;/code&gt;为target，并启动6个线程进行编译&lt;code&gt;make -j6&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;Anyway，最后我还是没能在Mac上编译成功，貌似机器的配置还是不够，算了，还是用来看代码吧。&lt;/p&gt;
-</description>
+&lt;p&gt;Anyway，最后我还是没能在Mac上编译成功，貌似机器的配置还是不够，算了，还是用来看代码吧。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -4554,7 +4527,7 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
-      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。&lt;/p&gt;
+      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。 &lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;1.systrace工具简单介绍&lt;/strong&gt;&lt;/p&gt;
 
@@ -5431,8 +5404,7 @@ return tracer_args
           self._options.device_serial)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;OK，本文的systrace工具源码分析结束，后面会抽空陆续加上Android系统中systrace相关的类和文件的源码解析，以及利用systrace数据来分析应用性能问题的方法。&lt;/p&gt;
-</description>
+&lt;p&gt;OK，本文的systrace工具源码分析结束，后面会抽空陆续加上Android系统中systrace相关的类和文件的源码解析，以及利用systrace数据来分析应用性能问题的方法。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5441,9 +5413,7 @@ return tracer_args
       <pubDate>Sat, 25 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</guid>
-      <description>
-
-&lt;p&gt;本节主要介绍几种图标字体的制作方法和Iconify扩展的使用姿势。&lt;/p&gt;
+      <description>&lt;p&gt;本节主要介绍几种图标字体的制作方法和Iconify扩展的使用姿势。&lt;/p&gt;
 
 &lt;p&gt;本系列文章介绍的内容对应的Github项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/IconFontApp&#34;&gt;IconFontApp&lt;/a&gt;&lt;/p&gt;
 
@@ -5560,8 +5530,7 @@ IconFont可是中文的图标字体制作网站哟！该网站是阿里的UED团
 
 &lt;p&gt;从上面的分析可以看出，图标字体文件的制作以及利用字体文件对Iconify进行扩展都还比较简单，唯一比较麻烦的是，如果项目中使用了大量的图标的话，编写图标集合的枚举类会比较无聊，所以下节可能会开发一个小脚本或者小插件来完成这个无聊的任务，噢啦，晚安！&lt;/p&gt;
 
-&lt;p&gt;余淮和耿耿终于在一起啦，好嗨森，嘿嘿，《最好的我们》和最好的我们真的快要结束啦，快要毕业咯！&lt;/p&gt;
-</description>
+&lt;p&gt;余淮和耿耿终于在一起啦，好嗨森，嘿嘿，《最好的我们》和最好的我们真的快要结束啦，快要毕业咯！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -5570,9 +5539,7 @@ IconFont可是中文的图标字体制作网站哟！该网站是阿里的UED团
       <pubDate>Fri, 24 Jun 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</guid>
-      <description>
-
-&lt;p&gt;本节主要介绍几种Material Design图标的使用姿势。&lt;/p&gt;
+      <description>&lt;p&gt;本节主要介绍几种Material Design图标的使用姿势。&lt;/p&gt;
 
 &lt;p&gt;本系列文章介绍的内容对应的Github项目地址：&lt;a href=&#34;https://github.com/hujiaweibujidao/IconFontApp&#34;&gt;IconFontApp&lt;/a&gt;&lt;/p&gt;
 
@@ -5690,8 +5657,7 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
 
 &lt;p&gt;我比较喜欢Iconify的使用方式，简洁好用，嘿嘿，欢迎推荐其他的Material Design图标的使用姿势！&lt;/p&gt;
 
-&lt;p&gt;在实际的项目开发中肯定会有很多自定义的小图标或者来自不同来源的小图标，如果遇到这种情况该怎么办呢？这个时候我们可以通过对Iconify进行扩展来实现，但是扩展之前我们需要制作出自己的图标字体文件，这个该如何制作呢？请看下节！&lt;/p&gt;
-</description>
+&lt;p&gt;在实际的项目开发中肯定会有很多自定义的小图标或者来自不同来源的小图标，如果遇到这种情况该怎么办呢？这个时候我们可以通过对Iconify进行扩展来实现，但是扩展之前我们需要制作出自己的图标字体文件，这个该如何制作呢？请看下节！&lt;/p&gt;</description>
     </item>
     
   </channel>
