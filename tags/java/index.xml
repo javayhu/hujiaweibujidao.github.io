@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/java/index.xml</link>
+    <link>http://javayhu.me/tags/java/index.xml</link>
     <description>Recent content in Java on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
-    <atom:link href="https://hujiaweibujidao.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://javayhu.me/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Java Web project with Maven</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</link>
+      <link>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</link>
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
+      <guid>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</guid>
       <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。 &lt;/p&gt;
 
 &lt;p&gt;毕业需求是第一驱动力啊！毕业之后一定远离学术圈！&lt;/p&gt;
@@ -123,10 +123,10 @@
     
     <item>
       <title>One Trip of building a Crawler</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
+      <link>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
       <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
+      <guid>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
       <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 &lt;/p&gt;
 
 &lt;p&gt;本教程的开发需求是编写一个包含爬虫程序的Java项目，并且能够方便地服务器端编译部署和启动爬虫程序。&lt;/p&gt;
@@ -299,7 +299,7 @@ public class ZDCrawlController extends WebCrawler {
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;项目结构图
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/semanticweb_intellij.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://javayhu.me/images/semanticweb_intellij.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;使用Maven命令即可启动爬虫程序 &lt;code&gt;mvn exec:java -Dexec.mainClass=&amp;quot;data.hanwenxue.ZDCrawlController&amp;quot;&lt;/code&gt;&lt;/p&gt;
 
@@ -348,7 +348,7 @@ export PATH=$PATH:${JAVA_HOME}
 (5)重复步骤3和4，启动完所有的爬虫。&lt;/p&gt;
 
 &lt;p&gt;下图是新华字典的爬虫的最后输出，显示总共耗时约6个小时
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/crawl_zd.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://javayhu.me/images/crawl_zd.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;OK，就是这样，暂记于此，hope it helps！&lt;/p&gt;</description>
     </item>

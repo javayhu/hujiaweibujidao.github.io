@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Life on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/life/index.xml</link>
+    <link>http://javayhu.me/tags/life/index.xml</link>
     <description>Recent content in Life on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
-    <atom:link href="https://hujiaweibujidao.github.io/tags/life/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://javayhu.me/tags/life/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>You are My Sunshine</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</link>
+      <link>http://javayhu.me/blog/2015/11/21/you-are-my-sunshine/</link>
       <pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</guid>
+      <guid>http://javayhu.me/blog/2015/11/21/you-are-my-sunshine/</guid>
       <description>&lt;p&gt;代码小情诗&lt;strong&gt;《You are my sunshine》&lt;/strong&gt;  &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/miaosuwulimi.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/miaosuwulimi.jpg&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;/**
 * 代码情诗：You are my sunshine
@@ -122,13 +122,13 @@ public class YouAreMySunshine {
     
     <item>
       <title>Missing</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</link>
+      <link>http://javayhu.me/blog/2015/11/13/missing/</link>
       <pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</guid>
+      <guid>http://javayhu.me/blog/2015/11/13/missing/</guid>
       <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》 &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/once.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/once.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;小摩羯长大了，要有满满的正能量！&lt;strong&gt;Take the sinking boat and point it HOME!&lt;/strong&gt;&lt;/p&gt;
 
@@ -153,10 +153,10 @@ public class YouAreMySunshine {
     
     <item>
       <title>Job Hunting</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</link>
+      <link>http://javayhu.me/blog/2015/10/09/job-hunting/</link>
       <pubDate>Fri, 09 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</guid>
+      <guid>http://javayhu.me/blog/2015/10/09/job-hunting/</guid>
       <description>&lt;p&gt;今年我找Android开发工作的干货分享，祝大家找工作顺利。 &lt;/p&gt;
 
 &lt;p&gt;最近正在整理新版本，地址在&lt;a href=&#34;https://github.com/hujiaweibujidao/AndroidInterviews&#34;&gt;AndroidInterviews&lt;/a&gt;，里面纠正了以前版本的很多错误，内容有大量更新，建议结合本博客中Android群英传和Android开发艺术探索的全部读书笔记一起看，因为读书笔记中的很多重点知识将不会在面试指南中再重复出现。&lt;/p&gt;
@@ -167,19 +167,19 @@ public class YouAreMySunshine {
 
 &lt;p&gt;原本是保存在我的Evernote中的，但是Evernote暂时关闭了note分享功能，所以我只能导出pdf来，里面其实有很多的链接的，但是你点击了是无效的，因为它本来是链接我保存的另一个网摘note，所以只能麻烦你百度下查看相关链接文章啦。&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_java.pdf&#34;&gt;Java部分&lt;/a&gt; &lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_android.pdf&#34;&gt;Android部分&lt;/a&gt; &lt;a href=&#34;https://hujiaweibujidao.github.io/files/job_network.pdf&#34;&gt;网络部分&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;http://javayhu.me/files/job_java.pdf&#34;&gt;Java部分&lt;/a&gt; &lt;a href=&#34;http://javayhu.me/files/job_android.pdf&#34;&gt;Android部分&lt;/a&gt; &lt;a href=&#34;http://javayhu.me/files/job_network.pdf&#34;&gt;网络部分&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;内容大部分是从书中或者网上摘取的，也并没有全部都测试过，加上小弟才疏学浅，所以难免有误，请大家在下面的评论栏批评指出，谢谢！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/android.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/android.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Interview of Alibaba</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</link>
+      <link>http://javayhu.me/blog/2015/05/07/interview-of-alibaba/</link>
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</guid>
+      <guid>http://javayhu.me/blog/2015/05/07/interview-of-alibaba/</guid>
       <description>&lt;p&gt;阿里实习的事情终于尘埃落定了，自己的坚持也算是有了一份答复，这个过程真的要感谢很多很多人，2015年注定是我遇见我的众多贵人的一年！ &lt;/p&gt;
 
 &lt;p&gt;阿里一直是我想去的公司，在我心中它的Java技术已经完全可以笑傲江湖了，作为一个Java迷，很想有一天能够在牛逼的公司写着最牛逼的Java代码！本科毕业之后，和好友阿Q约好将来一起去阿里，就像大三那年和兄弟小熊约好一起去T大一样。下面就讲(tu)讲(cao)今年找实习的那些事情吧。&lt;/p&gt;
@@ -206,15 +206,15 @@ public class YouAreMySunshine {
 
 &lt;p&gt;经过几天漫长的等待之后，终于接到电话说通过了，然后去参加了圆桌沙龙，认识了几个新朋友，大家以后都是无线事业部的，哈哈哈，加油，一起奋斗！期待暑假实习海豹突击队的时候圆满完成项目！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/ali_yuanzhuoshalong.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/ali_yuanzhuoshalong.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tips about MacBook&#39;s battery health</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</link>
+      <link>http://javayhu.me/blog/2015/02/15/tips-about-macbooks-battery-health/</link>
       <pubDate>Sun, 15 Feb 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
+      <guid>http://javayhu.me/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
       <description>&lt;p&gt;内容摘自Mac上的一个灰常好的免费软件Battery Health中关于保养MacBook的电池寿命的建议，与大家一起分享 &lt;/p&gt;
 
 &lt;p&gt;For any MacBook user, especially those who travel, a long battery life and top notch battery health are vital. The tips below will help ensure you get the most out of your MacBook’s battery over its lifetime.&lt;/p&gt;
@@ -278,10 +278,10 @@ h) Once fully charged, your battery has been properly calibrated.&lt;/p&gt;</des
     
     <item>
       <title>Talk big of West Travelling</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</link>
+      <link>http://javayhu.me/blog/2014/10/24/talk-big-of-west-travelling/</link>
       <pubDate>Fri, 24 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</guid>
+      <guid>http://javayhu.me/blog/2014/10/24/talk-big-of-west-travelling/</guid>
       <description>&lt;p&gt;《大话西游》观后感 &lt;/p&gt;
 
 &lt;p&gt;最近网上关于星爷的话题层出不穷，星爷当年的经典之作《大话西游》也即将重新放映，欠星爷的这两张电影票大家都打算开始还了，不管这次重映谁是最大的受益者，也不管是否和星爷有关，作为星爷的影迷我只希望票房能够大卖！至少可以为当前国产电影做出一个好榜样，不要只追求无谓的哗众取宠，多思考如何通过一部电影让人深思。&lt;/p&gt;
@@ -323,10 +323,10 @@ src=&#34;/music/loveforever-old.mp3&#34;&gt;
     
     <item>
       <title>Download Coursera Courses in the Fastest Way</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</link>
+      <link>http://javayhu.me/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</link>
       <pubDate>Sat, 12 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
+      <guid>http://javayhu.me/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
       <description>&lt;p&gt;下载C站课程资源的方法 &lt;/p&gt;
 
 &lt;p&gt;大家估计都上过C站的课吧？每个人都有自己的学习方式和下载方式，或许是看一节下一节，或者一次性全部下载，或者其他的方式等等。我是一个性子比较急的人，学东西喜欢一次性学完，所以我基本上没有去追C站的课程，都只是开课前加入，结课后我开始下载课程资料然后开始学习，嘿嘿，下面是我个人的C站课程一次性下载一门课程所有课程资源的方式，觉得还行特意共享一下&lt;/p&gt;
@@ -342,10 +342,10 @@ src=&#34;/music/loveforever-old.mp3&#34;&gt;
     
     <item>
       <title>Thanks to 360 CDN</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</link>
+      <link>http://javayhu.me/blog/2014/06/22/thanks-to-360-cdn/</link>
       <pubDate>Sun, 22 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</guid>
+      <guid>http://javayhu.me/blog/2014/06/22/thanks-to-360-cdn/</guid>
       <description>&lt;p&gt;给360前端CDN服务点个赞 &lt;/p&gt;
 
 &lt;p&gt;由于众所周知的原因，最近各种网站(以Google、Dropbox为首)都纷纷被墙，作为码农，简直要了俺们的命根子啊，没办法生在天朝也就只能发发牢骚而已，可是，最令人无奈的是Github也时常被拒之于墙外，这可让我这个把个人博客搭在Github上的小屌丝更是吓得心惊胆战，难道真的是要闭关锁国的节奏吗？&lt;/p&gt;
@@ -397,37 +397,37 @@ inlcude google_analytics.html
     
     <item>
       <title>CSU beautiful scenery</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</link>
+      <link>http://javayhu.me/blog/2014/05/20/csu-beautiful-scenery/</link>
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</guid>
+      <guid>http://javayhu.me/blog/2014/05/20/csu-beautiful-scenery/</guid>
       <description>&lt;p&gt;在CSU经历了四年的青春，感谢母校的培养，感谢曾经一起欢笑的小伙伴们，想你们！ &lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-004.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-005.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-006.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-007.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-008.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-010.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-011.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-012.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-013.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-018.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-029.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-017.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-022.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-023.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-025.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-026.jpg&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/csupictures-032.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-004.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-005.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-006.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-007.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-008.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-010.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-011.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-012.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-013.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-018.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-029.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-017.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-022.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-023.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-025.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-026.jpg&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/pics/csupictures-032.jpg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Love you</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</link>
+      <link>http://javayhu.me/blog/2014/05/18/love-you/</link>
       <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</guid>
+      <guid>http://javayhu.me/blog/2014/05/18/love-you/</guid>
       <description>&lt;p&gt;G.E.M 邓紫棋 翻唱的《喜欢你》，真的太好听了！&lt;/p&gt;
 
 &lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=28949444&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;
@@ -443,13 +443,13 @@ src=&#34;/music/love-you.mp3&#34;&gt;
     
     <item>
       <title>Happy Mother&#39;s Day</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</link>
+      <link>http://javayhu.me/blog/2014/05/10/happy-mothers-day/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</guid>
+      <guid>http://javayhu.me/blog/2014/05/10/happy-mothers-day/</guid>
       <description>&lt;p&gt;老妈，节日快乐！祝您永远幸福健康！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/mothersday.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/mothersday.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;使用的Python代码，&lt;a href=&#34;http://pythontip.sinaapp.com/coding/skulpt/&#34;&gt;源代码来源不记得了，可以看下这里&lt;/a&gt;。&lt;/p&gt;
 
@@ -491,53 +491,53 @@ main()
     
     <item>
       <title>Tsinghua 9ers Pictures</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</link>
+      <link>http://javayhu.me/blog/2014/05/10/tsinghua-9ers-pictures/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
+      <guid>http://javayhu.me/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
       <description>&lt;p&gt;清华9字班毕业生于海童拍摄制作，视频地址&lt;a href=&#34;http://v.youku.com/v_show/id_XNTkwNDYxNjIw/v.swf.html&#34;&gt;优酷视频 时光机：清华园的延时摄影&lt;/a&gt; &lt;/p&gt;
 
 &lt;p&gt;虽不是9字班的，但是在园子里生活了一年多了，感觉很亲切，很梦幻，我要继续努力成为一名真正合格的清华人！&lt;/p&gt;
 
 &lt;p&gt;我希望在这里度过研究生之后，也能无怨无悔地写下“如果研究生重来，我什么都不想改变”！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/dalitang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/dalitang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/erxiaomen.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/erxiaomen.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/hetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/hetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;!--![image](/images/pics/hetangdong.jpeg)--&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/litang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/litang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/qinghuaxuetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/qinghuaxuetang.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/qinghuaxuetangcaihong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/qinghuaxuetangcaihong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/quanjing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/quanjing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/rigui.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/rigui.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;!--![image](/images/pics/shandian.jpeg)--&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/xiaoche.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/xiaoche.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/xingkong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/xingkong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/yekong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/yekong.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/yinyueting.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/yinyueting.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/pics/zijing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/pics/zijing.jpeg&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Wouldn&#39;t it be nice</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</link>
+      <link>http://javayhu.me/blog/2014/04/30/wouldnt-it-be-nice/</link>
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</guid>
+      <guid>http://javayhu.me/blog/2014/04/30/wouldnt-it-be-nice/</guid>
       <description>&lt;p&gt;《向阳处的她》中的歌曲 Wouldn&amp;rsquo;t it be nice，超爱啊 &lt;/p&gt;
 
 &lt;iframe frameborder=&#34;no&#34; border=&#34;0&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; width=330 height=86 src=&#34;http://music.163.com/outchain/player?type=2&amp;id=5042210&amp;auto=1&amp;height=66&#34;&gt;&lt;/iframe&gt;

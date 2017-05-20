@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/python/index.xml</link>
+    <link>http://javayhu.me/tags/python/index.xml</link>
     <description>Recent content in Python on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
-    <atom:link href="https://hujiaweibujidao.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://javayhu.me/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Python Algorithms - C1 Introduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -52,7 +52,7 @@
 
 &lt;p&gt;学习了算法之后可以帮助我们更加高效地解决问题！&lt;/p&gt;
 
-&lt;p&gt;下面是一个简单的线性时间和平方时间的对比例子，后者的运行速度远远慢于后者，为什么呢？这与Python中内置的list的实现机制有关，在前面的数据结构篇中介绍过了，list是类似数组一样的动态表，而不是标准的数组形式，所以对于append操作是常数时间，而对于insert操作是线性时间的！感兴趣的话移步阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;Python数据结构篇3-数据结构&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;下面是一个简单的线性时间和平方时间的对比例子，后者的运行速度远远慢于后者，为什么呢？这与Python中内置的list的实现机制有关，在前面的数据结构篇中介绍过了，list是类似数组一样的动态表，而不是标准的数组形式，所以对于append操作是常数时间，而对于insert操作是线性时间的！感兴趣的话移步阅读&lt;a href=&#34;http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;Python数据结构篇3-数据结构&lt;/a&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from time import *
 t0=time()
@@ -101,15 +101,15 @@ print t2 #3.68582415581
 
 &lt;p&gt;A simple and quite scalable solution would be to sort the characters in each string and compare the results. (In theory, counting the character frequencies, possibly using collections.Counter, would scale even better.) A really poor solution would be to compare all possible orderings of one string with the other. I can’t overstate how poor this solution is; in fact, algorithms don’t get much worse than this. Feel free to code it up, and see how large anagrams you can check. I bet you won’t get far.&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C2 The basics</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
       <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -155,7 +155,7 @@ Tracey: I don’t think they covered that in basic.&lt;br /&gt;
 
 &lt;p&gt;几种常见的运行时间以及算法实例 &lt;a href=&#34;http://zh.wikipedia.org/zh-cn/时间复杂度&#34;&gt;点击这里可以参考下wiki中的时间复杂度&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/complexity.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/complexity.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;3-算法性能评估的经验&#34;&gt;3.算法性能评估的经验&lt;/h4&gt;
 
@@ -165,7 +165,7 @@ Tracey: I don’t think they covered that in basic.&lt;br /&gt;
 
 &lt;p&gt;(2)Tip 2: For timing things, use timeit.&lt;/p&gt;
 
-&lt;p&gt;使用&lt;code&gt;timeit&lt;/code&gt;模块对运行时间进行分析，在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;数据结构篇中第三部分数据结构&lt;/a&gt;的list中已经介绍过了timeit模块，在使用的时候需要注意前面的运行不会影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;timeit&lt;/code&gt;模块对运行时间进行分析，在前面的&lt;a href=&#34;http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;数据结构篇中第三部分数据结构&lt;/a&gt;的list中已经介绍过了timeit模块，在使用的时候需要注意前面的运行不会影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#timeit模块简单使用实例
 timeit.timeit(&amp;quot;x = sum(range(10))&amp;quot;)
@@ -199,7 +199,7 @@ cProfile.run(&#39;re.compile(&amp;quot;foo|bar&amp;quot;)&#39;)
 
 &lt;p&gt;画出算法性能结果图，如下图所示，可以使用的模块有&lt;code&gt;matplotlib&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/plotresult.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/plotresult.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(5)Tip 5: Be careful when drawing conclusions based on timing comparisons.&lt;/p&gt;
 
@@ -228,11 +228,11 @@ cProfile.run(&#39;re.compile(&amp;quot;foo|bar&amp;quot;)&#39;)
 &lt;p&gt;4.在Python中实现树和图&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;[Python中的dict和set]&lt;/strong&gt;&lt;br /&gt;
-Python中很多地方都使用了hash策略，在前面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/&#34;&gt;Python数据结构篇中的搜索部分&lt;/a&gt;已经介绍了hash的内容。Python提供了&lt;code&gt;hash&lt;/code&gt;函数，例如&lt;code&gt;hash(&amp;quot;Hello, world!&amp;quot;)&lt;/code&gt;得到&lt;code&gt;-943387004357456228&lt;/code&gt; (结果不一定相同)。Python中的dict和set都使用了hash机制，所以平均情况下它们获取元素都是常数时间的。&lt;/p&gt;
+Python中很多地方都使用了hash策略，在前面的&lt;a href=&#34;http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/&#34;&gt;Python数据结构篇中的搜索部分&lt;/a&gt;已经介绍了hash的内容。Python提供了&lt;code&gt;hash&lt;/code&gt;函数，例如&lt;code&gt;hash(&amp;quot;Hello, world!&amp;quot;)&lt;/code&gt;得到&lt;code&gt;-943387004357456228&lt;/code&gt; (结果不一定相同)。Python中的dict和set都使用了hash机制，所以平均情况下它们获取元素都是常数时间的。&lt;/p&gt;
 
 &lt;p&gt;(1)图的表示：最常用的两种表示方式是邻接表和邻接矩阵 [假设要表示的图如下]&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/graphrep.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/graphrep.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;邻接表 Adjacency Lists：因为历史原因，邻接表往往都是指链表list，但实际上也可以是其他的，例如在python中也可以是set或者dict，不同的表示方式有各自的优缺点，它们判断节点的连接关系和节点的度的方式甚至两个操作的性能都不太一样。&lt;/p&gt;
 
@@ -353,7 +353,7 @@ sum(1 for w in W[a] if w &amp;lt; inf) - 1  # Degree
 
 &lt;p&gt;(2)树的表示 [假设要表示下面的树]&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/treerep.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/treerep.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;树是一种特殊的图，所以可以使用图的表示方法，但是因为树的特殊性，其实有其他更好的表示方法，最简单的就是直接用一个list即可，缺点也很明显，可读性太差了，相当不直观&lt;/p&gt;
 
@@ -485,15 +485,15 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;The advantages and disadvantages depend on what you’re using it for. It works well for looking up edge weights efficiently but less well for iterating over the graph’s nodes or a node’s neighbors, for example. You could improve that part by using some extra structures (for example, a global list of nodes, if that’s what you need or a simple adjacency list structure, if that’s required).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C3 Counting 101</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
       <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -511,39 +511,39 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;下面是算法导论中的一个求解例子&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/sub1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/sub1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;有意思的是，还有一类问题可以通过变量替换变成容易求解的形式&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/sub2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/sub2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;下面是常用的一些递归式以及它们对应的结果还有实际算法实例&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/sub3.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/sub3.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.递归树法&lt;/p&gt;
 
 &lt;p&gt;这种方法就是通过画递归树，然后对每层进行求和，最后将每层的结果相加得到对总的算法运行时间的估计&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/rectree.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/rectree.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;3.主定理法&lt;/p&gt;
 
 &lt;p&gt;这种方法大家最喜欢，给出了一种就像是公式一样的结论，虽然它没有覆盖所有的情况，而且证明非常复杂，但是很多情况下都是可以直接使用的，还有，需要注意主定理的不同情况下的条件，尤其是多项式大于和多项式小于！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/master.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/master.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;不喜欢本节的可以跳过，不留练习了这次，嘿嘿，想练习的话刷算法导论的题目吧&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C4 Induction and Recursion and Reduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -563,7 +563,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;下面给幅图你就能够明白了，实际上很多时候我们遇到一个问题时都是找一个我们已知的类似的能够解决的问题，然后将这个我们新问题A规约到那个已知的问题B，中间经过一些输入输出的转换，我们就能够解决新问题A了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/reduction1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/reduction1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;• Induction (or, mathematical induction) is used to show that a statement is true for a large class of objects (often the natural numbers). We do this by first showing it to be true for a base case (such as the number 1) and then showing that it “carries over” from one object to the next (if it’s true for n –1, then it’s true for n).&lt;/p&gt;
 
@@ -581,7 +581,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 
 &lt;p&gt;再看下下面这幅图理解Induction和Recursion之间的关系&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/Inductionrecursion.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/Inductionrecursion.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[关于它们三个的关系的原文阐述：Induction and recursion are, in a sense, mirror images of one another, and both can be seen as examples of reduction. To use induction (or recursion), the reduction must (generally) be between instances of the same problem of different sizes. ]&lt;/p&gt;
 
@@ -603,7 +603,7 @@ sum(Decimal(&amp;quot;0.1&amp;quot;) for i in range(10)) == Decimal(&amp;quot;1.
 trav(range(1000)) # RuntimeError: maximum recursion depth exceeded
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;所以呢，很多时候虽然递归的思路更好想，代码也更好写，但是迭代的代码更加高效一些，在动态规划中还可以看到迭代版本还有其他的优点，当然，它还有些缺点，比如要考虑迭代的顺序，如果迫不及待想知道请移步阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;Python算法设计篇之动态规划&lt;/a&gt;，不过还是建议且听我慢慢道来&lt;/p&gt;
+&lt;p&gt;所以呢，很多时候虽然递归的思路更好想，代码也更好写，但是迭代的代码更加高效一些，在动态规划中还可以看到迭代版本还有其他的优点，当然，它还有些缺点，比如要考虑迭代的顺序，如果迫不及待想知道请移步阅读&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;Python算法设计篇之动态规划&lt;/a&gt;，不过还是建议且听我慢慢道来&lt;/p&gt;
 
 &lt;p&gt;下面我们通过排序来梳理下我们前面介绍的三个核心内容&lt;/p&gt;
 
@@ -729,7 +729,7 @@ print naive_celeb(G) #57
 
 &lt;p&gt;下图是一个有向无环图(DAG)和它对应的拓扑排序结果&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/topsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/topsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;拓扑排序这个问题怎么进行reduce呢？和前面一样，我们最直接的想法可能还是reduce one element，即去掉一个节点，先解决剩下的(n-1)个节点的拓扑排序问题，然后将这个去掉的节点插入到合适的位置，这个想法的实现非常类似前面的插入排序，插入的这个节点(也就是前面去掉的节点)的位置是在前面所有对它有依赖的节点之后。&lt;/p&gt;
 
@@ -787,7 +787,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
 
 &lt;p&gt;3.Relaxation and Gradual Improvement&lt;/p&gt;
 
-&lt;p&gt;松弛技术是指某个算法使得当前得到的解有进一步的提升，越来越接近最优解(准确解)，这个技术非常实用，每次松弛可以看作是向最终解前进了“一步”，我们的目标自然是希望松弛的次数越少越好，关键就是要确定松弛的顺序(好的松弛顺序可以让我们直接朝着最优解前进，缩短算法运行时间)，后面要介绍的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/&#34;&gt;图中的Bellman-Ford算法、Dijkstra算法以及DAG图上的最短路径问题都是如此&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;松弛技术是指某个算法使得当前得到的解有进一步的提升，越来越接近最优解(准确解)，这个技术非常实用，每次松弛可以看作是向最终解前进了“一步”，我们的目标自然是希望松弛的次数越少越好，关键就是要确定松弛的顺序(好的松弛顺序可以让我们直接朝着最优解前进，缩短算法运行时间)，后面要介绍的&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/&#34;&gt;图中的Bellman-Ford算法、Dijkstra算法以及DAG图上的最短路径问题都是如此&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;4.Reduction + Contraposition = Hardness Proof&lt;/p&gt;
 
@@ -839,15 +839,15 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
 
 &lt;p&gt;[注意是使用&lt;code&gt;append&lt;/code&gt;然后&lt;code&gt;reverse&lt;/code&gt;，而不要使用&lt;code&gt;insert&lt;/code&gt;]&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C5 Traversal</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
       <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -873,7 +873,7 @@ print naive_topsort(G) # [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;, &#
 
 &lt;p&gt;这里作者举了一个很有意思的例子，一个角色扮演的游戏，如下图所示，我们可以将房间看作是节点，将房间的门看作是节点之间的边，走过的轨迹就是遍历树。这么看的话，房间就分成了三种：(1)我们已经经过的房间；(2)我们已经经过的房间附近的房间，也就是马上可以进入的房间；(3)“黑屋”，我们甚至都不知道它们是否存在，存在的话也不知道在哪里。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dungeon.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dungeon.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;根据上面的分析可以写出下面的遍历函数&lt;code&gt;walk&lt;/code&gt;，其中参数&lt;code&gt;S&lt;/code&gt;暂时没有用，它在后面求强连通分量时需要，表示的是一个“禁区”(forbidden zone)，也就是不要去访问这些节点。&lt;/p&gt;
 
@@ -950,7 +950,7 @@ print [list(sorted(C)) for C in components(G)]  #[[0, 1, 2], [3, 4, 5]]
 
 &lt;p&gt;Here the “keep one hand on the wall” strategy will work nicely. One way of seeing why it works is to observe that the maze really has only one inner wall (or, to put it another way, if you put wallpaper inside it, you could use one continuous strip). Look at the outer square. As long as you’re not allowed to create cycles, any obstacles you draw have to be connected to the it in exactly one place, and this doesn’t create any problems for the left-hand rule. Following this traversal strategy, you’ll discover all nodes and walk every passage twice (once in either direction).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/maze.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/maze.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上面的迷宫实际上就是为了引出深度优先搜索(DFS)，每次到了一个交叉口的时候，可能我们可以向左走，也可以向右走，选择是有不少，但是我们要向一直走下去的话就只能选择其中的一个方向，如果我们发现这个方向走不出去的话，我们就回溯回来，选择一个刚才没选过的方向继续尝试下去。&lt;/p&gt;
 
@@ -1011,13 +1011,13 @@ print list(traverse(G, 0, stack)) #[0, 5, 7, 6, 2, 3, 4, 1]
 
 &lt;p&gt;如果还不清楚的话可以看下算法导论中的这幅DFS示例图，节点的颜色后面有介绍&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dfsexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dfsexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上图在DFS时给节点加上了时间戳，这有什么作用呢？&lt;/p&gt;
 
 &lt;p&gt;前面提到过，在遍历节点的时候如果给节点标注它的发现节点时间d[v]和结束访问时间f[v]的话，从这些时间我们就能够发现一些信息，比如下图，(a)是图的一个DFS遍历加上时间戳后的结果；(b)是如果给每个节点的d[v]到f[v]区间加上一个括号的话，可以看出在DFS遍历中(也就是后来的深度优先树/森林)中所有的节点 u 的后继节点 v 的区间都在节点 u 的区间内部，如果节点 v 不是节点 u 的后继，那么两个节点的区间不相交，这就是“括号定理”。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dfstime.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dfstime.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;加上时间戳的DFS遍历还算比较好写对吧&lt;/p&gt;
 
@@ -1035,7 +1035,7 @@ def dfs(G, s, d, f, S=None, t=0):
 
 &lt;p&gt;除了给节点加上时间戳之外，算法导论在介绍DFS的时候还给节点进行着色，在节点被发现之前是白色的，在发现之后先是灰色的，在结束访问之后才是黑色的，详细的流程可以参考上面给出的算法导论中的那幅DFS示例图。有了颜色有什么用呢？作用大着呢！根据节点的颜色，我们可以对边进行分类！大致可以分为下面四种：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/edgetype.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/edgetype.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;使用DFS对图进行遍历时，对于每条边(u,v)，当该边第一次被发现时，根据到达节点 v 的颜色来对边进行分类(正向边和交叉边不做细分)：&lt;/p&gt;
 
@@ -1047,7 +1047,7 @@ def dfs(G, s, d, f, S=None, t=0):
 
 &lt;p&gt;下图显示了上面介绍括号定理用时的那个图的深度优先树中的所有边的类型，灰色标记的边是深度优先树的树边&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/edgetypeexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/edgetypeexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;那对边进行分类有什么作用呢？作用多着呢！最常见的作用的是判断一个有向图是否存在环，如果对有向图进行DFS遍历发现了反向边，那么一定存在环，反之没有环。此外，对于无向图，如果对它进行DFS遍历，肯定不会出现正向边或者交叉边。&lt;/p&gt;
 
@@ -1055,7 +1055,7 @@ def dfs(G, s, d, f, S=None, t=0):
 
 &lt;p&gt;我们先看下摘自算法导论的这幅拓扑排序示例图，这是某个教授早上起来后要做的事情，嘿嘿&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/topsortdfs.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/topsortdfs.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;不难发现，最终得到的拓扑排序刚好是节点的完成时间f[v]降序排列的！结合前面的括号定理以及依赖关系不难理解，如果我们按照节点的f[v]降序排列，我们就得到了我们想要的拓扑排序了！这就是拓扑排序的另一个解法！[在算法导论中该解法是主要介绍的解法，而我们前面提到的那个解法是在算法导论的习题中出现的]&lt;/p&gt;
 
@@ -1112,7 +1112,7 @@ print bfs(G, 0)
 
 &lt;p&gt;下图是算法导论中的示例图，(a)是对图进行DFS遍历带时间戳的结果；(b)是上图的的转置，也就是将上图中所有边的指向反转过来得到的图；&amp;copy;是最终得到的强连通分支图，每个节点内部显示了该分支内的节点。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/sccexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/sccexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;上面的示例图自然不太好明白到底怎么得到的，我们慢慢来分析三幅图 [原书的分析太多了，我被绕晕了+_+，下面是我结合算法导论的分析过程]&lt;/p&gt;
 
@@ -1166,7 +1166,7 @@ print list(map(list, scc(G)))
 #[[&#39;a&#39;, &#39;c&#39;, &#39;b&#39;, &#39;d&#39;], [&#39;e&#39;, &#39;g&#39;, &#39;f&#39;], [&#39;i&#39;, &#39;h&#39;]]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;[最后作者提到了一点如何进行更加高效的搜索，也就是通过分支限界来实现对搜索树的剪枝，具体使用可以看下这个问题&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/04/13/vertext-cover-problem/&#34;&gt;顶点覆盖问题Vertext Cover Problem&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;[最后作者提到了一点如何进行更加高效的搜索，也就是通过分支限界来实现对搜索树的剪枝，具体使用可以看下这个问题&lt;a href=&#34;http://javayhu.me/blog/2014/04/13/vertext-cover-problem/&#34;&gt;顶点覆盖问题Vertext Cover Problem&lt;/a&gt;]&lt;/p&gt;
 
 &lt;p&gt;问题5.17 强连通分支&lt;/p&gt;
 
@@ -1176,15 +1176,15 @@ print list(map(list, scc(G)))
 
 &lt;p&gt;Try finding a simple example where this would give the wrong answer. (You can do it with a really small graph.)&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C6 Divide and Combine and Conquer</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
       <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1216,7 +1216,7 @@ print list(map(list, scc(G)))
 
 &lt;p&gt;如果从时间复杂度来评价的话，前者是$O(n^2)$的，而后者是$O(n lg n)$的，所以是后者更好些。下图以递归树的形式显示了两种方案的不同&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/balance.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/balance.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.典型的分治法&lt;/p&gt;
 
@@ -1233,7 +1233,7 @@ def divide_and_conquer(S, divide, combine):
 
 &lt;p&gt;用图形来表示如下，上面部分是分(division)，下面部分是合(combination)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dcc.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dcc.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;二分查找是最常用的采用分治策略的算法，我们经常使用的版本控制系统(evision control systems=RCSs)查找代码中发生某个变化是在哪个版本时采用的正是二分查找策略。&lt;/p&gt;
 
@@ -1247,7 +1247,7 @@ print bisect_left(a, 5) #3
 print bisect_right(a, 5) #4
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;二分查找策略很好，但是它有个前提，序列必须是有序的才可以这样做，为了高效地得到中间位置的元素，于是就有了二叉搜索树，这个我们在&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;数据结构篇中已经详细介绍过了&lt;/a&gt;，下面给出一份完整的二叉搜索树的实现，不过多介绍了。&lt;/p&gt;
+&lt;p&gt;二分查找策略很好，但是它有个前提，序列必须是有序的才可以这样做，为了高效地得到中间位置的元素，于是就有了二叉搜索树，这个我们在&lt;a href=&#34;http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;数据结构篇中已经详细介绍过了&lt;/a&gt;，下面给出一份完整的二叉搜索树的实现，不过多介绍了。&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;class Node:
     lft = None
@@ -1297,7 +1297,7 @@ class Tree:                                     # Simple wrapper
 
 &lt;p&gt;[扩展知识：在Python中如果泥需要求前 k 小或者前 k 大的元素，可以使用&lt;code&gt;heapq&lt;/code&gt;模块中的&lt;code&gt;nsmallest&lt;/code&gt;或者&lt;code&gt;nlargest&lt;/code&gt;函数，如果 k 很小的话这种方式会好些，但是如果 k 很大的话，不如直接去调用&lt;code&gt;sort&lt;/code&gt;函数]&lt;/p&gt;
 
-&lt;p&gt;要想解决这个问题，我们还是要用分治法，采用类似快排中的&lt;code&gt;partition&lt;/code&gt;将序列进行划分(divide)，也就是说找一个主元(pivot)，然后用主元作为基准将序列分成两部分，一部分小于主元，另一半大于主元，比较下主元最终的位置值和 k的大小关系，然后确定后面在哪个部分继续进行划分。如果这里不理解的话请移步阅读前面&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/&#34;&gt;数据结构篇之排序中的快速排序&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;要想解决这个问题，我们还是要用分治法，采用类似快排中的&lt;code&gt;partition&lt;/code&gt;将序列进行划分(divide)，也就是说找一个主元(pivot)，然后用主元作为基准将序列分成两部分，一部分小于主元，另一半大于主元，比较下主元最终的位置值和 k的大小关系，然后确定后面在哪个部分继续进行划分。如果这里不理解的话请移步阅读前面&lt;a href=&#34;http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/&#34;&gt;数据结构篇之排序中的快速排序&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;基于上面的想法就有了下面的实现，需要注意的是下面的&lt;code&gt;partition&lt;/code&gt;函数不是就地划分的哟&lt;/p&gt;
 
@@ -1340,7 +1340,7 @@ print ans == seq #True
 
 &lt;p&gt;3.二分排序&lt;/p&gt;
 
-&lt;p&gt;前面我们介绍了二分查找，下面看看如何进行二分排序，这里不再详细介绍快排和合并排序的思想了，如果不理解的话请移步阅读前面&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/&#34;&gt;数据结构篇之排序&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;前面我们介绍了二分查找，下面看看如何进行二分排序，这里不再详细介绍快排和合并排序的思想了，如果不理解的话请移步阅读前面&lt;a href=&#34;http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/&#34;&gt;数据结构篇之排序&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;利用前面的&lt;code&gt;partition&lt;/code&gt;函数快排代码呼之欲出&lt;/p&gt;
 
@@ -1373,7 +1373,7 @@ def mergesort(seq):
 
 &lt;p&gt;[扩展知识：Python内置的排序算法TimSort，看起来好复杂的样子啊，我果断只是略读了一下下]&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/timsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/timsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[&lt;strong&gt;章节最后作者介绍了一些关于树平衡的内容，提到2-3树，我对树平衡不是特别感兴趣，也不是很明白，所以跳过不总结，感兴趣的不妨阅读下&lt;/strong&gt;]&lt;/p&gt;
 
@@ -1386,15 +1386,15 @@ def mergesort(seq):
 &lt;p&gt;The asymptotic running time would be the same. The number of comparison goes up, however. To see this, consider the recurrences B(n) = B(n/2) + 1 and T(n) = T(n/3) + 2 for binary and ternary search, respectively (with base cases B(1) = T(1) = 0 and B(2) = T(2) = 1). You can show (by induction) that
 B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C7 Greedy</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
       <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1464,7 +1464,7 @@ B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
 
 &lt;p&gt;但是，整数背包问题就不能用贪心策略了。整数背包问题还可以分成两种：一种是每类物品数量都是有限的(bounded)，比如只有3个茶杯和2个台灯；还有一种是数量无限的(unbounded)，也就是你想要多少有多少，这两种都不能使用贪心策略。0-1背包问题是典型的第一种整数背包问题，看下算法导论上的这个例子就明白了，在(b)中，虽然物品1单位重量的价值最大，但是任何包含物品1的选择都没有超过选择物品2和物品3得到的最优解220；而&amp;copy;中能达到最大的价值是240。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/knapsack.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/knapsack.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;整数背包问题还没有能够在多项式时间内解决它的算法，下一节我们介绍的动态规划能够解决0-1背包问题，但是是一个伪多项式时间复杂度。[实际时间复杂度是$O(nw)$，n是物品数目，w是书包载重量，严格意义上说这不是一个多项式时间复杂度]&lt;/p&gt;
 
@@ -1476,7 +1476,7 @@ B(n) &amp;lt; lg n + 1 &amp;lt; T(n).&lt;/p&gt;
 
 &lt;p&gt;很自然的一个想法就是，对于权值大的叶子节点我们让它的深度小些(更加靠近根节点)，权值小的让它的深度相对大些，这样的话我们自然就会想着每次取当前权值最小的两个节点将它们组合出一个父节点，一直这样组合下去直到只有一个节点即根节点为止。如下图所示的示例&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/huffmanexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/huffmanexample.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;代码实现比较简单，使用了&lt;code&gt;heapq&lt;/code&gt;模块，树结构是用list来保存的，有意思的是其中&lt;code&gt;zip&lt;/code&gt;函数的使用，其中统计函数&lt;code&gt;count&lt;/code&gt;作为&lt;code&gt;zip&lt;/code&gt;函数的参数，&lt;a href=&#34;https://docs.python.org/2/library/functions.html#zip&#34;&gt;详情见python docs&lt;/a&gt;&lt;/p&gt;
 
@@ -1509,7 +1509,7 @@ print huffman(seq, frq)
 
 &lt;p&gt;细想也就有了一个叶子节点的所有祖先节点们都有一份该叶子节点的值包含在里面，也就是说所有叶子节点的深度与它的值的乘积之和就是所有节点的值之和！可以看下下面的示例图，最终我们知道哈夫曼树就是这个问题的解决方案。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/treedemo.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/treedemo.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[哈夫曼树问题的一个扩展就是最优二叉搜索树问题，后者可以用动态规划算法来求解，感兴趣的话可以阅读算法导论中动态规划部分内容]&lt;/p&gt;
 
@@ -1523,11 +1523,11 @@ print huffman(seq, frq)
 
 &lt;p&gt;Kruskal算法&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/kruskal.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/kruskal.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Prim算法&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/prim.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/prim.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;连通无向图G的生成树是指包含它所有顶点但是部分边的子图，假设每条边都有一个权值，那么权值之和最小的生成树就是最小生成树，它不一定是唯一的。如果图G是非连通的，那么它就没有生成树。&lt;/p&gt;
 
@@ -1693,17 +1693,17 @@ def greedy(E, S, w):
     return T
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;练习：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/20/delete-number-problem/&#34;&gt;试试这道删数问题吧，这里对比了贪心算法和动态规划算法两种解法&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;练习：&lt;a href=&#34;http://javayhu.me/blog/2014/05/20/delete-number-problem/&#34;&gt;试试这道删数问题吧，这里对比了贪心算法和动态规划算法两种解法&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C8 Dynamic Programming</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
       <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1734,7 +1734,7 @@ def greedy(E, S, w):
 
 &lt;p&gt;所以，我们需要改进下，我们保存每次计算出来的子问题的解，用什么保存呢？用Python中的dict！那怎么实现保存子问题的解呢？用Python中的装饰器！&lt;/p&gt;
 
-&lt;p&gt;如果不是很了解Python的装饰器，可以快速看下&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/10/python-tips1/&#34;&gt;这篇总结中关于装饰器的解释：Python Basics&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;如果不是很了解Python的装饰器，可以快速看下&lt;a href=&#34;http://javayhu.me/blog/2014/05/10/python-tips1/&#34;&gt;这篇总结中关于装饰器的解释：Python Basics&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;修改刚才的程序，得到如下代码，定义一个函数&lt;code&gt;memo&lt;/code&gt;返回我们需要的装饰器，这里用&lt;code&gt;cache&lt;/code&gt;保存子问题的解，key是方法的参数，也就是数字&lt;code&gt;n&lt;/code&gt;，值就是&lt;code&gt;fib(n)&lt;/code&gt;返回的解。&lt;/p&gt;
 
@@ -1823,19 +1823,19 @@ print(C[n,k]) #120
 
 &lt;p&gt;杨辉三角大家都熟悉，在国外这个叫&lt;code&gt;Pascal Triangle&lt;/code&gt;，它和二项式系数特别相似，看下图，除了两边的数字之外，里面的任何一个数字都是由它上面相邻的两个元素相加得到，想想&lt;code&gt;C(n,k)=C(n-1,k-1)+C(n-1,k)&lt;/code&gt;不也就是这个含义吗?&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/sanjiao.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/sanjiao.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;所以说，顺序对于迭代版本的动态规划实现很重要，下面举个实例，用动态规划解决有向无环图的单源最短路径问题。假设有如下图所示的图，当然，我们看到的是这个有向无环图经过了拓扑排序之后的结果，从a到f的最短路径用灰色标明了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dag_sp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dag_sp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;好，怎么实现呢?&lt;/p&gt;
 
 &lt;p&gt;我们有两种思考方式：&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;1.&amp;ldquo;去哪里?&amp;ldquo;：我们顺向思维，首先假设从a点出发到所有其他点的距离都是无穷大，然后，按照拓扑排序的顺序，从a点出发，接着更新a点能够到达的其他的点的距离，那么就是b点和f点，b点的距离变成2，f点的距离变成9。因为这个有向无环图是经过了拓扑排序的，所以按照拓扑顺序访问一遍所有的点(到了目标点就可以停止了)就能够得到a点到所有已访问到的点的最短距离，也就是说，当到达哪个点的时候，我们就找到了从a点到该点的最短距离，拓扑排序保证了后面的点不会指向前面的点，所以访问到后面的点时不可能再更新它前面的点的最短距离！(这里的更新也就是&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-induction/&#34;&gt;前面第4节介绍过的relaxtion&lt;/a&gt;)这种思维方式的代码实现就是迭代版本。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.&amp;ldquo;去哪里?&amp;ldquo;：我们顺向思维，首先假设从a点出发到所有其他点的距离都是无穷大，然后，按照拓扑排序的顺序，从a点出发，接着更新a点能够到达的其他的点的距离，那么就是b点和f点，b点的距离变成2，f点的距离变成9。因为这个有向无环图是经过了拓扑排序的，所以按照拓扑顺序访问一遍所有的点(到了目标点就可以停止了)就能够得到a点到所有已访问到的点的最短距离，也就是说，当到达哪个点的时候，我们就找到了从a点到该点的最短距离，拓扑排序保证了后面的点不会指向前面的点，所以访问到后面的点时不可能再更新它前面的点的最短距离！(这里的更新也就是&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms-induction/&#34;&gt;前面第4节介绍过的relaxtion&lt;/a&gt;)这种思维方式的代码实现就是迭代版本。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;[&lt;strong&gt;这里涉及到了拓扑排序，&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/&#34;&gt;前面第5节Traversal中介绍过了&lt;/a&gt;，这里为了方便没看前面的童鞋理解，W直接使用的是经过拓扑排序之后的结果。&lt;/strong&gt;]&lt;/p&gt;
+&lt;p&gt;[&lt;strong&gt;这里涉及到了拓扑排序，&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/&#34;&gt;前面第5节Traversal中介绍过了&lt;/a&gt;，这里为了方便没看前面的童鞋理解，W直接使用的是经过拓扑排序之后的结果。&lt;/strong&gt;]&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;def topsort(W):
     return W
@@ -1857,7 +1857,7 @@ print(dag_sp(W,s,t)) #7
 
 &lt;p&gt;用图来表示计算过程就是下面所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dag_sp_iter.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dag_sp_iter.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;2.&amp;ldquo;从哪里来?&amp;ldquo;：我们逆向思维，目标是要到f，那从a点经过哪个点到f点会近些呢?只能是求解从a点出发能够到达的那些点哪个距离f点更近，这里a点能够到达b点和f点，f点到f点距离是0，但是a到f点的距离是9，可能不是最近的路，所以还要看b点到f点有多近，看b点到f点有多近就是求解从b点出发能够到达的那些点哪个距离f点更近，所以又绕回来了，也就是递归下去，直到我们能够回答从a点经过哪个点到f点会更近。这种思维方式的代码实现就是递归版本。&lt;/strong&gt;&lt;/p&gt;
 
@@ -1889,7 +1889,7 @@ print(rec_dag_sp(W,s,t)) #7
 
 &lt;p&gt;用图来表示计算过程就如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dag_sp_rec.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dag_sp_rec.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[扩展内容：对DAG求单源最短路径的动态规划问题的总结，比较难理解，附上原文]&lt;/p&gt;
 
@@ -1905,13 +1905,13 @@ print(rec_dag_sp(W,s,t)) #7
 ![image](/images/algos/dp_summary.png)
 --&gt;
 
-&lt;p&gt;好，我们差不多搞清楚了动态规划的本质以及两种实现方式的优缺点，下面我们来实践下，举最常用的例子：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/18/matrix-chain/&#34;&gt;矩阵链乘问题，内容较多，所以请点击链接过去阅读完了之后回来看总结&lt;/a&gt;！&lt;/p&gt;
+&lt;p&gt;好，我们差不多搞清楚了动态规划的本质以及两种实现方式的优缺点，下面我们来实践下，举最常用的例子：&lt;a href=&#34;http://javayhu.me/blog/2014/05/18/matrix-chain/&#34;&gt;矩阵链乘问题，内容较多，所以请点击链接过去阅读完了之后回来看总结&lt;/a&gt;！&lt;/p&gt;
 
 &lt;p&gt;OK，希望我把动态规划讲清楚了，总结下：&lt;strong&gt;动态规划其实就是一个连续决策的过程，每次决策我们可能有多种选择(二项式系数和0-1背包问题中我们只有两个选择，DAG图的单源最短路径中我们的选择要看点的出边或者入边，矩阵链乘问题中就是矩阵链可以分开的位置总数&amp;hellip;)，我们每次选择最好的那个作为我们的决策。所以，动态规划的时间复杂度其实和这两者有关，也就是子问题的个数以及子问题的选择个数，一般情况下动态规划算法的时间复杂度就是两者的乘积。&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;动态规划有两种实现方式：一种是带备忘录的递归形式，这种方式直接从原问题出发，遇到子问题就去求解子问题并存储子问题的解，下次遇到的时候直接取出来，问题求解的过程看起来就像是先自顶向下地展开问题，然后自下而上的进行决策；另一个实现方式是迭代方式，这种方式需要考虑如何给定一个子问题的求解方式，使得后面求解规模较大的问题是需要求解的子问题都已经求解好了，它的缺点就是可能有些子问题不要算但是它还是算了，而递归实现方式只会计算它需要求解的子问题。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;练习1：来试试写写最长公共子序列吧，&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/19/longest-common-subsequence/&#34;&gt;这篇文章中给出了Python版本的5种实现方式&lt;/a&gt;哟！&lt;/p&gt;
+&lt;p&gt;练习1：来试试写写最长公共子序列吧，&lt;a href=&#34;http://javayhu.me/blog/2014/05/19/longest-common-subsequence/&#34;&gt;这篇文章中给出了Python版本的5种实现方式&lt;/a&gt;哟！&lt;/p&gt;
 
 &lt;p&gt;练习2：算法导论问题 15-4: Planning a company party 计划一个公司聚会&lt;/p&gt;
 
@@ -1936,15 +1936,15 @@ Professor Stewart is consulting for the president of a corporation that is plann
 
 &lt;p&gt;最后就是求max(dp[root][0], dp[root][1])&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C9 Graphs</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</link>
+      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
+      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
       <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -1980,9 +1980,9 @@ because we’ll never find any shortcuts to improve D[v].&lt;/p&gt;
 
 &lt;p&gt;[最后这个是路径松弛性质，也就是后面的Bellman-Ford算法的核心]&lt;/p&gt;
 
-&lt;p&gt;对于单对节点间最短路径问题，如果每条边的权值都一样(或者说边一样长)的话，使用前面的BFS就可以得到结果了(&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/&#34;&gt;第5节遍历中介绍了&lt;/a&gt;)；如果图是有向无环图，那么我们还可以用前面动规中的DAG最短路径算法来求解(&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;第8节动态规划中介绍了&lt;/a&gt;)，但是，现实中的图总是有环的，边的权值也总是不同，而且可能有负权值，所以我们还需要其他的算法！&lt;/p&gt;
+&lt;p&gt;对于单对节点间最短路径问题，如果每条边的权值都一样(或者说边一样长)的话，使用前面的BFS就可以得到结果了(&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/&#34;&gt;第5节遍历中介绍了&lt;/a&gt;)；如果图是有向无环图，那么我们还可以用前面动规中的DAG最短路径算法来求解(&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;第8节动态规划中介绍了&lt;/a&gt;)，但是，现实中的图总是有环的，边的权值也总是不同，而且可能有负权值，所以我们还需要其他的算法！&lt;/p&gt;
 
-&lt;p&gt;首先我们来实现下&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-induction/&#34;&gt;之前学过的松弛技术relaxtion&lt;/a&gt;，代码中D保存各个节点到源点的距离值估计(上界值)，P保存节点的最短路径上的前驱节点，W保存边的权值，其中不存在的边的权值为inf。松弛就是说，假设节点 u 和节点 v 事先都有一个最短距离的估计(例如测试代码中的7和13)，如果现在要松弛边(u,v)，也就是对从节点 u 通过边(u,v)到达节点 v，将这条路径得到节点 v 的距离估计值(7+3=10)和原来的节点 v 的距离估计值(13)进行比较，如果前者更小的话，就表示我们可以放弃在这之前确定的从源点到节点 v 的最短路径，改成从源点到节点 u，然后节点 u 再到节点 v，这条路线距离会更短些，这也就是发生了一次松弛！(测试代码中10&amp;lt;13，所以要进行松弛，此时D[v]变成10，而它的前驱节点也变成了 u)&lt;/p&gt;
+&lt;p&gt;首先我们来实现下&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms-induction/&#34;&gt;之前学过的松弛技术relaxtion&lt;/a&gt;，代码中D保存各个节点到源点的距离值估计(上界值)，P保存节点的最短路径上的前驱节点，W保存边的权值，其中不存在的边的权值为inf。松弛就是说，假设节点 u 和节点 v 事先都有一个最短距离的估计(例如测试代码中的7和13)，如果现在要松弛边(u,v)，也就是对从节点 u 通过边(u,v)到达节点 v，将这条路径得到节点 v 的距离估计值(7+3=10)和原来的节点 v 的距离估计值(13)进行比较，如果前者更小的话，就表示我们可以放弃在这之前确定的从源点到节点 v 的最短路径，改成从源点到节点 u，然后节点 u 再到节点 v，这条路线距离会更短些，这也就是发生了一次松弛！(测试代码中10&amp;lt;13，所以要进行松弛，此时D[v]变成10，而它的前驱节点也变成了 u)&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#relaxtion
 inf = float(&#39;inf&#39;)
@@ -2017,7 +2017,7 @@ print D[v] # 8
 
 &lt;p&gt;下面看下算法导论上的Bellman-Ford算法的示例图&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bellmanford.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/bellmanford.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[上图的解释，需要注意的是，如果边的松弛顺序不同，可能中间得到的结果不同，但是最后的结果都是一样的：The execution of the Bellman-Ford algorithm. The source is vertex s. The d values are shown within the vertices, and shaded edges indicate predecessor values: if edge (u, v) is shaded, then π[v] = u. In this particular example, each pass relaxes the edges in the order (t, x), (t, y), (t, z), (x, t), (y, x), (y, z), (z, x), (z, s), (s, t), (s, y). (a) The situation just before the first pass over the edges. (b)-(e) The situation after each successive pass over the edges. The d and π values in part (e) are the final values. The Bellman-Ford algorithm returns TRUE in this example.]&lt;/p&gt;
 
@@ -2061,7 +2061,7 @@ print bellman_ford(W, s)
 
 &lt;p&gt;这里还是假设从源点 s 到节点 v 的最短路径是&lt;code&gt;p=&amp;lt;v0, v1, v2, v3 ... vk&amp;gt;&lt;/code&gt;，此时v0=s, vk=v，如果我们到达了节点 v，那么说明源点 s 和节点 v 之间的那些点都已经经过了(节点是经过了拓扑排序的哟)，而且它们的边也都已经松弛过了，所以根据路径松弛性质可以知道当我们到达节点 v 时我们能够直接得到源点 s 到节点 v 的最短路径值。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dagsp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dagsp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[上图的解释：The execution of the algorithm for shortest paths in a directed acyclic graph. The vertices are topologically sorted from left to right. The source vertex is s. The d values are shown within the vertices, and shaded edges indicate the π values. (a) The situation before the first iteration of the for loop of lines 3-5. (b)-(g) The situation after each iteration of the for loop of lines 3-5. The newly blackened vertex in each iteration was used as u in that iteration. The values shown in part (g) are the final values.]&lt;/p&gt;
 
@@ -2071,7 +2071,7 @@ print bellman_ford(W, s)
 
 &lt;p&gt;作者下面的解释中提到的图9-1&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dijkstra0.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dijkstra0.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;To get thing started, we can imagine that we already know the distances from the start node to each of the others. We don’t, of course, but this imaginary situation can help our reasoning. Imagine ordering the nodes, left to right, based on their distance. What happens? For the general case—not much. However, we’re assuming that we have no negative edge weights, and that makes all the difference.&lt;/p&gt;
 
@@ -2087,7 +2087,7 @@ print bellman_ford(W, s)
 
 &lt;p&gt;下图是算法导论中Dijkstra算法的示例图，可以参考下&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/dijkstra.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/dijkstra.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[上图的解释：The execution of Dijkstra&amp;rsquo;s algorithm. The source s is the leftmost vertex. The shortest-path estimates are shown within the vertices, and shaded edges indicate predecessor values. Black vertices are in the set S, and white vertices are in the min-priority queue Q = V - S. (a) The situation just before the first iteration of the while loop of lines 4-8. The shaded vertex has the minimum d value and is chosen as vertex u in line 5. (b)-(f) The situation after each successive iteration of the while loop. The shaded vertex in each part is chosen as vertex u in line 5 of the next iteration. The d and π values shown in part (f) are the final values.]&lt;/p&gt;
 
@@ -2190,7 +2190,7 @@ print [D[e][v] for v in [a, b, c, d, e]] # [1, -3, 2, -4, 0]
 
 &lt;p&gt;这个子问题怎么考虑呢？当然还是采用之前动态规划中常用的选择还是不选择这种策略，如果我们选择不经过节点 k 的话，那么问题变成了求从起点 u 到终点 v 只能够经过编号为(1,2,3,&amp;hellip;,k-1)的节点的最短路径问题；如果我们选择经过节点 k 的话，那么问题变成求从起点 u 到终点 k 只能够经过编号为(1,2,3,&amp;hellip;,k-1)的节点的最短路径问题与求从起点 k 到终点 v 只能够经过编号为(1,2,3,&amp;hellip;,k-1)的节点的最短路径问题之和，如下图所示&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/fw0.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/fw0.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;经过上面的分析，我们可以得到下面的结论&lt;/p&gt;
 
@@ -2238,7 +2238,7 @@ print [D[d,v] for v in [a, b, c, d, e]] # [5, 1, 6, 0, 8]
 print [D[e,v] for v in [a, b, c, d, e]] # [1, -3, 2, -4, 0]
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;仔细看的话，不难发现这个解法和我们介绍动态规划时介绍的最长公共子序列的问题非常类似，&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/19/longest-common-subsequence/&#34;&gt;如果还没有阅读的话不妨看下最长公共子序列问题的5种实现这篇文章&lt;/a&gt;，有了对最长公共子序列问题的理解，我们就很容易发现对于Floyd-Warshall算法我们也可以采用类似的方式来减小算法所需占用的空间，当然首先要将递归版本改成性能更好些的迭代版本。&lt;/p&gt;
+&lt;p&gt;仔细看的话，不难发现这个解法和我们介绍动态规划时介绍的最长公共子序列的问题非常类似，&lt;a href=&#34;http://javayhu.me/blog/2014/05/19/longest-common-subsequence/&#34;&gt;如果还没有阅读的话不妨看下最长公共子序列问题的5种实现这篇文章&lt;/a&gt;，有了对最长公共子序列问题的理解，我们就很容易发现对于Floyd-Warshall算法我们也可以采用类似的方式来减小算法所需占用的空间，当然首先要将递归版本改成性能更好些的迭代版本。&lt;/p&gt;
 
 &lt;p&gt;Floyd-Warshall算法的递推公式&lt;/p&gt;
 
@@ -2336,7 +2336,7 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
 
 &lt;p&gt;简单来说就是双向进行，Dijkstra算法是从节点 u 出发去找到达节点 v 的最短路径，但是，如果两个节点同时进行呢，当它们找到相同的节点时就得到一条路径了，这种方式比一个方向查找的效率要高些，下图是一个图示&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/meetinmiddle.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/meetinmiddle.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(2)Knowing where you’re going&lt;/p&gt;
 
@@ -2348,22 +2348,22 @@ print [P[e,v] for v in [a, b, c, d, e]]#[1, 2, 3, 4, None]
 
 &lt;p&gt;练习题：来自算法导论24-3 货币兑换问题&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfex.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/bfex.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;简单来说就是在给定的不同货币的兑换率下是否存在一个货币兑换循环使得最终我们能够从中获利？[提示：Bellman-Ford算法]&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans1.png&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/algos/bfans2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/algos/bfans1.png&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/algos/bfans2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;返回&lt;a href=&#34;https://hujiaweibujidao.github.io/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;返回&lt;a href=&#34;http://javayhu.me/python/&#34;&gt;Python数据结构与算法设计篇目录&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Basics</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</link>
+      <link>http://javayhu.me/blog/2014/05/10/python-basics/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
+      <guid>http://javayhu.me/blog/2014/05/10/python-basics/</guid>
       <description>&lt;p&gt;Python代码片段 &lt;/p&gt;
 
 &lt;p&gt;1.使用&lt;code&gt;glob&lt;/code&gt;模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list&lt;/p&gt;
@@ -2728,10 +2728,10 @@ print lst
     
     <item>
       <title>Python Data Structures - C4 Trees</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</link>
+      <link>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</link>
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
+      <guid>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</guid>
       <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
@@ -2745,7 +2745,7 @@ Chapter 6 Trees and Tree Algorithms&lt;br /&gt;
 
 &lt;p&gt;难点在于删除节点的操作(下面摘自wiki)：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_del_wiki.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_del_wiki.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;引用开始&lt;/strong&gt; [一份不错的讲解&lt;a href=&#34;http://www.cnblogs.com/Anker/archive/2013/01/28/2880581.html&#34;&gt;来自博客园&lt;/a&gt;]&lt;/p&gt;
 
@@ -2755,7 +2755,7 @@ Chapter 6 Trees and Tree Algorithms&lt;br /&gt;
 
 &lt;p&gt;查找前驱步骤：先判断x是否有左子树，如果有则在left[x]中查找关键字最大的结点，即是x的前驱。如果没有左子树，则从x继续向上执行此操作，直到遇到某个结点是其父节点的右孩子结点，&lt;strong&gt;此时该父节点就是前驱&lt;/strong&gt;。例如下图查找结点7的前驱结点6过程：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_pre.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_pre.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;伪代码&lt;/p&gt;
 
@@ -2771,7 +2771,7 @@ Chapter 6 Trees and Tree Algorithms&lt;br /&gt;
 
 &lt;p&gt;查找后继步骤：先判断x是否有右子树，如果有则在right[x]中查找关键字最小的结点，即使x的后继。如果没有右子树，则从x的父节点开始向上查找，直到遇到某个结点是其父结点的左儿子的结点时为止，&lt;strong&gt;此时该父节点就是后继&lt;/strong&gt;。例如下图查找结点13的后继结点15的过程：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_later.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_later.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;伪代码&lt;/p&gt;
 
@@ -2789,17 +2789,17 @@ Chapter 6 Trees and Tree Algorithms&lt;br /&gt;
 
 &lt;p&gt;(1)结点z没有左右子树，则修改其父节点p[z]，&lt;strong&gt;删除父节点对它的链接&lt;/strong&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_del1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_del1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(2)如果结点z只有一个子树（左子树或者右子树），通过在其子结点与父节点建立一条链接来删除z。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_del2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_del2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(3)如果z有两个子女，则先删除z的后继y(y没有左孩子)，再用y的内容来替代z的内容。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;[博主提示：这里找到z的后继就是利用上面的查找后继的方法，根据wiki也可以是用z的前驱来替换。另外，删除后继和替换内容的操作其实也可以反过来，保证数据不丢失就行了]&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_del3.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_del3.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;引用结束&lt;/strong&gt;&lt;/p&gt;
 
@@ -2846,7 +2846,7 @@ def binary_tree_delete(self, key):
 
 &lt;p&gt;如果原始的列表是基本有序的，那么得到的二叉树会变成一个扭曲的二叉树，性能就相当于一个链表了。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_worst.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_worst.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;8.平衡二叉查找树：为了避免得到前面提到的扭曲的二叉查找树，于是就有了平衡二叉查找树的概念。&lt;/p&gt;
 
@@ -2854,52 +2854,52 @@ def binary_tree_delete(self, key):
 
 &lt;p&gt;AVL树的基本操作的实现&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_operations.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_operations.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;如何进行旋转&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_rotate.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_rotate.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;旋转的实现描述&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_rotatedetails.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_rotatedetails.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://zhuyanfeng.com/archives/743&#34;&gt;这篇文章对AVL树的讲解很好，并使用C++语言进行实现&lt;/a&gt;以及&lt;a href=&#34;http://zhuyanfeng.com/archives/716&#34;&gt;另一篇文章&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/Trees/balanced.html&#34;&gt;参考内容1关于AVL树的讲解&lt;/a&gt; &amp;mdash;&amp;gt; &lt;a href=&#34;https://hujiaweibujidao.github.io/files/avltree.pdf&#34;&gt;如果访问较慢可以点击这里下载&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://interactivepython.org/courselib/static/pythonds/Trees/balanced.html&#34;&gt;参考内容1关于AVL树的讲解&lt;/a&gt; &amp;mdash;&amp;gt; &lt;a href=&#34;http://javayhu.me/files/avltree.pdf&#34;&gt;如果访问较慢可以点击这里下载&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;(1)平衡因子：左子树与右子树的高度之差&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_bf.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_bf.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(2)分析为什么AVL树能够对查找，插入，删除操作都达到$O(logn)$的效率&lt;/p&gt;
 
 &lt;p&gt;推理当中关于斐波那契数列在N很大的时候后项与前项之商接近黄金分割比的内容可参见&lt;a href=&#34;http://zh.wikipedia.org/wiki/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B8&#34;&gt;斐波那契数列on_wiki&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl1.png&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl1.png&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/avl2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(3)左旋，右旋以及左右旋和右左旋&lt;/p&gt;
 
 &lt;p&gt;左旋：如果新的根节点有左孩子结点，那么左孩子结点就成为原来的根节点的右孩子结点&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_left.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_left.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;右旋：如果新的根节点有右孩子结点，那么右孩子结点就成为原来的根节点的左孩子结点&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_right.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_right.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;一种特殊的情况，单一的左旋和右旋都不行，不停地重复交替，所以需要左右旋(或者右左旋)&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_leftright.png&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_leftright2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_leftright.png&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/avl_leftright2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;(4)如何在不重新计算子树的高度情况下修改旋转前的根节点和旋转后的根节点的平衡因子值&lt;/p&gt;
 
 &lt;p&gt;下面是左旋的例子&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_rebal1.png&#34; alt=&#34;image&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/avl_rebal2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/avl_rebal1.png&#34; alt=&#34;image&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/avl_rebal2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;python代码实现[参考内容1未给出完整代码，下面代码是我自己补充的，添加了测试，如果有误请回复我]&lt;/p&gt;
 
@@ -3257,17 +3257,17 @@ mytree.levelorder(mytree.root)
 
 &lt;p&gt;对于我给定的测试数据，对应得到的二叉查找树和AVL树如下图所示，二叉查找树明显不平衡，AVL树中所有节点的平衡因子为0或者1，在构造的过程中，共发生了一次左旋和一次右旋。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bst_avl.png&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bst_avl.png&#34; alt=&#34;images&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;[本人能力有限，因为使用的次数不多所以对于AVL树还未有深刻的理解，如果有深刻理解之后会对此处内容及代码进行更新]&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C3 Data Structures</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
+      <link>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
+      <guid>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
       <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
@@ -3284,7 +3284,7 @@ Chapter 6 Trees and Tree Algorithms&lt;br /&gt;
 &lt;p&gt;(1)List&lt;br /&gt;
 List的各个操作的时间复杂度&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/listoptime.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/listoptime.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;同样是执行1000次创建一个包含1-1000的列表，四种方式使用的时间差距很大！使用append比逐次增加要快很多，另外，使用python的列表产生式比append要快，而第四种方式更加快！&lt;/p&gt;
 
@@ -3323,7 +3323,7 @@ print(&amp;quot;list range &amp;quot;,t4.timeit(number=1000), &amp;quot;millisec
 
 &lt;p&gt;&lt;code&gt;timeit&lt;/code&gt;模块的解释：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/timeit.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/timeit.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;测试pop操作：从结果可以看出，pop最后一个元素的效率远远高于pop第一个元素&lt;/p&gt;
 
@@ -3348,7 +3348,7 @@ print(&amp;quot;pop_end &amp;quot;,pop_end.timeit(number=1000), &amp;quot;millis
 
 &lt;p&gt;Dictionary的各个操作的性能&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/dictionary.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/dictionary.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Dictionary和List的性能比较：list基本上随着其元素的数目呈线性增长，而dictionary一直维持在很短很短的时间内(我的机子测试的结果都是&lt;code&gt;0.001ms&lt;/code&gt;)。Dictionary类似Java中的&lt;code&gt;HashMap&lt;/code&gt;，内部实现使用了前面提到的hash函数，所以查找和删除都是常数时间的。&lt;/p&gt;
 
@@ -3366,13 +3366,13 @@ for i in range(10000,1000001,20000):
 
 &lt;p&gt;结果图&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/compare.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/compare.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.栈：LIFO结构，后进先出&lt;/p&gt;
 
 &lt;p&gt;栈能解决的问题很多，比如逆波兰表达式求值，求一个十进制数的二进制表达，检查括号匹配问题以及图的深度搜索等等，都很简单，可查看参考内容1学习。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/stack.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/stack.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Completed implementation of a stack ADT
 class Stack:
@@ -3407,7 +3407,7 @@ print(s.size())
 
 &lt;p&gt;队列一般用于解决需要优先队列的问题或者进行广度优先搜索的问题，也很简单。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/queue.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/queue.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# Completed implementation of a queue ADT
 class Queue:
@@ -3433,7 +3433,7 @@ print(q.items)
 
 &lt;p&gt;4.双向队列：左右两边都可以插入和删除的队列&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/deque.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/deque.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;下面的实现是以右端为front，左端为rear&lt;/p&gt;
 
@@ -3467,7 +3467,7 @@ print(dq.items)
 
 &lt;p&gt;二叉树的应用很多，比如对算术表达式建立一颗二叉树可以清楚看出表达式是如何计算的(详情请见参考内容1)，二叉树的变种可以得到其他的有一定特性的数据结构，例如后面的二叉堆。二叉树的三种遍历方法(前序，中序，后序)同样有很多的应用，比较简单，略过。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bt2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bt2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;第一种，直接使用list来实现二叉树，可读性差&lt;/p&gt;
 
@@ -3515,7 +3515,7 @@ print(get_right_child(get_right_child(r)))
 
 &lt;p&gt;第二种，使用类的形式定义二叉树，可读性更好&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/btclass.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/btclass.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;class BinaryTree:
     def __init__(self, root):
@@ -3562,17 +3562,17 @@ print(r.get_right_child().get_root_val())
 
 &lt;p&gt;它的插入操作图示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/heapinsert.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/heapinsert.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;去除根节点的操作图示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/heapdel.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/heapdel.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;注意，下面的实现中默认在初始的堆列表中插入了一个元素0，这样做可以保证堆的真实有效的元素个数和current_size值对应，而且最后一个元素的索引就对应了current_size。&lt;/p&gt;
 
 &lt;p&gt;此外，从list中建堆的过程需要从最后一个非叶子节点开始到第一个非叶子节点(根节点)进行。这篇文章&lt;a href=&#34;http://www.cnblogs.com/Anker/archive/2013/01/23/2873422.html&#34;&gt;来自博客园&lt;/a&gt;解释了这个问题。建堆的过程如下：[下图摘自原博客，版权归原作者，谢谢]&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/heapbuild.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/heapbuild.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;class BinHeap:
     def __init__(self):
@@ -3635,15 +3635,15 @@ print(bh.heap_list)
 print(bh.current_size)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;关于二叉查找树等内容请见&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;树的总结&lt;/a&gt;。&lt;/p&gt;</description>
+&lt;p&gt;关于二叉查找树等内容请见&lt;a href=&#34;http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/&#34;&gt;树的总结&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C2 Sort</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</link>
+      <link>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
+      <guid>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</guid>
       <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
@@ -3657,7 +3657,7 @@ Chapter5: Search and Sorting &lt;a href=&#34;http://interactivepython.org/course
 
 &lt;p&gt;&lt;strong&gt;Python支持对两个数字同时进行交换！&lt;code&gt;a,b = b,a&lt;/code&gt;就可以交换a和b的值了。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/bubblesort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/bubblesort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def short_bubble_sort(a_list):
     exchanges = True
@@ -3682,7 +3682,7 @@ if __name__ == &#39;__main__&#39;:
 
 &lt;p&gt;2.选择排序(selection sort)：每个回合都选择出剩下的元素中最大的那个，选择的方法是首先默认第一元素是最大的，如果后面的元素比它大的话，那就更新剩下的最大的元素值，找到剩下元素中最大的之后将它放入到合适的位置就行了。和冒泡排序类似，只是找剩下的元素中最大的方式不同而已。时间复杂度$O(n^2)$&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/selectionsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/selectionsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;def selection_sort(a_list):
     for fill_slot in range(len(a_list) - 1, 0, -1):
@@ -3703,7 +3703,7 @@ print(a_list)
 
 &lt;p&gt;3.插入排序(insertion sort)：每次假设前面的元素都是已经排好序了的，然后将当前位置的元素插入到原来的序列中，为了尽快地查找合适的插入位置，可以使用二分查找。时间复杂度$O(n^2)$，别误以为二分查找可以降低它的复杂度，因为插入排序还需要移动元素的操作！&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/insertionsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/insertionsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def insertion_sort(a_list):
     for index in range(1, len(a_list)):
@@ -3742,9 +3742,9 @@ print(a_list)
 
 &lt;p&gt;4.合并排序(merge sort)：典型的是二路合并排序，将原始数据集分成两部分(不一定能够均分)，分别对它们进行排序，然后将排序后的子数据集进行合并，这是典型的分治法策略。时间复杂度$O(nlogn)$&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/mergesort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/mergesort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/mergesort2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/mergesort2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def merge_sort(a_list):
     print(&amp;quot;Splitting &amp;quot;, a_list)
@@ -3837,7 +3837,7 @@ int mergeInversions(int arr[], int p, int q, int r){
 
 &lt;p&gt;想法一：如下图所示，它选择第一个元素作为主元，它同样可以按照下面提到的算法导论中将数组分成了4个不同的部分，但是这里其实有更好的解释方法。&lt;strong&gt;首先，它每次都是选择第一个元素都为主元，这个回合就是要确定主元的位置；然后，有两个指针，一个leftmark指向主元的后面一个位置，另一个rightmark指向要排序的数组最后一个元素；接着，两个指针分别向中间移动，leftmark遇到比主元大的元素停止，rightmark遇到比主元小的元素停止，如果此时leftmark&amp;lt;rightmark，也就是说中间还有未处理(未确定与主元大小关系)的元素，那么就交换leftmark和rightmark位置上的元素，然后重复刚才的移动操作，直到rightmark&amp;lt;leftmark；最后，停止移动时候rightmark就是主元要放置的位置，因为它停在一个比主元小的元素的位置上，之后交换主元和rightmark指向的元素即可。完了之后，递归地对主元左右两边的数组进行排序即可。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/quicksort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/quicksort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def quick_sort(a_list):
     quick_sort_helper(a_list, 0, len(a_list) - 1)
@@ -3883,7 +3883,7 @@ print(a_list)
 
 &lt;p&gt;&lt;strong&gt;首先，让i指向要排序的数组的第一个元素的前面，p和j都指向第一个元素；然后，一直移动j直到主元前一个位置，一旦发现一个小于主元的元素就让i指向它的下一个位置，然后交换i和j对应位置上的元素。这样一定是可行的，因为i一直都是指向已发现的小于主元的元素中的最后一个，从i+1开始就大于主元了(或者还未确定/未处理)，而j一直都是指向大于主元的元素中最后一个的后面一个位置，所以i+1和j位置上的元素交换就可以使得j发现的这个小于主元的元素移动到第一部分，而i+1位置上大于主元的元素移动到j的位置上，即第二部分的最后一个位置上。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/quicksort_cn.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/quicksort_cn.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;根据算法导论中的伪代码的C++版本实现&lt;/p&gt;
 
@@ -3941,9 +3941,9 @@ int main(int argc, const char * argv[])
 
 &lt;p&gt;6.希尔排序：类似合并排序和插入排序的结合体，二路合并排序将原来的数组分成左右两部分，希尔排序则将数组按照一定的间隔分成几部分，每部分采用插入排序来排序，有意思的是这样做了之后，元素很多情况下就差不多在它应该呆的位置，所以效率不一定比插入排序差。时间复杂度为$[O(n),O(n^2)]$。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/shellsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/shellsort.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/shellsort2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/shellsort2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def shell_sort(a_list):
     #how many sublists, also how many elements in a sublist
@@ -3970,7 +3970,7 @@ shell_sort(a_list)
 print(a_list)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;7.堆排序请参见该系列文章中的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;DataStrctures章节中的二叉堆部分的内容&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;7.堆排序请参见该系列文章中的&lt;a href=&#34;http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/&#34;&gt;DataStrctures章节中的二叉堆部分的内容&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;8.其他线性排序可以参见算法导论第8章或者看下&lt;a href=&#34;http://www.cnblogs.com/Anker/archive/2013/01/25/2876397.html&#34;&gt;这篇不错的文章&lt;/a&gt;&lt;/p&gt;
 
@@ -3978,7 +3978,7 @@ print(a_list)
 
 &lt;p&gt;计数排序：在数的范围很小时还是不错的，当数的范围很大的时候就不适用了，计数排序一般用于基数排序中。需要注意的是，计数完了之后进行插入时，为了保证排序的稳定性，需要从后往前插入。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/sortcount.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/sortcount.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;下面是计数排序的python实现，摘自&lt;a href=&#34;http://link.springer.com/book/10.1007%2F978-1-4302-3238-4&#34;&gt;Python Algorithms: Mastering Basic Algorithms in the Python Language&lt;/a&gt;&lt;/p&gt;
 
@@ -3997,21 +3997,21 @@ seq = counting_sort(seq)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;基数排序：因为每位上的数字范围一般都是有限的，所以常配合使用计数排序对每位进行排序。
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/sortradix.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://javayhu.me/images/sortradix.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;桶排序：适用于元素是均匀分布的，在每个桶内采用插入排序。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/sortbucket.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/sortbucket.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/&#34;&gt;Python算法设计篇之Induction&amp;amp;Recursion&amp;amp;Reduction&lt;/a&gt;&lt;/p&gt;</description>
+&lt;p&gt;本节只是对各种排序进行一个介绍然后用python实现而已，更加详细地解释各种排序的内部思想的内容可以参见后面的&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/&#34;&gt;Python算法设计篇之Induction&amp;amp;Recursion&amp;amp;Reduction&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C1 Search</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</link>
+      <link>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</link>
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
+      <guid>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</guid>
       <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;
 
 &lt;p&gt;参考内容：&lt;br /&gt;
@@ -4027,33 +4027,33 @@ Chapter5: Search and Sorting &lt;a href=&#34;http://interactivepython.org/course
 
 &lt;p&gt;概念：hash，hash table，hash function &lt;a href=&#34;http://zh.wikipedia.org/wiki/%E5%93%88%E5%B8%8C%E8%A1%A8#.E5.A4.84.E7.90.86.E7.A2.B0.E6.92.9E&#34;&gt;哈希表_on_wiki&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/hashbasics.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/hashbasics.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;常用的哈希函数：&lt;/p&gt;
 
 &lt;p&gt;1.reminder method：取余数（size=11，下图对11取余数，例如17取余数得到6）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/reminder.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/reminder.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.folding method: 分组求和再取余数&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/folding.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/folding.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;3.mid-square method：平方值的中间两位数取余数&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/mid-square.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/mid-square.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;4.对于由字符的元素可以尝试使用&lt;code&gt;ord&lt;/code&gt;函数来将字符串转换成一个有序的数值序列。在Python中&lt;code&gt;ord&lt;/code&gt;函数可以得到对应字符的ASCII码值。将所有字符的码值累加再取余数。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/stringord1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/stringord1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;但是，对于通过回文构词法构成的字符串它们得到的值总是一样，为了解决这个问题，可以根据字符的位置添加一个权重。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/stringord2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/stringord2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;From wiki&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/hashfun.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/hashfun.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;使用哈希查找，难免遇到冲突，该如何解决冲突(Collision Resolution)呢？&lt;/p&gt;
 
@@ -4061,19 +4061,19 @@ Chapter5: Search and Sorting &lt;a href=&#34;http://interactivepython.org/course
 
 &lt;p&gt;1.open address(开放寻址)：线性探测(linear probing)下一个位置，缺点是容易造成聚集现象(cluster)，解决聚集现象的办法是跳跃式地查找下一个空槽。数值的顺序：(54, 26, 93, 17, 77, 31, 44, 55, 20).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/linearprob.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/linearprob.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.quadratic probing(平方探测)：一开始的hash值为h，如果不是空槽，那就尝试h+1，还不是空槽就尝试h+4，依次继续尝试h+9，h+16等等。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/quadraticprob.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/quadraticprob.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;3.chain：利用链表链接起来&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/chain.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/chain.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;From wiki&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/hashcollision.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/hashcollision.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;分析hash查找的性能：一般使用平均查找长度来衡量，和装载因子有关&lt;/p&gt;
 
@@ -4083,11 +4083,11 @@ $\alpha$是散列表装满程度的标志因子。由于表长是定值，$\alph
 对于开放定址法，荷载因子是特别重要因素，应严格限制在0.7-0.8以下。超过0.8，查表时的CPU缓存不命中（cache missing）按照指数曲线上升。因此，一些采用开放定址法的hash库，如Java的系统库限制了荷载因子为0.75，超过此值将resize散列表。&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/hashanalysis.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/hashanalysis.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;From wiki&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/hashefficiency.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/hashefficiency.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;下面的代码包含了顺序查找，二分查找，哈希查找(size=11, plus 1, reminder method)&lt;/p&gt;
 

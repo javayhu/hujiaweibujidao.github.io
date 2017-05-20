@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Dev on Hujiawei Bujidao</title>
-    <link>https://hujiaweibujidao.github.io/tags/dev/index.xml</link>
+    <link>http://javayhu.me/tags/dev/index.xml</link>
     <description>Recent content in Dev on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
-    <atom:link href="https://hujiaweibujidao.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://javayhu.me/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Learning Git by Animations</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
+      <link>http://javayhu.me/blog/2016/05/20/learning-git-by-animations/</link>
       <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
+      <guid>http://javayhu.me/blog/2016/05/20/learning-git-by-animations/</guid>
       <description>&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;
 
 &lt;h3 id=&#34;head&#34;&gt;HEAD&lt;/h3&gt;
@@ -29,7 +29,7 @@
 
 &lt;p&gt;如下图，左边执行&lt;code&gt;git checkout C1&lt;/code&gt;，中间执行&lt;code&gt;git checkout master^&lt;/code&gt;，右边执行&lt;code&gt;git checkout HEAD~4&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_head.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;多个父提交&lt;/strong&gt;：当有多个父提交记录的时候，该如何移动HEAD呢？&lt;/p&gt;
 
@@ -37,7 +37,7 @@
 
 &lt;p&gt;解析：注意区别&lt;code&gt;git checkout master^2&lt;/code&gt;和&lt;code&gt;git checkout master^^&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_head_move.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_head_move.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;常见的两个合并分支的操作git merge和git rebase。&lt;/strong&gt;&lt;/p&gt;
 
@@ -49,7 +49,7 @@
 
 &lt;p&gt;如下图所示，从左到右执行了&lt;code&gt;git merge bugFix&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_merge.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_merge.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-rebase&#34;&gt;git rebase&lt;/h3&gt;
 
@@ -59,7 +59,7 @@
 
 &lt;p&gt;下图先执行了&lt;code&gt;git rebase master&lt;/code&gt;，后执行了&lt;code&gt;git checkout master; git rebase bugFix&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;快捷命令&lt;code&gt;git rabase [branch A] [branch B]&lt;/code&gt;，将分支B上的提交记录rebase到分支A&lt;/strong&gt;。&lt;/p&gt;
 
@@ -73,7 +73,7 @@
 
 &lt;p&gt;下图执行了&lt;code&gt;git reset C1&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_reset.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_reset.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-revert&#34;&gt;git revert&lt;/h3&gt;
 
@@ -83,7 +83,7 @@
 
 &lt;p&gt;下图执行了&lt;code&gt;git revert HEAD&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_revert.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_revert.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-cherry-pick&#34;&gt;git cherry-pick&lt;/h3&gt;
 
@@ -93,7 +93,7 @@
 
 &lt;p&gt;下图执行了&lt;code&gt;git cherry-pick C2 C4&lt;/code&gt;，从图中可以看出该命令并没有去合并分支。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_cherry.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_cherry.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-tag&#34;&gt;git tag&lt;/h3&gt;
 
@@ -103,7 +103,7 @@
 
 &lt;p&gt;如下图，执行&lt;code&gt;git tag v1 C1&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_tag.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_tag.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;远端分支&#34;&gt;远端分支&lt;/h3&gt;
 
@@ -115,7 +115,7 @@
 
 &lt;p&gt;解析：&lt;code&gt;git fetch&lt;/code&gt;完成了两个操作：（1）下载本地仓库未包含的提交对象；（2）更新我们的远端分支点(例如&lt;code&gt;o/master&lt;/code&gt;)。但是，它不会修改本地的状态，例如master分支。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_fetch.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;复杂的fetch操作：&lt;code&gt;git fetch origin &amp;lt;source&amp;gt;:&amp;lt;destination&amp;gt;&lt;/code&gt;&lt;/p&gt;
 
@@ -123,7 +123,7 @@
 
 &lt;p&gt;如下图，执行&lt;code&gt;git fetch origin foo~1:bar&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_fetch_more.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_fetch_more.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-pull&#34;&gt;git pull&lt;/h3&gt;
 
@@ -131,11 +131,11 @@
 
 &lt;p&gt;如下图，执行了&lt;code&gt;git pull&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git merge o/master&lt;/code&gt;两个命令&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_pull.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;如下图，可以是执行了&lt;code&gt;git pull --rebase&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;或者是&lt;code&gt;git fetch&lt;/code&gt;+&lt;code&gt;git rebase o/master&lt;/code&gt;+&lt;code&gt;git push&lt;/code&gt;三个命令&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_pull_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_pull_rebase.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;git-push&#34;&gt;git push&lt;/h3&gt;
 
@@ -147,7 +147,7 @@
 
 &lt;p&gt;如下图，执行&lt;code&gt;git push origin foo^:master&lt;/code&gt;：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_push.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_push.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&#34;远端跟踪&#34;&gt;远端跟踪&lt;/h3&gt;
 
@@ -175,7 +175,7 @@
 
 &lt;p&gt;从图二变化到图三执行了&lt;code&gt;git branch -u o/master; git commit; git push&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/git_remote_track.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/git_remote_track.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;零碎知识点：&lt;/p&gt;
 
@@ -184,10 +184,10 @@
     
     <item>
       <title>Gank Alfred Workflow</title>
-      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
+      <link>http://javayhu.me/blog/2016/05/18/gank-alfred-workflow/</link>
       <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
+      <guid>http://javayhu.me/blog/2016/05/18/gank-alfred-workflow/</guid>
       <description>&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/hujiaweibujidao/Gank-Alfred-Workflow&#34;&gt;Gank Alfred Workflow项目地址&lt;/a&gt;&lt;/p&gt;
@@ -200,13 +200,13 @@
 
 &lt;p&gt;搜索操作的触发词是&lt;code&gt;gk&lt;/code&gt; （short for &lt;code&gt;gank&lt;/code&gt;）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/search1.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;1-项目起因&#34;&gt;1.项目起因&lt;/h4&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://gank.io&#34;&gt;gank.io&lt;/a&gt;网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索&lt;code&gt;ios 动画&lt;/code&gt;会得到很多结果，而搜索&lt;code&gt;动画&lt;/code&gt;得到的结果只有几个。（好了，不说了，不然&lt;a href=&#34;https://github.com/daimajia&#34;&gt;@代码家&lt;/a&gt;要直接干我了 😭）&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/search-gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈&lt;/p&gt;
 
@@ -228,11 +228,11 @@
 
 &lt;p&gt;有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目&lt;a href=&#34;https://github.com/hujiaweibujidao/Ganks-for-gank.io&#34;&gt;Ganks for gank.io&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/gankio.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;网站&lt;a href=&#34;http://gankio.herokuapp.com/&#34;&gt;http://gankio.herokuapp.com/&lt;/a&gt;提供的搜索接口如下图所示，发送post请求到&lt;code&gt;http://gankio.herokuapp.com/search&lt;/code&gt;，请求体放参数为&lt;code&gt;keyword&lt;/code&gt;的搜索关键词即可。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/gankio-heroku-search.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！&lt;/strong&gt; 🙈🙈🙈&lt;/p&gt;
 
@@ -244,11 +244,11 @@
 
 &lt;h4 id=&#34;4-界面截图&#34;&gt;4.界面截图&lt;/h4&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/search2.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/search3.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/search4.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;5-开发后记&#34;&gt;5.开发后记&lt;/h4&gt;
 
@@ -257,10 +257,10 @@
     
     <item>
       <title>Fix Homebrew for OS X 10.10 Yosemite</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</link>
+      <link>http://javayhu.me/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</link>
       <pubDate>Fri, 12 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</guid>
+      <guid>http://javayhu.me/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</guid>
       <description>&lt;p&gt;本文主要解决系统升级到OS X 10.10 Yosemite后Homebrew出现的一些问题。&lt;/p&gt;
 
 &lt;p&gt;不记得自己是什么时候将系统升级到Yosemite了，后来也不记得怎么配置系统的环境了，最近发现Homebrew总是出现问题，运行&lt;code&gt;brew update&lt;/code&gt;总是报错，于是今天查了下文档解决了下这个问题。&lt;/p&gt;
@@ -350,10 +350,10 @@ Error: Failure while executing: git pull -q origin refs/heads/master:refs/remote
     
     <item>
       <title>Using Git with multiple Public Keys</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</link>
+      <link>http://javayhu.me/blog/2015/05/16/using-git-with-multiple-public-keys/</link>
       <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
+      <guid>http://javayhu.me/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
       <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥 &lt;/p&gt;
 
 &lt;p&gt;很多时候，如果我们在多个网站有了Git账号，例如Github、GitCafe、CodingNet等，当我们与不同网站的代码库进行连接的时候可能会因为我们没有配置或者配置不当，导致我们需要重复输入账号密码的问题，本文就是介绍如何同时使用多个公秘钥。&lt;/p&gt;
@@ -405,7 +405,7 @@ The key&#39;s randomart image is:
 &lt;pre&gt;&lt;code&gt;pbcopy &amp;lt; ~/.ssh/codingnet.pub
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/codingnet.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/codingnet.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;5.最后测试配置文件是否正常工作&lt;/p&gt;
 
@@ -426,10 +426,10 @@ The key&#39;s randomart image is:
     
     <item>
       <title>Pages Service for GitCafe Project</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</link>
+      <link>http://javayhu.me/blog/2015/05/11/pages-service-for-gitcafe-project/</link>
       <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
+      <guid>http://javayhu.me/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
       <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务 &lt;/p&gt;
 
 &lt;p&gt;参考网址：&lt;a href=&#34;https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9#wiki&#34;&gt;WIKI for GitCafe Pages&lt;/a&gt;&lt;/p&gt;
@@ -464,10 +464,10 @@ git push
     
     <item>
       <title>Set up Octopress environment on another computer</title>
-      <link>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</link>
+      <link>http://javayhu.me/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</link>
       <pubDate>Wed, 11 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
+      <guid>http://javayhu.me/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
       <description>&lt;p&gt;本文主要介绍如何在另一台电脑上搭建Octopress的环境。&lt;/p&gt;
 
 &lt;p&gt;最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。HUGOMORE42&lt;/p&gt;
@@ -514,10 +514,10 @@ $ git pull origin master # update the local master branch
     
     <item>
       <title>using Qiniu JS SDK to upload Videos in Django</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</link>
+      <link>http://javayhu.me/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</link>
       <pubDate>Fri, 14 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</guid>
+      <guid>http://javayhu.me/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</guid>
       <description>&lt;p&gt;使用七牛云存储服务来存储网站(Django开发)中用户上传的视频，特此记录下来，以防以后需要。&lt;/p&gt;
 
 &lt;p&gt;PS: 如何想要在SAE上使用Qiniu的话就需要将Qiniu Python SDK相关的源文件都拷贝到Django项目中，否则SAE会报找不到&lt;code&gt;qiniu&lt;/code&gt;这个模块，因为SAE内置的预定义的模块列表中没有&lt;code&gt;qiniu&lt;/code&gt;！&lt;/p&gt;
@@ -526,7 +526,7 @@ $ git pull origin master # update the local master branch
 
 &lt;p&gt;七牛提供了一个演示通过文件上传的网站：&lt;a href=&#34;http://jssdk.demo.qiniu.io&#34;&gt;http://jssdk.demo.qiniu.io&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/qiniu1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/qiniu1.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;该SDK是七牛提供的Javascript SDK，传送门: &lt;a href=&#34;https://github.com/qiniupd/qiniu-js-sdk&#34;&gt;七牛的Javascript SDK on Github&lt;/a&gt;&lt;/p&gt;
 
@@ -591,7 +591,7 @@ if err is not None:
 
 &lt;p&gt;本来我以为要在Django中使用这个SDK会很难，因为看到该项目的Github介绍还要安装&lt;code&gt;Node.js&lt;/code&gt;等工具，可是实践了发现其实不难，如果只是想简单地使用它那么可以就把它们当做一个js库就行了，但是因为qiniu js sdk源码中的重要文件里面使用了不少相对路径，所以建议还是将sdk中的所有内容一起拷贝到Django项目中，保持其原有的相对位置。&lt;/p&gt;
 
-&lt;p&gt;需要的可以下载我制作的可运行的Django项目 &lt;a href=&#34;https://hujiaweibujidao.github.io/files/qiniudemo.zip&#34;&gt;A Django site using Qiniu JS SDK&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;需要的可以下载我制作的可运行的Django项目 &lt;a href=&#34;http://javayhu.me/files/qiniudemo.zip&#34;&gt;A Django site using Qiniu JS SDK&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;如果要正常运行，请先仔细阅读下面的内容：&lt;/p&gt;
 
@@ -610,7 +610,7 @@ domain: &#39;YOUR_DOMAIN_NAME&#39;,
 
 &lt;p&gt;其他的内容就不用修改了，直接运行项目，进入到&lt;code&gt;http://127.0.0.1:8000/video/&lt;/code&gt;下就能看到&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/qiniu2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/qiniu2.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;如果你想要得到上传之后的文件在七牛服务器上的链接地址的话，请看下面的内容&lt;/p&gt;
 
@@ -649,10 +649,10 @@ domain: &#39;YOUR_DOMAIN_NAME&#39;,
     
     <item>
       <title>Bootcamp an open source Django site</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</link>
+      <link>http://javayhu.me/blog/2014/09/16/bootcamp-an-open-source-django-site/</link>
       <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
+      <guid>http://javayhu.me/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
       <description>&lt;p&gt;一个Django开发的开源网站Bootcamp &lt;/p&gt;
 
 &lt;p&gt;最近接了一个项目，用Django开发一个网站，于是打算看看用Django开发的开源网站，推荐一个网站 &lt;a href=&#34;https://www.djangosites.org/with-source/&#34;&gt;djangosites&lt;/a&gt;，上面有大量用django开发的网站源码。最后我找到了Bootcamp，一个包含了Feed、Article和QA三部分的社交网站，界面简洁大方，功能基本齐全，相当适合我这个新手拿来学习&lt;/p&gt;
@@ -716,15 +716,15 @@ Not synced (use migrations):
 
 &lt;p&gt;网站界面如下：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/others/bootcamp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/others/bootcamp.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Good Python Articles</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</link>
+      <link>http://javayhu.me/blog/2014/05/16/good-python-articles/</link>
       <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
+      <guid>http://javayhu.me/blog/2014/05/16/good-python-articles/</guid>
       <description>&lt;p&gt;关于Python的好文章集锦 &lt;/p&gt;
 
 &lt;p&gt;1.&lt;a href=&#34;http://www.toptal.com/python/top-10-mistakes-that-python-programmers-make&#34;&gt;Top 10 Mistakes that Python Programmers Make&lt;/a&gt;&lt;/p&gt;
@@ -756,10 +756,10 @@ Not synced (use migrations):
     
     <item>
       <title>Hadoop Installation - Single Node Setup</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
+      <link>http://javayhu.me/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
+      <guid>http://javayhu.me/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
       <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程 &lt;/p&gt;
 
 &lt;p&gt;上学期在Mac上搭建好了Hadoop，因为这学期开学重装了系统就没了，以为不会再折腾，结果大数据作业又要整hadoop，于是乎，爱折腾的程序猿又来折腾咯，有过上一次安装的经历，这次简单多了，下面简单的列举主要步骤。&lt;/p&gt;
@@ -784,7 +784,7 @@ Not synced (use migrations):
 
 &lt;p&gt;我使用的是上学期用的1.2.1版本，名称&lt;code&gt;hadoop-1.2.1-bin.tar.gz&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;2.配置Java环境 [该部分直接摘自我之前&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/&#34;&gt;Android和OpenCV开发中的配置&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;2.配置Java环境 [该部分直接摘自我之前&lt;a href=&#34;http://javayhu.me/blog/2014/02/21/android-ndk-and-opencv-development-4/&#34;&gt;Android和OpenCV开发中的配置&lt;/a&gt;]&lt;/p&gt;
 
 &lt;p&gt;①下载&lt;a href=&#34;http://www.oracle.com/technetwork/java/javase/downloads/index.html&#34;&gt;Oracle JDK&lt;/a&gt;，下载的版本是JDK1.7.0_40&lt;/p&gt;
 
@@ -798,11 +798,11 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 &lt;p&gt;如下图所示，后面环境配置中添加内容也是如此&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/etcprofile.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/etcprofile.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;④打开终端输入&lt;code&gt;java -version&lt;/code&gt;进行测试&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/javaversion.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/javaversion.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;3.配置Hadoop环境&lt;/p&gt;
 
@@ -929,10 +929,10 @@ sudo chmod 750 tmp #我习惯用777
     
     <item>
       <title>Python Basics</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</link>
+      <link>http://javayhu.me/blog/2014/05/10/python-basics/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
+      <guid>http://javayhu.me/blog/2014/05/10/python-basics/</guid>
       <description>&lt;p&gt;Python代码片段 &lt;/p&gt;
 
 &lt;p&gt;1.使用&lt;code&gt;glob&lt;/code&gt;模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list&lt;/p&gt;
@@ -1297,10 +1297,10 @@ print lst
     
     <item>
       <title>Mou and StackEdit and Mathjax</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</link>
+      <link>http://javayhu.me/blog/2014/04/15/mou-and-stackedit-and-mathjax/</link>
       <pubDate>Tue, 15 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</guid>
+      <guid>http://javayhu.me/blog/2014/04/15/mou-and-stackedit-and-mathjax/</guid>
       <description>&lt;p&gt;本文记录使用Mou和Stackedit中出现的一些问题，使其能够正常渲染带数学公式的文章&lt;/p&gt;
 
 &lt;p&gt;如果Mou渲染Math公式有问题的话，尝试在第一行加上如下js，表示让Mou去加载Mathjax的脚本&lt;/p&gt;
@@ -1352,7 +1352,7 @@ bug：我发现在Math公式中写入&lt;code&gt;|&lt;/code&gt;，即取绝对�
 &lt;p&gt;我现在的做法是，做一般的作业使用Mou，按照上面的方式肯定有一个可以，完成作业没有问题。
 写Octopress博客中的文章用StackEdit，行内Math用&lt;code&gt;$&lt;/code&gt;(某些情况下可以，但是有些情况下不行，不行的话还是使用&lt;code&gt;$$&lt;/code&gt;，Kramdown支持&lt;code&gt;$$&lt;/code&gt;形式的行内公式)，其他形式用&lt;code&gt;$$&lt;/code&gt;。Stackedit支持直接将文档publish到Github的某个项目的某个分支下的某个文件夹中，文件名自己命名。如下图所示：&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/stackedit_publish.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/stackedit_publish.png&#34; alt=&#34;image&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;注意，如果该目录下有相同名称的文件的话，会被覆盖掉，利用这个方式我们就可以update以前的文章啦！当然，Stackedit在你publish了一次之后会记住publish的目标位置，以后每次更新之后publish都会publish到那个目标位置。&lt;/p&gt;
 
@@ -1368,15 +1368,15 @@ rake generate
 rake deploy
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;可以按照&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/&#34;&gt;Make Your Octopress Easy&lt;/a&gt;的方式建立一个shell脚本简化处理流程，方法略过。&lt;/p&gt;</description>
+&lt;p&gt;可以按照&lt;a href=&#34;http://javayhu.me/blog/2013/11/18/make-your-octopress-easy/&#34;&gt;Make Your Octopress Easy&lt;/a&gt;的方式建立一个shell脚本简化处理流程，方法略过。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Setting Up Environments on New Mac</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</link>
+      <link>http://javayhu.me/blog/2014/04/08/setting-up-environments-on-new-mac/</link>
       <pubDate>Tue, 08 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</guid>
+      <guid>http://javayhu.me/blog/2014/04/08/setting-up-environments-on-new-mac/</guid>
       <description>&lt;p&gt;本文介绍在新苹果机上搭建各种开发环境的过程&lt;/p&gt;
 
 &lt;p&gt;1.安装Java 7u51 ［直接在&lt;a href=&#34;http://www.java.com/zh_CN/download/manual.jsp&#34;&gt;官网&lt;/a&gt;下载dmg点击安装即可]&lt;/p&gt;
@@ -1462,7 +1462,7 @@ anew with `pip install --upgrade`.
 
 &lt;p&gt;5.配置Ruby环境 ［为了正常使用原有的Octopress］&lt;/p&gt;
 
-&lt;p&gt;网址：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/&#34;&gt;/blog/2013/11/17/hello-octopress/&lt;/a&gt;
+&lt;p&gt;网址：&lt;a href=&#34;http://javayhu.me/blog/2013/11/17/hello-octopress/&#34;&gt;/blog/2013/11/17/hello-octopress/&lt;/a&gt;
 网址：&lt;a href=&#34;http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/&#34;&gt;http://blog.zerosharp.com/clone-your-octopress-to-blog-from-two-places/&lt;/a&gt;
 网址：&lt;a href=&#34;http://octopress.org/docs/setup/&#34;&gt;http://octopress.org/docs/setup/&lt;/a&gt; &lt;a href=&#34;http://octopress.org/docs/deploying/github/&#34;&gt;http://octopress.org/docs/deploying/github/&lt;/a&gt;&lt;/p&gt;
 
@@ -1518,7 +1518,7 @@ bundle install
 
 &lt;p&gt;6.配置OpenCV环境&lt;/p&gt;
 
-&lt;p&gt;网址：&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&#34;&gt;/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;网址：&lt;a href=&#34;http://javayhu.me/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&#34;&gt;/blog/2014/03/13/develop-with-opencv-on-mac-os-x/&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;注意！如果是进行OpenCV源码编译的话，因为会产生很多的文件保存到&lt;code&gt;/usr/local&lt;/code&gt;下的各个子目录中，这会导致&lt;code&gt;brew doctor&lt;/code&gt;报出很多错误，例如&lt;code&gt;/usr/local/lib&lt;/code&gt;下很多OpenCV的库Homebrew不能识别，甚至涉及到了权限问题，所以建议不要再前面进行OpenCV环境的配置！&lt;/strong&gt;&lt;/p&gt;
 
@@ -1631,15 +1631,15 @@ Linking /usr/local/Cellar/isl/0.12.1... 6 symlinks created
     
     <item>
       <title>Matlab Image Segmentation</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</link>
+      <link>http://javayhu.me/blog/2014/03/30/matlab-image-segmentation/</link>
       <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</guid>
+      <guid>http://javayhu.me/blog/2014/03/30/matlab-image-segmentation/</guid>
       <description>&lt;p&gt;本文主要介绍Matlab实现的两种自动阈值图像分割方法&lt;/p&gt;
 
 &lt;p&gt;1.基于迭代的自动阈值图像分割方法&lt;/p&gt;
 
-&lt;p&gt;参考文献: &lt;a href=&#34;https://hujiaweibujidao.github.io/files/image_segmentation.pdf&#34;&gt;基于迭代(自动阈值)算法的医学图像增强方法&lt;/a&gt;
+&lt;p&gt;参考文献: &lt;a href=&#34;http://javayhu.me/files/image_segmentation.pdf&#34;&gt;基于迭代(自动阈值)算法的医学图像增强方法&lt;/a&gt;
 该文献实现了全局和局部的图像分割代码，使用的都是迭代算法，对比下面的结果可以看出，在灰度差异特别大的图像中，局部阈值分割要比全局阈值分割表现更好。[注:我对源码略有修改]&lt;/p&gt;
 
 &lt;p&gt;1.1 全局阈值分割程序&lt;/p&gt;
@@ -1735,8 +1735,8 @@ imshow(result);
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;对比结果：
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/whole.png&#34; alt=&#34;img&#34; /&gt;
-&lt;img src=&#34;https://hujiaweibujidao.github.io/images/partial.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;img src=&#34;http://javayhu.me/images/whole.png&#34; alt=&#34;img&#34; /&gt;
+&lt;img src=&#34;http://javayhu.me/images/partial.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;2.基于OSTU算法的自动阈值图像分割&lt;/p&gt;
 
@@ -1744,7 +1744,7 @@ imshow(result);
 Matlab内置的&lt;code&gt;graythresh&lt;/code&gt;使用的便是OSTU算法，使得白色像素和黑色像素的类间方差最大。
 因为上面测试图像的亮度存在明显的水平差异，所以我写了一个将图像沿水平方向分成几部分分别进行OSTU算法，效果明显又比上面两种方式要好些。&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;https://hujiaweibujidao.github.io/images/postu.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/postu.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;function [ result ] = partialostu( image,part,isrgb )
 %PARTIALOSTU partial image ostu
@@ -1767,10 +1767,10 @@ end
     
     <item>
       <title>Develop with OpenCV on Mac</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</link>
+      <link>http://javayhu.me/blog/2014/03/13/develop-with-opencv-on-mac/</link>
       <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
+      <guid>http://javayhu.me/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
       <description>&lt;p&gt;本文介绍如何在Mac OS X上进行OpenCV项目的开发，尝试的开发工具有Xcode(版本是4.6.1)和Eclipse，使用的OpenCV版本是2.4.6。&lt;/p&gt;
 
 &lt;p&gt;如果只是需要OpenCV的相关头文件以及动态库，请直接执行&lt;code&gt;brew install opencv&lt;/code&gt;（如果安装了Homebrew的话），如果不行，请看下面的OpenCV源码编译安装过程。&lt;/p&gt;
