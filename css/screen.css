@@ -964,7 +964,7 @@ body.nav-opened .menu-button .word {
 
 /* Add a little circle in the middle of the border-bottom on our .post
    just for the lolz and stylepoints. */
-/*.post:after {
+.post:after {
     display: block;
     content: "";
     width: 7px;
@@ -977,7 +977,7 @@ body.nav-opened .menu-button .word {
     background: #FFF;
     border-radius: 100%;
     box-shadow: #FFF 0 0 0 5px;
-}*/
+}
 
 body:not(.post-template) .post-title {
     font-size: 3.6rem;
