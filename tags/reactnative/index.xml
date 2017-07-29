@@ -26,7 +26,7 @@
 &lt;p&gt;考虑到我们的RN版本有点老，问题较多，所以最近对RN进行一次升级，升级到0.44.0版本，并对Android和iOS的RN模块进行代码改造。期间我主要是完成Android和iOS端RN模块代码的改造工作，另一位前端同学配合一起解决升级过程出现的问题。&lt;/p&gt;
 
 &lt;p&gt;作为一个接到RN升级任务的RN小白，下面我就大致介绍下自己完成这个任务时遇到的坑，希望能有所帮助。&lt;br /&gt;
-&lt;strong&gt;文中的代码和图片我都反复检查过了，基本上没有泄露公司的重要信息的数据 ;-)&lt;/strong&gt;&lt;/p&gt;
+&lt;strong&gt;文中的代码和图片我都反复检查过了，基本上没有泄露公司的重要信息的数据，如若发现有泄露的话请立即告知我 ;-)&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;1-替换rn新版本的依赖库-同时更新相关配置&#34;&gt;&lt;strong&gt;1.替换RN新版本的依赖库，同时更新相关配置&lt;/strong&gt;&lt;/h4&gt;
 
@@ -150,6 +150,8 @@ compile(name: &#39;react-native-0.44.0&#39;, ext: &#39;aar&#39;)
 
 &lt;p&gt;5.如果项目依赖高版本的RN静态库，可以正常加载低版本的RN打出来的bundle文件；反之，如果项目依赖的是低版本的RN静态库，那么加载高版本的RN打出来的bundle文件的时候会报错&lt;code&gt;DeviceInfo native module is not installed correctly&lt;/code&gt;。&lt;/p&gt;
 
+&lt;p&gt;6.iOS端RN升级之后出现过cookie失效的问题，这个修改下JS端的代码，&lt;/p&gt;
+
 &lt;h4 id=&#34;2-关键路径日志补全-将rn源码内部重要日志定向到应用日志中&#34;&gt;&lt;strong&gt;2.关键路径日志补全，将RN源码内部重要日志定向到应用日志中&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;在应用输出的日志中补全关键路径的信息，例如bundle加载时使用的bundle文件位置、版本，bundle更新重载时使用的bundle文件位置、版本等。这里还做了个功能是将RN源码内部的重要日志定向到应用日志中，这样的话可以丰富应用日志的内容，方便在遇到问题的时候定位问题。&lt;/p&gt;
@@ -188,13 +190,18 @@ compile(name: &#39;react-native-0.44.0&#39;, ext: &#39;aar&#39;)
 
 &lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/rn_android_reload.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
+&lt;p&gt;&lt;strong&gt;tips&lt;/strong&gt;:&lt;br /&gt;
+1.无论是Android端还是iOS端，bundle重载时最好要检查下当前屏幕是竖屏还是横屏，因为bundle重载的时候会重新加载和渲染之前已经attached的RN View(假设是按照横屏来布局的)，如果bundle重载时手机是横屏，那么这个RN View会按照横屏进行布局，这样回来的时候界面就会显示异常了。&lt;/p&gt;
+
+&lt;p&gt;2.最好不要在应用当前处于RN界面的时候进行bundle重新加载，因为可能造成不可预计的数据异常或者界面显示异常，我们出现过一种数据异常导致应用crash的情况。&lt;/p&gt;
+
 &lt;h4 id=&#34;5-bundle文件加载容错机制&#34;&gt;&lt;strong&gt;5.Bundle文件加载容错机制&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;默认情况下我们发出去的app中自带一个稳定版本的bundle，在其他bundle加载失败的情况下，就使用app自带的bundle文件进行容错。目前Android端还没有做这个功能，iOS因为可以接收到bundle加载失败的通知所以实现了这个功能。&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://javayhu.me/images/rn_ios_bundle_fail.png&#34; alt=&#34;img&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;除了bundle文件加载容错机制外，一般还要在RN界面出现crash的时候降级到H5的容灾方案，这块目前还在计划开发中。&lt;/p&gt;
+&lt;p&gt;除了bundle文件加载容错机制外，一般还要在RN界面出现crash的时候降级到H5的容灾方案，这块目前还在计划开发中。因为要做到完整的容灾的话，可能需要能够拦截到RN模块大部分的异常，虽然RN源码提供了拦截方法，但是这只是其中的部分异常，还有不少异常情况并没有被拦截到。&lt;/p&gt;
 
 &lt;h4 id=&#34;6-给ios端的rn开发阶段新增调试功能&#34;&gt;&lt;strong&gt;6.给iOS端的RN开发阶段新增调试功能&lt;/strong&gt;&lt;/h4&gt;
 
