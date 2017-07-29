@@ -150,7 +150,7 @@ compile(name: &#39;react-native-0.44.0&#39;, ext: &#39;aar&#39;)
 
 &lt;p&gt;5.如果项目依赖高版本的RN静态库，可以正常加载低版本的RN打出来的bundle文件；反之，如果项目依赖的是低版本的RN静态库，那么加载高版本的RN打出来的bundle文件的时候会报错&lt;code&gt;DeviceInfo native module is not installed correctly&lt;/code&gt;。&lt;/p&gt;
 
-&lt;p&gt;6.iOS端RN升级之后出现过cookie失效的问题，这个修改下JS端的代码，&lt;/p&gt;
+&lt;p&gt;6.iOS端RN升级之后出现过cookie失效的问题，这个问题修改下JS端的代码，在请求的时候添加&lt;code&gt;credentials&lt;/code&gt;。&lt;/p&gt;
 
 &lt;h4 id=&#34;2-关键路径日志补全-将rn源码内部重要日志定向到应用日志中&#34;&gt;&lt;strong&gt;2.关键路径日志补全，将RN源码内部重要日志定向到应用日志中&lt;/strong&gt;&lt;/h4&gt;
 
