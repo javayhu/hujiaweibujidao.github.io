@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <title>
+       React Native Upgrade &middot;  Hujiawei Bujidao
+    </title>
+
+    <meta name="generator" content="Hugo 0.19" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta property="og:title" content=" React Native Upgrade &middot;  Hujiawei Bujidao" />
+  	<meta property="og:site_name" content="Hujiawei Bujidao" />
+  	<meta property="og:url" content="http://javayhu.me/blog/2017/07/28/react-native-upgrade/" />
+
+    
+  	<meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content="2017-07-28T10:46:33&#43;08:00" />
+    
+    <meta property="og:article:tag" content="reactnative" />
+    
+    
+
+    <meta name="description" content="Happy Coding &amp; Enjoy Living" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="http://javayhu.me/images/favicon.ico">
+	  <link rel="apple-touch-icon" href="http://javayhu.me/images/apple-touch-icon.png" />
+    <link rel="stylesheet" type="text/css" href="http://javayhu.me/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="http://javayhu.me/css/nav.css" />
+    <link rel="stylesheet" type="text/css" href="http://javayhu.me/css/hugo.css" />
+
+    
+    <link rel="stylesheet" type="text/css" href="http://javayhu.me/css/highlight.css">
+    
+    <link rel="stylesheet" type="text/css" href="http://javayhu.me/css/github-gist.css">
+    
+    <script src="http://javayhu.me/js/highlight.js"></script>
+    <script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+
+    
+    
+
+    
+      
+          <link href="http://javayhu.me/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
+      
+      
+    
+
+    <link rel="canonical" href="http://javayhu.me/blog/2017/07/28/react-native-upgrade/" />
+
+    
+</head>
+<body class="nav-closed">
+
+  <div class="nav">
+    <h3 class="nav-title">Menu</h3>
+    <a href="#" class="nav-close">
+        <span class="hidden">Close</span>
+    </a>
+    <ul>
+        
+
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://javayhu.me/">Home</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://javayhu.me/android">Android</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://javayhu.me/python">Python</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://javayhu.me/swift">Swift</a>
+            </li>
+        
+            
+            <li class="nav-opened" role="presentation">
+            	<a href="http://javayhu.me/about">About</a>
+            </li>
+        
+
+        <li class="nav-opened" role="presentation"><a href=""></a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/algorithm/">tags/algorithm</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/android/">tags/android</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/python/">tags/python</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/swift/">tags/swift</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/java/">tags/java</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/dev/">tags/dev</a></li>
+        <li class="nav-opened" role="presentation"><a href="http://javayhu.me/tags/life/">tags/life</a></li>
+    </ul>
+
+    
+    
+
+    
+        <a class="subscribe-button icon-feed" href="http://javayhu.me/index.xml">Subscribe</a>
+    
+</div>
+<span class="nav-cover"></span>
+
+
+ <div class="site-wrapper">
+
+
+
+
+  <header class="main-header post-head" style="background-image: url(https://www.bing.com/ImageResolution.aspx?w=1366&amp;h=768)">
+  
+
+    <nav class="main-nav overlay clearfix">
+    
+        <a class="blog-logo" href="http://javayhu.me/"><img src="http://javayhu.me/images/logo.png" alt="Blog Logo" /></a>
+    
+    
+        <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
+    
+</nav>
+
+    <div class="vertical">
+        <div class="main-header-content inner">
+            <h1 class="page-title">React Native Upgrade</h1>
+            <h2 class="page-description">Hujiawei Bujidao</h2> <br/>
+            
+    <a class="bloglogo" href="https://github.com/hujiaweibujidao" target="_blank">
+    <span class="icon-github" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+    <a class="bloglogo" href="https://weibo.com/hujiaweiyinger" target="_blank">
+        <span class="icon-twitter" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+
+
+    <a class="bloglogo" href="https://www.linkedin.com/in/hujiaweibujidao" target="_blank">
+        <span class="icon-linkedin" style="color:white;font-size:2em"></span>
+    </a>
+&nbsp;
+
+
+        </div>
+    </div>
+</header>
+
+
+
+<main class="content" role="main">
+  <article class="post post">
+
+    <header class="post-header">
+        <h1 class="post-title">React Native Upgrade</h1>
+        
+
+        <section class="post-meta">
+        
+          <time class="post-date" datetime="2017-07-28T10:46:33&#43;08:00">
+            Jul 28, 2017
+          </time>
+        
+        &nbsp;&nbsp;
+         
+          <span class="post-tag small"><a href="http://javayhu.me/tags/reactnative/">#reactnative</a></span>
+         
+        </section>
+        <br/>
+    </header>
+
+    <section class="post-content">
+      <p>本文主要分享Android和iOS端升级RN到0.44.0版本的经验。</p>
+
+<p>今天收到一封感谢的邮件，说是我之前的一篇文章帮助到了他，这才看了看自己的博客，发现我真的有很久没分享东西了。工作之后是真的忙，每天都需要思考很多问题，也许是在做某个需求，也许是解决某个bug，也许是解决某个瓶颈。日子很充实，收获很多，虽然很想分享出来，但是周末却总是变得懒散不想动，因而积压了很多想分享的内容。这次终于战胜自己，重新开始分享，希望能够坚持下去。</p>
+
+<p>首先，我要告诉大家一件事情，我正式开始做iOS啦，撒花~ 现在产品迭代中交给我的需求如果工作量不是很大的话，那么Android和iOS端就都交给我一个人搞啦，真好。</p>
+
+<p>其次，我开始接触React Native啦，撒花again~ RN在我们的产品中也是比较重要的模块，首页以及多个二级界面都是RN完成的，体验还好，但是带来的crash也不少！</p>
+
+<p>考虑到我们的RN版本有点老，问题较多，所以最近对RN进行一次升级，升级到0.44.0版本，并对Android和iOS的RN模块进行代码改造。期间我主要是完成Android和iOS端RN模块代码的改造工作，另一位前端同学配合一起解决升级过程出现的问题。</p>
+
+<p>作为一个接到RN升级任务的RN小白，下面我就大致介绍下自己完成这个任务时遇到的坑，希望能有所帮助。<br />
+<strong>文中的代码和图片我都反复检查过了，基本上没有泄露公司的重要信息的数据 ;-)</strong></p>
+
+<h4 id="1-替换rn新版本的依赖库-同时更新相关配置"><strong>1.替换RN新版本的依赖库，同时更新相关配置</strong></h4>
+
+<p>我们的项目不是直接基于RN开始的，而是已有的项目集成RN。此外，RN集成的方式也不是源码集成，而是使用RN源码编译生成的静态库。</p>
+
+<p>(1)对于Android来说，项目中依赖的是RN源码下ReactAndroid项目构建得到的aar文件(你还可以继续精简成一个jar文件)。</p>
+
+<p><strong>如何生成这个aar文件呢？</strong></p>
+
+<p>按照<a href="http://facebook.github.io/react-native/docs/tutorial.html">官网教程</a>下载RN源码并配置好RN环境之后，在源码根目录下新建<code>gradle.properties</code>文件(用来配置gradle的代理)和<code>local.properties</code>文件(用来指定<code>sdk.dir</code>和<code>ndk.dir</code>)，执行<code>./gradlew :ReactAndroid:installArchives</code>即可看到源码下多了一个android目录，其中就放着我们需要的aar文件。默认的名称是<code>1000.0.0-master</code>，如果你想修改生成的aar的名称，可以通过修改<code>ReactAndroid/gradle.properties</code>文件中的<code>VERSION_NAME</code>来实现。</p>
+
+<p><strong>tips</strong>：<br />
+1.编译RN源码的时候需要配置NDK，版本必须是<code>r10e</code>，不能是更高版本，<a href="https://developer.android.google.cn/ndk/downloads/older_releases.html">点击进入下载地址</a>。</p>
+
+<p>2.更新RN的aar文件之后，除了需要修改部分API的调用方式之外，还要修改gradle脚本中依赖库的版本号以及混淆规则！</p>
+
+<pre><code>//libraries for RN 0.44.0
+compile 'javax.inject:javax.inject:1'
+compile 'com.facebook.fbui.textlayoutbuilder:textlayoutbuilder:1.0.0'
+compile 'com.facebook.fresco:fresco:1.0.1'
+compile 'com.facebook.fresco:imagepipeline-okhttp3:1.0.1'
+compile 'com.facebook.soloader:soloader:0.1.0'
+compile 'com.google.code.findbugs:jsr305:3.0.0'
+compile 'com.squareup.okhttp3:okhttp:3.4.1'
+compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
+compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
+compile 'com.squareup.okio:okio:1.9.0'
+compile 'org.webkit:android-jsc:r174650'
+
+//import RN aar
+compile(name: 'react-native-0.44.0', ext: 'aar')
+</code></pre>
+
+<p>混淆规则 (注意最后一句，不加会产生问题，不过我觉得这可能不是解决问题最好的方式)</p>
+
+<pre><code class="language-java">#============================= React Native start =============================#
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+
+# Disabling obfuscation is useful if you collect stack traces from production crashes
+# (unless you are using a system that supports de-obfuscate the stack traces).
+#-dontobfuscate
+
+# React Native
+
+# Keep our interfaces so they can be used by other ProGuard rules.
+# See http://sourceforge.net/p/proguard/bugs/466/
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
+-keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.proguard.annotations.DoNotStrip class *
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.proguard.annotations.DoNotStrip *;
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+-keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * {
+  void set*(***);
+  *** get*();
+}
+
+-keep class * extends com.facebook.react.bridge.JavaScriptModule { *; }
+-keep class * extends com.facebook.react.bridge.NativeModule { *; }
+-keepclassmembers,includedescriptorclasses class * { native &lt;methods&gt;; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.UIProp &lt;fields&gt;; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactProp &lt;methods&gt;; }
+-keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactPropGroup &lt;methods&gt;; }
+
+-dontwarn com.facebook.react.**
+
+# TextLayoutBuilder uses a non-public Android constructor within StaticLayout.
+# See libs/proxy/src/main/java/com/facebook/fbui/textlayoutbuilder/proxy for details.
+-dontwarn android.text.StaticLayout
+
+# okhttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# okio
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okio.**
+
+# Caused by: java.lang.NoSuchFieldError: no field with name='mHybridData'
+# ref: http://blog.csdn.net/it_talk/article/details/52789251
+-keep class com.facebook.** { *; }
+#============================= React Native end =============================#
+</code></pre>
+
+<p>3.默认情况下，以上编译操作生成的aar文件中只包含<code>armeabi-v7a</code>和<code>x86</code>两种ABI下的so文件，如果运行时提示找不到so文件，那么可能就是你的<code>abiFilter</code>配置错了。但是如果你的应用的<code>abiFilter</code>只能配置为<code>armeabi</code>的话，可以考虑下面的做法：先解压aar文件，在jni目录下新建<code>armeabi</code>文件 夹，并将<code>armeabi-v7a</code>下面的so复制到<code>armeabi</code>中，然后删除<code>x86</code>和<code>armeabi-v7a</code>目录，最后重新压缩生成aar文件。</p>
+
+<p><img src="http://javayhu.me/images/rn_android_aar.png" alt="img" /></p>
+
+<p>(2)对于iOS来说，项目中依赖的是11个RN Xcode子项目生成的静态库(.a)文件。</p>
+
+<p><strong>如何生成RN静态库呢？</strong></p>
+
+<p>这里可以通过<code>react-native init</code>命令创建一个新的RN demo项目，然后修改<code>package.json</code>文件，将RN版本调整为<code>0.44.0</code>版本，然后执行<code>npm install</code>，最后打开ios目录下的Xcode项目即可。</p>
+
+<p><strong>tips</strong>：<br />
+1.RN升级到0.44.0版本之后，Deployment Target要设置为<code>8.0</code>以上 (实际上从0.36版本的RN就需要做这个配置了)。</p>
+
+<p>2.项目中除了要引入11个静态库文件，还需要引入RN相关的头文件，这些头文件可以在上面的demo项目的构建结果中找到，一般路径为<code>/Users/[user]/Library/Developer/Xcode/DerivedData/[demo-project]/Build/Products/[Release-xxx]/include</code>，引入之后别忘了添加到<code>Header Search Path</code>中。</p>
+
+<p>3.一定要以<code>release</code>模式构建demo应用，否则生成静态库中RN环境实际上是dev环境，在手机摇晃的情况下会弹出RN的调试菜单！出现异常的还会显示RN的红屏界面！</p>
+
+<p>4.生成静态库的时候要根据项目的配置来确定支持的平台，例如有可能项目需要的是同时支持armv7, arm64, i386, x86_64平台的静态库，那么这个时候就需要使用<code>lipo</code>命令，其中<code>lipo -info</code>命令可以查看一个静态库支持的平台，<code>lipo -create</code>命令可以将支持不同平台的静态库合并。</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_staticlibs.png" alt="img" /></p>
+
+<p>5.如果项目依赖高版本的RN静态库，可以正常加载低版本的RN打出来的bundle文件；反之，如果项目依赖的是低版本的RN静态库，那么加载高版本的RN打出来的bundle文件的时候会报错<code>DeviceInfo native module is not installed correctly</code>。</p>
+
+<h4 id="2-关键路径日志补全-将rn源码内部重要日志定向到应用日志中"><strong>2.关键路径日志补全，将RN源码内部重要日志定向到应用日志中</strong></h4>
+
+<p>在应用输出的日志中补全关键路径的信息，例如bundle加载时使用的bundle文件位置、版本，bundle更新重载时使用的bundle文件位置、版本等。这里还做了个功能是将RN源码内部的重要日志定向到应用日志中，这样的话可以丰富应用日志的内容，方便在遇到问题的时候定位问题。</p>
+
+<p>(1)对于Android来说，日志重定向功能是依靠<code>FLog</code>的<code>setLoggingDelegate</code>方法来实现的，只要实现自定义的<code>LoggingDelegate</code>就可以将RN源码端的日志定向到应用日志中</p>
+
+<p><img src="http://javayhu.me/images/rn_android_log.png" alt="img" /></p>
+
+<p>(2)对于iOS来说，日志重定向功能是依靠<code>RCTAddLogFunction</code>方法来实现的</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_log.png" alt="img" /></p>
+
+<h4 id="3-重点流程耗时统计-关键事件数据上报"><strong>3.重点流程耗时统计，关键事件数据上报</strong></h4>
+
+<p>RN模块很容易出现问题，所以对它的重点流程的数据统计和上报也是非常重要的。例如bundle加载耗时多少，RN环境初始化耗时多少，bundle加载失败了多少次等等，这些数据都需要进行上报，以便后期提供更好的容错机制。</p>
+
+<p>一般来说，大家都想知道的是bundle加载耗时多少、RN环境初始化耗时多少、RN界面渲染耗时多少这三个数据。</p>
+
+<p>(1)对于Android来说，在RN的Android端源码中，<code>ReactMarker</code>会在很多重要事件的起始和结束设置标志，而<code>ReactMarkerListener</code>可以监听这些重要事件，所以如果我们设置了ReactMarkerListener的话，就能够在事件发生的时候收到回调从而统计耗时。</p>
+
+<p><img src="http://javayhu.me/images/rn_android_time.png" alt="img" /></p>
+
+<p>(2)对于iOS来说，在RN的iOS端源码中，<code>RCTBridge</code>的<code>PerformanceLogger</code>会在重要事件的起始和结束时设置tag并统计耗时，通过它可以直接取出各项事件的耗时数据。</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_time.png" alt="img" /></p>
+
+<h4 id="4-完善bundle的更新时机-实现bundle立即生效方案"><strong>4.完善bundle的更新时机，实现bundle立即生效方案</strong></h4>
+
+<p>一般来说，为了方便和稳定，应用一般是在当次运行过程中下载好更新的bundle，但是在下次启动的时候才让新bundle生效。那如果想要实现在应用不重启的情况下让bundle当次立即生效怎么办呢？(<strong>需要注意的是，往往重新加载bundle文件的时候bundle文件位置可能不是原来那个位置</strong>)</p>
+
+<p>(1)对于iOS来说，在RN的iOS端源码中<code>RCTBridge</code>提供了<code>reload</code>方法来重新加载bundle文件，还提供了<code>setBundleURL</code>方法来设置bundle文件的位置，所以iOS端RN离线包立即生效方案就是先设置新的bundle文件位置，然后再调用<code>reload</code>方法进行重载即可，不需要修改RN源码再重新编译。</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_reload.png" alt="img" /></p>
+
+<p>(2)对于Android来说，RN的Android端源码并没有提供修改bundle文件位置的方法，所以这里修改了RN源码中的<code>ReactInstanceManager</code>类，删掉<code>mBundleLoader</code>变量的<code>final</code>修饰符，并为其提供set方法。和iOS端类似，RN离线包立即生效就是先根据新的bundle文件的位置设置ReactInstanceManager的<code>JSBundlerLoader</code>，然后调用<code>recreateReactContextInBackground</code>方法即可。</p>
+
+<p><img src="http://javayhu.me/images/rn_android_reload.png" alt="img" /></p>
+
+<h4 id="5-bundle文件加载容错机制"><strong>5.Bundle文件加载容错机制</strong></h4>
+
+<p>默认情况下我们发出去的app中自带一个稳定版本的bundle，在其他bundle加载失败的情况下，就使用app自带的bundle文件进行容错。目前Android端还没有做这个功能，iOS因为可以接收到bundle加载失败的通知所以实现了这个功能。</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_bundle_fail.png" alt="img" /></p>
+
+<p>除了bundle文件加载容错机制外，一般还要在RN界面出现crash的时候降级到H5的容灾方案，这块目前还在计划开发中。</p>
+
+<h4 id="6-给ios端的rn开发阶段新增调试功能"><strong>6.给iOS端的RN开发阶段新增调试功能</strong></h4>
+
+<p>众所周知，Android的RN调试菜单中可以指定server和port，这样就可以从network上加载指定的bundle文件，但是iOS的RN调试菜单中却没有这个功能，所以我实现了一个简易的针对iOS端开发阶段加载指定server上的bundle文件的调试功能，原理是利用<code>RCTBundleURLProvider</code>的<code>jsBundleURLForBundleRoot:packagerHost:enableDev:enableMinification</code>方法。</p>
+
+<p><img src="http://javayhu.me/images/rn_ios_debug.png" alt="img" /></p>
+
+<p>OK，可能花了一晚上只是写了一堆废话吧，谢谢你看完，如果内容有什么错误或者想咨询的可以通过邮件联系我，因为多说关闭了，本想着什么时候换成网易云跟帖，结果前段时间听说也要关闭了，所以我想算了吧，不想再去接入其他的评论系统了。</p>
+    </section>
+
+    <footer class="post-footer">
+      
+        <figure class="author-image">
+            <a class="img" href="http://javayhu.me/" style="background-image: url(http://javayhu.me/images/logo.png)"><span class="hidden">hujiawei's Picture</span></a>
+        </figure>
+      
+
+      
+
+
+
+
+
+<section class="author" style="width:100%;">
+  <div class="author-meta" style="width:100%;text-align:center;">
+    <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
+    <span class="author-location icon-location"> Guangdong, China</span>
+    <span class="author-link icon-link"><a href="http://javayhu.me/"> http://javayhu.me/</a></span>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+  </div>
+</section>
+
+
+      
+        <aside class="read-next">
+  
+      <span class="readmore-prev readmore-meta">PREV: <a href="http://javayhu.me/blog/2017/01/24/how-to-know-your-applications-battery-stats/"><h4>How to know your application’s battery stats</h4></a></span>
+      
+  
+
+  
+</aside>
+<br/>
+
+      
+      
+      
+	
+
+		
+
+		
+		
+		
+		
+		
+		
+
+		
+		
+	
+
+
+    </footer>
+</article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+        <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
+
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2017</section>
+        
+        <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
+            
+            <script type="text/javascript">
+                var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+                document.write(unescape("%3Cspan id='cnzz_stat_icon_1000165127'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1000165127%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+            </script>
+        </section>
+        
+    </footer>
+  </div> 
+    <script type="text/javascript" src="http://javayhu.me/js/jquery.js"></script>
+    <script type="text/javascript" src="http://javayhu.me/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="http://javayhu.me/js/index.js"></script>
+
+    
+    
+    
+    
+
+    
+</body>
+</html>
+
