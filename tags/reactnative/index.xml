@@ -195,6 +195,8 @@ compile(name: &#39;react-native-0.44.0&#39;, ext: &#39;aar&#39;)
 
 &lt;p&gt;2.最好不要在应用当前处于RN界面的时候进行bundle重新加载，因为可能造成不可预计的数据异常或者界面显示异常，我们出现过一种数据异常导致应用crash的情况。&lt;/p&gt;
 
+&lt;p&gt;3.Android端的立即生效方案也许不是best practice，或许可以不修改源码就能够重新设置bundle位置，但是我目前没有细究，所以用了上面的方案。&lt;/p&gt;
+
 &lt;h4 id=&#34;5-bundle文件加载容错机制&#34;&gt;&lt;strong&gt;5.Bundle文件加载容错机制&lt;/strong&gt;&lt;/h4&gt;
 
 &lt;p&gt;默认情况下我们发出去的app中自带一个稳定版本的bundle，在其他bundle加载失败的情况下，就使用app自带的bundle文件进行容错。目前Android端还没有做这个功能，iOS因为可以接收到bundle加载失败的通知所以实现了这个功能。&lt;/p&gt;
