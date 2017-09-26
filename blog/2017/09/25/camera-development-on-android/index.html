@@ -183,7 +183,7 @@
 
 <p>众所周知，Android平台不仅系统碎片化严重，而且不同手机的硬件配置差异导致开发某些模块的时候坑比较多，相机模块就是其中之一。为什么呢？首先，Android系统目前已经提供了两套Camera API，其中Camera 2 API是从Android 5.0(API Level 21)开始提供的。你可能会想了，那岂不是现在市面上很多机型都可以使用Camera 2 API啦？然而并不是，原因就是下面要说的第二点，很多Android手机对Camera 2 API的支持都不到位，即使是很多现在刚发的新机，它们有些依然只支持老的Camera API！这就导致做相机开发的时候不得不根据手机的实际情况切换不同的Camera API。</p>
 
-<p>很显然，自己从零开始构建这么一个Camera模块是比较困难的，这里推荐Google提供的一个非官方库<a href="https://github.com/google/cameraview">cameraview</a>，如果你的需求是相机预览、切换前后摄像头、切换闪光灯、切换预览图片的比例以及拍照等功能的话，那么这款小巧的库是一个不错的选择。CameraView这个项目可以帮助Android开发者快速创建一个可以适配不同Android系统和不同Android设备，并且包含各种基本功能的相机界面，它的使用正如它的说明文档中那样，引入一个自定义的CameraView，它会处理其他一切和Camera有关的事情。</p>
+<p>很显然，自己从零开始构建这么一个Camera模块是比较困难的，这里推荐Google提供的一个非官方库<a href="https://github.com/google/cameraview">cameraview</a>，如果你的需求是相机预览、切换前后摄像头、切换闪光灯、切换预览图片的比例以及拍照等功能的话，那么这款小巧的库是一个不错的选择。CameraView这个项目可以帮助Android开发者快速创建一个可以适配不同Android系统和不同Android设备，并且包含各种基本功能的相机界面，它的使用正如它的说明文档中那样，引入一个自定义的CameraView，其他一切和Camera有关的事情都由它来处理。</p>
 
 <p>既然已经有cameraview这个轮子了，那这篇文章是不是就完结了？图森破！前面提到过，这个库是非官方库，所以它已经有很长时间没有更新了，issues中堆了很多已知bug竟然没人去解！但是，又能怎样呢？还不是只能原谅它，难不成要自己撸一个？(看完cameraview的代码你就知道撸一个这个库多么不容易，需要很熟悉Camera API和Camera 2 API，而且要适配那么多机型也确实是困难啊，一个版本迭代的时间根本做不完呐)</p>
 
@@ -273,7 +273,7 @@
 
 <p><img src="http://javayhu.me/images/cameraview_takepicture2.png" alt="img" /></p>
 
-<p>**5. 相机权限 **</p>
+<p><strong>5. 相机权限</strong></p>
 
 <p>众所周知，从Android 6.0开始，Android系统引入了动态权限的机制，所以如果你的应用的targetSDK设置在23及以上的话，你需要在运行的时候检查相机权限是否授予了，如果没有授予的话就要申请。对于Android 6.0以下的系统，只要在AndroidManifest.xml文件中声明相机权限就可以了。</p>
 
@@ -321,21 +321,17 @@
 
 <p><img src="http://javayhu.me/images/cameraview_resetfocus2.png" alt="img" /></p>
 
-<p>OK，以上就是我这次做Android端自定义相机模块需求开发的总结，撒花完结啦~~~</p>
+<p>OK，以上就是我这次做Android端自定义相机模块需求开发的总结，撒花完结啦，希望能有点作用~~~</p>
 
-<p><strong>At last，从前面的内容可以看出官方推出的非正式组件cameraview存在着不少的问题，issues中堆积了不少手机兼容性问题和异常crash问题，use it at your own risk，这个库并不适合所有的自定义相机场景的开发，但是如果它能够达到你的基本诉求的话，也是一个不错的库。最后，如果你决定使用cameraview的话，推荐使用我改进过后的<a href="https://github.com/hujiaweibujidao/cameraview">CameraView</a> 😎</strong></p>
+<p><strong>At last，从前面的内容可以看出官方推出的非正式组件cameraview存在着不少的问题，issues中堆积了不少手机兼容性问题和异常crash问题，use it at your own risk。这个库并不适合所有的自定义相机场景的开发，但是如果它能够达到你的基本诉求的话，也是一个不错的库。最后，如果你决定使用cameraview的话，推荐使用我改进过后的<a href="https://github.com/hujiaweibujidao/cameraview">CameraView</a> 😎</strong></p>
 
 <p><strong>补充资料</strong></p>
 
-<p>1.关于TextureView和SurfaceView的区别：<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1213/2153.html">Android TextureView简易教程</a></p>
-
-<p>2.关于Android端相机开发的坑：<a href="https://zhuanlan.zhihu.com/p/20559606">Android相机开发那些坑</a></p>
-
-<p>3.关于Camera API的使用的官方文档：<a href="https://developer.android.com/guide/topics/media/camera.html">Camera API</a></p>
-
-<p>4.关于Camera API的使用：<a href="http://www.jianshu.com/p/7dd2191b4537">Android Camera 相机开发详解</a></p>
-
-<p>5.关于运行时权限：<a href="http://www.jianshu.com/p/e1ab1a179fbb">Android M 新的运行时权限开发者需要知道的一切</a></p>
+<p>1.关于TextureView和SurfaceView的区别：<a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2014/1213/2153.html">Android TextureView简易教程</a><br />
+2.关于Android端相机开发的坑：<a href="https://zhuanlan.zhihu.com/p/20559606">Android相机开发那些坑</a><br />
+3.关于Camera API的使用的官方文档：<a href="https://developer.android.com/guide/topics/media/camera.html">Camera API</a><br />
+4.关于Camera API的使用：<a href="http://www.jianshu.com/p/7dd2191b4537">Android Camera 相机开发详解</a><br />
+5.关于运行时权限：<a href="http://www.jianshu.com/p/e1ab1a179fbb">Android M 新的运行时权限开发者需要知道的一切</a></p>
     </section>
 
     <footer class="post-footer">
