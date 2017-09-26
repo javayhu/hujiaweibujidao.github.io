@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>http://javayhu.me/blog/2017/09/25/camera-development-on-android/</loc>
+    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
+  </url>
   
   <url>
     <loc>http://javayhu.me/blog/2017/07/28/react-native-upgrade/</loc>
@@ -644,7 +650,7 @@
   
   <url>
     <loc>http://javayhu.me/tags/android/</loc>
-    <lastmod>2017-01-24T10:46:33+08:00</lastmod>
+    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -656,7 +662,7 @@
   
   <url>
     <loc>http://javayhu.me/</loc>
-    <lastmod>2017-07-28T10:46:33+08:00</lastmod>
+    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -674,7 +680,7 @@
   
   <url>
     <loc>http://javayhu.me/post/</loc>
-    <lastmod>2017-07-28T10:46:33+08:00</lastmod>
+    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -698,6 +704,7 @@
   
   <url>
     <loc>http://javayhu.me/tags/</loc>
+    <lastmod>2016-04-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
