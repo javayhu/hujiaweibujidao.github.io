@@ -269,6 +269,8 @@
 
 <p>3.某些手机上调用<code>autoFocus</code>方法会crash掉：这个问题是应用灰度之后发现的，也许是自动对焦过程出现了什么问题吧，我这里的处理是暂时将其catch住了，出现异常的话就直接调用<code>takePictureInternal</code>方法。在<a href="https://zhuanlan.zhihu.com/p/20559606">Android相机开发那些坑</a>中也有提到过这个问题，“在拍照按钮事件响应中执行camera.autofocus或camera.takepicture前，一定要检验camera有没有设置预览Surfaceview并开启了相机预览。这里有个方法可以判断预览状态：Camera.setPreviewCallback是预览帧数据的回调函数，它会在SurfaceView收到相机的预览帧数据时被调用，因此在里面可以设置是否允许对焦和拍照的标志位。”</p>
 
+<p>改进之后的takePicture过程代码如下</p>
+
 <p><img src="http://javayhu.me/images/cameraview_takepicture2.png" alt="img" /></p>
 
 <p><strong>5. 相机权限</strong></p>
