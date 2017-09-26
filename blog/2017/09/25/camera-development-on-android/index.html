@@ -210,13 +210,10 @@
 
 <p>搞清楚了前面的图表再去阅读cameraview的源码就清晰很多了，其他的类都是围绕着CameraView而展开的。</p>
 
-<p><code>Size</code>就是描述宽和高，例如800x600、400x300或者640x360等；</p>
-
-<p><code>AspectRatio</code>就是描述Size的宽高比，例如800x600和400x300这两个Size都是4:3，但是640x360是16:9；</p>
-
-<p><code>SizeMap</code>就是维护<code>AspectRatio</code>到<code>Size</code>的映射列表，例如{&ldquo;4:3&rdquo;: {800x600, 400x300}, &ldquo;16:9&rdquo;: {640x360}} 这种形式。</p>
-
-<p><code>DisplayOrientationDetector</code>就是用来监测相机界面屏幕旋转，然后通知相关组件应对屏幕旋转的变化，例如对预览画面进行调整。</p>
+<p><code>Size</code>就是描述宽和高，例如800x600、400x300或者640x360等；<br />
+<code>AspectRatio</code>就是描述Size的宽高比，例如800x600和400x300这两个Size都是4:3，但是640x360是16:9；<br />
+<code>SizeMap</code>就是维护<code>AspectRatio</code>到<code>Size</code>的映射列表，例如{&ldquo;4:3&rdquo;: {800x600, 400x300}, &ldquo;16:9&rdquo;: {640x360}} 这种形式；<br />
+<code>DisplayOrientationDetector</code>就是用来监测相机界面屏幕旋转，然后通知相关组件应对屏幕旋转的变化，例如对预览画面进行调整。</p>
 
 <p><strong>2. 关于Camera1和Camera2的选择</strong></p>
 
