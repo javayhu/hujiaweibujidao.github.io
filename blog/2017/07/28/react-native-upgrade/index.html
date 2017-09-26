@@ -227,70 +227,7 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
 
 <p>混淆规则 (注意最后一句，不加会产生问题，不过我觉得这可能不是解决问题最好的方式)</p>
 
-<pre><code class="language-java">#============================= React Native start =============================#
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-
-# Disabling obfuscation is useful if you collect stack traces from production crashes
-# (unless you are using a system that supports de-obfuscate the stack traces).
-#-dontobfuscate
-
-# React Native
-
-# Keep our interfaces so they can be used by other ProGuard rules.
-# See http://sourceforge.net/p/proguard/bugs/466/
--keep,allowobfuscation @interface com.facebook.proguard.annotations.DoNotStrip
--keep,allowobfuscation @interface com.facebook.proguard.annotations.KeepGettersAndSetters
--keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
-
-# Do not strip any method/class that is annotated with @DoNotStrip
--keep @com.facebook.proguard.annotations.DoNotStrip class *
--keep @com.facebook.common.internal.DoNotStrip class *
--keepclassmembers class * {
-    @com.facebook.proguard.annotations.DoNotStrip *;
-    @com.facebook.common.internal.DoNotStrip *;
-}
-
--keepclassmembers @com.facebook.proguard.annotations.KeepGettersAndSetters class * {
-  void set*(***);
-  *** get*();
-}
-
--keep class * extends com.facebook.react.bridge.JavaScriptModule { *; }
--keep class * extends com.facebook.react.bridge.NativeModule { *; }
--keepclassmembers,includedescriptorclasses class * { native &lt;methods&gt;; }
--keepclassmembers class *  { @com.facebook.react.uimanager.UIProp &lt;fields&gt;; }
--keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactProp &lt;methods&gt;; }
--keepclassmembers class *  { @com.facebook.react.uimanager.annotations.ReactPropGroup &lt;methods&gt;; }
-
--dontwarn com.facebook.react.**
-
-# TextLayoutBuilder uses a non-public Android constructor within StaticLayout.
-# See libs/proxy/src/main/java/com/facebook/fbui/textlayoutbuilder/proxy for details.
--dontwarn android.text.StaticLayout
-
-# okhttp
--keepattributes Signature
--keepattributes *Annotation*
--keep class okhttp3.** { *; }
--keep interface okhttp3.** { *; }
--dontwarn okhttp3.**
-
-# okio
--keep class sun.misc.Unsafe { *; }
--dontwarn java.nio.file.*
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
--dontwarn okio.**
-
-# Caused by: java.lang.NoSuchFieldError: no field with name='mHybridData'
-# ref: http://blog.csdn.net/it_talk/article/details/52789251
--keep class com.facebook.** { *; }
-#============================= React Native end =============================#
-</code></pre>
+<p>混淆内容较多，请看这个<a href="https://gist.github.com/hujiaweibujidao/26229de59e143c4f802cdfba95f286a1">gist</a></p>
 
 <p>3.默认情况下，以上编译操作生成的aar文件中只包含<code>armeabi-v7a</code>和<code>x86</code>两种ABI下的so文件，如果运行时提示找不到so文件，那么可能就是你的<code>abiFilter</code>配置错了。但是如果你的应用的<code>abiFilter</code>只能配置为<code>armeabi</code>的话，可以考虑下面的做法：先解压aar文件，在jni目录下新建<code>armeabi</code>文件 夹，并将<code>armeabi-v7a</code>下面的so复制到<code>armeabi</code>中，然后删除<code>x86</code>和<code>armeabi-v7a</code>目录，最后重新压缩生成aar文件。</p>
 
