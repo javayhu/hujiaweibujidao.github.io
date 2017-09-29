@@ -122,7 +122,7 @@
 
     <nav class="main-nav overlay clearfix">
     
-        <a class="blog-logo" href="http://javayhu.me/"><img src="http://javayhu.me/images/logo.gif" alt="Blog Logo" /></a>
+        
     
     
         <a class="menu-button" href="#"><span class="burger">&#9776;</span><span class="word">Menu</span></a>
@@ -169,16 +169,16 @@
 
         <section class="post-meta">
         
-          <time class="post-date" datetime="2014-07-01T00:00:00Z">
-            Jul 1, 2014
-          </time>
+          <span class="post-tag small"><a href="http://javayhu.me/tags/algorithm/">#algorithm</a></span>
+        
+          <span class="post-tag small"><a href="http://javayhu.me/tags/python/">#python</a></span>
         
         &nbsp;&nbsp;
-         
-          <span class="post-tag small"><a href="http://javayhu.me/tags/algorithm/">#algorithm</a></span>
-         
-          <span class="post-tag small"><a href="http://javayhu.me/tags/python/">#python</a></span>
-         
+        
+          <time class="post-date" datetime="2014-07-01T00:00:00Z">
+            2014/7/1
+          </time>
+        
         </section>
         <br/>
     </header>
@@ -310,7 +310,9 @@ Python中很多地方都使用了hash策略，在前面的<a href="http://javayh
 
 <p><img src="http://javayhu.me/images/algos/graphrep.png" alt="image" /></p>
 
-<p>邻接表 Adjacency Lists：因为历史原因，邻接表往往都是指链表list，但实际上也可以是其他的，例如在python中也可以是set或者dict，不同的表示方式有各自的优缺点，它们判断节点的连接关系和节点的度的方式甚至两个操作的性能都不太一样。</p>
+<p><strong>邻接表 Adjacency Lists</strong></p>
+
+<p>因为历史原因，邻接表往往都是指链表list，但实际上也可以是其他的，例如在python中也可以是set或者dict，不同的表示方式有各自的优缺点，它们判断节点的连接关系和节点的度的方式甚至两个操作的性能都不太一样。</p>
 
 <p>① adjacency lists 表示形式</p>
 
@@ -352,7 +354,7 @@ len(N[f]) # Degree -&gt; 3
 
 <p>基本上和adjacency lists表示形式一样对吧？但是，对于list，判断一个元素是否存在是线性时间$O(N(v))$，而在set中是常数时间$O(1)$，所以对于稠密图使用adjacency sets要更加高效。</p>
 
-<p>③ adjacency dicts 表示形式</p>
+<p>③ adjacency dicts 表示形式，这种情况下如果边是带权值的都没有问题！</p>
 
 <pre><code class="language-python"># A Straightforward Adjacency Dict Representation
 a, b, c, d, e, f, g, h = range(8)
@@ -372,8 +374,6 @@ len(N[f]) # Degree -&gt; 3
 N[a][b] # Edge weight for (a, b) -&gt; 2
 </code></pre>
 
-<p>这种情况下如果边是带权值的都没有问题！</p>
-
 <p>除了上面三种方式外，还可以改变外层数据结构，上面三个都是list，其实也可以使用dict，例如下面的代码，此时节点是用字母表示的。在实际应用中，要根据问题选择最合适的表示形式。</p>
 
 <pre><code>N = {
@@ -388,9 +388,9 @@ N[a][b] # Edge weight for (a, b) -&gt; 2
 }
 </code></pre>
 
-<p>邻接矩阵 Adjacency Matrix</p>
+<p><strong>邻接矩阵 Adjacency Matrix</strong></p>
 
-<p>使用嵌套的list，用1和0表示点和点之间的连接关系，此时对于它们的连接性判断时间是常数，但是对于度的计算时间是线性的</p>
+<p>使用嵌套的list，用1和0表示点和点之间的连接关系，此时点之间的连接性判断时间是常数，但是对于度的计算时间是线性的</p>
 
 <pre><code># An Adjacency Matrix, Implemented with Nested Lists
 a, b, c, d, e, f, g, h = range(8)
@@ -425,7 +425,7 @@ W[a][b] &lt; inf # Neighborhood membership
 sum(1 for w in W[a] if w &lt; inf) - 1  # Degree
 </code></pre>
 
-<p><strong>NumPy</strong>：这里作者提到了一个最常用的数值计算模块NumPy，它包含了很多与多维数组计算有关的函数。我可能会在以后的机器学习中详细学习它的使用，到时候可能会写篇文章介绍它的使用</p>
+<p><strong>NumPy</strong>：这里作者提到了一个最常用的数值计算模块NumPy，它包含了很多与多维数组计算有关的函数。</p>
 
 <p>(2)树的表示 [假设要表示下面的树]</p>
 
@@ -462,9 +462,7 @@ t = Tree(Tree(&quot;a&quot;, Tree(&quot;b&quot;, Tree(&quot;c&quot;, Tree(&quot;
 t.kids.next.next.val  # 'c'
 </code></pre>
 
-<p><strong>[Bunch Pattern]</strong>：有意思的是，上面的实现方式使用了Python中一种常用的设计模式，叫做Bunch Pattern，貌似来自经典书籍Python Cookbook，原书介绍如下：</p>
-
-<p>[因为这个不太好理解和翻译，还是原文比较有味，后期等我深刻理解了我可能会详细介绍它]</p>
+<p><strong>[Bunch Pattern]</strong>：有意思的是，上面的实现方式使用了Python中一种常用的设计模式，叫做Bunch Pattern，貌似来自经典书籍Python Cookbook，原书介绍如下：[因为这个不太好理解和翻译，还是原文比较有味]</p>
 
 <p>When prototyping (or even finalizing) data structures such as trees, it can be useful to have a flexible class that will allow you to specify arbitrary attributes in the constructor. In these cases, the “Bunch” pattern (named by Alex Martelli in the Python Cookbook) can come in handy. There are many ways of implementing it, but the gist of it is the following:</p>
 
@@ -502,9 +500,9 @@ False
 
 <p><strong>[与图有关的python模块]</strong>：</p>
 
-<p>• NetworkX: <a href="http://networkx.lanl.gov">http://networkx.lanl.gov</a>
-• python-graph: <a href="http://code.google.com/p/python-graph">http://code.google.com/p/python-graph</a>
-• Graphine: <a href="http://gitorious.org/projects/graphine/pages/Home">http://gitorious.org/projects/graphine/pages/Home</a>
+<p>• NetworkX: <a href="http://networkx.lanl.gov">http://networkx.lanl.gov</a><br />
+• python-graph: <a href="http://code.google.com/p/python-graph">http://code.google.com/p/python-graph</a><br />
+• Graphine: <a href="http://gitorious.org/projects/graphine/pages/Home">http://gitorious.org/projects/graphine/pages/Home</a><br />
 • Pygr: a graph database  <a href="http://bioinfo.mbi.ucla.edu/pygr">http://bioinfo.mbi.ucla.edu/pygr</a><br />
 • Gato: a graph animation toolbox <a href="http://gato.sourceforge.net">http://gato.sourceforge.net</a><br />
 • PADS: a collection of graph algorithms  <a href="http://www.ics.uci.edu/~eppstein/PADS">http://www.ics.uci.edu/~eppstein/PADS</a></p>
@@ -533,7 +531,7 @@ S = set(L)
 <pre><code>sum(0.1 for i in range(10)) == 1.0 # False
 </code></pre>
 
-<p><strong>永远不要使用小数比较结果来作为两者相等的判断依据！</strong>你最多只能判断两个浮点数在有限位数上是相等的，也就是近似相等了。</p>
+<p><strong>永远不要使用小数比较结果来作为两者相等的判断依据！</strong>你最多只能判断两个浮点数在有限位数上是相等的，也就是近似相等</p>
 
 <pre><code>def almost_equal(x, y, places=7):
     return round(abs(x-y), places) == 0
@@ -547,7 +545,8 @@ almost_equal(sum(0.1 for i in range(10)), 1.0) # True
 sum(Decimal(&quot;0.1&quot;) for i in range(10)) == Decimal(&quot;1.0&quot;)  # Ture
 </code></pre>
 
-<p>还有一个有用的<code>Sage</code>模块，如下所示，它可以进行数学的符号运算得到准确值，如果需要也可以得到近似的浮点数解。<a href="http://sagemath.org">Sage的官方网址</a></p>
+<p>还有一个有用的<code>Sage</code>模块，如下所示，它可以进行数学的符号运算得到准确值，如果需要也可以得到近似的浮点数解。<br />
+<a href="http://sagemath.org">Sage的官方网址</a></p>
 
 <pre><code>sage: 3/5 * 11/7 + sqrt(5239)
 13*sqrt(31) + 33/35
