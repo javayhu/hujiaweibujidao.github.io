@@ -182,6 +182,8 @@
     <section class="post-content">
       <p>本文主要分享Android和iOS端升级RN到0.44.0版本的经验。</p>
 
+<p><strong>文中的代码和图片我都反复检查过了，基本上没有泄露公司的重要信息的数据，如若发现有泄露的话请立即告知我 ;-)</strong></p>
+
 <p>今天收到一封不知来自哪个国家的友人的感谢邮件，说是我之前的一篇文章帮助到了他，这才看了看自己的博客，发现我真的有很久没分享东西了。毕业一年有余，换了一次工作，一直忙忙碌碌，日子很充实，收获很多，其实真的很想都分享出来，但是周末却总是变得懒散不想动，慢慢地就积压了很多想分享的内容。这次终于战胜自己，重新开始分享，希望能够坚持下去。</p>
 
 <p>首先，我要告诉大家一件事情，我正式开始做iOS啦，撒花~ 现在产品迭代中交给我的需求如果工作量不是很大的话，那么Android和iOS端就都交给我一个人搞啦，真好。</p>
@@ -190,8 +192,7 @@
 
 <p>考虑到我们的RN版本有点老，问题较多，所以最近对RN进行一次升级，升级到0.44.0版本，并对Android和iOS的RN模块进行代码改造。期间我主要是完成Android和iOS端RN模块代码的改造工作，另一位前端同学配合一起解决升级过程出现的问题。</p>
 
-<p>作为一个接到RN升级任务的RN小白，下面我就大致介绍下自己完成这个任务时遇到的坑，希望能有所帮助。<br />
-<strong>文中的代码和图片我都反复检查过了，基本上没有泄露公司的重要信息的数据，如若发现有泄露的话请立即告知我 ;-)</strong></p>
+<p>作为一个接到RN升级任务的RN小白，下面我就大致介绍下自己完成这个任务时遇到的坑，希望能有所帮助。</p>
 
 <h4 id="1-替换rn新版本的依赖库-同时更新相关配置"><strong>1.替换RN新版本的依赖库，同时更新相关配置</strong></h4>
 
@@ -244,7 +245,7 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
 
 <p>2.项目中除了要引入11个静态库文件，还需要引入RN相关的头文件，这些头文件可以在上面的demo项目的构建结果中找到，一般路径为<code>/Users/[user]/Library/Developer/Xcode/DerivedData/[demo-project]/Build/Products/[Release-xxx]/include</code>，引入之后别忘了添加到<code>Header Search Path</code>中。</p>
 
-<p>3.一定要以<code>release</code>模式构建demo应用，否则生成静态库中RN环境实际上是dev环境，在手机摇晃的情况下会弹出RN的调试菜单！出现异常的还会显示RN的红屏界面！</p>
+<p>3.一定要以<code>release</code>模式构建demo应用，否则生成静态库中RN环境实际上是dev环境，在手机摇晃的情况下会弹出RN的调试菜单！出现异常时还会显示RN的红屏界面！</p>
 
 <p>4.生成静态库的时候要根据项目的配置来确定支持的平台，例如有可能项目需要的是同时支持armv7, arm64, i386, x86_64平台的静态库，那么这个时候就需要使用<code>lipo</code>命令，其中<code>lipo -info</code>命令可以查看一个静态库支持的平台，<code>lipo -create</code>命令可以将支持不同平台的静态库合并。</p>
 
@@ -299,6 +300,8 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
 
 <p>3.Android端的立即生效方案也许不是best practice，或许可以不修改源码就能够重新设置bundle位置，但是我目前没有细究，所以用了上面的方案。</p>
 
+<p>4.不是所有应用都需要bundle立即生效的策略，如果没有必要这么做的话就尽量不要做，以免带来更多的问题。此外，如果你发现这个策略加上之后出现了很多新的RN相关的crash的话，那建议还是不要这么做的好，毕竟稳定性更加重要。</p>
+
 <h4 id="5-bundle文件加载容错机制"><strong>5.Bundle文件加载容错机制</strong></h4>
 
 <p>默认情况下我们发出去的app中自带一个稳定版本的bundle，在其他bundle加载失败的情况下，就使用app自带的bundle文件进行容错。目前Android端还没有做这个功能，iOS因为可以接收到bundle加载失败的通知所以实现了这个功能。</p>
@@ -315,7 +318,7 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
 
 <p>OK，可能花了一晚上只是写了一堆废话吧，谢谢你看完，如果内容有什么错误或者想咨询的可以通过邮件联系我，因为多说关闭了，本想着什么时候换成网易云跟帖，结果前段时间听说也要关闭了，所以我想算了吧，不想再去接入其他的评论系统了。</p>
 
-<p>很明显，本文并没有提到RN专题中常见的性能优化和组件定制，这块我的经验尚浅，待有朝一日熟悉了再来说点废话吧，晚安。</p>
+<p>很明显，本文并没有提到RN专题中常见的性能优化和组件定制，这块我的经验尚浅，待有朝一日熟悉了再来说吧，晚安。</p>
     </section>
 
     <footer class="post-footer">
@@ -337,6 +340,8 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="http://javayhu.me/"> http://javayhu.me/</a></span>
     <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+
+    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验。<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>)</span>
   </div>
 </section>
 
