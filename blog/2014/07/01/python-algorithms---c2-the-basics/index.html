@@ -239,11 +239,13 @@ Tracey: I don’t think they covered that in basic.<br />
 
 <p>(2)Tip 2: For timing things, use timeit.</p>
 
-<p>使用<code>timeit</code>模块对运行时间进行分析，在前面的<a href="http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/">数据结构篇中第三部分数据结构</a>的list中已经介绍过了timeit模块，在使用的时候需要注意前面的运行不会影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)</p>
+<p>使用<code>timeit</code>模块对运行时间进行分析，在使用的时候需要注意前面的运行不要影响后面的重复的运行(例如，分析排序算法运行时间，如果将前面已经排好序的序列传递给后面的重复运行是不行的)</p>
 
 <pre><code class="language-python">#timeit模块简单使用实例
 timeit.timeit(&quot;x = sum(range(10))&quot;)
 </code></pre>
+
+<p><img src="http://javayhu.me/images/timeit.png" alt="image" /></p>
 
 <p>(3)Tip 3: To find bottlenecks, use a profiler.</p>
 

@@ -200,7 +200,7 @@ Chapter 6 Trees and Tree Algorithms<br />
 <p>(1)List<br />
 List的各个操作的时间复杂度</p>
 
-<p><img src="http://javayhu.me/images/listoptime.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/listoptime.png" alt="image" /></p>
 
 <p>同样是执行1000次创建一个包含1-1000的列表，四种方式使用的时间差距很大！使用append比逐次增加要快很多，另外，使用python的列表产生式比append要快，而第四种方式更加快！</p>
 
@@ -237,10 +237,6 @@ print(&quot;list range &quot;,t4.timeit(number=1000), &quot;milliseconds&quot;)
 # ('list range ', 0.014147043228149414, 'milliseconds')
 </code></pre>
 
-<p><code>timeit</code>模块的解释：</p>
-
-<p><img src="http://javayhu.me/images/timeit.png" alt="image" /></p>
-
 <p>测试pop操作：从结果可以看出，pop最后一个元素的效率远远高于pop第一个元素</p>
 
 <pre><code>x = list(range(2000000))
@@ -264,7 +260,7 @@ print(&quot;pop_end &quot;,pop_end.timeit(number=1000), &quot;milliseconds&quot;
 
 <p>Dictionary的各个操作的性能</p>
 
-<p><img src="http://javayhu.me/images/dictionary.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/dictionary.png" alt="image" /></p>
 
 <p>Dictionary和List的性能比较：list基本上随着其元素的数目呈线性增长，而dictionary一直维持在很短很短的时间内(我的机子测试的结果都是<code>0.001ms</code>)。Dictionary类似Java中的<code>HashMap</code>，内部实现使用了前面提到的hash函数，所以查找和删除都是常数时间的。</p>
 
@@ -282,13 +278,13 @@ for i in range(10000,1000001,20000):
 
 <p>结果图</p>
 
-<p><img src="http://javayhu.me/images/compare.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/compare.png" alt="image" /></p>
 
 <p>2.栈：LIFO结构，后进先出</p>
 
 <p>栈能解决的问题很多，比如逆波兰表达式求值，求一个十进制数的二进制表达，检查括号匹配问题以及图的深度搜索等等，都很简单，可查看参考内容1学习。</p>
 
-<p><img src="http://javayhu.me/images/stack.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/stack.png" alt="image" /></p>
 
 <pre><code class="language-python"># Completed implementation of a stack ADT
 class Stack:
@@ -323,7 +319,7 @@ print(s.size())
 
 <p>队列一般用于解决需要优先队列的问题或者进行广度优先搜索的问题，也很简单。</p>
 
-<p><img src="http://javayhu.me/images/queue.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/queue.png" alt="image" /></p>
 
 <pre><code class="language-python"># Completed implementation of a queue ADT
 class Queue:
@@ -349,7 +345,7 @@ print(q.items)
 
 <p>4.双向队列：左右两边都可以插入和删除的队列</p>
 
-<p><img src="http://javayhu.me/images/deque.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/deque.png" alt="image" /></p>
 
 <p>下面的实现是以右端为front，左端为rear</p>
 
@@ -383,7 +379,7 @@ print(dq.items)
 
 <p>二叉树的应用很多，比如对算术表达式建立一颗二叉树可以清楚看出表达式是如何计算的(详情请见参考内容1)，二叉树的变种可以得到其他的有一定特性的数据结构，例如后面的二叉堆。二叉树的三种遍历方法(前序，中序，后序)同样有很多的应用，比较简单，略过。</p>
 
-<p><img src="http://javayhu.me/images/bt2.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/bt2.png" alt="image" /></p>
 
 <p>第一种，直接使用list来实现二叉树，可读性差</p>
 
@@ -431,7 +427,7 @@ print(get_right_child(get_right_child(r)))
 
 <p>第二种，使用类的形式定义二叉树，可读性更好</p>
 
-<p><img src="http://javayhu.me/images/btclass.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/btclass.png" alt="image" /></p>
 
 <pre><code>class BinaryTree:
     def __init__(self, root):
@@ -474,21 +470,23 @@ r.get_right_child().set_root_val('hello')
 print(r.get_right_child().get_root_val())
 </code></pre>
 
-<p>6.二叉堆：根据堆的性质又可以分为最小堆和最大堆，是一种非常好的优先队列。在最小堆中孩子节点一定大于等于其父亲节点，最大堆反之。二叉堆实际上一棵完全二叉树，并且满足堆的性质。对于插入和查找操作的时间复杂度度都是$O(logn)$。</p>
+<p>6.二叉堆：根据堆的性质又可以分为最小堆和最大堆，是一种非常好的优先队列。在最小堆中孩子节点一定大于等于其父亲节点，最大堆反之。二叉堆实际上是一棵完全二叉树，并且满足堆的性质。对于插入和查找操作的时间复杂度度都是$O(logn)$。</p>
 
 <p>它的插入操作图示：</p>
 
-<p><img src="http://javayhu.me/images/heapinsert.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/heapinsert.png" alt="image" /></p>
 
 <p>去除根节点的操作图示：</p>
 
-<p><img src="http://javayhu.me/images/heapdel.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/heapdel.png" alt="image" /></p>
 
-<p>注意，下面的实现中默认在初始的堆列表中插入了一个元素0，这样做可以保证堆的真实有效的元素个数和current_size值对应，而且最后一个元素的索引就对应了current_size。</p>
+<p>注意，下面的代码实现中默认在初始的堆列表中插入了一个元素0，这样做可以保证堆的真实有效的元素个数和current_size值对应，而且最后一个元素的索引就对应了current_size。</p>
 
-<p>此外，从list中建堆的过程需要从最后一个非叶子节点开始到第一个非叶子节点(根节点)进行。这篇文章<a href="http://www.cnblogs.com/Anker/archive/2013/01/23/2873422.html">来自博客园</a>解释了这个问题。建堆的过程如下：[下图摘自原博客，版权归原作者，谢谢]</p>
+<p>此外，从list中建堆的过程需要从最后一个非叶子节点开始到第一个非叶子节点(根节点)进行，<a href="http://www.cnblogs.com/Anker/archive/2013/01/23/2873422.html">这篇文章</a>详细地解释了这个问题。建堆的过程如下：</p>
 
-<p><img src="http://javayhu.me/images/heapbuild.png" alt="image" /></p>
+<p>[下图摘自原博客，版权归原作者，谢谢]</p>
+
+<p><img src="http://javayhu.me/images/algos/heapbuild.png" alt="image" /></p>
 
 <pre><code class="language-python">class BinHeap:
     def __init__(self):

@@ -199,33 +199,33 @@ Chapter5: Search and Sorting <a href="http://interactivepython.org/courselib/sta
 
 <p>概念：hash，hash table，hash function <a href="http://zh.wikipedia.org/wiki/%E5%93%88%E5%B8%8C%E8%A1%A8#.E5.A4.84.E7.90.86.E7.A2.B0.E6.92.9E">哈希表_on_wiki</a></p>
 
-<p><img src="http://javayhu.me/images/hashbasics.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/hashbasics.png" alt="image" /></p>
 
 <p>常用的哈希函数：</p>
 
 <p>1.reminder method：取余数（size=11，下图对11取余数，例如17取余数得到6）</p>
 
-<p><img src="http://javayhu.me/images/reminder.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/reminder.png" alt="image" /></p>
 
 <p>2.folding method: 分组求和再取余数</p>
 
-<p><img src="http://javayhu.me/images/folding.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/folding.png" alt="image" /></p>
 
 <p>3.mid-square method：平方值的中间两位数取余数</p>
 
-<p><img src="http://javayhu.me/images/mid-square.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/mid-square.png" alt="image" /></p>
 
 <p>4.对于由字符的元素可以尝试使用<code>ord</code>函数来将字符串转换成一个有序的数值序列。在Python中<code>ord</code>函数可以得到对应字符的ASCII码值。将所有字符的码值累加再取余数。</p>
 
-<p><img src="http://javayhu.me/images/stringord1.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/stringord1.png" alt="image" /></p>
 
 <p>但是，对于通过回文构词法构成的字符串它们得到的值总是一样，为了解决这个问题，可以根据字符的位置添加一个权重。</p>
 
-<p><img src="http://javayhu.me/images/stringord2.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/stringord2.png" alt="image" /></p>
 
 <p>From wiki</p>
 
-<p><img src="http://javayhu.me/images/hashfun.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/hashfun.png" alt="image" /></p>
 
 <p>使用哈希查找，难免遇到冲突，该如何解决冲突(Collision Resolution)呢？</p>
 
@@ -233,19 +233,19 @@ Chapter5: Search and Sorting <a href="http://interactivepython.org/courselib/sta
 
 <p>1.open address(开放寻址)：线性探测(linear probing)下一个位置，缺点是容易造成聚集现象(cluster)，解决聚集现象的办法是跳跃式地查找下一个空槽。数值的顺序：(54, 26, 93, 17, 77, 31, 44, 55, 20).</p>
 
-<p><img src="http://javayhu.me/images/linearprob.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/linearprob.png" alt="image" /></p>
 
 <p>2.quadratic probing(平方探测)：一开始的hash值为h，如果不是空槽，那就尝试h+1，还不是空槽就尝试h+4，依次继续尝试h+9，h+16等等。</p>
 
-<p><img src="http://javayhu.me/images/quadraticprob.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/quadraticprob.png" alt="image" /></p>
 
 <p>3.chain：利用链表链接起来</p>
 
-<p><img src="http://javayhu.me/images/chain.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/chain.png" alt="image" /></p>
 
 <p>From wiki</p>
 
-<p><img src="http://javayhu.me/images/hashcollision.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/hashcollision.png" alt="image" /></p>
 
 <p>分析hash查找的性能：一般使用平均查找长度来衡量，和装载因子有关</p>
 
@@ -255,11 +255,11 @@ $\alpha$是散列表装满程度的标志因子。由于表长是定值，$\alph
 对于开放定址法，荷载因子是特别重要因素，应严格限制在0.7-0.8以下。超过0.8，查表时的CPU缓存不命中（cache missing）按照指数曲线上升。因此，一些采用开放定址法的hash库，如Java的系统库限制了荷载因子为0.75，超过此值将resize散列表。</p>
 </blockquote>
 
-<p><img src="http://javayhu.me/images/hashanalysis.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/hashanalysis.png" alt="image" /></p>
 
 <p>From wiki</p>
 
-<p><img src="http://javayhu.me/images/hashefficiency.png" alt="image" /></p>
+<p><img src="http://javayhu.me/images/algos/hashefficiency.png" alt="image" /></p>
 
 <p>下面的代码包含了顺序查找，二分查找，哈希查找(size=11, plus 1, reminder method)</p>
 
