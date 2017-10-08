@@ -234,7 +234,7 @@ def divide_and_conquer(S, divide, combine):
 
 <p><img src="http://javayhu.me/images/algos/dcc.png" alt="image" /></p>
 
-<p>二分查找是最常用的采用分治策略的算法，我们经常使用的版本控制系统(evision control systems=RCSs)查找代码中发生某个变化是在哪个版本时采用的正是二分查找策略。</p>
+<p>二分查找是最常用的采用分治策略的算法，我们经常使用的版本控制系统(Revision control systems=RCSs)查找代码中发生某个变化是在哪个版本时采用的正是二分查找策略。</p>
 
 <p>Python中<code>bisect</code>模块也正是利用了二分查找策略，其中方法<code>bisect</code>的作用是返回要找到元素的位置，<code>bisect_left</code>是其左边的那个位置，而<code>bisect_right</code>和<code>bisect</code>的作用是一样的，函数<code>insort</code>也是这样设计的。</p>
 
@@ -294,7 +294,7 @@ class Tree:                                     # Simple wrapper
 
 <p>如果我们想要在线性时间内找到一组序列中的前 k 大的元素怎么做呢？很显然，如果这组序列中的数字范围比较大的话，我们就不能使用线性排序算法，而其他的基于比较的排序算法的最好的平均时间复杂度($O(n lg n)$)都超过了线性时间，怎么办呢？</p>
 
-<p>[扩展知识：在Python中如果泥需要求前 k 小或者前 k 大的元素，可以使用<code>heapq</code>模块中的<code>nsmallest</code>或者<code>nlargest</code>函数，如果 k 很小的话这种方式会好些，但是如果 k 很大的话，不如直接去调用<code>sort</code>函数]</p>
+<p>[扩展知识：在Python中如果你需要求前 k 小或者前 k 大的元素，可以使用<code>heapq</code>模块中的<code>nsmallest</code>或者<code>nlargest</code>函数，如果 k 很小的话这种方式会好些，但是如果 k 很大的话，不如直接去调用<code>sort</code>函数]</p>
 
 <p>要想解决这个问题，我们还是要用分治法，采用类似快排中的<code>partition</code>将序列进行划分(divide)，也就是说找一个主元(pivot)，然后用主元作为基准将序列分成两部分，一部分小于主元，另一半大于主元，比较下主元最终的位置值和 k的大小关系，然后确定后面在哪个部分继续进行划分。如果这里不理解的话请移步阅读前面<a href="http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/">数据结构篇之排序中的快速排序</a></p>
 
@@ -408,7 +408,7 @@ B(n) &lt; lg n + 1 &lt; T(n).</p>
     <span class="author-link icon-link"><a href="http://javayhu.me/"> http://javayhu.me/</a></span>
     <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验。<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>)</span>
+    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>)</span>
   </div>
 </section>
 
