@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
-    <lastBuildDate>Mon, 25 Sep 2017 10:46:33 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 27 Nov 2017 10:46:33 +0800</lastBuildDate>
     
 	<atom:link href="http://javayhu.me/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Dive into Android Custom View</title>
+      <link>http://javayhu.me/blog/2017/11/27/dive-into-android-custom-view/</link>
+      <pubDate>Mon, 27 Nov 2017 10:46:33 +0800</pubDate>
+      
+      <guid>http://javayhu.me/blog/2017/11/27/dive-into-android-custom-view/</guid>
+      <description>&lt;p&gt;本文主要介绍自定义View中我们比较容易忽视的一些小细节。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Camera development experience on Android</title>

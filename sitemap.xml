@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>http://javayhu.me/blog/2017/11/27/dive-into-android-custom-view/</loc>
+    <lastmod>2017-11-27T10:46:33+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>http://javayhu.me/blog/2017/09/25/camera-development-experience-on-android/</loc>
     <lastmod>2017-09-25T10:46:33+08:00</lastmod>
   </url>
@@ -650,7 +655,7 @@
   
   <url>
     <loc>http://javayhu.me/tags/android/</loc>
-    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
+    <lastmod>2017-11-27T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -662,7 +667,7 @@
   
   <url>
     <loc>http://javayhu.me/</loc>
-    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
+    <lastmod>2017-11-27T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -680,7 +685,7 @@
   
   <url>
     <loc>http://javayhu.me/post/</loc>
-    <lastmod>2017-09-25T10:46:33+08:00</lastmod>
+    <lastmod>2017-11-27T10:46:33+08:00</lastmod>
     <priority>0</priority>
   </url>
   
