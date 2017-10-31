@@ -186,13 +186,16 @@
 
 <h4 id="12-1-bitmap的高速加载">12.1 Bitmap的高速加载</h4>
 
-<p>(1)<strong>Bitmap是如何加载的？</strong>
-<code>BitmapFactory</code>类提供了四类方法：<code>decodeFile</code>、<code>decodeResource</code>、<code>decodeStream</code>和<code>decodeByteArray</code>从不同来源加载出一个Bitmap对象，最终的实现是在底层实现的。
-<strong>如何高效加载Bitmap？</strong>
-采用<code>BitmapFactory.Options</code>按照一定的采样率来加载所需尺寸的图片，因为imageview所需的图片大小往往小于图片的原始尺寸。
-(2)BitmapFactory.Options的<code>inSampleSize</code>参数，即采样率
-官方文档指出采样率的取值应该是2的指数，例如k，那么采样后的图片宽高均为原图片大小的 1/k。
-<strong>如何获取采样率？</strong>
+<p>(1)<strong>Bitmap是如何加载的？</strong><br />
+<code>BitmapFactory</code>类提供了四类方法：<code>decodeFile</code>、<code>decodeResource</code>、<code>decodeStream</code>和<code>decodeByteArray</code>从不同来源加载出一个Bitmap对象，最终的实现是在底层实现的。</p>
+
+<p><strong>如何高效加载Bitmap？</strong><br />
+采用<code>BitmapFactory.Options</code>按照一定的采样率来加载所需尺寸的图片，因为imageview所需的图片大小往往小于图片的原始尺寸。</p>
+
+<p>(2)BitmapFactory.Options的<code>inSampleSize</code>参数，即采样率<br />
+官方文档指出采样率的取值应该是2的指数，例如采样率=k，那么采样后的图片宽高均为原图片大小的 1/k。</p>
+
+<p><strong>如何获取采样率？</strong><br />
 下面是常用的获取采样率的代码片段：</p>
 
 <pre><code>public Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {

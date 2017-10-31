@@ -203,7 +203,7 @@
 1.AsyncTask中有两个线程池：<code>SerialExecutor</code>和<code>THREAD_POOL_EXECUTOR</code>。前者是用于任务的排队，默认是串行的线程池；后者用于真正执行任务。AsyncTask中还有一个Handler，即<code>InternalHandler</code>，用于将执行环境从线程池切换到主线程。AsyncTask内部就是通过InternalHandler来发送任务执行的进度以及执行结束等消息。<br />
 2.AsyncTask排队执行过程：系统先把参数<code>Params</code>封装为<code>FutureTask</code>对象，它相当于Runnable；接着将FutureTask交给SerialExecutor的<code>execute</code>方法，它先把FutureTask插入到任务队列tasks中，如果这个时候没有正在活动的AsyncTask任务，那么就会执行下一个AsyncTask任务，同时当一个AsyncTask任务执行完毕之后，AsyncTask会继续执行其他任务直到所有任务都被执行为止。<br />
 (3)<code>HandlerThread</code>就是一种可以使用Handler的Thread，它的实现就是在run方法中通过<code>Looper.prepare()</code>来创建消息队列，并通过<code>Looper.loop()</code>来开启消息循环，这样在实际的使用中就允许在HandlerThread中创建Handler了，外界可以通过Handler的消息方式通知HandlerThread执行一个具体的任务。HandlerThread的run方法是一个无限循环，因此当明确不需要再使用HandlerThread的时候，可以通过它的<code>quit</code>或者<code>quitSafely</code>方法来终止线程的执行。HandlerThread的最主要的应用场景就是用在IntentService中。<br />
-(4)<code>IntentService</code>是一个继承自Service的抽象类，要使用它就要创建它的子类。IntentService适合执行一些高优先级的后台任务，这样不容易被系统杀死。IntentService的<code>onCreate</code>方法中会创建HandlerThread，并使用HandlerThread的Looper来构造一个Handler对象ServiceHandler，这样通过ServiceHandler对象发送的消息最终都会在HandlerThread中执行。IntentService会将Intent封装到Message中，通过ServiceHandler发送出去，在ServiceHandler的<code>handleMessage</code>方法中会调用IntentService的抽象方法<code>onHandleIntent</code>，所以IntentService的子类都要是实现这个方法。</p>
+(4)<code>IntentService</code>是一个继承自Service的抽象类，要使用它就要创建它的子类。IntentService适合执行一些高优先级的后台任务，这样不容易被系统杀死。IntentService的<code>onCreate</code>方法中会创建HandlerThread，并使用HandlerThread的Looper来构造一个Handler对象ServiceHandler，这样通过ServiceHandler对象发送的消息最终都会在HandlerThread中执行。IntentService会将Intent封装到Message中，通过ServiceHandler发送出去，在ServiceHandler的<code>handleMessage</code>方法中会调用IntentService的抽象方法<code>onHandleIntent</code>，所以IntentService的子类都要实现这个方法。</p>
 
 <h4 id="11-3-android中的线程池">11.3 Android中的线程池</h4>
 
@@ -213,7 +213,7 @@
 3.能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。<br />
 (2)<code>Executor</code>只是一个接口，真正的线程池是<code>ThreadPoolExecutor</code>。ThreadPoolExecutor提供了一系列参数来配置线程池，通过不同的参数可以创建不同的线程池，Android的线程池都是通过<code>Executors</code>提供的工厂方法得到的。<br />
 (3)ThreadPoolExecutor的构造参数<br />
-1.<code>corePoolSize</code>：核心线程数，默认情况下，核心线程会在线程中一直存活；<br />
+1.<code>corePoolSize</code>：核心线程数，默认情况下，核心线程会在线程池中一直存活；<br />
 2.<code>maximumPoolSize</code>：最大线程数，当活动线程数达到这个数值后，后续的任务将会被阻塞；<br />
 3.<code>keepAliveTime</code>：非核心线程闲置时的超时时长，超过这个时长，闲置的非核心线程就会被回收；<br />
 4.<code>unit</code>：用于指定keepAliveTime参数的时间单位，有<code>TimeUnit.MILLISECONDS</code>、<code>TimeUnit.SECONDS</code>、<code>TimeUnit.MINUTES</code>等；<br />
