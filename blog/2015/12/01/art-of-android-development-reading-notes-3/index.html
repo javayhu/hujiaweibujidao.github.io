@@ -228,7 +228,7 @@ mVelocityTracker.recycle(); //一般在onDetachedFromWindow中调用
 以上三种方法的详情可以参考阅读<a href="http://javayhu.me/blog/2015/11/26/android-heroes-reading-notes-2/">《Android群英传》读书笔记 (2)</a>中的内容，此处不再细述。<br />
 (2)<strong>scrollTo和scrollBy方法只能改变view内容的位置而不能改变view在布局中的位置。</strong> scrollBy是基于当前位置的相对滑动，而scrollTo是基于所传参数的绝对滑动。通过View的<code>getScrollX</code>和<code>getScrollY</code>方法可以得到滑动的距离。<br />
 (3)使用动画来移动view主要是操作view的translationX和translationY属性，既可以使用传统的view动画，也可以使用属性动画，使用后者需要考虑兼容性问题，如果要兼容Android 3.0以下版本系统的话推荐使用<a href="http://nineoldandroids.com/">nineoldandroids</a>。<br />
-[2016-10-21更新：现在一般都不需要再兼容那么低版本的Android系统了，所以nineoldandroids这个库已经不再维护了]
+[2016-10-21更新：现在一般都不需要再兼容那么低版本的Android系统了，所以nineoldandroids这个库已经不再维护了]<br />
 使用动画还存在一个交互问题：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置。</strong><br />
 (4)动画兼容库nineoldandroids中的<code>ViewHelper</code>类提供了很多的get/set方法来为属性动画服务，例如<code>setTranslationX</code>和<code>setTranslationY</code>方法，这些方法是没有版本要求的。</p>
 
@@ -390,7 +390,7 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
     <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
     >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
 
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“宅男潇涧”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
     	<img src="http://javayhu.me/images/qrcode_weixin.jpg" />
     </span>
   </div>

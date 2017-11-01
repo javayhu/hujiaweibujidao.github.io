@@ -350,8 +350,8 @@ manager.notify(sId, notification);
 <h4 id="5-2-remoteviews的内部机制">5.2 RemoteViews的内部机制</h4>
 
 <p>(1)RemoteViews的构造方法 <code>public RemoteViews(String packageName, int layoutId)</code>，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。<br />
-(2)RemoteViews只支持部分布局和View组件，下面列举的组件的子类是不支持的
-布局：<code>FrameLayout、LinearLayout、RelativeLayout、GridLayout</code>
+(2)RemoteViews只支持部分布局和View组件，下面列举的组件的子类是不支持的<br />
+布局：<code>FrameLayout、LinearLayout、RelativeLayout、GridLayout</code><br />
 组件：<code>Button、ImageButton、ImageView、TextView、ListView、GridView、ViewStub</code>等<br />
 (3)RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。<br />
 例如方法<code>setInt(int viewId, String methodName, int value)</code>就是反射调用view对象的名称为methodName的方法，传入参数value，同样的还有<code>setBoolean</code>、<code>setLong</code>等。<br />
@@ -361,8 +361,8 @@ manager.notify(sId, notification);
 (6)系统将view操作封装成<code>Action</code>对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的<code>apply</code>方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。<br />
 这样做的好处是不需要定义大量的Binder接口，其次批量执行RemoteViews中的更新操作提高了程序性能。<br />
 (7)RemoteViews的<code>apply</code>和<code>reapply</code>方法的区别：<code>apply</code>方法会加载布局并更新界面，而<code>reapply</code>方法则只会更新界面。<br />
-(8)<code>setOnClickPendingIntent</code>、<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>的区别
-<code>setOnClickPendingIntent</code>用于给普通的view添加点击事件，但是不能给集合(ListView和StackView)中的view设置点击事件，因为开销太大了。如果需要给ListView和StackView中的item添加点击事件，需要结合<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>一起使用。[并没有尝试(⊙o⊙)]</p>
+(8)<code>setOnClickPendingIntent</code>、<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>的区别<br />
+<code>setOnClickPendingIntent</code>用于给普通的view添加点击事件，但是不能给集合(ListView和StackView)中的view设置点击事件，因为开销太大了。如果需要给ListView和StackView中的item添加点击事件，需要结合<code>setPendingIntentTemplate</code>和<code>setOnClickFillIntent</code>一起使用。</p>
 
 <h4 id="5-3-remoteviews的意义">5.3 RemoteViews的意义</h4>
 
@@ -394,7 +394,7 @@ manager.notify(sId, notification);
     <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
     >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
 
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“宅男潇涧”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
+    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
     	<img src="http://javayhu.me/images/qrcode_weixin.jpg" />
     </span>
   </div>
