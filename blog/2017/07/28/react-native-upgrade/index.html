@@ -294,7 +294,7 @@ compile(name: 'react-native-0.44.0', ext: 'aar')
 <p><img src="http://javayhu.me/images/rn_android_reload.png" alt="img" /></p>
 
 <p><strong>tips</strong>:<br />
-1.无论是Android端还是iOS端，bundle重载时最好要检查下当前屏幕是竖屏还是横屏，因为bundle重载的时候会重新加载和渲染之前已经attached的RN View(假设是按照横屏来布局的)，如果bundle重载时手机是横屏，那么这个RN View会按照横屏进行布局，这样回来的时候界面就会显示异常了。</p>
+1.无论是Android端还是iOS端，bundle重载时最好要检查下当前屏幕是竖屏还是横屏，因为bundle重载的时候会重新加载和渲染之前已经attached的RN View(假设是按照竖屏来布局的)，如果bundle重载时手机是横屏，那么这个RN View会按照横屏进行布局，这样回来的时候界面就会显示异常了。</p>
 
 <p>2.最好不要在应用当前处于RN界面的时候进行bundle重新加载，因为可能造成不可预计的数据异常或者界面显示异常，我们出现过一种数据异常导致应用crash的情况。</p>
 

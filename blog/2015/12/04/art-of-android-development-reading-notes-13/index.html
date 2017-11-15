@@ -205,8 +205,8 @@ crashHandler.init(this);
 
 <p>(1)在Android中单个dex文件所能够包含的最大方法数是<code>65536</code>，这包含Android Framework、依赖的jar以及应用本身的代码中的所有方法。如果方法数超过了最大值，那么编译会报错<code>DexIndexOverflowException</code>。<br />
 有时方法数没有超过最大值，但是安装在低版本手机上时应用异常终止了，报错<code>Optimization failed</code>。这是因为应用在安装的时候，系统会通过<code>dexopt</code>程序来优化dex文件，在优化的过程中dexopt采用一个固定大小的缓冲区来存储应用中所有方法的信息，这个缓冲区就是<code>LinearAlloc</code>。LinearAlloc缓冲区在新版本的Android系统中大小是8MB或者16MB，但是在Android 2.2和2.3中却只有5MB，当待安装的应用的方法数比较多的时候，尽管它还没有达到最大方法数，但是它的存储空间仍然有可能超过5MB，这种情况下dexopt就会报错导致安装失败。<br />
-(2)<strong>如何解决方法数越界的问题呢？</strong> Google在2014年提出了简单方便的<code>multidex</code>的解决方案。
-在Android 5.0之前使用multidex需要引入<code>android-support-multidex.jar</code>包，从Android 5.0开始，系统默认支持了multidex，它可以从apk中加载多个dex。Multidex方案主要针对AndroidStudio和Gradle编译环境。</p>
+(2)<strong>如何解决方法数越界的问题呢？</strong><br />
+Google在2014年提出了简单方便的<code>multidex</code>的解决方案。在Android 5.0之前使用multidex需要引入<code>android-support-multidex.jar</code>包，从Android 5.0开始，系统默认支持了multidex，它可以从apk中加载多个dex。Multidex方案主要针对AndroidStudio和Gradle编译环境。</p>
 
 <p>使用Multidex的步骤：
 1.在<code>build.gradle</code>文件中添加<code>multiDexEnabled true</code></p>
@@ -226,7 +226,7 @@ crashHandler.init(this);
 <pre><code>compile 'com.android.support:multidex:1.0.0'
 </code></pre>
 
-<p>3.在代码中添加对multidex的支持，这里有三种方案：
+<p>3.在代码中添加对multidex的支持，这里有三种方案：<br />
 ① 在AndroidManifest文件中指定Application为<code>MultiDexApplication</code></p>
 
 <pre><code>&lt;application android:name=&quot;android.support.multidex.MultiDexApplication&quot;
@@ -234,7 +234,7 @@ crashHandler.init(this);
 &lt;/application&gt;
 </code></pre>
 
-<p>② 让应用的Application继承自<code>MultiDexApplication</code>
+<p>② 让应用的Application继承自<code>MultiDexApplication</code><br />
 ③ 重写Application的<code>attachBaseContext</code>方法，这个方法要先于<code>onCreate</code>方法执行</p>
 
 <pre><code>public class TestApplication extends Application {
@@ -298,7 +298,7 @@ Activity的资源访问是通过<code>ContextImpl</code>来完成的，它有两
 
 <h3 id="第14章-jni和ndk编程">第14章 JNI和NDK编程</h3>
 
-<p>本章主要是介绍JNI和NDK编程入门知识，比较简答，略过不总结。
+<p>本章主要是介绍JNI和NDK编程入门知识，比较简单，略过不总结。<br />
 如果感兴趣NDK开发可以阅读我之前总结的<a href="http://javayhu.me/blog/2013/11/18/android-ndk-and-opencv-developement/">Android NDK和OpenCV整合开发系列文章</a>。</p>
 
 <p><be/></p>
@@ -309,7 +309,7 @@ Activity的资源访问是通过<code>ContextImpl</code>来完成的，它有两
 
 <p>(2)布局优化<br />
 1.删除布局中无用的组件和层级，有选择地使用性能较低的ViewGroup；<br />
-2.使用<code>&lt;include&gt;</code>、<code>&lt;merge&gt;</code>、<code>&lt;viewstub&gt;</code>等标签：<code>&lt;include&gt;</code>标签主要用于布局重用，<code>&lt;merge&gt;</code>标签一般和<code>&lt;include&gt;</code>配合使用，它可以减少布局中的层级；<code>&lt;viewstub&gt;</code>标签则提供了按需加载的功能，当需要的时候才会将ViewStub中的布局加载到内存，提供了程序的初始化效率。<br />
+2.使用<code>&lt;include&gt;</code>、<code>&lt;merge&gt;</code>、<code>&lt;viewstub&gt;</code>等标签：<code>&lt;include&gt;</code>标签主要用于布局重用，<code>&lt;merge&gt;</code>标签一般和<code>&lt;include&gt;</code>配合使用，它可以减少布局中的层级；<code>&lt;viewstub&gt;</code>标签则提供了按需加载的功能，当需要的时候才会将ViewStub中的布局加载到内存，提高了程序的初始化效率。<br />
 3.<code>&lt;include&gt;</code>标签只支持<code>android:layout_</code>开头的属性，<code>android:id</code>属性例外。<br />
 4.<code>ViewStub</code>继承自View，它非常轻量级且宽高都为0，它本身不参与任何的布局和绘制过程。实际开发中，很多布局文件在正常情况下不会显示，例如网络异常时的界面，这个时候就没有必要在整个界面初始化的时候加载进行，通过ViewStub可以做到在需要的时候再加载。<br />
 如下面示例，<code>android:id</code>是ViewStub的id，而<code>android:inflatedId</code>是布局的根元素的id。</p>

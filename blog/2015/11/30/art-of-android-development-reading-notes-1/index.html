@@ -194,7 +194,7 @@
 (3)<code>onStart</code>和<code>onStop</code>对应，它们是从Activity是否可见这个角度来回调的；<code>onPause</code>和<code>onResume</code>方法对应，它们是从Activity是否位于前台这个角度来回调的。<br />
 (4)从Activity A进入到Activity B，回调顺序是<code>onPause(A) -&gt; onCreate(B) -&gt; onStart(B) -&gt; onResume(B) -&gt; onStop(A)</code>，所以不能在onPause方法中做重量级的操作。</p>
 
-<p>1.1.2 异常情况下生命周期分析
+<p>1.1.2 异常情况下生命周期分析<br />
 (1)<code>onSaveInstanceState</code>方法只会出现在Activity被异常终止的情况下，它的调用时机是在<code>onStop</code>之前，它和<code>onPause</code>方法没有既定的时序关系，可能在它之前，也可能在它之后。当Activity被重新创建的时候，<code>onRestoreInstanceState</code>会被回调，它的调用时机是<code>onStart</code>之后。<br />
 <strong>系统只会在Activity即将被销毁并且有机会重新显示的情况下才会去调用onSaveInstanceState方法。</strong>
 <strong>当Activity在异常情况下需要重新创建时，系统会默认为我们保存当前Activity的视图结构，并且在Activity重启后为我们恢复这些数据，比如文本框中用户输入的数据、listview滚动的位置等，这些view相关的状态系统都会默认为我们恢复。具体针对某一个view系统能为我们恢复哪些数据可以查看view的源码中的onSaveInstanceState和onRestoreInstanceState方法。</strong><br />
@@ -218,7 +218,7 @@
 (5)singleTask模式的具体分析：当一个具有singleTask启动模式的Activity请求启动之后，系统首先会寻找是否存在A想要的任务栈，如果不存在，就重新创建一个任务栈，然后创建Activity的实例把它放到栈中；如果存在Activity所需的任务栈，这时候要看栈中是否有Activity实例存在，如果有，那么系统就会把该Activity实例调到栈顶，并调用它的onNewIntent方法(它之上的Activity会被迫出栈，所以<strong>singleTask模式具有FLAG_ACTIVITY_CLEAR_TOP效果</strong>)；如果Activity实例不存在，那么就创建Activity实例并把它压入栈中。<br />
 (6)设置启动模式既可以使用xml属性<code>android:launchMode</code>，也可以使用代码<code>intent.addFlags()</code>。<strong>区别在于限定范围不同，前者无法直接为Activity设置FLAG_ACTIVITY_CLEAR_TOP标识，而后者无法为Activity指定singleInstance模式。</strong></p>
 
-<p>1.2.2 Activity的Flags
+<p>1.2.2 Activity的Flags<br />
 <code>FLAG_ACTIVITY_NEW_TASK</code>,<code>FLAG_ACTIVITY_SINGLE_TOP</code>,<code>FLAG_ACTIVITY_CLEAR_TOP</code>
 <code>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS</code>：具有这个标记的Activity不会出现在历史Activity列表中，当某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用，它等同于属性设置<code>android:excludeFromRecents=&quot;true&quot;</code>。</p>
 
@@ -255,10 +255,10 @@ data的结构很复杂，语法大致如下：</p>
 </code></pre>
 
 <p>主要由<code>mimeType</code>和<code>URI</code>组成，其中mimeType代表媒体类型，而URI的结构也复杂，大致如下：<br />
-<code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;]|[&lt;pathPrefix&gt;]|[pathPattern]</code>
-例如<code>content://com.example.project:200/folder/subfolder/etc</code>
-<code>scheme、host、port</code>分别表示URI的模式、主机名和端口号，其中如果scheme或者host未指定那么URI就无效。
-<code>path、pathPattern、pathPrefix</code>都是表示路径信息，其中path表示完整的路径信息，pathPrefix表示路径的前缀信息；pathPattern表示完整的路径，但是它里面包含了通配符(*)。</p>
+<code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;]|[&lt;pathPrefix&gt;]|[pathPattern]</code><br />
+例如<code>content://com.example.project:200/folder/subfolder/etc</code><br />
+<code>scheme、host、port</code>分别表示URI的模式、主机名和端口号，其中如果scheme或者host未指定那么URI就无效。<br />
+<code>path、pathPattern、pathPrefix</code>都是表示路径信息，其中path表示完整的路径信息，pathPrefix表示路径的前缀信息，pathPattern表示完整的路径，但是它里面包含了通配符(*)。</p>
 
 <p><strong>data匹配规则：Intent中必须含有data数据，并且data数据能够完全匹配过滤规则中的某一个data。</strong><br />
 <strong>URI有默认的scheme！</strong><br />
@@ -296,7 +296,7 @@ data的结构很复杂，语法大致如下：</p>
 
 <p><strong>如何判断是否有Activity能够匹配我们的隐式Intent？</strong><br />
 (1)<code>PackageManager</code>的<code>resolveActivity</code>方法或者Intent的<code>resolveActivity</code>方法：如果找不到就会返回null<br />
-(2)PackageManager的<code>queryIntentActivities</code>方法：它返回所有成功匹配的Activity信息
+(2)PackageManager的<code>queryIntentActivities</code>方法：它返回所有成功匹配的Activity信息<br />
 针对Service和BroadcastReceiver等组件，PackageManager同样提供了类似的方法去获取成功匹配的组件信息，例如<code>queryIntentServices</code>、<code>queryBroadcastReceivers</code>等方法</p>
 
 <p>有一类action和category比较重要，它们在一起用来标明这是一个入口Activity，并且会出现在系统的应用列表中。</p>
