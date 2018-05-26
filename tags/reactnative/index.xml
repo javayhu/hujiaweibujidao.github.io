@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Reactnative on Hujiawei Bujidao</title>
-    <link>http://javayhu.me/tags/reactnative/</link>
+    <link>https://hujiaweibujidao.github.io/tags/reactnative/</link>
     <description>Recent content in Reactnative on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Fri, 28 Jul 2017 10:46:33 +0800</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/tags/reactnative/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/tags/reactnative/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>React Native Upgrade</title>
-      <link>http://javayhu.me/blog/2017/07/28/react-native-upgrade/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</link>
       <pubDate>Fri, 28 Jul 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2017/07/28/react-native-upgrade/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</guid>
       <description>&lt;p&gt;本文主要分享Android和iOS端升级RN到0.44.0版本的经验。&lt;/p&gt;</description>
     </item>
     

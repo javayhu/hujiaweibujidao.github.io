@@ -2,238 +2,238 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hujiawei Bujidao</title>
-    <link>http://javayhu.me/</link>
+    <link>https://hujiaweibujidao.github.io/</link>
     <description>Recent content on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Mon, 27 Nov 2017 10:46:33 +0800</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Dive into Android Custom View</title>
-      <link>http://javayhu.me/blog/2017/11/27/dive-into-android-custom-view/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2017/11/27/dive-into-android-custom-view/</link>
       <pubDate>Mon, 27 Nov 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2017/11/27/dive-into-android-custom-view/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2017/11/27/dive-into-android-custom-view/</guid>
       <description>&lt;p&gt;本文主要介绍自定义View中我们比较容易忽视的一些小细节。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Camera development experience on Android</title>
-      <link>http://javayhu.me/blog/2017/09/25/camera-development-experience-on-android/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2017/09/25/camera-development-experience-on-android/</link>
       <pubDate>Mon, 25 Sep 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2017/09/25/camera-development-experience-on-android/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2017/09/25/camera-development-experience-on-android/</guid>
       <description>&lt;p&gt;本文主要总结下Android端相机相关开发的经验。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>React Native Upgrade</title>
-      <link>http://javayhu.me/blog/2017/07/28/react-native-upgrade/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</link>
       <pubDate>Fri, 28 Jul 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2017/07/28/react-native-upgrade/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</guid>
       <description>&lt;p&gt;本文主要分享Android和iOS端升级RN到0.44.0版本的经验。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>How to know your application’s battery stats</title>
-      <link>http://javayhu.me/blog/2017/01/24/how-to-know-your-applications-battery-stats/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/</link>
       <pubDate>Tue, 24 Jan 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2017/01/24/how-to-know-your-applications-battery-stats/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/</guid>
       <description>&lt;p&gt;本文主要分享Android应用耗电量的统计分析方法和工具。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Builtin Lint Detectors (1)</title>
-      <link>http://javayhu.me/blog/2016/12/01/builtin-lint-detectors-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</link>
       <pubDate>Thu, 01 Dec 2016 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/12/01/builtin-lint-detectors-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</guid>
       <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Lint Tool Analysis (3)</title>
-      <link>http://javayhu.me/blog/2016/11/19/lint-tool-analysis-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</link>
       <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/19/lint-tool-analysis-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</guid>
       <description>&lt;p&gt;Lint工具的源码分析(3)  &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Lint Tool Analysis (2)</title>
-      <link>http://javayhu.me/blog/2016/11/18/lint-tool-analysis-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</link>
       <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/18/lint-tool-analysis-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</guid>
       <description>&lt;p&gt;Lint工具的源码分析(2)  &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Lint Tool Analysis (1)</title>
-      <link>http://javayhu.me/blog/2016/11/17/lint-tool-analysis-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</link>
       <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/17/lint-tool-analysis-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</guid>
       <description>&lt;p&gt;Lint工具的源码分析(1)  &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Custom Lint in Action</title>
-      <link>http://javayhu.me/blog/2016/11/14/custom-lint-in-action/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/14/custom-lint-in-action/</link>
       <pubDate>Mon, 14 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/14/custom-lint-in-action/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/14/custom-lint-in-action/</guid>
       <description>&lt;p&gt;本文记录为Android项目自定义Lint检查规则的实践研究。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>App Launch Time Measurement</title>
-      <link>http://javayhu.me/blog/2016/11/10/app-launch-time-measurement/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/</link>
       <pubDate>Thu, 10 Nov 2016 16:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/10/app-launch-time-measurement/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/</guid>
       <description>&lt;p&gt;本文记录下分析应用启动时间的总结。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Build Android Studio Source Code</title>
-      <link>http://javayhu.me/blog/2016/11/09/build-android-studio-source-code/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</link>
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/11/09/build-android-studio-source-code/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
       <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>How to get performance data in Android</title>
-      <link>http://javayhu.me/blog/2016/10/16/how-to-get-performance-data-in-android/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</link>
       <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
       <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>ChromeADB Project Analysis</title>
-      <link>http://javayhu.me/blog/2016/10/10/chromeadb-project-analysis/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</link>
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/10/10/chromeadb-project-analysis/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
       <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Pury Project Analysis</title>
-      <link>http://javayhu.me/blog/2016/10/09/pury-project-analysis/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</link>
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/10/09/pury-project-analysis/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
       <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Build Android Source Code on Mac</title>
-      <link>http://javayhu.me/blog/2016/10/03/build-android-source-code-on-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</link>
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/10/03/build-android-source-code-on-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
       <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Systrace</title>
-      <link>http://javayhu.me/blog/2016/10/03/head-first-systrace/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</link>
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/10/03/head-first-systrace/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
       <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Ways to Use Icons on Android (2)</title>
-      <link>http://javayhu.me/blog/2016/06/25/ways-to-use-icons-on-android-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</link>
       <pubDate>Sat, 25 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/06/25/ways-to-use-icons-on-android-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/</guid>
       <description>&lt;p&gt;本节主要介绍几种图标字体的制作方法和Iconify扩展的使用姿势。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Ways to Use Icons on Android (1)</title>
-      <link>http://javayhu.me/blog/2016/06/24/ways-to-use-icons-on-android-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</link>
       <pubDate>Fri, 24 Jun 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/06/24/ways-to-use-icons-on-android-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/</guid>
       <description>&lt;p&gt;本节主要介绍几种Material Design图标的使用姿势。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>When Math meets Android Animation (3)</title>
-      <link>http://javayhu.me/blog/2016/05/28/when-math-meets-android-animation-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/</link>
       <pubDate>Sat, 28 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/28/when-math-meets-android-animation-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/</guid>
       <description>&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(3)&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>When Math meets Android Animation (2)</title>
-      <link>http://javayhu.me/blog/2016/05/27/when-math-meets-android-animation-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</link>
       <pubDate>Fri, 27 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/27/when-math-meets-android-animation-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/</guid>
       <description>&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(2)&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>When Math meets Android Animation (1)</title>
-      <link>http://javayhu.me/blog/2016/05/26/when-math-meets-android-animation-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</link>
       <pubDate>Thu, 26 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/</guid>
       <description>&lt;p&gt;当数学遇上动画：讲述&lt;code&gt;ValueAnimator&lt;/code&gt;、&lt;code&gt;TypeEvaluator&lt;/code&gt;和&lt;code&gt;TimeInterpolator&lt;/code&gt;之间的恩恩怨怨(1)&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Learning Git by Animations</title>
-      <link>http://javayhu.me/blog/2016/05/20/learning-git-by-animations/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</link>
       <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/20/learning-git-by-animations/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/</guid>
       <description>&lt;p&gt;看到一个动画版的Git教程(&lt;a href=&#34;http://learngitbranching.js.org/?demo&#34;&gt;网址&lt;/a&gt;)，动画效果真心不错，所以学了下，本文是记录其中的几个重点部分。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Gank Alfred Workflow</title>
-      <link>http://javayhu.me/blog/2016/05/18/gank-alfred-workflow/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</link>
       <pubDate>Wed, 18 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/18/gank-alfred-workflow/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
       <description>&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Gank for Mac</title>
-      <link>http://javayhu.me/blog/2016/05/15/gank-for-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
       <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/15/gank-for-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
       <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Swift</title>
-      <link>http://javayhu.me/swift/</link>
+      <link>https://hujiaweibujidao.github.io/swift/</link>
       <pubDate>Sat, 14 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/swift/</guid>
+      <guid>https://hujiaweibujidao.github.io/swift/</guid>
       <description>在Python系列中我曾提到，如果你是在考虑学习Java还是Python的话，建议学习Python。但是现在需要加上一条，如果你是刚开始学编程的话，那就推荐学习Swift。Swift是由苹果开源的新语言，它在编程语言排行榜中的排行不断上升。我觉得学习最新的语言挺好的，在新语言中学习到的语言特性会在以后学习其他语言的时候看到相关的影子。新语言的学习成本也相对较低，容易克服初学编程的心理障碍，较早地进行项目实践更容易让自己产生成就感，从而不断激发学习的动力。以上是我的个人感悟，因人而异哈。
 ** 2017年5月更新 **
 这个月正式开始做iOS需求了，使用Swift语言做开发就是爽，争取以后多写Swift相关的文章。
@@ -248,658 +248,658 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
     
     <item>
       <title>Head First Stanford NLP (4)</title>
-      <link>http://javayhu.me/blog/2016/04/01/head-first-stanford-nlp-4/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/04/01/head-first-stanford-nlp-4/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/04/01/head-first-stanford-nlp-4/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/04/01/head-first-stanford-nlp-4/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (3)</title>
-      <link>http://javayhu.me/blog/2016/03/31/head-first-stanford-nlp-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/</link>
       <pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/31/head-first-stanford-nlp-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 可视化篇) 本文介绍与Stanford NLP相关的一些可视化工具。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (2)</title>
-      <link>http://javayhu.me/blog/2016/03/30/head-first-stanford-nlp-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/30/head-first-stanford-nlp-2/</link>
       <pubDate>Wed, 30 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/30/head-first-stanford-nlp-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/30/head-first-stanford-nlp-2/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 进阶篇) 本文接着介绍Stanford NLP工具的使用方法。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (1)</title>
-      <link>http://javayhu.me/blog/2016/03/29/head-first-stanford-nlp-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</link>
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Java Web project with Maven</title>
-      <link>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</link>
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
       <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>One Trip of building a Crawler</title>
-      <link>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
       <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
       <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Things of Math</title>
-      <link>http://javayhu.me/blog/2015/12/30/things-of-math/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</link>
       <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/30/things-of-math/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
       <description>&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Fab and Dialog Morphing Animation</title>
-      <link>http://javayhu.me/blog/2015/12/13/fab-and-dialog-morphing-animation/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</link>
       <pubDate>Sun, 13 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/13/fab-and-dialog-morphing-animation/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</guid>
       <description>&lt;p&gt;Fab and Dialog Morphing Animation on Android. &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Plaid Source Reading Notes</title>
-      <link>http://javayhu.me/blog/2015/12/11/plaid-source-reading-notes/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</link>
       <pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/11/plaid-source-reading-notes/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</guid>
       <description>&lt;p&gt;Plaid源码阅读笔记。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes</title>
-      <link>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</link>
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</guid>
       <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 2</title>
-      <link>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-2/</link>
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-2/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 9</title>
-      <link>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes-9/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-9/</link>
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/05/art-of-android-development-reading-notes-9/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-9/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程  &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 10</title>
-      <link>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-10/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-10/</link>
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-10/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-10/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 13</title>
-      <link>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-13/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-13/</link>
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-13/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-13/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 8</title>
-      <link>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-8/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-8/</link>
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/04/art-of-android-development-reading-notes-8/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-8/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 11</title>
-      <link>http://javayhu.me/blog/2015/12/03/art-of-android-development-reading-notes-11/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/</link>
       <pubDate>Thu, 03 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/03/art-of-android-development-reading-notes-11/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 3</title>
-      <link>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-3/</link>
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-3/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 4</title>
-      <link>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-4/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/</link>
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-4/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 5</title>
-      <link>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-5/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/</link>
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/01/art-of-android-development-reading-notes-5/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 1</title>
-      <link>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/</link>
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 12</title>
-      <link>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-12/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/</link>
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-12/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 6</title>
-      <link>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-6/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/</link>
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-6/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Art of Android Development Reading Notes 7</title>
-      <link>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-7/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/</link>
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/30/art-of-android-development-reading-notes-7/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/</guid>
       <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes</title>
-      <link>http://javayhu.me/blog/2015/11/29/android-heroes-reading-notes/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes/</link>
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/29/android-heroes-reading-notes/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes/</guid>
       <description>&lt;p&gt;&lt;strong&gt;《Android群英传》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes 5</title>
-      <link>http://javayhu.me/blog/2015/11/29/android-heroes-reading-notes-5/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/</link>
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/29/android-heroes-reading-notes-5/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/</guid>
       <description>&lt;p&gt;《Android群英传》读书笔记 (5) 第十一章 搭建云端服务器 + 第十二章 Android 5.X新特性详解 + 第十三章 Android实例提高 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes 4</title>
-      <link>http://javayhu.me/blog/2015/11/28/android-heroes-reading-notes-4/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/</link>
       <pubDate>Sat, 28 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/28/android-heroes-reading-notes-4/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/</guid>
       <description>&lt;p&gt;《Android群英传》读书笔记 (4) 第八章 Activity和Activity调用栈分析 + 第九章 系统信息与安全机制 + 第十章 性能优化 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes 3</title>
-      <link>http://javayhu.me/blog/2015/11/27/android-heroes-reading-notes-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/</link>
       <pubDate>Fri, 27 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/27/android-heroes-reading-notes-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/</guid>
       <description>&lt;p&gt;《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes 2</title>
-      <link>http://javayhu.me/blog/2015/11/26/android-heroes-reading-notes-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/</link>
       <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/26/android-heroes-reading-notes-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/</guid>
       <description>&lt;p&gt;《Android群英传》读书笔记 (2) 第三章 控件架构与自定义控件详解 + 第四章 ListView使用技巧 + 第五章 Scroll分析 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Heroes Reading Notes 1</title>
-      <link>http://javayhu.me/blog/2015/11/25/android-heroes-reading-notes-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/25/android-heroes-reading-notes-1/</link>
       <pubDate>Wed, 25 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/25/android-heroes-reading-notes-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/25/android-heroes-reading-notes-1/</guid>
       <description>&lt;p&gt;《Android群英传》读书笔记 (1) 第一章 Android体系与系统架构 + 第二章 Android开发工具新接触 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>You are My Sunshine</title>
-      <link>http://javayhu.me/blog/2015/11/21/you-are-my-sunshine/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</link>
       <pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/21/you-are-my-sunshine/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</guid>
       <description>&lt;p&gt;代码小情诗&lt;strong&gt;《You are my sunshine》&lt;/strong&gt;  &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Missing</title>
-      <link>http://javayhu.me/blog/2015/11/13/missing/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</link>
       <pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/11/13/missing/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</guid>
       <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Job Hunting</title>
-      <link>http://javayhu.me/blog/2015/10/09/job-hunting/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</link>
       <pubDate>Fri, 09 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/10/09/job-hunting/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</guid>
       <description>&lt;p&gt;今年我找Android开发工作的干货分享，祝大家找工作顺利。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Android SwipeRefreshLayout</title>
-      <link>http://javayhu.me/blog/2015/07/05/head-first-android-swiperefreshlayout/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/</link>
       <pubDate>Sun, 05 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/07/05/head-first-android-swiperefreshlayout/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/</guid>
       <description>&lt;p&gt;本文内容和代码参考自&lt;a href=&#34;https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/&#34;&gt;Implementing Swipe to Refresh, an Android Material Design UI Pattern&lt;/a&gt;，原博客内容中略有错误。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android PopupMenu and PopupWindow</title>
-      <link>http://javayhu.me/blog/2015/07/04/android-popupmenu-and-popupwindow/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/</link>
       <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/07/04/android-popupmenu-and-popupwindow/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/</guid>
       <description>&lt;p&gt;本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Text View with Custom Font</title>
-      <link>http://javayhu.me/blog/2015/07/04/android-text-view-with-custom-font/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/</link>
       <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/07/04/android-text-view-with-custom-font/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/</guid>
       <description>&lt;p&gt;本文以自定义TextView为例简单实践下如何自定义View，它能够根据设置的xml属性采用不同的字体显示文字&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Fix Homebrew for OS X 10.10 Yosemite</title>
-      <link>http://javayhu.me/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</link>
       <pubDate>Fri, 12 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/</guid>
       <description>&lt;p&gt;本文主要解决系统升级到OS X 10.10 Yosemite后Homebrew出现的一些问题。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Training Summary (1) Getting Started</title>
-      <link>http://javayhu.me/blog/2015/06/05/android-training-summary-1-getting-started/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/</link>
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/06/05/android-training-summary-1-getting-started/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://developer.android.com/training/index.html&#34;&gt;Android Training&lt;/a&gt; 中Getting Started部分的阅读笔记 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Android Toolbar</title>
-      <link>http://javayhu.me/blog/2015/06/02/head-first-android-toolbar/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/</link>
       <pubDate>Tue, 02 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/06/02/head-first-android-toolbar/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/</guid>
       <description>&lt;p&gt;本文介绍Android Toolbar的使用 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Android ActionBar</title>
-      <link>http://javayhu.me/blog/2015/06/01/head-first-android-actionbar/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/</link>
       <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/06/01/head-first-android-actionbar/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/</guid>
       <description>&lt;p&gt;本文介绍Android ActionBar的使用 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Asynchronous Http Client</title>
-      <link>http://javayhu.me/blog/2015/05/31/android-asynchronous-http-client/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/</link>
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/31/android-asynchronous-http-client/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/</guid>
       <description>&lt;p&gt;本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Dependency Injection Libraries</title>
-      <link>http://javayhu.me/blog/2015/05/31/android-dependency-injection-libraries/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/</link>
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/31/android-dependency-injection-libraries/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/</guid>
       <description>&lt;p&gt;本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Development Code Snippets</title>
-      <link>http://javayhu.me/blog/2015/05/31/android-development-code-snippets/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/31/android-development-code-snippets/</link>
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/31/android-development-code-snippets/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-development-code-snippets/</guid>
       <description>&lt;p&gt;Android开发代码片段 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Universal Image Loader</title>
-      <link>http://javayhu.me/blog/2015/05/31/android-universal-image-loader/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/</link>
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/31/android-universal-image-loader/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/</guid>
       <description>&lt;p&gt;本文总结了著名的Android UIL图像加载和显示库的使用 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Android Testing 2</title>
-      <link>http://javayhu.me/blog/2015/05/31/head-first-android-testing-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/</link>
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/31/head-first-android-testing-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/</guid>
       <description>&lt;p&gt;深入浅出Android测试教程 (2) &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Android Testing 1</title>
-      <link>http://javayhu.me/blog/2015/05/30/head-first-android-testing-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/</link>
       <pubDate>Sat, 30 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/30/head-first-android-testing-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/</guid>
       <description>&lt;p&gt;深入浅出Android测试教程 (1) &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Publish Gradle Android Library to jCenter Repository</title>
-      <link>http://javayhu.me/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</link>
       <pubDate>Thu, 28 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</guid>
       <description>&lt;p&gt;本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Using Git with multiple Public Keys</title>
-      <link>http://javayhu.me/blog/2015/05/16/using-git-with-multiple-public-keys/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</link>
       <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
       <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Pages Service for GitCafe Project</title>
-      <link>http://javayhu.me/blog/2015/05/11/pages-service-for-gitcafe-project/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</link>
       <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
       <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Interview of Alibaba</title>
-      <link>http://javayhu.me/blog/2015/05/07/interview-of-alibaba/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</link>
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/05/07/interview-of-alibaba/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</guid>
       <description>&lt;p&gt;阿里实习的事情终于尘埃落定了，自己的坚持也算是有了一份答复，这个过程真的要感谢很多很多人，2015年注定是我遇见我的众多贵人的一年！ &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Set up Octopress environment on another computer</title>
-      <link>http://javayhu.me/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</link>
       <pubDate>Wed, 11 Mar 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/</guid>
       <description>&lt;p&gt;本文主要介绍如何在另一台电脑上搭建Octopress的环境。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tips about MacBook&#39;s battery health</title>
-      <link>http://javayhu.me/blog/2015/02/15/tips-about-macbooks-battery-health/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</link>
       <pubDate>Sun, 15 Feb 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
       <description>&lt;p&gt;内容摘自Mac上的一个灰常好的免费软件Battery Health中关于保养MacBook的电池寿命的建议，与大家一起分享 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tiny Weibo</title>
-      <link>http://javayhu.me/blog/2014/12/09/tiny-weibo/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/12/09/tiny-weibo/</link>
       <pubDate>Tue, 09 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/12/09/tiny-weibo/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/12/09/tiny-weibo/</guid>
       <description>&lt;p&gt;Android Studio 1.0终于是盼来了！强大的微微博客户端终于又可以运行啦！微微博依旧是开源的！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>using Qiniu JS SDK to upload Videos in Django</title>
-      <link>http://javayhu.me/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</link>
       <pubDate>Fri, 14 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/</guid>
       <description>&lt;p&gt;使用七牛云存储服务来存储网站(Django开发)中用户上传的视频，特此记录下来，以防以后需要。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Google APAC 2015 University Graduates Test Round D</title>
-      <link>http://javayhu.me/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</link>
       <pubDate>Sun, 09 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
       <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Talk big of West Travelling</title>
-      <link>http://javayhu.me/blog/2014/10/24/talk-big-of-west-travelling/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</link>
       <pubDate>Fri, 24 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/10/24/talk-big-of-west-travelling/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</guid>
       <description>&lt;p&gt;《大话西游》观后感 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Differences between OpenCV JavaCV and OpenCV4Android</title>
-      <link>http://javayhu.me/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</link>
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</guid>
       <description>&lt;p&gt;OpenCV，JavaCV以及OpenCV4Android之间的关系 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android NDK and OpenCV development with Android Studio</title>
-      <link>http://javayhu.me/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</link>
       <pubDate>Wed, 22 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</guid>
       <description>&lt;p&gt;Android NDK and OpenCV development with Android Studio &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Gradle Plugin for Android Development User Guide 2</title>
-      <link>http://javayhu.me/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</link>
       <pubDate>Wed, 15 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</guid>
       <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (2) &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Gradle Plugin for Android Development User Guide 1</title>
-      <link>http://javayhu.me/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</link>
       <pubDate>Mon, 13 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</guid>
       <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (1) &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Bootcamp an open source Django site</title>
-      <link>http://javayhu.me/blog/2014/09/16/bootcamp-an-open-source-django-site/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</link>
       <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
       <description>&lt;p&gt;一个Django开发的开源网站Bootcamp &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Download Coursera Courses in the Fastest Way</title>
-      <link>http://javayhu.me/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</link>
       <pubDate>Sat, 12 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
       <description>&lt;p&gt;下载C站课程资源的方法 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C1 Introduction</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C2 The basics</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
       <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C3 Counting 101</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
       <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C4 Induction and Recursion and Reduction</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C5 Traversal</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
       <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C6 Divide and Combine and Conquer</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
       <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C7 Greedy</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
       <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C8 Dynamic Programming</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
       <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C9 Graphs</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
       <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Thanks to 360 CDN</title>
-      <link>http://javayhu.me/blog/2014/06/22/thanks-to-360-cdn/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</link>
       <pubDate>Sun, 22 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/06/22/thanks-to-360-cdn/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</guid>
       <description>&lt;p&gt;给360前端CDN服务点个赞 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Dog Face Recognition</title>
-      <link>http://javayhu.me/blog/2014/06/09/dog-face-recognition/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/06/09/dog-face-recognition/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/</guid>
       <description>&lt;p&gt;模式识别大作业-狗脸识别 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android</title>
-      <link>http://javayhu.me/android/</link>
+      <link>https://hujiaweibujidao.github.io/android/</link>
       <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/android/</guid>
+      <guid>https://hujiaweibujidao.github.io/android/</guid>
       <description>大四保研之后开始自学Android开发，从此走上了移动开发的道路，渐渐喜欢上了这个绿色机器人。
 Android开发学习的过程中也做过一些项目，有初学Android时开发应用拿来参加比赛的，比如微微博；有为了挣外快给创业团队开发的应用，比如贰货；也有为了学习NDK开发的应用，比如人脸识别应用XFace；也造过不错的动画效果的轮子，比如yava和wava，大部分应用已经在我的Github上开源了，感兴趣的可以关注下。
 自己没有太多精彩的项目可以拿得出手，只有漫漫学习过程中的一些小总结，欢迎阅读我毕业之前写过的一些开发经验：
@@ -930,55 +930,55 @@ Android开发学习的过程中也做过一些项目，有初学Android时开发
     
     <item>
       <title>CSU beautiful scenery</title>
-      <link>http://javayhu.me/blog/2014/05/20/csu-beautiful-scenery/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</link>
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/20/csu-beautiful-scenery/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</guid>
       <description>&lt;p&gt;在CSU经历了四年的青春，感谢母校的培养，感谢曾经一起欢笑的小伙伴们，想你们！ &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Delete Number Problem</title>
-      <link>http://javayhu.me/blog/2014/05/20/problem-delete-number-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/</link>
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/20/problem-delete-number-problem/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/</guid>
       <description>&lt;p&gt;删数问题的贪心和动规解法 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Longest Common Subsequence</title>
-      <link>http://javayhu.me/blog/2014/05/19/problem-longest-common-subsequence/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/19/problem-longest-common-subsequence/</link>
       <pubDate>Mon, 19 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/19/problem-longest-common-subsequence/</guid>
-      <description>&lt;p&gt;最长公共子序列(LCS)是典型的动态规划问题，如果不理解动态规划请移步先看&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;，否则本文中的代码实现会不理解的哟！&lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/19/problem-longest-common-subsequence/</guid>
+      <description>&lt;p&gt;最长公共子序列(LCS)是典型的动态规划问题，如果不理解动态规划请移步先看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;，否则本文中的代码实现会不理解的哟！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Love you</title>
-      <link>http://javayhu.me/blog/2014/05/18/love-you/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</link>
       <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/18/love-you/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/</guid>
       <description>&lt;p&gt;G.E.M 邓紫棋 翻唱的《喜欢你》，真的太好听了！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Matrix Chain Problem</title>
-      <link>http://javayhu.me/blog/2014/05/18/problem-matrix-chain-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/18/problem-matrix-chain-problem/</link>
       <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/18/problem-matrix-chain-problem/</guid>
-      <description>&lt;p&gt;矩阵链乘问题是最典型的动态规划问题，本文介绍如何用动规算法解决这个问题，要理解下面的内容请先阅读&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;。&lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/18/problem-matrix-chain-problem/</guid>
+      <description>&lt;p&gt;矩阵链乘问题是最典型的动态规划问题，本文介绍如何用动规算法解决这个问题，要理解下面的内容请先阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>http://javayhu.me/python/</link>
+      <link>https://hujiaweibujidao.github.io/python/</link>
       <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/python/</guid>
+      <guid>https://hujiaweibujidao.github.io/python/</guid>
       <description>的确，正如偶像Bruce Eckel所说，&amp;ldquo;Life is short, you need Python&amp;rdquo;！ 如果你正在考虑学Java还是Python的话，那就别想了，选Python吧，你的人生会有更多的时间做其他有意思的事情。 研究生之前我没学python是有原因的：首先，我怕蛇，很怕很怕，而这货的logo竟然就是蛇，我因故而避之；其次，我不喜欢脚本语言，我会shell，但是写的时候不是很爽，只是在处理些文件操作或者字符串操作的时候才会想起它，听说python脚本神马的，我便又避之。
 但是，上了研究生发现用Python的人很多，而且这货简直被神化了，无所不能，吊炸天的Edx的后台竟然就是用的Python，于是花了一个下午刷了本《Head First Python》，感觉没啥特别，只是写起来轻便，甚至还能开发Android，让我大吃一惊。后来，又接着看了些Python书，发现真的如此，很多时候用Java写了几十行的代码用Python几行就搞定了，而且它同样拥有大量的第三方模块，于是我就这么走进了Python的世界。Python要入门很简单，毕竟我搞Java这么多年了，这俩太多的相似点了，看完书之后写写数据结构，写写算法，熟悉一些高级特性，使用一些第三方模块之后应该就算入门了吧。现在，做任何事情，我首先想到的是用Python如何实现?！嘿嘿，&amp;ldquo;Life is short, go start Python&amp;rdquo;！
 本人才疏学浅，学识大多浅尝辄止，故文章若有错误，不论是文字笔误还是理解有错，烦请您留言以告知，感激不尽！ Python分类下的系列文章，不断更新中，如果你迫不及待地想要看看写得如何可以先试试这篇Python Algorithms - C4 Induction and Recursion and Reduction，如果觉得好就留言点个赞呗，如果觉得不好那就直接关掉这个博客网站吧
@@ -1004,217 +1004,217 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
     
     <item>
       <title>Good Python Articles</title>
-      <link>http://javayhu.me/blog/2014/05/16/good-python-articles/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</link>
       <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/16/good-python-articles/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
       <description>&lt;p&gt;关于Python的好文章集锦 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Hadoop Installation - Single Node Setup</title>
-      <link>http://javayhu.me/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
       <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First PageRank</title>
-      <link>http://javayhu.me/blog/2014/05/12/head-first-pagerank/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/12/head-first-pagerank/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/</guid>
       <description>&lt;p&gt;深入浅出PageRank算法 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Happy Mother&#39;s Day</title>
-      <link>http://javayhu.me/blog/2014/05/10/happy-mothers-day/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/10/happy-mothers-day/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/</guid>
       <description>&lt;p&gt;老妈，节日快乐！祝您永远幸福健康！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Basics</title>
-      <link>http://javayhu.me/blog/2014/05/10/python-basics/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/10/python-basics/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
       <description>&lt;p&gt;Python代码片段 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Tsinghua 9ers Pictures</title>
-      <link>http://javayhu.me/blog/2014/05/10/tsinghua-9ers-pictures/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</link>
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
       <description>&lt;p&gt;清华9字班毕业生于海童拍摄制作，视频地址&lt;a href=&#34;http://v.youku.com/v_show/id_XNTkwNDYxNjIw/v.swf.html&#34;&gt;优酷视频 时光机：清华园的延时摄影&lt;/a&gt; &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C4 Trees</title>
-      <link>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</link>
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
       <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C3 Data Structures</title>
-      <link>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
       <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C2 Sort</title>
-      <link>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
       <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C1 Search</title>
-      <link>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</link>
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
       <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Wouldn&#39;t it be nice</title>
-      <link>http://javayhu.me/blog/2014/04/30/wouldnt-it-be-nice/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</link>
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/30/wouldnt-it-be-nice/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</guid>
       <description>&lt;p&gt;《向阳处的她》中的歌曲 Wouldn&amp;rsquo;t it be nice，超爱啊 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Numerical Methods using Matlab</title>
-      <link>http://javayhu.me/blog/2014/04/23/numerical-methods-using-matlab/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/</link>
       <pubDate>Wed, 23 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/23/numerical-methods-using-matlab/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/</guid>
       <description>&lt;p&gt;课余时间写的一本关于数值算法与应用的总结小书 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Mou and StackEdit and Mathjax</title>
-      <link>http://javayhu.me/blog/2014/04/15/mou-and-stackedit-and-mathjax/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</link>
       <pubDate>Tue, 15 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/15/mou-and-stackedit-and-mathjax/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/15/mou-and-stackedit-and-mathjax/</guid>
       <description>&lt;p&gt;本文记录使用Mou和Stackedit中出现的一些问题，使其能够正常渲染带数学公式的文章&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Vertext Cover Problem</title>
-      <link>http://javayhu.me/blog/2014/04/13/problem-vertext-cover-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/13/problem-vertext-cover-problem/</link>
       <pubDate>Sun, 13 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/13/problem-vertext-cover-problem/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/13/problem-vertext-cover-problem/</guid>
       <description>&lt;p&gt;顶点覆盖问题可以用几种不同的算法来实现，本文使用的是分支限界法来实现&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Setting Up Environments on New Mac</title>
-      <link>http://javayhu.me/blog/2014/04/08/setting-up-environments-on-new-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</link>
       <pubDate>Tue, 08 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/08/setting-up-environments-on-new-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/</guid>
       <description>&lt;p&gt;本文介绍在新苹果机上搭建各种开发环境的过程&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Matlab Image Segmentation</title>
-      <link>http://javayhu.me/blog/2014/03/30/matlab-image-segmentation/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</link>
       <pubDate>Sun, 30 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/03/30/matlab-image-segmentation/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/</guid>
       <description>&lt;p&gt;本文主要介绍Matlab实现的两种自动阈值图像分割方法&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Develop with OpenCV on Mac</title>
-      <link>http://javayhu.me/blog/2014/03/13/develop-with-opencv-on-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</link>
       <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/</guid>
       <description>&lt;p&gt;本文介绍如何在Mac OS X上进行OpenCV项目的开发，尝试的开发工具有Xcode(版本是4.6.1)和Eclipse，使用的OpenCV版本是2.4.6。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Material on Mobile Development</title>
-      <link>http://javayhu.me/blog/2014/03/13/material-on-mobile-development/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/03/13/material-on-mobile-development/</link>
       <pubDate>Thu, 13 Mar 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/03/13/material-on-mobile-development/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/03/13/material-on-mobile-development/</guid>
       <description>&lt;p&gt;本文主要是推荐一些移动开发的资料，主要以Android开发为主&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Ndk and Opencv Development 4</title>
-      <link>http://javayhu.me/blog/2014/02/21/android-ndk-and-opencv-development-4/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/</link>
       <pubDate>Fri, 21 Feb 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/02/21/android-ndk-and-opencv-development-4/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/02/21/android-ndk-and-opencv-development-4/</guid>
       <description>&lt;p&gt;本节以&lt;a href=&#34;http://github.com/hujiaweibujidao/XFace.git&#34;&gt;XFace项目&lt;/a&gt;为例介绍Android NDK和OpenCV整合开发的流程&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Ndk and Opencv Development 3</title>
-      <link>http://javayhu.me/blog/2013/11/20/android-ndk-and-opencv-development-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/20/android-ndk-and-opencv-development-3/</link>
       <pubDate>Wed, 20 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2013/11/20/android-ndk-and-opencv-development-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/20/android-ndk-and-opencv-development-3/</guid>
       <description>&lt;p&gt;本节的主要内容是OpenCV在Android NDK开发中的应用。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Ndk and Opencv Development 2</title>
-      <link>http://javayhu.me/blog/2013/11/19/android-ndk-and-opencv-development-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/</link>
       <pubDate>Tue, 19 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2013/11/19/android-ndk-and-opencv-development-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/19/android-ndk-and-opencv-development-2/</guid>
       <description>&lt;p&gt;本节主要介绍的内容是&lt;a href=&#34;http://developer.android.com/tools/sdk/ndk/index.html&#34;&gt;Android NDK&lt;/a&gt;开发的核心内容和开发总结(包括很多常见问题的解决方案)。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Android Ndk and Opencv Development 1</title>
-      <link>http://javayhu.me/blog/2013/11/18/android-ndk-and-opencv-development-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/</link>
       <pubDate>Mon, 18 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2013/11/18/android-ndk-and-opencv-development-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/</guid>
       <description>&lt;p&gt;从本节开始之后的几节将介绍关于Android NDK和OpenCV整合开发的内容，本节介绍Android NDK 和 OpenCV 整合开发的环境搭建以及人脸检测项目的运行测试。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Make Your Octopress Easy</title>
-      <link>http://javayhu.me/blog/2013/11/18/make-your-octopress-easy/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/</link>
       <pubDate>Mon, 18 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2013/11/18/make-your-octopress-easy/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/</guid>
       <description>&lt;p&gt;写了几个&lt;code&gt;shell&lt;/code&gt;脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>http://javayhu.me/about/</link>
+      <link>https://hujiaweibujidao.github.io/about/</link>
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/about/</guid>
+      <guid>https://hujiaweibujidao.github.io/about/</guid>
       <description>大家好，我叫胡家威，英文名是Javay，是的，我既是Java迷也是Jay粉。
 微博账号是宅男潇涧，地道宅男，花名潇涧，潇谐音笑，涧谐音键，寓意是一笑一键走江湖。
 以前叫五道口宅男，离开了五道口去了唐家湾，本想改名为唐家湾宅男，但是仔细一想，难道每次换个地方就要改名字了？
@@ -1236,21 +1236,11 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
     
     <item>
       <title>Hello Octopress</title>
-      <link>http://javayhu.me/blog/2013/11/17/hello-octopress/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</link>
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2013/11/17/hello-octopress/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</guid>
       <description>&lt;p&gt;Hello world! Hello Octopress! &lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>The birth of Pocket Poetry</title>
-      <link>http://javayhu.me/poetry/</link>
-      <pubDate>Thu, 20 Dec 2012 00:00:00 +0000</pubDate>
-      
-      <guid>http://javayhu.me/poetry/</guid>
-      <description>诗鲸的诞生
-文章暂时占位，内容后续补上。</description>
     </item>
     
   </channel>

@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Java on Hujiawei Bujidao</title>
-    <link>http://javayhu.me/tags/java/</link>
+    <link>https://hujiaweibujidao.github.io/tags/java/</link>
     <description>Recent content in Java on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Tue, 01 Mar 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/tags/java/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Java Web project with Maven</title>
-      <link>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</link>
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/01/java-web-project-with-maven/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
       <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>One Trip of building a Crawler</title>
-      <link>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
       <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
       <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 &lt;/p&gt;</description>
     </item>
     

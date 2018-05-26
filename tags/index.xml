@@ -2,85 +2,85 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Hujiawei Bujidao</title>
-    <link>http://javayhu.me/tags/</link>
+    <link>https://hujiaweibujidao.github.io/tags/</link>
     <description>Recent content in Tags on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Algorithm</title>
-      <link>http://javayhu.me/tags/algorithm/</link>
+      <link>https://hujiaweibujidao.github.io/tags/algorithm/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/algorithm/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/algorithm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Android</title>
-      <link>http://javayhu.me/tags/android/</link>
+      <link>https://hujiaweibujidao.github.io/tags/android/</link>
       <pubDate>Mon, 27 Nov 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/tags/android/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/android/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Dev</title>
-      <link>http://javayhu.me/tags/dev/</link>
+      <link>https://hujiaweibujidao.github.io/tags/dev/</link>
       <pubDate>Fri, 20 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/dev/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/dev/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Java</title>
-      <link>http://javayhu.me/tags/java/</link>
+      <link>https://hujiaweibujidao.github.io/tags/java/</link>
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/java/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/java/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Life</title>
-      <link>http://javayhu.me/tags/life/</link>
+      <link>https://hujiaweibujidao.github.io/tags/life/</link>
       <pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/life/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/life/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Python</title>
-      <link>http://javayhu.me/tags/python/</link>
+      <link>https://hujiaweibujidao.github.io/tags/python/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/python/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Reactnative</title>
-      <link>http://javayhu.me/tags/reactnative/</link>
+      <link>https://hujiaweibujidao.github.io/tags/reactnative/</link>
       <pubDate>Fri, 28 Jul 2017 10:46:33 +0800</pubDate>
       
-      <guid>http://javayhu.me/tags/reactnative/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/reactnative/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Swift</title>
-      <link>http://javayhu.me/tags/swift/</link>
+      <link>https://hujiaweibujidao.github.io/tags/swift/</link>
       <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/tags/swift/</guid>
+      <guid>https://hujiaweibujidao.github.io/tags/swift/</guid>
       <description></description>
     </item>
     

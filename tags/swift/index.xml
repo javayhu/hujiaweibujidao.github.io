@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Swift on Hujiawei Bujidao</title>
-    <link>http://javayhu.me/tags/swift/</link>
+    <link>https://hujiaweibujidao.github.io/tags/swift/</link>
     <description>Recent content in Swift on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Sun, 15 May 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/tags/swift/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/tags/swift/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Gank for Mac</title>
-      <link>http://javayhu.me/blog/2016/05/15/gank-for-mac/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
       <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/05/15/gank-for-mac/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
       <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。 &lt;/p&gt;</description>
     </item>
     

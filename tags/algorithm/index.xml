@@ -2,247 +2,247 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Algorithm on Hujiawei Bujidao</title>
-    <link>http://javayhu.me/tags/algorithm/</link>
+    <link>https://hujiaweibujidao.github.io/tags/algorithm/</link>
     <description>Recent content in Algorithm on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2017</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
     <lastBuildDate>Fri, 01 Apr 2016 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://javayhu.me/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://hujiaweibujidao.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Head First Stanford NLP (4)</title>
-      <link>http://javayhu.me/blog/2016/04/01/head-first-stanford-nlp-4/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/04/01/head-first-stanford-nlp-4/</link>
       <pubDate>Fri, 01 Apr 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/04/01/head-first-stanford-nlp-4/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/04/01/head-first-stanford-nlp-4/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 深入篇) 本文介绍与Stanford CoreNLP源码相关的内容。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (3)</title>
-      <link>http://javayhu.me/blog/2016/03/31/head-first-stanford-nlp-3/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/</link>
       <pubDate>Thu, 31 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/31/head-first-stanford-nlp-3/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/31/head-first-stanford-nlp-3/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 可视化篇) 本文介绍与Stanford NLP相关的一些可视化工具。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (2)</title>
-      <link>http://javayhu.me/blog/2016/03/30/head-first-stanford-nlp-2/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/30/head-first-stanford-nlp-2/</link>
       <pubDate>Wed, 30 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/30/head-first-stanford-nlp-2/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/30/head-first-stanford-nlp-2/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 进阶篇) 本文接着介绍Stanford NLP工具的使用方法。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First Stanford NLP (1)</title>
-      <link>http://javayhu.me/blog/2016/03/29/head-first-stanford-nlp-1/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</link>
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
       <description>&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Things of Math</title>
-      <link>http://javayhu.me/blog/2015/12/30/things-of-math/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</link>
       <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2015/12/30/things-of-math/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
       <description>&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Google APAC 2015 University Graduates Test Round D</title>
-      <link>http://javayhu.me/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</link>
       <pubDate>Sun, 09 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
       <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C1 Introduction</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C2 The basics</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
       <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C3 Counting 101</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
       <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C4 Induction and Recursion and Reduction</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
       <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C5 Traversal</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
       <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C6 Divide and Combine and Conquer</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
       <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C7 Greedy</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
       <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C8 Dynamic Programming</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
       <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C9 Graphs</title>
-      <link>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
       <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Dog Face Recognition</title>
-      <link>http://javayhu.me/blog/2014/06/09/dog-face-recognition/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/</link>
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/06/09/dog-face-recognition/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/</guid>
       <description>&lt;p&gt;模式识别大作业-狗脸识别 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Delete Number Problem</title>
-      <link>http://javayhu.me/blog/2014/05/20/problem-delete-number-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/</link>
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/20/problem-delete-number-problem/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/</guid>
       <description>&lt;p&gt;删数问题的贪心和动规解法 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Longest Common Subsequence</title>
-      <link>http://javayhu.me/blog/2014/05/19/problem-longest-common-subsequence/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/19/problem-longest-common-subsequence/</link>
       <pubDate>Mon, 19 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/19/problem-longest-common-subsequence/</guid>
-      <description>&lt;p&gt;最长公共子序列(LCS)是典型的动态规划问题，如果不理解动态规划请移步先看&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;，否则本文中的代码实现会不理解的哟！&lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/19/problem-longest-common-subsequence/</guid>
+      <description>&lt;p&gt;最长公共子序列(LCS)是典型的动态规划问题，如果不理解动态规划请移步先看&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;，否则本文中的代码实现会不理解的哟！&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Matrix Chain Problem</title>
-      <link>http://javayhu.me/blog/2014/05/18/problem-matrix-chain-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/18/problem-matrix-chain-problem/</link>
       <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/18/problem-matrix-chain-problem/</guid>
-      <description>&lt;p&gt;矩阵链乘问题是最典型的动态规划问题，本文介绍如何用动规算法解决这个问题，要理解下面的内容请先阅读&lt;a href=&#34;http://javayhu.me/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;。&lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/18/problem-matrix-chain-problem/</guid>
+      <description>&lt;p&gt;矩阵链乘问题是最典型的动态规划问题，本文介绍如何用动规算法解决这个问题，要理解下面的内容请先阅读&lt;a href=&#34;https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/&#34;&gt;这篇动态规划的总结&lt;/a&gt;。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Head First PageRank</title>
-      <link>http://javayhu.me/blog/2014/05/12/head-first-pagerank/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/12/head-first-pagerank/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/</guid>
       <description>&lt;p&gt;深入浅出PageRank算法 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C4 Trees</title>
-      <link>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</link>
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/09/python-data-structures---c4-trees/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
       <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C3 Data Structures</title>
-      <link>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
       <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C2 Sort</title>
-      <link>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/07/python-data-structures---c2-sort/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
       <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C1 Search</title>
-      <link>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</link>
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/05/06/python-data-structures---c1-search/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
       <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Numerical Methods using Matlab</title>
-      <link>http://javayhu.me/blog/2014/04/23/numerical-methods-using-matlab/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/</link>
       <pubDate>Wed, 23 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/23/numerical-methods-using-matlab/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/</guid>
       <description>&lt;p&gt;课余时间写的一本关于数值算法与应用的总结小书 &lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Problem: Vertext Cover Problem</title>
-      <link>http://javayhu.me/blog/2014/04/13/problem-vertext-cover-problem/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/04/13/problem-vertext-cover-problem/</link>
       <pubDate>Sun, 13 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://javayhu.me/blog/2014/04/13/problem-vertext-cover-problem/</guid>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/04/13/problem-vertext-cover-problem/</guid>
       <description>&lt;p&gt;顶点覆盖问题可以用几种不同的算法来实现，本文使用的是分支限界法来实现&lt;/p&gt;</description>
     </item>
     
