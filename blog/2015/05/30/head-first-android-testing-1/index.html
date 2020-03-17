@@ -5,7 +5,7 @@
        Head First Android Testing 1 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Head First Android Testing 1 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,131 +158,112 @@
     </header>
 
     <section class="post-content">
-      <p>深入浅出Android测试教程 (1) </p>
-
+      <p>深入浅出Android测试教程 (1)</p>
 <p>最近想写一个自己的库项目，以后开发都基于这个库项目来开发，于是乎，为了保证库项目中的代码功能没有问题，简单学了一些Android测试的内容，对于没有搞过测试的我来说，过程还是挺纠结的，现记录下来以备后用。</p>
-
 <p>Android测试包含很多类型，例如Unit Tests，Instrumentation Tests以及各种其他的UI Tests等等。本次深入浅出教程只介绍前面两种测试，内容参考自<a href="https://hujiaweibujidao.github.io/files/android_testing_google_slides.pdf">android_testing_google_slides</a>和Google Sample项目<a href="https://github.com/hujiaweibujidao/android-testing">android-testing</a>，感兴趣可以阅读示例感受下。</p>
-
 <p>###第一部分 Unit Tests</p>
-
 <p>Unit Test又叫JVM Tests 或者Local Tests，就是指直接运行在Java虚拟机而不是Dalvik虚拟机中的测试。</p>
-
 <p>从1.1.0 RC1版本的Android Studio(Gradle插件从1.1版本)开始支持Unit Tests，使用方法教程可参考<a href="http://tools.android.com/tech-docs/unit-testing-support">unit-testing-support</a>。</p>
-
 <p><strong>How it works?</strong></p>
-
 <p>Unit tests run on a local JVM on your development machine. Our gradle plugin will compile source code found in <code>src/test/java</code> and execute it using the usual Gradle testing mechanisms. At runtime, tests will be executed against a modified version of <code>android.jar</code> where all <code>final</code> modifiers have been stripped off. This lets you use popular mocking libraries, like <code>Mockito</code>.</p>
-
-<p>①New source set <code>test/</code> for unit tests<br />
-②Mockable <code>android.jar</code><br />
+<p>①New source set <code>test/</code> for unit tests  <br>
+②Mockable <code>android.jar</code>  <br>
 ③Mockito to stub dependencies into the Android framework</p>
-
 <p>测试步骤：</p>
-
 <p>(1)配置<code>build.gradle</code></p>
-
-<pre><code class="language-python">apply plugin: 'com.android.application'
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">apply plugin: <span style="color:#e6db74">&#39;com.android.application&#39;</span>
 android {
-    ...
+    <span style="color:#f92672">...</span>
     testOptions {
-       unitTests.returnDefaultValues = true // Caution!
+       unitTests<span style="color:#f92672">.</span>returnDefaultValues <span style="color:#f92672">=</span> true <span style="color:#f92672">//</span> Caution<span style="color:#960050;background-color:#1e0010">!</span>
     }
 }
 dependencies {
-    // Unit testing dependencies
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
+    <span style="color:#f92672">//</span> Unit testing dependencies
+    testCompile <span style="color:#e6db74">&#39;junit:junit:4.12&#39;</span>
+    testCompile <span style="color:#e6db74">&#39;org.mockito:mockito-core:1.10.19&#39;</span>
 }
-</code></pre>
-
-<p>(2)配置<code>Build Variants</code>，选择<code>Unit Tests</code></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/builde_variants.png" alt="image" /></p>
-
+</code></pre></div><p>(2)配置<code>Build Variants</code>，选择<code>Unit Tests</code></p>
+<p><img src="https://hujiaweibujidao.github.io/images/builde_variants.png" alt="image"></p>
 <p>(3)编写Unit Test程序，放在<code>src/test/java</code>目录下</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> android.content.Context<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> android.test.suitebuilder.annotation.SmallTest<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">import android.content.Context;
-import android.test.suitebuilder.annotation.SmallTest;
+<span style="color:#f92672">import</span> org.junit.Before<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.junit.Test<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.junit.runner.RunWith<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.mockito.Mock<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.mockito.runners.MockitoJUnitRunner<span style="color:#f92672">;</span>
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+<span style="color:#f92672">import</span> java.io.Serializable<span style="color:#f92672">;</span>
 
-import java.io.Serializable;
+<span style="color:#f92672">import</span> polaris.util.ObjectUtil<span style="color:#f92672">;</span>
 
-import polaris.util.ObjectUtil;
+<span style="color:#f92672">import static</span> org.hamcrest.core.Is.is<span style="color:#f92672">;</span>
+<span style="color:#f92672">import static</span> org.junit.Assert.assertNotNull<span style="color:#f92672">;</span>
+<span style="color:#f92672">import static</span> org.junit.Assert.assertThat<span style="color:#f92672">;</span>
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>MockitoJUnitRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@SmallTest</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnitTestSample</span> <span style="color:#f92672">{</span>
 
-@RunWith(MockitoJUnitRunner.class)
-@SmallTest
-public class UnitTestSample {
+    <span style="color:#a6e22e">@Mock</span>
+    Context mMockContext<span style="color:#f92672">;</span> <span style="color:#75715e">//Use MockitoJUnitRunner for easier initialization of @Mock fields.
+</span><span style="color:#75715e"></span>
+    ObjectUtil objectUtil<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String fileName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;demo&#34;</span><span style="color:#f92672">;</span>
 
-    @Mock
-    Context mMockContext; //Use MockitoJUnitRunner for easier initialization of @Mock fields.
+    <span style="color:#a6e22e">@Before</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUp</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        objectUtil <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ObjectUtil<span style="color:#f92672">(</span>mMockContext<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    ObjectUtil objectUtil;
-    private static final String fileName = &quot;demo&quot;;
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testAdd</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> 2 <span style="color:#f92672">+</span> 2<span style="color:#f92672">;</span>
+        assertThat<span style="color:#f92672">(</span>result<span style="color:#f92672">,</span> is<span style="color:#f92672">(</span>4<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
 
-    @Before
-    public void setUp() throws Exception {
-        objectUtil = new ObjectUtil(mMockContext);
-    }
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testMod</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> result <span style="color:#f92672">=</span> 7 <span style="color:#f92672">%</span> 3<span style="color:#f92672">;</span>
+        assertThat<span style="color:#f92672">(</span>result<span style="color:#f92672">,</span> is<span style="color:#f92672">(</span>1<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
 
-    @Test
-    public void testAdd() throws Exception {
-        int result = 2 + 2;
-        assertThat(result, is(4));
-    }
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testAppName</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span><span style="color:#75715e">//ok
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//can not find symbol class R
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//when(mMockContext.getString(R.string.app_name)).thenReturn(&#34;polaris&#34;);
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//assertThat(mMockContext.getString(R.string.app_name), is(&#34;polaris&#34;));
+</span><span style="color:#75715e"></span>
+        assertNotNull<span style="color:#f92672">(</span>mMockContext<span style="color:#f92672">);</span>
+        assertNotNull<span style="color:#f92672">(</span>objectUtil<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    @Test
-    public void testMod() throws Exception {
-        int result = 7 % 3;
-        assertThat(result, is(1));
-    }
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSaveAndLoad</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span><span style="color:#75715e">//fail
+</span><span style="color:#75715e"></span>        User user <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> User<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;hujiawei&#34;</span><span style="color:#f92672">);</span>
+        objectUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">save</span><span style="color:#f92672">(</span>user<span style="color:#f92672">,</span> fileName<span style="color:#f92672">);</span>
 
-    @Test
-    public void testAppName() throws Exception {//ok
-        //can not find symbol class R
-        //when(mMockContext.getString(R.string.app_name)).thenReturn(&quot;polaris&quot;);
-        //assertThat(mMockContext.getString(R.string.app_name), is(&quot;polaris&quot;));
+        user <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>User<span style="color:#f92672">)</span> objectUtil<span style="color:#f92672">.</span><span style="color:#a6e22e">load</span><span style="color:#f92672">(</span>fileName<span style="color:#f92672">);</span>
+        assertThat<span style="color:#f92672">(</span>user<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">,</span> is<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;hujiawei&#34;</span><span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
 
-        assertNotNull(mMockContext);
-        assertNotNull(objectUtil);
-    }
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> <span style="color:#66d9ef">implements</span> Serializable <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> id<span style="color:#f92672">;</span>
+        String name<span style="color:#f92672">;</span>
 
-    @Test
-    public void testSaveAndLoad() throws Exception {//fail
-        User user = new User(1, &quot;hujiawei&quot;);
-        objectUtil.save(user, fileName);
+        User<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> id<span style="color:#f92672">,</span> String name<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">id</span> <span style="color:#f92672">=</span> id<span style="color:#f92672">;</span>
+            <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> name<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-        user = (User) objectUtil.load(fileName);
-        assertThat(user.name, is(&quot;hujiawei&quot;));
-    }
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tearDown</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    static class User implements Serializable {
-        int id;
-        String name;
-
-        User(int id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-    }
-
-    public void tearDown() throws Exception {
-    }
-
-}
-</code></pre>
-
-<p>其中<code>ObjectUtil</code>类是一个用来保存和读取Object对象的工具类，并采用了Android Annotation注解注入Context。Android Annotation对<code>EBean</code>类的构造函数有个限制，要么不提供构造函数只用默认的构造函数，要么提供一个只包含参数Context的构造函数。</p>
-
+<span style="color:#f92672">}</span>
+</code></pre></div><p>其中<code>ObjectUtil</code>类是一个用来保存和读取Object对象的工具类，并采用了Android Annotation注解注入Context。Android Annotation对<code>EBean</code>类的构造函数有个限制，要么不提供构造函数只用默认的构造函数，要么提供一个只包含参数Context的构造函数。</p>
 <pre><code>package polaris.util;
 
 import android.content.Context;
@@ -377,47 +336,28 @@ public class ObjectUtil {
     }
 
 }
-</code></pre>
-
-<p>(4)配置测试的运行参数</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/unittest_configuration.png" alt="image" /></p>
-
+</code></pre><p>(4)配置测试的运行参数</p>
+<p><img src="https://hujiaweibujidao.github.io/images/unittest_configuration.png" alt="image"></p>
 <p>(5)运行测试有两种方式，可以简单地和运行普通程序一样点击Run按钮，结果会显示在下面的Run视图窗口中，也可以在终端运行<code>./gradlew test</code>，结果将放在<code>/build/reports/test/debug/</code>中，打开<code>index.html</code>文件即可。前者只运行当前测试的运行参数中配置的测试类和方法，而后者会检测整个项目中的所有Unit Test并进行测试。</p>
-
 <p>上面四个测试中只有前三个是通过的，最后一个没能通过。(最后一个测试方法的问题出在<code>ObjectOutputStream</code>对象创建的时候，因为当前处于Unit Test中，没有设备或者模拟器所以没法直接写文件，对于这类特殊的测试就不能使用Unit Test，而是使用第二节中的Instrumentation Test，其中我们可以看到这个测试方法会通过的)</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/unittest_run.png" alt="image" /></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/unittest_html.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/unittest_run.png" alt="image"></p>
+<p><img src="https://hujiaweibujidao.github.io/images/unittest_html.png" alt="image"></p>
 <p><strong>关于Running from Gradle</strong></p>
-
 <p>To run your unit tests, just execute the test task: <code>./gradlew test --continue</code>. If there are some failing tests, links to HTML reports (one per build variant) will be printed out at the end of the execution.</p>
-
 <p>[使用命令<code>./gradlew test --continue</code>可以运行Unit Test，如果有错可以在HTML报告文件中查看错误原因]</p>
-
 <p>This is just an anchor task, actual test tasks are called testDebug and testRelease etc. If you want to run only some tests, using the <code>gradle --tests</code> flag, you can do it by running <code>./gradlew testDebug --tests='*.MyTestClass'</code>.</p>
-
 <p>[使用<code>gradle --tests</code>可以指定运行的测试类]</p>
-
 <p>Because <code>test</code> is just a shorthand for <code>&quot;testDebug testRelease&quot;</code>, the <code>--continue</code> flag is needed if you want to make sure all tests will be executed in all build combinations. Otherwise Gradle could stop after <code>testDebug</code> (failing tests cause the task to &ldquo;fail&rdquo;) and not execute <code>testRelease</code> at all.</p>
-
 <p>[<code>test</code>是包含了<code>testDebug</code>和<code>testRelease</code>两部分测试的，如果不加上<code>--continue</code>并且<code>testDebug</code>出错了的话，<code>testRelease</code>便不会执行了]</p>
-
-<p><strong>关于问题&rdquo;Method &hellip; not mocked.&rdquo;</strong></p>
-
+<p><strong>关于问题&quot;Method &hellip; not mocked.&quot;</strong></p>
 <p>The <code>android.jar</code> file that is used to run unit tests does not contain any actual code - that is provided by the Android system image on real devices. Instead, all methods throw exceptions (by default). This is to make sure your unit tests only test your code and do not depend on any particular behaviour of the Android platform (that you have not explicitly mocked e.g. using <code>Mockito</code>). If that proves problematic, you can add the snippet below to your <code>build.gradle</code> to change this behavior:</p>
-
 <pre><code>android {
   // ...
   testOptions {
     unitTests.returnDefaultValues = true
   }
 }
-</code></pre>
-
-<p>[文件<code>android.jar</code>中并不包含实际的代码，所有方法都只是空盒子，默认情况下都会抛出异常，这就使得你的Unit Test不会依赖于Android系统的某些特定行为，但是也会带来其他的问题(如果你没有使用显式地<code>Mock</code>的话)，如果遇到这类问题可以尝试在<code>builde.gradle</code>文件中加上上面的配置修改原有的抛出异常的行为。]</p>
+</code></pre><p>[文件<code>android.jar</code>中并不包含实际的代码，所有方法都只是空盒子，默认情况下都会抛出异常，这就使得你的Unit Test不会依赖于Android系统的某些特定行为，但是也会带来其他的问题(如果你没有使用显式地<code>Mock</code>的话)，如果遇到这类问题可以尝试在<code>builde.gradle</code>文件中加上上面的配置修改原有的抛出异常的行为。]</p>
     </section>
 
     <footer class="post-footer">
@@ -438,27 +378,23 @@ public class ObjectUtil {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/"><h4>Publish Gradle Android Library to jCenter Repository</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/"><h4>Head First Android Testing 2</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/"><h4>Head First Android Testing 2</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/"><h4>Publish Gradle Android Library to jCenter Repository</h4></a></span>
       
   
 </aside>
@@ -467,42 +403,6 @@ public class ObjectUtil {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -511,7 +411,7 @@ public class ObjectUtil {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

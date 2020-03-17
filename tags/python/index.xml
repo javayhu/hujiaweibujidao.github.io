@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on Hujiawei Bujidao</title>
+    <title>python on Hujiawei Bujidao</title>
     <link>https://hujiaweibujidao.github.io/tags/python/</link>
-    <description>Recent content in Python on Hujiawei Bujidao</description>
+    <description>Recent content in python on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2020</copyright>
     <lastBuildDate>Tue, 01 Jul 2014 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://hujiaweibujidao.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
@@ -14,83 +14,83 @@
     
     <item>
       <title>Python Algorithms - C1 Introduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c1-introduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c1-introduction/</guid>
+      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C2 The basics</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c2-the-basics/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
-      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c2-the-basics/</guid>
+      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C3 Counting 101</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c3-counting-101/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
-      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c3-counting-101/</guid>
+      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C4 Induction and Recursion and Reduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c4-induction-and-recursion-and-reduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c4-induction-and-recursion-and-reduction/</guid>
+      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C5 Traversal</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c5-traversal/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
-      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c5-traversal/</guid>
+      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C6 Divide and Combine and Conquer</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c6-divide-and-combine-and-conquer/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
-      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c6-divide-and-combine-and-conquer/</guid>
+      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C7 Greedy</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c7-greedy/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
-      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c7-greedy/</guid>
+      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it!&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C8 Dynamic Programming</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c8-dynamic-programming/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
-      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c8-dynamic-programming/</guid>
+      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C9 Graphs</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c9-graphs/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
-      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c9-graphs/</guid>
+      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -99,43 +99,43 @@
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
-      <description>&lt;p&gt;Python代码片段 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Python代码片段&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C4 Trees</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures-c4-trees/</link>
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
-      <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures-c4-trees/</guid>
+      <description>&lt;p&gt;Python数据结构篇(4) 树&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C3 Data Structures</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures-c3-data-structures/</link>
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
-      <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures-c3-data-structures/</guid>
+      <description>&lt;p&gt;Python数据结构篇(3) 数据结构&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C2 Sort</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures-c2-sort/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
-      <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures-c2-sort/</guid>
+      <description>&lt;p&gt;Python数据结构篇(2) 排序&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C1 Search</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures-c1-search/</link>
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
-      <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures-c1-search/</guid>
+      <description>&lt;p&gt;Python数据结构篇(1) 搜索&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -5,7 +5,7 @@
        Android Development Code Snippets &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android Development Code Snippets &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-development-code-snippets/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,31 +158,20 @@
     </header>
 
     <section class="post-content">
-      <p>Android开发代码片段 </p>
-
+      <p>Android开发代码片段</p>
 <p>1.获取应用的版本信息</p>
-
 <p>通过<code>PackageInfo</code>类来得到版本信息</p>
-
 <pre><code>PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 String versionName = pInfo.versionName;
 int versionCode = pInfo.versionCode;
-</code></pre>
-
-<p>2.进入应用市场给应用评分</p>
-
+</code></pre><p>2.进入应用市场给应用评分</p>
 <p>构造应用程序在应用市场中对应的网址，打开即可</p>
-
 <pre><code>Uri uri = Uri.parse(&quot;market://details?id=&quot; + getPackageName());
 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 startActivity(intent);
-</code></pre>
-
-<p>3.安装/卸载应用</p>
-
+</code></pre><p>3.安装/卸载应用</p>
 <p>打开查看某个APK文件就是安装应用操作</p>
-
 <pre><code>File apkfile = &quot;/path/to/your/apk/file&quot;;
 if (!apkfile.exists()) {
     return;
@@ -214,43 +181,28 @@ Intent intent = new Intent(Intent.ACTION_VIEW);
 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 intent.setDataAndType(Uri.parse(&quot;file://&quot; + apkfile.toString()), &quot;application/vnd.android.package-archive&quot;);
 startActivity(intent);
-</code></pre>
-
-<p>卸载应用</p>
-
+</code></pre><p>卸载应用</p>
 <pre><code>private void uninstall(String packageName) {
     Uri uri = Uri.parse(&quot;package:&quot; + packageName);
     Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     startActivity(intent);
 }
-</code></pre>
-
-<p>4.在屏幕的中间显示Toast信息</p>
-
+</code></pre><p>4.在屏幕的中间显示Toast信息</p>
 <p>设置<code>setGravity</code>即可</p>
-
 <pre><code>private static void showMiddleToast(Context context, String msg) {
     Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
     toast.setGravity(Gravity.CENTER, 0, 0);
     toast.show();
 }
-</code></pre>
-
-<p>5.复制文本到剪贴板</p>
-
+</code></pre><p>5.复制文本到剪贴板</p>
 <p>使用<code>ClipboardManager</code>类</p>
-
 <pre><code>public static void copy(Context context, String content) {
     ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
     clipboardManager.setText(content);
 }
-</code></pre>
-
-<p>6.用户按两次返回键退出应用</p>
-
+</code></pre><p>6.用户按两次返回键退出应用</p>
 <p>记录上一次按返回键的时间<code>exitTime</code>，并给定一个时间范围(2 秒钟)</p>
-
 <pre><code>public void onBackPressed() {
     exitApp();
 }
@@ -265,12 +217,8 @@ private void exitApp() {
         finish();
     }
 }
-</code></pre>
-
-<p>7.创建桌面快捷方式</p>
-
+</code></pre><p>7.创建桌面快捷方式</p>
 <p>创建桌面快捷方式实际上就是构造一个Intent然后将其广播出去</p>
-
 <pre><code>@Click
 void shortcut() {
     new AsyncTask&lt;String, Void, Boolean&gt;() {
@@ -339,27 +287,23 @@ void shortcut() {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/"><h4>Android Universal Image Loader</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/"><h4>Android Dependency Injection Libraries</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/"><h4>Android Dependency Injection Libraries</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/"><h4>Android Universal Image Loader</h4></a></span>
       
   
 </aside>
@@ -368,42 +312,6 @@ void shortcut() {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -412,7 +320,7 @@ void shortcut() {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

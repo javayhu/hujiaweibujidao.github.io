@@ -5,7 +5,7 @@
        Happy Mother&#39;s Day &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Happy Mother&#39;s Day &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,45 +159,42 @@
 
     <section class="post-content">
       <p>老妈，节日快乐！祝您永远幸福健康！</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/mothersday.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/mothersday.png" alt="image"></p>
 <p>使用的Python代码，<a href="http://pythontip.sinaapp.com/coding/skulpt/">源代码来源不记得了，可以看下这里</a>。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> turtle
+<span style="color:#f92672">import</span> random
 
-<pre><code class="language-python">import turtle
-import random
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    tList <span style="color:#f92672">=</span> []
+    head <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    numTurtles <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(numTurtles):
+        nt <span style="color:#f92672">=</span> turtle<span style="color:#f92672">.</span>Turtle()   <span style="color:#75715e"># Make a new turtle, initialize values</span>
+        nt<span style="color:#f92672">.</span>setheading(head)
+        nt<span style="color:#f92672">.</span>pensize(<span style="color:#ae81ff">2</span>)
+        nt<span style="color:#f92672">.</span>color(random<span style="color:#f92672">.</span>randrange(<span style="color:#ae81ff">256</span>),random<span style="color:#f92672">.</span>randrange(<span style="color:#ae81ff">256</span>),random<span style="color:#f92672">.</span>randrange(<span style="color:#ae81ff">256</span>))
+        nt<span style="color:#f92672">.</span>speed(<span style="color:#ae81ff">10</span>)
+        nt<span style="color:#f92672">.</span>tracer(<span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">0</span>)
+        tList<span style="color:#f92672">.</span>append(nt)       <span style="color:#75715e"># Add the new turtle to the list</span>
+        head <span style="color:#f92672">=</span> head <span style="color:#f92672">+</span> <span style="color:#ae81ff">360</span><span style="color:#f92672">/</span>numTurtles
 
-def main():
-    tList = []
-    head = 0
-    numTurtles = 10
-    for i in range(numTurtles):
-        nt = turtle.Turtle()   # Make a new turtle, initialize values
-        nt.setheading(head)
-        nt.pensize(2)
-        nt.color(random.randrange(256),random.randrange(256),random.randrange(256))
-        nt.speed(10)
-        nt.tracer(30,0)
-        tList.append(nt)       # Add the new turtle to the list
-        head = head + 360/numTurtles
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
+        moveTurtles(tList,<span style="color:#ae81ff">15</span>,i)
 
-    for i in range(100):
-        moveTurtles(tList,15,i)
+    w <span style="color:#f92672">=</span> tList[<span style="color:#ae81ff">0</span>]
+    w<span style="color:#f92672">.</span>up()
+    w<span style="color:#f92672">.</span>goto(<span style="color:#f92672">-</span><span style="color:#ae81ff">130</span>,<span style="color:#ae81ff">40</span>)
+    w<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;You are my favorite lady!&#34;</span>,True,<span style="color:#e6db74">&#34;center&#34;</span>,<span style="color:#e6db74">&#34;20px Arial&#34;</span>)
+    w<span style="color:#f92672">.</span>goto(<span style="color:#f92672">-</span><span style="color:#ae81ff">130</span>,<span style="color:#f92672">-</span><span style="color:#ae81ff">35</span>)
+    w<span style="color:#f92672">.</span>write(<span style="color:#e6db74">&#34;Happy Mother&#39;s Day&#34;</span>,True,<span style="color:#e6db74">&#34;center&#34;</span>,<span style="color:#e6db74">&#34;24px Arial&#34;</span>)
 
-    w = tList[0]
-    w.up()
-    w.goto(-130,40)
-    w.write(&quot;You are my favorite lady!&quot;,True,&quot;center&quot;,&quot;20px Arial&quot;)
-    w.goto(-130,-35)
-    w.write(&quot;Happy Mother's Day&quot;,True,&quot;center&quot;,&quot;24px Arial&quot;)
-
-def moveTurtles(turtleList,dist,angle):
-    for turtle in turtleList:   # Make every turtle on the list do the same actions.
-        turtle.forward(dist)
-        turtle.right(angle)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">moveTurtles</span>(turtleList,dist,angle):
+    <span style="color:#66d9ef">for</span> turtle <span style="color:#f92672">in</span> turtleList:   <span style="color:#75715e"># Make every turtle on the list do the same actions.</span>
+        turtle<span style="color:#f92672">.</span>forward(dist)
+        turtle<span style="color:#f92672">.</span>right(angle)
 
 main()
-</code></pre>
+</code></pre></div>
     </section>
 
     <footer class="post-footer">
@@ -240,27 +215,23 @@ main()
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/"><h4>Python Basics</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/"><h4>Head First PageRank</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/"><h4>Head First PageRank</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/"><h4>Python Basics</h4></a></span>
       
   
 </aside>
@@ -269,42 +240,6 @@ main()
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -313,7 +248,7 @@ main()
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

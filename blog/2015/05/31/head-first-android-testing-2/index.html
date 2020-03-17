@@ -5,7 +5,7 @@
        Head First Android Testing 2 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Head First Android Testing 2 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,54 +158,38 @@
     </header>
 
     <section class="post-content">
-      <p>深入浅出Android测试教程 (2) </p>
-
+      <p>深入浅出Android测试教程 (2)</p>
 <p>###第二部分 Instrumentation Tests</p>
-
 <p>Instrumentation Tests又叫Device or Emulator Tests，即运行在设备或者模拟器上的测试。使用<code>AndroidJunitRunner</code>来运行，测试代码存放在<code>androidTest</code>目录下。</p>
-
 <p>①Run on Device or Emulator
 ②Run With <code>AndroidJUnitRunner</code>
 ③Located <code>androidTest/</code> source set</p>
-
 <p>使用它需要依赖Android Support Repository，所以需要通过SDK Manager下载最新版本的Support Repository。</p>
-
 <p>参考网址<a href="http://developer.android.com/tools/testing-support-library/index.html">Testing Support Library</a>提到，以前用来做测试的<code>InstrumentationTestRunner</code> 类只支持Junit 3，而新的<code>AndroidJunitRunner</code>类支持Junit 4。</p>
-
 <p>测试步骤：</p>
-
 <p>(1)配置<code>build.gradle</code></p>
-
 <p>其中<code>testInstrumentationRunner &quot;android.support.test.runner.AndroidJUnitRunner&quot;</code>一定要设置，否则可能会出现找不到测试的错误，另外，如果还是使用了其他的库依赖的话，也可以继续添加上去。<code>AndroidJUnitRunner</code>是一个功能很强大的测试工具类，支持以下几个特性：</p>
-
 <p>①A new test runner for Android JUnit3/JUnit4 Support
 ②Instrumentation Registry
 ③Test Filtering
 ④Intent Monitoring/Stubbing
 ⑤Activity/Application Lifecycle Monitoring</p>
-
-<pre><code class="language-java">apply plugin: 'com.android.application'
-android { ...
-       defaultConfig {
-           ...
-           testInstrumentationRunner ‘android.support.test.runner.AndroidJUnitRunner’
-        }
-}
-dependencies {
-        // AndroidJUnit Runner dependencies
-        androidTestCompile 'com.android.support.test🏃0.2'
-        androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-}
-</code></pre>
-
-<p>(2)配置<code>Builde Variants</code>，选择<code>Android Instrumentation Tests</code></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/instrumentationtest_buildvariants.png" alt="image" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">apply plugin<span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">&#39;</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">android</span><span style="color:#f92672">.</span><span style="color:#a6e22e">application</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+android <span style="color:#f92672">{</span> <span style="color:#f92672">...</span>
+       defaultConfig <span style="color:#f92672">{</span>
+           <span style="color:#f92672">...</span>
+           testInstrumentationRunner <span style="color:#960050;background-color:#1e0010">‘</span>android<span style="color:#f92672">.</span><span style="color:#a6e22e">support</span><span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">.</span><span style="color:#a6e22e">runner</span><span style="color:#f92672">.</span><span style="color:#a6e22e">AndroidJUnitRunner</span><span style="color:#960050;background-color:#1e0010">’</span>
+        <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+dependencies <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// AndroidJUnit Runner dependencies
+</span><span style="color:#75715e"></span>        androidTestCompile <span style="color:#960050;background-color:#1e0010">&#39;</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">android</span><span style="color:#f92672">.</span><span style="color:#a6e22e">support</span><span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#960050;background-color:#1e0010">🏃</span>0<span style="color:#f92672">.</span><span style="color:#a6e22e">2</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+        androidTestCompile <span style="color:#960050;background-color:#1e0010">&#39;</span>org<span style="color:#f92672">.</span><span style="color:#a6e22e">hamcrest</span><span style="color:#f92672">:</span>hamcrest<span style="color:#f92672">-</span>library<span style="color:#f92672">:</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">1</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(2)配置<code>Builde Variants</code>，选择<code>Android Instrumentation Tests</code></p>
+<p><img src="https://hujiaweibujidao.github.io/images/instrumentationtest_buildvariants.png" alt="image"></p>
 <p>(3)编写Instrumentation Test程序，放在<code>src/androidTest/java</code>目录下</p>
-
 <p>类<code>ObjectUtil</code>还是和前面的Unit Test中一样，只是添加一个新的测试类</p>
-
 <pre><code>import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.filters.RequiresDevice;
@@ -296,24 +258,14 @@ public class InstrumentationTestSample {
     }
 
 }
-</code></pre>
-
-<p>(4)配置测试的运行参数</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_configuration.png" alt="image" /></p>
-
+</code></pre><p>(4)配置测试的运行参数</p>
+<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_configuration.png" alt="image"></p>
 <p>(5)运行测试有两种方式，可以简单地和运行普通程序一样点击Run按钮，结果会显示在下面的Run视图窗口中，也可以在终端运行<code>./gradlew connectedAndroidTest</code>，结果将放在<code>/build/outputs/reports/androidTests/connected/</code>中，打开<code>index.html</code>文件即可。前者只运行当前测试的运行参数中配置的测试类和方法，而后者会检测整个项目中的所有Instrumentation Test并进行测试。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_run.png" alt="image" /></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_html.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_run.png" alt="image"></p>
+<p><img src="https://hujiaweibujidao.github.io/images/instrumentation_html.png" alt="image"></p>
 <p><strong>Instrumentation Registry</strong></p>
-
 <p>通过Instrumentation Registry我们可以获取很多Android运行状态下的组件。</p>
-
 <p>You can use the <code>InstrumentationRegistry</code> class to access information related to your test run. This class includes the <code>Instrumentation</code> object, target app <code>Context</code> object, test app <code>Context</code> object, and the command line arguments passed into your test. This data is useful when you are writing tests using the UI Automator framework or when writing tests that have dependencies on the <code>Instrumentation</code> or <code>Context</code> objects.</p>
-
 <pre><code>@Before
 public void accessAllTheThings() {
   mArgsBundle = InstrumentationRegistry.getArguments();
@@ -321,18 +273,11 @@ public void accessAllTheThings() {
   mTestAppContext = InstrumentationRegistry.getContext();
   mTargetContext = InstrumentationRegistry.getTargetContext();
 }
-</code></pre>
-
-<p><strong>￼Test Filters</strong></p>
-
+</code></pre><p><strong>￼Test Filters</strong></p>
 <p>通过Test Filters我们可以指定测试时的最小SDK版本或者是否必须使用设备。</p>
-
 <p><code>@RequiresDevice</code>: Specifies that the test should run only on physical devices, not on emulators.</p>
-
 <p><code>@SdkSupress</code>: Suppresses the test from running on a lower Android API level than the given level. For example, to suppress tests on all API levels lower than 18 from running, use the annotation @SDKSupress(minSdkVersion=18).</p>
-
 <p><code>@SmallTest</code>, <code>@MediumTest</code>, and <code>@LargeTest</code>: Classify how long a test should take to run, and consequently, how frequently you can run the test.</p>
-
 <pre><code>@SdkSuppress(minSdkVersion=15)
 @Test
 public void featureWithMinSdk15() {
@@ -344,9 +289,7 @@ public void featureWithMinSdk15() {
 public void SomeDeviceSpecificFeature() {
 ...
 }
-</code></pre>
-
-<p>可以看出Instrumentation Test的功能还是很强大的，这里只是冰山一角，感兴趣可以继续阅读更多的资料去学习，Enjoy it！</p>
+</code></pre><p>可以看出Instrumentation Test的功能还是很强大的，这里只是冰山一角，感兴趣可以继续阅读更多的资料去学习，Enjoy it！</p>
     </section>
 
     <footer class="post-footer">
@@ -367,27 +310,23 @@ public void SomeDeviceSpecificFeature() {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/"><h4>Head First Android Testing 1</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/"><h4>Android Universal Image Loader</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/"><h4>Android Universal Image Loader</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/"><h4>Head First Android Testing 1</h4></a></span>
       
   
 </aside>
@@ -396,42 +335,6 @@ public void SomeDeviceSpecificFeature() {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -440,7 +343,7 @@ public void SomeDeviceSpecificFeature() {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

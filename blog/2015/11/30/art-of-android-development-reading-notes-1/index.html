@@ -5,7 +5,7 @@
        Art of Android Development Reading Notes 1 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Art of Android Development Reading Notes 1 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,52 +158,41 @@
     </header>
 
     <section class="post-content">
-      <p>《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式 </p>
-
+      <p>《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式</p>
 <p>本节和《Android群英传》中的<strong>第8章Activity和Activity调用栈分析</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/">建议先阅读该章的总结</a></p>
-
 <h3 id="第1章-activity的生命周期和启动模式"><strong>第1章 Activity的生命周期和启动模式</strong></h3>
-
-<h4 id="1-1-activity生命周期全面分析">1.1 Activity生命周期全面分析</h4>
-
-<p>1.1.1 典型情况下生命周期分析<br />
-(1)一般情况下，当当前Activity从不可见重新变为可见状态时，<code>onRestart</code>方法就会被调用。<br />
-(2)当用户打开新的Activity或者切换到桌面的时候，回调如下：<code>onPause</code> -&gt; <code>onStop</code>，但是如果新Activity采用了透明主题，那么<code>onStop</code>方法不会被回调。当用户再次回到原来的Activity时，回调如下：<code>onRestart</code> -&gt; <code>onStart</code> -&gt; <code>onResume</code>。<br />
-(3)<code>onStart</code>和<code>onStop</code>对应，它们是从Activity是否可见这个角度来回调的；<code>onPause</code>和<code>onResume</code>方法对应，它们是从Activity是否位于前台这个角度来回调的。<br />
+<h4 id="11-activity生命周期全面分析">1.1 Activity生命周期全面分析</h4>
+<p>1.1.1 典型情况下生命周期分析<br>
+(1)一般情况下，当当前Activity从不可见重新变为可见状态时，<code>onRestart</code>方法就会被调用。<br>
+(2)当用户打开新的Activity或者切换到桌面的时候，回调如下：<code>onPause</code> -&gt; <code>onStop</code>，但是如果新Activity采用了透明主题，那么<code>onStop</code>方法不会被回调。当用户再次回到原来的Activity时，回调如下：<code>onRestart</code> -&gt; <code>onStart</code> -&gt; <code>onResume</code>。<br>
+(3)<code>onStart</code>和<code>onStop</code>对应，它们是从Activity是否可见这个角度来回调的；<code>onPause</code>和<code>onResume</code>方法对应，它们是从Activity是否位于前台这个角度来回调的。<br>
 (4)从Activity A进入到Activity B，回调顺序是<code>onPause(A) -&gt; onCreate(B) -&gt; onStart(B) -&gt; onResume(B) -&gt; onStop(A)</code>，所以不能在onPause方法中做重量级的操作。</p>
-
-<p>1.1.2 异常情况下生命周期分析<br />
-(1)<code>onSaveInstanceState</code>方法只会出现在Activity被异常终止的情况下，它的调用时机是在<code>onStop</code>之前，它和<code>onPause</code>方法没有既定的时序关系，可能在它之前，也可能在它之后。当Activity被重新创建的时候，<code>onRestoreInstanceState</code>会被回调，它的调用时机是<code>onStart</code>之后。<br />
+<p>1.1.2 异常情况下生命周期分析<br>
+(1)<code>onSaveInstanceState</code>方法只会出现在Activity被异常终止的情况下，它的调用时机是在<code>onStop</code>之前，它和<code>onPause</code>方法没有既定的时序关系，可能在它之前，也可能在它之后。当Activity被重新创建的时候，<code>onRestoreInstanceState</code>会被回调，它的调用时机是<code>onStart</code>之后。<br>
 <strong>系统只会在Activity即将被销毁并且有机会重新显示的情况下才会去调用onSaveInstanceState方法。</strong>
-<strong>当Activity在异常情况下需要重新创建时，系统会默认为我们保存当前Activity的视图结构，并且在Activity重启后为我们恢复这些数据，比如文本框中用户输入的数据、listview滚动的位置等，这些view相关的状态系统都会默认为我们恢复。具体针对某一个view系统能为我们恢复哪些数据可以查看view的源码中的onSaveInstanceState和onRestoreInstanceState方法。</strong><br />
-(2)Activity按优先级的分类<br />
-前台Activity；可见但非前台Activity；后台Activity<br />
-(3)<code>android:configChanges=&quot;xxx&quot;</code>属性，常用的主要有下面三个选项：<br />
-<code>local</code>：设备的本地位置发生了变化，一般指切换了系统语言；<br />
-<code>keyboardHidden</code>：键盘的可访问性发生了变化，比如用户调出了键盘；<br />
-<code>orientation</code>：屏幕方向发生了变化，比如旋转了手机屏幕。<br />
+<strong>当Activity在异常情况下需要重新创建时，系统会默认为我们保存当前Activity的视图结构，并且在Activity重启后为我们恢复这些数据，比如文本框中用户输入的数据、listview滚动的位置等，这些view相关的状态系统都会默认为我们恢复。具体针对某一个view系统能为我们恢复哪些数据可以查看view的源码中的onSaveInstanceState和onRestoreInstanceState方法。</strong><br>
+(2)Activity按优先级的分类<br>
+前台Activity；可见但非前台Activity；后台Activity<br>
+(3)<code>android:configChanges=&quot;xxx&quot;</code>属性，常用的主要有下面三个选项：<br>
+<code>local</code>：设备的本地位置发生了变化，一般指切换了系统语言；<br>
+<code>keyboardHidden</code>：键盘的可访问性发生了变化，比如用户调出了键盘；<br>
+<code>orientation</code>：屏幕方向发生了变化，比如旋转了手机屏幕。<br>
 配置了<code>android:configChanges=&quot;xxx&quot;</code>属性之后，Activity就不会在对应变化发生时重新创建，而是调用Activity的<code>onConfigurationChanged</code>方法。</p>
-
-<h4 id="1-2-activity的启动模式">1.2 Activity的启动模式</h4>
-
-<p>1.2.1 启动模式<br />
-(1)当任务栈中没有任何Activity的时候，系统就会回收这个任务栈。<br />
-(2)从非Activity类型的Context(例如ApplicationContext、Service等)中以<code>standard</code>模式启动新的Activity是不行的，因为这类context并没有任务栈，所以需要为待启动Activity指定<code>FLAG_ACTIVITY_NEW_TASK</code>标志位。<br />
-(3)任务栈分为前台任务栈和后台任务栈，后台任务栈中的Activity位于暂停状态，用户可以通过切换将后台任务栈再次调到前台。<br />
-(4)参数<code>TaskAffinity</code>用来指定Activity所需要的任务栈，意为任务相关性。默认情况下，所有Activity所需的任务栈的名字为应用的包名。TaskAffinity属性主要和<code>singleTask</code>启动模式或者<code>allowTaskReparenting</code>属性配对使用，在其他情况下没有意义。<br />
-当TaskAffinity和singleTask启动模式配对使用的时候，它是具有该模式的Activity的目前任务栈的名字，待启动的Activity会运行在名字和TaskAffinity相同的任务栈中；<br />
-当TaskAffinity和allowTaskReparenting结合的时候，当一个应用A启动了应用B的某个Activity C后，如果Activity C的allowTaskReparenting属性设置为true的话，那么当应用B被启动后，系统会发现Activity C所需的任务栈存在了，就将Activity C从A的任务栈中转移到B的任务栈中。<br />
-(5)singleTask模式的具体分析：当一个具有singleTask启动模式的Activity请求启动之后，系统首先会寻找是否存在A想要的任务栈，如果不存在，就重新创建一个任务栈，然后创建Activity的实例把它放到栈中；如果存在Activity所需的任务栈，这时候要看栈中是否有Activity实例存在，如果有，那么系统就会把该Activity实例调到栈顶，并调用它的onNewIntent方法(它之上的Activity会被迫出栈，所以<strong>singleTask模式具有FLAG_ACTIVITY_CLEAR_TOP效果</strong>)；如果Activity实例不存在，那么就创建Activity实例并把它压入栈中。<br />
+<h4 id="12-activity的启动模式">1.2 Activity的启动模式</h4>
+<p>1.2.1 启动模式<br>
+(1)当任务栈中没有任何Activity的时候，系统就会回收这个任务栈。<br>
+(2)从非Activity类型的Context(例如ApplicationContext、Service等)中以<code>standard</code>模式启动新的Activity是不行的，因为这类context并没有任务栈，所以需要为待启动Activity指定<code>FLAG_ACTIVITY_NEW_TASK</code>标志位。<br>
+(3)任务栈分为前台任务栈和后台任务栈，后台任务栈中的Activity位于暂停状态，用户可以通过切换将后台任务栈再次调到前台。<br>
+(4)参数<code>TaskAffinity</code>用来指定Activity所需要的任务栈，意为任务相关性。默认情况下，所有Activity所需的任务栈的名字为应用的包名。TaskAffinity属性主要和<code>singleTask</code>启动模式或者<code>allowTaskReparenting</code>属性配对使用，在其他情况下没有意义。<br>
+当TaskAffinity和singleTask启动模式配对使用的时候，它是具有该模式的Activity的目前任务栈的名字，待启动的Activity会运行在名字和TaskAffinity相同的任务栈中；<br>
+当TaskAffinity和allowTaskReparenting结合的时候，当一个应用A启动了应用B的某个Activity C后，如果Activity C的allowTaskReparenting属性设置为true的话，那么当应用B被启动后，系统会发现Activity C所需的任务栈存在了，就将Activity C从A的任务栈中转移到B的任务栈中。<br>
+(5)singleTask模式的具体分析：当一个具有singleTask启动模式的Activity请求启动之后，系统首先会寻找是否存在A想要的任务栈，如果不存在，就重新创建一个任务栈，然后创建Activity的实例把它放到栈中；如果存在Activity所需的任务栈，这时候要看栈中是否有Activity实例存在，如果有，那么系统就会把该Activity实例调到栈顶，并调用它的onNewIntent方法(它之上的Activity会被迫出栈，所以<strong>singleTask模式具有FLAG_ACTIVITY_CLEAR_TOP效果</strong>)；如果Activity实例不存在，那么就创建Activity实例并把它压入栈中。<br>
 (6)设置启动模式既可以使用xml属性<code>android:launchMode</code>，也可以使用代码<code>intent.addFlags()</code>。<strong>区别在于限定范围不同，前者无法直接为Activity设置FLAG_ACTIVITY_CLEAR_TOP标识，而后者无法为Activity指定singleInstance模式。</strong></p>
-
-<p>1.2.2 Activity的Flags<br />
+<p>1.2.2 Activity的Flags<br>
 <code>FLAG_ACTIVITY_NEW_TASK</code>,<code>FLAG_ACTIVITY_SINGLE_TOP</code>,<code>FLAG_ACTIVITY_CLEAR_TOP</code>
 <code>FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS</code>：具有这个标记的Activity不会出现在历史Activity列表中，当某些情况下我们不希望用户通过历史列表回到我们的Activity的时候这个标记比较有用，它等同于属性设置<code>android:excludeFromRecents=&quot;true&quot;</code>。</p>
-
-<h4 id="1-3-intentfilter的匹配规则">1.3 IntentFilter的匹配规则</h4>
-
+<h4 id="13-intentfilter的匹配规则">1.3 IntentFilter的匹配规则</h4>
 <p>(1)IntentFilter中的过滤信息有action、category、data，为了匹配过滤列表，需要同时匹配过滤列表中的action、category、data信息，否则匹配失败。<strong>一个过滤列表中的action、category、data可以有多个，所有的action、category、data分别构成不同类别，同一类别的信息共同约束当前类别的匹配过程。只有一个Intent同时匹配action类别、category类别和data类别才算完全匹配，只有完全匹配才能成功启动目标Activity。此外，一个Activity中可以有多个intent-filter，一个Intent只要能匹配任何一组intent-filter即可成功启动对应的Activity。</strong></p>
-
 <pre><code>&lt;intent-filter&gt;
     &lt;action android:name=&quot;com.ryg.charpter_1.c&quot; /&gt;
     &lt;action android:name=&quot;com.ryg.charpter_1.d&quot; /&gt;
@@ -236,15 +203,12 @@
 
     &lt;data android:mimeType=&quot;text/plain&quot; /&gt;
 &lt;/intent-filter&gt;
-</code></pre>
-
-<p>(2)action匹配规则<br />
-只要Intent中的action能够和过滤规则中的任何一个action相同即可匹配成功，action匹配区分大小写。<br />
-(3)category匹配规则<br />
-Intent中如果有category那么所有的category都必须和过滤规则中的其中一个category相同，如果没有category的话那么就是默认的category，即<code>android.intent.category.DEFAULT</code>，所以为了Activity能够接收隐式调用，配置多个category的时候必须加上默认的category。<br />
-(4)data匹配规则<br />
+</code></pre><p>(2)action匹配规则<br>
+只要Intent中的action能够和过滤规则中的任何一个action相同即可匹配成功，action匹配区分大小写。<br>
+(3)category匹配规则<br>
+Intent中如果有category那么所有的category都必须和过滤规则中的其中一个category相同，如果没有category的话那么就是默认的category，即<code>android.intent.category.DEFAULT</code>，所以为了Activity能够接收隐式调用，配置多个category的时候必须加上默认的category。<br>
+(4)data匹配规则<br>
 data的结构很复杂，语法大致如下：</p>
-
 <pre><code>&lt;data android:scheme=&quot;string&quot;
   android:host=&quot;string&quot;
   android:port=&quot;string&quot;
@@ -252,18 +216,14 @@ data的结构很复杂，语法大致如下：</p>
   android:pathPattern=&quot;string&quot;
   android:pathPrefix=&quot;string&quot;
   android:mimeType=&quot;string&quot; /&gt;
-</code></pre>
-
-<p>主要由<code>mimeType</code>和<code>URI</code>组成，其中mimeType代表媒体类型，而URI的结构也复杂，大致如下：<br />
-<code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;]|[&lt;pathPrefix&gt;]|[pathPattern]</code><br />
-例如<code>content://com.example.project:200/folder/subfolder/etc</code><br />
-<code>scheme、host、port</code>分别表示URI的模式、主机名和端口号，其中如果scheme或者host未指定那么URI就无效。<br />
+</code></pre><p>主要由<code>mimeType</code>和<code>URI</code>组成，其中mimeType代表媒体类型，而URI的结构也复杂，大致如下： <br>
+<code>&lt;scheme&gt;://&lt;host&gt;:&lt;port&gt;/[&lt;path&gt;]|[&lt;pathPrefix&gt;]|[pathPattern]</code><br>
+例如<code>content://com.example.project:200/folder/subfolder/etc</code><br>
+<code>scheme、host、port</code>分别表示URI的模式、主机名和端口号，其中如果scheme或者host未指定那么URI就无效。<br>
 <code>path、pathPattern、pathPrefix</code>都是表示路径信息，其中path表示完整的路径信息，pathPrefix表示路径的前缀信息，pathPattern表示完整的路径，但是它里面包含了通配符(*)。</p>
-
-<p><strong>data匹配规则：Intent中必须含有data数据，并且data数据能够完全匹配过滤规则中的某一个data。</strong><br />
-<strong>URI有默认的scheme！</strong><br />
+<p><strong>data匹配规则：Intent中必须含有data数据，并且data数据能够完全匹配过滤规则中的某一个data。</strong><br>
+<strong>URI有默认的scheme！</strong><br>
 如果过滤规则中的mimeType指定为<code>image/*</code>或者<code>text/*</code>等这种类型的话，那么即使过滤规则中没有指定URI，URI有默认的scheme是content和file！如果过滤规则中指定了scheme的话那就不是默认的scheme了。</p>
-
 <pre><code>//URI有默认值
 &lt;intent-filter&gt;
     &lt;data android:mimeType=&quot;image/*&quot;/&gt;
@@ -274,16 +234,10 @@ data的结构很复杂，语法大致如下：</p>
     &lt;data android:mimeType=&quot;image/*&quot; android:scheme=&quot;http&quot; .../&gt;
     ...
 &lt;/intent-filter&gt;
-</code></pre>
-
-<p><strong>如果要为Intent指定完整的data，必须要调用<code>setDataAndType</code>方法！</strong><br />
+</code></pre><p><strong>如果要为Intent指定完整的data，必须要调用<code>setDataAndType</code>方法！</strong><br>
 不能先调用setData然后调用setType，因为这两个方法会彼此清除对方的值。</p>
-
 <pre><code>intent.setDataAndType(Uri.parse(&quot;file://abc&quot;), &quot;image/png&quot;);
-</code></pre>
-
-<p>data的下面两种写法作用是一样的：</p>
-
+</code></pre><p>data的下面两种写法作用是一样的：</p>
 <pre><code>&lt;intent-filter&gt;
     &lt;data android:scheme=&quot;file&quot; android:host=&quot;www.github.com&quot;/&gt;
 &lt;/intent-filter&gt;
@@ -292,22 +246,16 @@ data的结构很复杂，语法大致如下：</p>
     &lt;data android:scheme=&quot;file&quot;/&gt;
     &lt;data android:host=&quot;www.github.com&quot;/&gt;
 &lt;/intent-filter&gt;
-</code></pre>
-
-<p><strong>如何判断是否有Activity能够匹配我们的隐式Intent？</strong><br />
-(1)<code>PackageManager</code>的<code>resolveActivity</code>方法或者Intent的<code>resolveActivity</code>方法：如果找不到就会返回null<br />
-(2)PackageManager的<code>queryIntentActivities</code>方法：它返回所有成功匹配的Activity信息<br />
+</code></pre><p><strong>如何判断是否有Activity能够匹配我们的隐式Intent？</strong><br>
+(1)<code>PackageManager</code>的<code>resolveActivity</code>方法或者Intent的<code>resolveActivity</code>方法：如果找不到就会返回null<br>
+(2)PackageManager的<code>queryIntentActivities</code>方法：它返回所有成功匹配的Activity信息<br>
 针对Service和BroadcastReceiver等组件，PackageManager同样提供了类似的方法去获取成功匹配的组件信息，例如<code>queryIntentServices</code>、<code>queryBroadcastReceivers</code>等方法</p>
-
 <p>有一类action和category比较重要，它们在一起用来标明这是一个入口Activity，并且会出现在系统的应用列表中。</p>
-
 <pre><code>&lt;intent-filter&gt;
     &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
     &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
 &lt;/intent-filter&gt;
-</code></pre>
-
-<p>OK，本章结束，谢谢阅读。</p>
+</code></pre><p>OK，本章结束，谢谢阅读。</p>
     </section>
 
     <footer class="post-footer">
@@ -328,27 +276,23 @@ data的结构很复杂，语法大致如下：</p>
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/"><h4>Art of Android Development Reading Notes 12</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/"><h4>Art of Android Development Reading Notes 5</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/"><h4>Art of Android Development Reading Notes 5</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/"><h4>Art of Android Development Reading Notes 12</h4></a></span>
       
   
 </aside>
@@ -357,42 +301,6 @@ data的结构很复杂，语法大致如下：</p>
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -401,7 +309,7 @@ data的结构很复杂，语法大致如下：</p>
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

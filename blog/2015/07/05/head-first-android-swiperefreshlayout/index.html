@@ -5,7 +5,7 @@
        Head First Android SwipeRefreshLayout &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Head First Android SwipeRefreshLayout &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,20 +158,13 @@
     </header>
 
     <section class="post-content">
-      <p>本文内容和代码参考自<a href="https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/">Implementing Swipe to Refresh, an Android Material Design UI Pattern</a>，原博客内容中略有错误。 </p>
-
+      <p>本文内容和代码参考自<a href="https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/">Implementing Swipe to Refresh, an Android Material Design UI Pattern</a>，原博客内容中略有错误。</p>
 <p><a href="https://developer.android.com/reference/android/support/v4/widget/SwipeRefreshLayout.html">SwipeRefreshLayout</a>组件是Support Library中的，用途是使用户在某个组件中下拉即可刷新页面中的内容。</p>
-
 <p>This layout should be made the parent of the view that will be refreshed as a result of the gesture and can only support one direct child. This view will also be made the target of the gesture and will be forced to match both the width and the height supplied in this layout. The SwipeRefreshLayout does not provide accessibility events; instead, a menu item must be provided to allow refresh of the content wherever this gesture is used.</p>
-
 <p>SwipeRefreshLayout只能有一个直接子组件，子组件也将作为手势识别的目标区域。SwipeRefreshLayout的显示效果如下，在组件上显示一个进度圈表示正在刷新。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/swiperefreshlayout.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/swiperefreshlayout.png" alt="image"></p>
 <p>下面我们来做个案例使用SwipeRefreshLayout。</p>
-
 <p>(1)新建布局文件，在SwipeRefreshLayout中插入一个RecyclerView。</p>
-
 <pre><code>&lt;RelativeLayout
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     xmlns:tools=&quot;http://schemas.android.com/tools&quot;
@@ -220,10 +191,7 @@
 
 
 &lt;/RelativeLayout&gt;
-</code></pre>
-
-<p>(2)在<code>res/values/strings.xml</code>中添加一个字符串数组，内容是一些猫的种类的名称。</p>
-
+</code></pre><p>(2)在<code>res/values/strings.xml</code>中添加一个字符串数组，内容是一些猫的种类的名称。</p>
 <pre><code>&lt;!--swipe refresh layout--&gt;
 &lt;string-array name=&quot;cat_names&quot;&gt;
     &lt;item&gt;George&lt;/item&gt;
@@ -236,10 +204,7 @@
     &lt;item&gt;Henry&lt;/item&gt;
     &lt;item&gt;Schuster&lt;/item&gt;
 &lt;/string-array&gt;
-</code></pre>
-
-<p>(3)创建RecyclerView的Adapter类<code>CatNamesRecyclerViewAdapter</code>，其中方法<code>refreshContent</code>是用来混淆mCatNames的，当做是内容刷新之后的结果。</p>
-
+</code></pre><p>(3)创建RecyclerView的Adapter类<code>CatNamesRecyclerViewAdapter</code>，其中方法<code>refreshContent</code>是用来混淆mCatNames的，当做是内容刷新之后的结果。</p>
 <pre><code>import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -307,12 +272,8 @@ public class CatNamesRecyclerViewAdapter extends RecyclerView.Adapter&lt;CatName
     }
 
 }
-</code></pre>
-
-<p>(4)在Activity中添加主要的测试代码</p>
-
+</code></pre><p>(4)在Activity中添加主要的测试代码</p>
 <p>实例的代码使用了Android Annotations，但是代码读起来应该是没有障碍的，如果不太了解AA的话，可以参考下<a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-annotations/">此文</a>。</p>
-
 <pre><code>import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -366,10 +327,7 @@ public class SwipeRefreshLayoutActivity2 extends AppCompatActivity {
     }
 
 }
-</code></pre>
-
-<p>其中方法<code>setColorSchemeResources</code>是用来改变进度圈的颜色的，<code>setOnRefreshListener</code>是用来添加我们下拉刷新的具体操作的监听器的，这里是虚拟地去加载了新数据。</p>
-
+</code></pre><p>其中方法<code>setColorSchemeResources</code>是用来改变进度圈的颜色的，<code>setOnRefreshListener</code>是用来添加我们下拉刷新的具体操作的监听器的，这里是虚拟地去加载了新数据。</p>
 <p>OK，Enjoy! :-)</p>
     </section>
 
@@ -391,27 +349,23 @@ public class SwipeRefreshLayoutActivity2 extends AppCompatActivity {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/"><h4>Android PopupMenu and PopupWindow</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/"><h4>Job Hunting</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/"><h4>Job Hunting</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/"><h4>Android PopupMenu and PopupWindow</h4></a></span>
       
   
 </aside>
@@ -420,42 +374,6 @@ public class SwipeRefreshLayoutActivity2 extends AppCompatActivity {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -464,7 +382,7 @@ public class SwipeRefreshLayoutActivity2 extends AppCompatActivity {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

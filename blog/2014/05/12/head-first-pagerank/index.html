@@ -5,7 +5,7 @@
        Head First PageRank &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Head First PageRank &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,100 +158,71 @@
     </header>
 
     <section class="post-content">
-      <p>深入浅出PageRank算法 </p>
-
+      <p>深入浅出PageRank算法</p>
 <p>PageRank算法是谷歌曾经独步天下的“倚天剑”，该算法由Larry Page和Sergey Brin在斯坦福大学读研时发明的，<a href="http://ilpubs.stanford.edu:8090/422/1/1999-66.pdf">论文点击下载: The PageRank Citation Ranking: Bringing Order to the Web</a>。</p>
-
 <p>本文首先通过一些参考文献引出问题，然后给出了PageRank的几种实现算法，最后将其推广至在MapReduce框架下如何实现PageRank算法。</p>
-
-<p>PageRank的核心思想有2点：<br />
-1.如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是pagerank值会相对较高；<br />
+<p>PageRank的核心思想有2点：<br>
+1.如果一个网页被很多其他网页链接到的话说明这个网页比较重要，也就是pagerank值会相对较高；<br>
 2.如果一个pagerank值很高的网页链接到一个其他的网页，那么被链接到的网页的pagerank值会相应地因此而提高。</p>
-
 <p>下面是一张来自<a href="http://en.wikipedia.org/wiki/PageRank">WikiPedia</a>的图，每个球代表一个网页，球的大小反应了网页的pagerank值的大小。指向网页B和网页E的链接很多，所以B和E的pagerank值较高，另外，虽然很少有网页指向C，但是最重要的网页B指向了C，所以C的pagerank值比E还要大。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pagerank-fig.png" alt="image" /></p>
-
-<p>参考内容：<br />
-1.<a href="http://en.wikipedia.org/wiki/PageRank">Wiki about PageRank</a><br />
-2.<a href="http://www.itlearner.com/good/pagerank_cn.htm">Google 的秘密- PageRank 彻底解说 中文版</a><br />
-3.<a href="http://book.douban.com/subject/7161824/">数值分析与算法</a> Page 161 应用实例：Google的PageRank算法<br />
-4.<a href="http://www.mathworks.cn/moler/chapters.html">Numeric Methods with Matlab</a> 或者<a href="http://book.douban.com/subject/1836464/">中文翻译版本Matlab数值计算</a><br />
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pagerank-fig.png" alt="image"></p>
+<p>参考内容：<br>
+1.<a href="http://en.wikipedia.org/wiki/PageRank">Wiki about PageRank</a><br>
+2.<a href="http://www.itlearner.com/good/pagerank_cn.htm">Google 的秘密- PageRank 彻底解说 中文版</a><br>
+3.<a href="http://book.douban.com/subject/7161824/">数值分析与算法</a> Page 161 应用实例：Google的PageRank算法<br>
+4.<a href="http://www.mathworks.cn/moler/chapters.html">Numeric Methods with Matlab</a> 或者<a href="http://book.douban.com/subject/1836464/">中文翻译版本Matlab数值计算</a><br>
 5.<a href="http://www.chenjunlu.com/2012/10/pagerank-on-mapreduce/">使用 MapReduce 思想计算 PageRank</a> Page 62 PageRank和马尔可夫链</p>
-
-<h3 id="1-问题背景">1.问题背景</h3>
-
+<h3 id="1问题背景">1.问题背景</h3>
 <p>来自参考内容3</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-1.png" alt="image" /></p>
-
-<h3 id="2-数学建模">2.数学建模</h3>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-1.png" alt="image"></p>
+<h3 id="2数学建模">2.数学建模</h3>
 <p>来自参考内容3，理解网页连接矩阵$G$，马尔科夫过程(&ldquo;网上冲浪&rdquo;)，转移矩阵$A$，概率$p$为用户点击当前网页中的某个链接地址的概率(一般都为0.85)。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-2.png" alt="image" />
-<img src="https://hujiaweibujidao.github.io/images/algos/pk-3.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-2.png" alt="image">
+<img src="https://hujiaweibujidao.github.io/images/algos/pk-3.png" alt="image"></p>
 <p>最后得到一个等式$Ax=x$，这实际上就是求矩阵$A$的特征值为1的特征向量！</p>
-
 <p>下面的内容使用圆盘定理解释了1是矩阵$A$的主特征值，所以我们可以使用幂法来求解。</p>
-
 <p>关于幂法的详细介绍参考另一篇文章<a href="https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/">Numerical Methods Using Matlab: 第三章 矩阵特征值和奇异值求解</a></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-4.png" alt="image" />
-<img src="https://hujiaweibujidao.github.io/images/algos/pk-5.png" alt="image" /></p>
-
-<!--
-![image](/images/algos/pk-6.png)
--->
-
-<h3 id="3-求解pagerank">3.求解PageRank</h3>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-4.png" alt="image">
+<img src="https://hujiaweibujidao.github.io/images/algos/pk-5.png" alt="image"></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="3求解pagerank">3.求解PageRank</h3>
 <p>假设有如上图右侧所示的网页链接模型。</p>
-
 <p>(1) 幂法</p>
-
 <p>wiki上有一个PageRank的简便算法，它不考虑转移概率，而是采用的是迭代的方式，每次都更新所有网页的pagerank值，更新的方式就是将每个网页的pagerank值平摊分给它指向的所有网页，每个网页累计所有指向它的网页平摊给它的值作为它该回合的pagerank值，直到全部网页的pagerank值收敛了或者满足一定的阈值条件就停止。</p>
-
 <p>后面的MapReduce框架下PageRank算法的实现就采用了这个思想。考虑转移概率的情况和这个算法类似，乘上一个转移概率再加上一个随机跳转的概率。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pagerank-Simplified-algorithm.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pagerank-Simplified-algorithm.png" alt="image"></p>
 <p>根据上面的思想，下面Matlab代码实现可以得到各个网页的PageRank值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-matlab" data-lang="matlab">n=<span style="color:#ae81ff">6</span>;
+i=[<span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">6</span> <span style="color:#ae81ff">1</span>];
+j=[<span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">6</span>];
+G=sparse(i,j,<span style="color:#ae81ff">1</span>,n,n);
 
-<pre><code class="language-matlab">n=6;
-i=[2 3 4 4 5 6 1 6 1];
-j=[1 2 2 3 3 3 4 5 6];
-G=sparse(i,j,1,n,n);
-
-% Power method
-for j = 1:n
+<span style="color:#75715e">% Power method</span>
+<span style="color:#66d9ef">for</span> j = <span style="color:#ae81ff">1</span>:n
    L{j} = find(G(:,j));
    c(j) = length(L{j});
-end
+<span style="color:#66d9ef">end</span>
 
-p = .85;
-delta = (1-p)/n;
-x = ones(n,1)/n;
-z = zeros(n,1);
-cnt = 0;
-while max(abs(x-z)) &gt; .0001
+p = .<span style="color:#ae81ff">85</span>;
+delta = (<span style="color:#ae81ff">1</span><span style="color:#f92672">-</span>p)<span style="color:#f92672">/</span>n;
+x = ones(n,<span style="color:#ae81ff">1</span>)<span style="color:#f92672">/</span>n;
+z = zeros(n,<span style="color:#ae81ff">1</span>);
+cnt = <span style="color:#ae81ff">0</span>;
+<span style="color:#66d9ef">while</span> max(abs(x<span style="color:#f92672">-</span>z)) <span style="color:#f92672">&gt;</span> .<span style="color:#ae81ff">0001</span>
    z = x;
-   x = zeros(n,1);
-   for j = 1:n
-      if c(j) == 0
-         x = x + z(j)/n;%转移到任意一个网页
-      else
-         x(L{j}) = x(L{j}) + z(j)/c(j);%将上次的pagerank值平摊给所有指向的网页
-      end
-   end
-   x = p*x + delta;
-   cnt = cnt+1;
-end
-</code></pre>
-
-<p>得到的向量$x$保存了各个网页的pagerank值，虽然链接数目一样，但是网页①比网页④和网页⑤都高，而网页②的pagerank值第二高，因为网页①链接到了它上面，相当于沾了网页①的光。</p>
-
+   x = zeros(n,<span style="color:#ae81ff">1</span>);
+   <span style="color:#66d9ef">for</span> j = <span style="color:#ae81ff">1</span>:n
+      <span style="color:#66d9ef">if</span> c(j) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>
+         x = x <span style="color:#f92672">+</span> z(j)<span style="color:#f92672">/</span>n;<span style="color:#75715e">%转移到任意一个网页</span>
+      <span style="color:#66d9ef">else</span>
+         x(L{j}) = x(L{j}) <span style="color:#f92672">+</span> z(j)<span style="color:#f92672">/</span>c(j);<span style="color:#75715e">%将上次的pagerank值平摊给所有指向的网页</span>
+      <span style="color:#66d9ef">end</span>
+   <span style="color:#66d9ef">end</span>
+   x = p<span style="color:#f92672">*</span>x <span style="color:#f92672">+</span> delta;
+   cnt = cnt<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>得到的向量$x$保存了各个网页的pagerank值，虽然链接数目一样，但是网页①比网页④和网页⑤都高，而网页②的pagerank值第二高，因为网页①链接到了它上面，相当于沾了网页①的光。</p>
 <pre><code>x =
     0.2675
     0.2524
@@ -281,16 +230,10 @@ end
     0.1698
     0.0625
     0.1156
-</code></pre>
-
-<p><a href="http://www.chenjunlu.com/2012/09/pagerank-algorithm-implemented-in-python/">这篇文章给出该算法的一个Python版本实现</a>，该博主使用第三方模块<a href="https://code.google.com/p/python-graph/">python-graph</a>，python-graph模块实现了很多图算法，<a href="https://code.google.com/p/python-graph/wiki/Example">该模块的使用示例</a>，使用前需要先安装，代码如下：</p>
-
-<pre><code class="language-python">easy_install python-graph-core
-easy_install python-graph-dot
-</code></pre>
-
-<p>Python版本的算法实现：</p>
-
+</code></pre><p><a href="http://www.chenjunlu.com/2012/09/pagerank-algorithm-implemented-in-python/">这篇文章给出该算法的一个Python版本实现</a>，该博主使用第三方模块<a href="https://code.google.com/p/python-graph/">python-graph</a>，python-graph模块实现了很多图算法，<a href="https://code.google.com/p/python-graph/wiki/Example">该模块的使用示例</a>，使用前需要先安装，代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">easy_install python<span style="color:#f92672">-</span>graph<span style="color:#f92672">-</span>core
+easy_install python<span style="color:#f92672">-</span>graph<span style="color:#f92672">-</span>dot
+</code></pre></div><p>Python版本的算法实现：</p>
 <pre><code># coding=utf-8
 
 # python-graph https://code.google.com/p/python-graph/
@@ -378,60 +321,46 @@ gr.add_edge((&quot;4&quot;,&quot;2&quot;))
 # gv.render(gvv,'png','Model.png')
 
 pagerank(gr)
-</code></pre>
-
-<p>经过32次迭代之后得到的结果如下，和前面的结果一致：</p>
-
+</code></pre><p>经过32次迭代之后得到的结果如下，和前面的结果一致：</p>
 <pre><code>This is NO.32 iteration
 {'1': 0.2675338708706491, '3': 0.13227261904986046, '2': 0.2524037902400518, '5': 0.062477242064127136, '4': 0.1697488529161491, '6': 0.1155828978186352}
-</code></pre>
-
-<p>(2) 利用马尔可夫矩阵的特殊结构</p>
-
+</code></pre><p>(2) 利用马尔可夫矩阵的特殊结构</p>
 <p>来自参考内容4，其中$\delta=\frac{1-p}{n}$</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-8.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-8.png" alt="image"></p>
 <p>也就是将矩阵$A$进行分解，并不需要显示求出矩阵$A$，然后便是求解一个线性方程组即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-matlab" data-lang="matlab"><span style="color:#66d9ef">function</span> x = <span style="color:#a6e22e">pagerank1</span>(G)
+<span style="color:#75715e">% PAGERANK1  Google&#39;s PageRank modified version 1 - hujiawei</span>
 
-<pre><code class="language-matlab">function x = pagerank1(G)
-% PAGERANK1  Google's PageRank modified version 1 - hujiawei
+<span style="color:#75715e">%if nargin &lt; 3, p = .85; end</span>
+p=<span style="color:#ae81ff">0.85</span>;
 
-%if nargin &lt; 3, p = .85; end
-p=0.85;
+<span style="color:#75715e">% Eliminate any self-referential links</span>
 
-% Eliminate any self-referential links
+G = G <span style="color:#f92672">-</span> diag(diag(G));
 
-G = G - diag(diag(G));
-
-% c = out-degree, r = in-degree
+<span style="color:#75715e">% c = out-degree, r = in-degree</span>
 
 [n,n] = size(G);
-c = sum(G,1);%each row's sum
-r = sum(G,2);%each col's sum
+c = sum(G,<span style="color:#ae81ff">1</span>);<span style="color:#75715e">%each row&#39;s sum</span>
+r = sum(G,<span style="color:#ae81ff">2</span>);<span style="color:#75715e">%each col&#39;s sum</span>
 
-% Scale column sums to be 1 (or 0 where there are no out links).
+<span style="color:#75715e">% Scale column sums to be 1 (or 0 where there are no out links).</span>
 
-k = find(c~=0);
-D = sparse(k,k,1./c(k),n,n);
+k = find(c<span style="color:#f92672">~=</span><span style="color:#ae81ff">0</span>);
+D = sparse(k,k,<span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span>c(k),n,n);
 
-% Solve (I - p*G*D)*x = e
+<span style="color:#75715e">% Solve (I - p*G*D)*x = e</span>
 
-e = ones(n,1);
+e = ones(n,<span style="color:#ae81ff">1</span>);
 I = speye(n,n);
-x = (I - p*G*D)\e;
+x = (I <span style="color:#f92672">-</span> p<span style="color:#f92672">*</span>G<span style="color:#f92672">*</span>D)<span style="color:#f92672">\</span>e;
 
-% Normalize so that sum(x) == 1.
+<span style="color:#75715e">% Normalize so that sum(x) == 1.</span>
 
-x = x/sum(x);
-</code></pre>
-
-<p>(3) 巧妙解法：逆迭代算法</p>
-
+x = x<span style="color:#f92672">/</span>sum(x);
+</code></pre></div><p>(3) 巧妙解法：逆迭代算法</p>
 <p>巧妙利用Matlab中的精度误差导致原本是一个奇异矩阵的$I-A$变成一个非奇异矩阵，运行时只是会有些警告提示，但是运行结果和其他算法一样。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-9.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/pk-9.png" alt="image"></p>
 <pre><code>function x = pagerank2(G)
 % PAGERANK1  Google's PageRank modified version 2 - hujiawei
 % using inverse iteration method
@@ -466,10 +395,7 @@ x=(I-A)\e;
 % Normalize so that sum(x) == 1.
 
 x = x/sum(x);
-</code></pre>
-
-<p>最后，附上参考内容4中给出的一份好代码，用于模拟随机冲浪生成矩阵$G$的代码</p>
-
+</code></pre><p>最后，附上参考内容4中给出的一份好代码，用于模拟随机冲浪生成矩阵$G$的代码</p>
 <pre><code>function [U,G] = surfer(root,n)
 % SURFER  Create the adjacency graph of a portion of the Web.
 %    [U,G] = surfer(root,n) starts at the URL root and follows
@@ -612,24 +538,14 @@ set(quit,'string','close','callback','close(gcf)','value',0)
 function h = hashfun(url)
 % Almost unique numeric hash code for pages already visited.
 h = length(url) + 1024*sum(url);
-</code></pre>
-
-<h3 id="4-mapreduce框架下pagerank算法的实现">4.MapReduce框架下PageRank算法的实现</h3>
-
+</code></pre><h3 id="4mapreduce框架下pagerank算法的实现">4.MapReduce框架下PageRank算法的实现</h3>
 <p>利用前面wiki上的迭代(或者幂法)的思想来实现MapReduce框架下PageRank算法很简单，可以先阅读下参考内容5。</p>
-
 <p>这篇文章<a href="http://michaelnielsen.org/blog/using-mapreduce-to-compute-pagerank/">using-mapreduce-to-compute-pagerank</a>更加详细，可以参考</p>
-
 <p>以下是我的大数据的一次作业，要求是参考wiki上的简便算法，实现MapReduce框架下的PageRank算法。给的数据集是Twitter的用户之间的关系，可以看做是网页之间的关系，但是助教没要求写代码以及运行这个数据集(有1G多)，所以下面只是一个Python版本的理想可行版本，并没有通过实际大数据集的验证，另外，博主暂时还不太会Python的mapreduce框架中的一些函数，所以实现的是一个简明的可以测试的PageRank算法。</p>
-
-<h4 id="1-输入输出格式">1.输入输出格式</h4>
-
+<h4 id="1输入输出格式">1.输入输出格式</h4>
 <p><strong>map函数的输入是&lt;节点，从该节点引出的边列表&gt;，其中节点是一个类，包含了其当前的pagerank值，输出是&lt;节点，反向节点pagerank值/反向节点引出边的总数&gt;；</strong></p>
-
 <p><strong>reduce函数的输入是&lt;节点，反向节点pagerank值/反向节点引出边的总数&gt;，输出是&lt;节点，从该节点引出的边列表&gt;，其中节点包含了其更新后的pagerank值。</strong></p>
-
 <p>伪代码： [一时犯二写了个英文形式的 ]</p>
-
 <pre><code>process the data to the form of {node i:[its adjacent node list],...}
 while the sum of difference between the last two pagerank values &lt; threshold
 	map({node i:[its adjacent node list],...}):
@@ -644,34 +560,19 @@ while the sum of difference between the last two pagerank values &lt; threshold
 	        put or sum up all values pagerank values for node j with its adjacent node list into reduce_output
 	    return reduce_output
 
-</code></pre>
-
-<h4 id="2-示例演示">2.示例演示</h4>
-
+</code></pre><h4 id="2示例演示">2.示例演示</h4>
 <p>假设用户1，2，3，4是如下图所示的关系：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/others/pagerankdemo.png" alt="image" /></p>
-
-<p>假设有2个mapper(A和B)和1个reducer&copy;，初始时4个节点的pagerank值都是0.25</p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/others/pagerankdemo.png" alt="image"></p>
+<p>假设有2个mapper(A和B)和1个reducer(C)，初始时4个节点的pagerank值都是0.25</p>
 <p>其中，关于用户1和2的数据被mapperA读取并处理，关于用户3和4的数据被mapperB读取并处理 [经验证，即使一个用户的数据是由不同的mapper来读取的，最终收敛到的结果差不多]</p>
-
 <p>map的输入输出结果如下：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/others/mapper.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/others/mapper.png" alt="image"></p>
 <p>reduce的输入输出结果如下，输入是2个mapper的输出，输出的结果中更新了节点的pagerank值</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/others/reducer.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/others/reducer.png" alt="image"></p>
 <p>reducer处理完了之后又将它的结果输入给mapper处理，直到迭代的次数超过了设定值或者两次迭代之后得到的所有节点的pagerank值之差的总和(也可以是取二范数)小于设定的阈值。</p>
-
-<h4 id="3-示例的实验结果">3.示例的实验结果</h4>
-
+<h4 id="3示例的实验结果">3.示例的实验结果</h4>
 <p>(1)首先是使用Matlab采用幂法的方式计算出在p=1.0的情况下示例得到的结果 [它的主要作用是验证后面python版本的正确性]</p>
-
 <p>matlab源码如下：</p>
-
 <pre><code>n=4;
 i=[2 3 4 3 4 4 1 2];
 j=[1 1 1 2 2 3 3 4];
@@ -704,18 +605,12 @@ while max(abs(x-z)) &gt; .0001
 end
 sprintf('pagerank result:')
 x
-</code></pre>
-
-<p>结果为：</p>
-
+</code></pre><p>结果为：</p>
 <pre><code>0.1072
 0.3571
 0.2143
 0.3214
-</code></pre>
-
-<p>(2)matlab版本的page rank没有采用mapreduce的思想进行迭代，所以我另外写了一个python版本的利用mapreduce思想实现的pagerank算法(注：我并没有使用python的map和reduce函数去实现，而是使用更加容易明白的实现)，使用的阈值为0.0001，最多迭代的次数为100次。</p>
-
+</code></pre><p>(2)matlab版本的page rank没有采用mapreduce的思想进行迭代，所以我另外写了一个python版本的利用mapreduce思想实现的pagerank算法(注：我并没有使用python的map和reduce函数去实现，而是使用更加容易明白的实现)，使用的阈值为0.0001，最多迭代的次数为100次。</p>
 <pre><code># coding=utf-8
 
 __author__ = 'hujiawei'
@@ -799,18 +694,12 @@ def pk_test1():
 
 if __name__ == '__main__':
     pk_test1()
-</code></pre>
-
-<p>得到的结果为如下，总共迭代了15次</p>
-
+</code></pre><p>得到的结果为如下，总共迭代了15次</p>
 <pre><code>1 0.107138774577
 2 0.35712924859
 3 0.214296601128
 4 0.321435375705
-</code></pre>
-
-<p>上面的结果和Matlab用幂法得到的pagerank值差别很小，可以认为是正确的，所以说明了使用这种mapreduce输入输出格式的正确性。</p>
-
+</code></pre><p>上面的结果和Matlab用幂法得到的pagerank值差别很小，可以认为是正确的，所以说明了使用这种mapreduce输入输出格式的正确性。</p>
 <p>OK，差不多了，希望对需要理解PageRank算法的人有帮助！ :-)</p>
     </section>
 
@@ -832,27 +721,23 @@ if __name__ == '__main__':
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/"><h4>Happy Mother&#39;s Day</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation-single-node-setup/"><h4>Hadoop Installation - Single Node Setup</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/"><h4>Hadoop Installation - Single Node Setup</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/"><h4>Happy Mother&#39;s Day</h4></a></span>
       
   
 </aside>
@@ -861,42 +746,6 @@ if __name__ == '__main__':
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -905,7 +754,7 @@ if __name__ == '__main__':
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

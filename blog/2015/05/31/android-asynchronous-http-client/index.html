@@ -5,7 +5,7 @@
        Android Asynchronous Http Client &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android Asynchronous Http Client &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,101 +158,54 @@
     </header>
 
     <section class="post-content">
-      <p>本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用 </p>
-
+      <p>本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用</p>
 <p>最近在阅读<a href="https://coding.net/u/coding/p/Coding-Android/git">Coding的安卓客户端源码</a>，因为该源码使用了<a href="https://github.com/loopj/android-async-http">android-async-http</a>，所以有必要先研究一下它的使用，以下内容基本上来自官网教程，我主要是做了翻译或者注解。</p>
-
-<h4 id="1-asynchronous-http-client-for-android简介">1.Asynchronous Http Client for Android简介</h4>
-
+<h4 id="1asynchronous-http-client-for-android简介">1.Asynchronous Http Client for Android简介</h4>
 <p>Android开源库中鼎鼎大名的网络库<a href="http://loopj.com/android-async-http/">Asynchronous Http Client for Android</a>，顾名思义，是一个实现网络异步请求的类库，它是基于Apache的HttpClient类库开发的，所有的HTTP请求都是在非UI线程中进行的，你也可以在Service或者后台线程中使用它。</p>
-
 <p><strong>An asynchronous callback-based Http client for Android built on top of Apache’s HttpClient libraries.</strong> All requests are made outside of your app’s main UI thread, but any callback logic will be executed on the same thread as the callback was created using Android’s Handler message passing. You can also use it in Service or background thread, library will automatically recognize in which context is ran.</p>
-
 <p>它的功能异常强大，主要包括：</p>
-
 <p>1.Make asynchronous HTTP requests, handle responses in anonymous callbacks</p>
-
 <p>异步发送HTTP请求，并以匿名回调的形式处理HTTP结果</p>
-
 <p>2.HTTP requests happen outside the UI thread</p>
-
 <p>HTTP请求自动在非UI线程中操作</p>
-
 <p>3.GET/POST params builder (<code>RequestParams</code>)</p>
-
 <p>提供了GET和POST请求参数的构建器(<code>RequestParams</code>)</p>
-
 <p>4.Multipart file uploads with no additional third party libraries</p>
-
 <p>不需要添加其他第三方类库实现多文件上传的功能</p>
-
 <p>5.Streamed JSON uploads with no additional libraries</p>
-
 <p>不需要添加其他第三方类库实现流式的JSON格式数据上传</p>
-
 <p>6.Handling circular and relative redirects</p>
-
 <p>处理[circular]和相对的重定向</p>
-
 <p>7.Tiny size overhead to your application, only 90kb for everything</p>
-
 <p>体积小，只有90kb大小</p>
-
 <p>8.Automatic smart request retries optimized for spotty mobile connections</p>
-
 <p>针对移动设备的连接优化过的自动请求重试</p>
-
 <p>9.Automatic gzip response decoding support for super-fast requests</p>
-
 <p>自动解码gzip格式的请求结果</p>
-
 <p>10.Binary protocol communication with <code>BinaryHttpResponseHandler</code></p>
-
 <p>二进制形式的协议通信，使用<code>BinaryHttpResponseHandler</code></p>
-
 <p>11.Built-in response parsing into JSON with <code>JsonHttpResponseHandler</code></p>
-
 <p>内置将HTTP结果解析成JSON字符串，使用<code>JsonHttpResponseHandler</code></p>
-
 <p>12.Saving response directly into file with <code>FileAsyncHttpResponseHandler</code></p>
-
 <p>直接将请求结果保存到文件，使用<code>FileAsyncHttpResponseHandler</code></p>
-
 <p>13.Persistent cookie store, saves cookies into your app’s <code>SharedPreferences</code></p>
-
 <p>持久地将Cookie信息保存到应用的<code>SharedPreferences</code>中</p>
-
 <p>14.Integration with Jackson JSON, Gson or other JSON (de)serializing libraries with <code>BaseJsonHttpResponseHandler</code></p>
-
 <p>集成了Jackson JSON，Gson和其他的JSON(反)序列化操作库，使用<code>BaseJsonHttpResponseHandler</code></p>
-
 <p>15.Support for SAX parser with SaxAsyncHttpResponseHandler</p>
-
 <p>支持SAX解析库，使用<code>SaxAsyncHttpResponseHandler</code></p>
-
 <p>16.Support for languages and content encodings, not just UTF-8</p>
-
 <p>支持语言和内容编码，不仅仅是UTF-8</p>
-
 <p>17.Requests use a threadpool to cap concurrent resource usage</p>
-
 <p>HTTP请求会使用一个线程池来维护并发的资源使用 <strong>[?]</strong></p>
-
-<h4 id="2-导入方式">2.导入方式</h4>
-
+<h4 id="2导入方式">2.导入方式</h4>
 <p>Gradle</p>
-
-<pre><code class="language-java">dependencies {
-  compile 'com.loopj.android:android-async-http:1.4.5'
-}
-</code></pre>
-
-<h4 id="3-使用方式">3.使用方式</h4>
-
-<h5 id="3-1-基本使用方式">3.1 基本使用方式</h5>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">dependencies <span style="color:#f92672">{</span>
+  compile <span style="color:#960050;background-color:#1e0010">&#39;</span>com<span style="color:#f92672">.</span><span style="color:#a6e22e">loopj</span><span style="color:#f92672">.</span><span style="color:#a6e22e">android</span><span style="color:#f92672">:</span>android<span style="color:#f92672">-</span>async<span style="color:#f92672">-</span>http<span style="color:#f92672">:</span>1<span style="color:#f92672">.</span><span style="color:#a6e22e">4</span><span style="color:#f92672">.</span><span style="color:#a6e22e">5</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="3使用方式">3.使用方式</h4>
+<h5 id="31-基本使用方式">3.1 基本使用方式</h5>
 <p>从下面的示例代码中，我们可以看出首先是创建<code>AsyncHttpClient</code>类的对象实例，然后向指定的URL发送GET或者POST请求，请求结果的回调处理由匿名类<code>AsyncHttpResponseHandler</code>来完成，主要包括了四个回调函数。<code>AsyncHttpResponseHandler</code>类有很多的子接口，分别对应了不同的请求结果的处理方式，例如<code>JsonHttpResponseHandler</code>、<code>BinaryHttpResponseHandler</code>、<code>FileAsyncHttpResponseHandler</code>等等。</p>
-
 <pre><code>//需要导入的包
 import com.loopj.android.http.*;
 
@@ -302,14 +233,9 @@ client.get(&quot;http://www.google.com&quot;, new AsyncHttpResponseHandler() {
         // called when request is retried
 	}
 });
-</code></pre>
-
-<h5 id="3-2-推荐的使用方式">3.2 推荐的使用方式</h5>
-
+</code></pre><h5 id="32-推荐的使用方式">3.2 推荐的使用方式</h5>
 <p>创建静态(<code>static</code>)的Http Client</p>
-
 <p>由一个类来提供一个static的<code>AsyncHttpClient</code>类对象实例，并通过该实例来发送GET或者POST请求。</p>
-
 <pre><code>import com.loopj.android.http.*;
 
 public class TwitterRestClient {
@@ -329,10 +255,7 @@ public class TwitterRestClient {
       return BASE_URL + relativeUrl;
   }
 }
-</code></pre>
-
-<p>这样的话，使用起来就很方便啦</p>
-
+</code></pre><p>这样的话，使用起来就很方便啦</p>
 <pre><code>import org.json.*;
 import com.loopj.android.http.*;
 
@@ -356,18 +279,11 @@ class TwitterRestClientUsage {
         });
     }
 }
-</code></pre>
-
-<h4 id="4-其他特性">4.其他特性</h4>
-
-<h5 id="4-1-persistentcookiestore">4.1 <code>PersistentCookieStore</code></h5>
-
+</code></pre><h4 id="4其他特性">4.其他特性</h4>
+<h5 id="41-persistentcookiestore">4.1 <code>PersistentCookieStore</code></h5>
 <p>This library also includes a <code>PersistentCookieStore</code> which is an implementation of the Apache HttpClient <code>CookieStore</code> interface that automatically saves cookies to <code>SharedPreferences</code> storage on the Android device.</p>
-
 <p><code>PersistentCookieStore</code>实现了Apache HttpClient类库中的<code>CookieStore</code>接口，并能够自动将cookies信息保存到应用的<code>SharedPreferences</code>中。这个功能想必大家以前也都实现过吧，这下终于不用重复造轮子了。</p>
-
 <p>使用方法：</p>
-
 <pre><code>//1.创建client
 AsyncHttpClient myClient = new AsyncHttpClient();
 
@@ -385,12 +301,8 @@ newCookie.setVersion(1);
 newCookie.setDomain(&quot;mydomain.com&quot;);
 newCookie.setPath(&quot;/&quot;);
 myCookieStore.addCookie(newCookie);
-</code></pre>
-
-<h5 id="4-2-requestparams">4.2 <code>RequestParams</code></h5>
-
+</code></pre><h5 id="42-requestparams">4.2 <code>RequestParams</code></h5>
 <p>使用<code>RequestParams</code>创建GET或POST请求的参数，创建的方式很多：</p>
-
 <pre><code>//1.先创建RequestParams然后添加参数
 RequestParams params = new RequestParams();
 params.put(&quot;key&quot;, &quot;value&quot;);
@@ -403,12 +315,8 @@ RequestParams params = new RequestParams(&quot;single&quot;, &quot;value&quot;);
 HashMap&lt;String, String&gt; paramMap = new HashMap&lt;String, String&gt;();
 paramMap.put(&quot;key&quot;, &quot;value&quot;);
 RequestParams params = new RequestParams(paramMap);
-</code></pre>
-
-<h5 id="4-3-上传文件">4.3 上传文件</h5>
-
+</code></pre><h5 id="43-上传文件">4.3 上传文件</h5>
 <p><code>RequestParams</code>支持上传文件，使用方式也有几种：</p>
-
 <pre><code>//1.添加InputStream到RequestParams中
 InputStream myInputStream = blah;
 RequestParams params = new RequestParams();
@@ -425,12 +333,8 @@ try {
 byte[] myByteArray = blah;
 RequestParams params = new RequestParams();
 params.put(&quot;soundtrack&quot;, new ByteArrayInputStream(myByteArray), &quot;she-wolf.mp3&quot;);
-</code></pre>
-
-<h5 id="4-4-下载文件">4.4 下载文件</h5>
-
+</code></pre><h5 id="44-下载文件">4.4 下载文件</h5>
 <p>使用<code>FileAsyncHttpResponseHandler</code>可以下载二进制数据(例如图片)并保存到文件中</p>
-
 <pre><code>AsyncHttpClient client = new AsyncHttpClient();
 client.get(&quot;http://example.com/file.png&quot;, new FileAsyncHttpResponseHandler(/* Context */ this) {
     @Override
@@ -438,33 +342,20 @@ client.get(&quot;http://example.com/file.png&quot;, new FileAsyncHttpResponseHan
         // Do something with the file `response`
     }
 });
-</code></pre>
-
-<h5 id="4-5-http-basic-auth-credentials">4.5 HTTP Basic Auth credentials</h5>
-
+</code></pre><h5 id="45-http-basic-auth-credentials">4.5 HTTP Basic Auth credentials</h5>
 <p>Some requests may need <code>username/password</code> credentials when dealing with API services that use HTTP Basic Access Authentication requests. You can use the method <code>setBasicAuth()</code> to provide your credentials.</p>
-
 <p>有些请求需要身份验证，这时候你可以使用<code>setBasicAuth()</code>来提供你的用户名和密码等信息。</p>
-
 <p>Set <code>username/password</code> for any host and realm for a particular request. By default the <code>Authentication Scope</code> is for any host, port and realm.</p>
-
 <p>默认情况下，身份认证的作用域是对于任何主机任何端口的。</p>
-
 <pre><code>AsyncHttpClient client = new AsyncHttpClient();
 client.setBasicAuth(&quot;username&quot;,&quot;password/token&quot;);
 client.get(&quot;http://example.com&quot;);
-</code></pre>
-
-<p>You can also provide a more specific Authentication Scope (recommended)</p>
-
+</code></pre><p>You can also provide a more specific Authentication Scope (recommended)</p>
 <p>你同样可以提供更加针对性的身份认证信息。(推荐方式)</p>
-
 <pre><code>AsyncHttpClient client = new AsyncHttpClient();
 client.setBasicAuth(&quot;username&quot;,&quot;password&quot;, new AuthScope(&quot;example.com&quot;, 80, AuthScope.ANY_REALM));
 client.get(&quot;http://example.com&quot;);
-</code></pre>
-
-<p>OK，介绍完毕，可以看出，这个小小的类库不仅功能很强大，而且提供的操作接口也是相当简单的。Enjoy it！</p>
+</code></pre><p>OK，介绍完毕，可以看出，这个小小的类库不仅功能很强大，而且提供的操作接口也是相当简单的。Enjoy it！</p>
     </section>
 
     <footer class="post-footer">
@@ -485,27 +376,23 @@ client.get(&quot;http://example.com&quot;);
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/"><h4>Android Dependency Injection Libraries</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/"><h4>Head First Android ActionBar</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/"><h4>Head First Android ActionBar</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/"><h4>Android Dependency Injection Libraries</h4></a></span>
       
   
 </aside>
@@ -514,42 +401,6 @@ client.get(&quot;http://example.com&quot;);
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -558,7 +409,7 @@ client.get(&quot;http://example.com&quot;);
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

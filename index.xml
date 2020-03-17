@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hujiawei Bujidao</title>
@@ -6,8 +6,8 @@
     <description>Recent content on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
-    <lastBuildDate>Mon, 27 Nov 2017 10:46:33 +0800</lastBuildDate>
+    <copyright>All rights reserved &amp;copy; 2013 - 2020</copyright>
+    <lastBuildDate>Sun, 17 Nov 2013 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://hujiaweibujidao.github.io/index.xml" rel="self" type="application/rss+xml" />
     
@@ -54,7 +54,7 @@
       <pubDate>Thu, 01 Dec 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</guid>
-      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -63,7 +63,7 @@
       <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(3)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(3)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -72,7 +72,7 @@
       <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(2)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -81,7 +81,7 @@
       <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(1)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(1)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -99,7 +99,7 @@
       <pubDate>Thu, 10 Nov 2016 16:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/</guid>
-      <description>&lt;p&gt;本文记录下分析应用启动时间的总结。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下分析应用启动时间的总结。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -108,7 +108,7 @@
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
-      <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@
       <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
-      <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -126,7 +126,7 @@
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
-      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -135,7 +135,7 @@
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
-      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -144,7 +144,7 @@
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
-      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -153,7 +153,7 @@
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
-      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -225,25 +225,7 @@
       <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
-      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。 &lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Swift</title>
-      <link>https://hujiaweibujidao.github.io/swift/</link>
-      <pubDate>Sat, 14 May 2016 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/swift/</guid>
-      <description>在Python系列中我曾提到，如果你是在考虑学习Java还是Python的话，建议学习Python。但是现在需要加上一条，如果你是刚开始学编程的话，那就推荐学习Swift。Swift是由苹果开源的新语言，它在编程语言排行榜中的排行不断上升。我觉得学习最新的语言挺好的，在新语言中学习到的语言特性会在以后学习其他语言的时候看到相关的影子。新语言的学习成本也相对较低，容易克服初学编程的心理障碍，较早地进行项目实践更容易让自己产生成就感，从而不断激发学习的动力。以上是我的个人感悟，因人而异哈。
-** 2017年5月更新 **
-这个月正式开始做iOS需求了，使用Swift语言做开发就是爽，争取以后多写Swift相关的文章。
-** 更新之前的内容 **
-Gank for Mac：干货集中营的Mac客户端 应用开发小记
-计划阅读的资源和项目
-1.30DaysofSwift: A self-taught project to learn Swift
-2.15DaysofAnimationsinSwift: A project to learn animations
-3.swift-a-day: Project files for my personal experiments on Swift A Day
-4.swift-algorithm-club: Algorithms and data structures in Swift, with explanations!</description>
+      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -279,7 +261,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 29 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/03/29/head-first-stanford-nlp-1/</guid>
-      <description>&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;(深入浅出Stanford NLP 基础篇) 本文主要介绍Stanford NLP工具的基本使用方法。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -288,7 +270,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
-      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -297,7 +279,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
-      <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -306,7 +288,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/</guid>
-      <description>&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》 &lt;/p&gt;</description>
+      <description>&lt;p&gt;之前写过的总结系列：《微积分总结》、《线性代数那些事》以及《数值计算与应用》&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -315,7 +297,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 13 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</guid>
-      <description>&lt;p&gt;Fab and Dialog Morphing Animation on Android. &lt;/p&gt;</description>
+      <description>&lt;p&gt;Fab and Dialog Morphing Animation on Android.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -324,7 +306,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</guid>
-      <description>&lt;p&gt;Plaid源码阅读笔记。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Plaid源码阅读笔记。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -333,7 +315,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -342,7 +324,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-2/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -351,7 +333,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-9/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程  &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -360,7 +342,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-10/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -369,7 +351,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-13/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -378,7 +360,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-8/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -387,7 +369,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Thu, 03 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -396,7 +378,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-3/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -405,7 +387,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -414,7 +396,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -423,7 +405,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -432,7 +414,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -441,7 +423,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -450,7 +432,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -459,7 +441,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;《Android群英传》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;strong&gt;《Android群英传》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -468,7 +450,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (5) 第十一章 搭建云端服务器 + 第十二章 Android 5.X新特性详解 + 第十三章 Android实例提高 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (5) 第十一章 搭建云端服务器 + 第十二章 Android 5.X新特性详解 + 第十三章 Android实例提高&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -477,7 +459,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 28 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (4) 第八章 Activity和Activity调用栈分析 + 第九章 系统信息与安全机制 + 第十章 性能优化 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (4) 第八章 Activity和Activity调用栈分析 + 第九章 系统信息与安全机制 + 第十章 性能优化&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -486,7 +468,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 27 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -495,7 +477,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (2) 第三章 控件架构与自定义控件详解 + 第四章 ListView使用技巧 + 第五章 Scroll分析 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (2) 第三章 控件架构与自定义控件详解 + 第四章 ListView使用技巧 + 第五章 Scroll分析&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -504,7 +486,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Wed, 25 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/25/android-heroes-reading-notes-1/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (1) 第一章 Android体系与系统架构 + 第二章 Android开发工具新接触 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (1) 第一章 Android体系与系统架构 + 第二章 Android开发工具新接触&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -513,7 +495,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/21/you-are-my-sunshine/</guid>
-      <description>&lt;p&gt;代码小情诗&lt;strong&gt;《You are my sunshine》&lt;/strong&gt;  &lt;/p&gt;</description>
+      <description>&lt;p&gt;代码小情诗**《You are my sunshine》**&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -522,7 +504,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 13 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/13/missing/</guid>
-      <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》 &lt;/p&gt;</description>
+      <description>&lt;p&gt;昨晚看了一部音乐电影《Once》，今天晨起写了一首小诗《想见》&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -531,7 +513,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 09 Oct 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/10/09/job-hunting/</guid>
-      <description>&lt;p&gt;今年我找Android开发工作的干货分享，祝大家找工作顺利。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;今年我找Android开发工作的干货分享，祝大家找工作顺利。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -540,7 +522,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 05 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/</guid>
-      <description>&lt;p&gt;本文内容和代码参考自&lt;a href=&#34;https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/&#34;&gt;Implementing Swipe to Refresh, an Android Material Design UI Pattern&lt;/a&gt;，原博客内容中略有错误。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文内容和代码参考自&lt;a href=&#34;https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/&#34;&gt;Implementing Swipe to Refresh, an Android Material Design UI Pattern&lt;/a&gt;，原博客内容中略有错误。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -549,7 +531,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/</guid>
-      <description>&lt;p&gt;本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -576,7 +558,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://developer.android.com/training/index.html&#34;&gt;Android Training&lt;/a&gt; 中Getting Started部分的阅读笔记 &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;http://developer.android.com/training/index.html&#34;&gt;Android Training&lt;/a&gt; 中Getting Started部分的阅读笔记&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -585,7 +567,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 02 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/</guid>
-      <description>&lt;p&gt;本文介绍Android Toolbar的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍Android Toolbar的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -594,7 +576,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/</guid>
-      <description>&lt;p&gt;本文介绍Android ActionBar的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍Android ActionBar的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -603,7 +585,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/</guid>
-      <description>&lt;p&gt;本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -612,7 +594,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/</guid>
-      <description>&lt;p&gt;本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -621,7 +603,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-development-code-snippets/</guid>
-      <description>&lt;p&gt;Android开发代码片段 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Android开发代码片段&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -630,7 +612,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/</guid>
-      <description>&lt;p&gt;本文总结了著名的Android UIL图像加载和显示库的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结了著名的Android UIL图像加载和显示库的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -639,7 +621,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/</guid>
-      <description>&lt;p&gt;深入浅出Android测试教程 (2) &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出Android测试教程 (2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -648,7 +630,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 30 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/</guid>
-      <description>&lt;p&gt;深入浅出Android测试教程 (1) &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出Android测试教程 (1)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -657,7 +639,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Thu, 28 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</guid>
-      <description>&lt;p&gt;本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -666,7 +648,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
-      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -675,7 +657,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
-      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -684,7 +666,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Thu, 07 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/</guid>
-      <description>&lt;p&gt;阿里实习的事情终于尘埃落定了，自己的坚持也算是有了一份答复，这个过程真的要感谢很多很多人，2015年注定是我遇见我的众多贵人的一年！ &lt;/p&gt;</description>
+      <description>&lt;p&gt;阿里实习的事情终于尘埃落定了，自己的坚持也算是有了一份答复，这个过程真的要感谢很多很多人，2015年注定是我遇见我的众多贵人的一年！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -702,7 +684,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 15 Feb 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/</guid>
-      <description>&lt;p&gt;内容摘自Mac上的一个灰常好的免费软件Battery Health中关于保养MacBook的电池寿命的建议，与大家一起分享 &lt;/p&gt;</description>
+      <description>&lt;p&gt;内容摘自Mac上的一个灰常好的免费软件Battery Health中关于保养MacBook的电池寿命的建议，与大家一起分享&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -729,7 +711,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 09 Nov 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/</guid>
-      <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D &lt;/p&gt;</description>
+      <description>&lt;p&gt;Google APAC 2015 University Graduates Test Round D&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -738,7 +720,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Fri, 24 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/</guid>
-      <description>&lt;p&gt;《大话西游》观后感 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《大话西游》观后感&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -747,7 +729,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</guid>
-      <description>&lt;p&gt;OpenCV，JavaCV以及OpenCV4Android之间的关系 &lt;/p&gt;</description>
+      <description>&lt;p&gt;OpenCV，JavaCV以及OpenCV4Android之间的关系&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -756,7 +738,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Wed, 22 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</guid>
-      <description>&lt;p&gt;Android NDK and OpenCV development with Android Studio &lt;/p&gt;</description>
+      <description>&lt;p&gt;Android NDK and OpenCV development with Android Studio&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -765,7 +747,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Wed, 15 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</guid>
-      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (2) &lt;/p&gt;</description>
+      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -774,7 +756,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 13 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</guid>
-      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (1) &lt;/p&gt;</description>
+      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (1)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -783,7 +765,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
-      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp &lt;/p&gt;</description>
+      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -792,88 +774,88 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sat, 12 Jul 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/</guid>
-      <description>&lt;p&gt;下载C站课程资源的方法 &lt;/p&gt;</description>
+      <description>&lt;p&gt;下载C站课程资源的方法&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C1 Introduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c1-introduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c1-introduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c1-introduction/</guid>
+      <description>&lt;p&gt;Python算法设计篇(1) Chapter 1: Introduction&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C2 The basics</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c2-the-basics/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c2-the-basics/</guid>
-      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c2-the-basics/</guid>
+      <description>&lt;p&gt;Python算法设计篇(2) Chapter 2: The basics&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C3 Counting 101</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c3-counting-101/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c3-counting-101/</guid>
-      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c3-counting-101/</guid>
+      <description>&lt;p&gt;Python算法设计篇(3) Chapter 3: Counting 101&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C4 Induction and Recursion and Reduction</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c4-induction-and-recursion-and-reduction/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c4-induction-and-recursion-and-reduction/</guid>
-      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c4-induction-and-recursion-and-reduction/</guid>
+      <description>&lt;p&gt;Python算法设计篇(4) Chapter 4: Induction and Recursion and Reduction&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C5 Traversal</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c5-traversal/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c5-traversal/</guid>
-      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c5-traversal/</guid>
+      <description>&lt;p&gt;Python算法设计篇(5)  Chapter 5: Traversal&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C6 Divide and Combine and Conquer</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c6-divide-and-combine-and-conquer/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c6-divide-and-combine-and-conquer/</guid>
-      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c6-divide-and-combine-and-conquer/</guid>
+      <description>&lt;p&gt;Python算法设计篇(6) Chapter 6: Divide and Combine and Conquer&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C7 Greedy</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c7-greedy/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c7-greedy/</guid>
-      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it! &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c7-greedy/</guid>
+      <description>&lt;p&gt;Python算法设计篇(7) Chapter 7: Greed is good? Prove it!&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C8 Dynamic Programming</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c8-dynamic-programming/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/</guid>
-      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c8-dynamic-programming/</guid>
+      <description>&lt;p&gt;Python算法设计篇(8) Chapter 8 Tangled Dependencies and Memoization&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Algorithms - C9 Graphs</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c9-graphs/</link>
       <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/</guid>
-      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c9-graphs/</guid>
+      <description>&lt;p&gt;Python算法设计篇(9) Chapter 9: From A to B with Edsger and Friends&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -882,7 +864,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Sun, 22 Jun 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/</guid>
-      <description>&lt;p&gt;给360前端CDN服务点个赞 &lt;/p&gt;</description>
+      <description>&lt;p&gt;给360前端CDN服务点个赞&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -891,41 +873,7 @@ Gank for Mac：干货集中营的Mac客户端 应用开发小记
       <pubDate>Mon, 09 Jun 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/</guid>
-      <description>&lt;p&gt;模式识别大作业-狗脸识别 &lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Android</title>
-      <link>https://hujiaweibujidao.github.io/android/</link>
-      <pubDate>Wed, 21 May 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/android/</guid>
-      <description>大四保研之后开始自学Android开发，从此走上了移动开发的道路，渐渐喜欢上了这个绿色机器人。
-Android开发学习的过程中也做过一些项目，有初学Android时开发应用拿来参加比赛的，比如微微博；有为了挣外快给创业团队开发的应用，比如贰货；也有为了学习NDK开发的应用，比如人脸识别应用XFace；也造过不错的动画效果的轮子，比如yava和wava，大部分应用已经在我的Github上开源了，感兴趣的可以关注下。
-自己没有太多精彩的项目可以拿得出手，只有漫漫学习过程中的一些小总结，欢迎阅读我毕业之前写过的一些开发经验：
-1. Android NDK 和 OpenCV 整合开发的环境搭建以及人脸检测项目的运行测试
-2. Android NDK 的核心内容和开发总结
-3. OpenCV 在 Android NDK 开发中的应用
-4. Android NDK和OpenCV整合开发的环境搭建
-5. 当数学遇上动画：讲述ValueAnimator、TypeEvaluator和TimeInterpolator之间的恩恩怨怨
-推荐阅读的书籍和资料：
-如果是想跳入Android开发这个深坑的话，推荐阅读以下书籍和资料：
-1. 疯狂Android讲义
-2. 第一行Android代码
-3. Android开发权威指南
-4. Android官方培训课程中文版
-如果是想进一步提高Android开发姿势的话，推荐阅读以下书籍：
-1. Java程序性能优化：修炼Java的基本功
-2. Android群英传 (读书笔记点这里)
-3. App研发录
-4. Android开发进阶-从小工到专家：提高Android开发技能必看
-5. Android开发艺术探索 (读书笔记点这里)
-如果是想深入了解Android系统和应用开发方方面面的话，推荐阅读以下书籍：
-以下都是我正在或者计划阅读的书籍，后面是该书的阅读完成度情况
-1. High Performance Android Apps (中文版已出版) [90%]
-2. Pro Android Apps Performance Optimization (中文版已出版) [50%]
-3. Android源码设计模式解析与实战 [5%]
-4. Android框架揭秘 [80%]</description>
+      <description>&lt;p&gt;模式识别大作业-狗脸识别&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -934,7 +882,7 @@ Android开发学习的过程中也做过一些项目，有初学Android时开发
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/csu-beautiful-scenery/</guid>
-      <description>&lt;p&gt;在CSU经历了四年的青春，感谢母校的培养，感谢曾经一起欢笑的小伙伴们，想你们！ &lt;/p&gt;</description>
+      <description>&lt;p&gt;在CSU经历了四年的青春，感谢母校的培养，感谢曾经一起欢笑的小伙伴们，想你们！&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -943,7 +891,7 @@ Android开发学习的过程中也做过一些项目，有初学Android时开发
       <pubDate>Tue, 20 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/</guid>
-      <description>&lt;p&gt;删数问题的贪心和动规解法 &lt;/p&gt;</description>
+      <description>&lt;p&gt;删数问题的贪心和动规解法&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -974,50 +922,21 @@ Android开发学习的过程中也做过一些项目，有初学Android时开发
     </item>
     
     <item>
-      <title>Python</title>
-      <link>https://hujiaweibujidao.github.io/python/</link>
-      <pubDate>Sun, 18 May 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/python/</guid>
-      <description>的确，正如偶像Bruce Eckel所说，&amp;ldquo;Life is short, you need Python&amp;rdquo;！ 如果你正在考虑学Java还是Python的话，那就别想了，选Python吧，你的人生会有更多的时间做其他有意思的事情。 研究生之前我没学python是有原因的：首先，我怕蛇，很怕很怕，而这货的logo竟然就是蛇，我因故而避之；其次，我不喜欢脚本语言，我会shell，但是写的时候不是很爽，只是在处理些文件操作或者字符串操作的时候才会想起它，听说python脚本神马的，我便又避之。
-但是，上了研究生发现用Python的人很多，而且这货简直被神化了，无所不能，吊炸天的Edx的后台竟然就是用的Python，于是花了一个下午刷了本《Head First Python》，感觉没啥特别，只是写起来轻便，甚至还能开发Android，让我大吃一惊。后来，又接着看了些Python书，发现真的如此，很多时候用Java写了几十行的代码用Python几行就搞定了，而且它同样拥有大量的第三方模块，于是我就这么走进了Python的世界。Python要入门很简单，毕竟我搞Java这么多年了，这俩太多的相似点了，看完书之后写写数据结构，写写算法，熟悉一些高级特性，使用一些第三方模块之后应该就算入门了吧。现在，做任何事情，我首先想到的是用Python如何实现?！嘿嘿，&amp;ldquo;Life is short, go start Python&amp;rdquo;！
-本人才疏学浅，学识大多浅尝辄止，故文章若有错误，不论是文字笔误还是理解有错，烦请您留言以告知，感激不尽！ Python分类下的系列文章，不断更新中，如果你迫不及待地想要看看写得如何可以先试试这篇Python Algorithms - C4 Induction and Recursion and Reduction，如果觉得好就留言点个赞呗，如果觉得不好那就直接关掉这个博客网站吧
-[感谢@Google爱好者给该系列的命名，我很喜欢，叫做“码农与蛇的故事”]
-1.Python基础知识篇
-Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分摘自网上恩师@廖雪峰老师的Python教程)，后者推荐了些关于Python高级特性的好文章(大部分摘自伯乐在线Python分类的文章)
-2.Python数据结构篇
-数据结构篇主要是阅读Problem Solving with Python [该网址链接可能会比较慢]时写下的阅读记录，当然，也结合了部分算法导论中的内容，此外还有不少wikipedia上的内容，所以内容比较多，可能有点杂乱。这部分主要是介绍了如何使用Python实现常用的一些数据结构，例如堆栈、队列、二叉树等等，也有Python内置的数据结构性能的分析，同时还包括了搜索和排序(在算法设计篇中会有更加详细的介绍)的简单总结。每篇文章都有实现代码，内容比较多，简单算法一般是大致介绍下思想及算法流程，复杂的算法会给出各种图示和代码实现详细介绍。
-这一部分是下面算法设计篇的前篇，如果数据结构还不错的可以直接看算法设计篇，遇到问题可以回来看数据结构篇中的某个具体内容充电一下，我个人认为直接读算法设计篇比较好，因为大家时间也都比较宝贵，如果你会来读这些文章说明你肯定有一定基础了，后面的算法设计篇中更多的是思想，这里更多的是代码而已，嘿嘿。
-(1)搜索
-简述顺序查找和二分查找，详述Hash查找(hash函数的设计以及如何避免冲突)
-(2)排序
-简述各种排序算法的思想以及它的图示和实现
-(3)数据结构
-简述Python内置数据结构的性能分析和实现常用的数据结构：栈、队列和二叉堆
-(4)树总结
-简述二叉树，详述二叉搜索树和AVL树的思想和实现
-3.Python算法设计篇
-算法设计篇主要是阅读Python Algorithms: Mastering Basic Algorithms in the Python Language[点击下载]之后写下的读书总结，原书大部分内容结合了经典书籍算法导论，内容更加细致深入，主要是介绍了各种常用的算法设计思想，以及如何使用Python高效巧妙地实现这些算法，这里有别于前面的数据结构篇，部分算法例如排序就不会详细介绍它的实现细节，而是侧重于它内在的算法思想。这部分使用了一些与数据结构有关的第三方模块，因为这篇的重点是算法的思想以及实现，所以并没有去重新实现每个数据结构，但是在介绍算法的同时会分析Python内置数据结构以及第三方数据结构模块的优缺点，也就意味着该篇比前面都要难不少，但是我想我的介绍应该还算简单明了，因为我用的都是比较朴实的语言，并没有像算法导论一样列出一堆性质和定理，主要是对着某个问题一步步思考然后算法就出来了，嘿嘿，除此之外，里面还有很多关于python开发的内容，精彩真的不容错过！
-这里每篇文章都有实现代码，但是代码我一般都不会分析，更多地是分析算法思想，所以内容都比较多，即便如此也没有包括原书对应章节的所有内容，因为内容实在太丰富了，所以我只是选择经典的算法实例来介绍算法核心思想，除此之外，还有不少内容是原书没有的，部分是来自算法导论，部分是来自我自己的感悟，嘻嘻。该篇对于大神们来说是小菜，请一笑而过，对于菜鸟们来说可能有点难啃，所以最适合的是和我水平差不多的，对各个算法都有所了解但是理解还不算深刻的半桶水的程序猿，嘿嘿。
-本篇的顺序按照原书Python Algorithms: Mastering Basic Algorithms in the Python Language的章节来安排的(章节标题部分相同部分不同哟)，为了节省时间以及保持原著的原滋原味，部分内容(一般是比较难以翻译和理解的内容)直接摘自原著英文内容。</description>
-    </item>
-    
-    <item>
       <title>Good Python Articles</title>
       <link>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</link>
       <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
-      <description>&lt;p&gt;关于Python的好文章集锦 &lt;/p&gt;</description>
+      <description>&lt;p&gt;关于Python的好文章集锦&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Hadoop Installation - Single Node Setup</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation-single-node-setup/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
-      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation-single-node-setup/</guid>
+      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1026,7 +945,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/head-first-pagerank/</guid>
-      <description>&lt;p&gt;深入浅出PageRank算法 &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出PageRank算法&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1044,7 +963,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
-      <description>&lt;p&gt;Python代码片段 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Python代码片段&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1053,43 +972,43 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/</guid>
-      <description>&lt;p&gt;清华9字班毕业生于海童拍摄制作，视频地址&lt;a href=&#34;http://v.youku.com/v_show/id_XNTkwNDYxNjIw/v.swf.html&#34;&gt;优酷视频 时光机：清华园的延时摄影&lt;/a&gt; &lt;/p&gt;</description>
+      <description>&lt;p&gt;清华9字班毕业生于海童拍摄制作，视频地址&lt;a href=&#34;http://v.youku.com/v_show/id_XNTkwNDYxNjIw/v.swf.html&#34;&gt;优酷视频 时光机：清华园的延时摄影&lt;/a&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C4 Trees</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures-c4-trees/</link>
       <pubDate>Fri, 09 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures---c4-trees/</guid>
-      <description>&lt;p&gt;Python数据结构篇(4) 树 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/09/python-data-structures-c4-trees/</guid>
+      <description>&lt;p&gt;Python数据结构篇(4) 树&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C3 Data Structures</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures-c3-data-structures/</link>
       <pubDate>Thu, 08 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures---c3-data-structures/</guid>
-      <description>&lt;p&gt;Python数据结构篇(3) 数据结构 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/08/python-data-structures-c3-data-structures/</guid>
+      <description>&lt;p&gt;Python数据结构篇(3) 数据结构&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C2 Sort</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures-c2-sort/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures---c2-sort/</guid>
-      <description>&lt;p&gt;Python数据结构篇(2) 排序 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/07/python-data-structures-c2-sort/</guid>
+      <description>&lt;p&gt;Python数据结构篇(2) 排序&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Python Data Structures - C1 Search</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures-c1-search/</link>
       <pubDate>Tue, 06 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures---c1-search/</guid>
-      <description>&lt;p&gt;Python数据结构篇(1) 搜索 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/06/python-data-structures-c1-search/</guid>
+      <description>&lt;p&gt;Python数据结构篇(1) 搜索&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1098,7 +1017,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Wed, 30 Apr 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/04/30/wouldnt-it-be-nice/</guid>
-      <description>&lt;p&gt;《向阳处的她》中的歌曲 Wouldn&amp;rsquo;t it be nice，超爱啊 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《向阳处的她》中的歌曲 Wouldn&amp;rsquo;t it be nice，超爱啊&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1107,7 +1026,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Wed, 23 Apr 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/04/23/numerical-methods-using-matlab/</guid>
-      <description>&lt;p&gt;课余时间写的一本关于数值算法与应用的总结小书 &lt;/p&gt;</description>
+      <description>&lt;p&gt;课余时间写的一本关于数值算法与应用的总结小书&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1206,7 +1125,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Mon, 18 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/</guid>
-      <description>&lt;p&gt;写了几个&lt;code&gt;shell&lt;/code&gt;脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;写了几个&lt;code&gt;shell&lt;/code&gt;脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1217,21 +1136,17 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <guid>https://hujiaweibujidao.github.io/about/</guid>
       <description>大家好，我叫胡家威，英文名是Javay，是的，我既是Java迷也是Jay粉。
 微博账号是宅男潇涧，地道宅男，花名潇涧，潇谐音笑，涧谐音键，寓意是一笑一键走江湖。
-以前叫五道口宅男，离开了五道口去了唐家湾，本想改名为唐家湾宅男，但是仔细一想，难道每次换个地方就要改名字了？
-这太不符合俺们程序猿的逻辑啊，为了后期的维护性方便，我改名为宅男潇涧，这样就一劳永逸啦。
-我喜欢编程，喜欢折腾，搞过Android/Java/Swift/Python/JavaFx/JavaWeb/RCP等相关技术的开发，也折腾过机器学习、数据挖掘等听起来“高大上”的“黑科技”。目前主要从事的是移动开发，这几年都是Android开发为主，iOS开发之路刚刚起步。
+以前叫五道口宅男，离开了五道口去了唐家湾，成为唐家湾宅男，后来又去了白石洲，成为白石洲宅男。
+为了方便扩展，我改名为宅男潇涧，这样就一劳永逸啦。
+目前主要从事的是Android开发，欢迎关注GitHub账号
 个人简单履历：
-2016/12-current 就职于深圳鹅厂SNG事业群在线教育部终端开发小组
+2018/03-current 就职于广州鹅厂WXG事业群基础产品部基础业务小组
+2016/12-2018/03 就职于深圳鹅厂SNG事业群在线教育部终端开发小组
 2016/07-2016/12 就职于魅族科技Flyme中心核心系统组性能优化小组
 2015/07-2015/08 在阿里巴巴集团无线事业部实习，做Android开发
 2013/08-2013/10 在三星位于中国北京的研究院实习，做Android开发
 2013/09-2016/06 研究僧就读于伟大的五道口男子职业技术与艺术学院的计算机系
-2009/09-2013/06 本科就读于同样伟大的左家垅男子职业技术学院的计科专业
-热爱开源的我自然有GitHub账号啦，欢迎关注： https://github.com/hujiaweibujidao
-我有个小专栏，会不定期分享一些热门技术或者实战开发经验，欢迎订阅：https://xiaozhuanlan.com/u/javayhu
-&amp;gt;&amp;gt;&amp;gt; 我最近在Android面试指南小专栏里面写了一篇稿子Android面试——算法面试心得，欢迎阅读！&amp;lt;&amp;lt;&amp;lt;
-友情链接
-    秋壕  代码家  任主席  林更新  邓老师  脉脉不得语      高爷  stormzhang  徐医生  许晓锋  方杰  何洪辉    胡凯  Oasis Feng  陈启超  宅一番  冯建  android笔记    张涛  Gityuan  马天宇  张明远  卢俊  技术小黑屋    郭霖  Tian Jun  鲍永章  赵凯强  鸿洋  码农明明桑    月半兄  Code 4 Fun  宇信行  宅学长  蒋朋  写代码的猴子    大侠咕咚  Xiaoke&amp;rsquo;s Blog  安卓同学  程序亦非猿  小鄧子  廖雪峰    Qisen Tang  AlgorithmDoge  Piasy  ghostsf      </description>
+2009/09-2013/06 本科就读于同样伟大的左家垅男子职业技术学院的计科专业</description>
     </item>
     
     <item>
@@ -1240,7 +1155,7 @@ Python Basics 和 Python Advances 前者是Python基础的简单总结(大部分
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</guid>
-      <description>&lt;p&gt;Hello world! Hello Octopress! &lt;/p&gt;</description>
+      <description>&lt;p&gt;Hello world! Hello Octopress!&lt;/p&gt;</description>
     </item>
     
   </channel>

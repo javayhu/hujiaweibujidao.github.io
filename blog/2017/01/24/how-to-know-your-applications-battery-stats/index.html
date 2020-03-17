@@ -5,7 +5,7 @@
        How to know your application’s battery stats &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" How to know your application’s battery stats &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2017/01/24/how-to-know-your-applications-battery-stats/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,191 +159,108 @@
 
     <section class="post-content">
       <p>本文主要分享Android应用耗电量的统计分析方法和工具。</p>
-
 <p>众所周知，Android系统内置了应用的耗电量统计分析功能，但是并没有提供相应的API和文档，只是可以查看耗电量排行榜前10的应用的耗电百分比。此外，随着Android系统版本的迭代，各个版本耗电量统计的方式略有不同，但庆幸的是其统计模型并没有什么大变化。本文在前人的研究基础上总结Android平台的耗电量统计相关的计算方法和辅助工具。</p>
-
 <p><strong>(1)Android系统是如何进行应用的耗电量统计的？</strong></p>
-
 <p>如果想了解Android系统是如何对应用进行耗电量统计计算的话建议先阅读：<a href="http://gityuan.com/2016/01/10/power_rank/">Android耗电统计算法</a>这篇文章，<strong>作者是小米的MIUI系统工程师Gityuan(如果你想了解Android系统中常见模块的实现细节的话，非常推荐阅读这位开发者的博客，他的博客文章的质量都非常高)</strong>，此文从Android 6.0系统源码的角度详细分析了应用的耗电量的计算方法。阅读上文可知，耗电量计算包括软件耗电量计算和硬件耗电量计算，并且有各自的计算方法。</p>
-
 <p>下图是软件的耗电量统计项以及它的功耗计算公式：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery_software.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/battery_software.png" alt="img"></p>
 <p>下图是硬件的功耗计算公式：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery_hardware.png" alt="img" /></p>
-
-<p>其他文章推荐：<br />
-1.<a href="http://www.cnblogs.com/hyddd/p/4402621.html">深入浅出Android App耗电量统计</a><br />
-该文是耗电量统计方面最早的文章，分析的是Android 4.3系统源码中的应用耗电量统计<br />
-2.<a href="http://blog.csdn.net/tangdl86/article/details/46958175">Android应用的耗电量统计</a><br />
-该文是在上面的文章2的基础上做的分析，分析的是Android 5.1系统源码<br />
-3.<a href="http://blog.csdn.net/itfootball/article/details/49155979">Android性能专项测试之耗电量统计API</a><br />
+<p><img src="https://hujiaweibujidao.github.io/images/battery_hardware.png" alt="img"></p>
+<p>其他文章推荐：<br>
+1.<a href="http://www.cnblogs.com/hyddd/p/4402621.html">深入浅出Android App耗电量统计</a><br>
+该文是耗电量统计方面最早的文章，分析的是Android 4.3系统源码中的应用耗电量统计<br>
+2.<a href="http://blog.csdn.net/tangdl86/article/details/46958175">Android应用的耗电量统计</a><br>
+该文是在上面的文章2的基础上做的分析，分析的是Android 5.1系统源码<br>
+3.<a href="http://blog.csdn.net/itfootball/article/details/49155979">Android性能专项测试之耗电量统计API</a><br>
 该文是以Android 6.0系统源码来分析应用耗电量统计</p>
-
 <p>下面是从源码的分析得出的对于电量统计的通俗介绍：</p>
-
 <p>耗电量计算的方法很有趣，有点象在超市购物：有一张“价格表”，记录每种硬件1秒钟耗多少电。有一张“购物清单”，记录apk使用了哪几种硬件，每种硬件用了多长时间。假设某个应用累计使用了60秒的cpu，cpu1秒钟耗1mAh，那这个应用就消耗了60mAh的电，实际的算法比这个例子复杂很多。</p>
-
 <p>从这里可以看出，Android自带的耗电量统计的准确性，受两个大方面的因素影响：</p>
-
 <p>一是那张“价格表”，由<code>PowerProfile</code>类提供，它用于获取各个组件的电流数值，而<code>power_profile.xml</code>是一个可配置的功耗数据文件。手机的硬件是各不相同的，所以每一款手机都会有一张自己的“价格表”。这张表的准确性由手机厂商负责，所以，尽量用大厂的机子，并且只使用该厂商提供的Android系统。</p>
-
 <p>二是那张“购物清单”，这是Android的<code>BatteryStatsService</code>类提供的。前面那篇文章提到过，<code>BatteryStatsHelper</code>类使用AIDL调用<code>BatteryStatsService</code>类的<code>getStatisticsStream</code>方法获取相关数据。</p>
-
 <p>下面是其中几个模块的耗电量计算方式</p>
-
 <p>WIFI模块的耗电量和应用流进流出的流量总量、wifi扫描时间、wifi模块运行时间有关
-<img src="https://hujiaweibujidao.github.io/images/battery_wifi.png" alt="img" /></p>
-
+<img src="https://hujiaweibujidao.github.io/images/battery_wifi.png" alt="img"></p>
 <p>Sensor模块的耗电量与sensor的使用时间成正比
-<img src="https://hujiaweibujidao.github.io/images/battery_sensor.png" alt="img" /></p>
-
-<!-- Wakelock的耗电量与wakelock的时间成正比
-![img](/images/battery_wakelock.png)
- -->
-
+<img src="https://hujiaweibujidao.github.io/images/battery_sensor.png" alt="img"></p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 <p>从上面几篇文章中可以看出，<strong>各个Android版本的系统源码中耗电量统计的方式虽略有不同，但是大致的统计模型是不变的，而且统计的方式越来越科学可靠。Google官方对耗电量的统计给出的解释都是不能代表真实数据，只能作为参考值，因为受power_profile.xml的干扰太大，如果手机厂商没有严格设置这个文件，那可想而知出来的值可能是不合理的。</strong></p>
-
 <p><strong>(2)普通的应用开发者可以怎么统计应用的耗电量？</strong></p>
-
 <p>由于权限的限制，普通的应用开发者并不太容易统计应用的耗电量。前面的推荐文章3中也提到过获取应用耗电量的权限控制，内容如下：Android4.4以前的版本，未对耗电量统计的代码做权限限制，只需要使用java反射等手段，就可以调用相关的内部类和隐藏接口。自Android4.4开始，Android严格限制了权限，普通应用即使在AndroidManifest.xml中申明使用<code>android.permission.BATTERY_STATS</code>，也获取不到相关的统计数据。</p>
-
 <p>统计应用耗电量的工具：</p>
-
-<p><strong>1.GT的Powerstat (腾讯开发的应用耗电量统计工具)</strong><br />
+<p><strong>1.GT的Powerstat (腾讯开发的应用耗电量统计工具)</strong><br>
 项目地址：<a href="http://gt.tencent.com/">http://gt.tencent.com/</a></p>
-
 <p>Powerstat的功能很强大，但是要求手机是root过的。</p>
-
 <p>Powerstat用户手册中有说明：Android 电量测试工具 Powerstat V1.x 版本支持 Android4.1~4.4的系统(4.4及以上系统上需要系统签名，在已获取root权限的情况下，可将apk包置于<code>/system/priv-app/</code>目录下，作为系统应用运行)。工具的 V1.x2 版本在V1.x 版本的基础上进行开发，细分耗电项，增加定时自动保存功能，适配Android5.0。同样，在 Android4.4 及以上系统也需要root权限才能安装使用。</p>
-
 <p>Powerstat的应用耗电量计算方法基本上和系统的应用耗电量计算方法是一样的，它是通过各种方式包括反射的方法来获取应用在一段时间内的数据(例如占用的CPU时间、流进流出的数据量等)，然后利用系统的统计类<code>BatteryStatsHelper</code>做些修改来计算应用的耗电量。比较有意思的是其中有个用来计算应用的屏幕耗电量的类。为啥屏幕耗电量计算这么麻烦呢？因为在测试的过程中测试应用并非一直在前台，为了计算的应用耗电量准确些，需要将屏幕的总耗电量按照应用在前台的时间进行分配。计算方法就是根据屏幕总耗电量和所有应用的forground cpu time总和来计算每个forground cpu time消耗的电量，并根据每个应用占用的forground cpu time来计算其对应的屏幕耗电量。这个就类似统计一个应用占用的内存时我们常常关注PSS，而不是USS的道理是一样的，共享库占用的内存要均摊到使用了它的每个应用中。</p>
-
-<p><strong>2.Battery Historian (Google官方出品)</strong><br />
+<p><strong>2.Battery Historian (Google官方出品)</strong><br>
 项目地址：<a href="https://github.com/google/battery-historian">https://github.com/google/battery-historian</a></p>
-
 <p>Battery Historian是Google提供的针对Android 5.0及以上系统使用的分析电量相关信息的工具。</p>
-
 <p>Battery Historian is a tool to inspect battery related information and events on an Android device running Android 5.0 Lollipop (API level 21) and later, while the device was not plugged in. It allows application developers to visualize system and application level events on a timeline with panning and zooming functionality, easily see various aggregated statistics since the device was last fully charged, and select an application and inspect the metrics that impact battery specific to the chosen application. It also allows an A/B comparison of two bugreports, highlighting differences in key battery related metrics.</p>
-
 <p>目前BatteryHistorian工具有两个版本：</p>
-
 <p><strong>2.1 Battery Historian 1.x</strong></p>
-
 <p>第一个版本是python语言写的，只有一个Python脚本文件 historian.py，这个文件可以从第一版本的最后一次提交记录中下载(<a href="https://github.com/google/battery-historian/tree/b711e0a8345147f449fd017e21913a8a6b8bd638">https://github.com/google/battery-historian/tree/b711e0a8345147f449fd017e21913a8a6b8bd638</a>) ，第一版本的使用步骤如下：</p>
-
 <pre><code>$ adb shell dumpsys batterystats &gt; xxx.txt  //得到整个设备的电量消耗信息
 $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指定app相关的电量消耗信息
-</code></pre>
-
-<p>得到了原始的电量消耗数据之后，我们需要通过 historian.py 脚本把数据信息转换成可读性更好的html文件</p>
-
+</code></pre><p>得到了原始的电量消耗数据之后，我们需要通过 historian.py 脚本把数据信息转换成可读性更好的html文件</p>
 <pre><code>$ python historian.py xxx.txt &gt; xxx.html
-</code></pre>
-
-<p>打开这个转换过后的html文件，可以看到类似TraceView生成的列表数据，其中的数据信息量很大</p>
-
+</code></pre><p>打开这个转换过后的html文件，可以看到类似TraceView生成的列表数据，其中的数据信息量很大</p>
 <p>旧版本的详细使用流程以及分析过程可以参考<a href="https://developer.android.com/studio/profile/battery-historian.html">Batterystats &amp; Battery Historian Walkthrough</a> 和 <a href="https://developer.android.com/studio/profile/battery-historian-charts.html">Battery Historian Charts</a>，其中有些术语可能不太好理解，这里有个简略的<a href="http://www.cnblogs.com/sjjg/p/5451519.html">中文的解释版本</a></p>
-
 <p>下图很重要，它对不同类别的电量消耗进行了解释</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery_categories.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/battery_categories.png" alt="img"></p>
 <p><strong>2.2 Battery Historian 2.x</strong></p>
-
 <p>第二个版本是go语言写的，代码很多，功能也更加完善，但是环境配置也更加复杂！</p>
-
 <p>首先，我们需要将Battery Historian工具在本地跑起来，要跑起来可以选择使用docker，也可以选择编译源码。</p>
-
 <p>(1)如果是使用Mac或Linux平台的话，推荐直接通过docker运行Battery Historian来完成</p>
-
 <pre><code>docker -- run -p &lt;port&gt;:9999 gcr.io/android-battery-historian:2.1 --port 9999
-</code></pre>
-
-<p>之后在浏览器中输入 <a href="http://localhost:">http://localhost:</a><port> 就可以看到效果，然后上传bugreport文件进行分析了。</p>
-
+</code></pre><p>之后在浏览器中输入 http://localhost:<!-- raw HTML omitted --> 就可以看到效果，然后上传bugreport文件进行分析了。</p>
 <p>(2)如果是使用Windows平台的话，也可以使用docker，但是机子要在BIOS中开启虚拟化，所以这里我选择源码编译方式，主要流程：</p>
-
-<p>1.首先下载配置Java环境 (要配置PATH)<br />
-2.接着下载配置Git环境 (要配置PATH)<br />
-3.接着下载配置Python 2.7环境 (要配置PATH)<br />
-4.接着下载配置Go环境 (要配置PATH和GOPATH以及GOBIN)<br />
+<p>1.首先下载配置Java环境 (要配置PATH)<br>
+2.接着下载配置Git环境 (要配置PATH)<br>
+3.接着下载配置Python 2.7环境 (要配置PATH)<br>
+4.接着下载配置Go环境 (要配置PATH和GOPATH以及GOBIN)<br>
 5.前面的配置其实很快就能完成，接下来就是下载Battery Historian的源码来进行编译了</p>
-
 <pre><code>$ go get -d -u github.com/google/battery-historian/…
-</code></pre>
-
-<p>下载完成之后，代码会下载到配置的GOPATH中，可以去检查下</p>
-
+</code></pre><p>下载完成之后，代码会下载到配置的GOPATH中，可以去检查下</p>
 <pre><code>$ cd $GOPATH/src/github.com/google/battery-historian
-</code></pre>
-
-<p>切换到那个目录，然后执行setup.go开始编译源码</p>
-
+</code></pre><p>切换到那个目录，然后执行setup.go开始编译源码</p>
 <pre><code>go run setup.go
-</code></pre>
-
-<p>如果遇到下面的问题的话别担心，按照提示将对应url的文件下载下来放在要求的目录即可</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery_go-compiler-error.png" alt="img" /></p>
-
+</code></pre><p>如果遇到下面的问题的话别担心，按照提示将对应url的文件下载下来放在要求的目录即可</p>
+<p><img src="https://hujiaweibujidao.github.io/images/battery_go-compiler-error.png" alt="img"></p>
 <p>上面的步骤都完成之后就可以启动Battery Historian了，默认端口是9999</p>
-
 <pre><code>$ go run cmd/battery-historian/battery-historian.go
-</code></pre>
-
-<p>待控制台输出<code>listening on port:9999</code>的时候，可以打开浏览器输入 <a href="http://localhost:9999">http://localhost:9999</a> 就可以看到</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-web.png" alt="img" /></p>
-
-<p>其次，这个版本的输入是bugreport文件，根据系统版本不同它的获取方式略有差别：<br />
-如果是Android 7.0及以上版本的话可以通过 <code>adb bugreport bugreport.zip</code> 来获取bugreport<br />
+</code></pre><p>待控制台输出<code>listening on port:9999</code>的时候，可以打开浏览器输入 http://localhost:9999 就可以看到</p>
+<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-web.png" alt="img"></p>
+<p>其次，这个版本的输入是bugreport文件，根据系统版本不同它的获取方式略有差别：<br>
+如果是Android 7.0及以上版本的话可以通过 <code>adb bugreport bugreport.zip</code> 来获取bugreport<br>
 如果是Android 6.0及以下版本的话可以通过 <code>adb bugreport &gt; bugreport.txt</code> 来获取bugreport</p>
-
 <p>获取到bugreport文件之后，我们就可以将其上传到Battery Historian上进行分析，下面是它的输出结果</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-chart.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-chart.png" alt="img"></p>
 <p>在页面的下方我们可以查看这段时间内系统的状态system stats，也可以选择某个应用查看应用的状态app stats</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-appstats.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/battery-historian-appstats.png" alt="img"></p>
 <p>其中我们可以看到<code>Device estimated power use</code>中显示了估算的应用耗电量值为 <code>0.18%</code></p>
-
 <p>Battery Historian还有个比较功能，在首页选择 Switch to Bugreport Comparisor，然后就可以上传两个不同的bugreport文件，submit之后就可以看到它们的对比结果了，这个功能用来分析同一个应用的两个不同版本前后的耗电量非常有用。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/battery_historian_compare.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/battery_historian_compare.png" alt="img"></p>
 <p>需要注意的是，一般开始统计数据之前需要使用下面的命令将以前的累积数据清空</p>
-
 <pre><code>adb shell dumpsys batterystats --reset
-</code></pre>
-
-<p>By default, Android does not record timestamps for application-specific userspace wakelock transitions even though aggregate statistics are maintained on a running basis. If you want Historian to display detailed information about each individual wakelock on the timeline, you should enable full wakelock reporting using the following command before starting your experiment:</p>
-
+</code></pre><p>By default, Android does not record timestamps for application-specific userspace wakelock transitions even though aggregate statistics are maintained on a running basis. If you want Historian to display detailed information about each individual wakelock on the timeline, you should enable full wakelock reporting using the following command before starting your experiment:</p>
 <pre><code>adb shell dumpsys batterystats --enable full-wake-history
-</code></pre>
-
-<p>关于bugreport相关的知识推荐阅读<a href="http://blog.csdn.net/createchance/article/details/51954142">Android adb bugreport工具分析和使用</a>这篇文章，作者简单地从源码角度分析了<code>adb bugreport</code>命令的运行原理，结论是bugreport其实是启动了dumpstate服务来输出数据，其中数据来源包括：<br />
-1.系统属性<br />
-2./proc和/sys节点文件<br />
-3.执行shell命令获得相关输出<br />
-4.logcat输出<br />
+</code></pre><p>关于bugreport相关的知识推荐阅读<a href="http://blog.csdn.net/createchance/article/details/51954142">Android adb bugreport工具分析和使用</a>这篇文章，作者简单地从源码角度分析了<code>adb bugreport</code>命令的运行原理，结论是bugreport其实是启动了dumpstate服务来输出数据，其中数据来源包括：<br>
+1.系统属性<br>
+2./proc和/sys节点文件<br>
+3.执行shell命令获得相关输出<br>
+4.logcat输出<br>
 5.Android Framework Services信息基本使用dumpsys命令通过binder调用服务中的dump函数获得信息</p>
-
-<p>下面是其他的几篇关于battery-historian使用的文章可供参考<br />
-(1)<a href="http://blog.csdn.net/itfootball/article/details/44084159">Android性能专项测试之battery-historian使用</a><br />
-(2)<a href="http://blog.csdn.net/itfootball/article/details/49004699">Android性能专项测试之Batterystats</a><br />
+<p>下面是其他的几篇关于battery-historian使用的文章可供参考<br>
+(1)<a href="http://blog.csdn.net/itfootball/article/details/44084159">Android性能专项测试之battery-historian使用</a><br>
+(2)<a href="http://blog.csdn.net/itfootball/article/details/49004699">Android性能专项测试之Batterystats</a><br>
 (3)<a href="http://www.07net01.com/linux/2016/01/1207924.html">Battery Historian 2.0 for windows环境搭建</a></p>
-
-<p><strong>3.关于电量方面的Android性能优化</strong><br />
+<p><strong>3.关于电量方面的Android性能优化</strong><br>
 电量方面的性能优化可以参考
 <a href="http://hukai.me/android-performance-battery/">性能优化典范中的Android性能优化之电量篇</a></p>
-
-<p>主要有以下两点：<br />
-(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求<br />
+<p>主要有以下两点：<br>
+(1)为了减少电量的消耗，在蜂窝移动网络下，最好做到批量执行网络请求，尽量避免频繁的间隔网络请求<br>
 (2)使用Job Scheduler，应用需要做的事情就是判断哪些任务是不紧急的，可以交给Job Scheduler来处理，Job Scheduler集中处理收到的任务，选择合适的时间，合适的网络，再一起执行</p>
     </section>
 
@@ -387,27 +282,23 @@ $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指�
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/"><h4>Builtin Lint Detectors (1)</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/"><h4>React Native Upgrade</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/"><h4>React Native Upgrade</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/"><h4>Builtin Lint Detectors (1)</h4></a></span>
       
   
 </aside>
@@ -416,42 +307,6 @@ $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指�
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -460,7 +315,7 @@ $ adb shell dumpsys batterystats &gt; com.package.name &gt; xxx.txt //得到指�
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

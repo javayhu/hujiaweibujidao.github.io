@@ -5,7 +5,7 @@
        Bootcamp an open source Django site &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Bootcamp an open source Django site &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,33 +158,20 @@
     </header>
 
     <section class="post-content">
-      <p>一个Django开发的开源网站Bootcamp </p>
-
+      <p>一个Django开发的开源网站Bootcamp</p>
 <p>最近接了一个项目，用Django开发一个网站，于是打算看看用Django开发的开源网站，推荐一个网站 <a href="https://www.djangosites.org/with-source/">djangosites</a>，上面有大量用django开发的网站源码。最后我找到了Bootcamp，一个包含了Feed、Article和QA三部分的社交网站，界面简洁大方，功能基本齐全，相当适合我这个新手拿来学习</p>
-
 <p>试用Bootcamp网址： <a href="http://trybootcamp.vitorfs.com/">http://trybootcamp.vitorfs.com/</a></p>
-
 <p>Bootcamp源码： <a href="https://github.com/vitorfs/bootcamp">https://github.com/vitorfs/bootcamp</a></p>
-
 <p>Bootcamp安装说明： <a href="https://github.com/vitorfs/bootcamp/wiki/Installing-and-Running-Bootcamp">https://github.com/vitorfs/bootcamp/wiki/Installing-and-Running-Bootcamp</a></p>
-
 <p>安装过程很简单，以下是我安装过程中遇到的一些问题和关键步骤：</p>
-
 <p>(1)安装psycopg2报错 <code>Error: pg_config executable not found.</code></p>
-
 <p>参考网址： <a href="http://stackoverflow.com/questions/11618898/pg-config-executable-not-found">http://stackoverflow.com/questions/11618898/pg-config-executable-not-found</a></p>
-
 <p>解决方案：<code>brew install postgresql</code></p>
-
 <p>(2)新建文件<code>.env</code>，配置数据库为mysql</p>
-
-<pre><code class="language-python">DEBUG=True
-SECRET_KEY='mys3cr3tk3y'
-DATABASE_URL='mysql://root:@localhost/bootcamp'  
-</code></pre>
-
-<p>(3)同步数据库，运行 <code>python manage.py syncdb</code></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DEBUG<span style="color:#f92672">=</span>True
+SECRET_KEY<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mys3cr3tk3y&#39;</span>
+DATABASE_URL<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;mysql://root:@localhost/bootcamp&#39;</span>  
+</code></pre></div><p>(3)同步数据库，运行 <code>python manage.py syncdb</code></p>
 <pre><code>hujiawei-MacBook-Pro:bootcamp hujiawei$ python manage.py syncdb
 Syncing...
 Creating tables ...
@@ -225,25 +190,15 @@ Synced:
 Not synced (use migrations):
  -
 (use ./manage.py migrate to migrate these)
-</code></pre>
-
-<p>(4)除去项目中的google痕迹，加速页面的加载</p>
-
+</code></pre><p>(4)除去项目中的google痕迹，加速页面的加载</p>
 <p><code>base.html</code>中删除<code>ga.js</code></p>
-
-<pre><code class="language-html">&lt;!--
-&lt;script src=&quot;{{ STATIC_URL }}js/ga.js&quot;&gt;&lt;/script&gt;
---&gt;
-</code></pre>
-
-<p><code>static/css/bootcamp.css</code>中修改字体库url，改成360的CDN</p>
-
-<pre><code class="language-html">@import url(http://fonts.useso.com/css?family=Audiowide);
-</code></pre>
-
-<p>网站界面如下：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/others/bootcamp.png" alt="image" /></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--
+</span><span style="color:#75715e">&lt;script src=&#34;{{ STATIC_URL }}js/ga.js&#34;&gt;&lt;/script&gt;
+</span><span style="color:#75715e">--&gt;</span>
+</code></pre></div><p><code>static/css/bootcamp.css</code>中修改字体库url，改成360的CDN</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">@import url(http://fonts.useso.com/css?family=Audiowide);
+</code></pre></div><p>网站界面如下：</p>
+<p><img src="https://hujiaweibujidao.github.io/images/others/bootcamp.png" alt="image"></p>
     </section>
 
     <footer class="post-footer">
@@ -264,27 +219,23 @@ Not synced (use migrations):
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/"><h4>Download Coursera Courses in the Fastest Way</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/"><h4>Gradle Plugin for Android Development User Guide 1</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/"><h4>Gradle Plugin for Android Development User Guide 1</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/07/12/download-coursera-courses-in-the-fastest-way/"><h4>Download Coursera Courses in the Fastest Way</h4></a></span>
       
   
 </aside>
@@ -293,42 +244,6 @@ Not synced (use migrations):
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -337,7 +252,7 @@ Not synced (use migrations):
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

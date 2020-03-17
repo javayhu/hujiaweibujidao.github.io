@@ -5,7 +5,7 @@
        ChromeADB Project Analysis &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" ChromeADB Project Analysis &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,329 +158,295 @@
     </header>
 
     <section class="post-content">
-      <p>本文记录的是chromeadb项目的源码阅读总结。 </p>
-
-<p>chromeadb项目源码：<a href="https://github.com/importre/chromeadb">https://github.com/importre/chromeadb</a><br />
+      <p>本文记录的是chromeadb项目的源码阅读总结。</p>
+<p>chromeadb项目源码：<a href="https://github.com/importre/chromeadb">https://github.com/importre/chromeadb</a><br>
 chromeadb工具的本质就是利用adb命令以可视化的方式提供了一些简便操作和数据查看的功能。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/chromeadb.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/chromeadb.png" alt="img"></p>
 <p>从该项目的目前提交记录以及<a href="https://github.com/importre/chromeadb/issues/12">issue</a>来看，这个项目已经被放弃了，因为Google的Chrome浏览器未来将不支持Chrome扩展应用。此外，项目源码用的是Angular JS来开发的，我并不是很熟悉，所以主要是阅读下源码理解其大致的实现流程。要体验ChromeADB的MousePad功能还需要安装一个应用<a href="https://github.com/importre/chromeadb_for_android">chromeadb_for_android</a>，这个应用我们也会稍微介绍一下。</p>
-
-<h3 id="1-源码结构">1.源码结构</h3>
-
-<p>1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；<br />
-1.2 test目录下是测试代码；<br />
+<h3 id="1源码结构">1.源码结构</h3>
+<p>1.1 项目根目录是package.json、Gruntfile.js、bower.json等相关说明和依赖管理文件；<br>
+1.2 test目录下是测试代码；<br>
 1.3 src目录下是核心源码，其中assets目录是资源文件夹，里面都是图片；styles目录是样式文件<code>chromeadb.css</code>；views目录是各个子界面的模板页面，例如<code>packages.html</code>、<code>controller.html</code>等；scripts目录是控制脚本，例如<code>chromeadb.js</code>、<code>controllers.js</code>等。</p>
-
-<h3 id="2-核心文件及代码分析">2.核心文件及代码分析</h3>
-
-<p><strong>2.1 index.html</strong><br />
+<h3 id="2核心文件及代码分析">2.核心文件及代码分析</h3>
+<p><strong>2.1 index.html</strong> <br>
 控制应用的主界面布局，界面顶部显示设备连接的操作，中间左侧显示设备列表和设备信息，中间右侧显示packages、processes、memory以及disk等信息，界面底部显示chromeadb的github地址。</p>
-
-<pre><code class="language-html">&lt;div&gt;
-    &lt;ul class=&quot;nav nav-pills nav-justified&quot; id=&quot;mytab&quot;&gt;
-        &lt;li&gt;
-            &lt;a href=&quot;#packages&quot; data-toggle=&quot;tab&quot;
-               ng-click=&quot;loadPackages(devInfo.serial);&quot;&gt;Packages&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;a href=&quot;#controller&quot; data-toggle=&quot;tab&quot;
-               ng-click=&quot;initMousePad(devInfo.serial);&quot;&gt;Controller&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;a href=&quot;#processes&quot; data-toggle=&quot;tab&quot;
-               ng-click=&quot;loadProcessList(devInfo.serial);&quot;&gt;Process List&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;a href=&quot;#meminfo&quot; data-toggle=&quot;tab&quot;
-               ng-click=&quot;loadMemInfo(devInfo.serial);&quot;&gt;App Memory Info&lt;/a&gt;
-        &lt;/li&gt;
-        &lt;li&gt;
-            &lt;a href=&quot;#diskspace&quot; data-toggle=&quot;tab&quot;
-               ng-click=&quot;loadDiskSpace(devInfo.serial);&quot;&gt;Disk Space&lt;/a&gt;
-        &lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/div&gt;
-</code></pre>
-
-<p><strong>2.2 utils.js</strong><br />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">div</span>&gt;
+    &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav nav-pills nav-justified&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mytab&#34;</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#packages&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>
+               <span style="color:#a6e22e">ng-click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loadPackages(devInfo.serial);&#34;</span>&gt;Packages&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#controller&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>
+               <span style="color:#a6e22e">ng-click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;initMousePad(devInfo.serial);&#34;</span>&gt;Controller&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#processes&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>
+               <span style="color:#a6e22e">ng-click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loadProcessList(devInfo.serial);&#34;</span>&gt;Process List&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#meminfo&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>
+               <span style="color:#a6e22e">ng-click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loadMemInfo(devInfo.serial);&#34;</span>&gt;App Memory Info&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">li</span>&gt;
+        &lt;<span style="color:#f92672">li</span>&gt;
+            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#diskspace&#34;</span> <span style="color:#a6e22e">data-toggle</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;tab&#34;</span>
+               <span style="color:#a6e22e">ng-click</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;loadDiskSpace(devInfo.serial);&#34;</span>&gt;Disk Space&lt;/<span style="color:#f92672">a</span>&gt;
+        &lt;/<span style="color:#f92672">li</span>&gt;
+    &lt;/<span style="color:#f92672">ul</span>&gt;
+&lt;/<span style="color:#f92672">div</span>&gt;
+</code></pre></div><p><strong>2.2 utils.js</strong><br>
 定义一些通用的方法以供其他地方调用，例如services.js中就利用了这些方法来转换数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/* exported arrayBufferToString */</span>
+<span style="color:#75715e">/* exported arrayBufferToBinaryString */</span>
+<span style="color:#75715e">/* exported stringToArrayBuffer */</span>
+<span style="color:#75715e">/* exported newZeroArray */</span>
+<span style="color:#75715e">/* exported getChartId */</span>
+<span style="color:#75715e">/* exported integerToArrayBuffer */</span>
 
-<pre><code class="language-js">/* exported arrayBufferToString */
-/* exported arrayBufferToBinaryString */
-/* exported stringToArrayBuffer */
-/* exported newZeroArray */
-/* exported getChartId */
-/* exported integerToArrayBuffer */
-
-function arrayBufferToString(buf, callback) {
-  var b = new Blob([new Uint8Array(buf)]);
-  var f = new FileReader();
-  f.onload = function (e) {
-    callback(e.target.result);
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">arrayBufferToString</span>(<span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">callback</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Blob</span>([<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Uint8Array</span>(<span style="color:#a6e22e">buf</span>)]);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+  <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">e</span>) {
+    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">result</span>);
   };
-  f.readAsText(b);
+  <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">readAsText</span>(<span style="color:#a6e22e">b</span>);
 }
 
-function arrayBufferToBinaryString(buf, callback) {
-  var b = new Blob([new Uint8Array(buf)]);
-  var f = new FileReader();
-  f.onload = function (e) {
-    callback(e.target.result);
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">arrayBufferToBinaryString</span>(<span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">callback</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Blob</span>([<span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Uint8Array</span>(<span style="color:#a6e22e">buf</span>)]);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">f</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">FileReader</span>();
+  <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">onload</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">e</span>) {
+    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">e</span>.<span style="color:#a6e22e">target</span>.<span style="color:#a6e22e">result</span>);
   };
-  f.readAsBinaryString(b);
+  <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">readAsBinaryString</span>(<span style="color:#a6e22e">b</span>);
 }
-</code></pre>
-
-<p><strong>2.3 background.js</strong><br />
+</code></pre></div><p><strong>2.3 background.js</strong><br>
 应用启动时的初始化，应用是从这里开始的。</p>
-
-<pre><code class="language-js">chrome.app.runtime.onLaunched.addListener(function () {
-  chrome.app.window.create('../index.html', {
-    minWidth: 800,
-    minHeight: 600,
-    width: 1280,
-    height: 800
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">app</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">onLaunched</span>.<span style="color:#a6e22e">addListener</span>(<span style="color:#66d9ef">function</span> () {
+  <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">app</span>.window.<span style="color:#a6e22e">create</span>(<span style="color:#e6db74">&#39;../index.html&#39;</span>, {
+    <span style="color:#a6e22e">minWidth</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">800</span>,
+    <span style="color:#a6e22e">minHeight</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">600</span>,
+    <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1280</span>,
+    <span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">800</span>
   });
 });
-</code></pre>
-
-<p><strong>2.4 chromeadb.js</strong><br />
+</code></pre></div><p><strong>2.4 chromeadb.js</strong><br>
 控制转发中心，点击不同的tab显示不同的html模板文件所在的界面，这里创建了chromeADB这个module。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">adb</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">angular</span>.<span style="color:#a6e22e">module</span>(<span style="color:#e6db74">&#39;chromeADB&#39;</span>, [<span style="color:#e6db74">&#39;ngRoute&#39;</span>, <span style="color:#e6db74">&#39;ngSanitize&#39;</span>]);
 
-<pre><code class="language-js">var adb = angular.module('chromeADB', ['ngRoute', 'ngSanitize']);
-
-adb.config(function ($routeProvider) {//配置url路由控制转发
-  $routeProvider
-    .when('/', {
-      redirectTo: '/packages'
+<span style="color:#a6e22e">adb</span>.<span style="color:#a6e22e">config</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">$routeProvider</span>) {<span style="color:#75715e">//配置url路由控制转发
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">$routeProvider</span>
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/&#39;</span>, {
+      <span style="color:#a6e22e">redirectTo</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/packages&#39;</span>
     })
-    .when('/packages', {
-      templateUrl: chrome.runtime.getURL('../views/packages.html')
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/packages&#39;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>(<span style="color:#e6db74">&#39;../views/packages.html&#39;</span>)
     })
-    .when('/controller', {
-      templateUrl: chrome.runtime.getURL('../views/controller.html')
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/controller&#39;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>(<span style="color:#e6db74">&#39;../views/controller.html&#39;</span>)
     })
-    .when('/processes', {
-      templateUrl: chrome.runtime.getURL('../views/processes.html')
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/processes&#39;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>(<span style="color:#e6db74">&#39;../views/processes.html&#39;</span>)
     })
-    .when('/meminfo', {
-      templateUrl: chrome.runtime.getURL('../views/meminfo.html')
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/meminfo&#39;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>(<span style="color:#e6db74">&#39;../views/meminfo.html&#39;</span>)
     })
-    .when('/diskspace', {
-      templateUrl: chrome.runtime.getURL('../views/diskspace.html')
+    .<span style="color:#a6e22e">when</span>(<span style="color:#e6db74">&#39;/diskspace&#39;</span>, {
+      <span style="color:#a6e22e">templateUrl</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>(<span style="color:#e6db74">&#39;../views/diskspace.html&#39;</span>)
     });
 });
-</code></pre>
-
-<p><strong>2.5  chrome.js</strong><br />
+</code></pre></div><p><strong>2.5  chrome.js</strong><br>
 主要有三个初始化方法，这里会初始化chrome.socket，后面的SocketService会用到。这里还初始化了初始化ChromeRuntime，这个在上面的路由转发中用到了。</p>
-
-<pre><code class="language-js">//initCmdToResp(); //三个初始化方法
-//initChromeSocket(chrome);
-//initChromeRuntime(chrome);
-
-function initCmdToResp() {
-  cmdToResp = {
-    '000ehost:devices-l': ['OKAY', '005B',
-        '048233d1d151e3cc device usb:1A120000 product:aosp_mako ' +
-        'model:AOSP_on_Mako device:mako'],
-    '001fhost:transport:048233d1d151e3cc': ['OKAY'],
-    '0016shell:pm list packages': ['OKAY',
-      'package:com.android.settings\npackage:com.android.musicfx'],
-    '0015shell:dumpsys meminfo': ['OKAY', 'OKAY',
-        'Applications Memory Usage (kB):\n' +
-        'Uptime: 95848872 Realtime: 211090246\n\nTotal PSS by process:\n' +
-        '71959 kB: com.google.android.googlequicksearchbox (pid 892 / activities)\n' +
-        '71580 kB: com.android.chrome (pid 7876 / activities)']
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">//initCmdToResp(); //三个初始化方法
+</span><span style="color:#75715e">//initChromeSocket(chrome);
+</span><span style="color:#75715e">//initChromeRuntime(chrome);
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initCmdToResp</span>() {
+  <span style="color:#a6e22e">cmdToResp</span> <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;000ehost:devices-l&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;OKAY&#39;</span>, <span style="color:#e6db74">&#39;005B&#39;</span>,
+        <span style="color:#e6db74">&#39;048233d1d151e3cc device usb:1A120000 product:aosp_mako &#39;</span> <span style="color:#f92672">+</span>
+        <span style="color:#e6db74">&#39;model:AOSP_on_Mako device:mako&#39;</span>],
+    <span style="color:#e6db74">&#39;001fhost:transport:048233d1d151e3cc&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;OKAY&#39;</span>],
+    <span style="color:#e6db74">&#39;0016shell:pm list packages&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;OKAY&#39;</span>,
+      <span style="color:#e6db74">&#39;package:com.android.settings\npackage:com.android.musicfx&#39;</span>],
+    <span style="color:#e6db74">&#39;0015shell:dumpsys meminfo&#39;</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;OKAY&#39;</span>, <span style="color:#e6db74">&#39;OKAY&#39;</span>,
+        <span style="color:#e6db74">&#39;Applications Memory Usage (kB):\n&#39;</span> <span style="color:#f92672">+</span>
+        <span style="color:#e6db74">&#39;Uptime: 95848872 Realtime: 211090246\n\nTotal PSS by process:\n&#39;</span> <span style="color:#f92672">+</span>
+        <span style="color:#e6db74">&#39;71959 kB: com.google.android.googlequicksearchbox (pid 892 / activities)\n&#39;</span> <span style="color:#f92672">+</span>
+        <span style="color:#e6db74">&#39;71580 kB: com.android.chrome (pid 7876 / activities)&#39;</span>]
   };
 }
 
-function initChromeSocket(chrome) {//初始化chrome.socket
-  if (chrome.socket) {
-    return;
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initChromeSocket</span>(<span style="color:#a6e22e">chrome</span>) {<span style="color:#75715e">//初始化chrome.socket
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">socket</span>) {
+    <span style="color:#66d9ef">return</span>;
   }
 
-  chrome.socket = {
-    create: function (type, options, callback) {
-      var createInfo = {
-        'socketId': 10
+  <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">socket</span> <span style="color:#f92672">=</span> {
+    <span style="color:#a6e22e">create</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">type</span>, <span style="color:#a6e22e">options</span>, <span style="color:#a6e22e">callback</span>) {
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">createInfo</span> <span style="color:#f92672">=</span> {
+        <span style="color:#e6db74">&#39;socketId&#39;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span>
       };
 
-      window.setTimeout(function () {
-        callback(createInfo);
-      }, timeoutDelay);
+      window.<span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">createInfo</span>);
+      }, <span style="color:#a6e22e">timeoutDelay</span>);
     },
 
-    destroy: function (socketId) {
+    <span style="color:#a6e22e">destroy</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">socketId</span>) {
     },
 
-    connect: function (socketId, hostname, port, callback) {
-      var result = 1;
-      window.setTimeout(function () {
-        callback(result);
-      }, timeoutDelay);
+    <span style="color:#a6e22e">connect</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">socketId</span>, <span style="color:#a6e22e">hostname</span>, <span style="color:#a6e22e">port</span>, <span style="color:#a6e22e">callback</span>) {
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+      window.<span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">result</span>);
+      }, <span style="color:#a6e22e">timeoutDelay</span>);
     },
 
-    read: function (socketId, bufferSize, callback) {
-      window.setTimeout(function () {
-        var resp = cmdToResp[curCmd];
-        if (resp) {
-          resp = cmdToResp[curCmd].splice(0, 1)[0];
+    <span style="color:#a6e22e">read</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">socketId</span>, <span style="color:#a6e22e">bufferSize</span>, <span style="color:#a6e22e">callback</span>) {
+      window.<span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+        <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cmdToResp</span>[<span style="color:#a6e22e">curCmd</span>];
+        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">resp</span>) {
+          <span style="color:#a6e22e">resp</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cmdToResp</span>[<span style="color:#a6e22e">curCmd</span>].<span style="color:#a6e22e">splice</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">0</span>];
         }
-        if (typeof resp === 'undefined') {
-          initCmdToResp();
+        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;undefined&#39;</span>) {
+          <span style="color:#a6e22e">initCmdToResp</span>();
         }
-        stringToArrayBuffer(resp, function (bytes) {
-          var readInfo = {
-            'resultCode': resp ? 1 : 0,
-            'data': bytes
+        <span style="color:#a6e22e">stringToArrayBuffer</span>(<span style="color:#a6e22e">resp</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">bytes</span>) {
+          <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">readInfo</span> <span style="color:#f92672">=</span> {
+            <span style="color:#e6db74">&#39;resultCode&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">resp</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>,
+            <span style="color:#e6db74">&#39;data&#39;</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">bytes</span>
           };
-          callback(readInfo);
+          <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">readInfo</span>);
         });
-      }, timeoutDelay);
+      }, <span style="color:#a6e22e">timeoutDelay</span>);
     },
 
-    write: function (socketId, data, callback) {
-      curCmd = data;
-      var writeInfo = {
-        bytesWritten: data.length
+    <span style="color:#a6e22e">write</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">socketId</span>, <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">callback</span>) {
+      <span style="color:#a6e22e">curCmd</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>;
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">writeInfo</span> <span style="color:#f92672">=</span> {
+        <span style="color:#a6e22e">bytesWritten</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">length</span>
       };
-      window.setTimeout(function () {
-        callback(writeInfo);
-      }, timeoutDelay);
+      window.<span style="color:#a6e22e">setTimeout</span>(<span style="color:#66d9ef">function</span> () {
+        <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">writeInfo</span>);
+      }, <span style="color:#a6e22e">timeoutDelay</span>);
     }
   };
 
-  window.arrayBufferToString = function (buf, callback) {
-    callback(buf);
+  window.<span style="color:#a6e22e">arrayBufferToString</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">buf</span>, <span style="color:#a6e22e">callback</span>) {
+    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">buf</span>);
   };
 
-  window.stringToArrayBuffer = function (str, callback) {
-    callback(str);
+  window.<span style="color:#a6e22e">stringToArrayBuffer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">str</span>, <span style="color:#a6e22e">callback</span>) {
+    <span style="color:#a6e22e">callback</span>(<span style="color:#a6e22e">str</span>);
   };
 }
 
-function initChromeRuntime(chrome) {//初始化ChromeRuntime
-  if (!chrome.runtime) {
-    return;
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">initChromeRuntime</span>(<span style="color:#a6e22e">chrome</span>) {<span style="color:#75715e">//初始化ChromeRuntime
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>) {
+    <span style="color:#66d9ef">return</span>;
   }
 
-  if (!chrome.runtime.getURL) {
-    chrome.runtime.getURL = function (url) {
-      return url;
+  <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span>) {
+    <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">getURL</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">url</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">url</span>;
     };
   }
 }
-</code></pre>
-
-<p><strong>2.6 parser.js</strong><br />
+</code></pre></div><p><strong>2.6 parser.js</strong><br>
 主要是利用正则表达式来提供一些解析adb命令返回结果的方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">/* exported parseProcessList */</span>
+<span style="color:#75715e">/* exported parseDeviceInfoList */</span>
+<span style="color:#75715e">/* exported parsePackageList */</span>
+<span style="color:#75715e">/* exported makeCommand */</span>
+<span style="color:#75715e">/* exported parseMemInfo */</span>
+<span style="color:#75715e">/* exported parsePackageMemInfo */</span>
+<span style="color:#75715e">/* exported parseDiskSpace */</span>
+<span style="color:#75715e">/* exported parseResolution */</span>
 
-<pre><code class="language-js">/* exported parseProcessList */
-/* exported parseDeviceInfoList */
-/* exported parsePackageList */
-/* exported makeCommand */
-/* exported parseMemInfo */
-/* exported parsePackageMemInfo */
-/* exported parseDiskSpace */
-/* exported parseResolution */
+<span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Parses the result of $scope.loadPackages().
+</span><span style="color:#75715e"> *
+</span><span style="color:#75715e"> * @param data
+</span><span style="color:#75715e"> * @returns {Array}
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parsePackageList</span>(<span style="color:#a6e22e">data</span>) {<span style="color:#75715e">//解析包列表
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
 
-/**
- * Parses the result of $scope.loadPackages().
- *
- * @param data
- * @returns {Array}
- */
-function parsePackageList(data) {//解析包列表
-  var lines = data.trim().split('\n');
-
-  for (var i = 0; i &lt; lines.length; i++) {
-    lines[i] = lines[i].replace(/^package:/, '').trim();
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/^package:/</span>, <span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">trim</span>();
   }
 
-  return lines;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">lines</span>;
 }
-</code></pre>
-
-<p><strong>2.7 services.js</strong><br />
+</code></pre></div><p><strong>2.7 services.js</strong><br>
 利用前面初始化好的chrome.socket来建立一个socketService，这个service负责和指定的host和port进行连接并提供数据读写服务的功能，这里的host和port是指adb-server的host和port，所以一般拿手机连接PC的话，这里host和port通常分别就是127.0.0.1和5037。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">connect</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">host</span>, <span style="color:#a6e22e">port</span>) {<span style="color:#75715e">//建立连接
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">defer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$q</span>.<span style="color:#a6e22e">defer</span>();
 
-<pre><code class="language-js">  function connect(createInfo, host, port) {//建立连接
-    var defer = $q.defer();
-
-    if (typeof port !== 'number') {
-      port = parseInt(port, 10);
+    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">port</span> <span style="color:#f92672">!==</span> <span style="color:#e6db74">&#39;number&#39;</span>) {
+      <span style="color:#a6e22e">port</span> <span style="color:#f92672">=</span> parseInt(<span style="color:#a6e22e">port</span>, <span style="color:#ae81ff">10</span>);
     }
 
-    chrome.socket.connect(createInfo.socketId, host, port, function (result) {
-      if (result &gt;= 0) {
-        $rootScope.$apply(function () {
-          defer.resolve(createInfo);
+    <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">connect</span>(<span style="color:#a6e22e">createInfo</span>.<span style="color:#a6e22e">socketId</span>, <span style="color:#a6e22e">host</span>, <span style="color:#a6e22e">port</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">result</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#a6e22e">$rootScope</span>.<span style="color:#a6e22e">$apply</span>(<span style="color:#66d9ef">function</span> () {
+          <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">createInfo</span>);
         });
-      } else {
-        chrome.socket.destroy(createInfo.socketId);
-        defer.reject(createInfo);
+      } <span style="color:#66d9ef">else</span> {
+        <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">destroy</span>(<span style="color:#a6e22e">createInfo</span>.<span style="color:#a6e22e">socketId</span>);
+        <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">createInfo</span>);
       }
     });
 
-    return defer.promise;
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">promise</span>;
   }
 
-  function write(createInfo, str) {//写
-    var defer = $q.defer();
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">str</span>) {<span style="color:#75715e">//写
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">defer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$q</span>.<span style="color:#a6e22e">defer</span>();
 
-    stringToArrayBuffer(str, function (bytes) {
-      writeBytes(createInfo, bytes)
-        .then(function (createInfo) {
-          defer.resolve(createInfo);
+    <span style="color:#a6e22e">stringToArrayBuffer</span>(<span style="color:#a6e22e">str</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">bytes</span>) {
+      <span style="color:#a6e22e">writeBytes</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">bytes</span>)
+        .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">createInfo</span>) {
+          <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">createInfo</span>);
         });
     });
 
-    return defer.promise;
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">promise</span>;
   }
 
-  function read(createInfo, size) {//读
-    var defer = $q.defer();
+  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">read</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">size</span>) {<span style="color:#75715e">//读
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">defer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">$q</span>.<span style="color:#a6e22e">defer</span>();
 
-    chrome.socket.read(createInfo.socketId, size, function (readInfo) {
-      if (readInfo.resultCode &gt; 0) {
-        // console.log(readInfo);
-        arrayBufferToString(readInfo.data, function (str) {
-          $rootScope.$apply(function () {
-            var param = {
-              createInfo: createInfo,
-              data: str
+    <span style="color:#a6e22e">chrome</span>.<span style="color:#a6e22e">socket</span>.<span style="color:#a6e22e">read</span>(<span style="color:#a6e22e">createInfo</span>.<span style="color:#a6e22e">socketId</span>, <span style="color:#a6e22e">size</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">readInfo</span>) {
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">readInfo</span>.<span style="color:#a6e22e">resultCode</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#75715e">// console.log(readInfo);
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">arrayBufferToString</span>(<span style="color:#a6e22e">readInfo</span>.<span style="color:#a6e22e">data</span>, <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">str</span>) {
+          <span style="color:#a6e22e">$rootScope</span>.<span style="color:#a6e22e">$apply</span>(<span style="color:#66d9ef">function</span> () {
+            <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">param</span> <span style="color:#f92672">=</span> {
+              <span style="color:#a6e22e">createInfo</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">createInfo</span>,
+              <span style="color:#a6e22e">data</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">str</span>
             };
-            defer.resolve(param);
+            <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">param</span>);
           });
         });
-      } else {
-        defer.reject(readInfo);
+      } <span style="color:#66d9ef">else</span> {
+        <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">readInfo</span>);
       }
     });
 
-    return defer.promise;
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">defer</span>.<span style="color:#a6e22e">promise</span>;
   }
-</code></pre>
-
-<p><strong>2.8 controllers.js</strong><br />
+</code></pre></div><p><strong>2.8 controllers.js</strong><br>
 核心控制脚本</p>
-
-<p>2.8.1 loadDevices<br />
+<p>2.8.1 loadDevices<br>
 命令：adb devices -l</p>
-
 <pre><code>➜  ~ adb devices -l
 List of devices attached
 8f9d6dd9   device usb:337641472X product:OnePlus3 model:ONEPLUS_A3000 device:OnePlus3
-</code></pre>
-
-<p>parseDeviceInfoList方法的作用就是从输出结果中解析出设备的序列号(serial)、usb、product、model、device、state等信息</p>
-
-<p>2.8.2 loadPackages<br />
+</code></pre><p>parseDeviceInfoList方法的作用就是从输出结果中解析出设备的序列号(serial)、usb、product、model、device、state等信息</p>
+<p>2.8.2 loadPackages<br>
 命令：adb shell pm list packages</p>
-
 <pre><code>➜  ~ adb shell pm list packages
 package:com.oneplus.calculator
 package:net.oneplus.weather
@@ -513,60 +457,49 @@ package:com.android.providers.telephony
 package:com.android.engineeringmode
 package:com.android.providers.calendar
 package:com.oneplus.opbugreport
-</code></pre>
+</code></pre><p>parsePackageList方法的作用就是从输出结果中解析出包的列表</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parsePackageList</span>(<span style="color:#a6e22e">data</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
 
-<p>parsePackageList方法的作用就是从输出结果中解析出包的列表</p>
-
-<pre><code class="language-js">function parsePackageList(data) {
-  var lines = data.trim().split('\n');
-
-  for (var i = 0; i &lt; lines.length; i++) {
-    lines[i] = lines[i].replace(/^package:/, '').trim();
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">replace</span>(<span style="color:#e6db74">/^package:/</span>, <span style="color:#e6db74">&#39;&#39;</span>).<span style="color:#a6e22e">trim</span>();
   }
 
-  return lines;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">lines</span>;
 }
-</code></pre>
-
-<p>2.8.3 其他与package相关的方法<br />
-installPackage：adb shell pm install -r <package><br />
-uninstallPackage：adb shell pm uninstall <package><br />
-stopPackage：adb shell am force-stop <package><br />
-clearData：adb shell pm clear <package><br />
-removeApkFile：adb shell rm -rf <packagePath></p>
-
+</code></pre></div><p>2.8.3 其他与package相关的方法<br>
+installPackage：adb shell pm install -r <!-- raw HTML omitted --><br>
+uninstallPackage：adb shell pm uninstall <!-- raw HTML omitted --><br>
+stopPackage：adb shell am force-stop <!-- raw HTML omitted --><br>
+clearData：adb shell pm clear <!-- raw HTML omitted --><br>
+removeApkFile：adb shell rm -rf <!-- raw HTML omitted --></p>
 <p>从源码来看，chromeadb实现应用安装的方法是先将apk文件保存到手机的<code>/data/local/tmp/</code>目录，然后执行<code>adb shell pm install -r &lt;packagePath&gt;</code>方法来安装应用的(这个操作步骤和Android Studio中安装apk的逻辑是一样的)。</p>
-
-<p>2.8.4 loadProcessList<br />
-命令：adb shell ps<br />
+<p>2.8.4 loadProcessList<br>
+命令：adb shell ps<br>
 parseProcessList方法用于从输出结果中解析出进程列表，Android 4.4版本之前和之后的输出结果的格式略有差异，所以需要两个不同的正则表达式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parseProcessList</span>(<span style="color:#a6e22e">data</span>) {
+  <span style="color:#75715e">// parse oldstyle ps result
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ore</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RegExp(<span style="color:#e6db74">/^(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([a-fA-F0-9]+)\s+([a-fA-F0-9]+ \w)\s+(.+)/m</span>);
+  <span style="color:#75715e">// parse 4.4 or above ps result
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">nre</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RegExp(<span style="color:#e6db74">/^(\d+)\s+(\d+)\s+(\d+m?)\s+(\w+\s*&lt;?)\s+(.+)/m</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">line</span>;
 
-<pre><code class="language-js">function parseProcessList(data) {
-  // parse oldstyle ps result
-  var ore = new RegExp(/^(\w+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+([a-fA-F0-9]+)\s+([a-fA-F0-9]+ \w)\s+(.+)/m);
-  // parse 4.4 or above ps result
-  var nre = new RegExp(/^(\d+)\s+(\d+)\s+(\d+m?)\s+(\w+\s*&lt;?)\s+(.+)/m);
-  var lines = data.trim().split('\n');
-  var line;
-
-  for (var i = 0; i &lt; lines.length; i++) {
-    line = lines[i].trim();
-    if (0 === i) {
-      line = line.trim().split(/\s+/);
-    } else {
-      var parsed = ore.exec(line);
-      line = !!parsed ? parsed : nre.exec(line);
-      line.splice(0, 1);
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">trim</span>();
+    <span style="color:#66d9ef">if</span> (<span style="color:#ae81ff">0</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">i</span>) {
+      <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\s+/</span>);
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">parsed</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ore</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">line</span>);
+      <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!!</span><span style="color:#a6e22e">parsed</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">parsed</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">nre</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">line</span>);
+      <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">splice</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>);
     }
-    lines[i] = line;
+    <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>;
   }
-  return lines;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">lines</span>;
 }
-</code></pre>
-
-<p>2.8.5 loadMemInfo<br />
+</code></pre></div><p>2.8.5 loadMemInfo<br>
 命令：adb shell dumpsys meminfo</p>
-
 <pre><code>➜  ~ adb shell dumpsys meminfo
 Applications Memory Usage (kB):
 Uptime: 46425131 Realtime: 178910170
@@ -578,53 +511,47 @@ Total PSS by process:
     99988 kB: com.android.systemui (pid 1803 / activities)
     94085 kB: org.tensorflow.demo (pid 5773 / activities)
     46489 kB: com.oneplus.card (pid 2572)
-</code></pre>
+</code></pre><p>parseMemInfo方法用来解析进程的内存占用情况，主要是先找到<code>Total PSS by process</code>这个标识，然后将后面的pid、processName、pss数据解析出来即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parseMemInfo</span>(<span style="color:#a6e22e">data</span>) {
+  <span style="color:#75715e">// \1: memory (kb)
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// \2: process name
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// \3: pid
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">re</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RegExp(<span style="color:#e6db74">/^(\d+)\s+kB:\s+(\S+)\s\(pid\s+(\d+).*/</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">line</span>;
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">pss</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> [];
 
-<p>parseMemInfo方法用来解析进程的内存占用情况，主要是先找到<code>Total PSS by process</code>这个标识，然后将后面的pid、processName、pss数据解析出来即可。</p>
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">trim</span>();
 
-<pre><code class="language-js">function parseMemInfo(data) {
-  // \1: memory (kb)
-  // \2: process name
-  // \3: pid
-  var re = new RegExp(/^(\d+)\s+kB:\s+(\S+)\s\(pid\s+(\d+).*/);
-  var lines = data.trim().split('\n');
-  var line;
-  var pss = 0;
-  var ret = [];
-
-  for (var i = 0; i &lt; lines.length; i++) {
-    line = lines[i].trim();
-
-    if (line.length === 0) {
-      continue;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+      <span style="color:#66d9ef">continue</span>;
     }
 
-    if (line.indexOf('Total PSS by process') &gt;= 0) {
-      pss++;
-      continue;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;Total PSS by process&#39;</span>) <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+      <span style="color:#a6e22e">pss</span><span style="color:#f92672">++</span>;
+      <span style="color:#66d9ef">continue</span>;
     }
 
-    if (pss === 1) {
-      line = re.exec(line);
-      if (line) {
-        ret.push({
-          process: line[2],
-          pid: line[3],
-          kb: line[1] + ' KB',
-          mb: parseInt(parseFloat(line[1]) / 1024 + 0.5) + ' MB'
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">pss</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">1</span>) {
+      <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">re</span>.<span style="color:#a6e22e">exec</span>(<span style="color:#a6e22e">line</span>);
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">line</span>) {
+        <span style="color:#a6e22e">ret</span>.<span style="color:#a6e22e">push</span>({
+          <span style="color:#a6e22e">process</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">line</span>[<span style="color:#ae81ff">2</span>],
+          <span style="color:#a6e22e">pid</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">line</span>[<span style="color:#ae81ff">3</span>],
+          <span style="color:#a6e22e">kb</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">line</span>[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; KB&#39;</span>,
+          <span style="color:#a6e22e">mb</span><span style="color:#f92672">:</span> parseInt(parseFloat(<span style="color:#a6e22e">line</span>[<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; MB&#39;</span>
         });
-      } else {
-        break;
+      } <span style="color:#66d9ef">else</span> {
+        <span style="color:#66d9ef">break</span>;
       }
     }
   }
-  return ret;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ret</span>;
 }
-</code></pre>
-
-<p>命令：adb shell dumpsys meminfo [pid/package]<br />
+</code></pre></div><p>命令：adb shell dumpsys meminfo [pid/package]<br>
 带pid/package参数的dumpsys meminfo可以得到该进程的详细内存占用信息</p>
-
 <pre><code>➜  ~ adb shell dumpsys meminfo 2240
 Applications Memory Usage (kB):
 Uptime: 47043593 Realtime: 179528632
@@ -638,62 +565,54 @@ Uptime: 47043593 Realtime: 179528632
  Dalvik Other      801      800        0        0                           
         Stack      440      440        0        0                           
 ......
-</code></pre>
+</code></pre><p>这个数据输出结果由parsePackageMemInfo这个方法来解析，它会去解析Native Heap和Dalvik Heap中<code>Size</code>、<code>Alloc</code>和<code>Free</code>这几列的信息，chromeadb工具会这些数据来绘制曲线图！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parsePackageMemInfo</span>(<span style="color:#a6e22e">data</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">tempLine</span>, <span style="color:#a6e22e">length</span>;
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">ret</span> <span style="color:#f92672">=</span> [];
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cnt</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">found</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">idxOfSize</span>, <span style="color:#a6e22e">idxOfAlloc</span>, <span style="color:#a6e22e">idxOfFree</span>;
 
-<p>这个数据输出结果由parsePackageMemInfo这个方法来解析，它会去解析Native Heap和Dalvik Heap中<code>Size</code>、<code>Alloc</code>和<code>Free</code>这几列的信息，chromeadb工具会这些数据来绘制曲线图！</p>
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">trim</span>();
+    <span style="color:#a6e22e">tempLine</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\s+/</span>);
+    <span style="color:#a6e22e">length</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tempLine</span>.<span style="color:#a6e22e">length</span>;
 
-<pre><code class="language-js">function parsePackageMemInfo(data) {
-  var lines = data.trim().split('\n');
-  var line, tempLine, length;
-  var ret = [];
-  var cnt = 0;
-  var found = false;
-  var idxOfSize, idxOfAlloc, idxOfFree;
+    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">found</span>) {
+      <span style="color:#a6e22e">idxOfSize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tempLine</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;Size&#39;</span>);
+      <span style="color:#a6e22e">idxOfAlloc</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tempLine</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;Alloc&#39;</span>);
+      <span style="color:#a6e22e">idxOfFree</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tempLine</span>.<span style="color:#a6e22e">indexOf</span>(<span style="color:#e6db74">&#39;Free&#39;</span>);
 
-  for (var i = 0; i &lt; lines.length; i++) {
-    line = lines[i].trim();
-    tempLine = line.split(/\s+/);
-    length = tempLine.length;
-
-    if (!found) {
-      idxOfSize = tempLine.indexOf('Size');
-      idxOfAlloc = tempLine.indexOf('Alloc');
-      idxOfFree = tempLine.indexOf('Free');
-
-      if (idxOfSize &gt;= 0 &amp;&amp; idxOfAlloc &gt;= 0 &amp;&amp; idxOfFree &gt;= 0) {
-        idxOfSize = length - idxOfSize;
-        idxOfAlloc = length - idxOfAlloc;
-        idxOfFree = length - idxOfFree;
-        found = true;
-        continue;
+      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">idxOfSize</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">idxOfAlloc</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">idxOfFree</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+        <span style="color:#a6e22e">idxOfSize</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfSize</span>;
+        <span style="color:#a6e22e">idxOfAlloc</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfAlloc</span>;
+        <span style="color:#a6e22e">idxOfFree</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfFree</span>;
+        <span style="color:#a6e22e">found</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+        <span style="color:#66d9ef">continue</span>;
       }
     }
 
-    if (found &amp;&amp; (tempLine[0] === 'Native' || tempLine[0] === 'Dalvik')) {
-      ret.push({
-        area: tempLine[0],
-        size: tempLine[length - idxOfSize],
-        alloc: tempLine[length - idxOfAlloc],
-        free: tempLine[length - idxOfFree]
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">found</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">tempLine</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Native&#39;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">tempLine</span>[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;Dalvik&#39;</span>)) {
+      <span style="color:#a6e22e">ret</span>.<span style="color:#a6e22e">push</span>({
+        <span style="color:#a6e22e">area</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">tempLine</span>[<span style="color:#ae81ff">0</span>],
+        <span style="color:#a6e22e">size</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">tempLine</span>[<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfSize</span>],
+        <span style="color:#a6e22e">alloc</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">tempLine</span>[<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfAlloc</span>],
+        <span style="color:#a6e22e">free</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">tempLine</span>[<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#a6e22e">idxOfFree</span>]
       });
-      cnt++;
+      <span style="color:#a6e22e">cnt</span><span style="color:#f92672">++</span>;
     }
 
-    if (cnt &gt;= 2) {
-      break;
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">cnt</span> <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) {
+      <span style="color:#66d9ef">break</span>;
     }
   }
-  return ret;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ret</span>;
 }
-</code></pre>
-
-<p>曲线图示例：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/chromeadb_chart.png" alt="img" /></p>
-
-<p>2.8.6 loadDiskSpace<br />
+</code></pre></div><p>曲线图示例：</p>
+<p><img src="https://hujiaweibujidao.github.io/images/chromeadb_chart.png" alt="img"></p>
+<p>2.8.6 loadDiskSpace<br>
 命令：adb shell df</p>
-
 <pre><code>➜  ~ adb shell df
 Filesystem               Size     Used     Free   Blksize
 /                        2.7G     4.7M     2.7G   4096
@@ -702,345 +621,318 @@ Filesystem               Size     Used     Free   Blksize
 /mnt                     2.8G     0.0K     2.8G   4096
 /system                  2.8G     1.9G   906.7M   4096
 ...
-</code></pre>
+</code></pre><p>解析输出结果的parseDiskSpace方法</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">parseDiskSpace</span>(<span style="color:#a6e22e">data</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">lines</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#39;\n&#39;</span>);
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">line</span>, <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">body</span> <span style="color:#f92672">=</span> [];
 
-<p>解析输出结果的parseDiskSpace方法</p>
-
-<pre><code class="language-js">function parseDiskSpace(data) {
-  var lines = data.trim().split('\n');
-  var line, head, body = [];
-
-  for (var i = 0; i &lt; lines.length; i++) {
-    line = lines[i].trim().split(/\s+/);
-    if (i === 0) {
-      head = line;
-    } else {
-      body.push(line);
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lines</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#a6e22e">line</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lines</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">trim</span>().<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\s+/</span>);
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">i</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+      <span style="color:#a6e22e">head</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">line</span>;
+    } <span style="color:#66d9ef">else</span> {
+      <span style="color:#a6e22e">body</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">line</span>);
     }
   }
-  return {head: head, body: body};
+  <span style="color:#66d9ef">return</span> {<span style="color:#a6e22e">head</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">head</span>, <span style="color:#a6e22e">body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">body</span>};
 }
-</code></pre>
-
-<p>2.8.7 controller面板下的操作<br />
-sendText：adb shell input text <text><br />
-onClickButton：adb shell input keyevent <keyCode></p>
-
+</code></pre></div><p>2.8.7 controller面板下的操作<br>
+sendText：adb shell input text <!-- raw HTML omitted --><br>
+onClickButton：adb shell input keyevent <!-- raw HTML omitted --></p>
 <p>chromeadb在controller面板中还有一个MousePad功能，但是这个功能需要先在手机上安装chromeadb_for_android应用。<a href="https://github.com/importre/chromeadb_for_android">ChromeADB for Android这个应用的源码地址</a>，这个项目创建于2年前，可能不太好编译，建议直接创建新项目然后拷贝源码过来进行编译。</p>
-
 <p>应用安装完成之后，刷新Controller面板可以发现MousePad中出现了黑色的面板，在面板中移动鼠标的话可以同时看到在手机界面上对应的移动位置，如下图所示 （应用需要悬浮窗权限，所以需要给该应用开启该权限）</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/chromeadb_mousepad_controller.png" alt="img" /></p>
-
-<h3 id="3-chromeadb-for-android应用源码分析">3.chromeadb_for_android应用源码分析</h3>
-
+<p><img src="https://hujiaweibujidao.github.io/images/chromeadb_mousepad_controller.png" alt="img"></p>
+<h3 id="3chromeadb_for_android应用源码分析">3.chromeadb_for_android应用源码分析</h3>
 <p>从chromeadb的源码来看，chromeadb会启动这个应用中的ChromeAdbService，然后实现各种移动和点击操作，所以ChromeAdbService是该应用的核心。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChromeAdbService</span> <span style="color:#66d9ef">extends</span> Service <span style="color:#66d9ef">implements</span> TailerListener <span style="color:#f92672">{</span>
 
-<pre><code class="language-java">public class ChromeAdbService extends Service implements TailerListener {
+    <span style="color:#66d9ef">private</span> File mEventFile <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/sdcard/chromeadb.event&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//监听这个事件文件
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> ImageView mCursorImage<span style="color:#f92672">;</span><span style="color:#75715e">//指针imageview
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String mPrevLine<span style="color:#f92672">;</span><span style="color:#75715e">//上次读取的文件中那一行字符串
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> Tailer mTailer<span style="color:#f92672">;</span><span style="color:#75715e">//用于监听指定事件文件的Tailer(跟踪者)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> WindowManager mWindowManager<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span> mLayoutParam<span style="color:#f92672">;</span>
 
-    private File mEventFile = new File(&quot;/sdcard/chromeadb.event&quot;);//监听这个事件文件
-    private ImageView mCursorImage;//指针imageview
-    private String mPrevLine;//上次读取的文件中那一行字符串
-    private Tailer mTailer;//用于监听指定事件文件的Tailer(跟踪者)
-    private WindowManager mWindowManager;
-    private WindowManager.LayoutParams mLayoutParam;
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">onStartCommand</span><span style="color:#f92672">(</span>Intent intent<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> flags<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> startId<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        startTailer<span style="color:#f92672">();</span>
+        addMouseCursor<span style="color:#f92672">();</span>
+        setCursorPosToCenter<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onStartCommand</span><span style="color:#f92672">(</span>intent<span style="color:#f92672">,</span> flags<span style="color:#f92672">,</span> startId<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        startTailer();
-        addMouseCursor();
-        setCursorPosToCenter();
-        return super.onStartCommand(intent, flags, startId);
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onDestroy</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onDestroy</span><span style="color:#f92672">();</span>
+        stopTailer<span style="color:#f92672">();</span>
+        removeMouseCursor<span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopTailer();
-        removeMouseCursor();
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> IBinder <span style="color:#a6e22e">onBind</span><span style="color:#f92672">(</span>Intent intent<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addMouseCursor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#75715e">//添加鼠标指针imageview到window上
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCursorImage <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mCursorImage <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ImageView<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">);</span>
+            mCursorImage<span style="color:#f92672">.</span><span style="color:#a6e22e">setImageResource</span><span style="color:#f92672">(</span>R<span style="color:#f92672">.</span><span style="color:#a6e22e">drawable</span><span style="color:#f92672">.</span><span style="color:#a6e22e">cursor</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-    private void addMouseCursor() {//添加鼠标指针imageview到window上
-        if (mCursorImage == null) {
-            mCursorImage = new ImageView(this);
-            mCursorImage.setImageResource(R.drawable.cursor);
-        }
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mLayoutParam <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mLayoutParam <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">(</span>
+                    WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">WRAP_CONTENT</span><span style="color:#f92672">,</span>
+                    WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">WRAP_CONTENT</span><span style="color:#f92672">,</span>
+                    WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">TYPE_SYSTEM_OVERLAY</span><span style="color:#f92672">,</span>
+                    WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">FLAG_NOT_TOUCHABLE</span>
+                            <span style="color:#f92672">|</span> WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">FLAG_LAYOUT_NO_LIMITS</span><span style="color:#f92672">,</span>
+                    PixelFormat<span style="color:#f92672">.</span><span style="color:#a6e22e">TRANSLUCENT</span><span style="color:#f92672">);</span>
+            mLayoutParam<span style="color:#f92672">.</span><span style="color:#a6e22e">gravity</span> <span style="color:#f92672">=</span> Gravity<span style="color:#f92672">.</span><span style="color:#a6e22e">LEFT</span> <span style="color:#f92672">|</span> Gravity<span style="color:#f92672">.</span><span style="color:#a6e22e">TOP</span><span style="color:#f92672">;</span>
+            mLayoutParam<span style="color:#f92672">.</span><span style="color:#a6e22e">flags</span> <span style="color:#f92672">|=</span> WindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">LayoutParams</span><span style="color:#f92672">.</span><span style="color:#a6e22e">FLAG_LAYOUT_IN_SCREEN</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        if (mLayoutParam == null) {
-            mLayoutParam = new WindowManager.LayoutParams(
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.WRAP_CONTENT,
-                    WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-                            | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    PixelFormat.TRANSLUCENT);
-            mLayoutParam.gravity = Gravity.LEFT | Gravity.TOP;
-            mLayoutParam.flags |= WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
-        }
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mWindowManager <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mWindowManager <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>WindowManager<span style="color:#f92672">)</span> getSystemService<span style="color:#f92672">(</span>WINDOW_SERVICE<span style="color:#f92672">);</span>
+            mWindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">addView</span><span style="color:#f92672">(</span>mCursorImage<span style="color:#f92672">,</span> mLayoutParam<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-        if (mWindowManager == null) {
-            mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-            mWindowManager.addView(mCursorImage, mLayoutParam);
-        }
-    }
+    <span style="color:#a6e22e">@SuppressLint</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;NewApi&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setCursorPosToCenter</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#75715e">//初始化的时候将指针移动到中央
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mWindowManager <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> mCursorImage <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    @SuppressLint(&quot;NewApi&quot;)
-    private void setCursorPosToCenter() {//初始化的时候将指针移动到中央
-        if (mWindowManager == null || mCursorImage == null) {
-            return;
-        }
+        Display display <span style="color:#f92672">=</span> mWindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultDisplay</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">int</span> x<span style="color:#f92672">,</span> y<span style="color:#f92672">;</span>
 
-        Display display = mWindowManager.getDefaultDisplay();
-        int x, y;
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>Build<span style="color:#f92672">.</span><span style="color:#a6e22e">VERSION</span><span style="color:#f92672">.</span><span style="color:#a6e22e">SDK_INT</span> <span style="color:#f92672">&gt;=</span> Build<span style="color:#f92672">.</span><span style="color:#a6e22e">VERSION_CODES</span><span style="color:#f92672">.</span><span style="color:#a6e22e">HONEYCOMB_MR2</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Point size <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">();</span>
+            display<span style="color:#f92672">.</span><span style="color:#a6e22e">getSize</span><span style="color:#f92672">(</span>size<span style="color:#f92672">);</span>
+            x <span style="color:#f92672">=</span> size<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">;</span>
+            y <span style="color:#f92672">=</span> size<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+            x <span style="color:#f92672">=</span> display<span style="color:#f92672">.</span><span style="color:#a6e22e">getWidth</span><span style="color:#f92672">();</span>
+            y <span style="color:#f92672">=</span> display<span style="color:#f92672">.</span><span style="color:#a6e22e">getHeight</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Point size = new Point();
-            display.getSize(size);
-            x = size.x;
-            y = size.y;
-        } else {
-            x = display.getWidth();
-            y = display.getHeight();
-        }
+        move<span style="color:#f92672">(</span>x <span style="color:#f92672">&gt;&gt;</span> 1<span style="color:#f92672">,</span> y <span style="color:#f92672">&gt;&gt;</span> 1<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-        move(x &gt;&gt; 1, y &gt;&gt; 1);
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">removeMouseCursor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#75715e">//删除指针imageview
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mCursorImage <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> mWindowManager <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mWindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">removeView</span><span style="color:#f92672">(</span>mCursorImage<span style="color:#f92672">);</span>
+            mCursorImage <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    private void removeMouseCursor() {//删除指针imageview
-        if (mCursorImage != null &amp;&amp; mWindowManager != null) {
-            mWindowManager.removeView(mCursorImage);
-            mCursorImage = null;
-        }
-    }
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">move</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> touchX<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> touchY<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">//移动指针到指定的x,y坐标位置
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mLayoutParam <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> mWindowManager <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> mCursorImage <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    public void move(int touchX, int touchY) {//移动指针到指定的x,y坐标位置
-        if (mLayoutParam == null || mWindowManager == null || mCursorImage == null) {
-            return;
-        }
+        mLayoutParam<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> touchX<span style="color:#f92672">;</span>
+        mLayoutParam<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> touchY<span style="color:#f92672">;</span>
+        mWindowManager<span style="color:#f92672">.</span><span style="color:#a6e22e">updateViewLayout</span><span style="color:#f92672">(</span>mCursorImage<span style="color:#f92672">,</span> mLayoutParam<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-        mLayoutParam.x = touchX;
-        mLayoutParam.y = touchY;
-        mWindowManager.updateViewLayout(mCursorImage, mLayoutParam);
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">startTailer</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#75715e">//开始监听事件文件
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mEventFile<span style="color:#f92672">.</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                mEventFile<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">();</span>
+            <span style="color:#f92672">}</span>
+            mEventFile<span style="color:#f92672">.</span><span style="color:#a6e22e">createNewFile</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Toast<span style="color:#f92672">.</span><span style="color:#a6e22e">makeText</span><span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">(),</span> Toast<span style="color:#f92672">.</span><span style="color:#a6e22e">LENGTH_SHORT</span><span style="color:#f92672">).</span><span style="color:#a6e22e">show</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    private void startTailer() {//开始监听事件文件
-        try {
-            if (mEventFile.exists()) {
-                mEventFile.delete();
-            }
-            mEventFile.createNewFile();
-        } catch (IOException e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            return;
-        }
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mTailer <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mTailer<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        if (mTailer != null) {
-            mTailer.stop();
-        }
+        <span style="color:#75715e">//这部分代码可以改成直接使用Tailer的create方法来创建Tailer
+</span><span style="color:#75715e"></span>        mTailer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Tailer<span style="color:#f92672">(</span>mEventFile<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">,</span> 10<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+        Thread thread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread<span style="color:#f92672">(</span>mTailer<span style="color:#f92672">);</span>
+        thread<span style="color:#f92672">.</span><span style="color:#a6e22e">start</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-        //这部分代码可以改成直接使用Tailer的create方法来创建Tailer
-        mTailer = new Tailer(mEventFile, this, 10, true);
-        Thread thread = new Thread(mTailer);
-        thread.start();
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stopTailer</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span><span style="color:#75715e">//停止监听事件文件
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mTailer <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mTailer<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">();</span>
+            mTailer <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    private void stopTailer() {//停止监听事件文件
-        if (mTailer != null) {
-            mTailer.stop();
-            mTailer = null;
-        }
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mEventFile <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> mEventFile<span style="color:#f92672">.</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            mEventFile<span style="color:#f92672">.</span><span style="color:#a6e22e">delete</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-        if (mEventFile != null &amp;&amp; mEventFile.exists()) {
-            mEventFile.delete();
-        }
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">init</span><span style="color:#f92672">(</span>Tailer tailer<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public void init(Tailer tailer) {
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fileNotFound</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        mTailer<span style="color:#f92672">.</span><span style="color:#a6e22e">stop</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public void fileNotFound() {
-        mTailer.stop();
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">fileRotated</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Override
-    public void fileRotated() {
-    }
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>String s<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//TailerListener接口的回调，当事件文件发生变化的时候，这个方法会回调
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>mPrevLine <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> mPrevLine<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>s<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    @Override
-    public void handle(String s) {
-        //TailerListener接口的回调，当事件文件发生变化的时候，这个方法会回调
-        if (mPrevLine != null &amp;&amp; mPrevLine.equals(s)) {
-            return;
-        }
+        String coords <span style="color:#f92672">=</span> Command<span style="color:#f92672">.</span><span style="color:#a6e22e">getCoordinates</span><span style="color:#f92672">(</span>s<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>coords <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            moveCursor<span style="color:#f92672">(</span>coords<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
 
-        String coords = Command.getCoordinates(s);
-        if (coords != null) {
-            moveCursor(coords);
-        }
+        mPrevLine <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-        mPrevLine = s;
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">moveCursor</span><span style="color:#f92672">(</span>String coords<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">//根据解析得到的新坐标位置来移动指针
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">final</span> String<span style="color:#f92672">[]</span> points <span style="color:#f92672">=</span> coords<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;,&#34;</span><span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> points<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i <span style="color:#f92672">+=</span> 2<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>points<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
+                <span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>points<span style="color:#f92672">[</span>i <span style="color:#f92672">+</span> 1<span style="color:#f92672">]);</span>
+                Message msg <span style="color:#f92672">=</span> mHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">obtainMessage</span><span style="color:#f92672">();</span>
+                Bundle data <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Bundle<span style="color:#f92672">();</span>
+                data<span style="color:#f92672">.</span><span style="color:#a6e22e">putInt</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;x&#34;</span><span style="color:#f92672">,</span> x<span style="color:#f92672">);</span>
+                data<span style="color:#f92672">.</span><span style="color:#a6e22e">putInt</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;y&#34;</span><span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
+                msg<span style="color:#f92672">.</span><span style="color:#a6e22e">setData</span><span style="color:#f92672">(</span>data<span style="color:#f92672">);</span>
+                mHandler<span style="color:#f92672">.</span><span style="color:#a6e22e">sendMessage</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    private void moveCursor(String coords) {//根据解析得到的新坐标位置来移动指针
-        try {
-            final String[] points = coords.split(&quot;,&quot;);
-            for (int i = 0; i &lt; points.length; i += 2) {
-                int x = Integer.parseInt(points[i]);
-                int y = Integer.parseInt(points[i + 1]);
-                Message msg = mHandler.obtainMessage();
-                Bundle data = new Bundle();
-                data.putInt(&quot;x&quot;, x);
-                data.putInt(&quot;y&quot;, y);
-                msg.setData(data);
-                mHandler.sendMessage(msg);
-            }
-        } catch (Exception e) {
-        }
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Handler mHandler <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Handler<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 
-    private final Handler mHandler = new Handler() {
+        <span style="color:#a6e22e">@Override</span>
+        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleMessage</span><span style="color:#f92672">(</span>Message msg<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Bundle data <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span><span style="color:#a6e22e">getData</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>data <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;x&#34;</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;y&#34;</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">);</span>
+                move<span style="color:#f92672">(</span>x<span style="color:#f92672">,</span> y<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">};</span>
 
-        @Override
-        public void handleMessage(Message msg) {
-            Bundle data = msg.getData();
-            if (data != null) {
-                int x = data.getInt(&quot;x&quot;, 0);
-                int y = data.getInt(&quot;y&quot;, 0);
-                move(x, y);
-            }
-        }
-    };
-
-    @Override
-    public void handle(Exception e) {
-    }
-}
-</code></pre>
-
-<p>chromeadb_for_android应用的代码看起来很简单，那么chromeadb是如何将坐标发送到事件文件中的呢？其实就是执行类似下面的命令<code>adb shell echo move 522,1108,530,1108 &gt;&gt; /sdcard/chromeadb.event</code>而已。ChromeAdbService这个服务会监听那个文件的变化，一旦有新的数据过来了就会解析参数执行相应的命令。</p>
-
-<h3 id="4-与adbserver通信的秘密">4.与adbserver通信的秘密</h3>
-
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span><span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>chromeadb_for_android应用的代码看起来很简单，那么chromeadb是如何将坐标发送到事件文件中的呢？其实就是执行类似下面的命令<code>adb shell echo move 522,1108,530,1108 &gt;&gt; /sdcard/chromeadb.event</code>而已。ChromeAdbService这个服务会监听那个文件的变化，一旦有新的数据过来了就会解析参数执行相应的命令。</p>
+<h3 id="4与adbserver通信的秘密">4.与adbserver通信的秘密</h3>
 <p>通过前面的分析我们知道了chromeadb实际上是连接adbserver，将命令通过socket发送给adbserver，然后adbserver去执行命令并返回结果给chromeadb。那通过socket发送的是什么内容呢？</p>
-
 <p>parse.js文件中有一个很重要的方法<code>makeCommand</code>，这个方法用来构造发送的数据，从方法内容来看就是在命令的前面填充4位十六进制形式的数字，表示命令的总长度，方便server那边解析。例如想要发送<code>shell:dumpsys snowden</code>命令，那么实际发送的数据是<code>0015shell:dumpsys snowden</code>。</p>
-
-<pre><code class="language-js">function makeCommand(cmd) {
-  var hex = cmd.length.toString(16);//先计算命令长度对应的十六进制
-  while (hex.length &lt; 4) {//前面不足四位的话补0
-    hex = '0' + hex;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">makeCommand</span>(<span style="color:#a6e22e">cmd</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">hex</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">cmd</span>.<span style="color:#a6e22e">length</span>.<span style="color:#a6e22e">toString</span>(<span style="color:#ae81ff">16</span>);<span style="color:#75715e">//先计算命令长度对应的十六进制
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">while</span> (<span style="color:#a6e22e">hex</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>) {<span style="color:#75715e">//前面不足四位的话补0
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">hex</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0&#39;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">hex</span>;
   }
-  cmd = hex + cmd;
-  return cmd;
+  <span style="color:#a6e22e">cmd</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">hex</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">cmd</span>;
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">cmd</span>;
 }
-</code></pre>
-
-<p>那adbserver那边返回的数据又是什么形式的呢？从controllers.js文件中的<code>getReadAllPromise</code>方法我们可以大致看出返回结果的结构，一般先是<code>OKAY</code>，然后是返回结果的长度，最后是返回结果的内容。例如发送<code>000ehost:devices-l</code>，得到的结果是<code>OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690</code>，也就是当前有一个设备，序列号是<code>M96GAEP9PT63B</code>，后面内容是它的信息。</p>
-
-<pre><code class="language-js">$scope.getNewCommandPromise = function (cmd) {
-  return socketService.create()
-    .then(function (createInfo) {
-      return socketService.connect(createInfo, $scope.host, $scope.port);
+</code></pre></div><p>那adbserver那边返回的数据又是什么形式的呢？从controllers.js文件中的<code>getReadAllPromise</code>方法我们可以大致看出返回结果的结构，一般先是<code>OKAY</code>，然后是返回结果的长度，最后是返回结果的内容。例如发送<code>000ehost:devices-l</code>，得到的结果是<code>OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690</code>，也就是当前有一个设备，序列号是<code>M96GAEP9PT63B</code>，后面内容是它的信息。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">getNewCommandPromise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">cmd</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">create</span>()
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">createInfo</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">connect</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">host</span>, <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">port</span>);
     })
-    .then(function (createInfo) {
-      var cmdWidthLength = makeCommand(cmd);
-      console.log('command:', cmdWidthLength);//hujiawei
-      return socketService.write(createInfo, cmdWidthLength);
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">createInfo</span>) {
+      <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cmdWidthLength</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">makeCommand</span>(<span style="color:#a6e22e">cmd</span>);
+      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;command:&#39;</span>, <span style="color:#a6e22e">cmdWidthLength</span>);<span style="color:#75715e">//hujiawei
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">cmdWidthLength</span>);
     })
-    .then(function (param) {
-      return socketService.read(param.createInfo, 4);//前四个字节 OKEY
-    })
-    .catch(function (param) {
-      $scope.initVariables();
-      $scope.logMessage = {
-        cmd: 'Connection Error',
-        res: 'run \&quot;$ adb start-server\&quot;'
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">read</span>(<span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">createInfo</span>, <span style="color:#ae81ff">4</span>);<span style="color:#75715e">//前四个字节 OKEY
+</span><span style="color:#75715e"></span>    })
+    .<span style="color:#66d9ef">catch</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">initVariables</span>();
+      <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">logMessage</span> <span style="color:#f92672">=</span> {
+        <span style="color:#a6e22e">cmd</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Connection Error&#39;</span>,
+        <span style="color:#a6e22e">res</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;run \&#34;$ adb start-server\&#34;&#39;</span>
       };
     });
 };
 
-$scope.getCommandPromise = function (cmd, createInfo) {
-  var cmdWidthLength = makeCommand(cmd);
-  console.log('command:', cmdWidthLength);//hujiawei
-  return socketService.write(createInfo, cmdWidthLength)
-    .then(function (param) {
-      return socketService.read(param.createInfo, 4);
+<span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">getCommandPromise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">cmd</span>, <span style="color:#a6e22e">createInfo</span>) {
+  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">cmdWidthLength</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">makeCommand</span>(<span style="color:#a6e22e">cmd</span>);
+  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;command:&#39;</span>, <span style="color:#a6e22e">cmdWidthLength</span>);<span style="color:#75715e">//hujiawei
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">write</span>(<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">cmdWidthLength</span>)
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">read</span>(<span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">createInfo</span>, <span style="color:#ae81ff">4</span>);
     });
 };
 
-//先执行命令1，再执行命令2，都成功的话读取所有数据
-$scope.getReadAllPromise = function (cmd1, cmd2) {
-  return $scope.getNewCommandPromise(cmd1)
-    .then(function (param) {
-      //console.log(param);
-      if (param.data === 'OKAY') {//成功执行命令1
-        return $scope.getCommandPromise(cmd2, param.createInfo);
+<span style="color:#75715e">//先执行命令1，再执行命令2，都成功的话读取所有数据
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">getReadAllPromise</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">cmd1</span>, <span style="color:#a6e22e">cmd2</span>) {
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">getNewCommandPromise</span>(<span style="color:#a6e22e">cmd1</span>)
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#75715e">//console.log(param);
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">data</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;OKAY&#39;</span>) {<span style="color:#75715e">//成功执行命令1
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">getCommandPromise</span>(<span style="color:#a6e22e">cmd2</span>, <span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">createInfo</span>);
       }
     })
-    .then(function (param) {
-      //console.log(param);
-      if (param &amp;&amp; param.data === 'OKAY') {//成功执行命令2
-        return socketService.readAll(param.createInfo, arrayBufferToString);
+    .<span style="color:#a6e22e">then</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#75715e">//console.log(param);
+</span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">param</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">data</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;OKAY&#39;</span>) {<span style="color:#75715e">//成功执行命令2
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">socketService</span>.<span style="color:#a6e22e">readAll</span>(<span style="color:#a6e22e">param</span>.<span style="color:#a6e22e">createInfo</span>, <span style="color:#a6e22e">arrayBufferToString</span>);
       }
     })
-    .catch(function (param) {
-      $scope.initVariables();
-      $scope.logMessage = {
-        cmd: 'Connection Error',
-        res: 'Cannot find any devices'
+    .<span style="color:#66d9ef">catch</span>(<span style="color:#66d9ef">function</span> (<span style="color:#a6e22e">param</span>) {
+      <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">initVariables</span>();
+      <span style="color:#a6e22e">$scope</span>.<span style="color:#a6e22e">logMessage</span> <span style="color:#f92672">=</span> {
+        <span style="color:#a6e22e">cmd</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Connection Error&#39;</span>,
+        <span style="color:#a6e22e">res</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;Cannot find any devices&#39;</span>
       };
     });
 };
-</code></pre>
+</code></pre></div><p>可以使用下面的代码来验证这个与adbserver通信方式</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Snowden</span> <span style="color:#f92672">{</span>
 
-<p>可以使用下面的代码来验证这个与adbserver通信方式</p>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
 
-<pre><code class="language-java">public class Snowden {
+            Socket socket <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Socket<span style="color:#f92672">();</span>
+            SocketAddress remoteAddr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> InetSocketAddress<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;localhost&#34;</span><span style="color:#f92672">,</span> 5037<span style="color:#f92672">);</span>
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span>remoteAddr<span style="color:#f92672">,</span> 60000<span style="color:#f92672">);</span>
 
-    public static void main(String[] args) {
-        try {
+            OutputStream os <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getOutputStream</span><span style="color:#f92672">();</span>
+            InputStream is <span style="color:#f92672">=</span> socket<span style="color:#f92672">.</span><span style="color:#a6e22e">getInputStream</span><span style="color:#f92672">();</span>
 
-            Socket socket = new Socket();
-            SocketAddress remoteAddr = new InetSocketAddress(&quot;localhost&quot;, 5037);
-            socket.connect(remoteAddr, 60000);
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">write</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;000ehost:devices-l&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">());</span>
+            <span style="color:#75715e">//os.write(&#34;001chost:transport:M96GAEP9PT63B&#34;.getBytes());
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">//os.write(&#34;0015shell:dumpsys snowden&#34;.getBytes());//OKAYOKAYCan&#39;t find service: snowden
+</span><span style="color:#75715e"></span>
+            String line <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+            BufferedReader reader <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BufferedReader<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> InputStreamReader<span style="color:#f92672">(</span>is<span style="color:#f92672">));</span>
+            <span style="color:#66d9ef">while</span> <span style="color:#f92672">((</span>line <span style="color:#f92672">=</span> reader<span style="color:#f92672">.</span><span style="color:#a6e22e">readLine</span><span style="color:#f92672">())</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>line<span style="color:#f92672">);</span>
+                <span style="color:#75715e">//&#34;OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690&#34;;
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>
 
-            OutputStream os = socket.getOutputStream();
-            InputStream is = socket.getInputStream();
+            is<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            os<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+            socket<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>IOException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-            os.write(&quot;000ehost:devices-l&quot;.getBytes());
-            //os.write(&quot;001chost:transport:M96GAEP9PT63B&quot;.getBytes());
-            //os.write(&quot;0015shell:dumpsys snowden&quot;.getBytes());//OKAYOKAYCan't find service: snowden
-
-            String line = null;
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                //&quot;OKAY0054M96GAEP9PT63B          device usb:337641472X product:m9690 model:m9690 device:m9690&quot;;
-            }
-
-            is.close();
-            os.close();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-}
-</code></pre>
-
-<h3 id="5-总结">5.总结</h3>
-
+<span style="color:#f92672">}</span>
+</code></pre></div><h3 id="5总结">5.总结</h3>
 <p>虽然chromeadb工具的功能有限而且未来可能真的不会再有新的进展，但是利用当前这个版本进行扩展使用更多有用的功能还是非常方便的，例如我最近利用之前开发的手机版本的悟空监视器改造了一个新的斯诺登监视器。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/SnowdenMonitor.png" alt="img" /></p>
+<p><img src="https://hujiaweibujidao.github.io/images/SnowdenMonitor.png" alt="img"></p>
     </section>
 
     <footer class="post-footer">
@@ -1061,27 +953,23 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/"><h4>Pury Project Analysis</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/"><h4>How to get performance data in Android</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/"><h4>How to get performance data in Android</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/"><h4>Pury Project Analysis</h4></a></span>
       
   
 </aside>
@@ -1090,42 +978,6 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -1134,7 +986,7 @@ $scope.getReadAllPromise = function (cmd1, cmd2) {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

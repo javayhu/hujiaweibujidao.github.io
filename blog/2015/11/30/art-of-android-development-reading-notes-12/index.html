@@ -5,7 +5,7 @@
        Art of Android Development Reading Notes 12 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Art of Android Development Reading Notes 12 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,24 +158,17 @@
     </header>
 
     <section class="post-content">
-      <p>《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache </p>
-
+      <p>《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache</p>
 <h3 id="第12章-bitmap的加载和cache">第12章 Bitmap的加载和Cache</h3>
-
-<h4 id="12-1-bitmap的高速加载">12.1 Bitmap的高速加载</h4>
-
-<p>(1)<strong>Bitmap是如何加载的？</strong><br />
+<h4 id="121-bitmap的高速加载">12.1 Bitmap的高速加载</h4>
+<p>(1)<strong>Bitmap是如何加载的？</strong><br>
 <code>BitmapFactory</code>类提供了四类方法：<code>decodeFile</code>、<code>decodeResource</code>、<code>decodeStream</code>和<code>decodeByteArray</code>从不同来源加载出一个Bitmap对象，最终的实现是在底层实现的。</p>
-
-<p><strong>如何高效加载Bitmap？</strong><br />
+<p><strong>如何高效加载Bitmap？</strong><br>
 采用<code>BitmapFactory.Options</code>按照一定的采样率来加载所需尺寸的图片，因为imageview所需的图片大小往往小于图片的原始尺寸。</p>
-
-<p>(2)BitmapFactory.Options的<code>inSampleSize</code>参数，即采样率<br />
+<p>(2)BitmapFactory.Options的<code>inSampleSize</code>参数，即采样率<br>
 官方文档指出采样率的取值应该是2的指数，例如采样率=k，那么采样后的图片宽高均为原图片大小的 1/k。</p>
-
-<p><strong>如何获取采样率？</strong><br />
+<p><strong>如何获取采样率？</strong><br>
 下面是常用的获取采样率的代码片段：</p>
-
 <pre><code>public Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {
     // First decode with inJustDecodeBounds=true to check dimensions
     final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -237,29 +208,21 @@ public int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, in
     Log.d(TAG, &quot;sampleSize:&quot; + inSampleSize);
     return inSampleSize;
 }
-</code></pre>
-
-<p>将<code>inJustDecodeBounds</code>设置为true的时候，BitmapFactory只会解析图片的原始宽高信息，并不会真正的加载图片，所以这个操作是轻量级的。<strong>需要注意的是，这个时候BitmapFactory获取的图片宽高信息和图片的位置以及程序运行的设备有关，这都会导致BitmapFactory获取到不同的结果。</strong></p>
-
-<h4 id="12-2-android中的缓存策略">12.2 Android中的缓存策略</h4>
-
-<p>(1)最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：<code>LruCache</code>(内存缓存)和<code>DiskLruCache</code>(磁盘缓存)。<br />
-(2)LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本。LruCache类是一个线程安全的泛型类，它内部采用一个<code>LinkedHashMap</code>以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。<br />
-(3)DiskLruCache磁盘缓存，它不属于Android sdk的一部分，<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java">它的源码可以在这里下载</a><br />
-DiskLruCache的创建、缓存查找和缓存添加操作<br />
-(4)ImageLoader的实现 <a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">具体内容看源码</a><br />
+</code></pre><p>将<code>inJustDecodeBounds</code>设置为true的时候，BitmapFactory只会解析图片的原始宽高信息，并不会真正的加载图片，所以这个操作是轻量级的。<strong>需要注意的是，这个时候BitmapFactory获取的图片宽高信息和图片的位置以及程序运行的设备有关，这都会导致BitmapFactory获取到不同的结果。</strong></p>
+<h4 id="122-android中的缓存策略">12.2 Android中的缓存策略</h4>
+<p>(1)最常用的缓存算法是LRU，核心是当缓存满时，会优先淘汰那些近期最少使用的缓存对象，系统中采用LRU算法的缓存有两种：<code>LruCache</code>(内存缓存)和<code>DiskLruCache</code>(磁盘缓存)。<br>
+(2)LruCache是Android 3.1才有的，通过support-v4兼容包可以兼容到早期的Android版本。LruCache类是一个线程安全的泛型类，它内部采用一个<code>LinkedHashMap</code>以强引用的方式存储外界的缓存对象，其提供了get和put方法来完成缓存的获取和添加操作，当缓存满时，LruCache会移除较早使用的缓存对象，然后再添加新的缓存对象。<br>
+(3)DiskLruCache磁盘缓存，它不属于Android sdk的一部分，<a href="https://android.googlesource.com/platform/libcore/+/android-4.1.1_r1/luni/src/main/java/libcore/io/DiskLruCache.java">它的源码可以在这里下载</a><br>
+DiskLruCache的创建、缓存查找和缓存添加操作<br>
+(4)ImageLoader的实现 <a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">具体内容看源码</a><br>
 功能：图片的同步/异步加载，图片压缩，内存缓存，磁盘缓存，网络拉取</p>
-
-<h4 id="12-3-imageloader的使用">12.3 ImageLoader的使用</h4>
-
-<p>避免发生列表item错位的解决方法：给显示图片的imageview添加<code>tag</code>属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。<br />
-<strong>优化列表的卡顿现象</strong><br />
-(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿；<br />
-(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；<br />
+<h4 id="123-imageloader的使用">12.3 ImageLoader的使用</h4>
+<p>避免发生列表item错位的解决方法：给显示图片的imageview添加<code>tag</code>属性，值为要加载的图片的目标url，显示的时候判断一下url是否匹配。<br>
+<strong>优化列表的卡顿现象</strong><br>
+(1)不要在getView中执行耗时操作，不要在getView中直接加载图片，否则肯定会导致卡顿；<br>
+(2)控制异步任务的执行频率：在列表滑动的时候停止加载图片，等列表停下来以后再加载图片；<br>
 (3)使用硬件加速来解决莫名的卡顿问题，给Activity添加配置<code>android:hardwareAccelerated=&quot;true&quot;</code>。</p>
-
 <p>本章的精华就是作者写的<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_12/src/com/ryg/chapter_12/loader/ImageLoader.java">ImageLoader类</a>，建议阅读源码感受下。</p>
-
 <p>OK，本章结束，谢谢阅读。</p>
     </section>
 
@@ -281,27 +244,23 @@ DiskLruCache的创建、缓存查找和缓存添加操作<br />
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/"><h4>Art of Android Development Reading Notes 6</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/"><h4>Art of Android Development Reading Notes 1</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/"><h4>Art of Android Development Reading Notes 1</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/"><h4>Art of Android Development Reading Notes 6</h4></a></span>
       
   
 </aside>
@@ -310,42 +269,6 @@ DiskLruCache的创建、缓存查找和缓存添加操作<br />
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -354,7 +277,7 @@ DiskLruCache的创建、缓存查找和缓存添加操作<br />
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

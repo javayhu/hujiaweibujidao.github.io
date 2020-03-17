@@ -5,7 +5,7 @@
        Gank Alfred Workflow &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Gank Alfred Workflow &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,69 +159,37 @@
 
     <section class="post-content">
       <p>Gank Alfred Workflow，一个自制的干货搜索器！</p>
-
 <p><a href="https://github.com/hujiaweibujidao/Gank-Alfred-Workflow">Gank Alfred Workflow项目地址</a></p>
-
-<h4 id="0-使用方式">0.使用方式</h4>
-
+<h4 id="0使用方式">0.使用方式</h4>
 <p><a href="https://github.com/hujiaweibujidao/Gank-Alfred-Workflow/releases">下载最新版本的workflow文件双击使用Alfred打开即可</a>，workflow也已提交到<a href="http://www.packal.org/workflow/gank-alfred-workflow">Packal</a>。</p>
-
 <p><strong>使用前提是Alfred Workflow开启了Powerpack功能。</strong></p>
-
 <p>搜索操作的触发词是<code>gk</code> （short for <code>gank</code>）</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/search1.png" alt="img" /></p>
-
-<h4 id="1-项目起因">1.项目起因</h4>
-
+<p><img src="https://hujiaweibujidao.github.io/images/search1.png" alt="img"></p>
+<h4 id="1项目起因">1.项目起因</h4>
 <p><a href="http://gank.io">gank.io</a>网站上的搜索是根据搜索关键词在各期的干货日报中的出现情况进行搜索的，得到的搜索结果也是包含搜索关键词的日报，而不是具体的干货。加之不少推荐的干货的描述并没有简要地概括其干货内容，导致很多干货很难搜索到。此外，目前的搜索功能不支持多个搜索词的组合搜索，比如搜索<code>ios 动画</code>会得到很多结果，而搜索<code>动画</code>得到的结果只有几个。（好了，不说了，不然<a href="https://github.com/daimajia">@代码家</a>要直接干我了 😭）</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/search-gankio.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/search-gankio.png" alt="img"></p>
 <p>项目的真实起因其实是自己马上就要毕业参加工作了，深知自己很多东西都不会，所以想要看些干货提高自己，但是却又找不到干货在哪里 🙈🙈🙈</p>
-
-<h4 id="2-改进方案">2.改进方案</h4>
-
+<h4 id="2改进方案">2.改进方案</h4>
 <p>两个可供改进的点：</p>
-
 <p>（1）搜索结果应该直接显示与搜索关键词相关的干货列表</p>
-
 <p>（2）搜索过程应该考虑干货目标网页的内容</p>
-
-<h4 id="3-实现原理">3.实现原理</h4>
-
+<h4 id="3实现原理">3.实现原理</h4>
 <p>只通过一个Alfred Workflow要想解决这么多问题是比较困难的，Alfred Workflow只是调用我开发的另一个项目<a href="https://github.com/hujiaweibujidao/Ganks-for-gank.io">Ganks for gank.io</a>部署在Heroku平台的搜索接口，并将搜索结果显示给开发者。所以，整个项目主要分成两部分：</p>
-
-<h5 id="1-ganks-for-gank-io-https-github-com-hujiaweibujidao-ganks-for-gank-io">（1）<a href="https://github.com/hujiaweibujidao/Ganks-for-gank.io">Ganks for gank.io</a></h5>
-
+<h5 id="1ganks-for-gankiohttpsgithubcomhujiaweibujidaoganks-for-gankio">（1）<a href="https://github.com/hujiaweibujidao/Ganks-for-gank.io">Ganks for gank.io</a></h5>
 <p><strong>这个项目主要是利用<a href="http://gank.io/api">Gank的API</a>来获取干货列表，除此之外，该项目还利用<a href="https://github.com/seomoz/dragnet">dragnet</a>开源工具提取每一个干货的目标网页内容，最终利用<a href="http://lucene.apache.org/">Lucene</a>和<a href="http://sparkjava.com/">Spark</a>等开源工具提供一个高效的干货搜索接口，并将其部署在<a href="https://www.heroku.com/">Heroku</a>平台。</strong>   <a href="http://gankio.herokuapp.com/">网站预览</a></p>
-
 <p>有了dragnet和lucene等开源工具搜索就好办多了，更多详情请查看项目<a href="https://github.com/hujiaweibujidao/Ganks-for-gank.io">Ganks for gank.io</a></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/gankio.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/gankio.png" alt="img"></p>
 <p>网站<a href="http://gankio.herokuapp.com/">http://gankio.herokuapp.com/</a>提供的搜索接口如下图所示，发送post请求到<code>http://gankio.herokuapp.com/search</code>，请求体放参数为<code>keyword</code>的搜索关键词即可。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/gankio-heroku-search.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/gankio-heroku-search.png" alt="img"></p>
 <p><strong>任何工具都可以测试该接口，只是目前我的Heroku账号处于free plan，所以应用每24个小时会有几个小时处于停止状态，所以祝你好运！</strong> 🙈🙈🙈</p>
-
-<h5 id="2-gank-alfred-workflow">（2）Gank Alfred Workflow</h5>
-
+<h5 id="2gank-alfred-workflow">（2）Gank Alfred Workflow</h5>
 <p>有了后台搜索接口之后Alfred Workflow就好写了，这里使用的是被广泛使用的Python库<a href="https://github.com/deanishe/alfred-workflow/">deanishe/alfred-workflow</a>，它对workflow的很多功能和操作进行了封装，例如预处理使用者输入的数据、请求数据的缓存、workflow的更新等，作者担心我们不会用，还特意写了份很好的<a href="http://www.deanishe.net/alfred-workflow/tutorial.html">入门教程</a>方便开发者迅速上手。</p>
-
 <p><strong>Gank Alfred Workflow的功能是返回前10条与使用者输入的搜索关键词相关的干货，快捷键操作将会使用默认的浏览器打开对应干货的网址。</strong> 嗯，是的，仅此而已，但是其实你如果觉得有必要还可以加上默认显示最新一期的干货数据、或者自定义各种搜索方式来玩转<a href="http://gank.io/api">gank.io</a>提供的API都行。</p>
-
-<h4 id="4-界面截图">4.界面截图</h4>
-
-<p><img src="https://hujiaweibujidao.github.io/images/search2.png" alt="img" /></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/search3.png" alt="img" /></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/search4.png" alt="img" /></p>
-
-<h4 id="5-开发后记">5.开发后记</h4>
-
+<h4 id="4界面截图">4.界面截图</h4>
+<p><img src="https://hujiaweibujidao.github.io/images/search2.png" alt="img"></p>
+<p><img src="https://hujiaweibujidao.github.io/images/search3.png" alt="img"></p>
+<p><img src="https://hujiaweibujidao.github.io/images/search4.png" alt="img"></p>
+<h4 id="5开发后记">5.开发后记</h4>
 <p>很显然，如果我们的后台有更多的干货的话，就能不断增强这个Alfred Workflow的搜索体验（这还不是为了远离百毒嘛😓）。这个相关的开发也是我目前还在做的另一个项目<a href="https://github.com/hujiaweibujidao/GankHub">GankHub</a>，从名字中可以看出这是要做一个增强版的<code>干货集中营</code>，其中的数据既包含了<a href="http://gank.io">gank.io</a>中的数据，还包含了Android开发周报中的干货数据，这正是我的另一个项目<a href="https://github.com/hujiaweibujidao/Ganks-for-andoirdweekly.net">Ganks-for-andoirdweekly.net</a>做的事情。还有一个棘手的问题是，<strong>如何及时处理后台干货数据的更新？</strong> Heroku的定时任务要收费！</p>
     </section>
 
@@ -265,27 +211,23 @@
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/"><h4>Gank for Mac</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/"><h4>Learning Git by Animations</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/20/learning-git-by-animations/"><h4>Learning Git by Animations</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/"><h4>Gank for Mac</h4></a></span>
       
   
 </aside>
@@ -294,42 +236,6 @@
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -338,7 +244,7 @@
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

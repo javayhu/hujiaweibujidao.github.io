@@ -5,7 +5,7 @@
        Make Your Octopress Easy &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Make Your Octopress Easy &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,42 +158,30 @@
     </header>
 
     <section class="post-content">
-      <p>写了几个<code>shell</code>脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。 </p>
-
+      <p>写了几个<code>shell</code>脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。</p>
 <p>我特别头疼于类似新建文章<code>new_post[&quot;postname&quot;]</code>这些个命令，那个下划线可能会记成短破折线，时间长了我可能就不记得这个命令了，当然，如果你是ruby开发者那就肯定不会这样啦，我这年龄大了，记忆力不行了，很难记住那么多的命令啦，还有就是我希望只要打开Terminal就可以调用这些命令，而不用每次切换目录，而且每次我新建了一个文章之后，Mou能够直接启动并打开这个新建的文章让我编辑，想想，这个世界是不是美好多了？哈哈哈</p>
-
 <p>操作步骤：</p>
-
 <p><strong>[1]新建环境变量<code>OCTOPRESS_HOME</code>，它是你的octopress的根目录，并添加到<code>PATH</code>中</strong></p>
-
 <p>[下面是我在Mac上的操作，其他系统自行修改]</p>
-
-<pre><code class="language-java">sudo nano ~/.bash_profile  #打开并修改.bash_profile文件，下面两行是在该文件中的修改
-export OCTOPRESS_HOME=/Users/hujiawei/git/octopress  #添加OCTOPRESS_HOME变量
-export PATH=${PATH}:${OCTOPRESS_HOME}  #添加到path中
-source ~/.bash_profile  
-echo $OCTOPRESS_HOME  #验证是否变量存在
-echo $PATH  #验证path是否设置成功
-</code></pre>
-
-<p><strong>[2]编写几个<code>shell</code>脚本，放在<code>OCTOPRESS_HOME</code>目录下，作用分别如下：</strong></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">sudo nano <span style="color:#f92672">~/.</span><span style="color:#a6e22e">bash_profile</span>  <span style="color:#960050;background-color:#1e0010">#</span>打开并修改<span style="color:#f92672">.</span><span style="color:#a6e22e">bash_profile文件</span><span style="color:#960050;background-color:#1e0010">，</span>下面两行是在该文件中的修改
+export OCTOPRESS_HOME<span style="color:#f92672">=/</span>Users<span style="color:#f92672">/</span>hujiawei<span style="color:#f92672">/</span>git<span style="color:#f92672">/</span>octopress  <span style="color:#960050;background-color:#1e0010">#</span>添加OCTOPRESS_HOME变量
+export PATH<span style="color:#f92672">=</span>$<span style="color:#f92672">{</span>PATH<span style="color:#f92672">}:</span>$<span style="color:#f92672">{</span>OCTOPRESS_HOME<span style="color:#f92672">}</span>  <span style="color:#960050;background-color:#1e0010">#</span>添加到path中
+source <span style="color:#f92672">~/.</span><span style="color:#a6e22e">bash_profile</span>  
+echo $OCTOPRESS_HOME  <span style="color:#960050;background-color:#1e0010">#</span>验证是否变量存在
+echo $PATH  <span style="color:#960050;background-color:#1e0010">#</span>验证path是否设置成功
+</code></pre></div><p><strong>[2]编写几个<code>shell</code>脚本，放在<code>OCTOPRESS_HOME</code>目录下，作用分别如下：</strong></p>
 <ul>
 <li>gen：等价于<code>rake generate</code>操作</li>
 </ul>
-
 <pre><code>#! /bin/bash
 path=$OCTOPRESS_HOME
 cd &quot;$path&quot;
 #pwd
 rake generate
 echo &quot;generate ok&quot;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>dep：等价于<code>rake deploy</code>操作</li>
 </ul>
-
 <pre><code>#! /bin/bash
 path=$OCTOPRESS_HOME
 cd &quot;$path&quot;
@@ -223,14 +189,10 @@ cd &quot;$path&quot;
 rake generate
 rake deploy
 echo &quot;generate and deploy ok&quot;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>pre：等价于<code>rake preview</code>操作</li>
 </ul>
-
 <p>[注意，这里我是在子线程中启动预览的，所以你按下了Ctrl+C会也不会把预览给终止了，是不是瞬间又感觉这个世界又美好了很多啊，哈哈]</p>
-
 <pre><code>#! /bin/bash
 path=$OCTOPRESS_HOME
 cd &quot;$path&quot;
@@ -238,12 +200,9 @@ cd &quot;$path&quot;
 #rake watch
 rake preview &amp;
 #echo &quot;watch and preview ok&quot;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>gmit：等价于<code>git add/commit/push</code>几个操作的组合</li>
 </ul>
-
 <pre><code>#! /bin/bash
 if [ $# -ne 1 ]
 then
@@ -257,12 +216,9 @@ git add .
 git commit -m &quot;$1&quot;
 git push origin source
 echo &quot;git commit and push ok&quot;
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>newpost：等价于<code>new_post[&quot;&quot;] + open Mou</code>操作组合</li>
 </ul>
-
 <pre><code>#! /bin/bash
 if [ $# -ne 1 ]
 then
@@ -284,12 +240,9 @@ postpath=&quot;$path/$filepath&quot;
 #echo &quot;$postpath&quot;
 #open Mou with the file
 open -a Mou $postpath
-</code></pre>
-
-<ul>
+</code></pre><ul>
 <li>newpage：等价于<code>new_page[&quot;&quot;] + open Mou</code>操作组合</li>
 </ul>
-
 <pre><code>#! /bin/bash
 if [ $# -ne 1 ]
 then
@@ -311,10 +264,7 @@ postpath=&quot;$path/$filepath&quot;
 echo &quot;$postpath&quot;
 #open Mou with the file
 open -a Mou $postpath
-</code></pre>
-
-<p><strong>[3]使用<code>chmod 777 xxx</code>修改脚本的权限，测试执行下</strong></p>
-
+</code></pre><p><strong>[3]使用<code>chmod 777 xxx</code>修改脚本的权限，测试执行下</strong></p>
 <pre><code>cd $OCTOPRESS_HOME
 chmod 777 gen  #其他文件类似
 chmod 777 pre
@@ -324,9 +274,7 @@ chmod 777 newpost
 chmod 777 newpage
 gen
 newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件之后，你会发现Mou闪电般的将文件打开了，等着你输入呢！
-</code></pre>
-
-<p>OK！Enjoy the world of Octopress！</p>
+</code></pre><p>OK！Enjoy the world of Octopress！</p>
     </section>
 
     <footer class="post-footer">
@@ -347,27 +295,23 @@ newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件�
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/about/"><h4>About</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/"><h4>Android Ndk and Opencv Development 1</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2013/11/18/android-ndk-and-opencv-development-1/"><h4>Android Ndk and Opencv Development 1</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/about/"><h4>About</h4></a></span>
       
   
 </aside>
@@ -376,42 +320,6 @@ newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件�
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -420,7 +328,7 @@ newpost &quot;test new post&quot; #当这条命令完成生成了Markdown文件�
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

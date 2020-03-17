@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Dev on Hujiawei Bujidao</title>
+    <title>dev on Hujiawei Bujidao</title>
     <link>https://hujiaweibujidao.github.io/tags/dev/</link>
-    <description>Recent content in Dev on Hujiawei Bujidao</description>
+    <description>Recent content in dev on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2020</copyright>
     <lastBuildDate>Fri, 20 May 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://hujiaweibujidao.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
@@ -45,7 +45,7 @@
       <pubDate>Sat, 16 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/</guid>
-      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍如何同时使用多个Git的公私钥&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -54,7 +54,7 @@
       <pubDate>Mon, 11 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/</guid>
-      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文简单介绍如何在GitCafe的项目中使用Pages服务&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -81,7 +81,7 @@
       <pubDate>Tue, 16 Sep 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/09/16/bootcamp-an-open-source-django-site/</guid>
-      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp &lt;/p&gt;</description>
+      <description>&lt;p&gt;一个Django开发的开源网站Bootcamp&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -90,16 +90,16 @@
       <pubDate>Fri, 16 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/</guid>
-      <description>&lt;p&gt;关于Python的好文章集锦 &lt;/p&gt;</description>
+      <description>&lt;p&gt;关于Python的好文章集锦&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>Hadoop Installation - Single Node Setup</title>
-      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</link>
+      <link>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation-single-node-setup/</link>
       <pubDate>Mon, 12 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation---single-node-setup/</guid>
-      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程 &lt;/p&gt;</description>
+      <guid>https://hujiaweibujidao.github.io/blog/2014/05/12/hadoop-installation-single-node-setup/</guid>
+      <description>&lt;p&gt;本文主要介绍Hadoop的搭建过程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -108,7 +108,7 @@
       <pubDate>Sat, 10 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/</guid>
-      <description>&lt;p&gt;Python代码片段 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Python代码片段&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -153,7 +153,7 @@
       <pubDate>Mon, 18 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2013/11/18/make-your-octopress-easy/</guid>
-      <description>&lt;p&gt;写了几个&lt;code&gt;shell&lt;/code&gt;脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;写了几个&lt;code&gt;shell&lt;/code&gt;脚本让你在Octopress上写博客更加轻松些，至少让我轻松了很多，哈哈哈。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -162,7 +162,7 @@
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</guid>
-      <description>&lt;p&gt;Hello world! Hello Octopress! &lt;/p&gt;</description>
+      <description>&lt;p&gt;Hello world! Hello Octopress!&lt;/p&gt;</description>
     </item>
     
   </channel>

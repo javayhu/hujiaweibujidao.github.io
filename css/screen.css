@@ -1248,14 +1248,14 @@ body:not(.post-template) .post-title {
 }
 
 /* padding: 0 15px 5rem 15px; */
+/* border-bottom: #EBF2F6 1px solid; */
 .author-profile {
     padding: 0 0px 2rem 0px;
-    border-bottom: #EBF2F6 1px solid;
     text-align: center;
 }
 
 /* Add a little circle in the middle of the border-bottom */
-.author-profile:after {
+/* .author-profile:after {
     display: block;
     content: "";
     width: 7px;
@@ -1268,7 +1268,7 @@ body:not(.post-template) .post-title {
     background: #FFF;
     border-radius: 100%;
     box-shadow: #FFF 0 0 0 5px;
-}
+} */
 
 .author-image {
     -webkit-box-sizing: border-box;

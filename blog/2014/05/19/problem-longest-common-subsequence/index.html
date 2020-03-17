@@ -5,7 +5,7 @@
        Problem: Longest Common Subsequence &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Problem: Longest Common Subsequence &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/19/problem-longest-common-subsequence/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,123 +159,111 @@
 
     <section class="post-content">
       <p>最长公共子序列(LCS)是典型的动态规划问题，如果不理解动态规划请移步先看<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/">这篇动态规划的总结</a>，否则本文中的代码实现会不理解的哟！</p>
-
 <p>LCS问题的一个变种就是求最长单调递增子序列，它的一种简易求解方法就是先将原序列A进行排序得到序列B，然后求解序列A和序列B的最长公共子序列。</p>
-
 <p>1.问题描述</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/lcs1.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/lcs1.png" alt="image"></p>
 <p>2.最优子结构和子问题重叠</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/lcs2.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/algos/lcs2.png" alt="image"></p>
 <p>3.5种实现方式</p>
-
 <p>根据LCS的递推公式</p>
-
 <p>$$
 c[i][j]=  \left{
-  \begin{array}{l l}
-    0 &amp; \quad \text{i=0 或者 j=0}<br />
-    c[i-1][j-1]+1 &amp; \quad \text{i,j&gt;0,且$x<em>{i}=y</em>{j}$}<br />
-    max({c[i][j-1],c[i-1][j]}) &amp; \quad \text{i,j&gt;0,且$x<em>{i} \ne y</em>{j}$}
-  \end{array} \right.
+\begin{array}{l l}
+0 &amp; \quad \text{i=0 或者 j=0}\<br>
+c[i-1][j-1]+1 &amp; \quad \text{i,j&gt;0,且$x_{i}=y_{j}$}\<br>
+max({c[i][j-1],c[i-1][j]}) &amp; \quad \text{i,j&gt;0,且$x_{i} \ne y_{j}$}
+\end{array} \right.
 $$</p>
-
 <p>(1)从中可以看出计算c[i][j]时只需要2行即可，前一行(i-1)和当前行(i)，每行的长度是min{m,n}，首先初始化前一行都为0，然后计算当前行的值，当要计算下一行之前将当前行的值复制到前一行中即可。</p>
-
-<p>(2)从递推公式中还可以看出计算当前行i的话，其实只需要一行再加上O(1)的额外空间就行了。因为计算c[i][j]只需要前一行中c[i-1]<a href="k&gt;=j-1">k</a>的数据，对于k&lt;j-1的数据都是没有用的，而当前行c[i]<a href="l&lt;=j-1">l</a>的数据都是有用的，要用来计算下一行的值，所以，可以在计算当前行的时候，将当前行的前面计算好的部分复制到前一行中对应位置上，但是c[i][j-1]除外，因为c[i-1][j-1]也是需要的，所以需要额外的O(1)的空间保存c[i][j-1]。</p>
-
+<p>(2)从递推公式中还可以看出计算当前行i的话，其实只需要一行再加上O(1)的额外空间就行了。因为计算c[i][j]只需要前一行中c[i-1][k] (k&gt;=j-1)的数据，对于k&lt;j-1的数据都是没有用的，而当前行c[i]<a href="l%3C=j-1">l</a>的数据都是有用的，要用来计算下一行的值，所以，可以在计算当前行的时候，将当前行的前面计算好的部分复制到前一行中对应位置上，但是c[i][j-1]除外，因为c[i-1][j-1]也是需要的，所以需要额外的O(1)的空间保存c[i][j-1]。</p>
 <p>LCS的五种实现：分别为0：直接递归；1：带备忘录的递归；2：使用二维数组保存结果的迭代；3：使用2个一维数组保存结果的迭代；4：使用1个一维数组和额外的O(1)空间保存结果的迭代。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lcs0</span>(i,j):
+    <span style="color:#75715e">#string starts at index 0, not 1</span>
+    <span style="color:#66d9ef">if</span> i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> j<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>: <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">#attention to this!!!</span>
+    <span style="color:#66d9ef">if</span> x[i]<span style="color:#f92672">==</span>y[j]:  <span style="color:#66d9ef">return</span> lcs0(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> max(lcs0(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j),lcs0(i,j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
 
-<pre><code class="language-python">def lcs0(i,j):
-    #string starts at index 0, not 1
-    if i&lt;0 or j&lt;0: return 0 #attention to this!!!
-    if x[i]==y[j]:  return lcs0(i-1,j-1)+1
-    return max(lcs0(i-1,j),lcs0(i,j-1))
+x,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;abcde&#39;</span>,<span style="color:#e6db74">&#39;oaob&#39;</span>
+lenx,leny<span style="color:#f92672">=</span>len(x),len(y)
+<span style="color:#66d9ef">print</span>(lcs0(lenx<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,leny<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)) <span style="color:#75715e">#2</span>
 
-x,y='abcde','oaob'
-lenx,leny=len(x),len(y)
-print(lcs0(lenx-1,leny-1)) #2
+<span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
 
-from functools import wraps
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">memo</span>(func):
+    cache<span style="color:#f92672">=</span>{}
+    <span style="color:#a6e22e">@wraps</span>(func)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrap</span>(<span style="color:#f92672">*</span>args):
+        <span style="color:#66d9ef">if</span> args <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> cache:
+            cache[args]<span style="color:#f92672">=</span>func(<span style="color:#f92672">*</span>args)
+        <span style="color:#66d9ef">return</span> cache[args]
+    <span style="color:#66d9ef">return</span> wrap
 
-def memo(func):
-    cache={}
-    @wraps(func)
-    def wrap(*args):
-        if args not in cache:
-            cache[args]=func(*args)
-        return cache[args]
-    return wrap
+<span style="color:#a6e22e">@memo</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lcs1</span>(i,j):
+    <span style="color:#75715e">#string starts at index 0, not 1</span>
+    <span style="color:#66d9ef">if</span> i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">or</span> j<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>: <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span> <span style="color:#75715e">#attention to this!!!</span>
+    <span style="color:#66d9ef">if</span> x[i]<span style="color:#f92672">==</span>y[j]:  <span style="color:#66d9ef">return</span> lcs1(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">return</span> max(lcs1(i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,j),lcs1(i,j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>))
 
-@memo
-def lcs1(i,j):
-    #string starts at index 0, not 1
-    if i&lt;0 or j&lt;0: return 0 #attention to this!!!
-    if x[i]==y[j]:  return lcs1(i-1,j-1)+1
-    return max(lcs1(i-1,j),lcs1(i,j-1))
+x,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;abcde&#39;</span>,<span style="color:#e6db74">&#39;oaob&#39;</span>
+lenx,leny<span style="color:#f92672">=</span>len(x),len(y)
+<span style="color:#66d9ef">print</span>(lcs1(lenx<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,leny<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)) <span style="color:#75715e">#2</span>
 
-x,y='abcde','oaob'
-lenx,leny=len(x),len(y)
-print(lcs1(lenx-1,leny-1)) #2
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lcs2</span>(x,y):
+    lenx,leny<span style="color:#f92672">=</span>len(x),len(y)
+    minlen,maxlen<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">if</span> lenx<span style="color:#f92672">&lt;</span>leny: minlen,maxlen<span style="color:#f92672">=</span>lenx,leny; x,y<span style="color:#f92672">=</span>y,x
+    <span style="color:#66d9ef">else</span>: minlen,maxlen<span style="color:#f92672">=</span>leny,lenx;
+    <span style="color:#75715e">#s is maxlen * minlen</span>
+    s<span style="color:#f92672">=</span>[[<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen)] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(maxlen)]
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(maxlen): <span style="color:#75715e">#so, let x be the longer string!!!</span>
+        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen):
+            <span style="color:#66d9ef">if</span> x[i]<span style="color:#f92672">==</span>y[j]: s[i][j]<span style="color:#f92672">=</span>s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">else</span>: s[i][j]<span style="color:#f92672">=</span>max(s[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][j],s[i][j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+    <span style="color:#66d9ef">return</span> s
 
-def lcs2(x,y):
-    lenx,leny=len(x),len(y)
-    minlen,maxlen=0,0
-    if lenx&lt;leny: minlen,maxlen=lenx,leny; x,y=y,x
-    else: minlen,maxlen=leny,lenx;
-    #s is maxlen * minlen
-    s=[[0 for j in range(minlen)] for i in range(maxlen)]
-    for i in range(maxlen): #so, let x be the longer string!!!
-        for j in range(minlen):
-            if x[i]==y[j]: s[i][j]=s[i-1][j-1]+1
-            else: s[i][j]=max(s[i-1][j],s[i][j-1])
-    return s
+x,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;abcde&#39;</span>,<span style="color:#e6db74">&#39;oaob&#39;</span>
+s<span style="color:#f92672">=</span>lcs2(x,y)
+<span style="color:#66d9ef">print</span>(s) <span style="color:#75715e">#[[0, 1, 1, 1], [0, 1, 1, 2], [0, 1, 1, 2], [0, 1, 1, 2], [0, 1, 1, 2]]</span>
 
-x,y='abcde','oaob'
-s=lcs2(x,y)
-print(s) #[[0, 1, 1, 1], [0, 1, 1, 2], [0, 1, 1, 2], [0, 1, 1, 2], [0, 1, 1, 2]]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lcs3</span>(x,y):
+    lenx,leny<span style="color:#f92672">=</span>len(x),len(y)
+    minlen,maxlen<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">if</span> lenx<span style="color:#f92672">&lt;</span>leny: minlen,maxlen<span style="color:#f92672">=</span>lenx,leny; x,y<span style="color:#f92672">=</span>y,x
+    <span style="color:#66d9ef">else</span>: minlen,maxlen<span style="color:#f92672">=</span>leny,lenx;
+    <span style="color:#75715e">#s is maxlen * minlen</span>
+    pre<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen)]
+    cur<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen)]
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(maxlen): <span style="color:#75715e">#so, let x be the longer string!!!</span>
+        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen):
+            <span style="color:#66d9ef">if</span> x[i]<span style="color:#f92672">==</span>y[j]: cur[j]<span style="color:#f92672">=</span>pre[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">else</span>: cur[j]<span style="color:#f92672">=</span>max(pre[j],cur[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+        pre[:]<span style="color:#f92672">=</span>cur[:]
+    <span style="color:#66d9ef">return</span> cur
 
-def lcs3(x,y):
-    lenx,leny=len(x),len(y)
-    minlen,maxlen=0,0
-    if lenx&lt;leny: minlen,maxlen=lenx,leny; x,y=y,x
-    else: minlen,maxlen=leny,lenx;
-    #s is maxlen * minlen
-    pre=[0 for j in range(minlen)]
-    cur=[0 for j in range(minlen)]
-    for i in range(maxlen): #so, let x be the longer string!!!
-        for j in range(minlen):
-            if x[i]==y[j]: cur[j]=pre[j-1]+1
-            else: cur[j]=max(pre[j],cur[j-1])
-        pre[:]=cur[:]
-    return cur
+x,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;abcde&#39;</span>,<span style="color:#e6db74">&#39;oaob&#39;</span>
+s<span style="color:#f92672">=</span>lcs3(x,y)
+<span style="color:#66d9ef">print</span>(s) <span style="color:#75715e">#[2, 2, 2, 2]</span>
 
-x,y='abcde','oaob'
-s=lcs3(x,y)
-print(s) #[2, 2, 2, 2]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lcs4</span>(x,y):
+    lenx,leny<span style="color:#f92672">=</span>len(x),len(y)
+    minlen,maxlen<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">if</span> lenx<span style="color:#f92672">&lt;</span>leny: minlen,maxlen<span style="color:#f92672">=</span>lenx,leny; x,y<span style="color:#f92672">=</span>y,x
+    <span style="color:#66d9ef">else</span>: minlen,maxlen<span style="color:#f92672">=</span>leny,lenx;
+    <span style="color:#75715e">#s is maxlen * minlen</span>
+    s<span style="color:#f92672">=</span>[<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen)]
+    t<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(maxlen): <span style="color:#75715e">#so, let x be the longer string!!!</span>
+        <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(minlen):
+            <span style="color:#66d9ef">if</span> x[i]<span style="color:#f92672">==</span>y[j]: s[j]<span style="color:#f92672">=</span>t<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">else</span>: s[j]<span style="color:#f92672">=</span>max(s[j],s[j<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+            t<span style="color:#f92672">=</span>s[j]
+    <span style="color:#66d9ef">return</span> s
 
-def lcs4(x,y):
-    lenx,leny=len(x),len(y)
-    minlen,maxlen=0,0
-    if lenx&lt;leny: minlen,maxlen=lenx,leny; x,y=y,x
-    else: minlen,maxlen=leny,lenx;
-    #s is maxlen * minlen
-    s=[0 for j in range(minlen)]
-    t=0
-    for i in range(maxlen): #so, let x be the longer string!!!
-        for j in range(minlen):
-            if x[i]==y[j]: s[j]=t+1
-            else: s[j]=max(s[j],s[j-1])
-            t=s[j]
-    return s
-
-x,y='abcde','oaobce'
-s=lcs4(x,y)
-print(s) #[3, 3, 3, 3, 4]
-</code></pre>
+x,y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;abcde&#39;</span>,<span style="color:#e6db74">&#39;oaobce&#39;</span>
+s<span style="color:#f92672">=</span>lcs4(x,y)
+<span style="color:#66d9ef">print</span>(s) <span style="color:#75715e">#[3, 3, 3, 3, 4]</span>
+</code></pre></div>
     </section>
 
     <footer class="post-footer">
@@ -318,27 +284,23 @@ print(s) #[3, 3, 3, 3, 4]
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/"><h4>Love you</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/"><h4>Problem: Delete Number Problem</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/20/problem-delete-number-problem/"><h4>Problem: Delete Number Problem</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/"><h4>Love you</h4></a></span>
       
   
 </aside>
@@ -347,42 +309,6 @@ print(s) #[3, 3, 3, 3, 4]
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -391,7 +317,7 @@ print(s) #[3, 3, 3, 3, 4]
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

@@ -5,7 +5,7 @@
        Build Android Source Code on Mac &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Build Android Source Code on Mac &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,46 +158,28 @@
     </header>
 
     <section class="post-content">
-      <p>本文记录下搭建Android源码编译环境的流程。 </p>
-
+      <p>本文记录下搭建Android源码编译环境的流程。</p>
 <p>趁着国庆长假，抽出些时间来记录下最近倒腾的一些内容，第一个需要记录的自然是Android源码编译的流程。上班第一天就干了一件事，编译Android 6.0源码，第二天就是编译Flyme系统啦！但是编完系统之后刷到PRO6里面还有点小鸡冻呢！</p>
-
 <p><strong>Ubuntu系统下的Android源码编译环境搭建</strong></p>
-
 <p>如果是在Ubuntu系统下进行编译的话，中文文档请参考<a href="http://blog.csdn.net/dd864140130/article/details/51718187">自己动手编译最新Android源码及SDK</a>或者Gityuan写的编译最新的7.0源码的文章<a href="http://gityuan.com/2016/08/20/Android_N/">搭建Android 7.0的源码环境</a>，英文文档主要看Google官方的文档，包括<a href="https://source.android.com/source/requirements.html">前提要求篇</a>、<a href="https://source.android.com/source/initializing.html">环境准备篇</a>以及<a href="https://source.android.com/source/building.html">源码编译篇</a>，如果磁盘空间充足并且网络环境通畅的话，编译通过是没啥问题的。</p>
-
-<p>特别需要注意以下几点：<br />
-0.磁盘空间的大小<br />
+<p>特别需要注意以下几点：<br>
+0.磁盘空间的大小<br>
 按照Google官方的说法是，checkout代码至少需要100GB空间，单个编译的话至少需要150GB空间，多类型的编译的话至少需要200GB空间(实际我下载完代码之后大约占用了50GB左右)。而且，如果你是在虚拟机的Linux中编译的话，还需要满足至少有16GB的RAM/swap。</p>
-
-<p>1.Ubuntu系统的版本和JDK的版本<br />
+<p>1.Ubuntu系统的版本和JDK的版本<br>
 Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件更新，建议更新一下。此外，推荐在设置中设置软件更新的远程服务器，将其设置为China下的aliyun服务器，这样速度会快很多。</p>
-
 <p>JDK版本需要根据你要编译的Android系统版本来确定，而且还需要注意是Oracle JDK还是Open JDK！可以在系统中多安装几个版本的JDK，以后使用<code>update-alternatives --config</code>命令来切换。</p>
-
 <p>2.Android源码的分支
 详细的分支列表可以在<a href="https://source.android.com/source/build-numbers.html#source-code-tags-and-builds">这里</a>查看，当然，repo init的时候也可以不指定分支。</p>
-
 <p><strong>Mac系统下的Android源码编译环境搭建</strong></p>
-
 <p>关于是否在自己的MBP上搭建android编译环境的问题我纠结了很久，原因是自己的磁盘剩余空间真的不多了，后来在网上找到了Mac笔记本的扩容卡，对于我这款MBP来说最大可以扩容256GB！虽然有点贵，但是，为了Android，豁出去啦！</p>
-
 <p>在Mac系统上进行Android源码编译的话可以参考<a href="http://www.jianshu.com/p/f0356e3ea330">Mac下设置Android源代码编译环境</a>这篇文章，主要步骤分别是创建大小写敏感的磁盘、安装依赖包、下载Android源码然后编译就行了。</p>
-
 <p>对于第一步，创建磁盘操作我是直接将买来的扩容卡格式化成OS X Extended(Case-sensitive Journaled)格式。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/osx_extended.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/osx_extended.png" alt="img"></p>
 <p>第二步是安装JDK、Xcode、MacPorts，这三个在我当前的系统中都已经有了，检查下版本是否可以就行，之后就是通过MacPorts安装几个依赖包，<code>POSIXLY_CORRECT=1 sudo port install gmake libsdl git gnupg</code>。</p>
-
 <p>这一步我遇到了一个坑，简单描述下：我目前的系统一直以来都是通过系统的更新而升级过来的，所以大概有2年左右的时间没有重装了（嗯，我就是在夸Mac系统好☺️），系统环境也慢慢变得相当复杂了。之前用MacPorts，后来用Homebrew，但是大家都知道<code>brew doctor</code>的时候总是会提醒MacPorts如何如何的，建议你移动它的位置，后来我貌似是移动了还是怎么的，系统的MacPorts不能正常工作了，利用安装工具反复安装了很多次都卡在了最后的<code>Running package scripts</code>这个步骤，翻墙状态下安装也是如此，最后的解决方案是利用MacPorts的源码安装一次就好啦！还有就是，不管你的MacPorts是否正常，建议执行一次<code>sudo ports -v selfupdate</code>进行更新升级一次，如果失败可能是网络连接的问题，可以试试MacPorts的其他镜像。</p>
-
 <p>第三步是下载Android源码，大家都知道在国内的话需要找镜像，我选择的是清华大学的<a href="https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/">TUNA镜像</a>。建议下载它的初始化包，大约20多GB，待解压并且完成repo sync之后建议将这个初始化包保存到移动硬盘中存起来，然后删除本地的初始化包，这样可以省下大量的磁盘空间。</p>
-
 <p>对于Mac系统最后还需要在<code>~/.bash_profile</code>中设置<code>ulimit -S -n 1024</code>以增加最大文件打开数量。</p>
-
 <p>最后一步是执行编译，lunch时我选择<code>aosp_arm64_eng</code>为target，并启动6个线程进行编译<code>make -j6</code>。</p>
-
 <p>Anyway，最后我还是没能在Mac上编译成功，貌似机器的配置还是不够，算了，还是用来看代码吧。</p>
     </section>
 
@@ -241,27 +201,23 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/"><h4>Head First Systrace</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/"><h4>Pury Project Analysis</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/"><h4>Pury Project Analysis</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/"><h4>Head First Systrace</h4></a></span>
       
   
 </aside>
@@ -270,42 +226,6 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -314,7 +234,7 @@ Ubuntu系统推荐使用14.04，而且安装好系统之后如果有提示软件
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

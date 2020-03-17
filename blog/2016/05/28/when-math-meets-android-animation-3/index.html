@@ -5,7 +5,7 @@
        When Math meets Android Animation (3) &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" When Math meets Android Animation (3) &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,25 +159,15 @@
 
     <section class="post-content">
       <p>当数学遇上动画：讲述<code>ValueAnimator</code>、<code>TypeEvaluator</code>和<code>TimeInterpolator</code>之间的恩恩怨怨(3)</p>
-
-<p>上一节我们得到一个重要的结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code><strong>&ldquo;单独&rdquo;</strong> 来控制动画所产生的动画效果殊途同归！</p>
-
+<p>上一节我们得到一个重要的结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code>**&ldquo;单独&rdquo;** 来控制动画所产生的动画效果殊途同归！</p>
 <p>此外，上一节结尾我们还说到，项目<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>和项目<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>本质上是差不多的，都是定义了一些动画效果对应的函数曲线。前者是将其封装成了<code>TypeEvaluator</code>，后者是将其封装成了<code>Interpolator</code>！</p>
-
 <p>这一节我们来研究下这些函数曲线。</p>
-
 <h3 id="1-缓动函数曲线"><strong>1 缓动函数曲线</strong></h3>
-
 <p>下图显示了常见的这些函数曲线，到底这些函数曲线都是什么鬼呢？</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/easingfuctions.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/easingfuctions.png" alt="img"></p>
 <p>这些函数曲线最早是由<a href="https://www.linkedin.com/in/robertpenner">Robert Penner</a>提出来用于实现补间动画的<code>&quot;Penner easing functions&quot;</code>，这些曲线主要分成10类，包括<code>&quot;BACK&quot;, &quot;BOUNCE&quot;, &quot;CIRCULAR&quot;, &quot;ELASTIC&quot;, &quot;EXPO&quot;, &quot;QUAD&quot;, &quot;CUBIC&quot;, &quot;QUART&quot;, &quot;QUINT&quot;, &quot;SINE&quot;</code>，每一类下面都有缓动进入、缓动退出以及缓动进入和退出三种效果，所以共有30个。这些效果对照着函数曲线来看其实也挺好理解，<code>&quot;QUAD&quot;, &quot;CUBIC&quot;, &quot;QUART&quot;, &quot;QUINT&quot;</code>分别对应着二次、三次、四次以及五次曲线，<code>&quot;SINE&quot;</code>对应正弦函数曲线，<code>&quot;EXPO&quot;</code>对应指数函数曲线等等。其中<code>&quot;BACK&quot;</code>和<code>&quot;ELASTIC&quot;</code>有上冲和下冲的效果。</p>
-
 <p>Robert Penner在Github上开源了<a href="https://github.com/danro/jquery-easing/blob/master/jquery.easing.js">jQuery的版本实现</a>，随后也就有了很多不同语言版本的实现，例如Java版本的<a href="https://github.com/jesusgollonet/processing-penner-easing">jesusgollonet/processing-penner-easing</a>以及代码家的Android版本的<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>等等。</p>
-
 <p>这些版本的实现都是4个参数的，分别是起始值<code>b</code>、数值间隔<code>c</code>（结束值-起始值）、当前时间<code>t</code>、时间间隔<code>d</code>。</p>
-
 <pre><code>//不带缓动，也就是前面说的“线性”估值器
 function noEasing (t, b, c, d) {
 	return c * (t / d) + b;
@@ -216,10 +184,7 @@ easeInOutQuad: function (t, b, c, d) {//缓动进入和退出
 	if ((t/=d/2) &lt; 1) return c/2*t*t + b;
 	return -c/2 * ((--t)*(t-2) - 1) + b;
 },
-</code></pre>
-
-<p>那为什么与之殊途同归的<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>是1个参数的呢？</p>
-
+</code></pre><p>那为什么与之殊途同归的<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>是1个参数的呢？</p>
 <pre><code>//QuadInOut Interpolator
 public float getInterpolation(float input) {
   if((input /= 0.5f) &lt; 1) {
@@ -227,34 +192,21 @@ public float getInterpolation(float input) {
   }
   return -0.5f * ((--input) * (input - 2) - 1);
 }
-</code></pre>
-
-<p>这是因为当<code>Interpolator</code>传入到后面的<code>TypeEvaluator</code>的时候就有了起始值、结束值以及时间间隔（时间间隔定义在缓动函数内部，只有部分缓动函数需要这个参数）这3个参数，可以参考下面的代码来理解，所以说，它们在本质上还是一样的！</p>
-
+</code></pre><p>这是因为当<code>Interpolator</code>传入到后面的<code>TypeEvaluator</code>的时候就有了起始值、结束值以及时间间隔（时间间隔定义在缓动函数内部，只有部分缓动函数需要这个参数）这3个参数，可以参考下面的代码来理解，所以说，它们在本质上还是一样的！</p>
 <pre><code>fraction = getInterpolation(input)  ==&gt; 这种1个参数形式其实也可以等效于 easingfunction(currentTime, 0, 1, totalTime)
 value = evaluate(fraction, startValue, endValue) = startValue + fraction * (endValue - startValue)  
-</code></pre>
-
-<h3 id="2-one-more-thing"><strong>2 One more thing</strong></h3>
-
+</code></pre><h3 id="2-one-more-thing"><strong>2 One more thing</strong></h3>
 <p>看到这里的话，我们就会想啦，如果我们把函数曲线抽象出来，然后再提供相应的转换方法，使其轻轻松松地转换成<code>Interpolator</code>和<code>TypeEvaluator</code>的话，如此，岂不善哉？</p>
-
 <p>所以，我就站在众多巨人们的肩膀上，写了一个新项目<a href="https://github.com/hujiaweibujidao/yava">Yava</a>，项目代码非常简单，而且代码很少只有4个重要的类，它实现的功能就是将抽象的函数曲线轻松转换成立即可用的<code>Interpolator</code>和<code>TypeEvaluator</code>，并且提供了常见的30个缓动函数(Easing Functions)的实现，它们既可以当做<code>Interpolator</code>来用，又可以当做<code>TypeEvaluator</code>来用，非常方便。</p>
-
 <p>这里我直接把这4个重要类的代码贴出来吧。</p>
-
 <p>(1) <code>IFunction</code>接口</p>
-
 <pre><code>/**
  * 函数接口：给定输入，得到输出
  */
 public interface IFunction {
     float getValue(float input);
 }
-</code></pre>
-
-<p>(2)<code>AbstractFunction</code>抽象类</p>
-
+</code></pre><p>(2)<code>AbstractFunction</code>抽象类</p>
 <pre><code>/**
  * 抽象函数实现，既可以当做简单函数使用，也可以当做Interpolator或者TypeEvaluator去用于制作动画
  */
@@ -270,10 +222,7 @@ public abstract class AbstractFunction implements IFunction, Interpolator, TypeE
         return startValue + getValue(fraction) * (endValue - startValue);
     }
 }
-</code></pre>
-
-<p>(3)<code>Functions</code>类</p>
-
+</code></pre><p>(3)<code>Functions</code>类</p>
 <pre><code>/**
  * 工具类，将自定义的函数快速封装成AbstractFunction
  */
@@ -288,10 +237,7 @@ class Functions {
         };
     }
 }
-</code></pre>
-
-<p>(4)<code>EasingFunction</code>枚举：包含了30个常见的缓动函数</p>
-
+</code></pre><p>(4)<code>EasingFunction</code>枚举：包含了30个常见的缓动函数</p>
 <pre><code>/**
  * 常见的30个缓动函数的实现
  */
@@ -354,14 +300,9 @@ public enum EasingFunction implements IFunction, Interpolator, TypeEvaluator&lt;
     public static float TWO_PI = PI * 2.0f;
     public static float HALF_PI = PI * 0.5f;
 }
-</code></pre>
-
-<p>这个项目的缓动函数的实现参考自<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>中的实现，但是这个项目的代码和EaseInterpolator以及AnimationEasingFunctions这两个项目都完全不一样，非常简单易懂，既保留了原有项目应有的功能，同时为项目的使用场景提供了更多的可能，任何你想使用<code>Interpolator</code>或者<code>TypeEvaluator</code>都能使用它。</p>
-
+</code></pre><p>这个项目的缓动函数的实现参考自<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>中的实现，但是这个项目的代码和EaseInterpolator以及AnimationEasingFunctions这两个项目都完全不一样，非常简单易懂，既保留了原有项目应有的功能，同时为项目的使用场景提供了更多的可能，任何你想使用<code>Interpolator</code>或者<code>TypeEvaluator</code>都能使用它。</p>
 <p>举个例子，以上一节中的弹跳动画效果为例，现在可以直接使用<code>EasingFunction.BOUNCE_OUT</code>作为<code>Interpolator</code>或者<code>TypeEvaluator</code>来使用：</p>
-
 <p>第一种方式：使用线性插值器和自定义的TypeEvaluator</p>
-
 <pre><code>ObjectAnimator animator1 = new ObjectAnimator();
 animator1.setTarget(textView1);
 animator1.setPropertyName(&quot;translationY&quot;);
@@ -370,10 +311,7 @@ animator1.setDuration(1000);
 animator1.setInterpolator(new LinearInterpolator());
 animator1.setEvaluator(EasingFunction.BOUNCE_OUT); //这里将EasingFunction.BOUNCE_OUT作为TypeEvaluator来使用
 animator1.start();
-</code></pre>
-
-<p>第二种方式：使用自定义的Interpolator和&rdquo;线性估值器&rdquo;</p>
-
+</code></pre><p>第二种方式：使用自定义的Interpolator和&quot;线性估值器&rdquo;</p>
 <pre><code>ObjectAnimator animator2 = new ObjectAnimator();
 animator2.setTarget(textView2);
 animator2.setPropertyName(&quot;translationY&quot;);
@@ -382,12 +320,8 @@ animator2.setDuration(1000);
 animator2.setInterpolator(EasingFunction.BOUNCE_OUT); //这里将EasingFunction.BOUNCE_OUT作为Interpolator来使用
 animator2.setEvaluator(new FloatEvaluator());
 animator2.start();
-</code></pre>
-
-<p>如果你想使用自己定义的函数来制作动画，可以使用<code>Functions</code>的<code>with</code>方法，传入一个实现了<code>IFunction</code>接口的类就行，返回值你既可以当做<code>Interpolator</code>，也可以当做<code>TypeEvaluator</code>来使用</p>
-
+</code></pre><p>如果你想使用自己定义的函数来制作动画，可以使用<code>Functions</code>的<code>with</code>方法，传入一个实现了<code>IFunction</code>接口的类就行，返回值你既可以当做<code>Interpolator</code>，也可以当做<code>TypeEvaluator</code>来使用</p>
 <p>代码示例：</p>
-
 <pre><code>ObjectAnimator animator1 = new ObjectAnimator();
 animator1.setTarget(textView1);
 animator1.setPropertyName(&quot;translationY&quot;);
@@ -401,10 +335,7 @@ animator1.setEvaluator(Functions.with(new IFunction() { //自定义为TypeEvalua
     }
 }));
 animator1.start();
-</code></pre>
-
-<p>或者这样：</p>
-
+</code></pre><p>或者这样：</p>
 <pre><code>ObjectAnimator animator2 = new ObjectAnimator();
 animator2.setTarget(textView2);
 animator2.setPropertyName(&quot;translationY&quot;);
@@ -418,14 +349,9 @@ animator2.setInterpolator(Functions.with(new IFunction() { //自定义为Interpo
 }));
 animator2.setEvaluator(new FloatEvaluator());
 animator2.start();
-</code></pre>
-
-<p>为了方便查看定义出来的<code>Interpolator</code>和<code>TypeEvaluator</code>的效果，我将前面两个项目中的可视化部分整理到项目<a href="https://github.com/hujiaweibujidao/yava">Yava</a>中，样例应用还包含了上一节的用来作验证的例子，最终效果如下：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/yava.gif" alt="img" /></p>
-
+</code></pre><p>为了方便查看定义出来的<code>Interpolator</code>和<code>TypeEvaluator</code>的效果，我将前面两个项目中的可视化部分整理到项目<a href="https://github.com/hujiaweibujidao/yava">Yava</a>中，样例应用还包含了上一节的用来作验证的例子，最终效果如下：</p>
+<p><img src="https://hujiaweibujidao.github.io/images/yava.gif" alt="img"></p>
 <p>恭喜你终于看完了，也恭喜自己终于写完了。至此，你可能还有一个疑惑，那就是那些函数曲线是怎么想出来的？这个&hellip;我也不知道，我也想知道，别问我，去问<a href="https://www.linkedin.com/in/robertpenner">Robert Penner</a>吧 😌</p>
-
 <p>最后，我还准备写另一个Android动画效果库<a href="https://github.com/hujiaweibujidao/wava">wava</a>，神一样的<a href="https://github.com/daimajia">代码家</a>还做了一个超厉害的项目<a href="https://github.com/daimajia/AndroidViewAnimations">AndroidViewAnimations</a>，目前我的<code>wava</code>只是基于它做些改进，后期我打算加上一些很特别的东西，暂时不表，欢迎关注项目<a href="https://github.com/hujiaweibujidao/wava">wava</a> 😘</p>
     </section>
 
@@ -447,27 +373,23 @@ animator2.start();
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/"><h4>When Math meets Android Animation (2)</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/"><h4>Ways to Use Icons on Android (1)</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/"><h4>Ways to Use Icons on Android (1)</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/"><h4>When Math meets Android Animation (2)</h4></a></span>
       
   
 </aside>
@@ -476,42 +398,6 @@ animator2.start();
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -520,7 +406,7 @@ animator2.start();
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

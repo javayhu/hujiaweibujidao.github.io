@@ -5,7 +5,7 @@
        Google APAC 2015 University Graduates Test Round D &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Google APAC 2015 University Graduates Test Round D &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/11/09/google-apac-2015-university-graduates-test-round-d/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,173 +158,160 @@
     </header>
 
     <section class="post-content">
-      <p>Google APAC 2015 University Graduates Test Round D </p>
-
+      <p>Google APAC 2015 University Graduates Test Round D</p>
 <p>前段时间才知道的Google APAC比赛，于是乎注册了今天下午的比赛，Round D，总共四道题，只过了两道，完了之后现在过了三道。这三道都不难只是觉得很奇怪，不熟悉这种比赛模式，它是让你下载输入文件，然后你在给定时间内提交输出文件和源程序即可，对于每道题目都有一个小测试集和大测试集。</p>
-
 <p>我以为一般大测试集肯定不好过的，但是纳闷的是其实也很好过，所以本来第二题暴力很简单就能过，我以为要优化，写了半天还是错了，于是在比赛前暴力了一下，结果竟然过了，哎，请理解俺这个菜鸟。</p>
-
 <p>废话不多说了，下面是前三题的解题报告</p>
-
 <p>[我的代码总是冗长冗长的，可读性高，但是花的时间总是比别人长，所以我真心不适合比赛，汗⊙﹏⊙]</p>
-
 <p>###<a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p0">Problem A. Cube IV</a></p>
-
 <p>问题A是说在S*S个方格中，每个方格代表一个房间，房间有一个房间编号，从1到S的平方，每个里面有一个人，这个人可以从一个房间A移动到另一个房间B，但是必须满足房间B的编号比房间A的编号大1才行，问哪个房间的人能够移动的距离最远，最远的距离又是多少？如果两个人能够移动的距离相同，输出房间号小的那个人。</p>
-
 <p>思路：自始至终维护结果r和d，从房间号最大的那个房间开始DFS，遇到房间号小1的房间就进入，一直下去直到不能移动了，修改r和d的值，然后从比上次停下来的房间小1的房间开始继续DFS，如果他移动的距离更多的话，那么就修改d和r即可，一直下去就能得到最终解。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> java.io.BufferedOutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.FileInputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.FileOutputStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.io.PrintStream<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> java.util.Scanner<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.util.Scanner;
+<span style="color:#75715e">//https://code.google.com/codejam/contest/6214486/dashboard#s=p0
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProblemA</span> <span style="color:#f92672">{</span>
 
-//https://code.google.com/codejam/contest/6214486/dashboard#s=p0
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> s<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[][]</span> p<span style="color:#f92672">;</span>
 
-public class ProblemA {
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        PrintStream out <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PrintStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> BufferedOutputStream<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileOutputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;data/out.txt&#34;</span><span style="color:#f92672">)));</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">setOut</span><span style="color:#f92672">(</span>out<span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">setErr</span><span style="color:#f92672">(</span>out<span style="color:#f92672">);</span>
+        Scanner scanner <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Scanner<span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> FileInputStream<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;data/in.txt&#34;</span><span style="color:#f92672">));</span>
+        <span style="color:#66d9ef">int</span> t <span style="color:#f92672">=</span> scanner<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> 1<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>t<span style="color:#f92672">--</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            s <span style="color:#f92672">=</span> scanner<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">();</span>
+            p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">[</span>s<span style="color:#f92672">][</span>s<span style="color:#f92672">];</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> j <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">;</span> j<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                    p<span style="color:#f92672">[</span>i<span style="color:#f92672">][</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> scanner<span style="color:#f92672">.</span><span style="color:#a6e22e">nextInt</span><span style="color:#f92672">();</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Case #&#34;</span> <span style="color:#f92672">+</span> c <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;: &#34;</span><span style="color:#f92672">);</span>
+            solve<span style="color:#f92672">();</span>
+            c<span style="color:#f92672">++;</span>
+        <span style="color:#f92672">}</span>
+        out<span style="color:#f92672">.</span><span style="color:#a6e22e">flush</span><span style="color:#f92672">();</span>
+        out<span style="color:#f92672">.</span><span style="color:#a6e22e">close</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
 
-    private static int s;
-    private static int[][] p;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">solve</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> d <span style="color:#f92672">=</span> 1<span style="color:#f92672">,</span> max <span style="color:#f92672">=</span> s <span style="color:#f92672">*</span> s<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">while</span> <span style="color:#f92672">(</span>max <span style="color:#f92672">&gt;</span> 0 <span style="color:#f92672">&amp;&amp;</span> max <span style="color:#f92672">&gt;=</span> d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            Point maxp <span style="color:#f92672">=</span> findPoint<span style="color:#f92672">(</span>max<span style="color:#f92672">);</span>
+            Result result <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Result<span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> 1<span style="color:#f92672">);</span>
+            dfs<span style="color:#f92672">(</span>maxp<span style="color:#f92672">,</span> result<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span> <span style="color:#f92672">&gt;=</span> d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                r <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span><span style="color:#a6e22e">r</span><span style="color:#f92672">;</span>
+                d <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">;</span>
+            <span style="color:#f92672">}</span>
+            max <span style="color:#f92672">=</span> max <span style="color:#f92672">-</span> result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">;</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">}</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>r <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> d<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    public static void main(String[] args) throws Exception {
-        PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(&quot;data/out.txt&quot;)));
-        System.setOut(out);
-        System.setErr(out);
-        Scanner scanner = new Scanner(new FileInputStream(&quot;data/in.txt&quot;));
-        int t = scanner.nextInt();
-        int c = 1;
-        while (t-- &gt; 0) {
-            s = scanner.nextInt();
-            p = new int[s][s];
-            for (int i = 0; i &lt; s; i++) {
-                for (int j = 0; j &lt; s; j++) {
-                    p[i][j] = scanner.nextInt();
-                }
-            }
-            System.out.print(&quot;Case #&quot; + c + &quot;: &quot;);
-            solve();
-            c++;
-        }
-        out.flush();
-        out.close();
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span><span style="color:#f92672">(</span>Point current<span style="color:#f92672">,</span> Result result<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">//left
+</span><span style="color:#75715e"></span>        Point left <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">left</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>left <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">[</span>left<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>left<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> p<span style="color:#f92672">[</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">r</span> <span style="color:#f92672">=</span> p<span style="color:#f92672">[</span>left<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>left<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">];</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">++;</span>
+            dfs<span style="color:#f92672">(</span>left<span style="color:#f92672">,</span> result<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//right
+</span><span style="color:#75715e"></span>        Point right <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">right</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>right <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">[</span>right<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>right<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> p<span style="color:#f92672">[</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">r</span> <span style="color:#f92672">=</span> p<span style="color:#f92672">[</span>right<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>right<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">];</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">++;</span>
+            dfs<span style="color:#f92672">(</span>right<span style="color:#f92672">,</span> result<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//up
+</span><span style="color:#75715e"></span>        Point up <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">up</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>up <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">[</span>up<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>up<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> p<span style="color:#f92672">[</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">r</span> <span style="color:#f92672">=</span> p<span style="color:#f92672">[</span>up<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>up<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">];</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">++;</span>
+            dfs<span style="color:#f92672">(</span>up<span style="color:#f92672">,</span> result<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#75715e">//down
+</span><span style="color:#75715e"></span>        Point down <span style="color:#f92672">=</span> current<span style="color:#f92672">.</span><span style="color:#a6e22e">down</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>down <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> p<span style="color:#f92672">[</span>down<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>down<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">==</span> p<span style="color:#f92672">[</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>current<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">r</span> <span style="color:#f92672">=</span> p<span style="color:#f92672">[</span>down<span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">][</span>down<span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">];</span>
+            result<span style="color:#f92672">.</span><span style="color:#a6e22e">d</span><span style="color:#f92672">++;</span>
+            dfs<span style="color:#f92672">(</span>down<span style="color:#f92672">,</span> result<span style="color:#f92672">);</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
 
-    private static void solve() {
-        int r = 0, d = 1, max = s * s;
-        while (max &gt; 0 &amp;&amp; max &gt;= d) {
-            Point maxp = findPoint(max);
-            Result result = new Result(1, 1);
-            dfs(maxp, result);
-            if (result.d &gt;= d) {
-                r = result.r;
-                d = result.d;
-            }
-            max = max - result.d;//
-        }
-        System.out.println(r + &quot; &quot; + d);
-    }
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> Point <span style="color:#a6e22e">findPoint</span><span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> max<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> j <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">;</span> j<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>p<span style="color:#f92672">[</span>i<span style="color:#f92672">][</span>j<span style="color:#f92672">]</span> <span style="color:#f92672">==</span> max<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">(</span>s<span style="color:#f92672">,</span> i<span style="color:#f92672">,</span> j<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    private static void dfs(Point current, Result result) {
-        //left
-        Point left = current.left();
-        if (left != null &amp;&amp; p[left.x][left.y] == p[current.x][current.y] - 1) {
-            result.r = p[left.x][left.y];
-            result.d++;
-            dfs(left, result);
-            return;
-        }
-        //right
-        Point right = current.right();
-        if (right != null &amp;&amp; p[right.x][right.y] == p[current.x][current.y] - 1) {
-            result.r = p[right.x][right.y];
-            result.d++;
-            dfs(right, result);
-            return;
-        }
-        //up
-        Point up = current.up();
-        if (up != null &amp;&amp; p[up.x][up.y] == p[current.x][current.y] - 1) {
-            result.r = p[up.x][up.y];
-            result.d++;
-            dfs(up, result);
-            return;
-        }
-        //down
-        Point down = current.down();
-        if (down != null &amp;&amp; p[down.x][down.y] == p[current.x][current.y] - 1) {
-            result.r = p[down.x][down.y];
-            result.d++;
-            dfs(down, result);
-            return;
-        }
-    }
+<span style="color:#f92672">}</span>
 
-    private static Point findPoint(int max) {
-        for (int i = 0; i &lt; s; i++) {
-            for (int j = 0; j &lt; s; j++) {
-                if (p[i][j] == max) {
-                    return new Point(s, i, j);
-                }
-            }
-        }
-        return null;
-    }
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Point</span> <span style="color:#f92672">{</span>
 
-}
+    <span style="color:#66d9ef">int</span> s<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> x<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> y<span style="color:#f92672">;</span>
 
-class Point {
+    Point<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> s<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> x<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> y<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span> <span style="color:#f92672">=</span> s<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">x</span> <span style="color:#f92672">=</span> x<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">y</span> <span style="color:#f92672">=</span> y<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    int s;
-    int x;
-    int y;
+    Point <span style="color:#a6e22e">up</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">-</span> 1 <span style="color:#f92672">&gt;=</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">x</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    Point(int s, int x, int y) {
-        this.s = s;
-        this.x = x;
-        this.y = y;
-    }
+    Point <span style="color:#a6e22e">down</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>x <span style="color:#f92672">+</span> 1 <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">x</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">y</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    Point up() {
-        if (x - 1 &gt;= 0) return new Point(this.s, this.x - 1, this.y);
-        return null;
-    }
+    Point <span style="color:#a6e22e">left</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>y <span style="color:#f92672">-</span> 1 <span style="color:#f92672">&gt;=</span> 0<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">y</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    Point down() {
-        if (x + 1 &lt; s) return new Point(this.s, this.x + 1, this.y);
-        return null;
-    }
+    Point <span style="color:#a6e22e">right</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>y <span style="color:#f92672">+</span> 1 <span style="color:#f92672">&lt;</span> s<span style="color:#f92672">)</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Point<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">s</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">x</span><span style="color:#f92672">,</span> <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">y</span> <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    Point left() {
-        if (y - 1 &gt;= 0) return new Point(this.s, this.x, this.y - 1);
-        return null;
-    }
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Result</span> <span style="color:#f92672">{</span>
 
-    Point right() {
-        if (y + 1 &lt; s) return new Point(this.s, this.x, this.y + 1);
-        return null;
-    }
-}
+    <span style="color:#66d9ef">int</span> r<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">int</span> d<span style="color:#f92672">;</span>
 
-class Result {
+    Result<span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> r<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> d<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">r</span> <span style="color:#f92672">=</span> r<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">d</span> <span style="color:#f92672">=</span> d<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
 
-    int r;
-    int d;
-
-    Result(int r, int d) {
-        this.r = r;
-        this.d = d;
-    }
-}
-
-</code></pre>
-
-<p>###<a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p1">Problem B. GBus count</a></p>
-
+</code></pre></div><p>###<a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p1">Problem B. GBus count</a></p>
 <p>问题B是说在一些城市之间有一些公交车，给你这些车的起点和终点的数据，假设某辆公交车是从1到10，那么城市1、城市2、城市3等一直到城市10都被经过了，现在要求的是有多少辆车经过了某个城市？</p>
-
-<p>思路：这简直不能叫做思路！纯暴力就行了！遍历所有公交车的线路，统计判断该城市是否在这个线路上即可。这样就已经可以过了！比赛时我想了写优化，大致思路是假设城市编号为c，公交车的线路为 $a<em>{i}$ 和 $b</em>{i}$，首先对所有公交线路按照 $a<em>{i}$ 排序，保留那些 $a</em>{i}&lt;=c$ 的线路，然后对这些线路按照 $b<em>{i}$ 排序，保留那些 ${b</em>{i}&gt;=c}$ 的线路，最后保留下来的线路的个数就是最终的解。[但是我的代码有问题，即下面的<code>solve</code>方法，提交了几次都报错]</p>
-
+<p>思路：这简直不能叫做思路！纯暴力就行了！遍历所有公交车的线路，统计判断该城市是否在这个线路上即可。这样就已经可以过了！比赛时我想了写优化，大致思路是假设城市编号为c，公交车的线路为 $a_{i}$ 和 $b_{i}$，首先对所有公交线路按照 $a_{i}$ 排序，保留那些 $a_{i}&lt;=c$ 的线路，然后对这些线路按照 $b_{i}$ 排序，保留那些 ${b_{i}&gt;=c}$ 的线路，最后保留下来的线路的个数就是最终的解。[但是我的代码有问题，即下面的<code>solve</code>方法，提交了几次都报错]</p>
 <pre><code>import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -489,14 +454,9 @@ class Bus {
     }
 }
 
-</code></pre>
-
-<p>###<a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p2">Problem C. Sort a scrambled itinerary</a></p>
-
+</code></pre><p>###<a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p2">Problem C. Sort a scrambled itinerary</a></p>
 <p>问题C是说给你一些航班的信息，包括起点城市和终点城市，但是顺序乱了，让你来确定这些航班整合起来最后是从哪里到哪里之后又到了哪里。</p>
-
 <p>思路：这题很简单，起点是入度为0的点，终点是出度为0的点，一个while循环就能搞定，就这样简单的思路这道题目就可以过。</p>
-
 <pre><code>import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -588,16 +548,10 @@ class City {
 
 }
 
-</code></pre>
-
-<p><a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p3">Problem D. Itz Chess</a></p>
-
+</code></pre><p><a href="https://code.google.com/codejam/contest/6214486/dashboard#s=p3">Problem D. Itz Chess</a></p>
 <p>问题D是说在国际象棋的棋盘上放了一些棋子，在当前位置下有些棋子可以杀死其他的棋子，问共有多少个可以杀死的情况。</p>
-
 <p>思路：我没啥特别的思路，就是根据每类棋子的不同攻击方式编写相应的检验函数看它是否能够将某个棋子杀死。</p>
-
 <p>小数据集的测试样例貌似都是关于K和P的，我都通过了，但是大数据测试集没有通过，估计是哪类棋子的攻击检验函数有问题，暂时不知道问题在哪，若有发现的请告知，谢谢。</p>
-
 <pre><code>import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -796,27 +750,23 @@ class Chess {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/"><h4>Talk big of West Travelling</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/"><h4>using Qiniu JS SDK to upload Videos in Django</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/11/14/using-qiniu-js-sdk-to-upload-videos-in-django/"><h4>using Qiniu JS SDK to upload Videos in Django</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/10/24/talk-big-of-west-travelling/"><h4>Talk big of West Travelling</h4></a></span>
       
   
 </aside>
@@ -825,42 +775,6 @@ class Chess {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -869,7 +783,7 @@ class Chess {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

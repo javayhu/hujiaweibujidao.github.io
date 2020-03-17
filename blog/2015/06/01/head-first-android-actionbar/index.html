@@ -5,7 +5,7 @@
        Head First Android ActionBar &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Head First Android ActionBar &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,56 +158,37 @@
     </header>
 
     <section class="post-content">
-      <p>本文介绍Android ActionBar的使用 </p>
-
-<p>最近在Android Studio中新建项目时发现Activity还是和以前一样，默认继承自<code>ActionBarActivity</code>，但是<code>ActionBarActivity</code> 却被标示为已经过时的API！对于这个问题，StackOverflow上已经有人回答了，请看<a href="http://stackoverflow.com/questions/29877692/why-was-actionbaractivity-deprecated">ActionBarActivity deprecated</a>，然后你会发现自从Android的兼容支持库升级到21版本以后(<code>appcompat-v7-r21.1.0</code>)，<code>ActionBarActivity</code> 被  <code>AppCompatActivity</code> 取代了！还有一个变化是建议使用<code>Toolbar</code>，而不要使用原来的<code>ActionBar</code> 了！所以，这两节的内容我打算总结下ActionBar和Toolbar的基本使用，因为Toolbar实际上是ActionBar的扩展，所以这一节还是介绍复杂的ActionBar，下一节再继续介绍Toolbar。</p>
-
+      <p>本文介绍Android ActionBar的使用</p>
+<p>最近在Android Studio中新建项目时发现Activity还是和以前一样，默认继承自<code>ActionBarActivity</code>，但是<code>ActionBarActivity</code> 却被标示为已经过时的API！对于这个问题，StackOverflow上已经有人回答了，请看<a href="http://stackoverflow.com/questions/29877692/why-was-actionbaractivity-deprecated">ActionBarActivity deprecated</a>，然后你会发现自从Android的兼容支持库升级到21版本以后(<code>appcompat-v7-r21.1.0 </code>)，<code>ActionBarActivity</code> 被  <code>AppCompatActivity</code> 取代了！还有一个变化是建议使用<code>Toolbar</code>，而不要使用原来的<code>ActionBar</code> 了！所以，这两节的内容我打算总结下ActionBar和Toolbar的基本使用，因为Toolbar实际上是ActionBar的扩展，所以这一节还是介绍复杂的ActionBar，下一节再继续介绍Toolbar。</p>
 <p>1.ActionBar的来源</p>
-
 <p>ActionBar是从Android 3.0开始引入的，它是用于取代3.0之前的标题栏，并提供更为丰富的导航效果。</p>
-
 <p>2.添加ActionBar</p>
-
 <p>参考<a href="https://developer.android.com/training/basics/actionbar/setting-up.html">Setting Up the Action Bar</a></p>
-
 <p>(1)支持Android 3.0以上版本(API level 11)</p>
-
 <p>如果要支持Android 3.0以上版本(API level 11)，即<code>android:minSdkVersion=&quot;11&quot;</code>，那么很简单，只要Activity的Theme是使用了<code>Theme.Holo</code> 系列主题其中一种或者继承自这些主题，那么Activity就默认包含了ActionBar。</p>
-
 <p>(2)支持Android 2.1以上版本(API level 7)</p>
-
-<p>如果要支持Android 2.1以上版本(API level 7)，即<code>android:minSdkVersion=&quot;7&quot;</code>，那么就要使用兼容支持库<code>v7 appcompat</code>。导入AppCompat支持库之后，只要Activity的Theme是使用了<code>Theme.AppCompat</code> 兼容主题其中一种或者继承自这些兼容主题，然后让Activity继承自<code>appcompat</code>中的<code>ActionBarActivity</code> 类即可。</p>
-
+<p>如果要支持Android 2.1以上版本(API level 7)，即<code>android:minSdkVersion=&quot;7&quot; </code>，那么就要使用兼容支持库<code>v7 appcompat</code>。导入AppCompat支持库之后，只要Activity的Theme是使用了<code>Theme.AppCompat</code> 兼容主题其中一种或者继承自这些兼容主题，然后让Activity继承自<code>appcompat</code>中的<code>ActionBarActivity</code> 类即可。</p>
 <p>3.设置ActionBar的风格</p>
-
 <p>参考<a href="https://developer.android.com/training/basics/actionbar/styling.html">Styling the Action Bar</a></p>
-
 <p>下图是三种不同的来自<code>Theme.holo</code> 系列的ActionBar的样式，对应于<code>Theme.AppCompat</code> 系列分别是<code>Theme.AppCompat</code> 、<code>Theme.AppCompat.Light</code> 、<code>Theme.AppCompat.Light.DarkActionBar</code>。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/theme_holo.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/theme_holo.png" alt="image"></p>
 <p>那么如何自定义呢？比如修改ActionBar的背景颜色该怎么办呢？和以前一样，我们可以继承默认的主题，然后修改默认主题中的某些样式来实现。</p>
-
 <p>以修改ActionBar的背景颜色为例，如果是支持Android 3.0及以上版本的话可以用下面的方式，需要注意两点：(1)自定义<code>android:actionBarStyle</code> ；(2) 自定义的<code>actionBarStyle</code> 也要继承自某个<code>actionBarStyle</code> 样式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;?</span>xml version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.0&#34;</span> encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span><span style="color:#f92672">?&gt;</span>
+<span style="color:#f92672">&lt;</span>resources<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;!--</span> the theme applied to the application or activity <span style="color:#f92672">--&gt;</span>
+    <span style="color:#f92672">&lt;</span>style name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;CustomActionBarTheme&#34;</span>
+           parent<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@android:style/Theme.Holo.Light.DarkActionBar&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;</span>item name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;android:actionBarStyle&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">@style</span><span style="color:#f92672">/</span>MyActionBar<span style="color:#f92672">&lt;/</span>item<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;/</span>style<span style="color:#f92672">&gt;</span>
 
-<pre><code class="language-java">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;resources&gt;
-    &lt;!-- the theme applied to the application or activity --&gt;
-    &lt;style name=&quot;CustomActionBarTheme&quot;
-           parent=&quot;@android:style/Theme.Holo.Light.DarkActionBar&quot;&gt;
-        &lt;item name=&quot;android:actionBarStyle&quot;&gt;@style/MyActionBar&lt;/item&gt;
-    &lt;/style&gt;
-
-    &lt;!-- ActionBar styles --&gt;
-    &lt;style name=&quot;MyActionBar&quot;
-           parent=&quot;@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse&quot;&gt;
-        &lt;item name=&quot;android:background&quot;&gt;@drawable/actionbar_background&lt;/item&gt;
-    &lt;/style&gt;
-&lt;/resources&gt;
-</code></pre>
-
-<p>如果是支持Android 2.1版本以上的话，可以用下面的方式，注意这里需要设置<code>background</code>和<code>android:background</code>两个属性的值：</p>
-
+    <span style="color:#f92672">&lt;!--</span> ActionBar styles <span style="color:#f92672">--&gt;</span>
+    <span style="color:#f92672">&lt;</span>style name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;MyActionBar&#34;</span>
+           parent<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;</span>item name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;android:background&#34;</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">@drawable</span><span style="color:#f92672">/</span>actionbar_background<span style="color:#f92672">&lt;/</span>item<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;/</span>style<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>resources<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>如果是支持Android 2.1版本以上的话，可以用下面的方式，注意这里需要设置<code>background</code>和<code>android:background</code>两个属性的值：</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;resources&gt;
     &lt;!-- the theme applied to the application or activity --&gt;
@@ -250,16 +209,10 @@
         &lt;item name=&quot;background&quot;&gt;@drawable/actionbar_background&lt;/item&gt;
     &lt;/style&gt;
 &lt;/resources&gt;
-</code></pre>
-
-<p>类似的，我们还可以修改其他的样式，例如文本颜色等等。</p>
-
+</code></pre><p>类似的，我们还可以修改其他的样式，例如文本颜色等等。</p>
 <p>如果我们想让ActionBar如下图所示悬浮起来的话，可以修改<code>android:windowActionBarOverlay</code> 样式为<code>true</code>。</p>
-
 <p>参考<a href="https://developer.android.com/training/basics/actionbar/overlaying.html">Overlaying the Action Bar</a></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/actionbar-overlay.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/actionbar-overlay.png" alt="image"></p>
 <pre><code>//**For Android 3.0 and higher only**
 &lt;resources&gt;
     &lt;!-- the theme applied to the application or activity --&gt;
@@ -280,10 +233,7 @@
         &lt;item name=&quot;windowActionBarOverlay&quot;&gt;true&lt;/item&gt;
     &lt;/style&gt;
 &lt;/resources&gt;
-</code></pre>
-
-<p>在悬浮状态下，如果你又希望你的组件是一直处在ActionBar下面一直可见的，可以设置它的<code>padding</code> 或者 <code>margin</code>属性，值为<code>actionBarSize</code>。</p>
-
+</code></pre><p>在悬浮状态下，如果你又希望你的组件是一直处在ActionBar下面一直可见的，可以设置它的<code>padding</code> 或者 <code>margin</code>属性，值为<code>actionBarSize</code>。</p>
 <pre><code>//
 &lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     android:layout_width=&quot;match_parent&quot;
@@ -301,14 +251,9 @@
     ...
 &lt;/RelativeLayout&gt;
 //In this case, the ?attr/actionBarSize value without the prefix works on all versions, including Android 3.0 and higher.
-</code></pre>
-
-<p>4.添加Action Buttons</p>
-
+</code></pre><p>4.添加Action Buttons</p>
 <p>参考<a href="https://developer.android.com/training/basics/actionbar/adding-buttons.html">Adding Action Buttons</a></p>
-
 <p>(4.1) 定义Action Buttons其实就是定义Menu，可以在<code>/res/menu</code> 新建菜单文件即可，如下所示：</p>
-
 <pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; &gt;
     &lt;!-- Search, should appear as action button --&gt;
     &lt;item android:id=&quot;@+id/action_search&quot;
@@ -320,21 +265,16 @@
           android:title=&quot;@string/action_settings&quot;
           android:showAsAction=&quot;never&quot; /&gt;
 &lt;/menu&gt;
-</code></pre>
-
-<p>当菜单项过多时，Android会分两种情况进行处理：
+</code></pre><p>当菜单项过多时，Android会分两种情况进行处理：
 1、手机有MENU实体键：则按下Menu键后会显示剩余菜单项；
 2、手机没有MENU实体键：则会在最左边显示一个Action OverFlow按钮，按下后会显示剩余项菜单。</p>
-
 <p>属性 <code>android:showAsAction</code> 可以用来设置该菜单项的显示方式，共有5中属性值：
 <code>never</code>：永远不会显示。只会在溢出列表中显示。
 <code>ifRoom</code>：会显示在Item中，但是如果已经有4个或者4个以上的Item时会隐藏在溢出列表中。
 <code>always</code>：无论是否溢出，总会显示。
 <code>withText</code>：Title会显示。
 <code>collapseActionView</code>：可拓展的Item。</p>
-
 <p><strong>注意，如果你是为了兼容Android 2.1版本等低版本系统而使用了支持库<code>Support Library</code> 的话，你还需要自定义一个命名空间<code>NameSpace</code>，因为<code>showAsAction</code> 并不在<code>android:</code> 命名空间中</strong>，如下所示：</p>
-
 <pre><code>&lt;menu xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
       xmlns:yourapp=&quot;http://schemas.android.com/apk/res-auto&quot; &gt;
     &lt;!-- Search, should appear as action button --&gt;
@@ -344,10 +284,7 @@
           yourapp:showAsAction=&quot;ifRoom&quot;  /&gt;
     ...
 &lt;/menu&gt;
-</code></pre>
-
-<p>(4.2) 然后在Activity的<code>onCreateOptionsMenu</code>中将Actions添加到ActionBar中</p>
-
+</code></pre><p>(4.2) 然后在Activity的<code>onCreateOptionsMenu</code>中将Actions添加到ActionBar中</p>
 <pre><code>@Override
 public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu items for use in the action bar
@@ -355,12 +292,8 @@ public boolean onCreateOptionsMenu(Menu menu) {
     inflater.inflate(R.menu.main_activity_actions, menu);
     return super.onCreateOptionsMenu(menu);
 }
-</code></pre>
-
-<p>(4.3) 点击Action之后的处理就是处理<code>onOptionsItemSelected</code> 方法</p>
-
+</code></pre><p>(4.3) 点击Action之后的处理就是处理<code>onOptionsItemSelected</code> 方法</p>
 <p><strong>当用户选择一个Fragment的菜单项时，首先会调用Activity的onOptionsItemSelected()方法，如果该方法返回false，则调用Fragment实现的onOptionsItemSelected()方法。</strong></p>
-
 <pre><code>@Override
 public boolean onOptionsItemSelected(MenuItem item) {
     // Handle presses on the action bar items
@@ -375,14 +308,9 @@ public boolean onOptionsItemSelected(MenuItem item) {
             return super.onOptionsItemSelected(item);
     }
 }
-</code></pre>
-
-<p>(4.4) 如何利用ActionBar实现应用内的导航呢？</p>
-
+</code></pre><p>(4.4) 如何利用ActionBar实现应用内的导航呢？</p>
 <p>如果是在Anroid 4.1(API level 16)以上版本或者使用支持库中的<code>ActionBarActivity</code>的话，只需要在Manifest文件中指定Activity的父Activity即可，这样系统就知道返回的时候是回到哪个Activity了。(好在使用Android Studio的时候，每次新建Activity的时候都可以选择父Activity然后帮我们在Manifest文件中写好了)</p>
-
 <p>如下所示，Android 4.1以上版本看<code>android:parentActivityName</code> 属性，以下版本看<code>&lt;meta-data&gt;</code> 元素：</p>
-
 <pre><code>&lt;application ... &gt;
     ...
     &lt;!-- The main/home activity (it has no parent activity) --&gt;
@@ -401,10 +329,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
             android:value=&quot;com.example.myfirstapp.MainActivity&quot; /&gt;
     &lt;/activity&gt;
 &lt;/application&gt;
-</code></pre>
-
-<p>然后在Activity中<code>setDisplayHomeAsUpEnabled(true)</code> 即可</p>
-
+</code></pre><p>然后在Activity中<code>setDisplayHomeAsUpEnabled(true)</code> 即可</p>
 <pre><code>@Override
 public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -414,16 +339,10 @@ public void onCreate(Bundle savedInstanceState) {
     // If your minSdkVersion is 11 or higher, instead use:
     // getActionBar().setDisplayHomeAsUpEnabled(true);
 }
-</code></pre>
-
-<p>如果细想的话，还要考虑当前Activity和父Activity所处的Stack的情况，那么就复杂了，可以参考<a href="https://developer.android.com/training/implementing-navigation/ancestral.html#NavigateUp">Providing Up Navigation</a>学习下如何处理不同的launchMode下的导航。</p>
-
+</code></pre><p>如果细想的话，还要考虑当前Activity和父Activity所处的Stack的情况，那么就复杂了，可以参考<a href="https://developer.android.com/training/implementing-navigation/ancestral.html#NavigateUp">Providing Up Navigation</a>学习下如何处理不同的launchMode下的导航。</p>
 <p><strong>关于Android getActionBar vs getSupportActionBar?</strong></p>
-
 <p>这个一个经常出错的问题，可以看下这里<a href="http://stackoverflow.com/questions/28002209/android-getactionbar-vs-getsupportactionbar">Android getActionBar vs getSupportActionBar?</a>，简言之，如果是支持Android 3.0以上版本(API level 11以上)使用<code>getActionBar</code> 即可，如果需要支持Android 2.1等低版本，那么肯定需要使用兼容支持库，那么就要使用其中的<code>getSupportActionBar</code> 才行。</p>
-
 <p>其他的关于ActionBar的内容参见这篇文章<a href="http://www.open-open.com/lib/view/open1373981182669.html">Android UI开发详解之ActionBar</a>，它还详细介绍了如果开发带Tab的ActionBar以及下拉模式的ActionBar等内容。</p>
-
 <p>OK，ActionBar就介绍到这里，下面进入<a href="https://hujiaweibujidao.github.io/blog/2015/06/02/android-ui-2-toolbar/">第二节——Toolbar</a>。</p>
     </section>
 
@@ -445,27 +364,23 @@ public void onCreate(Bundle savedInstanceState) {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/"><h4>Android Asynchronous Http Client</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/"><h4>Head First Android Toolbar</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/"><h4>Head First Android Toolbar</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/"><h4>Android Asynchronous Http Client</h4></a></span>
       
   
 </aside>
@@ -474,42 +389,6 @@ public void onCreate(Bundle savedInstanceState) {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -518,7 +397,7 @@ public void onCreate(Bundle savedInstanceState) {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

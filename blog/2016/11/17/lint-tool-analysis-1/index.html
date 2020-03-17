@@ -5,7 +5,7 @@
        Lint Tool Analysis (1) &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Lint Tool Analysis (1) &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,608 +158,565 @@
     </header>
 
     <section class="post-content">
-      <p>Lint工具的源码分析(1)  </p>
-
+      <p>Lint工具的源码分析(1)</p>
 <p><strong>本系列的几篇源码分析文档意义不大，如果你正好也在研究lint源码，或者你想知道前面自定义lint规则中提出的那几个问题，抑或你只是想大致了解下lint的源码都有些什么内容的话，这些文章可能有还些作用，否则看了和没看差不多的，因为这几篇文章只是我在读源码的过程中记录下来的一些零碎的片段，方便以后看的时候能够迅速上手。</strong></p>
-
 <p>在前面的<a href="https://hujiaweibujidao.github.io/blog/2016/11/10/custom-lint-in-action/">Custom Lint in Action</a>中我们了解到将自定义的lint规则打包成jar，然后放在<code>~/.android/lint/</code>目录下的话，我们就能够应用这些规则对工程进行静态代码扫描了。但是，这是为什么呢？为什么是打包成jar？为什么是放在那个目录下？为什么放在那里就能够被识别且被应用了呢？要揭晓这些问题的答案，我们就必须要去阅读lint工具的源码一探究竟啦！</p>
-
-<p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描源文件的方式去检查看是否真的存在那些问题的过程。</strong><br />
+<p><strong>Lint检查归根结底是对某些文件可能存在的某些问题利用静态扫描源文件的方式去检查看是否真的存在那些问题的过程。</strong><br>
 针对这个需求，我们需要控制哪些文件需要被检查(Scope)、哪些问题需要进行检查(IssueRegistry)、该问题应如何进行检查(Detector)以及源代码文件如何进行静态扫描(Scanner)等内容进行封装，其实lint工具的源码就是这么设计和封装的。</p>
-
 <p><code>lint</code>工具源码主要分成两部分：<code>lint-api</code>和<code>lint-checks</code>，前者主要是lint的核心API，后者是利用API定义的检查器。其中<code>lint-api</code>又分为<code>detector.api</code>和<code>client.api</code>这两个包，其中<code>detector.api</code>这个包主要是和lint检查器相关的类，<code>client.api</code>这个包主要是和调用lint检查有关的类。由于内容实在太多，故分成多篇分别来解析下，本篇主要解析的是<code>detector.api</code>包中的重要类。</p>
-
-<h3 id="1-detector-api包中的重要类">1. detector.api包中的重要类</h3>
-
-<p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的代码片段类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br />
+<h3 id="1-detectorapi包中的重要类">1. detector.api包中的重要类</h3>
+<p>(1) <code>Scope</code>枚举类表示lint检查时需要检查的文件范围，例如<code>RESOURCE_FILE，JAVA_FILE，CLASS_FILE，GRADLE_FILE</code>等，各项含义与下面的代码片段类似。该类中的<code>infer</code>方法是用来推断选定的项目有哪些文件范围需要检查(根据文件名判断)，<code>checkSingleFile</code>方法是用来判断是检查单个文件还是检查整个项目所有的该类型文件。<br>
 <strong>通俗来讲，Scope指的就是哪个文件或者哪些文件需要被检查。</strong></p>
-
-<pre><code class="language-java">/**
- * The scope of a detector is the set of files a detector must consider when
- * performing its analysis. This can be used to determine when issues are
- * potentially obsolete, whether a detector should re-run on a file save, etc.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public enum Scope {
-    /**
-     * The analysis only considers a single XML resource file at a time.
-     * &lt;p&gt;
-     * Issues which are only affected by a single resource file can be checked
-     * for incrementally when a file is edited.
-     */
-    RESOURCE_FILE,//检查单个资源文件，可以增量式检查
-
-    /**
-     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
-     * &lt;p&gt;
-     * Issues which are only affected by a single resource file can be checked
-     * for incrementally when a file is edited.
-     */
-    BINARY_RESOURCE_FILE,//检查二进制形式的资源文件，例如bitmap
-
-    /**
-     * The analysis considers the resource folders (which also includes asset folders)
-     */
-    RESOURCE_FOLDER,//检查资源目录，包括asset目录
-
-    /**
-     * The analysis considers &lt;b&gt;all&lt;/b&gt; the resource file. This scope must not
-     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
-     * either considering just a single resource file or all the resources, not
-     * both.
-     */
-    ALL_RESOURCE_FILES,//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
-    ...//其他类型的scope
-}
-</code></pre>
-
-<p>(2) <code>Context</code>类表示lint检查时的上下文环境，包括需要进行分析的项目和文件的信息以及lint规则的配置信息，例如<code>Project，File，LintDriver，Configuration</code>等，详情请参考下面的代码及其注释理解。其子类包括<code>JavaContext，ClassContext，XmlContext，ResourceContext</code>，顾名思义，JavaContext就是用来检查Java文件的Context。<br />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * The scope of a detector is the set of files a detector must consider when
+</span><span style="color:#75715e"> * performing its analysis. This can be used to determine when issues are
+</span><span style="color:#75715e"> * potentially obsolete, whether a detector should re-run on a file save, etc.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> Scope <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The analysis only considers a single XML resource file at a time.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Issues which are only affected by a single resource file can be checked
+</span><span style="color:#75715e">     * for incrementally when a file is edited.
+</span><span style="color:#75715e">     */</span>
+    RESOURCE_FILE<span style="color:#f92672">,</span><span style="color:#75715e">//检查单个资源文件，可以增量式检查
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The analysis only considers a single binary (typically a bitmap) resource file at a time.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Issues which are only affected by a single resource file can be checked
+</span><span style="color:#75715e">     * for incrementally when a file is edited.
+</span><span style="color:#75715e">     */</span>
+    BINARY_RESOURCE_FILE<span style="color:#f92672">,</span><span style="color:#75715e">//检查二进制形式的资源文件，例如bitmap
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The analysis considers the resource folders (which also includes asset folders)
+</span><span style="color:#75715e">     */</span>
+    RESOURCE_FOLDER<span style="color:#f92672">,</span><span style="color:#75715e">//检查资源目录，包括asset目录
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The analysis considers &lt;b&gt;all&lt;/b&gt; the resource file. This scope must not
+</span><span style="color:#75715e">     * be used in conjunction with {@link #RESOURCE_FILE}; an issue scope is
+</span><span style="color:#75715e">     * either considering just a single resource file or all the resources, not
+</span><span style="color:#75715e">     * both.
+</span><span style="color:#75715e">     */</span>
+    ALL_RESOURCE_FILES<span style="color:#f92672">,</span><span style="color:#75715e">//检查所有的资源文件，这个和RESOURCE_FILE是互斥的，两者只能设置为其中一个
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span><span style="color:#75715e">//其他类型的scope
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>(2) <code>Context</code>类表示lint检查时的上下文环境，包括需要进行分析的项目和文件的信息以及lint规则的配置信息，例如<code>Project，File，LintDriver，Configuration</code>等，详情请参考下面的代码及其注释理解。其子类包括<code>JavaContext，ClassContext，XmlContext，ResourceContext</code>，顾名思义，JavaContext就是用来检查Java文件的Context。<br>
 <strong>通俗来讲，Context指的就是lint检查时的上下文信息。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Context passed to the detectors during an analysis run. It provides
+</span><span style="color:#75715e"> * information about the file being analyzed, it allows shared properties (so
+</span><span style="color:#75715e"> * the detectors can share results), etc.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Context</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The file being checked. Note that this may not always be to a concrete
+</span><span style="color:#75715e">     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
+</span><span style="color:#75715e">     * method, the context file is the directory of the project.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> File file<span style="color:#f92672">;</span><span style="color:#75715e">//被检查的文件
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** The driver running through the checks */</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> LintDriver mDriver<span style="color:#f92672">;</span><span style="color:#75715e">//运行所有检查的driver
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** The project containing the file being checked */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Project mProject<span style="color:#f92672">;</span><span style="color:#75715e">//包含需要检查的文件的项目
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * The &#34;main&#34; project. For normal projects, this is the same as {@link #mProject},
+</span><span style="color:#75715e">     * but for library projects, it&#39;s the root project that includes (possibly indirectly)
+</span><span style="color:#75715e">     * the various library projects and their library projects.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * Note that this is a property on the {@link Context}, not the
+</span><span style="color:#75715e">     * {@link Project}, since a library project can be included from multiple
+</span><span style="color:#75715e">     * different top level projects, so there isn&#39;t &lt;b&gt;one&lt;/b&gt; main project,
+</span><span style="color:#75715e">     * just one per main project being analyzed with its library projects.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Project mMainProject<span style="color:#f92672">;</span><span style="color:#75715e">//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** The current configuration controlling which checks are enabled etc */</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Configuration mConfiguration<span style="color:#f92672">;</span><span style="color:#75715e">//检查器的配置信息，例如哪些检查器开启或关闭了
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** The contents of the file */</span>
+    <span style="color:#66d9ef">private</span> String mContents<span style="color:#f92672">;</span><span style="color:#75715e">//文件的内容
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** Map of properties to share results between detectors */</span>
+    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> mProperties<span style="color:#f92672">;</span><span style="color:#75715e">//用于在检查器之间共享数据的键值对
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** Whether this file contains any suppress markers (null means not yet determined) */</span>
+    <span style="color:#66d9ef">private</span> Boolean mContainsCommentSuppress<span style="color:#f92672">;</span><span style="color:#75715e">//文件是否包含suppress lint相关的注释，null表示还不确定
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(2.1) <code>Project</code>类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等信息。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * A project contains information about an Android project being scanned for
+</span><span style="color:#75715e"> * Lint errors.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Project</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> LintClient mClient<span style="color:#f92672">;</span><span style="color:#75715e">//下一篇会详细分析这个 LintClient
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> File mDir<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> File mReferenceDir<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> Configuration mConfiguration<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> String mPackage<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">int</span> mBuildSdk <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> IAndroidTarget mTarget<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">/**
- * Context passed to the detectors during an analysis run. It provides
- * information about the file being analyzed, it allows shared properties (so
- * the detectors can share results), etc.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-public class Context {
-    /**
-     * The file being checked. Note that this may not always be to a concrete
-     * file. For example, in the {@link Detector#beforeCheckProject(Context)}
-     * method, the context file is the directory of the project.
-     */
-    public final File file;//被检查的文件
+    <span style="color:#66d9ef">protected</span> AndroidVersion mManifestMinSdk <span style="color:#f92672">=</span> AndroidVersion<span style="color:#f92672">.</span><span style="color:#a6e22e">DEFAULT</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> AndroidVersion mManifestTargetSdk <span style="color:#f92672">=</span> AndroidVersion<span style="color:#f92672">.</span><span style="color:#a6e22e">DEFAULT</span><span style="color:#f92672">;</span>
 
-    /** The driver running through the checks */
-    protected final LintDriver mDriver;//运行所有检查的driver
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> mLibrary<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> String mName<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> String mProguardPath<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> mMergeManifests<span style="color:#f92672">;</span>
 
-    /** The project containing the file being checked */
-    @NonNull
-    private final Project mProject;//包含需要检查的文件的项目
+    <span style="color:#75715e">/** The SDK info, if any */</span>
+    <span style="color:#66d9ef">protected</span> SdkInfo mSdkInfo<span style="color:#f92672">;</span>
 
-    /**
-     * The &quot;main&quot; project. For normal projects, this is the same as {@link #mProject},
-     * but for library projects, it's the root project that includes (possibly indirectly)
-     * the various library projects and their library projects.
-     * &lt;p&gt;
-     * Note that this is a property on the {@link Context}, not the
-     * {@link Project}, since a library project can be included from multiple
-     * different top level projects, so there isn't &lt;b&gt;one&lt;/b&gt; main project,
-     * just one per main project being analyzed with its library projects.
-     */
-    private final Project mMainProject;//主项目，在普通项目中它和库项目相同，但是对于库项目来说，主项目是包含多个不同库项目的根项目
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * If non null, specifies a non-empty list of specific files under this
+</span><span style="color:#75715e">     * project which should be checked.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mFiles<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mProguardFiles<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mGradleFiles<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mManifestFiles<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mJavaSourceFolders<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mJavaClassFolders<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mNonProvidedJavaLibraries<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mJavaLibraries<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mTestSourceFolders<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mResourceFolders<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>File<span style="color:#f92672">&gt;</span> mAssetFolders<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> mDirectLibraries<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> List<span style="color:#f92672">&lt;</span>Project<span style="color:#f92672">&gt;</span> mAllLibraries<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">boolean</span> mReportIssues <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> Boolean mGradleProject<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> Boolean mSupportLib<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> Boolean mAppCompat<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">protected</span> GradleVersion mGradleVersion<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> String<span style="color:#f92672">&gt;</span> mSuperClassMap<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> ResourceVisibilityLookup mResourceVisibility<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> BuildToolInfo mBuildTools<span style="color:#f92672">;</span>
+    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(2.2) <code>Configuration</code>类是一个抽象类，主要用来判断或者配置某个lint检查规则是否开启、是否忽略等。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Lint configuration for an Android project such as which specific rules to include,
+</span><span style="color:#75715e"> * which specific rules to exclude, and which specific errors to ignore.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Configuration</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Checks whether this issue should be ignored because the user has already
+</span><span style="color:#75715e">     * suppressed the error? Note that this refers to individual issues being
+</span><span style="color:#75715e">     * suppressed/ignored, not a whole detector being disabled via something
+</span><span style="color:#75715e">     * like {@link #isEnabled(Issue)}.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param context the context used by the detector when the issue was found
+</span><span style="color:#75715e">     * @param issue the issue that was found
+</span><span style="color:#75715e">     * @param location the location of the issue
+</span><span style="color:#75715e">     * @param message the associated user message
+</span><span style="color:#75715e">     * @return true if this issue should be suppressed
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isIgnored</span><span style="color:#f92672">(</span>
+            <span style="color:#a6e22e">@NonNull</span> Context context<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> Issue issue<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@Nullable</span> Location location<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> String message<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span><span style="color:#75715e">//有些issue是开启了，但是用户可能以某种方式suppress了这种错误
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
 
-    /** The current configuration controlling which checks are enabled etc */
-    private final Configuration mConfiguration;//检查器的配置信息，例如哪些检查器开启或关闭了
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Returns false if the given issue has been disabled. This is just
+</span><span style="color:#75715e">     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param issue the issue to check
+</span><span style="color:#75715e">     * @return false if the issue has been disabled
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEnabled</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Issue issue<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> getSeverity<span style="color:#f92672">(</span>issue<span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> Severity<span style="color:#f92672">.</span><span style="color:#a6e22e">IGNORE</span><span style="color:#f92672">;</span><span style="color:#75715e">//只要严重程度不是IGNORE的话那就是开启了
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件，下面是lint.xml文件的一个例子。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;lint&gt;</span>
+    <span style="color:#75715e">&lt;!-- Disable the given check in this project --&gt;</span>
+    <span style="color:#f92672">&lt;issue</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;IconMissingDensityFolder&#34;</span> <span style="color:#a6e22e">severity=</span><span style="color:#e6db74">&#34;ignore&#34;</span> <span style="color:#f92672">/&gt;</span>
 
-    /** The contents of the file */
-    private String mContents;//文件的内容
+    <span style="color:#75715e">&lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;</span>
+    <span style="color:#f92672">&lt;issue</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;ObsoleteLayoutParam&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;ignore</span> <span style="color:#a6e22e">regexp=</span><span style="color:#e6db74">&#34;res/.*/activation.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/issue&gt;</span>
 
-    /** Map of properties to share results between detectors */
-    private Map&lt;String, Object&gt; mProperties;//用于在检查器之间共享数据的键值对
+    <span style="color:#75715e">&lt;!-- Ignore the UselessLeaf issue in the specified file --&gt;</span>
+    <span style="color:#f92672">&lt;issue</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;UselessLeaf&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;ignore</span> <span style="color:#a6e22e">path=</span><span style="color:#e6db74">&#34;res/layout/main.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/issue&gt;</span>
 
-    /** Whether this file contains any suppress markers (null means not yet determined) */
-    private Boolean mContainsCommentSuppress;//文件是否包含suppress lint相关的注释，null表示还不确定
-    ...
-}
-</code></pre>
+    <span style="color:#75715e">&lt;!-- Change the severity of hardcoded strings to &#34;error&#34; --&gt;</span>
+    <span style="color:#f92672">&lt;issue</span> <span style="color:#a6e22e">id=</span><span style="color:#e6db74">&#34;HardcodedText&#34;</span> <span style="color:#a6e22e">severity=</span><span style="color:#e6db74">&#34;error&#34;</span> <span style="color:#f92672">/&gt;</span>
+<span style="color:#f92672">&lt;/lint&gt;</span>
+</code></pre></div><p>下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及上面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//默认的Configuration的实现
+</span><span style="color:#75715e"></span><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Default implementation of a {@link Configuration} which reads and writes
+</span><span style="color:#75715e"> * configuration data into {@code lint.xml} in the project directory.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DefaultConfiguration</span> <span style="color:#66d9ef">extends</span> Configuration <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LintClient mClient<span style="color:#f92672">;</span>
+    <span style="color:#75715e">/** Default name of the configuration file */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String CONFIG_FILE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;lint.xml&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Lint XML File =&gt; 定义lint.xml文件中的元素标签
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String TAG_ISSUE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;issue&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String ATTR_ID <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;id&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String ATTR_SEVERITY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;severity&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String ATTR_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;path&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String ATTR_REGEXP <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;regexp&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String TAG_IGNORE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ignore&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@NonNull</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String VALUE_ALL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;all&#34;</span><span style="color:#f92672">;</span> <span style="color:#75715e">//$NON-NLS-1$
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Configuration mParent<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Project mProject<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> File mConfigFile<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> mBulkEditing<span style="color:#f92672">;</span>
 
-<p>(2.1) <code>Project</code>类表示一个项目包含的内容，例如项目的路径，名称，android版本信息，sdk信息，buildtool信息，gradle版本，以及其他的各种类型的文件以及文件集合等信息。</p>
+    <span style="color:#75715e">/** Map from id to list of project-relative paths for suppressed warnings */</span>
+    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;&gt;</span> mSuppressed<span style="color:#f92672">;</span><span style="color:#75715e">//指定issue有哪些不检查的路径列表
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/** Map from id to regular expressions. */</span>
+    <span style="color:#a6e22e">@Nullable</span>
+    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> List<span style="color:#f92672">&lt;</span>Pattern<span style="color:#f92672">&gt;&gt;</span> mRegexps<span style="color:#f92672">;</span>
 
-<pre><code class="language-java">/**
- * A project contains information about an Android project being scanned for
- * Lint errors.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public class Project {
-    protected final LintClient mClient;//下一篇会详细分析这个 LintClient
-    protected final File mDir;
-    protected final File mReferenceDir;
-    protected Configuration mConfiguration;
-    protected String mPackage;
-    protected int mBuildSdk = -1;
-    protected IAndroidTarget mTarget;
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Map from id to custom {@link Severity} override
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">private</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Severity<span style="color:#f92672">&gt;</span> mSeverity<span style="color:#f92672">;</span><span style="color:#75715e">//指定issue对应的严重程度
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+    <span style="color:#75715e">//从lint配置文件中读取lint规则的配置信息
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">readConfig</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        mSuppressed <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;&gt;();</span>
+        mSeverity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Severity<span style="color:#f92672">&gt;();</span>
 
-    protected AndroidVersion mManifestMinSdk = AndroidVersion.DEFAULT;
-    protected AndroidVersion mManifestTargetSdk = AndroidVersion.DEFAULT;
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>mConfigFile<span style="color:#f92672">.</span><span style="color:#a6e22e">exists</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-    protected boolean mLibrary;
-    protected String mName;
-    protected String mProguardPath;
-    protected boolean mMergeManifests;
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            Document document <span style="color:#f92672">=</span> XmlUtils<span style="color:#f92672">.</span><span style="color:#a6e22e">parseUtfXmlFile</span><span style="color:#f92672">(</span>mConfigFile<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+            NodeList issues <span style="color:#f92672">=</span> document<span style="color:#f92672">.</span><span style="color:#a6e22e">getElementsByTagName</span><span style="color:#f92672">(</span>TAG_ISSUE<span style="color:#f92672">);</span>
+            Splitter splitter <span style="color:#f92672">=</span> Splitter<span style="color:#f92672">.</span><span style="color:#a6e22e">on</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;,&#39;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">trimResults</span><span style="color:#f92672">().</span><span style="color:#a6e22e">omitEmptyStrings</span><span style="color:#f92672">();</span>
+            <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> count <span style="color:#f92672">=</span> issues<span style="color:#f92672">.</span><span style="color:#a6e22e">getLength</span><span style="color:#f92672">();</span> i <span style="color:#f92672">&lt;</span> count<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span><span style="color:#75715e">//遍历issue
+</span><span style="color:#75715e"></span>                Node node <span style="color:#f92672">=</span> issues<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">(</span>i<span style="color:#f92672">);</span>
+                Element element <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Element<span style="color:#f92672">)</span> node<span style="color:#f92672">;</span>
+                String idList <span style="color:#f92672">=</span> element<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span>ATTR_ID<span style="color:#f92672">);</span><span style="color:#75715e">//读取id属性值
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>idList<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                    formatError<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Invalid lint config file: Missing required issue id attribute&#34;</span><span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">continue</span><span style="color:#f92672">;</span>
+                <span style="color:#f92672">}</span>
+                Iterable<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> ids <span style="color:#f92672">=</span> splitter<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span>idList<span style="color:#f92672">);</span><span style="color:#75715e">//id属性值中可能存在多个id，先将其分开来
+</span><span style="color:#75715e"></span>
+                <span style="color:#75715e">//下面这部分是处理severity属性值的配置
+</span><span style="color:#75715e"></span>                NamedNodeMap attributes <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttributes</span><span style="color:#f92672">();</span>
+                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> n <span style="color:#f92672">=</span> attributes<span style="color:#f92672">.</span><span style="color:#a6e22e">getLength</span><span style="color:#f92672">();</span> j <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">;</span> j<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                    Node attribute <span style="color:#f92672">=</span> attributes<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">(</span>j<span style="color:#f92672">);</span>
+                    String name <span style="color:#f92672">=</span> attribute<span style="color:#f92672">.</span><span style="color:#a6e22e">getNodeName</span><span style="color:#f92672">();</span>
+                    String value <span style="color:#f92672">=</span> attribute<span style="color:#f92672">.</span><span style="color:#a6e22e">getNodeValue</span><span style="color:#f92672">();</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ATTR_ID<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>name<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                        <span style="color:#75715e">// already handled
+</span><span style="color:#75715e"></span>                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>ATTR_SEVERITY<span style="color:#f92672">.</span><span style="color:#a6e22e">equals</span><span style="color:#f92672">(</span>name<span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+                        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Severity severity <span style="color:#f92672">:</span> Severity<span style="color:#f92672">.</span><span style="color:#a6e22e">values</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>value<span style="color:#f92672">.</span><span style="color:#a6e22e">equalsIgnoreCase</span><span style="color:#f92672">(</span>severity<span style="color:#f92672">.</span><span style="color:#a6e22e">name</span><span style="color:#f92672">()))</span> <span style="color:#f92672">{</span>
+                                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String id <span style="color:#f92672">:</span> ids<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    mSeverity<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>id<span style="color:#f92672">,</span> severity<span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span>
+                                <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                        formatError<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Unexpected attribute \&#34;%1$s\&#34;&#34;</span><span style="color:#f92672">,</span> name<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
 
-    /** The SDK info, if any */
-    protected SdkInfo mSdkInfo;
+                <span style="color:#75715e">//下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
+</span><span style="color:#75715e"></span>                <span style="color:#75715e">// Look up ignored errors
+</span><span style="color:#75715e"></span>                NodeList childNodes <span style="color:#f92672">=</span> element<span style="color:#f92672">.</span><span style="color:#a6e22e">getChildNodes</span><span style="color:#f92672">();</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>childNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">getLength</span><span style="color:#f92672">()</span> <span style="color:#f92672">&gt;</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> 0<span style="color:#f92672">,</span> n <span style="color:#f92672">=</span> childNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">getLength</span><span style="color:#f92672">();</span> j <span style="color:#f92672">&lt;</span> n<span style="color:#f92672">;</span> j<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+                        Node child <span style="color:#f92672">=</span> childNodes<span style="color:#f92672">.</span><span style="color:#a6e22e">item</span><span style="color:#f92672">(</span>j<span style="color:#f92672">);</span>
+                        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>child<span style="color:#f92672">.</span><span style="color:#a6e22e">getNodeType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> Node<span style="color:#f92672">.</span><span style="color:#a6e22e">ELEMENT_NODE</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                            Element ignore <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>Element<span style="color:#f92672">)</span> child<span style="color:#f92672">;</span>
+                            String path <span style="color:#f92672">=</span> ignore<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span>ATTR_PATH<span style="color:#f92672">);</span>
+                            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>path<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span><span style="color:#75715e">//regexp的形式
+</span><span style="color:#75715e"></span>                                String regexp <span style="color:#f92672">=</span> ignore<span style="color:#f92672">.</span><span style="color:#a6e22e">getAttribute</span><span style="color:#f92672">(</span>ATTR_REGEXP<span style="color:#f92672">);</span>
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>regexp<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                                    formatError<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Missing required attribute %1$s or %2$s under %3$s&#34;</span><span style="color:#f92672">,</span>
+                                        ATTR_PATH<span style="color:#f92672">,</span> ATTR_REGEXP<span style="color:#f92672">,</span> idList<span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    addRegexp<span style="color:#f92672">(</span>idList<span style="color:#f92672">,</span> ids<span style="color:#f92672">,</span> n<span style="color:#f92672">,</span> regexp<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span><span style="color:#75715e">//path的形式
+</span><span style="color:#75715e"></span>                                <span style="color:#75715e">// Normalize path format to File.separator. Also
+</span><span style="color:#75715e"></span>                                <span style="color:#75715e">// handle the file format containing / or \.
+</span><span style="color:#75715e"></span>                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>File<span style="color:#f92672">.</span><span style="color:#a6e22e">separatorChar</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    path <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span><span style="color:#a6e22e">replace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;\\&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    path <span style="color:#f92672">=</span> path<span style="color:#f92672">.</span><span style="color:#a6e22e">replace</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;/&#39;</span><span style="color:#f92672">,</span> File<span style="color:#f92672">.</span><span style="color:#a6e22e">separatorChar</span><span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span>
 
-    /**
-     * If non null, specifies a non-empty list of specific files under this
-     * project which should be checked.
-     */
-    protected List&lt;File&gt; mFiles;
-    protected List&lt;File&gt; mProguardFiles;
-    protected List&lt;File&gt; mGradleFiles;
-    protected List&lt;File&gt; mManifestFiles;
-    protected List&lt;File&gt; mJavaSourceFolders;
-    protected List&lt;File&gt; mJavaClassFolders;
-    protected List&lt;File&gt; mNonProvidedJavaLibraries;
-    protected List&lt;File&gt; mJavaLibraries;
-    protected List&lt;File&gt; mTestSourceFolders;
-    protected List&lt;File&gt; mResourceFolders;
-    protected List&lt;File&gt; mAssetFolders;
-    protected List&lt;Project&gt; mDirectLibraries;
-    protected List&lt;Project&gt; mAllLibraries;
-    protected boolean mReportIssues = true;
-    protected Boolean mGradleProject;
-    protected Boolean mSupportLib;
-    protected Boolean mAppCompat;
-    protected GradleVersion mGradleVersion;
-    private Map&lt;String, String&gt; mSuperClassMap;
-    private ResourceVisibilityLookup mResourceVisibility;
-    private BuildToolInfo mBuildTools;
-    ...
-}
-</code></pre>
-
-<p>(2.2) <code>Configuration</code>类是一个抽象类，主要用来判断或者配置某个lint检查规则是否开启、是否忽略等。</p>
-
-<pre><code class="language-java">/**
- * Lint configuration for an Android project such as which specific rules to include,
- * which specific rules to exclude, and which specific errors to ignore.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public abstract class Configuration {
-    /**
-     * Checks whether this issue should be ignored because the user has already
-     * suppressed the error? Note that this refers to individual issues being
-     * suppressed/ignored, not a whole detector being disabled via something
-     * like {@link #isEnabled(Issue)}.
-     *
-     * @param context the context used by the detector when the issue was found
-     * @param issue the issue that was found
-     * @param location the location of the issue
-     * @param message the associated user message
-     * @return true if this issue should be suppressed
-     */
-    public boolean isIgnored(
-            @NonNull Context context,
-            @NonNull Issue issue,
-            @Nullable Location location,
-            @NonNull String message) {
-        return false;//有些issue是开启了，但是用户可能以某种方式suppress了这种错误
-    }
-
-    /**
-     * Returns false if the given issue has been disabled. This is just
-     * a convenience method for {@code getSeverity(issue) != Severity.IGNORE}.
-     *
-     * @param issue the issue to check
-     * @return false if the issue has been disabled
-     */
-    public boolean isEnabled(@NonNull Issue issue) {
-        return getSeverity(issue) != Severity.IGNORE;//只要严重程度不是IGNORE的话那就是开启了
-    }
-    ...
-}
-</code></pre>
-
-<p><code>Configuration</code>有个默认的实现<code>DefaultConfiguration</code>，在<code>client.api</code>包中，它的主要作用是读写项目根目录下的<code>lint.xml</code>配置文件，下面是lint.xml文件的一个例子。</p>
-
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;lint&gt;
-    &lt;!-- Disable the given check in this project --&gt;
-    &lt;issue id=&quot;IconMissingDensityFolder&quot; severity=&quot;ignore&quot; /&gt;
-
-    &lt;!-- Ignore the ObsoleteLayoutParam issue in the specified files --&gt;
-    &lt;issue id=&quot;ObsoleteLayoutParam&quot;&gt;
-        &lt;ignore regexp=&quot;res/.*/activation.xml&quot; /&gt;
-    &lt;/issue&gt;
-
-    &lt;!-- Ignore the UselessLeaf issue in the specified file --&gt;
-    &lt;issue id=&quot;UselessLeaf&quot;&gt;
-        &lt;ignore path=&quot;res/layout/main.xml&quot; /&gt;
-    &lt;/issue&gt;
-
-    &lt;!-- Change the severity of hardcoded strings to &quot;error&quot; --&gt;
-    &lt;issue id=&quot;HardcodedText&quot; severity=&quot;error&quot; /&gt;
-&lt;/lint&gt;
-</code></pre>
-
-<p>下面的代码片段中包含了读取lint配置文件的实现过程，可以结合注释以及上面的lint.xml文件的例子来看，处理流程相对还比较清晰。</p>
-
-<pre><code class="language-java">//默认的Configuration的实现
-/**
- * Default implementation of a {@link Configuration} which reads and writes
- * configuration data into {@code lint.xml} in the project directory.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public class DefaultConfiguration extends Configuration {
-    private final LintClient mClient;
-    /** Default name of the configuration file */
-    public static final String CONFIG_FILE_NAME = &quot;lint.xml&quot;; //$NON-NLS-1$
-
-    // Lint XML File =&gt; 定义lint.xml文件中的元素标签
-    @NonNull
-    private static final String TAG_ISSUE = &quot;issue&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_ID = &quot;id&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_SEVERITY = &quot;severity&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_PATH = &quot;path&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String ATTR_REGEXP = &quot;regexp&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String TAG_IGNORE = &quot;ignore&quot;; //$NON-NLS-1$
-    @NonNull
-    private static final String VALUE_ALL = &quot;all&quot;; //$NON-NLS-1$
-
-    private final Configuration mParent;
-    private final Project mProject;
-    private final File mConfigFile;
-    private boolean mBulkEditing;
-
-    /** Map from id to list of project-relative paths for suppressed warnings */
-    private Map&lt;String, List&lt;String&gt;&gt; mSuppressed;//指定issue有哪些不检查的路径列表
-
-    /** Map from id to regular expressions. */
-    @Nullable
-    private Map&lt;String, List&lt;Pattern&gt;&gt; mRegexps;
-
-    /**
-     * Map from id to custom {@link Severity} override
-     */
-    private Map&lt;String, Severity&gt; mSeverity;//指定issue对应的严重程度
-    ...
-    //从lint配置文件中读取lint规则的配置信息
-    private void readConfig() {
-        mSuppressed = new HashMap&lt;String, List&lt;String&gt;&gt;();
-        mSeverity = new HashMap&lt;String, Severity&gt;();
-
-        if (!mConfigFile.exists()) {
-            return;
-        }
-
-        try {
-            Document document = XmlUtils.parseUtfXmlFile(mConfigFile, false);
-            NodeList issues = document.getElementsByTagName(TAG_ISSUE);
-            Splitter splitter = Splitter.on(',').trimResults().omitEmptyStrings();
-            for (int i = 0, count = issues.getLength(); i &lt; count; i++) {//遍历issue
-                Node node = issues.item(i);
-                Element element = (Element) node;
-                String idList = element.getAttribute(ATTR_ID);//读取id属性值
-                if (idList.isEmpty()) {
-                    formatError(&quot;Invalid lint config file: Missing required issue id attribute&quot;);
-                    continue;
-                }
-                Iterable&lt;String&gt; ids = splitter.split(idList);//id属性值中可能存在多个id，先将其分开来
-
-                //下面这部分是处理severity属性值的配置
-                NamedNodeMap attributes = node.getAttributes();
-                for (int j = 0, n = attributes.getLength(); j &lt; n; j++) {
-                    Node attribute = attributes.item(j);
-                    String name = attribute.getNodeName();
-                    String value = attribute.getNodeValue();
-                    if (ATTR_ID.equals(name)) {
-                        // already handled
-                    } else if (ATTR_SEVERITY.equals(name)) {
-                        for (Severity severity : Severity.values()) {
-                            if (value.equalsIgnoreCase(severity.name())) {
-                                for (String id : ids) {
-                                    mSeverity.put(id, severity);
-                                }
-                                break;
-                            }
-                        }
-                    } else {
-                        formatError(&quot;Unexpected attribute \&quot;%1$s\&quot;&quot;, name);
-                    }
-                }
-
-                //下面这部分是处理该issue的ignore路径的配置，配置ignore有两种方式，一种是path，另一种是regexp (正则匹配)
-                // Look up ignored errors
-                NodeList childNodes = element.getChildNodes();
-                if (childNodes.getLength() &gt; 0) {
-                    for (int j = 0, n = childNodes.getLength(); j &lt; n; j++) {
-                        Node child = childNodes.item(j);
-                        if (child.getNodeType() == Node.ELEMENT_NODE) {
-                            Element ignore = (Element) child;
-                            String path = ignore.getAttribute(ATTR_PATH);
-                            if (path.isEmpty()) {//regexp的形式
-                                String regexp = ignore.getAttribute(ATTR_REGEXP);
-                                if (regexp.isEmpty()) {
-                                    formatError(&quot;Missing required attribute %1$s or %2$s under %3$s&quot;,
-                                        ATTR_PATH, ATTR_REGEXP, idList);
-                                } else {
-                                    addRegexp(idList, ids, n, regexp, false);
-                                }
-                            } else {//path的形式
-                                // Normalize path format to File.separator. Also
-                                // handle the file format containing / or \.
-                                if (File.separatorChar == '/') {
-                                    path = path.replace('\\', '/');
-                                } else {
-                                    path = path.replace('/', File.separatorChar);
-                                }
-
-                                if (path.indexOf('*') != -1) {
-                                    String regexp = globToRegexp(path);
-                                    addRegexp(idList, ids, n, regexp, false);
-                                } else {
-                                    for (String id : ids) {
-                                        List&lt;String&gt; paths = mSuppressed.get(id);
-                                        if (paths == null) {
-                                            paths = new ArrayList&lt;String&gt;(n / 2 + 1);
-                                            mSuppressed.put(id, paths);
-                                        }
-                                        paths.add(path);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (SAXParseException e) {
-            formatError(e.getMessage());
-        } catch (Exception e) {
-            mClient.log(e, null);
-        }
-    }
-}
-</code></pre>
-
-<p>(2.3) <code>LintDriver</code>类很大很复杂，而且是在<code>client.api</code>包中，我们将在下一节介绍。</p>
-
-<p>(3) <code>Detector</code>类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。Detector类中定义了很多检查器通用的一些方法，比如下面代码片段中的<code>visitMethod</code>、<code>visitConstructor</code>等等。<br />
+                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>path<span style="color:#f92672">.</span><span style="color:#a6e22e">indexOf</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#39;*&#39;</span><span style="color:#f92672">)</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span>1<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                    String regexp <span style="color:#f92672">=</span> globToRegexp<span style="color:#f92672">(</span>path<span style="color:#f92672">);</span>
+                                    addRegexp<span style="color:#f92672">(</span>idList<span style="color:#f92672">,</span> ids<span style="color:#f92672">,</span> n<span style="color:#f92672">,</span> regexp<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>
+                                <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+                                    <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>String id <span style="color:#f92672">:</span> ids<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                        List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> paths <span style="color:#f92672">=</span> mSuppressed<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>id<span style="color:#f92672">);</span>
+                                        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>paths <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                                            paths <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;(</span>n <span style="color:#f92672">/</span> 2 <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>
+                                            mSuppressed<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>id<span style="color:#f92672">,</span> paths<span style="color:#f92672">);</span>
+                                        <span style="color:#f92672">}</span>
+                                        paths<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>path<span style="color:#f92672">);</span>
+                                    <span style="color:#f92672">}</span>
+                                <span style="color:#f92672">}</span>
+                            <span style="color:#f92672">}</span>
+                        <span style="color:#f92672">}</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>SAXParseException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            formatError<span style="color:#f92672">(</span>e<span style="color:#f92672">.</span><span style="color:#a6e22e">getMessage</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            mClient<span style="color:#f92672">.</span><span style="color:#a6e22e">log</span><span style="color:#f92672">(</span>e<span style="color:#f92672">,</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(2.3) <code>LintDriver</code>类很大很复杂，而且是在<code>client.api</code>包中，我们将在下一节介绍。</p>
+<p>(3) <code>Detector</code>类表示lint检查器，也就是用来发现文件中是否存在某个问题的检查器，自定义lint规则就是自定义相应的Detector。针对不同类型文件的检查器会按照预先定义的顺序依次进行检查，检查的顺序依次是<code>Manifest文件 =&gt; Resource文件 =&gt; Java源码文件 =&gt; Java Class文件 =&gt; Gradle文件 =&gt; Generic文件 =&gt; Proguard文件 =&gt; Property文件</code>。Detector类中定义了很多检查器通用的一些方法，比如下面代码片段中的<code>visitMethod</code>、<code>visitConstructor</code>等等。<br>
 <strong>通俗来讲，Detector指的就是一个个的lint检查器。</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Detector</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">...</span>
+    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;UnusedParameters&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;unused&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;javadoc&#34;</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitMethod</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> JavaContext context<span style="color:#f92672">,</span> <span style="color:#a6e22e">@Nullable</span> JavaElementVisitor visitor<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> PsiMethodCallExpression call<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> PsiMethod method<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span><span style="color:#75715e">//访问一个普通的方法
+</span><span style="color:#75715e"></span>
+    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;UnusedParameters&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;unused&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;javadoc&#34;</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitConstructor</span><span style="color:#f92672">(</span>
+            <span style="color:#a6e22e">@NonNull</span> JavaContext context<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@Nullable</span> JavaElementVisitor visitor<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> PsiNewExpression node<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> PsiMethod constructor<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span><span style="color:#75715e">//访问一个构造函数
+</span><span style="color:#75715e"></span>
+    <span style="color:#a6e22e">@SuppressWarnings</span><span style="color:#f92672">({</span><span style="color:#e6db74">&#34;UnusedParameters&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;unused&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;javadoc&#34;</span><span style="color:#f92672">})</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitResourceReference</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> JavaContext context<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@Nullable</span> JavaElementVisitor visitor<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> PsiElement node<span style="color:#f92672">,</span>
+            <span style="color:#a6e22e">@NonNull</span> ResourceType type<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> String name<span style="color:#f92672">,</span> <span style="color:#66d9ef">boolean</span> isFramework<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span><span style="color:#75715e">//访问一个资源引用
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>除此之外，<code>Detector</code>类中还定义了很多不同类型文件的扫描器(Scanner)接口，例如<code>JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner</code>，后面我们会详细介绍其中的<code>JavaPsiScanner</code>。有意思的是，这些Scanner接口中定义的所有方法都在Detector类中都对应有相同签名的方法，也就是<code>Detector</code>是所有的<code>Scanner</code>的适配器，所以检查器一般会继承<code>Detector</code>类并实现某个<code>Scanner</code>接口。下面是<code>XmlScanner</code>和<code>GradleScanner</code>两个接口的定义。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/** Specialized interface for detectors that scan XML files */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">XmlScanner</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Visit the given document. The detector is responsible for its own iteration
+</span><span style="color:#75715e">     * through the document.
+</span><span style="color:#75715e">     * @param context information about the document being analyzed
+</span><span style="color:#75715e">     * @param document the document to examine
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitDocument</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> XmlContext context<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Document document<span style="color:#f92672">);</span>
 
-<pre><code class="language-java">public class Detector {
-    ...
-    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
-    public void visitMethod(@NonNull JavaContext context, @Nullable JavaElementVisitor visitor,
-            @NonNull PsiMethodCallExpression call, @NonNull PsiMethod method) {
-    }//访问一个普通的方法
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Visit the given element.
+</span><span style="color:#75715e">     * @param context information about the document being analyzed
+</span><span style="color:#75715e">     * @param element the element to examine
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitElement</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> XmlContext context<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Element element<span style="color:#f92672">);</span>
 
-    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
-    public void visitConstructor(
-            @NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor,
-            @NonNull PsiNewExpression node,
-            @NonNull PsiMethod constructor) {
-    }//访问一个构造函数
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Visit the given element after its children have been analyzed.
+</span><span style="color:#75715e">     * @param context information about the document being analyzed
+</span><span style="color:#75715e">     * @param element the element to examine
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitElementAfter</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> XmlContext context<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Element element<span style="color:#f92672">);</span>
 
-    @SuppressWarnings({&quot;UnusedParameters&quot;, &quot;unused&quot;, &quot;javadoc&quot;})
-    public void visitResourceReference(@NonNull JavaContext context,
-            @Nullable JavaElementVisitor visitor, @NonNull PsiElement node,
-            @NonNull ResourceType type, @NonNull String name, boolean isFramework) {
-    }//访问一个资源引用
-    ...
-}
-</code></pre>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Visit the given attribute.
+</span><span style="color:#75715e">     * @param context information about the document being analyzed
+</span><span style="color:#75715e">     * @param attribute the attribute node to examine
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitAttribute</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> XmlContext context<span style="color:#f92672">,</span> <span style="color:#a6e22e">@NonNull</span> Attr attribute<span style="color:#f92672">);</span>
 
-<p>除此之外，<code>Detector</code>类中还定义了很多不同类型文件的扫描器(Scanner)接口，例如<code>JavaPsiScanner，ClassScanner，ResourceFolderScanner，XmlScanner，GradleScanner，BinaryResourceScanner，OtherFileScanner</code>，后面我们会详细介绍其中的<code>JavaPsiScanner</code>。有意思的是，这些Scanner接口中定义的所有方法都在Detector类中都对应有相同签名的方法，也就是<code>Detector</code>是所有的<code>Scanner</code>的适配器，所以检查器一般会继承<code>Detector</code>类并实现某个<code>Scanner</code>接口。下面是<code>XmlScanner</code>和<code>GradleScanner</code>两个接口的定义。</p>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Returns the list of elements that this detector wants to analyze. If non
+</span><span style="color:#75715e">     * null, this detector will be called (specifically, the
+</span><span style="color:#75715e">     * {@link #visitElement} method) for each matching element in the document.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * If this method returns null, and {@link #getApplicableAttributes()} also returns
+</span><span style="color:#75715e">     * null, then the {@link #visitDocument} method will be called instead.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @return a collection of elements, or null, or the special
+</span><span style="color:#75715e">     *         {@link XmlScanner#ALL} marker to indicate that every single
+</span><span style="color:#75715e">     *         element should be analyzed.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Nullable</span>
+    Collection<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getApplicableElements</span><span style="color:#f92672">();</span>
 
-<pre><code class="language-java">/** Specialized interface for detectors that scan XML files */
-public interface XmlScanner {
-    /**
-     * Visit the given document. The detector is responsible for its own iteration
-     * through the document.
-     * @param context information about the document being analyzed
-     * @param document the document to examine
-     */
-    void visitDocument(@NonNull XmlContext context, @NonNull Document document);
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Returns the list of attributes that this detector wants to analyze. If non
+</span><span style="color:#75715e">     * null, this detector will be called (specifically, the
+</span><span style="color:#75715e">     * {@link #visitAttribute} method) for each matching attribute in the document.
+</span><span style="color:#75715e">     * &lt;p&gt;
+</span><span style="color:#75715e">     * If this method returns null, and {@link #getApplicableElements()} also returns
+</span><span style="color:#75715e">     * null, then the {@link #visitDocument} method will be called instead.
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @return a collection of attributes, or null, or the special
+</span><span style="color:#75715e">     *         {@link XmlScanner#ALL} marker to indicate that every single
+</span><span style="color:#75715e">     *         attribute should be analyzed.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@Nullable</span>
+    Collection<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getApplicableAttributes</span><span style="color:#f92672">();</span>
 
-    /**
-     * Visit the given element.
-     * @param context information about the document being analyzed
-     * @param element the element to examine
-     */
-    void visitElement(@NonNull XmlContext context, @NonNull Element element);
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Special marker collection returned by {@link #getApplicableElements()} or
+</span><span style="color:#75715e">     * {@link #getApplicableAttributes()} to indicate that the check should be
+</span><span style="color:#75715e">     * invoked on all elements or all attributes
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> ALL <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;(</span>0<span style="color:#f92672">);</span> <span style="color:#75715e">// NOT Collections.EMPTY!
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// We want to distinguish this from just an *empty* list returned by the caller!
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
 
-    /**
-     * Visit the given element after its children have been analyzed.
-     * @param context information about the document being analyzed
-     * @param element the element to examine
-     */
-    void visitElementAfter(@NonNull XmlContext context, @NonNull Element element);
-
-    /**
-     * Visit the given attribute.
-     * @param context information about the document being analyzed
-     * @param attribute the attribute node to examine
-     */
-    void visitAttribute(@NonNull XmlContext context, @NonNull Attr attribute);
-
-    /**
-     * Returns the list of elements that this detector wants to analyze. If non
-     * null, this detector will be called (specifically, the
-     * {@link #visitElement} method) for each matching element in the document.
-     * &lt;p&gt;
-     * If this method returns null, and {@link #getApplicableAttributes()} also returns
-     * null, then the {@link #visitDocument} method will be called instead.
-     *
-     * @return a collection of elements, or null, or the special
-     *         {@link XmlScanner#ALL} marker to indicate that every single
-     *         element should be analyzed.
-     */
-    @Nullable
-    Collection&lt;String&gt; getApplicableElements();
-
-    /**
-     * Returns the list of attributes that this detector wants to analyze. If non
-     * null, this detector will be called (specifically, the
-     * {@link #visitAttribute} method) for each matching attribute in the document.
-     * &lt;p&gt;
-     * If this method returns null, and {@link #getApplicableElements()} also returns
-     * null, then the {@link #visitDocument} method will be called instead.
-     *
-     * @return a collection of attributes, or null, or the special
-     *         {@link XmlScanner#ALL} marker to indicate that every single
-     *         attribute should be analyzed.
-     */
-    @Nullable
-    Collection&lt;String&gt; getApplicableAttributes();
-
-    /**
-     * Special marker collection returned by {@link #getApplicableElements()} or
-     * {@link #getApplicableAttributes()} to indicate that the check should be
-     * invoked on all elements or all attributes
-     */
-    @NonNull
-    List&lt;String&gt; ALL = new ArrayList&lt;String&gt;(0); // NOT Collections.EMPTY!
-    // We want to distinguish this from just an *empty* list returned by the caller!
-}
-
-/** Specialized interface for detectors that scan Gradle files */
-public interface GradleScanner {
-    void visitBuildScript(@NonNull Context context, Map&lt;String, Object&gt; sharedData);
-}
-</code></pre>
-
-<p>(4) <code>Issue</code>类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的<code>Severity</code>类，表示问题类别的<code>Category</code>类以及用来发现和检查这个问题的<code>Detector</code>(包含在<code>Implementation</code>类中)。<br />
+<span style="color:#75715e">/** Specialized interface for detectors that scan Gradle files */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">GradleScanner</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">visitBuildScript</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@NonNull</span> Context context<span style="color:#f92672">,</span> Map<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">,</span> Object<span style="color:#f92672">&gt;</span> sharedData<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(4) <code>Issue</code>类表示应用中可能存在的问题，它一般关联着一个表示问题严重程度的<code>Severity</code>类，表示问题类别的<code>Category</code>类以及用来发现和检查这个问题的<code>Detector</code>(包含在<code>Implementation</code>类中)。<br>
 <strong>通俗来讲，Issue指的就是检查器去检查文件时发现它可能出现的问题。</strong></p>
-
-<pre><code class="language-java">/**
- * An issue is a potential bug in an Android application. An issue is discovered
- * by a {@link Detector}, and has an associated {@link Severity}.
- * &lt;p&gt;
- * Issues and detectors are separate classes because a detector can discover
- * multiple different issues as it's analyzing code, and we want to be able to
- * different severities for different issues, the ability to suppress one but
- * not other issues from the same detector, and so on.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-public final class Issue implements Comparable&lt;Issue&gt; {
-    private final String mId;//问题id，名称标识
-    private final String mBriefDescription;//简单描述
-    private final String mExplanation;//详细解释
-    private final Category mCategory;//问题类别
-    private final int mPriority;//问题等级
-    private final Severity mSeverity;//问题严重程度
-    private Object mMoreInfoUrls;//问题的更多信息，可能是一个网址的url
-    private boolean mEnabledByDefault = true;//是否默认开启
-    private Implementation mImplementation;//这个问题的检查器相关信息
-    ...
-}
-</code></pre>
-
-<p>(4.1) <code>Severity</code>类是表示问题严重程度的枚举类，主要分为了<code>FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE</code>这几种程度。</p>
-
-<pre><code class="language-java">/**
- * Severity of an issue found by lint
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public enum Severity {
-    /**
-     * Fatal: Use sparingly because a warning marked as fatal will be
-     * considered critical and will abort Export APK etc in ADT
-     */
-    @NonNull
-    FATAL(&quot;Fatal&quot;),//标记为Fatal将被视为非常危险，在导出apk时可能会终止
-
-    /**
-     * Errors: The issue is known to be a real error that must be addressed.
-     */
-    @NonNull
-    ERROR(&quot;Error&quot;),//的确是一个问题
-
-    /**
-     * Warning: Probably a problem.
-     */
-    @NonNull
-    WARNING(&quot;Warning&quot;),//警告，可能是一个问题
-
-    /**
-     * Information only: Might not be a problem, but the check has found
-     * something interesting to say about the code.
-     */
-    @NonNull
-    INFORMATIONAL(&quot;Information&quot;),//可能不是一个问题
-
-    /**
-     * Ignore: The user doesn't want to see this issue
-     */
-    @NonNull
-    IGNORE(&quot;Ignore&quot;);//用户不想看到的问题
-    ...
-}
-</code></pre>
-
-<p>(4.2) <code>Category</code>类表示问题的类别，主要有<code>Correctness，Security，Performance，Usability，Accessibility，Internationalization</code>等，类别下面可以有子类别，每个类别都还有一个优先级。</p>
-
-<pre><code class="language-java">/**
- * A category is a container for related issues.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-public final class Category implements Comparable&lt;Category&gt; {
-    private final String mName;//类别名称
-    private final int mPriority;//优先级
-    private final Category mParent;//父类别
-    ...
-}
-</code></pre>
-
-<p>(4.3) <code>Implementation</code>类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是<code>mScope</code>和<code>mAnalysisScopes</code>的含义是不同的，表示的具体范围也不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。</p>
-
-<pre><code class="language-java">/**
- * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
- * class responsible for analyzing the issue, as well as the {@link Scope} required
- * by the detector to perform its analysis.
- * &lt;p&gt;
- * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
- * to adjust your code for the next tools release.&lt;/b&gt;
- */
-@Beta
-public class Implementation {
-    private final Class&lt;? extends Detector&gt; mClass;//问题对应的检查器
-    private final EnumSet&lt;Scope&gt; mScope;//检查器的检查范围，可能是存在很多的scope中
-    private EnumSet&lt;Scope&gt;[] mAnalysisScopes;//检查器分析问题时的范围
-    ...
-}
-</code></pre>
-
-<p>未完待续&hellip;</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * An issue is a potential bug in an Android application. An issue is discovered
+</span><span style="color:#75715e"> * by a {@link Detector}, and has an associated {@link Severity}.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * Issues and detectors are separate classes because a detector can discover
+</span><span style="color:#75715e"> * multiple different issues as it&#39;s analyzing code, and we want to be able to
+</span><span style="color:#75715e"> * different severities for different issues, the ability to suppress one but
+</span><span style="color:#75715e"> * not other issues from the same detector, and so on.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Issue</span> <span style="color:#66d9ef">implements</span> Comparable<span style="color:#f92672">&lt;</span>Issue<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String mId<span style="color:#f92672">;</span><span style="color:#75715e">//问题id，名称标识
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String mBriefDescription<span style="color:#f92672">;</span><span style="color:#75715e">//简单描述
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String mExplanation<span style="color:#f92672">;</span><span style="color:#75715e">//详细解释
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Category mCategory<span style="color:#f92672">;</span><span style="color:#75715e">//问题类别
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> mPriority<span style="color:#f92672">;</span><span style="color:#75715e">//问题等级
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Severity mSeverity<span style="color:#f92672">;</span><span style="color:#75715e">//问题严重程度
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> Object mMoreInfoUrls<span style="color:#f92672">;</span><span style="color:#75715e">//问题的更多信息，可能是一个网址的url
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> mEnabledByDefault <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span><span style="color:#75715e">//是否默认开启
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> Implementation mImplementation<span style="color:#f92672">;</span><span style="color:#75715e">//这个问题的检查器相关信息
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(4.1) <code>Severity</code>类是表示问题严重程度的枚举类，主要分为了<code>FATAL，ERROR，WARNING，INFORMATIONAL，IGNORE</code>这几种程度。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Severity of an issue found by lint
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> Severity <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Fatal: Use sparingly because a warning marked as fatal will be
+</span><span style="color:#75715e">     * considered critical and will abort Export APK etc in ADT
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    FATAL<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Fatal&#34;</span><span style="color:#f92672">),</span><span style="color:#75715e">//标记为Fatal将被视为非常危险，在导出apk时可能会终止
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Errors: The issue is known to be a real error that must be addressed.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    ERROR<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Error&#34;</span><span style="color:#f92672">),</span><span style="color:#75715e">//的确是一个问题
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Warning: Probably a problem.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    WARNING<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Warning&#34;</span><span style="color:#f92672">),</span><span style="color:#75715e">//警告，可能是一个问题
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Information only: Might not be a problem, but the check has found
+</span><span style="color:#75715e">     * something interesting to say about the code.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    INFORMATIONAL<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Information&#34;</span><span style="color:#f92672">),</span><span style="color:#75715e">//可能不是一个问题
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Ignore: The user doesn&#39;t want to see this issue
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#a6e22e">@NonNull</span>
+    IGNORE<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Ignore&#34;</span><span style="color:#f92672">);</span><span style="color:#75715e">//用户不想看到的问题
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(4.2) <code>Category</code>类表示问题的类别，主要有<code>Correctness，Security，Performance，Usability，Accessibility，Internationalization</code>等，类别下面可以有子类别，每个类别都还有一个优先级。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * A category is a container for related issues.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Category</span> <span style="color:#66d9ef">implements</span> Comparable<span style="color:#f92672">&lt;</span>Category<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> String mName<span style="color:#f92672">;</span><span style="color:#75715e">//类别名称
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> mPriority<span style="color:#f92672">;</span><span style="color:#75715e">//优先级
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Category mParent<span style="color:#f92672">;</span><span style="color:#75715e">//父类别
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>(4.3) <code>Implementation</code>类表示问题对应的检查器实现，除了绑定一个检查器之外，还绑定了相应的检查范围Scope。需要注意的是<code>mScope</code>和<code>mAnalysisScopes</code>的含义是不同的，表示的具体范围也不一定是一样的，有些问题比较复杂，可能需要分析更多的文件范围才能确定是否存在这个问题。例如，检查某个资源是否使用了，不仅需要检查资源XML文件，还要检查Java文件，只有这两个范围都没有使用这个资源才能确定地认为这个资源没有被使用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * An {@linkplain Implementation} of an {@link Issue} maps to the {@link Detector}
+</span><span style="color:#75715e"> * class responsible for analyzing the issue, as well as the {@link Scope} required
+</span><span style="color:#75715e"> * by the detector to perform its analysis.
+</span><span style="color:#75715e"> * &lt;p&gt;
+</span><span style="color:#75715e"> * &lt;b&gt;NOTE: This is not a public or final API; if you rely on this be prepared
+</span><span style="color:#75715e"> * to adjust your code for the next tools release.&lt;/b&gt;
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Beta</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Implementation</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> Detector<span style="color:#f92672">&gt;</span> mClass<span style="color:#f92672">;</span><span style="color:#75715e">//问题对应的检查器
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> EnumSet<span style="color:#f92672">&lt;</span>Scope<span style="color:#f92672">&gt;</span> mScope<span style="color:#f92672">;</span><span style="color:#75715e">//检查器的检查范围，可能是存在很多的scope中
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> EnumSet<span style="color:#f92672">&lt;</span>Scope<span style="color:#f92672">&gt;[]</span> mAnalysisScopes<span style="color:#f92672">;</span><span style="color:#75715e">//检查器分析问题时的范围
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>未完待续&hellip;</p>
     </section>
 
     <footer class="post-footer">
@@ -802,27 +737,23 @@ public class Implementation {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/14/custom-lint-in-action/"><h4>Custom Lint in Action</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/"><h4>Lint Tool Analysis (2)</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/"><h4>Lint Tool Analysis (2)</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/11/14/custom-lint-in-action/"><h4>Custom Lint in Action</h4></a></span>
       
   
 </aside>
@@ -831,42 +762,6 @@ public class Implementation {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -875,7 +770,7 @@ public class Implementation {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

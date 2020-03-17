@@ -5,7 +5,7 @@
        Using Git with multiple Public Keys &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Using Git with multiple Public Keys &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/05/16/using-git-with-multiple-public-keys/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,23 +158,14 @@
     </header>
 
     <section class="post-content">
-      <p>本文介绍如何同时使用多个Git的公私钥 </p>
-
+      <p>本文介绍如何同时使用多个Git的公私钥</p>
 <p>很多时候，如果我们在多个网站有了Git账号，例如Github、GitCafe、CodingNet等，当我们与不同网站的代码库进行连接的时候可能会因为我们没有配置或者配置不当，导致我们需要重复输入账号密码的问题，本文就是介绍如何同时使用多个公秘钥。</p>
-
 <p>内容参考自GitCafe帮助文档<a href="https://gitcafe.com/GitCafe/Help/wiki/%E5%A6%82%E4%BD%95%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E5%85%AC%E7%A7%98%E9%92%A5#wiki">如何同时使用多个公秘钥</a></p>
-
 <p>之前我已经配置了三个GitCafe的账号，下面以配置CodingNet为例，介绍整个配置过程。</p>
-
 <p>1.生成新的SSH秘钥</p>
-
 <p>记得把以下命令中的<code>YOUR_EMAIL@YOUREMAIL.COM</code>改为你的 Email 地址</p>
-
 <pre><code>ssh-keygen -t rsa -C &quot;YOUR_EMAIL@YOUREMAIL.COM&quot; -f ~/.ssh/codingnet
-</code></pre>
-
-<p>2.生成过程中会出现以下信息，按屏幕提示操作，并记得输入 <code>passphrase</code> 口令(可以为空)。这将在 <code>~/.ssh/</code> 目录下生成 <code>codingnet</code> 和 <code>codingnet.pub</code> 文件，记住千万不要把私钥文件 <code>codingnet</code> 透露给任何人。</p>
-
+</code></pre><p>2.生成过程中会出现以下信息，按屏幕提示操作，并记得输入 <code>passphrase</code> 口令(可以为空)。这将在 <code>~/.ssh/</code> 目录下生成 <code>codingnet</code> 和 <code>codingnet.pub</code> 文件，记住千万不要把私钥文件 <code>codingnet</code> 透露给任何人。</p>
 <pre><code>Generating public/private rsa key pair.
 Enter passphrase (empty for no passphrase):
 Enter same passphrase again:
@@ -216,37 +185,19 @@ The key's randomart image is:
 |         o   +.+*|
 |              o++|
 +-----------------+
-</code></pre>
-
-<p>3.在 SSH 用户配置文件 <code>~/.ssh/config</code> 中指定对应服务所使用的公秘钥名称，如果没有 <code>config</code> 文件的话就新建一个，并输入以下内容</p>
-
+</code></pre><p>3.在 SSH 用户配置文件 <code>~/.ssh/config</code> 中指定对应服务所使用的公秘钥名称，如果没有 <code>config</code> 文件的话就新建一个，并输入以下内容</p>
 <pre><code>Host git.coding.net www.coding.net
   IdentityFile ~/.ssh/codingnet
-</code></pre>
-
-<p>4.添加 <code>codingnet.pub</code> 中的内容到 Coding.net 网站，注意，不需要保留文件结尾的邮件地址</p>
-
+</code></pre><p>4.添加 <code>codingnet.pub</code> 中的内容到 Coding.net 网站，注意，不需要保留文件结尾的邮件地址</p>
 <p>复制文件内容到剪切板中</p>
-
 <pre><code>pbcopy &lt; ~/.ssh/codingnet.pub
-</code></pre>
-
-<p><img src="https://hujiaweibujidao.github.io/images/codingnet.png" alt="image" /></p>
-
+</code></pre><p><img src="https://hujiaweibujidao.github.io/images/codingnet.png" alt="image"></p>
 <p>5.最后测试配置文件是否正常工作</p>
-
 <pre><code>ssh -T git@git.coding.net
-</code></pre>
-
-<p>如果提示是否继续连接的话输入<code>yes</code>，这样就会永久地将连接信息添加到文件<code>know_hosts</code>中。最后如果连接成功的话，会出现成功的信息。</p>
-
+</code></pre><p>如果提示是否继续连接的话输入<code>yes</code>，这样就会永久地将连接信息添加到文件<code>know_hosts</code>中。最后如果连接成功的话，会出现成功的信息。</p>
 <pre><code>Coding.net Tips : [Hello hujiawei! You've connected to Coding.net by SSH successfully! ]
-</code></pre>
-
-<p>6.完成</p>
-
+</code></pre><p>6.完成</p>
 <p>测试通过后，你就可以使用独立的一套公秘钥来使用 CodingNet 了。</p>
-
 <p>Enjoy！</p>
     </section>
 
@@ -268,27 +219,23 @@ The key's randomart image is:
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/"><h4>Pages Service for GitCafe Project</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/"><h4>Publish Gradle Android Library to jCenter Repository</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/"><h4>Publish Gradle Android Library to jCenter Repository</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/11/pages-service-for-gitcafe-project/"><h4>Pages Service for GitCafe Project</h4></a></span>
       
   
 </aside>
@@ -297,42 +244,6 @@ The key's randomart image is:
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -341,7 +252,7 @@ The key's randomart image is:
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

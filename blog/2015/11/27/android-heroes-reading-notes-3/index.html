@@ -5,7 +5,7 @@
        Android Heroes Reading Notes 3 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android Heroes Reading Notes 3 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,21 +158,17 @@
     </header>
 
     <section class="post-content">
-      <p>《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧 </p>
-
+      <p>《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧</p>
 <h3 id="第六章-android绘图机制与处理技巧"><strong>第六章 Android绘图机制与处理技巧</strong></h3>
-
-<p>1.屏幕尺寸信息<br />
-屏幕大小：屏幕对角线长度，单位“寸”；<br />
-分辨率：手机屏幕像素点个数，例如720x1280分辨率；<br />
-PPI(Pixels Per Inch)：即DPI(Dots Per Inch)，它是对角线的像素点数除以屏幕大小得到的；<br />
-系统屏幕密度：android系统定义了几个标准的DPI值作为手机的固定DPI。<br />
-<strong>注：下图中有两处笔误，hdpi应该是480x800，xxhdpi应该是1080x1920</strong><br />
-<img src="https://hujiaweibujidao.github.io/images/androidheros_dpi.png" alt="img" /></p>
-
-<p>独立像素密度(DP)：android系统使用mdpi屏幕作为标准，在这个屏幕上1dp=1px，其他屏幕可以通过比例进行换算。在hdpi中，1dp=1.5px。在xhdpi中，1dp=2px。在xxhdpi中，1dp=3px。<br />
+<p>1.屏幕尺寸信息<br>
+屏幕大小：屏幕对角线长度，单位“寸”；<br>
+分辨率：手机屏幕像素点个数，例如720x1280分辨率；<br>
+PPI(Pixels Per Inch)：即DPI(Dots Per Inch)，它是对角线的像素点数除以屏幕大小得到的；<br>
+系统屏幕密度：android系统定义了几个标准的DPI值作为手机的固定DPI。<br>
+<strong>注：下图中有两处笔误，hdpi应该是480x800，xxhdpi应该是1080x1920</strong><br>
+<img src="https://hujiaweibujidao.github.io/images/androidheros_dpi.png" alt="img"></p>
+<p>独立像素密度(DP)：android系统使用mdpi屏幕作为标准，在这个屏幕上1dp=1px，其他屏幕可以通过比例进行换算。在hdpi中，1dp=1.5px。在xhdpi中，1dp=2px。在xxhdpi中，1dp=3px。<br>
 单位转换：常用的单位转换的辅助类DisplayUtil</p>
-
 <pre><code>/**
  * 常用单位转换的辅助类
  */
@@ -231,25 +205,20 @@ public class DisplayUtil {
         return (pxVal / context.getResources().getDisplayMetrics().scaledDensity);
     }
 }
-</code></pre>
-
-<p>2.2D绘图基础<br />
-(1)Canvas对象<br />
+</code></pre><p>2.2D绘图基础<br>
+(1)Canvas对象<br>
 <code>drawPoint</code>，<code>drawLine</code>，<code>drawRect</code>，<code>drawRoundRect</code>，<code>drawCircle</code>，<code>drawArc</code>，<code>drawOval</code>，<code>drawText</code>，<code>drawPosText</code>(在指定位置绘制文本)，<code>drawPath</code>(绘制路径)</p>
-
-<p>(2)Paint对象<br />
-<code>setAntiAlias</code>：设置画笔的锯齿效果<br />
-<code>setColor</code>：设置画笔的颜色<br />
-<code>setARGB</code>：设置画笔的A、R、G、B值<br />
-<code>setAlpha</code>：设置画笔的透明度值<br />
-<code>setTextSize</code>：设置字体大小<br />
-<code>setStyle</code>：设置画笔的效果（空心STROKE或者实心FILL）<br />
+<p>(2)Paint对象<br>
+<code>setAntiAlias</code>：设置画笔的锯齿效果<br>
+<code>setColor</code>：设置画笔的颜色<br>
+<code>setARGB</code>：设置画笔的A、R、G、B值<br>
+<code>setAlpha</code>：设置画笔的透明度值<br>
+<code>setTextSize</code>：设置字体大小<br>
+<code>setStyle</code>：设置画笔的效果（空心STROKE或者实心FILL）<br>
 <code>setStrokeWidth</code>：设置空心边框的宽度</p>
-
-<p>3.Android XML绘图<br />
-(1)Bitmap<br />
+<p>3.Android XML绘图<br>
+(1)Bitmap<br>
 在XML中定义Bitmap的语法</p>
-
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;bitmap
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -261,11 +230,8 @@ public class DisplayUtil {
                       &quot;fill_vertical&quot; | &quot;center_horizontal&quot; | &quot;fill_horizontal&quot; |
                       &quot;center&quot; | &quot;fill&quot; | &quot;clip_vertical&quot; | &quot;clip_horizontal&quot;]
     android:tileMode=[&quot;disabled&quot; | &quot;clamp&quot; | &quot;repeat&quot; | &quot;mirror&quot;] /&gt;
-</code></pre>
-
-<p>(2)Shape<br />
+</code></pre><p>(2)Shape<br>
 在XML中定义Shape的语法</p>
-
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;shape    
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;    
@@ -302,21 +268,15 @@ public class DisplayUtil {
         android:dashWidth=&quot;integer&quot;        
         android:dashGap=&quot;integer&quot; /&gt;
 &lt;/shape&gt;
-</code></pre>
-
-<p>(3)Layer<br />
+</code></pre><p>(3)Layer<br>
 在XML中定义Layer的语法，layer类似PS中图层的概念，语法如下</p>
-
 <pre><code>&lt;layer-list xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
     &lt;item android:drawable=&quot;@[package:]drawable/drawable_resource&quot; /&gt;
     &lt;item android:drawable=&quot;@[package:]drawable/drawable_resource&quot; /&gt;
     ......
 &lt;/layer-list&gt;
-</code></pre>
-
-<p>(4)Selector<br />
+</code></pre><p>(4)Selector<br>
 selector的用法很多，一般是定义控件在不同状态下的显示形态，可以是图片drawable，也可以是形状shape，还可以只是颜色color！</p>
-
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
 &lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
     &lt;!-- 默认时的背景图片--&gt;
@@ -332,10 +292,7 @@ selector的用法很多，一般是定义控件在不同状态下的显示形态
     &lt;!--获得焦点时的图片背景--&gt;
     &lt;item android:drawable=&quot;@drawable/pic5&quot; android:state_focused=&quot;true&quot;/&gt;
 &lt;/selector&gt;
-</code></pre>
-
-<p>selector与shape结合的例子</p>
-
+</code></pre><p>selector与shape结合的例子</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
     &lt;!-- 定义当button处于pressed状态时的状态--&gt;
@@ -359,10 +316,7 @@ selector的用法很多，一般是定义控件在不同状态下的显示形态
         &lt;/shape&gt;
     &lt;/item&gt;
 &lt;/selector&gt;
-</code></pre>
-
-<p>selector可以用来指定不同状态下文本的颜色，例如按钮上的文本的颜色</p>
-
+</code></pre><p>selector可以用来指定不同状态下文本的颜色，例如按钮上的文本的颜色</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;selector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;
     &lt;item android:color=&quot;#999&quot; android:state_selected=&quot;true&quot;/&gt;
@@ -370,20 +324,15 @@ selector的用法很多，一般是定义控件在不同状态下的显示形态
     &lt;item android:color=&quot;#333&quot; android:state_pressed=&quot;true&quot;/&gt;
     &lt;item android:color=&quot;#000&quot;/&gt;
 &lt;/selector&gt;
-</code></pre>
-
-<p>结合这篇博文<a href="http://blog.csdn.net/brokge/article/details/9713041">Android开发：shape和selector和layer-list</a>以及博主的实现的<a href="http://blog.csdn.net/brokge/article/details/41318117">圆角镂空按钮</a>例子(综合使用了Shape、Layer和Selector实现了圆角镂空按钮)一起看还是挺不错的。</p>
-
-<p>4.Android绘图技巧<br />
-(1)Canvas 画布<br />
-四个主要方法：<br />
-<code>save</code>：保存画布，将之前绘制的内容保存起来；<br />
-<code>restore</code>：合并画布，将save方法之后绘制的内容与之前绘制的内容合并起来；<br />
-<code>translate</code>：移动画布，其实是画布所在的坐标系的移动；<br />
+</code></pre><p>结合这篇博文<a href="http://blog.csdn.net/brokge/article/details/9713041">Android开发：shape和selector和layer-list</a>以及博主的实现的<a href="http://blog.csdn.net/brokge/article/details/41318117">圆角镂空按钮</a>例子(综合使用了Shape、Layer和Selector实现了圆角镂空按钮)一起看还是挺不错的。</p>
+<p>4.Android绘图技巧<br>
+(1)Canvas 画布<br>
+四个主要方法：<br>
+<code>save</code>：保存画布，将之前绘制的内容保存起来；<br>
+<code>restore</code>：合并画布，将save方法之后绘制的内容与之前绘制的内容合并起来；<br>
+<code>translate</code>：移动画布，其实是画布所在的坐标系的移动；<br>
 <code>rotate</code>：旋转画布，其实是画布所在的坐标系的旋转。</p>
-
 <p>后面两个方法主要是用来方便在某些特殊情况下的绘制，例如书中介绍的仪表盘的绘制</p>
-
 <pre><code>@Override
 protected void onDraw(Canvas canvas) {
     // 获取宽高参数
@@ -441,11 +390,8 @@ protected void onDraw(Canvas canvas) {
     canvas.drawLine(0, 0, 100, 200, paintMinute);
     canvas.restore();
 }
-</code></pre>
-
-<p>(2)Layer 图层<br />
+</code></pre><p>(2)Layer 图层<br>
 在Android中图层是基于栈的结构来管理的，通过调用<code>saveLayer</code>、<code>saveLayerAlpha</code>方法来创建图层，使用<code>restore</code>、<code>restoreToCount</code>方法将一个图层入栈。入栈的时候，后面所有的操作都发生在这个图层上，而出栈的时候则会把图像绘制在上层Canvas上。</p>
-
 <pre><code>@Override
 protected void onDraw(Canvas canvas) {
     canvas.drawColor(Color.WHITE);
@@ -457,25 +403,19 @@ protected void onDraw(Canvas canvas) {
     canvas.drawCircle(200, 200, 100, mPaint);
     canvas.restore();
 }
-</code></pre>
-
-<p>仪表盘和Layer图层效果如下：<br />
-<img src="https://hujiaweibujidao.github.io/images/androidheros_canvas.png" alt="img" />
-<img src="https://hujiaweibujidao.github.io/images/androidheros_layer.png" alt="img" /></p>
-
-<p>5.Android图像处理 <strong>[TODO：该部分略过了，自己暂时用的比较少，等需要用的时候学习下再补充]</strong><br />
+</code></pre><p>仪表盘和Layer图层效果如下：<br>
+<img src="https://hujiaweibujidao.github.io/images/androidheros_canvas.png" alt="img">
+<img src="https://hujiaweibujidao.github.io/images/androidheros_layer.png" alt="img"></p>
+<p>5.Android图像处理 <strong>[TODO：该部分略过了，自己暂时用的比较少，等需要用的时候学习下再补充]</strong><br>
 色彩特效处理、图形特效处理、画笔特效处理</p>
-
-<p>6.SurfaceView<br />
-<strong>SurfaceView与View的区别</strong><br />
-(1)View主要适用于主动更新的情况下，而SurfaceView主要适用于被动更新，例如频繁地刷新；<br />
-(2)View在主线程中对画面进行刷新，而SurfaceView通常会通过一个子线程来进行页面刷新；<br />
+<p>6.SurfaceView<br>
+<strong>SurfaceView与View的区别</strong><br>
+(1)View主要适用于主动更新的情况下，而SurfaceView主要适用于被动更新，例如频繁地刷新；<br>
+(2)View在主线程中对画面进行刷新，而SurfaceView通常会通过一个子线程来进行页面刷新；<br>
 (3)View在绘图时没有使用双缓冲机制，而SurfaceView在底层实现机制中就已经实现了双缓冲机制。</p>
-
-<p>SurfaceView的使用<br />
-(1)创建SurfaceView，一般继承自SurfaceView，并实现接口SurfaceHolderCallback。<br />
+<p>SurfaceView的使用<br>
+(1)创建SurfaceView，一般继承自SurfaceView，并实现接口SurfaceHolderCallback。<br>
 SurfaceHolderCallback接口的三个回调方法</p>
-
 <pre><code>@Override
 public void surfaceCreated(SurfaceHolder holder) {
   //做一些初始化操作，例如开启子线程通过循环来实现不停地绘制
@@ -488,22 +428,16 @@ public void surfaceChanged(SurfaceHolder holder, int format, int width, int heig
 @Override
 public void surfaceDestroyed(SurfaceHolder holder) {
 }
-</code></pre>
-
-<p>(2)初始化SurfaceView<br />
+</code></pre><p>(2)初始化SurfaceView<br>
 初始化SurfaceHolder对象，并设置Callback</p>
-
 <pre><code>private void initView() {
     mHolder = getHolder();
     mHolder.addCallback(this);
     ......
 }
-</code></pre>
-
-<p>(3)使用SurfaceView<br />
-通过lockCanvas方法获取Canvas对象进行绘制，并通过unlockCanvasAndPost方法对画布内容进行提交<br />
+</code></pre><p>(3)使用SurfaceView<br>
+通过lockCanvas方法获取Canvas对象进行绘制，并通过unlockCanvasAndPost方法对画布内容进行提交<br>
 <strong>需要注意的是每次调用lockCanvas拿到的Canvas都是同一个Canvas对象，所以之前的操作都会保留，如果需要擦除，可以在绘制之前调用<code>drawColor</code>方法来进行清屏。</strong></p>
-
 <pre><code>private void draw() {
     try {
         mCanvas = mHolder.lockCanvas();
@@ -514,10 +448,7 @@ public void surfaceDestroyed(SurfaceHolder holder) {
             mHolder.unlockCanvasAndPost(mCanvas);
     }
 }
-</code></pre>
-
-<p>书中使用SurfaceView实现了简易画板</p>
-
+</code></pre><p>书中使用SurfaceView实现了简易画板</p>
 <pre><code>public class SimpleDraw extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
     private SurfaceHolder mHolder;
@@ -616,46 +547,31 @@ public void surfaceDestroyed(SurfaceHolder holder) {
         return true;
     }
 }
-</code></pre>
-
-<p><br/></p>
-
+</code></pre><!-- raw HTML omitted -->
 <h3 id="第七章-android动画机制与使用技巧"><strong>第七章 Android动画机制与使用技巧</strong></h3>
-
-<p>1.View动画 （视图动画）<br />
+<p>1.View动画 （视图动画）<br>
 视图动画(Animation)框架定义了透明度(AlphaAnimation)、旋转(RotateAnimation)、缩放(ScaleAnimation)和位移(TranslateAnimation)几种常见的动画，控制的是View的内容，所以视图动画的缺陷就在于当某个元素发生视图动画后，其响应事件的位置还依然停留在原来的地方！</p>
-
 <p><strong>实现原理是每次绘制视图时View所在的ViewGroup中的drawChild方法获取该View的Animation的Transformation值，然后调用canvas.concat(transformationToApply.getMatrix())，通过矩阵运算完成动画帧。如果动画没有完成，就继续调用invalidate方法，启动下次绘制来驱动动画，从而完成整个动画的绘制。</strong></p>
-
-<p>动画集合(AnimationSet)：将多个视图动画组合起来<br />
+<p>动画集合(AnimationSet)：将多个视图动画组合起来<br>
 动画监听器(AnimationListener)：提供动画的监听回调方法</p>
-
-<p>2.属性动画<br />
+<p>2.属性动画<br>
 Android 3.0之后添加了属性动画(Animator)框架，其中核心类ObjectAnimator能够自动驱动，在不影响动画效果的情况下减少CPU资源消耗。</p>
-
-<p><strong>ObjectAnimator</strong><br />
-创建ObjectAnimator只需通过它的静态工厂方法直接返回一个ObjectAnimator对象，参数包括view对象，以及view的属性名字，这个属性必须要有get/set方法，因为ObjectAnimator内部会通过反射机制来修改属性值。常用的可以直接使用属性动画的属性包括：<br />
-(1)<code>translationX</code>和<code>translationY</code>：控制view从它布局容器左上角坐标偏移的位置；<br />
-(2)<code>rotation</code>、<code>rotationX</code>和<code>rotationY</code>：控制view围绕支点进行2D和3D旋转；<br />
-(3)<code>scaleX</code>和<code>scaleY</code>：控制view围绕着它的支点进行2D缩放；<br />
-(4)<code>pivotX</code>和<code>pivotY</code>：控制支点位置，围绕这个支点进行旋转和缩放处理。默认情况下，支点是view的中心点；<br />
-(5)<code>x</code>和<code>y</code>：控制view在它的容器中的最终位置，它是最初的左上角坐标和translationX、translationY的累计和；<br />
+<p><strong>ObjectAnimator</strong><br>
+创建ObjectAnimator只需通过它的静态工厂方法直接返回一个ObjectAnimator对象，参数包括view对象，以及view的属性名字，这个属性必须要有get/set方法，因为ObjectAnimator内部会通过反射机制来修改属性值。常用的可以直接使用属性动画的属性包括：<br>
+(1)<code>translationX</code>和<code>translationY</code>：控制view从它布局容器左上角坐标偏移的位置；<br>
+(2)<code>rotation</code>、<code>rotationX</code>和<code>rotationY</code>：控制view围绕支点进行2D和3D旋转；<br>
+(3)<code>scaleX</code>和<code>scaleY</code>：控制view围绕着它的支点进行2D缩放；<br>
+(4)<code>pivotX</code>和<code>pivotY</code>：控制支点位置，围绕这个支点进行旋转和缩放处理。默认情况下，支点是view的中心点；<br>
+(5)<code>x</code>和<code>y</code>：控制view在它的容器中的最终位置，它是最初的左上角坐标和translationX、translationY的累计和；<br>
 (6)<code>alpha</code>：控制透明度，默认是1（不透明）。</p>
-
 <p>ObjectAnimator的常见使用方式如下：</p>
-
 <pre><code>ObjectAnimator animator = ObjectAnimator.ofFloat(view, &quot;translationX&quot;, 300);
 animator.setDuration(1000);
 animator.start();
-</code></pre>
-
-<p>属性动画集合AnimatorSet：控制多个动画的协同工作方式，常用方法<code>animatorSet.play().with().before().after()</code>、<code>playTogether</code>、<code>playSequentially</code>等方法来精确控制动画播放顺序。使用<code>PropertyValueHolder</code>也可以实现简单的动画集合效果。</p>
-
+</code></pre><p>属性动画集合AnimatorSet：控制多个动画的协同工作方式，常用方法<code>animatorSet.play().with().before().after()</code>、<code>playTogether</code>、<code>playSequentially</code>等方法来精确控制动画播放顺序。使用<code>PropertyValueHolder</code>也可以实现简单的动画集合效果。</p>
 <p>动画监听器：监听动画事件可以使用<code>AnimatorListener</code>或者简易的适配器<code>AnimatorListenerAdapter</code></p>
-
-<p><strong>如果一个属性没有get/set方法怎么办？</strong><br />
+<p><strong>如果一个属性没有get/set方法怎么办？</strong><br>
 (1)自定义包装类，间接地给属性提供get/set方法，下面就是一个包装类的例子，为width属性提供了get/set方法</p>
-
 <pre><code>public class WrapperView {
 
     private View mView;
@@ -673,11 +589,8 @@ animator.start();
         mView.requestLayout();
     }
 }
-</code></pre>
-
-<p>(2)使用<code>ValueAnimator</code><br />
+</code></pre><p>(2)使用<code>ValueAnimator</code><br>
 ObjectAnimator就是继承自ValueAnimator的，它是属性动画的核心，ValueAnimator不提供任何动画效果，它就是一个数值产生器，用来产生具有一定规律的数字，从而让调用者来控制动画的实现过程，控制的方式是使用<code>AnimatorUpdateListener</code>来监听数值的变换。</p>
-
 <pre><code>ValueAnimator animator = ValueAnimator.ofFloat(0,100);
 animator.setTarget(view);
 animator.setDuration(1000);
@@ -689,28 +602,19 @@ animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
         //do the animation!
     }
 });
-</code></pre>
-
-<p><strong>在XML中使用属性动画</strong><br />
+</code></pre><p><strong>在XML中使用属性动画</strong><br>
 下面是一个简单例子：</p>
-
 <pre><code>&lt;objectAnimator xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     android:duration=&quot;4000&quot;
     android:propertyName=&quot;rotation&quot;
     android:valueFrom=&quot;0&quot;
     android:valueTo=&quot;360&quot; /&gt;
-</code></pre>
-
-<p>在代码中使用方式如下： <strong>[注：测试该代码的时候，上面的xml定义应该放在res的animator目录下，放在anim目录下不行]</strong></p>
-
+</code></pre><p>在代码中使用方式如下： <strong>[注：测试该代码的时候，上面的xml定义应该放在res的animator目录下，放在anim目录下不行]</strong></p>
 <pre><code>Animator animator = AnimatorInflater.loadAnimator(this, R.animator.animator_rotation);
 animator.setTarget(view);
 animator.start();
-</code></pre>
-
-<p><strong>View的animate方法</strong><br />
+</code></pre><p><strong>View的animate方法</strong><br>
 Android 3.0之后View新增了animate方法直接驱动属性动画，它其实是属性动画的一种简写方式</p>
-
 <pre><code>imageView.animate().alpha(0).y(100).setDuration(1000)
         .setListener(new Animator.AnimatorListener() {
             @Override
@@ -729,25 +633,19 @@ Android 3.0之后View新增了animate方法直接驱动属性动画，它其实�
             public void onAnimationRepeat(Animator animation) {
             }
         });
-</code></pre>
-
-<p>3.布局动画<br />
-布局动画是作用在ViewGroup上的，给ViewGroup添加view时添加动画过渡效果。<br />
-(1)简易方式（但是没有什么效果）：在xml中添加如下属性 <code>android:animateLayoutChanges=&quot;true</code><br />
+</code></pre><p>3.布局动画<br>
+布局动画是作用在ViewGroup上的，给ViewGroup添加view时添加动画过渡效果。<br>
+(1)简易方式（但是没有什么效果）：在xml中添加如下属性 <code>android:animateLayoutChanges=&quot;true</code><br>
 (2)通过<code>LayoutAnimationController</code>来自定义子view的过渡效果，下面是一个常见的使用例子：</p>
-
 <pre><code>LinearLayout linearLayout = (LinearLayout) findViewById(R.id.ll);
 ScaleAnimation scaleAnimation = new ScaleAnimation(0,1,0,1);
 scaleAnimation.setDuration(2000);
 LayoutAnimationController controller = new LayoutAnimationController(scaleAnimation, 0.5f);
 controller.setOrder(LayoutAnimationController.ORDER_NORMAL);//NORMAL 顺序 RANDOM 随机 REVERSE 反序
 linearLayout.setLayoutAnimation(controller);
-</code></pre>
-
-<p>4.自定义动画<br />
+</code></pre><p>4.自定义动画<br>
 创建自定义动画就是要实现它的<code>applyTransformation</code>的逻辑，不过通常还需要覆盖父类的<code>initialize</code>方法来实现初始化工作。
 下面是一个模拟电视机关闭的动画</p>
-
 <pre><code>public class CustomTV extends Animation {
 
     private int mCenterWidth;
@@ -769,14 +667,10 @@ linearLayout.setLayoutAnimation(controller);
         matrix.preScale(1, 1 - interpolatedTime, mCenterWidth, mCenterHeight);
     }
 }
-</code></pre>
-
-<p>applyTransformation方法的第一个参数interpolatedTime是插值器的时间因子，取值在0到1之间；第二个参数Transformation是矩阵的封装类，一般使用它来获得当前的矩阵Matrix对象，然后对矩阵进行操作，就可以实现动画效果了。</p>
-
-<p><strong>如何实现3D动画效果呢？</strong><br />
-使用<code>android.graphics.Camera</code>中的Camera类，它封装了OpenGL的3D动画。可以把Camera想象成一个真实的摄像机，当物体固定在某处时，只要移动摄像机就能拍摄到具有立体感的图像，因此通过它可以实现各种3D效果。<br />
+</code></pre><p>applyTransformation方法的第一个参数interpolatedTime是插值器的时间因子，取值在0到1之间；第二个参数Transformation是矩阵的封装类，一般使用它来获得当前的矩阵Matrix对象，然后对矩阵进行操作，就可以实现动画效果了。</p>
+<p><strong>如何实现3D动画效果呢？</strong><br>
+使用<code>android.graphics.Camera</code>中的Camera类，它封装了OpenGL的3D动画。可以把Camera想象成一个真实的摄像机，当物体固定在某处时，只要移动摄像机就能拍摄到具有立体感的图像，因此通过它可以实现各种3D效果。<br>
 下面是一个3D动画效果的例子</p>
-
 <pre><code>public class CustomAnim extends Animation {
 
     private int mCenterWidth;
@@ -811,11 +705,8 @@ linearLayout.setLayoutAnimation(controller);
         matrix.postTranslate(-mCenterWidth, -mCenterHeight);
     }
 }
-</code></pre>
-
-<p>5.Android 5.X SVG矢量动画机制 <strong>[TODO：该部分略过了，自己暂时用的比较少，等需要用的时候学习下再补充]</strong><br />
+</code></pre><p>5.Android 5.X SVG矢量动画机制 <strong>[TODO：该部分略过了，自己暂时用的比较少，等需要用的时候学习下再补充]</strong><br>
 本章最后还有几个很常用的动画实例，感兴趣可以看下。</p>
-
 <p>OK，本节结束，谢谢阅读。</p>
     </section>
 
@@ -837,27 +728,23 @@ linearLayout.setLayoutAnimation(controller);
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/"><h4>Android Heroes Reading Notes 2</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/"><h4>Android Heroes Reading Notes 4</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/"><h4>Android Heroes Reading Notes 4</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/"><h4>Android Heroes Reading Notes 2</h4></a></span>
       
   
 </aside>
@@ -866,42 +753,6 @@ linearLayout.setLayoutAnimation(controller);
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -910,7 +761,7 @@ linearLayout.setLayoutAnimation(controller);
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

@@ -5,7 +5,7 @@
        Android Text View with Custom Font &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android Text View with Custom Font &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,28 +159,18 @@
 
     <section class="post-content">
       <p>本文以自定义TextView为例简单实践下如何自定义View，它能够根据设置的xml属性采用不同的字体显示文字</p>
-
 <p>效果如下图所示：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/fonttextview.png" alt="images" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/fonttextview.png" alt="images"></p>
 <p>如果你是使用Android Studio的话，那么Custom View操作很简单，只需要<code>new -&gt; UI Component -&gt; Custom View</code>就好了，IDE会自动帮你生成一些有用的代码，然后根据实际需要修改就行了，这里我还是一个个文件创建吧。</p>
-
 <p>你可以从<a href="http://www.1001freefonts.com/">这个网站</a>下载免费的字体文件(需要是<code>ttf</code>格式的)。</p>
-
 <p>(1)新建文件<code>res/values/attrs_font_textview.xml</code>，其中定义一下我们的TextView的属性fontType，用来指明使用的字体。</p>
-
-<pre><code class="language-java">&lt;resources&gt;
-    &lt;declare-styleable name=&quot;FontTextView&quot;&gt;
-        &lt;attr name=&quot;fontType&quot; format=&quot;string&quot;/&gt;
-    &lt;/declare-styleable&gt;
-&lt;/resources&gt;
-</code></pre>
-
-<p>(2)新建自定义的FontTextView类</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">&lt;</span>resources<span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;</span>declare<span style="color:#f92672">-</span>styleable name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;FontTextView&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;</span>attr name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;fontType&#34;</span> format<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;string&#34;</span><span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/</span>declare<span style="color:#f92672">-</span>styleable<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&lt;/</span>resources<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>(2)新建自定义的FontTextView类</p>
 <p>这个类继承自TextView类，没啥特别的，就是在调用完父类的构造函数之后执行<code>init()</code>方法设置对应的字体就好啦，关键在于如何得到xml文件中定义的fontType属性值的部分代码。</p>
-
 <pre><code>package hujiawei.xiaojian.view;
 
 import android.content.Context;
@@ -250,10 +218,7 @@ public class FontTextView extends TextView {
     }
 
 }
-</code></pre>
-
-<p>仔细看上面的代码你会发现一个FontManager类，这个类是个单例类，专门用来管理字体的，因为加载字体是比较费时的操作。</p>
-
+</code></pre><p>仔细看上面的代码你会发现一个FontManager类，这个类是个单例类，专门用来管理字体的，因为加载字体是比较费时的操作。</p>
 <pre><code>package hujiawei.xiaojian.util;
 
 import android.content.res.AssetManager;
@@ -292,10 +257,7 @@ public class FontManager {
     }
 
 }
-</code></pre>
-
-<p>(3)接着就是新建一个布局文件来测试下效果啦，下面的布局文件的显示效果就是本文开始的那个效果图。</p>
-
+</code></pre><p>(3)接着就是新建一个布局文件来测试下效果啦，下面的布局文件的显示效果就是本文开始的那个效果图。</p>
 <pre><code>&lt;RelativeLayout
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     xmlns:app=&quot;http://schemas.android.com/apk/res-auto&quot;
@@ -346,9 +308,7 @@ public class FontManager {
         app:fontType=&quot;shadow&quot;/&gt;
 
 &lt;/RelativeLayout&gt;
-</code></pre>
-
-<p>OK，Enjoy! :-)</p>
+</code></pre><p>OK，Enjoy! :-)</p>
     </section>
 
     <footer class="post-footer">
@@ -369,27 +329,23 @@ public class FontManager {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/"><h4>Fix Homebrew for OS X 10.10 Yosemite</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/"><h4>Android PopupMenu and PopupWindow</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/"><h4>Android PopupMenu and PopupWindow</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/"><h4>Fix Homebrew for OS X 10.10 Yosemite</h4></a></span>
       
   
 </aside>
@@ -398,42 +354,6 @@ public class FontManager {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -442,7 +362,7 @@ public class FontManager {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

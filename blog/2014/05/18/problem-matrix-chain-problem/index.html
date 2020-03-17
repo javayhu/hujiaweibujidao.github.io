@@ -5,7 +5,7 @@
        Problem: Matrix Chain Problem &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Problem: Matrix Chain Problem &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/18/problem-matrix-chain-problem/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,68 +159,53 @@
 
     <section class="post-content">
       <p>矩阵链乘问题是最典型的动态规划问题，本文介绍如何用动规算法解决这个问题，要理解下面的内容请先阅读<a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c8-dynamic-programming/">这篇动态规划的总结</a>。</p>
-
 <p>1.问题描述</p>
-
-<p>矩阵链乘问题的描述如下，就是说要确定一个完全加括号的形式使得矩阵链乘需要进行的标量计算数目最少，矩阵$$A<em>{i}$$的维数为$$p</em>{i-1} \times p_{i}$$，如果穷举所有可能形式的话，时间复杂度是指数级的！因为该问题满足最优子结构，并且子问题存在重叠，所以我们可以借助动态规划来求解。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/matrix.png" alt="image" /></p>
-
+<p>矩阵链乘问题的描述如下，就是说要确定一个完全加括号的形式使得矩阵链乘需要进行的标量计算数目最少，矩阵$$A_{i}$$的维数为$$p_{i-1} \times p_{i}$$，如果穷举所有可能形式的话，时间复杂度是指数级的！因为该问题满足最优子结构，并且子问题存在重叠，所以我们可以借助动态规划来求解。</p>
+<p><img src="https://hujiaweibujidao.github.io/images/algos/matrix.png" alt="image"></p>
 <p>2.问题分析</p>
-
 <p>我们需要确定一个递归式来将我们要求解的问题表示出来，下面摘自算法导论，介绍地非常详细
-<img src="https://hujiaweibujidao.github.io/images/algos/matrix2.png" alt="image" /></p>
-
+<img src="https://hujiaweibujidao.github.io/images/algos/matrix2.png" alt="image"></p>
 <p>最后给出的递归式如下，就是说我们要如何确定从第i个矩阵到第j个矩阵组成的矩阵链的最优解。如果i和j相等，那么就是一个矩阵，不需要运算；如果i小于j，那么肯定要从它们中间的某个位置分开来，那从哪里分开来呢? 这个我们可以尝试下所有可能的选择，也就是尝试不同的位置k，k满足条件(i &lt;= k &lt; j)，在位置k将矩阵链进行分开，看看它需要的计算次数，然后我们从这些可能的k中选择使得计算次数最小的那个k进行分开，分开了之后我们的问题就变成了2个小问题，确定矩阵链从i到k
 和另一个矩阵链从k+1到j的最优解。如果我们一开始设置i=1(第一个矩阵)，j=n(最后一个矩阵)，那么，经过上面的递归即可得到我们需要的解。这就是递归的思想！</p>
-
 <p>$$
 m[i][j]= \left{
-  \begin{array}{l l}
-    0 &amp; \quad \text{if i=j }<br />
-    min<em>{i \le k &lt; j}{m[i][k]+m[k+1][j]+p</em>{i-1}p<em>{k}p</em>{j}} &amp; \quad \text{if i&lt;j}
-  \end{array} \right.
+\begin{array}{l l}
+0 &amp; \quad \text{if i=j }\<br>
+min_{i \le k &lt; j}{m[i][k]+m[k+1][j]+p_{i-1}p_{k}p_{j}} &amp; \quad \text{if i&lt;j}
+\end{array} \right.
 $$</p>
-
 <p>3.代码实现</p>
-
 <p>根据上面的思想我们很快就可以写出一个递归版本的矩阵链承法的实现代码，输出的结果也没有错，给出的加括号的方式是<code>( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )</code>。[问题的数据是算法导论中的问题的数据，值是<code>30,35,15,5,10,20,25</code>]。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">matrixchain_rec</span>(p,i,j):
+    <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span>j:
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(i,j):
+        q<span style="color:#f92672">=</span>matrixchain_rec(p,i,k)<span style="color:#f92672">+</span>matrixchain_rec(p,k<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,j)<span style="color:#f92672">+</span>p[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]<span style="color:#f92672">*</span>p[k]<span style="color:#f92672">*</span>p[j]
+        <span style="color:#66d9ef">if</span> q<span style="color:#f92672">&lt;</span>m[i][j]:
+            m[i][j]<span style="color:#f92672">=</span>q
+            s[i][j]<span style="color:#f92672">=</span>k
+    <span style="color:#66d9ef">return</span> m[i][j]
 
-<pre><code class="language-python">def matrixchain_rec(p,i,j):
-    if i==j:
-        return 0
-    for k in range(i,j):
-        q=matrixchain_rec(p,i,k)+matrixchain_rec(p,k+1,j)+p[i-1]*p[k]*p[j]
-        if q&lt;m[i][j]:
-            m[i][j]=q
-            s[i][j]=k
-    return m[i][j]
-
-def showmatrixchain(s,i,j):
-    if i==j:
-        print 'A%d'%(i),
-    else:
-        print '(',
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">showmatrixchain</span>(s,i,j):
+    <span style="color:#66d9ef">if</span> i<span style="color:#f92672">==</span>j:
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;A</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">%</span>(i),
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;(&#39;</span>,
         showmatrixchain(s,i,s[i][j])
-        showmatrixchain(s,s[i][j]+1,j)
-        print ')',
+        showmatrixchain(s,s[i][j]<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>,j)
+        <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;)&#39;</span>,
 
-n=6
-p=[30,35,15,5,10,20,25]
-m=[[sys.maxint for i in range(n+1)] for j in range(n+1)]
-s=[[0 for i in range(n+1)] for j in range(n+1)]
-# pprint.pprint(m)
-result=matrixchain_rec(p,1,6)
-print(result) #15125
-showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
-</code></pre>
-
-<p>上面的代码运行没有问题，但是，它不够完美！为什么呢? 很明显，矩阵链乘问题子问题存在重叠，下面这张图很形象地显示了哪些子问题被重复计算了，所以我们需要改进，改进的方法就是使用带备忘录的递归形式！</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/matrix3.png" alt="image" /></p>
-
+n<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>
+p<span style="color:#f92672">=</span>[<span style="color:#ae81ff">30</span>,<span style="color:#ae81ff">35</span>,<span style="color:#ae81ff">15</span>,<span style="color:#ae81ff">5</span>,<span style="color:#ae81ff">10</span>,<span style="color:#ae81ff">20</span>,<span style="color:#ae81ff">25</span>]
+m<span style="color:#f92672">=</span>[[sys<span style="color:#f92672">.</span>maxint <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)] <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)]
+s<span style="color:#f92672">=</span>[[<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)] <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(n<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)]
+<span style="color:#75715e"># pprint.pprint(m)</span>
+result<span style="color:#f92672">=</span>matrixchain_rec(p,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">6</span>)
+<span style="color:#66d9ef">print</span>(result) <span style="color:#75715e">#15125</span>
+showmatrixchain(s,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">6</span>) <span style="color:#75715e">#( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )</span>
+</code></pre></div><p>上面的代码运行没有问题，但是，它不够完美！为什么呢? 很明显，矩阵链乘问题子问题存在重叠，下面这张图很形象地显示了哪些子问题被重复计算了，所以我们需要改进，改进的方法就是使用带备忘录的递归形式！</p>
+<p><img src="https://hujiaweibujidao.github.io/images/algos/matrix3.png" alt="image"></p>
 <p>要改成带备忘录的很简单，但是，这次我们不能直接使用原来的装饰器，因为Python中的dict不能对list对象进行hash，所以我们要简单地修改下我们key值的构建，也很简单，看下代码就明白了：</p>
-
 <pre><code>from functools import wraps
 
 def memo(func):
@@ -284,10 +247,7 @@ s=[[0 for i in range(n+1)] for j in range(n+1)]
 result=matrixchain_rec(p,1,6)
 print(result) #15125
 showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
-</code></pre>
-
-<p><strong>接下来的一个问题是，我们怎么实现迭代版本呢? 迭代版本关键在于顺序！我们怎么保证我们在计算$A<em>{i&hellip;j}$的最优解时，所有可能的k的选择需要求解的子问题$A</em>{i&hellip;k}$以及$A_{(k+1)&hellip;j}$是已经求解出来了的呢? 一个简单但是有效的想法就是看矩阵链的长度，我们先计算矩阵链短的最优解，然后再计算矩阵链长的最优解，后者计算时所需要求解的子问题肯定已经求解完了，对不对? 于是就有了迭代版本的实现，需要注意的就是其中的i,j,k的取值范围。</strong></p>
-
+</code></pre><p>**接下来的一个问题是，我们怎么实现迭代版本呢? 迭代版本关键在于顺序！我们怎么保证我们在计算$A_{i&hellip;j}$的最优解时，所有可能的k的选择需要求解的子问题$A_{i&hellip;k}$以及$A_{(k+1)&hellip;j}$是已经求解出来了的呢? 一个简单但是有效的想法就是看矩阵链的长度，我们先计算矩阵链短的最优解，然后再计算矩阵链长的最优解，后者计算时所需要求解的子问题肯定已经求解完了，对不对? 于是就有了迭代版本的实现，需要注意的就是其中的i,j,k的取值范围。**</p>
 <pre><code>import sys
 def matrixchain_iter(p):
     n=len(p)-1 #total n matrices 6
@@ -316,12 +276,8 @@ print('')
 m,s=matrixchain_iter(p)
 print(m[1][6]) #15125
 showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
-</code></pre>
-
-<p>实现的时候需要注意一点，在Python中取list中的值时，如果索引是负值的话会从后面往前数返回对应的元素，而以前我们用其他语言的时候肯定是提示越界了，所以代码中用来存储结果的数数组是(n+1)x(n+1)，而不是nxn的，这样的话就能够保证返回的是0，而不是从后往前数得到的结果。</p>
-
+</code></pre><p>实现的时候需要注意一点，在Python中取list中的值时，如果索引是负值的话会从后面往前数返回对应的元素，而以前我们用其他语言的时候肯定是提示越界了，所以代码中用来存储结果的数数组是(n+1)x(n+1)，而不是nxn的，这样的话就能够保证返回的是0，而不是从后往前数得到的结果。</p>
 <p>得到的数组<code>m</code>如下，<code>m[1,6]</code>就是我们需要的解。</p>
-
 <pre><code>[[0, 0, 0, 0, 0, 0, 0],
  [0, 0, 15750, 7875, 9375, 11875, 15125],
  [0, 0, 0, 2625, 4375, 7125, 10500],
@@ -329,10 +285,7 @@ showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
  [0, 0, 0, 0, 0, 1000, 3500],
  [0, 0, 0, 0, 0, 0, 5000],
  [0, 0, 0, 0, 0, 0, 0]]
-</code></pre>
-
-<p>数组<code>s</code>如下：</p>
-
+</code></pre><p>数组<code>s</code>如下：</p>
 <pre><code>[[0, 0, 0, 0, 0, 0, 0],
  [0, 0, 1, 1, 3, 3, 3],
  [0, 0, 0, 2, 3, 3, 3],
@@ -340,11 +293,8 @@ showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
  [0, 0, 0, 0, 0, 4, 5],
  [0, 0, 0, 0, 0, 0, 5],
  [0, 0, 0, 0, 0, 0, 0]]
-</code></pre>
-
-<p>将这个两个数组旋转下，并且只看上三角部分的数字，就可以得到算法导论中给出的那张三角图形了，非常类似杨辉三角</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/algos/matrixmulti.png" alt="image" /></p>
+</code></pre><p>将这个两个数组旋转下，并且只看上三角部分的数字，就可以得到算法导论中给出的那张三角图形了，非常类似杨辉三角</p>
+<p><img src="https://hujiaweibujidao.github.io/images/algos/matrixmulti.png" alt="image"></p>
     </section>
 
     <footer class="post-footer">
@@ -365,27 +315,23 @@ showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/python/"><h4>Python</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/"><h4>Love you</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/18/love-you/"><h4>Love you</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/16/good-python-articles/"><h4>Good Python Articles</h4></a></span>
       
   
 </aside>
@@ -394,42 +340,6 @@ showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -438,7 +348,7 @@ showmatrixchain(s,1,6) #( ( A1 ( A2 A3 ) ) ( ( A4 A5 ) A6 ) )
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

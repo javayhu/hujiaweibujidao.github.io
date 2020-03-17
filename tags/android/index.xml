@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Android on Hujiawei Bujidao</title>
+    <title>android on Hujiawei Bujidao</title>
     <link>https://hujiaweibujidao.github.io/tags/android/</link>
-    <description>Recent content in Android on Hujiawei Bujidao</description>
+    <description>Recent content in android on Hujiawei Bujidao</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <copyright>All rights reserved &amp;copy; 2013 - 2018</copyright>
+    <copyright>All rights reserved &amp;copy; 2013 - 2020</copyright>
     <lastBuildDate>Mon, 27 Nov 2017 10:46:33 +0800</lastBuildDate>
     
 	<atom:link href="https://hujiaweibujidao.github.io/tags/android/index.xml" rel="self" type="application/rss+xml" />
@@ -45,7 +45,7 @@
       <pubDate>Thu, 01 Dec 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/12/01/builtin-lint-detectors-1/</guid>
-      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具中自带的与Android开发相关的lint检查项。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -54,7 +54,7 @@
       <pubDate>Sat, 19 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/19/lint-tool-analysis-3/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(3)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(3)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -63,7 +63,7 @@
       <pubDate>Fri, 18 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/18/lint-tool-analysis-2/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(2)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -72,7 +72,7 @@
       <pubDate>Thu, 17 Nov 2016 10:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/17/lint-tool-analysis-1/</guid>
-      <description>&lt;p&gt;Lint工具的源码分析(1)  &lt;/p&gt;</description>
+      <description>&lt;p&gt;Lint工具的源码分析(1)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -90,7 +90,7 @@
       <pubDate>Thu, 10 Nov 2016 16:46:33 +0800</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/10/app-launch-time-measurement/</guid>
-      <description>&lt;p&gt;本文记录下分析应用启动时间的总结。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下分析应用启动时间的总结。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -99,7 +99,7 @@
       <pubDate>Wed, 09 Nov 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/11/09/build-android-studio-source-code/</guid>
-      <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文简单记录下如何编译Android Studio这个开发工具的源码。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -108,7 +108,7 @@
       <pubDate>Sun, 16 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/16/how-to-get-performance-data-in-android/</guid>
-      <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下在Android平台上如何获取那些系统性能相关的数据。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@
       <pubDate>Mon, 10 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/</guid>
-      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录的是chromeadb项目的源码阅读总结。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -126,7 +126,7 @@
       <pubDate>Sun, 09 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/</guid>
-      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结下对Android平台的性能分析工具Pury的源码分析。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -135,7 +135,7 @@
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/</guid>
-      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文记录下搭建Android源码编译环境的流程。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -144,7 +144,7 @@
       <pubDate>Mon, 03 Oct 2016 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/10/03/head-first-systrace/</guid>
-      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出systrace（1）systrace的简单介绍和systrace工具源码分析。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -198,7 +198,7 @@
       <pubDate>Sun, 13 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/</guid>
-      <description>&lt;p&gt;Fab and Dialog Morphing Animation on Android. &lt;/p&gt;</description>
+      <description>&lt;p&gt;Fab and Dialog Morphing Animation on Android.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -207,7 +207,7 @@
       <pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/</guid>
-      <description>&lt;p&gt;Plaid源码阅读笔记。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Plaid源码阅读笔记。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -216,7 +216,7 @@
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;strong&gt;《Android开发艺术探索》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -225,7 +225,7 @@
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-2/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (2) 第2章 IPC机制&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -234,7 +234,7 @@
       <pubDate>Sat, 05 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/05/art-of-android-development-reading-notes-9/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程  &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (9) 第9章 四大组件的工作过程&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -243,7 +243,7 @@
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-10/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (10) 第10章 Android的消息机制&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -252,7 +252,7 @@
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-13/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (13) 第13章 综合技术、第14章 JNI和NDK编程、第15章 Android性能优化&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -261,7 +261,7 @@
       <pubDate>Fri, 04 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/04/art-of-android-development-reading-notes-8/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (8) 第8章 理解Window和WindowManager&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -270,7 +270,7 @@
       <pubDate>Thu, 03 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (11) 第11章 Android的线程和线程池&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -279,7 +279,7 @@
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-3/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -288,7 +288,7 @@
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (4) 第4章 View的工作原理&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -297,7 +297,7 @@
       <pubDate>Tue, 01 Dec 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-5/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (5) 第5章 理解RemoteViews&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -306,7 +306,7 @@
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-1/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (1) 第1章 Activity的生命周期和启动模式&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -315,7 +315,7 @@
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-12/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (12) 第12章 Bitmap的加载和Cache&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -324,7 +324,7 @@
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-6/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (6) 第6章 Android的Drawable&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -333,7 +333,7 @@
       <pubDate>Mon, 30 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/30/art-of-android-development-reading-notes-7/</guid>
-      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android开发艺术探索》读书笔记 (7) 第7章 Android动画深入分析&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -342,7 +342,7 @@
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes/</guid>
-      <description>&lt;p&gt;&lt;strong&gt;《Android群英传》读书笔记系列目录&lt;/strong&gt; &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;strong&gt;《Android群英传》读书笔记系列目录&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -351,7 +351,7 @@
       <pubDate>Sun, 29 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (5) 第十一章 搭建云端服务器 + 第十二章 Android 5.X新特性详解 + 第十三章 Android实例提高 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (5) 第十一章 搭建云端服务器 + 第十二章 Android 5.X新特性详解 + 第十三章 Android实例提高&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -360,7 +360,7 @@
       <pubDate>Sat, 28 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/28/android-heroes-reading-notes-4/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (4) 第八章 Activity和Activity调用栈分析 + 第九章 系统信息与安全机制 + 第十章 性能优化 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (4) 第八章 Activity和Activity调用栈分析 + 第九章 系统信息与安全机制 + 第十章 性能优化&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -369,7 +369,7 @@
       <pubDate>Fri, 27 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (3) 第六章 Android绘图机制与处理技巧 + 第七章 Android动画机制与使用技巧&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -378,7 +378,7 @@
       <pubDate>Thu, 26 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (2) 第三章 控件架构与自定义控件详解 + 第四章 ListView使用技巧 + 第五章 Scroll分析 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (2) 第三章 控件架构与自定义控件详解 + 第四章 ListView使用技巧 + 第五章 Scroll分析&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -387,7 +387,7 @@
       <pubDate>Wed, 25 Nov 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/11/25/android-heroes-reading-notes-1/</guid>
-      <description>&lt;p&gt;《Android群英传》读书笔记 (1) 第一章 Android体系与系统架构 + 第二章 Android开发工具新接触 &lt;/p&gt;</description>
+      <description>&lt;p&gt;《Android群英传》读书笔记 (1) 第一章 Android体系与系统架构 + 第二章 Android开发工具新接触&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -396,7 +396,7 @@
       <pubDate>Sun, 05 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/</guid>
-      <description>&lt;p&gt;本文内容和代码参考自&lt;a href=&#34;https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/&#34;&gt;Implementing Swipe to Refresh, an Android Material Design UI Pattern&lt;/a&gt;，原博客内容中略有错误。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文内容和代码参考自&lt;a href=&#34;https://www.bignerdranch.com/blog/implementing-swipe-to-refresh/&#34;&gt;Implementing Swipe to Refresh, an Android Material Design UI Pattern&lt;/a&gt;，原博客内容中略有错误。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -405,7 +405,7 @@
       <pubDate>Sat, 04 Jul 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/</guid>
-      <description>&lt;p&gt;本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -423,7 +423,7 @@
       <pubDate>Fri, 05 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://developer.android.com/training/index.html&#34;&gt;Android Training&lt;/a&gt; 中Getting Started部分的阅读笔记 &lt;/p&gt;</description>
+      <description>&lt;p&gt;&lt;a href=&#34;http://developer.android.com/training/index.html&#34;&gt;Android Training&lt;/a&gt; 中Getting Started部分的阅读笔记&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -432,7 +432,7 @@
       <pubDate>Tue, 02 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/</guid>
-      <description>&lt;p&gt;本文介绍Android Toolbar的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍Android Toolbar的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -441,7 +441,7 @@
       <pubDate>Mon, 01 Jun 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/06/01/head-first-android-actionbar/</guid>
-      <description>&lt;p&gt;本文介绍Android ActionBar的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍Android ActionBar的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -450,7 +450,7 @@
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-asynchronous-http-client/</guid>
-      <description>&lt;p&gt;本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结了著名的Android的异步网络请求库Asynchronous Http Client的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -459,7 +459,7 @@
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-dependency-injection-libraries/</guid>
-      <description>&lt;p&gt;本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结并对比了三种Android依赖注入库：Butter Knife、RoboGuice、Android Annotations的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -468,7 +468,7 @@
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-development-code-snippets/</guid>
-      <description>&lt;p&gt;Android开发代码片段 &lt;/p&gt;</description>
+      <description>&lt;p&gt;Android开发代码片段&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -477,7 +477,7 @@
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/android-universal-image-loader/</guid>
-      <description>&lt;p&gt;本文总结了著名的Android UIL图像加载和显示库的使用 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文总结了著名的Android UIL图像加载和显示库的使用&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -486,7 +486,7 @@
       <pubDate>Sun, 31 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/31/head-first-android-testing-2/</guid>
-      <description>&lt;p&gt;深入浅出Android测试教程 (2) &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出Android测试教程 (2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -495,7 +495,7 @@
       <pubDate>Sat, 30 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/30/head-first-android-testing-1/</guid>
-      <description>&lt;p&gt;深入浅出Android测试教程 (1) &lt;/p&gt;</description>
+      <description>&lt;p&gt;深入浅出Android测试教程 (1)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -504,7 +504,7 @@
       <pubDate>Thu, 28 May 2015 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2015/05/28/publish-gradle-android-library-to-jcenter-repository/</guid>
-      <description>&lt;p&gt;本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。 &lt;/p&gt;</description>
+      <description>&lt;p&gt;本文主要介绍如何通过Gradle将Android库项目上传到jCenter仓库中。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -522,7 +522,7 @@
       <pubDate>Thu, 23 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/23/differences-between-opencv-javacv-and-opencv4android/</guid>
-      <description>&lt;p&gt;OpenCV，JavaCV以及OpenCV4Android之间的关系 &lt;/p&gt;</description>
+      <description>&lt;p&gt;OpenCV，JavaCV以及OpenCV4Android之间的关系&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -531,7 +531,7 @@
       <pubDate>Wed, 22 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/22/android-ndk-and-opencv-development-with-android-studio/</guid>
-      <description>&lt;p&gt;Android NDK and OpenCV development with Android Studio &lt;/p&gt;</description>
+      <description>&lt;p&gt;Android NDK and OpenCV development with Android Studio&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -540,7 +540,7 @@
       <pubDate>Wed, 15 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/15/gradle-plugin-for-android-development-user-guide-2/</guid>
-      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (2) &lt;/p&gt;</description>
+      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (2)&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -549,7 +549,7 @@
       <pubDate>Mon, 13 Oct 2014 00:00:00 +0000</pubDate>
       
       <guid>https://hujiaweibujidao.github.io/blog/2014/10/13/gradle-plugin-for-android-development-user-guide-1/</guid>
-      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (1) &lt;/p&gt;</description>
+      <description>&lt;p&gt;Gradle Plugin for Android Development User Guide (1)&lt;/p&gt;</description>
     </item>
     
     <item>

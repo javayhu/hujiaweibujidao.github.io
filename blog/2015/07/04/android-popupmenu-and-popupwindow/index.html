@@ -5,7 +5,7 @@
        Android PopupMenu and PopupWindow &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android PopupMenu and PopupWindow &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-popupmenu-and-popupwindow/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,26 +158,17 @@
     </header>
 
     <section class="post-content">
-      <p>本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。 </p>
-
+      <p>本文通过一个实例简单介绍下PopupMenu和PopupWindow的区别和各自使用方式。</p>
 <p>实例的代码使用了Android Annotations，但是代码读起来应该是没有障碍的，如果不太了解AA的话，可以参考下<a href="https://hujiaweibujidao.github.io/blog/2015/05/31/android-annotations/">此文</a>。</p>
-
 <p>1.PopupMenu和PopupWindow</p>
-
 <p>PopupMenu显示效果类似上下文菜单(Menu)，而PopupWindow的显示效果实际上类似对话框(Dialog)，两者效果如下图所示：</p>
-
 <p>PopupMenu显示效果
-<img src="https://hujiaweibujidao.github.io/images/showmenu1.png" alt="img" />
-<img src="https://hujiaweibujidao.github.io/images/showmenu2.png" alt="img" /></p>
-
+<img src="https://hujiaweibujidao.github.io/images/showmenu1.png" alt="img">
+<img src="https://hujiaweibujidao.github.io/images/showmenu2.png" alt="img"></p>
 <p>PopupWindow显示效果</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/showwindow1.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/showwindow1.png" alt="image"></p>
 <p>2.实例基础代码</p>
-
 <p>我们要实现的界面就是上面所示的界面，上下各有两个按钮，点击按钮分别在正确的位置弹出PopupMenu或者PopupWindow，下面是界面代码：</p>
-
 <pre><code>&lt;RelativeLayout
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     xmlns:tools=&quot;http://schemas.android.com/tools&quot;
@@ -255,14 +224,9 @@
     &lt;/LinearLayout&gt;
 
 &lt;/RelativeLayout&gt;
-</code></pre>
-
-<p>3.实现PopupMenu</p>
-
+</code></pre><p>3.实现PopupMenu</p>
 <p>PopupMenu的实现稍微简单点，因为它就是普通的菜单！</p>
-
 <p>(1)在<code>res/menu</code>文件夹下新建文件<code>menu_popupmenu.xml</code></p>
-
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;menu
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -285,10 +249,7 @@
         app:showAsAction=&quot;ifRoom|withText&quot;/&gt;
 
 &lt;/menu&gt;
-</code></pre>
-
-<p>(2)然后在Activity中创建Menu并处理MenuItem的点击事件</p>
-
+</code></pre><p>(2)然后在Activity中创建Menu并处理MenuItem的点击事件</p>
 <pre><code>@Click({R.id.menu, R.id.bottommenu})
 void menu(View view) {
     PopupMenu popupMenu = new PopupMenu(this, view);
@@ -311,16 +272,10 @@ public boolean onMenuItemClick(MenuItem item) {
     }
     return false;
 }
-</code></pre>
-
-<p>从上面的代码可以看出，不论是点击上面的还是下面的<code>show popup menu</code>按钮，结果都是弹出在当前按钮附近显示PopupMenu (因为这里设置了button view为anchor view)，而且它会自适应位置，在按钮的左下角或者左上角显示。</p>
-
+</code></pre><p>从上面的代码可以看出，不论是点击上面的还是下面的<code>show popup menu</code>按钮，结果都是弹出在当前按钮附近显示PopupMenu (因为这里设置了button view为anchor view)，而且它会自适应位置，在按钮的左下角或者左上角显示。</p>
 <p>4.实现PopupWindow</p>
-
 <p>实现PopupWindow稍微复杂些，但是自定义性更强，它可以将任意界面设置为PopupWindow。</p>
-
 <p>(1)新建布局文件<code>layout/window_popup.xml</code>，作为PopupWindow，其中只有4个按钮，最后一个是取消按钮，用于关闭PopupWindow</p>
-
 <pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;LinearLayout
     xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -370,10 +325,7 @@ public boolean onMenuItemClick(MenuItem item) {
     &lt;/LinearLayout&gt;
 
 &lt;/LinearLayout&gt;
-</code></pre>
-
-<p>(2)在Activity中控制PopupWindow的显示和事件处理</p>
-
+</code></pre><p>(2)在Activity中控制PopupWindow的显示和事件处理</p>
 <pre><code>@Click
 void window(View view) {
     if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
@@ -454,12 +406,8 @@ private void setButtonListeners(LinearLayout layout) {
         }
     });
 }
-</code></pre>
-
-<p>从上面代码可以看出，点击上面和下面的按钮代码略微不同，因为这里我希望PopupWindow一直是从界面的底部慢慢滑入进入的，所以要控制下位置。关于PopupWindow的显示位置，它既提供了<code>showAtLocation</code>方法精确控制，也提供了<code>showAsDropDown(view)</code>方法简单控制。</p>
-
+</code></pre><p>从上面代码可以看出，点击上面和下面的按钮代码略微不同，因为这里我希望PopupWindow一直是从界面的底部慢慢滑入进入的，所以要控制下位置。关于PopupWindow的显示位置，它既提供了<code>showAtLocation</code>方法精确控制，也提供了<code>showAsDropDown(view)</code>方法简单控制。</p>
 <p>滑入滑出的动画效果代码如下，需要注意的是，PopupWindow需要两个动画：一个进入，一个退出，如果只给定一个动画，可能会看不到动画的效果。</p>
-
 <pre><code>/res/values/styles.xml
 
 &lt;style name=&quot;Popupwindow&quot;&gt;
@@ -482,10 +430,7 @@ private void setButtonListeners(LinearLayout layout) {
            android:interpolator=&quot;@android:anim/accelerate_interpolator&quot;
            android:fromYDelta=&quot;0&quot; android:toYDelta=&quot;100%&quot;
            android:duration=&quot;200&quot;/&gt;
-</code></pre>
-
-<p>(3)使用PopupWindow还有不少需要注意的地方，例如你上面看到的代码中很多判断popupwindow是否为null或者是否正在显示等，有一个情况是，如果用户点击返回键，默认情况下Activity就要退出了，这个时候PopupWindow没有dismiss，容易出现内存泄露的报错，所以我们要处理下这个问题，如果用户点击返回键的时候PopupWindow正在显示的话那么就dismiss PopupWindow就好了。</p>
-
+</code></pre><p>(3)使用PopupWindow还有不少需要注意的地方，例如你上面看到的代码中很多判断popupwindow是否为null或者是否正在显示等，有一个情况是，如果用户点击返回键，默认情况下Activity就要退出了，这个时候PopupWindow没有dismiss，容易出现内存泄露的报错，所以我们要处理下这个问题，如果用户点击返回键的时候PopupWindow正在显示的话那么就dismiss PopupWindow就好了。</p>
 <pre><code>@Override
 public void onBackPressed() {
     if (popupWindow != null &amp;&amp; popupWindow.isShowing()) {
@@ -494,9 +439,7 @@ public void onBackPressed() {
         super.onBackPressed();
     }
 }
-</code></pre>
-
-<p>OK，差不多就是这些了，希望会有帮助，Enjoy！:-)</p>
+</code></pre><p>OK，差不多就是这些了，希望会有帮助，Enjoy！:-)</p>
     </section>
 
     <footer class="post-footer">
@@ -517,27 +460,23 @@ public void onBackPressed() {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/"><h4>Android Text View with Custom Font</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/"><h4>Head First Android SwipeRefreshLayout</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/07/05/head-first-android-swiperefreshlayout/"><h4>Head First Android SwipeRefreshLayout</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/"><h4>Android Text View with Custom Font</h4></a></span>
       
   
 </aside>
@@ -546,42 +485,6 @@ public void onBackPressed() {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -590,7 +493,7 @@ public void onBackPressed() {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

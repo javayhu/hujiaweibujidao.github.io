@@ -5,7 +5,7 @@
        Pury Project Analysis &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Pury Project Analysis &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/10/09/pury-project-analysis/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,52 +158,32 @@
     </header>
 
     <section class="post-content">
-      <p>本文总结下对Android平台的性能分析工具Pury的源码分析。 </p>
-
+      <p>本文总结下对Android平台的性能分析工具Pury的源码分析。</p>
 <p>Pury的源码：<a href="https://github.com/NikitaKozlov/Pury">https://github.com/NikitaKozlov/Pury</a></p>
-
 <p>Pury is a profiling library for measuring time between multiple independent events. Events can be triggered with one of the annotations or with a method call. All events for a single scenario are united into one report.</p>
-
 <p>感兴趣的话可以先阅读<a href="https://medium.com/@nikita.kozlov/pury-new-way-to-profile-your-android-application-7e248b5f615e#.oozl48dch">关于Pury作者为啥开发Pury的介绍</a>，最精彩的是关于Pury的内部设计架构和它的局限性的介绍：</p>
-
 <p>Performance measurements are done by <code>Profilers</code>. Each <code>Profiler</code> contains a list of <code>Runs</code>. Multiple <code>Profilers</code> can work in parallel, but only a single <code>Run</code> per each <code>Profiler</code> can be active. Once all <code>Runs</code> in a single <code>Profiler</code> are finished, result is reported. Amount of runs defines by <code>runsCounter</code> parameter.</p>
-
 <p><code>Run</code> has a root <code>Stage</code> inside. Each <code>Stage</code> has a name, an order number and an arbitrary amount of nested <code>Stages</code>. <code>Stage</code> can have only one active nested <code>Stage</code>. If you stop a parent <code>Stage</code>, then all nested <code>Stages</code> are also stopped.</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/pury.jpeg" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/pury.jpeg" alt="img"></p>
 <p>以下是我的源码阅读总结：</p>
-
 <p><strong>1. 源码结构</strong></p>
-
 <p>1.1 annotations：纯Java应用，已发布到maven上，名称是pury-annotations，其中主要是定义了<code>MethodProfiling</code>，<code>StartProfiling</code>和<code>StopProfiling</code>三个注解</p>
-
 <p>1.2 pury：核心工程，依赖了annotations和aspectj，已发布到maven上，名称是pury</p>
-
 <pre><code>compile 'com.nikitakozlov.pury:annotations:1.0.1'
 compile 'org.aspectj:aspectjrt:1.8.6'
-</code></pre>
-
-<p>1.3 example：应用示例，依赖了pury，演示了几个场景下的几个方法的监控示例</p>
-
+</code></pre><p>1.3 example：应用示例，依赖了pury，演示了几个场景下的几个方法的监控示例</p>
 <p><strong>2. 使用方法</strong></p>
-
 <p>注解形式所支持的5个参数</p>
-
 <p><code>profilerName</code> — name of the profiler is displayed in the result. Along with runsCounter identifies the Profiler.
 <code>runsCounter</code> — amount of runs for Profiler to wait for. Result is available only after all runs are stopped.
 <code>stageName</code> — identifies a stage to start. Name is displayed in the result.
 <code>stageOrder</code> — stage order reflects the hierarchy of stages. In order to start a new stage, it must be bigger then order of current most nested active stage. Stage order is a subject to one more limitation: first start event must have order number equal zero.
 <code>enabled</code> — if set to false, an annotation is skipped.</p>
-
 <p><code>Profiler is identified by combination of profilerName and runsCounter</code>. So if you are using same profilerName, but different runsCounter, then you will get two separate results, instead of a combined one.</p>
-
 <p>profiler对应一个需要监控的场景，runsCounter是指监控场景需要执行的次数
 stage对应这个场景下需要监控的方法，stageOrder是指监控方法的对应层级
 <strong>需要注意的是Profiler是由profilerName和runsCounter两个共同决定的，也就是说如果profilerName相同但是runsCounter不同的话是两个不同的监控场景，最终会得到两个独立的结果。</strong></p>
-
 <p>下面是一个采用注解的方式实现监控的例子，它监控了数据加载这个事件。</p>
-
 <pre><code>@StartProfiling(profilerName = StartApp.PROFILER_NAME, stageName = StartApp.SPLASH_LOAD_DATA,
         stageOrder = StartApp.SPLASH_LOAD_DATA_ORDER)
 private void loadData() {
@@ -243,10 +201,7 @@ private void loadData() {
 private void onDataLoaded() {
 
 }
-</code></pre>
-
-<p>监控App Start场景下的方法调用时长的输出示例，它表示监控的场景名(ProfilerName)是<code>App Start</code>，这个场景总共耗时1182ms，这个场景下有6个stage，分别是<code>App Start</code>、<code>Splash Screen</code>、<code>Splash Load Data</code>、<code>Main Activity Launch</code>、<code>onCreate()</code>和<code>onStart()</code>，下面的输出显示了每个stage的运行时间。</p>
-
+</code></pre><p>监控App Start场景下的方法调用时长的输出示例，它表示监控的场景名(ProfilerName)是<code>App Start</code>，这个场景总共耗时1182ms，这个场景下有6个stage，分别是<code>App Start</code>、<code>Splash Screen</code>、<code>Splash Load Data</code>、<code>Main Activity Launch</code>、<code>onCreate()</code>和<code>onStart()</code>，下面的输出显示了每个stage的运行时间。</p>
 <pre><code>Profiling results for App Start:
 App Start --&gt; 0ms
   Splash Screen --&gt; 5ms
@@ -260,10 +215,7 @@ App Start --&gt; 0ms
     onStart() &lt;-- 1131ms, execution = 30ms
   Main Activity Launch &lt;-- 1182ms, execution = 139ms
 App Start &lt;-- 1182ms
-</code></pre>
-
-<p>监控Pagination场景下的方法调用时长的输出示例，它统计了Pagination这个场景下的3个stage，分别是<code>Get Next Page</code>、<code>Load</code>和<code>Process</code>，每个stage都会运行5次并统计avg、min和max用时。</p>
-
+</code></pre><p>监控Pagination场景下的方法调用时长的输出示例，它统计了Pagination这个场景下的3个stage，分别是<code>Get Next Page</code>、<code>Load</code>和<code>Process</code>，每个stage都会运行5次并统计avg、min和max用时。</p>
 <pre><code>Profiling results for Pagination:
 Get Next Page --&gt; 0ms
   Load --&gt; avg = 1.80ms, min = 1ms, max = 3ms, for 5 runs
@@ -271,238 +223,207 @@ Get Next Page --&gt; 0ms
   Process --&gt; avg = 261.00ms, min = 245ms, max = 280ms, for 5 runs
   Process &lt;-- avg = 114.20ms, min = 99ms, max = 129ms, for 5 runs
 Get Next Page &lt;-- avg = 378.80ms, min = 353ms, max = 411ms, for 5 runs
-</code></pre>
-
-<p><strong>3. 核心代码分析</strong></p>
-
+</code></pre><p><strong>3. 核心代码分析</strong></p>
 <p><strong>3.1 annotations工程中的注解</strong></p>
-
 <p>annotations中的注解有6个，分别是<code>MethodProfiling</code>、<code>MethodProfilings</code>、<code>StartProfiling</code>、<code>StartProfilings</code>、<code>StopProfiling</code>和<code>StopProfilings</code>，因为有些方法可能存在多个注解，所以每个都对应会有一个复数形式的。这些注解作用的对象可以是普通的方法，也可以是类的构造器。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">/**
+</span><span style="color:#75715e"> * Combination of {@link StartProfiling} and {@link StopProfiling}. If stage name is empty, then stage name from method&#39;s name and class will be generated.
+</span><span style="color:#75715e"> */</span>
+<span style="color:#a6e22e">@Retention</span><span style="color:#f92672">(</span>RetentionPolicy<span style="color:#f92672">.</span><span style="color:#a6e22e">RUNTIME</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@Target</span><span style="color:#f92672">({</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">CONSTRUCTOR</span><span style="color:#f92672">,</span> ElementType<span style="color:#f92672">.</span><span style="color:#a6e22e">METHOD</span> <span style="color:#f92672">})</span>
+<span style="color:#66d9ef">public</span> <span style="color:#a6e22e">@interface</span> MethodProfiling <span style="color:#f92672">{</span>
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Profiler Name, used in results.
+</span><span style="color:#75715e">     */</span>
+    String <span style="color:#a6e22e">profilerName</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
 
-<pre><code class="language-java">/**
- * Combination of {@link StartProfiling} and {@link StopProfiling}. If stage name is empty, then stage name from method's name and class will be generated.
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface MethodProfiling {
-    /**
-     * Profiler Name, used in results.
-     */
-    String profilerName() default &quot;&quot;;
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Name of stage to start. Used in results. If stage name is empty, then stage name from method&#39;s name and class will be generated.
+</span><span style="color:#75715e">     */</span>
+    String <span style="color:#a6e22e">stageName</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
 
-    /**
-     * Name of stage to start. Used in results. If stage name is empty, then stage name from method's name and class will be generated.
-     */
-    String stageName() default &quot;&quot;;
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Stage order must be bigger then order of current most nested active stage.
+</span><span style="color:#75715e">     * First profiling must starts with value 0.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">stageOrder</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> 0<span style="color:#f92672">;</span>
 
-    /**
-     * Stage order must be bigger then order of current most nested active stage.
-     * First profiling must starts with value 0.
-     */
-    int stageOrder() default 0;
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Amount of runs to average. Result will be available only after all runs are stopped.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">runsCounter</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> 1<span style="color:#f92672">;</span>
 
-    /**
-     * Amount of runs to average. Result will be available only after all runs are stopped.
-     */
-    int runsCounter() default 1;
-
-    /**
-     * Set to false if you want to skip this annotation.
-     */
-    boolean enabled() default true;
-}
-</code></pre>
-
-<p><strong>3.2 pury工程中的注解处理类</strong></p>
-
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     * Set to false if you want to skip this annotation.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">enabled</span><span style="color:#f92672">()</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>3.2 pury工程中的注解处理类</strong></p>
 <p>pury工程中的注解处理类有3个，分别是<code>ProfileMethodAspect</code>、<code>StartProfilingAspect</code>和<code>StopProfilingAspect</code>类。</p>
-
 <p>下面是<code>ProfileMethodAspect</code>的源码，其中定义了4个PointCut以及1个Around Advice。方法<code>weaveJoinPoint</code>是核心方法，它的主要执行流程是：假设我们对方法M提供了MethodProfiling注解，weaveJointPoint先会根据注解提供的参数去获取并启动所有相关的stage，也就是该方法所在的所有场景(profiler)下的对应stage，然后调用方法M使其执行，最后再停止所有的stage。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Aspect</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProfileMethodAspect</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String POINTCUT_METHOD <span style="color:#f92672">=</span>
+            <span style="color:#e6db74">&#34;execution(@com.nikitakozlov.pury.annotations.MethodProfiling * *(..))&#34;</span><span style="color:#f92672">;</span>
 
-<pre><code class="language-java">@Aspect
-public class ProfileMethodAspect {
-    private static final String POINTCUT_METHOD =
-            &quot;execution(@com.nikitakozlov.pury.annotations.MethodProfiling * *(..))&quot;;
-
-    private static final String POINTCUT_CONSTRUCTOR =
-            &quot;execution(@com.nikitakozlov.pury.annotations.MethodProfiling *.new(..))&quot;;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String POINTCUT_CONSTRUCTOR <span style="color:#f92672">=</span>
+            <span style="color:#e6db74">&#34;execution(@com.nikitakozlov.pury.annotations.MethodProfiling *.new(..))&#34;</span><span style="color:#f92672">;</span>
 
 
-    private static final String GROUP_ANNOTATION_POINTCUT_METHOD =
-            &quot;execution(@com.nikitakozlov.pury.annotations.MethodProfilings * *(..))&quot;;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String GROUP_ANNOTATION_POINTCUT_METHOD <span style="color:#f92672">=</span>
+            <span style="color:#e6db74">&#34;execution(@com.nikitakozlov.pury.annotations.MethodProfilings * *(..))&#34;</span><span style="color:#f92672">;</span>
 
-    private static final String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR =
-            &quot;execution(@com.nikitakozlov.pury.annotations.MethodProfilings *.new(..))&quot;;
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR <span style="color:#f92672">=</span>
+            <span style="color:#e6db74">&#34;execution(@com.nikitakozlov.pury.annotations.MethodProfilings *.new(..))&#34;</span><span style="color:#f92672">;</span>
 
-    @Pointcut(POINTCUT_METHOD)
-    public void method() {
-    }
+    <span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span>POINTCUT_METHOD<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Pointcut(POINTCUT_CONSTRUCTOR)
-    public void constructor() {
-    }
+    <span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span>POINTCUT_CONSTRUCTOR<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">constructor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Pointcut(GROUP_ANNOTATION_POINTCUT_METHOD)
-    public void methodWithMultipleAnnotations() {
-    }
+    <span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span>GROUP_ANNOTATION_POINTCUT_METHOD<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">methodWithMultipleAnnotations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Pointcut(GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR)
-    public void constructorWithMultipleAnnotations() {
-    }
+    <span style="color:#a6e22e">@Pointcut</span><span style="color:#f92672">(</span>GROUP_ANNOTATION_POINTCUT_CONSTRUCTOR<span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">constructorWithMultipleAnnotations</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#f92672">}</span>
 
-    @Around(&quot;constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()&quot;)
-    public Object weaveJoinPoint(ProceedingJoinPoint joinPoint) throws Throwable {
-        ProfilingManager profilingManager = ProfilingManager.getInstance();
-        List&lt;StageId&gt; stageIds = getStageIds(joinPoint);
-        for (StageId stageId : stageIds) {
-            profilingManager.getProfiler(stageId.getProfilerId())
-                    .startStage(stageId.getStageName(), stageId.getStageOrder());
-        }
+    <span style="color:#a6e22e">@Around</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;constructor() || method() || methodWithMultipleAnnotations() || constructorWithMultipleAnnotations()&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">weaveJoinPoint</span><span style="color:#f92672">(</span>ProceedingJoinPoint joinPoint<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>
+        ProfilingManager profilingManager <span style="color:#f92672">=</span> ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">();</span>
+        List<span style="color:#f92672">&lt;</span>StageId<span style="color:#f92672">&gt;</span> stageIds <span style="color:#f92672">=</span> getStageIds<span style="color:#f92672">(</span>joinPoint<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>StageId stageId <span style="color:#f92672">:</span> stageIds<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            profilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">.</span><span style="color:#a6e22e">getProfilerId</span><span style="color:#f92672">())</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">startStage</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">.</span><span style="color:#a6e22e">getStageName</span><span style="color:#f92672">(),</span> stageId<span style="color:#f92672">.</span><span style="color:#a6e22e">getStageOrder</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>
 
-        Object result = joinPoint.proceed();
+        Object result <span style="color:#f92672">=</span> joinPoint<span style="color:#f92672">.</span><span style="color:#a6e22e">proceed</span><span style="color:#f92672">();</span>
 
-        for (StageId stageId : stageIds) {
-            profilingManager.getProfiler(stageId.getProfilerId())
-                    .stopStage(stageId.getStageName());
-        }
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>StageId stageId <span style="color:#f92672">:</span> stageIds<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            profilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">.</span><span style="color:#a6e22e">getProfilerId</span><span style="color:#f92672">())</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">stopStage</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">.</span><span style="color:#a6e22e">getStageName</span><span style="color:#f92672">());</span>
+        <span style="color:#f92672">}</span>
 
-        return result;
-    }
+        <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    private List&lt;StageId&gt; getStageIds(ProceedingJoinPoint joinPoint) {
-        if (!Pury.isEnabled()) {
-            return Collections.emptyList();
-        }
+    <span style="color:#66d9ef">private</span> List<span style="color:#f92672">&lt;</span>StageId<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getStageIds</span><span style="color:#f92672">(</span>ProceedingJoinPoint joinPoint<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>Pury<span style="color:#f92672">.</span><span style="color:#a6e22e">isEnabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> Collections<span style="color:#f92672">.</span><span style="color:#a6e22e">emptyList</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
 
-        Annotation[] annotations =
-                ((MethodSignature) joinPoint.getSignature()).getMethod().getAnnotations();
-        List&lt;StageId&gt; stageIds = new ArrayList&lt;&gt;();
-        for (Annotation annotation : annotations) {
-            if (annotation.annotationType() == MethodProfiling.class) {
-                StageId stageId = getStageId((MethodProfiling) annotation, joinPoint);
-                if (stageId != null) {
-                    stageIds.add(stageId);
-                }
-            }
-            if (annotation.annotationType() == MethodProfilings.class) {
-                for (MethodProfiling methodProfiling : ((MethodProfilings) annotation).value()) {
-                    StageId stageId = getStageId(methodProfiling, joinPoint);
-                    if (stageId != null) {
-                        stageIds.add(stageId);
-                    }
-                }
-            }
-        }
-        return stageIds;
-    }
+        Annotation<span style="color:#f92672">[]</span> annotations <span style="color:#f92672">=</span>
+                <span style="color:#f92672">((</span>MethodSignature<span style="color:#f92672">)</span> joinPoint<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignature</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">getMethod</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getAnnotations</span><span style="color:#f92672">();</span>
+        List<span style="color:#f92672">&lt;</span>StageId<span style="color:#f92672">&gt;</span> stageIds <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Annotation annotation <span style="color:#f92672">:</span> annotations<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">annotationType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> MethodProfiling<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                StageId stageId <span style="color:#f92672">=</span> getStageId<span style="color:#f92672">((</span>MethodProfiling<span style="color:#f92672">)</span> annotation<span style="color:#f92672">,</span> joinPoint<span style="color:#f92672">);</span>
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>stageId <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                    stageIds<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">);</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">annotationType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> MethodProfilings<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>MethodProfiling methodProfiling <span style="color:#f92672">:</span> <span style="color:#f92672">((</span>MethodProfilings<span style="color:#f92672">)</span> annotation<span style="color:#f92672">).</span><span style="color:#a6e22e">value</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+                    StageId stageId <span style="color:#f92672">=</span> getStageId<span style="color:#f92672">(</span>methodProfiling<span style="color:#f92672">,</span> joinPoint<span style="color:#f92672">);</span>
+                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>stageId <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                        stageIds<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>stageId<span style="color:#f92672">);</span>
+                    <span style="color:#f92672">}</span>
+                <span style="color:#f92672">}</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> stageIds<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    private StageId getStageId(MethodProfiling annotation, ProceedingJoinPoint joinPoint) {
-        if (!annotation.enabled()) {
-            return null;
-        }
-        ProfilerId profilerId = new ProfilerId(annotation.profilerName(), annotation.runsCounter());
-        String stageName = annotation.stageName();
-        if (stageName.isEmpty()) {
-            CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
-            String className = codeSignature.getDeclaringType().getSimpleName();
-            String methodName = codeSignature.getName();
-            stageName = className + &quot;.&quot; + methodName;
-        }
+    <span style="color:#66d9ef">private</span> StageId <span style="color:#a6e22e">getStageId</span><span style="color:#f92672">(</span>MethodProfiling annotation<span style="color:#f92672">,</span> ProceedingJoinPoint joinPoint<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">enabled</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
+        ProfilerId profilerId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProfilerId<span style="color:#f92672">(</span>annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">profilerName</span><span style="color:#f92672">(),</span> annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">runsCounter</span><span style="color:#f92672">());</span>
+        String stageName <span style="color:#f92672">=</span> annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">stageName</span><span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>stageName<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+            CodeSignature codeSignature <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>CodeSignature<span style="color:#f92672">)</span> joinPoint<span style="color:#f92672">.</span><span style="color:#a6e22e">getSignature</span><span style="color:#f92672">();</span>
+            String className <span style="color:#f92672">=</span> codeSignature<span style="color:#f92672">.</span><span style="color:#a6e22e">getDeclaringType</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getSimpleName</span><span style="color:#f92672">();</span>
+            String methodName <span style="color:#f92672">=</span> codeSignature<span style="color:#f92672">.</span><span style="color:#a6e22e">getName</span><span style="color:#f92672">();</span>
+            stageName <span style="color:#f92672">=</span> className <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.&#34;</span> <span style="color:#f92672">+</span> methodName<span style="color:#f92672">;</span>
+        <span style="color:#f92672">}</span>
 
-        return new StageId(profilerId, stageName, annotation.stageOrder());
-    }
-}
-</code></pre>
-
-<p><code>StartProfilingAspect</code>和<code>StopProfilingAspect</code>与之类似，只不过前者定义的是<code>@Before</code> advice，而后者定义的是<code>@After</code> advice。</p>
-
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> StageId<span style="color:#f92672">(</span>profilerId<span style="color:#f92672">,</span> stageName<span style="color:#f92672">,</span> annotation<span style="color:#f92672">.</span><span style="color:#a6e22e">stageOrder</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>StartProfilingAspect</code>和<code>StopProfilingAspect</code>与之类似，只不过前者定义的是<code>@Before</code> advice，而后者定义的是<code>@After</code> advice。</p>
 <p><strong>3.3 核心类Pury</strong></p>
-
 <p>Pury是pury工程的核心工具类，除了可以设置自定义的Logger以及设置enabled状态之外，它还提供了<code>startProfiling</code>和<code>stopProfiling</code>两个方法来实现代码调用的方法来对方法进行监控。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Pury</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">volatile</span> Logger sLogger<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">volatile</span> <span style="color:#66d9ef">boolean</span> sEnabled <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
 
-<pre><code class="language-java">public final class Pury {
-    static volatile Logger sLogger;
-    static volatile boolean sEnabled = true;
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setLogger</span><span style="color:#f92672">(</span>Logger logger<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        sLogger <span style="color:#f92672">=</span> logger<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    public static void setLogger(Logger logger) {
-        sLogger = logger;
-    }
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">static</span> Logger <span style="color:#a6e22e">getLogger</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>sLogger <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            sLogger <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DefaultLogger<span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> sLogger<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    public synchronized static Logger getLogger() {
-        if (sLogger == null) {
-            sLogger = new DefaultLogger();
-        }
-        return sLogger;
-    }
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isEnabled</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> sEnabled<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    public static boolean isEnabled() {
-        return sEnabled;
-    }
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setEnabled</span><span style="color:#f92672">(</span><span style="color:#66d9ef">boolean</span> enabled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(!</span>enabled<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">clear</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+        sEnabled <span style="color:#f92672">=</span> enabled<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
 
-    public synchronized static void setEnabled(boolean enabled) {
-        if (!enabled) {
-            ProfilingManager.getInstance().clear();
-        }
-        sEnabled = enabled;
-    }
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param profilerName used to identify profiler. Used in results.
+</span><span style="color:#75715e">     * @param stageName Name of stage to start. Used in results.
+</span><span style="color:#75715e">     * @param stageOrder Stage order must be bigger then order of current most nested active stage.
+</span><span style="color:#75715e">     *                   First profiling must starts with value 0.
+</span><span style="color:#75715e">     * @param runsCounter used to identify profiler. Amount of runs to average.
+</span><span style="color:#75715e">     *                    Result will be available only after all runs are stopped.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">startProfiling</span><span style="color:#f92672">(</span>String profilerName<span style="color:#f92672">,</span> String stageName<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> stageOrder<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> runsCounter<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ProfilerId profilerId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProfilerId<span style="color:#f92672">(</span>profilerName<span style="color:#f92672">,</span> runsCounter<span style="color:#f92672">);</span>
+        ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>profilerId<span style="color:#f92672">).</span><span style="color:#a6e22e">startStage</span><span style="color:#f92672">(</span>stageName<span style="color:#f92672">,</span> stageOrder<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
 
-    /**
-     *
-     * @param profilerName used to identify profiler. Used in results.
-     * @param stageName Name of stage to start. Used in results.
-     * @param stageOrder Stage order must be bigger then order of current most nested active stage.
-     *                   First profiling must starts with value 0.
-     * @param runsCounter used to identify profiler. Amount of runs to average.
-     *                    Result will be available only after all runs are stopped.
-     */
-    public static void startProfiling(String profilerName, String stageName, int stageOrder, int runsCounter) {
-        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
-        ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
-    }
+    <span style="color:#75715e">/**
+</span><span style="color:#75715e">     *
+</span><span style="color:#75715e">     * @param profilerName used to identify profiler. Used in results.
+</span><span style="color:#75715e">     * @param stageName  Name of stage to stop. Used in results.
+</span><span style="color:#75715e">     * @param runsCounter used to identify profiler. Amount of runs to average.
+</span><span style="color:#75715e">     *                    Result will be available only after all runs are stopped.
+</span><span style="color:#75715e">     */</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stopProfiling</span><span style="color:#f92672">(</span>String profilerName<span style="color:#f92672">,</span> String stageName<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> runsCounter<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        ProfilerId profilerId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProfilerId<span style="color:#f92672">(</span>profilerName<span style="color:#f92672">,</span> runsCounter<span style="color:#f92672">);</span>
+        ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>profilerId<span style="color:#f92672">).</span><span style="color:#a6e22e">stopStage</span><span style="color:#f92672">(</span>stageName<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p><strong>Profiler是由profilerName和runsCounter两个共同决定的</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProfilerId profilerId <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProfilerId<span style="color:#f92672">(</span>profilerName<span style="color:#f92672">,</span> runsCounter<span style="color:#f92672">);</span>
+</code></pre></div><p><strong>在某个监控场景下启动和停止某个方法的监控</strong></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>profilerId<span style="color:#f92672">).</span><span style="color:#a6e22e">startStage</span><span style="color:#f92672">(</span>stageName<span style="color:#f92672">,</span> stageOrder<span style="color:#f92672">);</span>
 
-    /**
-     *
-     * @param profilerName used to identify profiler. Used in results.
-     * @param stageName  Name of stage to stop. Used in results.
-     * @param runsCounter used to identify profiler. Amount of runs to average.
-     *                    Result will be available only after all runs are stopped.
-     */
-    public static void stopProfiling(String profilerName, String stageName, int runsCounter) {
-        ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
-        ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName);
-    }
-}
-</code></pre>
-
-<p><strong>Profiler是由profilerName和runsCounter两个共同决定的</strong></p>
-
-<pre><code class="language-java">ProfilerId profilerId = new ProfilerId(profilerName, runsCounter);
-</code></pre>
-
-<p><strong>在某个监控场景下启动和停止某个方法的监控</strong></p>
-
-<pre><code class="language-java">ProfilingManager.getInstance().getProfiler(profilerId).startStage(stageName, stageOrder);
-
-ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stageOrder);
-</code></pre>
-
-<p><strong>3.4 其他包和类</strong></p>
-
+ProfilingManager<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getProfiler</span><span style="color:#f92672">(</span>profilerId<span style="color:#f92672">).</span><span style="color:#a6e22e">stopStage</span><span style="color:#f92672">(</span>stageName<span style="color:#f92672">,</span> stageOrder<span style="color:#f92672">);</span>
+</code></pre></div><p><strong>3.4 其他包和类</strong></p>
 <p>pury工程的其他类都存放在<code>internal.profile</code>包和<code>internal.result</code>两个包中，前者定义了<code>Profiler</code>、<code>Stage</code>、<code>StopWatch</code>等相关类，后者定义了<code>ProfileResultProcessor</code>、<code>ProfileResult</code>等各种处理结果和相应的处理类。</p>
-
 <p><strong>4. 其他内容</strong></p>
-
 <p>4.1 Pury的优缺点</p>
-
 <p>个人认为，pury提供了方法调用和注解两种使用形式，实现了对某个场景及该场景下方法级别的监控，甚至可以设置场景的出现次数并自动计算场景下方法的min/avg/max三种执行时长，其功能足以满足一般的应用的场景响应时间监控的需求。不同于<a href="https://github.com/JakeWharton/hugo">Hugo</a>项目，后者只是对一个方法的监控，不能做到Pury这样针对场景的监控。</p>
-
 <p>Pury存在一个明显的缺点就是方法的层级必须指定，而且必须正确指定。一般来说，方法调用的堆栈往往可能会很深，明确指定方法的层级有时候会比较麻烦，当方法的调用流程发生变化的时候不易于维护。实际上，通过分析方法调用的情况来自动配置方法层级应该是可以做到的(类似TraceView工具)。</p>
-
 <p>4.2 Pury使用的gradle插件</p>
-
 <p>发布到maven使用的gradle插件是<code>https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle</code>
 实现注解解析的gradle插件是<code>com.nikitakozlov.weaverlite</code>，这个是作者自己封装的插件<a href="https://github.com/NikitaKozlov/WeaverLite">WeaverLite</a></p>
-
 <p>Pury的源码就分析到这里吧，感兴趣的建议再扫一遍源码看下，还是会有挺多收获的。</p>
     </section>
 
@@ -524,27 +445,23 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/"><h4>Build Android Source Code on Mac</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/"><h4>ChromeADB Project Analysis</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/10/chromeadb-project-analysis/"><h4>ChromeADB Project Analysis</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/10/03/build-android-source-code-on-mac/"><h4>Build Android Source Code on Mac</h4></a></span>
       
   
 </aside>
@@ -553,42 +470,6 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -597,7 +478,7 @@ ProfilingManager.getInstance().getProfiler(profilerId).stopStage(stageName, stag
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

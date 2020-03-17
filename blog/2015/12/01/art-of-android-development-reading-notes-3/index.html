@@ -5,7 +5,7 @@
        Art of Android Development Reading Notes 3 &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Art of Android Development Reading Notes 3 &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-3/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,30 +158,24 @@
     </header>
 
     <section class="post-content">
-      <p>《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系 </p>
-
+      <p>《Android开发艺术探索》读书笔记 (3) 第3章 View的事件体系</p>
 <p>本节和《Android群英传》中的<strong>第五章Scroll分析</strong>有关系，<a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/">建议先阅读该章的总结</a></p>
-
 <h3 id="第3章-view的事件体系">第3章 View的事件体系</h3>
-
-<h4 id="3-1-view基本知识">3.1 View基本知识</h4>
-
-<p>(1)view的层次结构：<code>ViewGroup</code>也是View；<br />
-(2)view的位置参数：<code>top、left、right、bottom</code>，分别对应View的左上角和右下角相对于父容器的横纵坐标值。<br />
-从Android 3.0开始，view增加了<code>x、y、translationX、translationY</code>四个参数，这几个参数也是相对于父容器的坐标。x和y是左上角的坐标，而translationX和translationY是view左上角相对于父容器的偏移量，默认值都是0。<br />
-x = left + translationX<br />
-y = top + translationY<br />
-(3)<code>MotionEvent</code>是指手指接触屏幕后所产生的一系列事件，主要有<code>ACTION_UP</code>、<code>ACTION_DOWN</code>、<code>ACTION_MOVE</code>等。正常情况下，一次手指触屏会触发一系列点击事件，主要有下面两种典型情况：<br />
-1.点击屏幕后离开，事件序列是<code>ACTION_DOWN</code> -&gt; <code>ACTION_UP</code>；<br />
-2.点击屏幕后滑动一会再离开，事件序列是<code>ACTION_DOWN</code> -&gt; <code>ACTION_MOVE</code> -&gt; <code>ACTION_MOVE</code> -&gt; &hellip; -&gt; <code>ACTION_UP</code>；<br />
-通过MotionEvent可以得到点击事件发生的x和y坐标，其中<code>getX</code>和<code>getY</code>是相对于当前view左上角的x和y坐标，<code>getRawX</code>和<code>getRawY</code>是相对于手机屏幕左上角的x和y坐标。<br />
-(4)<code>TouchSlope</code>是系统所能识别出的可以被认为是滑动的最小距离，获取方式是<code>ViewConfiguration.get(getContext()).getScaledTouchSlope()</code>。<br />
-(5)<code>VelocityTracker</code>用于追踪手指在滑动过程中的速度，包括水平和垂直方向上的速度。<br />
-速度计算公式： <code>速度 = （终点位置 - 起点位置） / 时间段</code><br />
+<h4 id="31-view基本知识">3.1 View基本知识</h4>
+<p>(1)view的层次结构：<code>ViewGroup</code>也是View；<br>
+(2)view的位置参数：<code>top、left、right、bottom</code>，分别对应View的左上角和右下角相对于父容器的横纵坐标值。<br>
+从Android 3.0开始，view增加了<code>x、y、translationX、translationY</code>四个参数，这几个参数也是相对于父容器的坐标。x和y是左上角的坐标，而translationX和translationY是view左上角相对于父容器的偏移量，默认值都是0。<br>
+x = left + translationX<br>
+y = top + translationY<br>
+(3)<code>MotionEvent</code>是指手指接触屏幕后所产生的一系列事件，主要有<code>ACTION_UP</code>、<code>ACTION_DOWN</code>、<code>ACTION_MOVE</code>等。正常情况下，一次手指触屏会触发一系列点击事件，主要有下面两种典型情况：<br>
+1.点击屏幕后离开，事件序列是<code>ACTION_DOWN</code> -&gt; <code>ACTION_UP</code>；<br>
+2.点击屏幕后滑动一会再离开，事件序列是<code>ACTION_DOWN</code> -&gt; <code>ACTION_MOVE</code> -&gt; <code>ACTION_MOVE</code> -&gt; &hellip; -&gt; <code>ACTION_UP</code>；<br>
+通过MotionEvent可以得到点击事件发生的x和y坐标，其中<code>getX</code>和<code>getY</code>是相对于当前view左上角的x和y坐标，<code>getRawX</code>和<code>getRawY</code>是相对于手机屏幕左上角的x和y坐标。<br>
+(4)<code>TouchSlope</code>是系统所能识别出的可以被认为是滑动的最小距离，获取方式是<code>ViewConfiguration.get(getContext()).getScaledTouchSlope()</code>。<br>
+(5)<code>VelocityTracker</code>用于追踪手指在滑动过程中的速度，包括水平和垂直方向上的速度。<br>
+速度计算公式： <code>速度 = （终点位置 - 起点位置） / 时间段</code><br>
 速度可能为负值，例如当手指从屏幕右边往左边滑动的时候。此外，速度是单位时间内移动的像素数，单位时间不一定是1秒钟，可以使用方法<code>computeCurrentVelocity(xxx)</code>指定单位时间是多少，单位是ms。例如通过<code>computeCurrentVelocity(1000)</code>来获取速度，手指在1s中滑动了100个像素，那么速度是100，即<code>100</code>(像素/1000ms)。如果<code>computeCurrentVelocity(100)</code>来获取速度，在100ms内手指只是滑动了10个像素，那么速度是10，即<code>10</code>(像素/100ms)。</p>
-
 <p>VelocityTracker的使用方式：</p>
-
 <pre><code>//初始化
 VelocityTracker mVelocityTracker = VelocityTracker.obtain();
 //在onTouchEvent方法中
@@ -214,47 +186,35 @@ float xVelocity = mVelocityTracker.getXVelocity();
 //重置和回收
 mVelocityTracker.clear(); //一般在MotionEvent.ACTION_UP的时候调用
 mVelocityTracker.recycle(); //一般在onDetachedFromWindow中调用
-</code></pre>
-
-<p>(6)<code>GestureDetector</code>用于辅助检测用户的单击、滑动、长按、双击等行为。GestureDetector的使用比较简单，主要也是辅助检测常见的触屏事件。<strong>作者建议：如果只是监听滑动相关的事件在onTouchEvent中实现；如果要监听双击这种行为的话，那么就使用GestureDetector。</strong><br />
+</code></pre><p>(6)<code>GestureDetector</code>用于辅助检测用户的单击、滑动、长按、双击等行为。GestureDetector的使用比较简单，主要也是辅助检测常见的触屏事件。<strong>作者建议：如果只是监听滑动相关的事件在onTouchEvent中实现；如果要监听双击这种行为的话，那么就使用GestureDetector。</strong><br>
 (7)<code>Scroller</code>分析：详细内容可以参见<a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/">《Android群英传》读书笔记 (2) 第五章 Scroll分析</a></p>
-
-<h4 id="3-2-view的滑动">3.2 View的滑动</h4>
-
-<p>(1)常见的实现view的滑动的方式有三种：<br />
-第一种是通过view本身提供的scrollTo和scrollBy方法：操作简单，适合对view内容的滑动；<br />
-第二种是通过动画给view施加平移效果来实现滑动：操作简单，适用于没有交互的view和实现复杂的动画效果；<br />
-第三种是通过改变view的LayoutParams使得view重新布局从而实现滑动：操作稍微复杂，适用于有交互的view。<br />
-以上三种方法的详情可以参考阅读<a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/">《Android群英传》读书笔记 (2)</a>中的内容，此处不再细述。<br />
-(2)<strong>scrollTo和scrollBy方法只能改变view内容的位置而不能改变view在布局中的位置。</strong> scrollBy是基于当前位置的相对滑动，而scrollTo是基于所传参数的绝对滑动。通过View的<code>getScrollX</code>和<code>getScrollY</code>方法可以得到滑动的距离。<br />
-(3)使用动画来移动view主要是操作view的translationX和translationY属性，既可以使用传统的view动画，也可以使用属性动画，使用后者需要考虑兼容性问题，如果要兼容Android 3.0以下版本系统的话推荐使用<a href="http://nineoldandroids.com/">nineoldandroids</a>。<br />
-[2016-10-21更新：现在一般都不需要再兼容那么低版本的Android系统了，所以nineoldandroids这个库已经不再维护了]<br />
-使用动画还存在一个交互问题：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置。</strong><br />
+<h4 id="32-view的滑动">3.2 View的滑动</h4>
+<p>(1)常见的实现view的滑动的方式有三种：<br>
+第一种是通过view本身提供的scrollTo和scrollBy方法：操作简单，适合对view内容的滑动；<br>
+第二种是通过动画给view施加平移效果来实现滑动：操作简单，适用于没有交互的view和实现复杂的动画效果；<br>
+第三种是通过改变view的LayoutParams使得view重新布局从而实现滑动：操作稍微复杂，适用于有交互的view。<br>
+以上三种方法的详情可以参考阅读<a href="https://hujiaweibujidao.github.io/blog/2015/11/26/android-heroes-reading-notes-2/">《Android群英传》读书笔记 (2)</a>中的内容，此处不再细述。<br>
+(2)<strong>scrollTo和scrollBy方法只能改变view内容的位置而不能改变view在布局中的位置。</strong> scrollBy是基于当前位置的相对滑动，而scrollTo是基于所传参数的绝对滑动。通过View的<code>getScrollX</code>和<code>getScrollY</code>方法可以得到滑动的距离。<br>
+(3)使用动画来移动view主要是操作view的translationX和translationY属性，既可以使用传统的view动画，也可以使用属性动画，使用后者需要考虑兼容性问题，如果要兼容Android 3.0以下版本系统的话推荐使用<a href="http://nineoldandroids.com/">nineoldandroids</a>。<br>
+[2016-10-21更新：现在一般都不需要再兼容那么低版本的Android系统了，所以nineoldandroids这个库已经不再维护了]<br>
+使用动画还存在一个交互问题：<strong>在android3.0以前的系统上，view动画和属性动画，新位置均无法触发点击事件，同时，老位置仍然可以触发单击事件。从3.0开始，属性动画的单击事件触发位置为移动后的位置，view动画仍然在原位置。</strong><br>
 (4)动画兼容库nineoldandroids中的<code>ViewHelper</code>类提供了很多的get/set方法来为属性动画服务，例如<code>setTranslationX</code>和<code>setTranslationY</code>方法，这些方法是没有版本要求的。</p>
-
-<h4 id="3-3-弹性滑动">3.3 弹性滑动</h4>
-
-<p>(1)<strong>Scroller的工作原理：Scroller本身并不能实现view的滑动，它需要配合view的computeScroll方法才能完成弹性滑动的效果，它不断地让view重绘，而每一次重绘距滑动起始时间会有一个时间间隔，通过这个时间间隔Scroller就可以得出view的当前的滑动位置，知道了滑动位置就可以通过scrollTo方法来完成view的滑动。就这样，view的每一次重绘都会导致view进行小幅度的滑动，而多次的小幅度滑动就组成了弹性滑动，这就是Scroller的工作原理。</strong><br />
+<h4 id="33-弹性滑动">3.3 弹性滑动</h4>
+<p>(1)<strong>Scroller的工作原理：Scroller本身并不能实现view的滑动，它需要配合view的computeScroll方法才能完成弹性滑动的效果，它不断地让view重绘，而每一次重绘距滑动起始时间会有一个时间间隔，通过这个时间间隔Scroller就可以得出view的当前的滑动位置，知道了滑动位置就可以通过scrollTo方法来完成view的滑动。就这样，view的每一次重绘都会导致view进行小幅度的滑动，而多次的小幅度滑动就组成了弹性滑动，这就是Scroller的工作原理。</strong><br>
 (2)使用延时策略来实现弹性滑动，它的核心思想是通过发送一系列延时消息从而达到一种渐进式的效果，具体来说可以使用Handler的<code>sendEmptyMessageDelayed(xxx)</code>或view的<code>postDelayed</code>方法，也可以使用线程的sleep方法。</p>
-
-<h4 id="3-4-view的事件分发机制">3.4 view的事件分发机制</h4>
-
-<p>(1)事件分发过程的三个重要方法<br />
-<code>public boolean dispatchTouchEvent(MotionEvent ev)</code><br />
+<h4 id="34-view的事件分发机制">3.4 view的事件分发机制</h4>
+<p>(1)事件分发过程的三个重要方法<br>
+<code>public boolean dispatchTouchEvent(MotionEvent ev)</code><br>
 用来进行事件的分发。如果事件能够传递给当前view，那么此方法一定会被调用，返回结果受当前view的onTouchEvent和下级view的dispatchTouchEvent方法的影响，表示是否消耗当前事件。</p>
-
-<p><code>public boolean onInterceptTouchEvent(MotionEvent event)</code><br />
-在<code>dispatchTouchEvent</code>方法内部调用，用来判断是否拦截某个事件，如果当前view拦截了某个事件，那么在同一个事件序列当中，此方法不会再被调用，返回结果表示是否拦截当前事件。<br />
-若返回值为True事件会传递到自己的onTouchEvent()；<br />
+<p><code>public boolean onInterceptTouchEvent(MotionEvent event)</code><br>
+在<code>dispatchTouchEvent</code>方法内部调用，用来判断是否拦截某个事件，如果当前view拦截了某个事件，那么在同一个事件序列当中，此方法不会再被调用，返回结果表示是否拦截当前事件。<br>
+若返回值为True事件会传递到自己的onTouchEvent()；<br>
 若返回值为False传递到子view的dispatchTouchEvent()。</p>
-
-<p><code>public boolean onTouchEvent(MotionEvent event)</code><br />
-在<code>dispatchTouchEvent</code>方法内部调用，用来处理点击事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一个事件序列中，当前view无法再次接收到事件。<br />
-若返回值为True，事件由自己处理，后续事件序列让其处理；<br />
+<p><code>public boolean onTouchEvent(MotionEvent event)</code><br>
+在<code>dispatchTouchEvent</code>方法内部调用，用来处理点击事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一个事件序列中，当前view无法再次接收到事件。<br>
+若返回值为True，事件由自己处理，后续事件序列让其处理；<br>
 若返回值为False，自己不消耗事件，向上返回让其他的父容器的onTouchEvent接受处理。</p>
-
 <p>三个方法的关系可以用下面的伪代码表示：</p>
-
 <pre><code>public boolean dispatchTouchEvent(MotionEvent ev) {
     boolean consume = false;
     if (onInterceptTouchEvent(ev)) {
@@ -264,37 +224,30 @@ mVelocityTracker.recycle(); //一般在onDetachedFromWindow中调用
     }
     return consume;
 }
-</code></pre>
-
-<p>(2)<strong>OnTouchListener的优先级比onTouchEvent要高</strong><br />
-如果给一个view设置了OnTouchListener，那么OnTouchListener中的<code>onTouch</code>方法会被回调。这时事件如何处理还要看onTouch的返回值，如果返回false，那么当前view的onTouchEvent方法会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br />
-<strong>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</strong><br />
-(3)当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&gt; Window -&gt; View。<br />
-如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。<br />
-(4)正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的onInterceptTouchEvent方法不会再被调用了。<br />
-(5)某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么同一事件序列的其他事件都不会再交给它来处理，并且事件将重新交给它的父容器去处理(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，当前view依然可以收到后续的事件，但是这些事件最后都会传递给Activity处理。<br />
-(6)ViewGroup默认不拦截任何事件，因为它的<code>onInterceptTouchEvent</code>方法默认返回false。view没有<code>onInterceptTouchEvent</code>方法，一旦有点击事件传递给它，那么它的<code>onTouchEvent</code>方法就会被调用。<br />
-(7)View的onTouchEvent默认都会消耗事件(返回true)，除非它是不可点击的(<code>clickable</code>和<code>longClickable</code>都为false)。view的<code>longClickable</code>默认是false的，<code>clickable</code>则不一定，Button默认是true，而TextView默认是false。<br />
-(8)View的<code>enable</code>属性不影响onTouchEvent的默认返回值。哪怕一个view是<code>disable</code>状态，只要它的clickable或者longClickable有一个是true，那么它的onTouchEvent就会返回true。<br />
-(9)事件传递过程总是先传递给父元素，然后再由父元素分发给子view，通过<code>requestDisallowInterceptTouchEvent</code>方法可以在子元素中干预父元素的事件分发过程，但是ACTION_DOWN事件除外，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。<br />
-ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INTERCEPT</code>，这个标志位就是通过子view调用<code>requestDisallowInterceptTouchEvent</code>方法来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。<br />
+</code></pre><p>(2)<strong>OnTouchListener的优先级比onTouchEvent要高</strong><br>
+如果给一个view设置了OnTouchListener，那么OnTouchListener中的<code>onTouch</code>方法会被回调。这时事件如何处理还要看onTouch的返回值，如果返回false，那么当前view的onTouchEvent方法会被调用；如果返回true，那么onTouchEvent方法将不会被调用。<br>
+<strong>在onTouchEvent方法中，如果当前view设置了OnClickListener，那么它的onClick方法会被调用，所以OnClickListener的优先级最低。</strong><br>
+(3)当一个点击事件发生之后，传递过程遵循如下顺序：Activity -&gt; Window -&gt; View。<br>
+如果一个view的onTouchEvent方法返回false，那么它的父容器的onTouchEvent方法将会被调用，依此类推，如果所有的元素都不处理这个事件，那么这个事件将会最终传递给Activity处理(调用Activity的onTouchEvent方法)。<br>
+(4)正常情况下，一个事件序列只能被一个view拦截并消耗，因为一旦某个元素拦截了某个事件，那么同一个事件序列内的所有事件都会直接交给它处理，并且该元素的onInterceptTouchEvent方法不会再被调用了。<br>
+(5)某个view一旦开始处理事件，如果它不消耗ACTION_DOWN事件，那么同一事件序列的其他事件都不会再交给它来处理，并且事件将重新交给它的父容器去处理(调用父容器的onTouchEvent方法)；如果它消耗ACTION_DOWN事件，但是不消耗其他类型事件，那么这个点击事件会消失，父容器的onTouchEvent方法不会被调用，当前view依然可以收到后续的事件，但是这些事件最后都会传递给Activity处理。<br>
+(6)ViewGroup默认不拦截任何事件，因为它的<code>onInterceptTouchEvent</code>方法默认返回false。view没有<code>onInterceptTouchEvent</code>方法，一旦有点击事件传递给它，那么它的<code>onTouchEvent</code>方法就会被调用。<br>
+(7)View的onTouchEvent默认都会消耗事件(返回true)，除非它是不可点击的(<code>clickable</code>和<code>longClickable</code>都为false)。view的<code>longClickable</code>默认是false的，<code>clickable</code>则不一定，Button默认是true，而TextView默认是false。<br>
+(8)View的<code>enable</code>属性不影响onTouchEvent的默认返回值。哪怕一个view是<code>disable</code>状态，只要它的clickable或者longClickable有一个是true，那么它的onTouchEvent就会返回true。<br>
+(9)事件传递过程总是先传递给父元素，然后再由父元素分发给子view，通过<code>requestDisallowInterceptTouchEvent</code>方法可以在子元素中干预父元素的事件分发过程，但是ACTION_DOWN事件除外，即当面对ACTION_DOWN事件时，ViewGroup总是会调用自己的onInterceptTouchEvent方法来询问自己是否要拦截事件。<br>
+ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INTERCEPT</code>，这个标志位就是通过子view调用<code>requestDisallowInterceptTouchEvent</code>方法来设置的，一旦设置为true，那么ViewGroup不会拦截该事件。<br>
 (10)以上结论均可以在书中的源码解析部分得到解释。Window的实现类为<code>PhoneWindow</code>，获取Activity的contentView的方法</p>
-
 <pre><code>((ViewGroup)getWindow().getDecorView().findViewById(android.R.id.content)).getChildAt(0);
-</code></pre>
-
-<h4 id="3-5-view的滑动冲突">3.5 view的滑动冲突</h4>
-
-<p>(1)常见的滑动冲突的场景：<br />
-1.外部滑动方向和内部滑动方向不一致，例如viewpager中包含listview；<br />
-2.外部滑动方向和内部滑动方向一致，例如viewpager的单页中存在可以滑动的bannerview；<br />
-3.上面两种情况的嵌套，例如viewpager的单个页面中包含了bannerview和listview。<br />
-(2)滑动冲突处理规则<br />
-可以根据滑动距离和水平方向形成的夹角；或者根据水平和竖直方向滑动的距离差；或者两个方向上的速度差等<br />
-(3)解决方式<br />
-1.外部拦截法：点击事件都先经过父容器的拦截处理，如果父容器需要此事件就拦截，如果不需要就不拦截。该方法需要重写父容器的<code>onInterceptTouchEvent</code>方法，在内部做相应的拦截即可，其他均不需要做修改。<br />
+</code></pre><h4 id="35-view的滑动冲突">3.5 view的滑动冲突</h4>
+<p>(1)常见的滑动冲突的场景：<br>
+1.外部滑动方向和内部滑动方向不一致，例如viewpager中包含listview；<br>
+2.外部滑动方向和内部滑动方向一致，例如viewpager的单页中存在可以滑动的bannerview；<br>
+3.上面两种情况的嵌套，例如viewpager的单个页面中包含了bannerview和listview。<br>
+(2)滑动冲突处理规则<br>
+可以根据滑动距离和水平方向形成的夹角；或者根据水平和竖直方向滑动的距离差；或者两个方向上的速度差等<br>
+(3)解决方式<br>
+1.外部拦截法：点击事件都先经过父容器的拦截处理，如果父容器需要此事件就拦截，如果不需要就不拦截。该方法需要重写父容器的<code>onInterceptTouchEvent</code>方法，在内部做相应的拦截即可，其他均不需要做修改。<br>
 伪代码如下：</p>
-
 <pre><code>public boolean onInterceptTouchEvent(MotionEvent event) {
     boolean intercepted = false;
     int x = (int) event.getX();
@@ -328,10 +281,7 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
 
     return intercepted;
 }
-</code></pre>
-
-<p>2.内部拦截法：父容器不拦截任何事件，所有的事件都传递给子元素，如果子元素需要此事件就直接消耗掉，否则就交给父容器来处理。这种方法和Android中的事件分发机制不一致，需要配合<code>requestDisallowInterceptTouchEvent</code>方法才能正常工作。</p>
-
+</code></pre><p>2.内部拦截法：父容器不拦截任何事件，所有的事件都传递给子元素，如果子元素需要此事件就直接消耗掉，否则就交给父容器来处理。这种方法和Android中的事件分发机制不一致，需要配合<code>requestDisallowInterceptTouchEvent</code>方法才能正常工作。</p>
 <pre><code>public boolean dispatchTouchEvent(MotionEvent event) {
     int x = (int) event.getX();
     int y = (int) event.getY();
@@ -360,10 +310,7 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
     mLastY = y;
     return super.dispatchTouchEvent(event);
 }
-</code></pre>
-
-<p>书中对这两种拦截法写了两个例子，感兴趣阅读源码看下，<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_3/src/com/ryg/chapter_3/ui/HorizontalScrollViewEx.java">外部拦截法使用示例链接</a>和<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_3/src/com/ryg/chapter_3/ui/ListViewEx.java">内部拦截法使用示例链接</a>。</p>
-
+</code></pre><p>书中对这两种拦截法写了两个例子，感兴趣阅读源码看下，<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_3/src/com/ryg/chapter_3/ui/HorizontalScrollViewEx.java">外部拦截法使用示例链接</a>和<a href="https://github.com/singwhatiwanna/android-art-res/blob/master/Chapter_3/src/com/ryg/chapter_3/ui/ListViewEx.java">内部拦截法使用示例链接</a>。</p>
 <p>OK，本章结束，谢谢阅读。</p>
     </section>
 
@@ -385,27 +332,23 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/"><h4>Art of Android Development Reading Notes 4</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/"><h4>Art of Android Development Reading Notes 11</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/03/art-of-android-development-reading-notes-11/"><h4>Art of Android Development Reading Notes 11</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/01/art-of-android-development-reading-notes-4/"><h4>Art of Android Development Reading Notes 4</h4></a></span>
       
   
 </aside>
@@ -414,42 +357,6 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -458,7 +365,7 @@ ViewGroup的dispatchTouchEvent方法中有一个标志位<code>FLAG_DISALLOW_INT
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

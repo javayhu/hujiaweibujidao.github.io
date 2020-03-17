@@ -5,7 +5,7 @@
        Set up Octopress environment on another computer &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Set up Octopress environment on another computer &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/03/11/set-up-octopress-environment-on-another-computer/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,42 +159,24 @@
 
     <section class="post-content">
       <p>本文主要介绍如何在另一台电脑上搭建Octopress的环境。</p>
-
-<p>最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。<!--more--></p>
-
+<p>最近换了机子，所以要在新机子上搭建Octopress的环境。本来因为新机整个系统环境就是和原来的一样可以不用配置的，可是不知道哪里弄错了，导致博客中写好的新内容不能push到remote。于是，又开始了一番折腾。<!-- raw HTML omitted --></p>
 <p>后来我发现下面的网址：<a href="http://94it.net/a/jingxuanboke/2014/0114/237386.html">Octopress重装或者多台电脑上并行写作同步</a></p>
-
 <p>Octopress的git仓库(repository)有两个分支，分别是master和source。master存储的是博客网站本身，而source存储的是生成博客的源文件。</p>
-
 <p>master的内容放在根目录的<code>_deploy</code>文件夹内，当你push源文件时会忽略，它使用的是<code>rake deploy</code>命令来更新的。</p>
-
 <p>重装</p>
-
 <p>如果本地已经配置过octopress，只是把octopress删掉重装。将source和master分支下的内容clone到本地即可(不需要再到官网上去clone全新的octopress)，具体作法：</p>
-
 <p>1.首先将博客的源文件clone到本地的octopress文件夹内。</p>
-
 <p><code>$ git clone -b source git@github.com:username/username.github.com.git octopress</code></p>
-
 <p>2.将博客文件clone到octopress的_deploy文件夹内。</p>
-
 <p><code>$ cd octopress $ git clone git@github.com:username/username.github.com.git _deploy</code></p>
-
 <p>执行完这两步就OK了。注意这里第2步一定要，不然在<code>rake deploy</code>时会报错</p>
-
 <p><code>no such file or directory - _deploy</code></p>
-
 <p>如果是重新在一台全新的电脑上要和服务器上的进行同步，除了上面的操作之外，还需要：</p>
-
 <pre><code>cd octopress ruby --version # Should report Ruby 1.9.2
 gem install bundler
 bundle install
-</code></pre>
-
-<p>注意：这里不需要再次rake install 来安装默认主题，不然会把自定义的主题恢复到默认状态。</p>
-
+</code></pre><p>注意：这里不需要再次rake install 来安装默认主题，不然会把自定义的主题恢复到默认状态。</p>
 <p>如果几台电脑上面都配置好了Otcopress，要在其中一台上写博客需要进行同步，更新source仓库即可。更新master并不是必须的，因为更改源文件之后还是需要<code>rake generate</code>，这个时候会自动进行 master更新。</p>
-
 <pre><code>$ cd octopress
 $ git pull origin source # update the local source branch
 $ cd ./_deploy
@@ -242,27 +202,23 @@ $ git pull origin master # update the local master branch
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/"><h4>Tips about MacBook&#39;s battery health</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/"><h4>Interview of Alibaba</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/05/07/interview-of-alibaba/"><h4>Interview of Alibaba</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/02/15/tips-about-macbooks-battery-health/"><h4>Tips about MacBook&#39;s battery health</h4></a></span>
       
   
 </aside>
@@ -271,42 +227,6 @@ $ git pull origin master # update the local master branch
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -315,7 +235,7 @@ $ git pull origin master # update the local master branch
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

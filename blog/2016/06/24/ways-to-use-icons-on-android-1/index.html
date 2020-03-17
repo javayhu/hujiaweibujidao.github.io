@@ -5,7 +5,7 @@
        Ways to Use Icons on Android (1) &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Ways to Use Icons on Android (1) &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/06/24/ways-to-use-icons-on-android-1/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,50 +159,31 @@
 
     <section class="post-content">
       <p>本节主要介绍几种Material Design图标的使用姿势。</p>
-
 <p>本系列文章介绍的内容对应的Github项目地址：<a href="https://github.com/hujiaweibujidao/IconFontApp">IconFontApp</a></p>
-
 <p>最近对IconFont特别感兴趣，通过使用IconFont一些常见的制作精良的小图标就可以直接在代码中非常方便的使用，免去了找图标并添加到项目中的很多麻烦。本系列估计也会有三篇文章，结合实践分享下我的摸索过程，也许大家会觉得有用呢。本节主要从Material Design图标入手，介绍它的几种使用姿势。</p>
-
-<h4 id="1-material-design图标简介"><strong>1.Material Design图标简介</strong></h4>
-
+<h4 id="1material-design图标简介"><strong>1.Material Design图标简介</strong></h4>
 <p>Github网址：<a href="https://github.com/google/material-design-icons">https://github.com/google/material-design-icons</a>
 内容介绍网址：<a href="http://google.github.io/material-design-icons/">http://google.github.io/material-design-icons/</a></p>
-
 <p>Material Design图标分为了<code>action</code>、<code>alert</code>、<code>file</code>、<code>notification</code>、<code>place</code>等类型，每种类型下都有一定数量的图标，而且这些图标还按照平台的不同进行了整理，包括<code>android</code>、<code>ios</code>、<code>web</code>平台，同时也包含了SVG格式的图片文件。其中<code>android</code>平台的图标又包括两种类型的，一种是存放在<code>drawable-xxxdpi</code>文件夹下的PNG格式文件，里面的图标有4种大小，分别是<code>18dp</code>、<code>24dp</code>、<code>36dp</code>和<code>48dp</code>；另一种是存放在<code>drawable-anydpi-v21</code>文件夹下的XML格式文件（Vectore Drawable），里面的图标大小都是<code>24dp</code>，颜色都是黑色。</p>
-
-<h4 id="2-复制使用方式"><strong>2.复制使用方式</strong></h4>
-
+<h4 id="2复制使用方式"><strong>2.复制使用方式</strong></h4>
 <p>复制使用方式就是如果项目中我们需要某张Material Design风格的图片的话，我们可以直接拷贝PNG格式的文件或者XML格式的文件，区别是后者只支持Android Lollipop及以上版本（但是可以通过support library进行兼容）。</p>
-
 <p>如果你不想进行复制操作的话，可以考虑Android Studio的<code>Android Drawable Importer</code>插件。
 插件的Github网址：<a href="https://github.com/winterDroid/android-drawable-importer-intellij-plugin">https://github.com/winterDroid/android-drawable-importer-intellij-plugin</a></p>
-
 <p>利用这个插件的<code>Icon Pack Drawable Importer</code>功能可以快速导入PNG或者JPG格式的图片文件，还可以设置大小和颜色。此外，利用它的<code>Vector Drawable Importer</code>功能就可以导入XML格式的Vector Drawable文件，导入之后可以在项目的<code>res/drawable</code>目录中看到导入的文件。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/drawable_importer.png" alt="img" /></p>
-
-<h4 id="3-依赖使用方式"><strong>3.依赖使用方式</strong></h4>
-
+<p><img src="https://hujiaweibujidao.github.io/images/drawable_importer.png" alt="img"></p>
+<h4 id="3依赖使用方式"><strong>3.依赖使用方式</strong></h4>
 <p>依赖使用方式是通过依赖一些封装好的第三方库来使用Material Design图标，例如项目<code>MaterialDesignIcons</code>和<code>Iconify</code>。</p>
-
 <p>MaterialDesignIcons的Github网址：<a href="https://github.com/MrBIMC/MaterialDesignIcons">https://github.com/MrBIMC/MaterialDesignIcons</a>
 这个项目很简单，它完全复制Material Design图标的XML文件到res目录下作成一个library以供使用，所以我们都可以很快做出来。
 此外，它的图标来源于<a href="https://materialdesignicons.com/">https://materialdesignicons.com/</a>，除了Google官方的那些Material Design风格图标之外，还包含了一些社区（Community）创作的Material Design风格图标，加起来总共约有4000个图标，实在是够用了。</p>
-
 <p>Iconify的Github网址：<a href="https://github.com/JoanZapata/android-iconify">https://github.com/JoanZapata/android-iconify</a>
 这个项目非常棒，首先它将Font Awesome、Material Design等图标都封装成简单可用的字体，通过自定义的TextView去解析自定义字体的文本来显示出图标。而且它还自定义了<code>IconDrawable</code>类，支持将图标作为Drawable使用，真的是炒鸡赞的项目！
 该项目的设计非常好，易于扩展，它将来自Google的Material Design图标和来自Community的Material Design图标分拆成两个独立的模块以供使用。后面会简单介绍如何对它进行扩展。</p>
-
 <p>下图显示了Iconify的使用方式：
-<img src="https://hujiaweibujidao.github.io/images/iconify.png" alt="img" /></p>
-
+<img src="https://hujiaweibujidao.github.io/images/iconify.png" alt="img"></p>
 <p>下面通过Iconify中的几个主要的类来介绍下Iconify的内部实现：</p>
-
-<h5 id="1-icon-接口">（1）<code>Icon</code>接口</h5>
-
+<h5 id="1icon接口">（1）<code>Icon</code>接口</h5>
 <p>描述图标的信息。每个图标都有一个key和character，key代表图标的名称，例如<code>fa-ok</code>，character代表图标对应的Unicode，例如<code>\u4354</code>。</p>
-
 <pre><code>/**
  * Icon represents one icon in an icon font.
  */
@@ -235,12 +194,8 @@ public interface Icon {
     /** The character matching the key in the font, for example '\u4354' */
     char character();//character代表图标对应的Unicode码，例如`\u4354`
 }
-</code></pre>
-
-<h5 id="2-iconfontdescriptor-接口">（2）<code>IconFontDescriptor</code>接口</h5>
-
+</code></pre><h5 id="2iconfontdescriptor接口">（2）<code>IconFontDescriptor</code>接口</h5>
 <p>描述图标字体的信息，包括它对应的ttf字体文件和图标集合。</p>
-
 <pre><code>/**
  * An IconFontDescriptor defines a TTF font file
  * and is able to map keys with characters in this file.
@@ -254,12 +209,8 @@ public interface IconFontDescriptor {
 
     Icon[] characters();//图标字体集合
 }
-</code></pre>
-
-<h5 id="3-iconify-类">（3）<code>Iconify</code>类</h5>
-
+</code></pre><h5 id="3iconify类">（3）<code>Iconify</code>类</h5>
 <p>最主要的核心类，调用<code>with</code>方法来添加图标字体集合。<a href="https://github.com/JoanZapata/android-iconify/blob/master/android-iconify/src/main/java/com/joanzapata/iconify/Iconify.java">查看源码</a></p>
-
 <pre><code>/**
  * Add support for a new icon font.
  * @param iconFontDescriptor The IconDescriptor holding the ttf file reference and its mappings.
@@ -268,18 +219,12 @@ public interface IconFontDescriptor {
 public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
     return new IconifyInitializer(iconFontDescriptor);
 }
-</code></pre>
-
-<h5 id="4-其他代码">（4）其他代码</h5>
-
+</code></pre><h5 id="4其他代码">（4）其他代码</h5>
 <p>自定义的<code>IconTextView</code>、<code>IconButton</code>、<code>IconToggleButton</code>以及<code>IconDrawable</code>等，核心实现在<code>ParseUtil</code>类中，它的<code>compute</code>方法会去解析设置的文本内容，从中提取出不同字体对应的图标，甚至设置其大小和颜色以及旋转动画效果。
 <strong>[简易版本的自定义字体的TextView可以参考<a href="http://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/">这篇文章</a>]</strong></p>
-
-<h5 id="5-如何扩展">（5）如何扩展？</h5>
-
+<h5 id="5如何扩展">（5）如何扩展？</h5>
 <p>如果想要扩展Iconify，只需要一个ttf字体文件和实现<code>IconFontDescriptor</code>接口的类就行了，可以参考<a href="https://github.com/JoanZapata/android-iconify/blob/master/android-iconify-fontawesome/src/main/java/com/joanzapata/iconify/fonts/FontAwesomeModule.java">Font Awesome的图标字体集合的实现</a>。
 为了方便使用，一般还会添加一个枚举，列举出这个图标字体集合中所有图标的key和character对应关系，以Font Awesome图标字体为例：</p>
-
 <pre><code>public enum FontAwesomeIcons implements Icon {
     fa_glass('\uf000'),
     fa_music('\uf001'),
@@ -294,10 +239,7 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
     fa_th('\uf00a'),
     fa_th_list('\uf00b'),
     ......
-</code></pre>
-
-<p>我比较喜欢Iconify的使用方式，简洁好用，嘿嘿，欢迎推荐其他的Material Design图标的使用姿势！</p>
-
+</code></pre><p>我比较喜欢Iconify的使用方式，简洁好用，嘿嘿，欢迎推荐其他的Material Design图标的使用姿势！</p>
 <p>在实际的项目开发中肯定会有很多自定义的小图标或者来自不同来源的小图标，如果遇到这种情况该怎么办呢？这个时候我们可以通过对Iconify进行扩展来实现，但是扩展之前我们需要制作出自己的图标字体文件，这个该如何制作呢？请看下节！</p>
     </section>
 
@@ -319,27 +261,23 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/"><h4>When Math meets Android Animation (3)</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/"><h4>Ways to Use Icons on Android (2)</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/06/25/ways-to-use-icons-on-android-2/"><h4>Ways to Use Icons on Android (2)</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/"><h4>When Math meets Android Animation (3)</h4></a></span>
       
   
 </aside>
@@ -348,42 +286,6 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -392,7 +294,7 @@ public static IconifyInitializer with(IconFontDescriptor iconFontDescriptor) {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

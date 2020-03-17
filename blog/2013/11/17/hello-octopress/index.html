@@ -5,7 +5,7 @@
        Hello Octopress &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Hello Octopress &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,26 +158,20 @@
     </header>
 
     <section class="post-content">
-      <p>Hello world! Hello Octopress! </p>
-
+      <p>Hello world! Hello Octopress!</p>
 <p><strong>2016-11-13 update: 后来我的博客先后从Octopress进化到Hexo以及现在的Hugo</strong></p>
-
-<p>曾经因为很多问题的答案都在<a href="http://www.cnblogs.com"><strong>博客园</strong></a>上，于是我在那里驻扎了，但是，它的广告让我不能忍！<br />
-后来因为<a href="http://www.diandian.com"><strong>点点博客</strong></a>的小清新我瞬间就爱上了它，于是我搬家了，但是，它的冷清让我想要离开！<br />
-再后来<a href="http://wordpress.com"><strong>Wordpress</strong></a>进入了我的眼帘，苦于没有host，只好在BAE上安营，但是，它的龟速简直让我发指！<br />
+<p>曾经因为很多问题的答案都在<a href="http://www.cnblogs.com"><strong>博客园</strong></a>上，于是我在那里驻扎了，但是，它的广告让我不能忍！<br>
+后来因为<a href="http://www.diandian.com"><strong>点点博客</strong></a>的小清新我瞬间就爱上了它，于是我搬家了，但是，它的冷清让我想要离开！<br>
+再后来<a href="http://wordpress.com"><strong>Wordpress</strong></a>进入了我的眼帘，苦于没有host，只好在BAE上安营，但是，它的龟速简直让我发指！<br>
 最后我终于走进了我一直忽视了的<a href="http://octopress.org/"><strong>Octopress</strong></a>，那一瞬间，我才发现，这才是我想要的！这才是我想要的博客！</p>
-
 <blockquote>
 <p>A blogging framework for hackers.         &ndash; Parker Moore</p>
 </blockquote>
-
-<p>今天从早上开始一直到晚上终于把Octopress搭建和配置好了，好开心啊有木有！<br />
-下面介绍安装过程：[不是很轻松，但是也不会很难哟！]<br />
+<p>今天从早上开始一直到晚上终于把Octopress搭建和配置好了，好开心啊有木有！<br>
+下面介绍安装过程：[不是很轻松，但是也不会很难哟！]<br>
 安装步骤如下：</p>
-
-<p><strong><a href="http://octopress.org/docs/setup/rbenv/">安装rbenv和ruby</a></strong><br />
+<p><strong><a href="http://octopress.org/docs/setup/rbenv/">安装rbenv和ruby</a></strong><br>
 请确保ruby版本是1.9.3以上！我试过，如果版本低的话会出错，但是如果版本很高的话也有可能出错(我试过1.9.3-p2xx)，建议就安装1.9.3-p0，也可以使用<a href="http://octopress.org/docs/setup/rvm/">rvm</a>来管理ruby版本，我两个都试过了，推荐使用rbenv。</p>
-
 <pre><code>brew update
 brew install rbenv
 brew install ruby-build
@@ -207,26 +179,18 @@ rbenv install 1.9.3-p0
 rbenv rehash
 rbenv global 1.9.3-p0  #建议增加这句修改系统全局的ruby版本
 ruby --version  #查看系统ruby版本
-</code></pre>
-
-<p>[注：如果install 1.9.3-p0时报错，提示llvm不行，需要安装gcc时按照提示的命令执行即可：<code>brew tap homebrew/dupes ; brew install apple-gcc42</code>]</p>
-
-<p><strong><a href="http://octopress.org/docs/setup/">安装Octopress</a></strong><br />
+</code></pre><p>[注：如果install 1.9.3-p0时报错，提示llvm不行，需要安装gcc时按照提示的命令执行即可：<code>brew tap homebrew/dupes ; brew install apple-gcc42</code>]</p>
+<p><strong><a href="http://octopress.org/docs/setup/">安装Octopress</a></strong><br>
 这部分耗时会长一些，其中的octopress目录名称可以随便修改，例如myblog等，<code>gem list</code>命令可以查看已经安装好了的依赖包，<code>rake install</code>就类似<code>make install</code>进行安装(Octopress的主题)，一定要确保这里执行的命令都是正确执行了的，否则后面可能出错。</p>
-
 <pre><code>git clone git://github.com/imathis/octopress.git octopress
 cd octopress
 gem install bundler
 rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
 bundle install
 rake install
-</code></pre>
-
-<p><strong><a href="http://octopress.org/docs/deploying/github/">发布到Github上</a></strong><br />
+</code></pre><p><strong><a href="http://octopress.org/docs/deploying/github/">发布到Github上</a></strong><br>
 以前个人博客是在位于<code>http://username.github.com</code>这个域名下，现在改成了<code>http://username.github.io</code>，所以大家可以看到两种不同域名下的博客。另外，<a href="https://help.github.com/categories/20/articles">Github Pages</a>分为两类，一类是个人或者组织的博客，另一类是项目的介绍博客，这里只介绍如果搭建不介绍后者，但是两者基本上相同。</p>
-
 <p>首先新建repository，名称为<code>username.github.io</code>，其中<code>username</code>是你的github用户名，拷贝repository的SSH地址，类似<code>git@github.com:username/username.github.io.git</code>。然后执行下面代码``，它主要是进行以下操作(不难理解，我就不翻译了，原文看着舒坦，嘿嘿)：</p>
-
 <ul>
 <li>Ask for and store your Github Pages repository url.</li>
 <li>Rename the remote pointing to imathis/octopress from &lsquo;origin&rsquo; to &lsquo;octopress&rsquo;</li>
@@ -235,7 +199,6 @@ rake install
 <li>Configure your blog&rsquo;s url according to your repository.</li>
 <li>Setup a master branch in the _deploy directory for deployment.</li>
 </ul>
-
 <pre><code>rake setup_github_pages #按照提示输入你的repository的SSH地址
 rake generate #生成静态网页，记住，每次有修改之后都需要执行一次或者多次才能查看新的预览！
 rake deploy  #发布网页，这里会提交代码到github
@@ -243,18 +206,11 @@ rake preview #本地预览，默认端口是4000，可以修改
 git add .
 git commit -m 'your message'
 git push origin source  #一定记着要提交source下的内容
-</code></pre>
-
-<p>需要注意的是，如果你是Github新手的话，可能遇到<code>Permission denied (publickey)</code>，这说明你还没有添加key给当前用户，解决方案请参考<a href="https://help.github.com/articles/error-permission-denied-publickey">Error:Permission denied (publickey)</a>和<a href="https://help.github.com/articles/generating-ssh-keys">Github help:Generating SSH Keys</a>来为当前用户创建publickey，</p>
-
+</code></pre><p>需要注意的是，如果你是Github新手的话，可能遇到<code>Permission denied (publickey)</code>，这说明你还没有添加key给当前用户，解决方案请参考<a href="https://help.github.com/articles/error-permission-denied-publickey">Error:Permission denied (publickey)</a>和<a href="https://help.github.com/articles/generating-ssh-keys">Github help:Generating SSH Keys</a>来为当前用户创建publickey，</p>
 <p>通过命令<code>ssh -T billy.anyteen@github.com</code>可以查看Github是否识别当前用户，如果不能识别会返回<code>Permission denied (publickey)</code>，否则便是<code>Hi username! You've successfully authenticated, but GitHub does not # provide shell access.</code></p>
-
 <p>另外，极力推荐一个<a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">Git的简明教程</a>，作者廖雪峰是一位资深的开发者，著有畅销书籍《Spring 2.0核心技术与最佳实践》等，最近又推出了Python简明教程，非常实用！</p>
-
 <p>大功告成！</p>
-
 <p>① 大致介绍下Octopress的目录结构(摘自<a href="http://www.dongwm.com/archives/qian-yi-octpressyi-ji-zi-ding-yi/">小明明s à domicile</a>)</p>
-
 <pre><code>├─ config.rb  #指定额外的compass插件
 ├─ config.ru  
 ├─ Rakefile   #rake的配置文件,类似于makefile,这个我修改了一些内容
@@ -276,28 +232,18 @@ git push origin source  #一定记着要提交source下的内容
    └─ _posts/  #新增以及从其它程序迁移过来的数据都存在这里
    └─ stylesheets/ #css文件目录
    └─ javascripts/  #js文件目录
-</code></pre>
-
-<p>② 一些配置内容</p>
-
+</code></pre><p>② 一些配置内容</p>
 <p><a href="http://octopress.org/docs/configuring/">关于如何配置Octopress</a>
 <a href="http://octopress.org/docs/blogging/">关于如何创建新的page或者post以及本地预览</a>
 <a href="http://octopress.org/docs/theme/">关于如何修改主题和默认的样式</a>
 <a href="http://opthemes.com/">Octopress支持的第三方主题下载和预览网站</a>
 <a href="http://812lcl.github.io/blog/2013/10/26/octopressce-bian-lan-ji-ping-lun-xi-tong-ding-zhi/">关于侧边栏和主题的定制，添加新浪微博，多说评论，分类标签云等等</a></p>
-
 <p>[注意，使用多说的话，shortname不是你的个人资料中的名称，而是新建的站点给定的！另外，对于<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">这里</a>提到的升级问题，可以干脆直接删除data-title]</p>
-
 <p>最有用的资料总能在这里找到：<a href="http://octopress.org/docs/">Octopress的官方文档</a></p>
-
 <p>③ 关于<a href="http://jekyllrb.com/docs/home/">Jekyll</a></p>
-
 <p>Octopress是基于Jekyll的，所以对Jekyll有一定的了解是很有必要的，Jekyll主页中记录了Jekyll的方方面面，最好是了解下Directory Structure，Configuration，Writing Posts，Creating Pages等等内容，这对后面的Octopress的使用会有很大帮助的。</p>
-
 <p>④ 关于本地编写博客</p>
-
 <p>对于Markdown编辑器，我觉得Mou可能不是最好的，但是，它是很精巧的！我简直爱不释手，希望之后能够在我的博客中实现数学公式的编辑，这样会很方便，哈哈</p>
-
 <p>哦了，今天就到这里啦！哈哈哈，晚安，Octopress！^_^</p>
     </section>
 
@@ -319,25 +265,21 @@ git push origin source  #一定记着要提交source下的内容
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-
-  
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/about/"><h4>About</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/about/"><h4>About</h4></a></span>
       
+  
+
   
 </aside>
 <br/>
@@ -345,42 +287,6 @@ git push origin source  #一定记着要提交source下的内容
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -389,7 +295,7 @@ git push origin source  #一定记着要提交source下的内容
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

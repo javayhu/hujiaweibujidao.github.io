@@ -5,7 +5,7 @@
        Python Basics &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Python Basics &middot;  Hujiawei Bujidao" />
@@ -44,11 +44,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/05/10/python-basics/" />
 
@@ -72,21 +67,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -105,8 +85,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -184,146 +162,108 @@
     </header>
 
     <section class="post-content">
-      <p>Python代码片段 </p>
-
+      <p>Python代码片段</p>
 <p>1.使用<code>glob</code>模块可以用通配符的方式搜索某个目录下的特定文件，返回结果是一个list</p>
-
-<pre><code class="language-python">import glob
-flist=glob.glob('*.jpeg')
-</code></pre>
-
-<p>使用<code>os.getcwd()</code>可以得到当前目录，如果想切换到其他目录，可以使用<code>os.chdir('str/to/path')</code>，如果想执行Shell脚本，可以使用<code>os.system('mkdir newfolder')</code>。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> glob
+flist<span style="color:#f92672">=</span>glob<span style="color:#f92672">.</span>glob(<span style="color:#e6db74">&#39;*.jpeg&#39;</span>)
+</code></pre></div><p>使用<code>os.getcwd()</code>可以得到当前目录，如果想切换到其他目录，可以使用<code>os.chdir('str/to/path')</code>，如果想执行Shell脚本，可以使用<code>os.system('mkdir newfolder')</code>。</p>
 <p>对于日常文件和目录的管理, <code>shutil</code>模块提供了更便捷、更高层次的接口</p>
-
 <pre><code>import shutil
 shutil.copyfile('data.db', 'archive.db')
 shutil.move('/build/executables', 'installdir')
-</code></pre>
-
-<p>使用PyCharm中，在一个Project中新建一个Directory和新建一个Package之后，IDE都会创建对应的目录，并添加默认的<code>__init__.py</code>文件，但是，两者还是不一样的。
+</code></pre><p>使用PyCharm中，在一个Project中新建一个Directory和新建一个Package之后，IDE都会创建对应的目录，并添加默认的<code>__init__.py</code>文件，但是，两者还是不一样的。
 如果在它们的目录下各新建一个python脚本测试输出<code>os.getcwd()</code>，如果是在Directory中得到的是Project的根目录&rsquo;/Users/hujiawei/PycharmProjects/leetcodeoj&rsquo;；如果是在Package中得到的是Package的根目录，如&rsquo;/Users/hujiawei/PycharmProjects/leetcodeoj/pypackage&rsquo;。</p>
-
 <p>2.如果要在代码中添加中文注释的话，最好在文档开头加上下面的编码声明语句。关于Python中的字符串编码可见<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819196283586a37629844456ca7e5a7faa9b94ee8000">廖雪峰的python教程</a>。若代码打算用在国际化的环境中, 那么不要使用奇特的编码。Python 默认的 UTF-8, 或者甚至是简单的 ASCII 在任何情况下工作得最好。同样地，如果代码的读者或维护者只有很小的概率使用不同的语言，那么不要在标识符里使用非 ASCII 字符。</p>
-
 <pre><code># coding=utf-8
 或者
 # -*- coding: utf-8 -*-
-</code></pre>
-
-<p>3.关于Python中的变量，摘自<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386820042500060e2921830a4adf94fb31bcea8d6f5c000">廖雪峰的python教程</a></p>
-
+</code></pre><p>3.关于Python中的变量，摘自<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386820042500060e2921830a4adf94fb31bcea8d6f5c000">廖雪峰的python教程</a></p>
 <p>在Python中，变量名类似<code>__xxx__</code>的，也就是以双下划线开头，并且以双下划线结尾的，是特殊变量，特殊变量是可以直接访问的，不是private变量，所以，不能用<code>__name__</code>、<code>__score__</code>这样的变量名。</p>
-
 <p>有些时候，你会看到以一个下划线开头的实例变量名(<strong>两个下划线开头的也一样算，其实任何以下划线开头的都算</strong>)，比如<code>_name</code>，这样的实例变量外部是可以访问的，但是，按照约定俗成的规定，当你看到这样的变量时，意思就是，<strong>“虽然我可以被访问，但是，请把我视为私有变量，不要随意访问”</strong>。</p>
-
 <p>双下划线开头的实例变量是不是一定不能从外部访问呢？其实也不是。不能直接访问<code>__name</code>是因为Python解释器对外把<code>__name</code>变量改成了<code>_Student__name</code>，所以，仍然可以通过<code>_Student__name</code>来访问<code>__name</code>变量。但是强烈建议你不要这么干，因为不同版本的Python解释器可能会把<code>__name</code>改成不同的变量名。</p>
-
 <p>总的来说就是，Python本身没有任何机制阻止你干坏事，一切全靠自觉。</p>
-
 <p>上面说的有点绕，下面我写了两个python脚本，大家可以对照看下哪些能够访问，哪些不能，不能的情况下如何操作变得可以访问(注释后面的<code>yes</code>和<code>no</code>表示能不能被访问)。</p>
-
 <p>也就是说，<strong>默认呢，以一个下划线开始(不论结尾有没有下划线)的变量在外部都是可以直接访问的，但是不推荐这么做；以两个下划线开始和两个下划线结束的变量属于特殊变量，可以直接访问；而以两个下划线开始且结尾不是两个下划线(可以没有也可以有一个下划线)的变量属于私有变量，不能直接访问，虽然可以通过其他方式访问，但最好不要在外部访问。</strong></p>
-
 <p>文件<code>APythonTestA.py</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
 
-<pre><code class="language-python"># coding=utf-8
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ListNode</span>:
 
-class ListNode:
+    _class_field10 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-0&#39;</span>
+    _class_field11_ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-1&#39;</span>
+    _class_field12__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-2&#39;</span>
 
-    _class_field10 = 'node class field 1-0'
-    _class_field11_ = 'node class field 1-1'
-    _class_field12__ = 'node class field 1-2'
+    __class_field20 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-0&#39;</span>
+    __class_field21_ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-1&#39;</span>
+    __class_field22__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-2&#39;</span>
 
-    __class_field20 = 'node class field 2-0'
-    __class_field21_ = 'node class field 2-1'
-    __class_field22__ = 'node class field 2-2'
+    <span style="color:#66d9ef">def</span> __init__(self, x):
+        self<span style="color:#f92672">.</span>val <span style="color:#f92672">=</span> x
+        self<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> None
 
-    def __init__(self, x):
-        self.val = x
-        self.next = None
+_class_field10 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-0&#39;</span>
+_class_field11_ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-1&#39;</span>
+_class_field12__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 1-2&#39;</span>
 
-_class_field10 = 'node class field 1-0'
-_class_field11_ = 'node class field 1-1'
-_class_field12__ = 'node class field 1-2'
+__class_field20 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-0&#39;</span>
+__class_field21_ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-1&#39;</span>
+__class_field22__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;node class field 2-2&#39;</span>
+</code></pre></div><p>文件<code>APythonTestB.py</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># coding=utf-8</span>
+__author__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hujiawei&#39;</span>
+__doc__ <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;for python test 2&#39;</span>
 
-__class_field20 = 'node class field 2-0'
-__class_field21_ = 'node class field 2-1'
-__class_field22__ = 'node class field 2-2'
-</code></pre>
+<span style="color:#f92672">import</span> APythonTestA
 
-<p>文件<code>APythonTestB.py</code></p>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#66d9ef">print</span>(dir(APythonTestA<span style="color:#f92672">.</span>ListNode))
+    node <span style="color:#f92672">=</span> APythonTestA<span style="color:#f92672">.</span>ListNode(<span style="color:#ae81ff">4</span>)
+    <span style="color:#75715e"># print(node._ListNode__class_field20) #yes</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>_class_field10) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>_class_field11_) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>_class_field12__) <span style="color:#75715e">#yes</span>
+    <span style="color:#75715e"># print(node.__class_field20) #no</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>_ListNode__class_field20)<span style="color:#75715e">#yes</span>
+    <span style="color:#75715e"># print(node.__class_field21_) #no</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>_ListNode__class_field21_)<span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(node<span style="color:#f92672">.</span>__class_field22__) <span style="color:#75715e">#yes</span>
 
-<pre><code class="language-python"># coding=utf-8
-__author__ = 'hujiawei'
-__doc__ = 'for python test 2'
+    <span style="color:#66d9ef">print</span>(dir(APythonTestA))
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>_class_field10) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>_class_field11_) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>_class_field12__) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>__class_field20) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>__class_field21_) <span style="color:#75715e">#yes</span>
+    <span style="color:#66d9ef">print</span>(APythonTestA<span style="color:#f92672">.</span>__class_field22__) <span style="color:#75715e">#yes</span>
 
-import APythonTestA
-
-if __name__ == '__main__':
-    print(dir(APythonTestA.ListNode))
-    node = APythonTestA.ListNode(4)
-    # print(node._ListNode__class_field20) #yes
-    print(node._class_field10) #yes
-    print(node._class_field11_) #yes
-    print(node._class_field12__) #yes
-    # print(node.__class_field20) #no
-    print(node._ListNode__class_field20)#yes
-    # print(node.__class_field21_) #no
-    print(node._ListNode__class_field21_)#yes
-    print(node.__class_field22__) #yes
-
-    print(dir(APythonTestA))
-    print(APythonTestA._class_field10) #yes
-    print(APythonTestA._class_field11_) #yes
-    print(APythonTestA._class_field12__) #yes
-    print(APythonTestA.__class_field20) #yes
-    print(APythonTestA.__class_field21_) #yes
-    print(APythonTestA.__class_field22__) #yes
-
-# ['_ListNode__class_field20', '_ListNode__class_field21_', '__class_field22__', '__doc__', '__init__', '__module__', '_class_field10', '_class_field11_', '_class_field12__']
-# node class field 1-0
-# node class field 1-1
-# node class field 1-2
-# node class field 2-0
-# node class field 2-1
-# node class field 2-2
-# ['ListNode', '__builtins__', '__class_field20', '__class_field21_', '__class_field22__', '__doc__', '__file__', '__name__', '__package__', '_class_field10', '_class_field11_', '_class_field12__']
-# node class field 1-0
-# node class field 1-1
-# node class field 1-2
-# node class field 2-0
-# node class field 2-1
-# node class field 2-2
-</code></pre>
-
-<p>4.关于Python中函数的参数，摘自<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001374738449338c8a122a7f2e047899fc162f4a7205ea3000">廖雪峰的python教程</a></p>
-
+<span style="color:#75715e"># [&#39;_ListNode__class_field20&#39;, &#39;_ListNode__class_field21_&#39;, &#39;__class_field22__&#39;, &#39;__doc__&#39;, &#39;__init__&#39;, &#39;__module__&#39;, &#39;_class_field10&#39;, &#39;_class_field11_&#39;, &#39;_class_field12__&#39;]</span>
+<span style="color:#75715e"># node class field 1-0</span>
+<span style="color:#75715e"># node class field 1-1</span>
+<span style="color:#75715e"># node class field 1-2</span>
+<span style="color:#75715e"># node class field 2-0</span>
+<span style="color:#75715e"># node class field 2-1</span>
+<span style="color:#75715e"># node class field 2-2</span>
+<span style="color:#75715e"># [&#39;ListNode&#39;, &#39;__builtins__&#39;, &#39;__class_field20&#39;, &#39;__class_field21_&#39;, &#39;__class_field22__&#39;, &#39;__doc__&#39;, &#39;__file__&#39;, &#39;__name__&#39;, &#39;__package__&#39;, &#39;_class_field10&#39;, &#39;_class_field11_&#39;, &#39;_class_field12__&#39;]</span>
+<span style="color:#75715e"># node class field 1-0</span>
+<span style="color:#75715e"># node class field 1-1</span>
+<span style="color:#75715e"># node class field 1-2</span>
+<span style="color:#75715e"># node class field 2-0</span>
+<span style="color:#75715e"># node class field 2-1</span>
+<span style="color:#75715e"># node class field 2-2</span>
+</code></pre></div><p>4.关于Python中函数的参数，摘自<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001374738449338c8a122a7f2e047899fc162f4a7205ea3000">廖雪峰的python教程</a></p>
 <p>Python的函数具有非常灵活的参数形态，既可以实现简单的调用，又可以传入非常复杂的参数。
 默认参数一定要用不可变对象，如果是可变对象，运行会有逻辑错误！</p>
-
 <p>要注意定义可变参数和关键字参数的语法：</p>
-
 <p><code>*args</code>是可变参数，args接收的是一个tuple；</p>
-
 <p><code>**kw</code>是关键字参数，kw接收的是一个dict。</p>
-
 <p>以及调用函数时如何传入可变参数和关键字参数的语法：</p>
-
 <p>可变参数既可以直接传入：<code>func(1, 2, 3)</code>，又可以先组装list或tuple，再通过<code>*args</code>传入：<code>func(*(1, 2, 3))；</code></p>
-
 <p>关键字参数既可以直接传入：<code>func(a=1, b=2)</code>，又可以先组装dict，再通过<code>**kw</code>传入：<code>func(**{'a': 1, 'b': 2})</code>。</p>
-
 <p>使用<code>*args</code>和<code>**kw</code>是Python的习惯写法，当然也可以用其他参数名，但最好使用习惯用法。</p>
-
 <p>5.关于Python的高级特性，参见<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/0013868196169906eb9ca5864384546bf3405ae6a172b3e000">廖雪峰的python教程</a></p>
-
 <p>切片，迭代，列表生成式，生成器</p>
-
 <p><strong>除非特殊的原因，应该经常在代码中使用生成器表达式。但除非是面对非常大的列表，否则是不会看出明显区别的。</strong></p>
-
 <p>使用生成器得到当前目录及其子目录中的所有文件的代码，下面代码来自<a href="http://blog.jobbole.com/61171/">伯乐在线-python高级编程技巧</a></p>
-
 <pre><code>import os
 def tree(top):
     #path,folder list,file list
@@ -333,10 +273,7 @@ def tree(top):
 
 for name in tree(os.getcwd()):
     print name
-</code></pre>
-
-<p>另一个使用生成器的代码示例：</p>
-
+</code></pre><p>另一个使用生成器的代码示例：</p>
 <pre><code>num = [1, 4, -5, 10, -7, 2, 3, -1]
 
 def square_generator(optional_parameter):
@@ -354,14 +291,9 @@ for k in square_generator(0):
 g = list(square_generator(0))
 print g
 # [1, 16, 100, 4, 9]
-</code></pre>
-
-<p>6.关于Python的函数式编程，参见<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819866394c3f9efcd1a454b2a8c57933e976445c0000">廖雪峰的python教程</a>，讲解得很好</p>
-
+</code></pre><p>6.关于Python的函数式编程，参见<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/001386819866394c3f9efcd1a454b2a8c57933e976445c0000">廖雪峰的python教程</a>，讲解得很好</p>
 <p>高阶函数(使用函数作为参数或者返回一个函数的函数称为<code>高阶函数</code>)，匿名函数(lambda)，装饰器(decorator)和偏函数</p>
-
 <p>用来测试一个函数花费的运行时间的装饰器，当然你也可以使用其他的方式，比如<code>Timer</code>来得到运行时间。下面代码来自<a href="http://blog.jobbole.com/61171/">伯乐在线-python高级编程技巧</a></p>
-
 <pre><code>def timethis(func):
     '''
     Decorator that reports the execution time.
@@ -379,25 +311,15 @@ print g
 def countdown(n):
     while n &gt; 0:
         n -= 1
-</code></pre>
-
-<p>其中代码</p>
-
+</code></pre><p>其中代码</p>
 <pre><code>@timethis
 def countdown(n):
-</code></pre>
-
-<p>就相当于：</p>
-
+</code></pre><p>就相当于：</p>
 <pre><code>def countdown(n):
 ...
 countdown = timethis(countdown)
-</code></pre>
-
-<p>装饰器除了可以使用函数实现，也可以使用类来实现。</p>
-
+</code></pre><p>装饰器除了可以使用函数实现，也可以使用类来实现。</p>
 <p><strong>对装饰器的类实现的唯一要求是它必须能如函数一般使用，也就是说它必须是可调用的。所以，如果想这么做这个类必须实现<code>__call__</code>方法。</strong></p>
-
 <pre><code>class decorator(object):
 
     def __init__(self, f):
@@ -419,17 +341,13 @@ function()
 # inside function()
 # Finished decorating function()
 # inside decorator.__call__()
-</code></pre>
-
-<ol>
+</code></pre><ol>
 <li>语法糖<code>@decorator</code>相当于<code>function=decorator(function)</code>，在此调用decorator的<code>__init__</code>打印<code>“inside decorator.__init__()”</code></li>
 <li>随后执行f()打印<code>“inside function()”</code></li>
 <li>随后执行<code>“print(“Finished decorating function()”)”</code></li>
 <li>最后再调用function函数时，由于使用装饰器包装，因此执行decorator的<code>__call__</code>打印 <code>“inside decorator.__call__()”</code>。</li>
 </ol>
-
 <p>==我的批注：我觉得上面代码不是一般的使用方式，实际装饰器类应该是在<code>__init__</code>方法中设置好自己内部的函数f，然后在方法<code>__call__</code>中调用函数f，并包含一些其他的方法调用，大概如下：</p>
-
 <pre><code>class decorator(object):
 
     def __init__(self, f):
@@ -455,10 +373,7 @@ function()
 # inside decorator.__call__() begin
 # inside function()
 # inside decorator.__call__() end
-</code></pre>
-
-<p>在提供一个装饰器的例子，实现自顶向下的带备忘录的DP算法来解决斐波那契数列求值，来源于<a href="http://link.springer.com/book/10.1007%2F978-1-4302-3238-4">Python Algorithms- Mastering Basic Algorithms in the Python Language</a></p>
-
+</code></pre><p>在提供一个装饰器的例子，实现自顶向下的带备忘录的DP算法来解决斐波那契数列求值，来源于<a href="http://link.springer.com/book/10.1007%2F978-1-4302-3238-4">Python Algorithms- Mastering Basic Algorithms in the Python Language</a></p>
 <pre><code>from functools import wraps
 
 def memo(func):
@@ -476,16 +391,10 @@ def fib(i):
     return fib(i-1)+fib(i-2)
 
 print(fib(100))
-</code></pre>
-
-<p>7.Python中的值传递和引用传递</p>
-
+</code></pre><p>7.Python中的值传递和引用传递</p>
 <p><a href="http://www.pythoneye.com.cn/article/pythonpeixun45.html">参考阅读资料</a></p>
-
 <p><strong>python函数传递的是对象的引用值，非传值或传引用。但是如果对象是不可变的，感觉和c语言中传值差不多。如果对象是可变的，感觉和c语言中传引用差不多。</strong></p>
-
 <p>运行下面的代码就清楚了</p>
-
 <pre><code>def foo(a):
     print &quot;传来是对象的引用对象地址为{0}&quot;.format(id(a))
     a = 3 #形式参数a是局部变量，a重新绑定到3这个对象。
@@ -533,17 +442,11 @@ for item in foo(lst):
 print lst
 # python
 # java
-</code></pre>
-
-<p>8.其他</p>
-
+</code></pre><p>8.其他</p>
 <p>(1)Python中<code>set([1,2,3])</code>是一个set，<code>{1,2,3,4,5}</code>也是一个set，<code>{1:2,2:4,3:6,4:8,5:10}</code>是一个dict，而且空的<code>{}</code>是一个dict！</p>
-
 <p>set和dict的唯一区别仅在于没有存储对应的value，但是，set的原理和dict一样，所以，同样不可以放入可变对象，因为无法判断两个可变对象是否相等，也就无法保证set内部“不会有重复元素”。试试把list放入set，看看是否会报错。</p>
-
-<!--
-(2)得到int类型的最大值使用`sys.maxint`，
--->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
     </section>
 
     <footer class="post-footer">
@@ -564,27 +467,23 @@ print lst
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/"><h4>Tsinghua 9ers Pictures</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/"><h4>Happy Mother&#39;s Day</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/happy-mothers-day/"><h4>Happy Mother&#39;s Day</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/05/10/tsinghua-9ers-pictures/"><h4>Tsinghua 9ers Pictures</h4></a></span>
       
   
 </aside>
@@ -593,42 +492,6 @@ print lst
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -637,7 +500,7 @@ print lst
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

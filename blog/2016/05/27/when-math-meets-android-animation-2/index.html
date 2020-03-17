@@ -5,7 +5,7 @@
        When Math meets Android Animation (2) &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" When Math meets Android Animation (2) &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/05/27/when-math-meets-android-animation-2/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,37 +159,24 @@
 
     <section class="post-content">
       <p>当数学遇上动画：讲述<code>ValueAnimator</code>、<code>TypeEvaluator</code>和<code>TimeInterpolator</code>之间的恩恩怨怨(2)</p>
-
 <p><a href="https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/">上一节</a>的结论是，<code>ValueAnimator</code>就是由<code>TimeInterpolator</code>和<code>TypeEvaluator</code>这两个简单函数组合而成的一个复合函数。如下图所示：</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/valueanimator_math.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/valueanimator_math.png" alt="img"></p>
 <p>上一节我们还将<code>TimeInterpolator</code>和<code>TypeEvaluator</code>看作是工厂流水线上的两个小员工，那么<code>ValueAnimator</code>就是车间主管，<code>TimeInterpolator</code>这个小员工面对的是产品的半成品，他负责控制半成品输出到下一个生产线的速度，而下一个生产线上的小员工<code>TypeEvaluator</code>的任务就是打磨半成品得到成品，最后将成品输出。</p>
-
 <p>本小节进一步深究<code>TimeInterpolator</code>和<code>TypeEvaluator</code>在动画实现过程中承担的作用以及它们之间的联系与差异。
-还是先说结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code><strong>&ldquo;单独&rdquo;</strong>来控制动画所产生的动画效果殊途同归！</p>
-
+还是先说结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code>**&ldquo;单独&rdquo;**来控制动画所产生的动画效果殊途同归！</p>
 <h3 id="1-两种特殊情况下的valueanimator"><strong>1 两种特殊情况下的ValueAnimator</strong></h3>
-
 <p>(1)上一节提到过，假设<code>TimeInterpolator</code>是<code>LinearInterpolator</code>（线性插值器，<strong>f(t)=t</strong>），也就是说时间比率不被“篡改”的话，那么<code>ValueAnimator</code>对应的函数其实就简化成了<code>TypeEvaluator</code>函数（<strong>F=g(x,a,b)=g(f(t),a,b)=g(t,a,b)</strong>），即动画实际上只由<code>TypeEvaluator</code>来控制。</p>
-
 <p>这里可以理解为，<code>TimeInterpolator</code>这个员工请假了，但是工厂为了不停止生产安排了一个自动机器人代替他的工作，它只会匀速地将半成品输入到下一个生产线。</p>
-
 <p>(2)同理，我们假设<code>TypeEvaluator</code>是<code>“LinearTypeEvaluator”</code>（线性估值器，并没有这个说法，所以加上引号，计算方式就是<strong>g(x,a,b)=a+x*(b-a)</strong>）的话，那么<code>ValueAnimator</code>对应的函数也可以简化，<strong>F=g(x,a,b)=g(f(t),a,b)=a+f(t)*(b-a)</strong>，即动画实际上只由<code>TimeInterpolator</code>来控制。</p>
-
 <p>同样的，这里可以理解为，<code>TypeEvaluator</code>这个员工请假了，默认也有个自动机器人采用默认的操作将半成品加工成最终成品输出。</p>
-
 <p>(3)综上所述，我们来思考上一节留下的问题，即<code>TimeInterpolator</code>和<code>TypeEvaluator</code>到底啥关系？
 其实<code>TimeInterpolator</code>是用来控制动画速度的，而<code>TypeEvaluator</code>是用来控制动画中值的变化曲线的。
 虽然它们本质的作用是不同的，但是它们两个既可以联手来控制动画，也可以<code>&quot;单独&quot;</code>来控制动画（<strong>并非真的单独，而是另一方有个默认操作</strong>）。
 单独控制动画的典型例子就是上一节提到的<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>和<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>，这两个项目对于制作动画起到殊途同归作用。</p>
-
 <p>为什么说<code>TimeInterpolator</code>和<code>TypeEvaluator</code>对于制作动画有着殊途同归的作用呢？
 不难想象，<strong>在某些定制的情况下，上面两种特殊情况下的构造出来的<code>ValueAnimator</code>所产生的动画效果是一样的！</strong>
 那如何来验证我们的这个结论呢？我们可以通过构造两个不同的特殊情况下的<code>ValueAnimator</code>来验证。</p>
-
 <p>下面的代码显示了两个<code>ValueAnimator</code>，都是在1s中内将float类型的数值从0变化到1。第一个<code>ValueAnimator</code>使用的是<code>LinearInterpolator</code>和自定义的<code>TypeEvaluator</code>，第二个<code>ValueAnimator</code>使用的是自定义的<code>TimeInterpolator</code>和<code>&quot;LinearTypeEvaluator&quot;</code>。打印输出的是两个<code>ValueAnimator</code>每次值变化的时候的大小。</p>
-
 <pre><code>ValueAnimator animator1 = new ValueAnimator();
 animator1.setFloatValues(0.0f, 1.0f);
 animator1.setDuration(1000);
@@ -253,22 +218,13 @@ animator2.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
 animator1.start();
 animator2.start();
-</code></pre>
-
-<p>打印输出的结果如下图所示，从图中可以看出，两个<code>ValueAnimator</code>的在真实时间序列中的输出结果是一样的，也就说明如果将它们作用在同一个View组件的某个属性上的话，那么产生的动画效果是完全一样的。例如，可以将两个<code>ValueAnimator</code>改成<code>ObjectAnimator</code>，并将其作用在两个不同的TextView的<code>translationY</code>属性上，你可以看到一样的动画效果。所以说，在特殊的单独控制动画的情况下，<code>TimeInterpolator</code>和<code>TypeEvaluator</code>对于制作动画有着殊途同归的作用。（注意结论的前提，那就是在我们理解了<code>ValueAnimator</code>内部动画原理之后自己定制的一些特殊情况，它们并非总是能够产生一样的动画效果）</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/valuaanimator.png" alt="img" /></p>
-
-<h3 id="2-简单动画实例分析-弹跳"><strong>2 简单动画实例分析：弹跳！</strong></h3>
-
+</code></pre><p>打印输出的结果如下图所示，从图中可以看出，两个<code>ValueAnimator</code>的在真实时间序列中的输出结果是一样的，也就说明如果将它们作用在同一个View组件的某个属性上的话，那么产生的动画效果是完全一样的。例如，可以将两个<code>ValueAnimator</code>改成<code>ObjectAnimator</code>，并将其作用在两个不同的TextView的<code>translationY</code>属性上，你可以看到一样的动画效果。所以说，在特殊的单独控制动画的情况下，<code>TimeInterpolator</code>和<code>TypeEvaluator</code>对于制作动画有着殊途同归的作用。（注意结论的前提，那就是在我们理解了<code>ValueAnimator</code>内部动画原理之后自己定制的一些特殊情况，它们并非总是能够产生一样的动画效果）</p>
+<p><img src="https://hujiaweibujidao.github.io/images/valuaanimator.png" alt="img"></p>
+<h3 id="2-简单动画实例分析弹跳"><strong>2 简单动画实例分析：弹跳！</strong></h3>
 <p>经过前面的分析，我们差不多理解了<code>ValueAnimator</code>是怎么借助<code>TimeInterpolator</code>和<code>TypeEvaluator</code>来实现动画的了。在实现动画的时候，为了简便，我们常常可以选择将<code>TimeInterpolator</code>设置为<code>LinearInterpolator</code>或者将<code>TypeEvaluator</code>设置为<code>&quot;LinearTypeEvaluator&quot;</code>这两种特殊的方式。</p>
-
 <p>举个栗子！假设我们要来实现弹跳的动画效果。首先我们要确定一个弹跳效果的函数曲线，自己想不太好想，我们先来看看项目<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>中的<code>EaseBounceOutInterpolator</code>内部表示的函数曲线的形态。如下图所示，它是一个分段函数，每个段内都是一个简单的二次曲线。如果将这个曲线作用在View组件的<code>translationY</code>属性上，那么组件将在垂直方向上来回地跳动从而就形成了弹跳的效果。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/bounce_curve.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/bounce_curve.png" alt="img"></p>
 <p>我们先看下<code>EaseBounceOutInterpolator</code>的核心方法<code>getInterpolation</code>的实现，它其实就是刻画了上面的函数曲线。</p>
-
 <pre><code>//传入的参数input就是动画的时间比率值fraction
 public float getInterpolation(float input) {
   if (input &lt; (1 / 2.75))
@@ -280,11 +236,8 @@ public float getInterpolation(float input) {
   else
     return (7.5625f * (input -= (2.625f / 2.75f)) * input + 0.984375f);
 }
-</code></pre>
-
-<p>我们再看下<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>项目中实现这个效果的Easing函数类<code>BounceEaseOut</code>，它继承自<code>BaseEasingMethod</code>，而<code>BaseEasingMethod</code>类实现了<code>TypeEvaluator</code>接口。
+</code></pre><p>我们再看下<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>项目中实现这个效果的Easing函数类<code>BounceEaseOut</code>，它继承自<code>BaseEasingMethod</code>，而<code>BaseEasingMethod</code>类实现了<code>TypeEvaluator</code>接口。
 <code>BounceEaseOut</code>类整理出来得到的核心方法<code>evaluate</code>的实现如下：</p>
-
 <pre><code>@Override
 public final Float evaluate(float fraction, Number startValue, Number endValue) {
     float t = mDuration * fraction;//已经过去的时间
@@ -302,12 +255,8 @@ public final Float evaluate(float fraction, Number startValue, Number endValue) 
         return c * (7.5625f * (t -= (2.625f / 2.75f)) * t + .984375f) + b;
     }
 }
-</code></pre>
-
-<p>仔细看下这两个函数的实现很不难发现，如果<code>EaseBounceOutInterpolator</code>+<code>&quot;LinearEvaluator&quot;</code>（IntEvaluator或者FloatEvaluator）得到的结果与<code>LinearInterpolator</code>+<code>BounceEaseOut</code>(TypeEvaluator)得到的结果是一样的啊！我们可以再写个例子作用在两个View上看下效果。</p>
-
+</code></pre><p>仔细看下这两个函数的实现很不难发现，如果<code>EaseBounceOutInterpolator</code>+<code>&quot;LinearEvaluator&quot;</code>（IntEvaluator或者FloatEvaluator）得到的结果与<code>LinearInterpolator</code>+<code>BounceEaseOut</code>(TypeEvaluator)得到的结果是一样的啊！我们可以再写个例子作用在两个View上看下效果。</p>
 <p>例子代码，作用在两个不同的TextView上的两个不同的ObjectAnimator：</p>
-
 <pre><code>//第一个ObjectAnimator
 final ObjectAnimator animator1 = new ObjectAnimator();
 animator1.setTarget(textView1);
@@ -357,20 +306,13 @@ animator2.setInterpolator(new TimeInterpolator() {//自定义的TimeInterpolator
 });
 animator2.setEvaluator(new FloatEvaluator());//使用&quot;线性估值器&quot;
 animator2.start();
-</code></pre>
-
-<p>接下来看下效果吧，两个动画效果一模一样，这下你相信我说的了吧？哈哈哈，殊途同归！</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/bounce_animation.gif" alt="img" /></p>
-
+</code></pre><p>接下来看下效果吧，两个动画效果一模一样，这下你相信我说的了吧？哈哈哈，殊途同归！</p>
+<p><img src="https://hujiaweibujidao.github.io/images/bounce_animation.gif" alt="img"></p>
 <p>其他的动画效果也是一样的，也就是说项目<a href="https://github.com/daimajia/AnimationEasingFunctions">AnimationEasingFunctions</a>和项目<a href="https://github.com/cimi-chen/EaseInterpolator">EaseInterpolator</a>本质上是差不多的，都是定义了一些动画效果对应的函数曲线。前者是将其封装成了TypeEvaluator，后者是将其封装成了Interpolator！
 （注：<code>Interpolator</code>继承自<code>TimeInterpolator</code>，而且接口内部是空的，所以和<code>TimeInterpolator</code>本质是一样的，它是为了兼容低版本而添加的。）</p>
-
-<p>本文只是想验证本文开头的结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code><strong>&ldquo;单独&rdquo;</strong>来控制动画所产生的动画效果殊途同归！当然，你肯定可以同时使用自定义的<code>TimeInterpolator</code>和自定义的<code>TypeEvaluator</code>结合来控制动画，但是很显然，这种情况下的动画不容易控制。
+<p>本文只是想验证本文开头的结论，借助<code>TimeInterpolator</code>或者<code>TypeEvaluator</code>**&ldquo;单独&rdquo;**来控制动画所产生的动画效果殊途同归！当然，你肯定可以同时使用自定义的<code>TimeInterpolator</code>和自定义的<code>TypeEvaluator</code>结合来控制动画，但是很显然，这种情况下的动画不容易控制。
 从数学中函数的角度上来说那就是复合函数肯定比简单函数复杂，我们解决问题的时候要可能化繁为简，所以自然会考虑将<code>ValueAnimator</code>这个复杂函数简化成特殊情况下的简单函数<code>TimeInterpolator</code>或者<code>TypeEvaluator</code>来处理对吧？</p>
-
 <p>关于<code>ValueAnimator</code>和<code>TimeInterpolator</code>、<code>TypeEvaluator</code>之间的恩恩怨怨讲到这里其实已经讲得差不多了，猜猜下一节我会说啥？~(≧▽≦)/~</p>
-
 <p>请继续看<a href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/">下一节</a>。</p>
     </section>
 
@@ -392,27 +334,23 @@ animator2.start();
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/"><h4>When Math meets Android Animation (1)</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/"><h4>When Math meets Android Animation (3)</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/28/when-math-meets-android-animation-3/"><h4>When Math meets Android Animation (3)</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/05/26/when-math-meets-android-animation-1/"><h4>When Math meets Android Animation (1)</h4></a></span>
       
   
 </aside>
@@ -421,42 +359,6 @@ animator2.start();
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -465,7 +367,7 @@ animator2.start();
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

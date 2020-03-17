@@ -5,7 +5,7 @@
        Fab and Dialog Morphing Animation &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Fab and Dialog Morphing Animation &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/12/13/fab-and-dialog-morphing-animation/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,43 +158,29 @@
     </header>
 
     <section class="post-content">
-      <p>Fab and Dialog Morphing Animation on Android. </p>
-
+      <p>Fab and Dialog Morphing Animation on Android.</p>
 <p>最近在读<a href="https://github.com/nickbutcher/plaid">Plaid</a>的源码，发现fab和dialog之间切换的动画效果好舒服，于是就研究了下，将其从Plaid项目中抽离出来，然后再改进了些代码，更加方便易懂，也更加简单易用。效果如下，<a href="https://github.com/hujiaweibujidao/FabDialogMorph">项目源码地址</a></p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/fabdialog.gif" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/fabdialog.gif" alt="image"></p>
 <h4 id="实现原理分析">实现原理分析</h4>
-
 <p>1.在前面的<a href="https://hujiaweibujidao.github.io/blog/2015/11/29/android-heroes-reading-notes-5/">《Android群英传》的读书笔记</a>中提到过Activity共享元素过渡动画的实现方式</p>
-
 <p><strong>共享元素过渡动画</strong>：一个共享元素过渡动画决定两个Activity之间的过渡怎么共享它们的视图，包括了
 <code>changeBounds</code>：改变目标视图的布局边界；
 <code>changeClipBounds</code>：裁剪目标视图的边界；
 <code>changeTransform</code>：改变目标视图的缩放比例和旋转角度；
 <code>changeImageTransform</code>：改变目标图片的大小和缩放比例。
 使用方式：假设Activity从A跳转到B，那么将A中原来的<code>startActivity</code>改为如下代码：</p>
-
 <pre><code>//单个共享元素的调用方式
 startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this, view, &quot;share&quot;).toBundle());
 //多个共享元素的调用方式
 startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(this,
                 Pair.create(view, &quot;share&quot;),
                 Pair.create(fab, &quot;fab&quot;)).toBundle());
-</code></pre>
-
-<p>然后在B的onCreate方法中添加如下代码：</p>
-
+</code></pre><p>然后在B的onCreate方法中添加如下代码：</p>
 <pre><code>//声明需要开启Activity过渡动画
 getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-</code></pre>
-
-<p>其次还要在Activity A和B的布局文件中为共享元素组件添加<code>android:transitionName=&quot;xxx&quot;</code>属性。</p>
-
+</code></pre><p>其次还要在Activity A和B的布局文件中为共享元素组件添加<code>android:transitionName=&quot;xxx&quot;</code>属性。</p>
 <p>2.源码中的Dialog实际上是Activity，并设置了<code>android:windowIsTranslucent</code>为<code>true</code>，所以从fab到dialog的动画效果实际上是Activity的过渡动画。但是，如果单纯的只是使用Activity的共享元素过渡动画，将fab作为共享元素的话，效果并不好，不是那么的舒服。</p>
-
 <p>3.为了让过渡效果更加舒服，这里添加了两个渐变效果，一个是<code>color</code>，从fab的颜色到dialog的背景颜色的渐变；另一个是<code>cornerRadius</code>，即圆角幅度的渐变。请看下面的代码实现：</p>
-
 <pre><code>/**
  * MorphTransition扩展自ChangeBounds(共享元素的动画的一种)，它在原有动画基础上添加了color和cornerRadius的动画效果，这个类实际上是整合了MorphFabToDialog和MorphDialogToFab两个类的作用
  * &lt;p/&gt;
@@ -328,10 +292,7 @@ public class MorphTransition extends ChangeBounds {
         this.isShowViewGroup = isShowViewGroup;
     }
 }
-</code></pre>
-
-<p>4.上面的代码中用到了<code>MorphDrawable</code>类，它继承自<code>Drawable</code>，并添加了前面提到的那两个属性以用于产生属性动画，默认是没有为那两个属性添加<code>set/get</code>方法的，所以需要进行扩展。关于属性动画可以看<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">以前的读书笔记</a>，重要代码如下：</p>
-
+</code></pre><p>4.上面的代码中用到了<code>MorphDrawable</code>类，它继承自<code>Drawable</code>，并添加了前面提到的那两个属性以用于产生属性动画，默认是没有为那两个属性添加<code>set/get</code>方法的，所以需要进行扩展。关于属性动画可以看<a href="https://hujiaweibujidao.github.io/blog/2015/11/27/android-heroes-reading-notes-3/">以前的读书笔记</a>，重要代码如下：</p>
 <pre><code>/**
  * 形态和颜色可以发生变化的Drawable，形态变化是通过cornerRadius来实现的，颜色变化是通过paint的color来实现的
  * 该类在Drawable的基础上添加了cornerRadius和color两个属性，前者是float类型，后者是int类型
@@ -423,10 +384,7 @@ public class MorphDrawable extends Drawable {
     }
 
 }
-</code></pre>
-
-<p>5.有了前面的准备之后，就可以在dialog中配置进入和退出的动画效果了，重要代码如下：</p>
-
+</code></pre><p>5.有了前面的准备之后，就可以在dialog中配置进入和退出的动画效果了，重要代码如下：</p>
 <pre><code>//DialogActivity.java
 public void setupSharedEelementTransitions2() {
     ArcMotion arcMotion = new ArcMotion();
@@ -453,10 +411,7 @@ public void setupSharedEelementTransitions2() {
     getWindow().setSharedElementEnterTransition(sharedEnter);
     getWindow().setSharedElementReturnTransition(sharedReturn);
 }
-</code></pre>
-
-<p>6.从上面的分析可以看出，这个方案比较容易扩展，只要是该类型的动画，使用开始和结束时的对应颜色和圆角值就可以构造相应的<code>MorphTransition</code>，将<code>MorphTransition</code>设置为Activity的进入或者退化动画即可生效啦。同理，如果有类似共享元素过渡动画效果的时候，也就知道应该做哪些步骤来实现它啦，看Plaid真是受益匪浅啊，推荐大家一起看。</p>
-
+</code></pre><p>6.从上面的分析可以看出，这个方案比较容易扩展，只要是该类型的动画，使用开始和结束时的对应颜色和圆角值就可以构造相应的<code>MorphTransition</code>，将<code>MorphTransition</code>设置为Activity的进入或者退化动画即可生效啦。同理，如果有类似共享元素过渡动画效果的时候，也就知道应该做哪些步骤来实现它啦，看Plaid真是受益匪浅啊，推荐大家一起看。</p>
 <p>以上是我的分析和理解，有任何问题欢迎大家指点 ↖(^ω^)↗</p>
     </section>
 
@@ -478,27 +433,23 @@ public void setupSharedEelementTransitions2() {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/"><h4>Plaid Source Reading Notes</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/"><h4>Things of Math</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/"><h4>Things of Math</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/11/plaid-source-reading-notes/"><h4>Plaid Source Reading Notes</h4></a></span>
       
   
 </aside>
@@ -507,42 +458,6 @@ public void setupSharedEelementTransitions2() {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -551,7 +466,7 @@ public void setupSharedEelementTransitions2() {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

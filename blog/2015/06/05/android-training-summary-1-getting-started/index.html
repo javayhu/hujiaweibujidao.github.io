@@ -5,7 +5,7 @@
        Android Training Summary (1) Getting Started &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Android Training Summary (1) Getting Started &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,97 +158,70 @@
     </header>
 
     <section class="post-content">
-      <p><a href="http://developer.android.com/training/index.html">Android Training</a> 中Getting Started部分的阅读笔记 </p>
-
+      <p><a href="http://developer.android.com/training/index.html">Android Training</a> 中Getting Started部分的阅读笔记</p>
 <p>最近打算把<a href="http://developer.android.com/training/index.html">Android Training</a>中的文章都读一遍，然后摘录下其中某些内容，这些内容对我而言可能是我不知道或者知道得不具体或者我觉得很重要的内容，所以纯粹是个人的阅读摘要，以备后用，如果感兴趣可以读下。</p>
-
 <h3 id="第一部分-getting-started">第一部分 Getting Started</h3>
-
-<h4 id="1-building-your-first-app">1.Building Your First App</h4>
-
+<h4 id="1building-your-first-app">1.Building Your First App</h4>
 <p>简单演示使用Android Studio创建和运行一个android项目</p>
-
-<h4 id="2-adding-the-action-bar">2.Adding the Action Bar</h4>
-
+<h4 id="2adding-the-action-bar">2.Adding the Action Bar</h4>
 <p>添加Action Bar，给它设置样式等，可以参考以前的博文<a href="https://hujiaweibujidao.github.io/blog/2015/06/01/android-ui-1-actionbar/">Android ActionBar</a></p>
-
-<h4 id="3-supporting-different-devices">3.Supporting Different Devices</h4>
-
+<h4 id="3supporting-different-devices">3.Supporting Different Devices</h4>
 <p>如何支持不同的语言、屏幕大小、系统版本
 <a href="http://developer.android.com/about/dashboards/index.html">关于Android各个系统版本和屏幕大小的市场占有率情况</a></p>
-
-<h4 id="4-managing-the-activity-lifecycle">4.Managing the Activity Lifecycle</h4>
-
+<h4 id="4managing-the-activity-lifecycle">4.Managing the Activity Lifecycle</h4>
 <p>Activity的生命周期图</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/basic-lifecycle.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/basic-lifecycle.png" alt="image"></p>
 <p>(1)处理好Activity的生命周期需要做到
-Does not crash if the user receives a phone call or switches to another app while using your app.<br />
-Does not consume valuable system resources when the user is not actively using it.<br />
-Does not lose the user&rsquo;s progress if they leave your app and return to it at a later time.<br />
+Does not crash if the user receives a phone call or switches to another app while using your app.    <br>
+Does not consume valuable system resources when the user is not actively using it.   <br>
+Does not lose the user&rsquo;s progress if they leave your app and return to it at a later time.  <br>
 Does not crash or lose the user&rsquo;s progress when the screen rotates between landscape and portrait orientation.</p>
-
 <p>(2)一种特殊的在调用<code>onDestroy</code>方法之前不调用<code>onPause</code>和<code>onStop</code>的情况
-<strong>Note: The system calls <code>onDestroy()</code><code>after it has already called</code>onPause()<code>and</code>onStop()<code>in all situations except one: when you call</code>finish()<code>from within the</code>onCreate()<code>method. In some cases, such as when your activity operates as a temporary decision maker to launch another activity, you might call</code>finish()<code>from within</code>onCreate()<code>to destroy the activity. In this case, the system immediately calls</code>onDestroy()` without calling any of the other lifecycle methods.</strong></p>
-
+<strong>Note: The system calls <code>onDestroy()`` after it has already called </code>onPause()<code>and</code>onStop()<code>in all situations except one: when you call</code>finish()<code>from within the</code>onCreate()<code>method. In some cases, such as when your activity operates as a temporary decision maker to launch another activity, you might call</code>finish()<code>from within</code>onCreate()<code>to destroy the activity. In this case, the system immediately calls</code>onDestroy()` without calling any of the other lifecycle methods.</strong></p>
 <p>(3)在<code>onPause</code>回调函数中一般要做以下几件事
-Stop animations or other ongoing actions that could consume CPU.<br />
-Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave (such as a draft email).<br />
+Stop animations or other ongoing actions that could consume CPU.   <br>
+Commit unsaved changes, but only if users expect such changes to be permanently saved when they leave (such as a draft email).    <br>
 Release system resources, such as broadcast receivers, handles to sensors (like GPS), or any resources that may affect battery life while your activity is paused and the user does not need them.</p>
-
 <p>(4)几种典型的Activity先stop然后restart的情况
 The user opens the Recent Apps window and switches from your app to another app. The activity in your app that&rsquo;s currently in the foreground is stopped. If the user returns to your app from the Home screen launcher icon or the Recent Apps window, the activity restarts.</p>
-
 <p>The user performs an action in your app that starts a new activity. The current activity is stopped when the second activity is created. If the user then presses the Back button, the first activity is restarted.</p>
-
 <p>The user receives a phone call while using your app on his or her phone.</p>
-
 <p>(5)如果Activity是在已经stop之后被系统销毁了，那么当Activity重新进入的时候View组件的状态会被系统自动恢复，例如之前用户写在EditText中的文本，但是其他的数据信息并不会恢复，如果希望保存然后恢复其他数据请看(6)。
 <strong>Note: Even if the system destroys your activity while it&rsquo;s stopped, it still retains the state of the <code>View</code> objects (such as text in an <code>EditText</code>) in a <code>Bundle</code> (a blob of key-value pairs) and restores them if the user navigates back to the same instance of the activity (the next lesson talks more about using a <code>Bundle</code> to save other state data in case your activity is destroyed and recreated).</strong></p>
-
 <p>(6)如果Activity是系统因为资源不够了而被系统杀死的话，系统在杀死Activity之前会调用<code>onSaveInstanceState()</code>方法使用键值对形式的Bundle将当前Activity中的某些重要数据保存起来，然后在Activity重建的时候调用<code>onRestoreInstanceState()</code>恢复数据。
 <strong>When your activity is destroyed because the user presses Back or the activity finishes itself, the system&rsquo;s concept of that Activity instance is gone forever because the behavior indicates the activity is no longer needed. However, if the system destroys the activity due to system constraints (rather than normal app behavior), then although the actual Activity instance is gone, the system remembers that it existed such that if the user navigates back to it, the system creates a new instance of the activity using a set of saved data that describes the state of the activity when it was destroyed. The saved data that the system uses to restore the previous state is called the &ldquo;instance state&rdquo; and is a collection of key-value pairs stored in a <code>Bundle</code> object.</strong></p>
-
 <p>如果我们将数据恢复的代码片段放在<code>onCreat</code>方法中的话需要判断<code>Bundle</code>是否为空，但是如果我们将数据恢复的代码片段放在<code>onRestoreInstanceState</code>方法中的话就不用了，这个方法在<code>onStart</code>方法之后被调用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//1
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Override</span>
+<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onCreate</span><span style="color:#f92672">(</span>savedInstanceState<span style="color:#f92672">);</span> <span style="color:#75715e">// Always call the superclass first
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Check whether we&#39;re recreating a previously destroyed instance
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>savedInstanceState <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Restore value of members from saved state
+</span><span style="color:#75715e"></span>        mCurrentScore <span style="color:#f92672">=</span> savedInstanceState<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span>STATE_SCORE<span style="color:#f92672">);</span>
+        mCurrentLevel <span style="color:#f92672">=</span> savedInstanceState<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span>STATE_LEVEL<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+        <span style="color:#75715e">// Probably initialize members with default values for a new instance
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
+    <span style="color:#f92672">...</span>
+<span style="color:#f92672">}</span>
 
-<pre><code class="language-java">//1
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState); // Always call the superclass first
+<span style="color:#75715e">//2
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onRestoreInstanceState</span><span style="color:#f92672">(</span>Bundle savedInstanceState<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e">// Always call the superclass so it can restore the view hierarchy
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">onRestoreInstanceState</span><span style="color:#f92672">(</span>savedInstanceState<span style="color:#f92672">);</span>
 
-    // Check whether we're recreating a previously destroyed instance
-    if (savedInstanceState != null) {
-        // Restore value of members from saved state
-        mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
-        mCurrentLevel = savedInstanceState.getInt(STATE_LEVEL);
-    } else {
-        // Probably initialize members with default values for a new instance
-    }
-    ...
-}
-
-//2
-public void onRestoreInstanceState(Bundle savedInstanceState) {
-    // Always call the superclass so it can restore the view hierarchy
-    super.onRestoreInstanceState(savedInstanceState);
-
-    // Restore state members from saved instance
-    mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
-    mCurrentLevel = savedInstanceState.getInt(STATE_LEVEL);
-}
-</code></pre>
-
-<h4 id="5-building-a-dynamic-ui-with-fragments">5.Building a Dynamic UI with Fragments</h4>
-
+    <span style="color:#75715e">// Restore state members from saved instance
+</span><span style="color:#75715e"></span>    mCurrentScore <span style="color:#f92672">=</span> savedInstanceState<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span>STATE_SCORE<span style="color:#f92672">);</span>
+    mCurrentLevel <span style="color:#f92672">=</span> savedInstanceState<span style="color:#f92672">.</span><span style="color:#a6e22e">getInt</span><span style="color:#f92672">(</span>STATE_LEVEL<span style="color:#f92672">);</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h4 id="5building-a-dynamic-ui-with-fragments">5.Building a Dynamic UI with Fragments</h4>
 <p>Fragment可以认为是一个能在不同Activity中复用的“子Activity”，它有自己的生命周期，而且它的生命周期依赖于Activity的生命周期。
 (1)如果要兼容Android低版本系统(例如Android 1.6)，那么需要继承Support Library中的Fragment；如果你的应用的最低系统版本是Android 3.0(API level=11)的话就没有必要了，直接使用Fragment即可，需要注意的是两个Fragment API在某些方法上有略微的区别。
 (2)FragmentActivity是Support Library中用来支持Android 3.0之前系统的处理Fragment的特殊Activity，如果你的应用的最低系统版本是Android 3.0(API level=11)的话就直接使用Activity即可。</p>
-
 <p><strong>Note: <code>FragmentActivity</code> is a special activity provided in the Support Library to handle fragments on system versions older than API level 11. If the lowest system version you support is API level 11 or higher, then you can use a regular <code>Activity</code>.</strong></p>
-
 <p>(3)Fragment可以直接在XML中插入到Activity中，但是这样的话运行时就没有办法改变了，如下代码所示：</p>
-
 <pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
     android:orientation=&quot;horizontal&quot;
     android:layout_width=&quot;fill_parent&quot;
@@ -289,23 +240,14 @@ public void onRestoreInstanceState(Bundle savedInstanceState) {
               android:layout_height=&quot;match_parent&quot; /&gt;
 
 &lt;/LinearLayout&gt;
-</code></pre>
-
-<p>(4)如果希望能够在运行时添加、修改或者删除Fragment的话，可以使用<code>FragmentManager</code>来管理Fragment，并使用<code>FragmentTransaction</code>来操作Fragment的变化。
+</code></pre><p>(4)如果希望能够在运行时添加、修改或者删除Fragment的话，可以使用<code>FragmentManager</code>来管理Fragment，并使用<code>FragmentTransaction</code>来操作Fragment的变化。
 添加Fragment的方式：</p>
-
 <pre><code>// Add the fragment to the 'fragment_container' FrameLayout
 getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, firstFragment).commit();
-</code></pre>
-
-<p>替换Fragment需要注意，如果希望用户能够在Fragment替换之后回退到之前的Fragment的话需要在FragmentTransaction提交之前调用<code>addToBackStack()</code>。</p>
-
+</code></pre><p>替换Fragment需要注意，如果希望用户能够在Fragment替换之后回退到之前的Fragment的话需要在FragmentTransaction提交之前调用<code>addToBackStack()</code>。</p>
 <p><strong>Keep in mind that when you perform fragment transactions, such as replace or remove one, it&rsquo;s often appropriate to allow the user to navigate backward and &ldquo;undo&rdquo; the change. To allow the user to navigate backward through the fragment transactions, you must call <code>addToBackStack()</code> before you commit the FragmentTransaction.</strong></p>
-
 <p><strong>Note: When you remove or replace a fragment and add the transaction to the back stack, the fragment that is removed is stopped (not destroyed). If the user navigates back to restore the fragment, it restarts. If you do not add the transaction to the back stack, then the fragment is destroyed when removed or replaced.</strong></p>
-
 <p><strong>The addToBackStack() method takes an optional string parameter that specifies a unique name for the transaction. The name isn&rsquo;t needed unless you plan to perform advanced fragment operations using the FragmentManager.BackStackEntry APIs.</strong></p>
-
 <pre><code>// Create fragment and give it an argument specifying the article it should show
 ArticleFragment newFragment = new ArticleFragment();
 Bundle args = new Bundle();
@@ -321,18 +263,11 @@ transaction.addToBackStack(null);
 
 // Commit the transaction
 transaction.commit();
-</code></pre>
-
-<h4 id="6-saving-data">6.Saving Data</h4>
-
+</code></pre><h4 id="6saving-data">6.Saving Data</h4>
 <p>(1)得到SharedPreference</p>
-
 <p>一个SharedPreference实际上对应了一个文件，其中保存了一些键值对信息，SharedPreference提供了简便的方法来读取和写入键值对信息。</p>
-
 <p><strong><code>getSharedPreferences()</code> — Use this if you need multiple shared preference files identified by name, which you specify with the first parameter. You can call this from any Context in your app.</strong></p>
-
 <p><strong><code>getPreferences()</code> — Use this from an Activity if you need to use only one shared preference file for the activity. Because this retrieves a default shared preference file that belongs to the activity, you don&rsquo;t need to supply a name.</strong></p>
-
 <pre><code>//1
 Context context = getActivity();
 SharedPreferences sharedPref = context.getSharedPreferences(
@@ -340,10 +275,7 @@ SharedPreferences sharedPref = context.getSharedPreferences(
 
 //2
 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-</code></pre>
-
-<p>操作键值对</p>
-
+</code></pre><p>操作键值对</p>
 <pre><code>//write
 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 SharedPreferences.Editor editor = sharedPref.edit();
@@ -354,24 +286,16 @@ editor.commit();
 SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
 int defaultValue = getResources().getInteger(R.string.saved_high_score_default);
 long highScore = sharedPref.getInt(getString(R.string.saved_high_score), defaultValue);
-</code></pre>
-
-<p>(2)Saving Files
+</code></pre><p>(2)Saving Files
 Android系统的内部存储和外部存储的区别</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/android_storage.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/android_storage.png" alt="image"></p>
 <p>在Manifest文件中使用<code>android:installLocation</code>属性可以设置应用安装时的安装目的地。</p>
-
 <p>(3)保存到内部存储
-<code>getFilesDir()</code>: Returns a File representing an internal directory for your app.<br />
+<code>getFilesDir()</code>: Returns a File representing an internal directory for your app.      <br>
 <code>getFilesDir()</code>得到应用在内部存储中的一个目录，路径一般是<code>/data/data/{package_name}/files</code></p>
-
-<p><code>getCacheDir()</code>:Returns a File representing an internal directory for your app&rsquo;s temporary cache files. <strong>Be sure to delete each file once it is no longer needed and implement a reasonable size limit for the amount of memory you use at any given time, such as 1MB. If the system begins running low on storage, it may delete your cache files without warning.</strong><br />
+<p><code>getCacheDir()</code>:Returns a File representing an internal directory for your app&rsquo;s temporary cache files. <strong>Be sure to delete each file once it is no longer needed and implement a reasonable size limit for the amount of memory you use at any given time, such as 1MB. If the system begins running low on storage, it may delete your cache files without warning.</strong>    <br>
 <code>getCacheDir()</code>得到应用在内部存储中的缓存目录，，路径一般是<code>/data/data/{package_name}/cache</code>。如果系统运行时内部存储不够了的话，可能会删除某些缓存文件，而且不会提醒。</p>
-
 <p>(4)快捷方法<code>openFileOutput()</code>和<code>openFileInput()</code>以及<code>createTempFile()</code></p>
-
 <pre><code>public File getTempFile(Context context, String url) {
     File file;
     try {
@@ -382,11 +306,8 @@ Android系统的内部存储和外部存储的区别</p>
     }
     return file;
 }
-</code></pre>
-
-<p>(5)保存到外部存储
+</code></pre><p>(5)保存到外部存储
 首先要检查外部存储的当前状态，如果SD卡已经拔出或者外存已经挂载到PC上了的时候外存是不可用的。</p>
-
 <pre><code>/* Checks if external storage is available for read and write */
 public boolean isExternalStorageWritable() {
     String state = Environment.getExternalStorageState();
@@ -405,18 +326,13 @@ public boolean isExternalStorageReadable() {
     }
     return false;
 }
-</code></pre>
-
-<p><code>Public files</code><br />
-Files that should be freely available to other apps and to the user. When the user uninstalls your app, these files should remain available to the user. For example, photos captured by your app or other downloaded files.<br />
+</code></pre><p><code>Public files</code>    <br>
+Files that should be freely available to other apps and to the user. When the user uninstalls your app, these files should remain available to the user. For example, photos captured by your app or other downloaded files.  <br>
 <code>Public files</code>是指外存中的公共目录，这些目录对任何应用和用户都可用，其中的文件在应用被卸载的时候是不会被删除的。</p>
-
-<p><code>Private files</code><br />
-Files that rightfully belong to your app and should be deleted when the user uninstalls your app. Although these files are technically accessible by the user and other apps because they are on the external storage, they are files that realistically don&rsquo;t provide value to the user outside your app. When the user uninstalls your app, the system deletes all files in your app&rsquo;s external private directory.For example, additional resources downloaded by your app or temporary media files.<br />
+<p><code>Private files</code>   <br>
+Files that rightfully belong to your app and should be deleted when the user uninstalls your app. Although these files are technically accessible by the user and other apps because they are on the external storage, they are files that realistically don&rsquo;t provide value to the user outside your app. When the user uninstalls your app, the system deletes all files in your app&rsquo;s external private directory.For example, additional resources downloaded by your app or temporary media files.    <br>
 <code>Private files</code>是指外存中的应用的私有目录，当应用卸载的时候系统会删除该目录下的文件。</p>
-
 <p><strong>一些内部存储和外部存储的路径的获取方式</strong></p>
-
 <pre><code>Log.e(TAG, &quot;getFilesDir()=&quot; + getFilesDir().getAbsolutePath());
 //getFilesDir()=/data/data/hujiaweibujidao.polarisdemo/files
 
@@ -434,36 +350,22 @@ Log.e(TAG, &quot;getExternalFilesDir()=&quot; + this.getExternalFilesDir(Environ
 
 Log.e(TAG, &quot;getExternalCacheDir()=&quot; + this.getExternalCacheDir().getAbsolutePath());
 //getExternalCacheDir()=/storage/emulated/0/Android/data/hujiaweibujidao.polarisdemo/cache
-</code></pre>
-
-<p>(6)使用API中的常量例如<code>DIRECTORY_PICTURES</code>来给目录命名，这样的话系统就会自动正确地识别目录内文件的格式</p>
-
+</code></pre><p>(6)使用API中的常量例如<code>DIRECTORY_PICTURES</code>来给目录命名，这样的话系统就会自动正确地识别目录内文件的格式</p>
 <p><strong>Regardless of whether you use <code>getExternalStoragePublicDirectory()</code> for files that are shared or <code>getExternalFilesDir()</code> for files that are private to your app, it&rsquo;s important that you use directory names provided by API constants like <code>DIRECTORY_PICTURES</code>. These directory names ensure that the files are treated properly by the system. For instance, files saved in <code>DIRECTORY_RINGTONES</code> are categorized by the system media scanner as ringtones instead of music.</strong></p>
-
 <p>(7)获取当前可用的存储空间大小和总共的存储空间大小的方法分别是<code>getFreeSpace()</code>和<code>getTotalSpace()</code>，如果你大概知道要保存的文件的大小你可以调用这些有用的方法判断空间是否足够，但是如果你不知道的话，那就只能尝试保存文件，如果空间不够的话会捕捉到<code>IOException</code>。此外，如果你要保存的文件的大小小于<code>getFreeSpace()</code>返回的大小也不一定能够成功保存文件。</p>
-
 <p><strong>However, the system does not guarantee that you can write as many bytes as are indicated by getFreeSpace(). If the number returned is a few MB more than the size of the data you want to save, or if the file system is less than 90% full, then it&rsquo;s probably safe to proceed. Otherwise, you probably shouldn&rsquo;t write to storage.</strong></p>
-
 <p>(8)删除文件</p>
-
 <pre><code>//1
 myFile.delete();
 
 //2
 myContext.deleteFile(fileName);
-</code></pre>
-
-<p>当应用被卸载时，系统会删除下面的目录：(1)应用的内部存储；(2)应用使用<code>getExternalFilesDir()</code>方式保存的文件。需要注意的是，你需要自己处理删除<code>getCacheDir()</code>目录下的文件。</p>
-
+</code></pre><p>当应用被卸载时，系统会删除下面的目录：(1)应用的内部存储；(2)应用使用<code>getExternalFilesDir()</code>方式保存的文件。需要注意的是，你需要自己处理删除<code>getCacheDir()</code>目录下的文件。</p>
 <p>(9)保存数据到数据库中
 <a href="http://developer.android.com/training/basics/data-storage/databases.html">Saving Data in SQL Databases</a></p>
-
 <p><strong>更多的关于Android Storage的内容可以看<a href="http://developer.android.com/guide/topics/data/data-storage.html">Storage Options</a></strong></p>
-
-<h4 id="7-interacting-with-other-apps">7.Interacting with Other Apps</h4>
-
+<h4 id="7interacting-with-other-apps">7.Interacting with Other Apps</h4>
 <p>(1)Intent有显式和隐式两种，其中给隐式Intent设置参数的方式有下面几种不同的方式</p>
-
 <pre><code>//1.uri
 Uri number = Uri.parse(&quot;tel:5551234&quot;);
 Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
@@ -496,18 +398,12 @@ calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTi
 calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis());
 calendarIntent.putExtra(Events.TITLE, &quot;Ninja class&quot;);
 calendarIntent.putExtra(Events.EVENT_LOCATION, &quot;Secret dojo&quot;);
-</code></pre>
-
-<p>(2)判断是否有应用能够接收这个Intent的方法<code>queryIntentActivities()</code>，如果没有应用能够接收而直接invoke这个Intent的话会导致应用崩溃的。</p>
-
+</code></pre><p>(2)判断是否有应用能够接收这个Intent的方法<code>queryIntentActivities()</code>，如果没有应用能够接收而直接invoke这个Intent的话会导致应用崩溃的。</p>
 <pre><code>PackageManager packageManager = getPackageManager();
 List activities = packageManager.queryIntentActivities(intent,
         PackageManager.MATCH_DEFAULT_ONLY);
 boolean isIntentSafe = activities.size() &gt; 0;
-</code></pre>
-
-<p>(3)如果有多个应用能够处理这个隐式Intent的话，一般<code>startActivity</code>的话会出现一个选择对话框。这里有两种情况：一种情况是，用户一般会选择某个默认的自己喜欢的应用来打开这类隐式Intent，例如使用Chrome来打开某个网址，而不是使用其他的浏览器；另一种情况是，用户每次都可能会选择某一个不同的应用来处理，例如分享内容，这次可能选择微博，下次可能选择微信，所以这种情况下需要使用<code>Intent.createChooser</code>。</p>
-
+</code></pre><p>(3)如果有多个应用能够处理这个隐式Intent的话，一般<code>startActivity</code>的话会出现一个选择对话框。这里有两种情况：一种情况是，用户一般会选择某个默认的自己喜欢的应用来打开这类隐式Intent，例如使用Chrome来打开某个网址，而不是使用其他的浏览器；另一种情况是，用户每次都可能会选择某一个不同的应用来处理，例如分享内容，这次可能选择微博，下次可能选择微信，所以这种情况下需要使用<code>Intent.createChooser</code>。</p>
 <pre><code>//1
 // Build the intent
 Uri location = Uri.parse(&quot;geo:0,0?q=1600+Amphitheatre+Parkway,+Mountain+View,+California&quot;);
@@ -537,13 +433,9 @@ Intent chooser = Intent.createChooser(intent, title);
 if (intent.resolveActivity(getPackageManager()) != null) {
     startActivity(chooser);
 }
-</code></pre>
-
-<p>(4)添加Intent-Filter
+</code></pre><p>(4)添加Intent-Filter
 如果希望其他的应用程序能够启动我们的Activity，那么我们需要给我们的Activity定义Intent-Filter，定义Intent-Filter一般是要设置action、data和category三个参数</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/intent_filter.png" alt="image" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/intent_filter.png" alt="image"></p>
 <pre><code>//demo 1
 &lt;activity android:name=&quot;ShareActivity&quot;&gt;
     &lt;intent-filter&gt;
@@ -571,10 +463,7 @@ if (intent.resolveActivity(getPackageManager()) != null) {
         &lt;data android:mimeType=&quot;text/plain&quot;/&gt;
     &lt;/intent-filter&gt;
 &lt;/activity&gt;
-</code></pre>
-
-<p>启动另一个Activity之后默认返回的结果码是<code>RESULT_CANCELED</code>，此外，我们没有必要查看Activity是通过<code>startActivity()</code>还是通过<code>startActivityForResult()</code>启动的，只需要设置结果即可，如果是通过<code>startActivityForResult()</code>启动的Activity的话，系统会将结果传递给原来的Activity，否则结果就会被忽略。</p>
-
+</code></pre><p>启动另一个Activity之后默认返回的结果码是<code>RESULT_CANCELED</code>，此外，我们没有必要查看Activity是通过<code>startActivity()</code>还是通过<code>startActivityForResult()</code>启动的，只需要设置结果即可，如果是通过<code>startActivityForResult()</code>启动的Activity的话，系统会将结果传递给原来的Activity，否则结果就会被忽略。</p>
 <p><strong>Note: There&rsquo;s no need to check whether your activity was started with <code>startActivity()</code> or <code>startActivityForResult()</code>. Simply call <code>setResult()</code> if the intent that started your activity might expect a result. If the originating activity had called <code>startActivityForResult()</code>, then the system delivers it the result you supply to <code>setResult()</code>; otherwise, the result is ignored.</strong></p>
     </section>
 
@@ -596,27 +485,23 @@ if (intent.resolveActivity(getPackageManager()) != null) {
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/"><h4>Head First Android Toolbar</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/"><h4>Fix Homebrew for OS X 10.10 Yosemite</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/"><h4>Fix Homebrew for OS X 10.10 Yosemite</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/02/head-first-android-toolbar/"><h4>Head First Android Toolbar</h4></a></span>
       
   
 </aside>
@@ -625,42 +510,6 @@ if (intent.resolveActivity(getPackageManager()) != null) {
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -669,7 +518,7 @@ if (intent.resolveActivity(getPackageManager()) != null) {
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

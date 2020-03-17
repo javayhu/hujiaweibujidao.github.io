@@ -5,7 +5,7 @@
        Fix Homebrew for OS X 10.10 Yosemite &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Fix Homebrew for OS X 10.10 Yosemite &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2015/06/12/fix-homebrew-for-os-x-10.10-yosemite/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,22 +159,16 @@
 
     <section class="post-content">
       <p>本文主要解决系统升级到OS X 10.10 Yosemite后Homebrew出现的一些问题。</p>
-
 <p>不记得自己是什么时候将系统升级到Yosemite了，后来也不记得怎么配置系统的环境了，最近发现Homebrew总是出现问题，运行<code>brew update</code>总是报错，于是今天查了下文档解决了下这个问题。</p>
-
 <p>首先的报错内容如下</p>
-
-<pre><code class="language-python">hujiawei-MBPR:~ hujiawei$ brew update
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">hujiawei<span style="color:#f92672">-</span>MBPR:<span style="color:#f92672">~</span> hujiawei<span style="color:#960050;background-color:#1e0010">$</span> brew update
 error: Your local changes to the following files would be overwritten by merge:
-	Library/Formula/jasper.rb
-	Library/brew.rb
-Please, commit your changes or stash them before you can merge.
+	Library<span style="color:#f92672">/</span>Formula<span style="color:#f92672">/</span>jasper<span style="color:#f92672">.</span>rb
+	Library<span style="color:#f92672">/</span>brew<span style="color:#f92672">.</span>rb
+Please, commit your changes <span style="color:#f92672">or</span> stash them before you can merge<span style="color:#f92672">.</span>
 Aborting
-Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
-</code></pre>
-
-<p>好吧，这个时候我才意识到Homebrew在本地实际上是一个git repository，于是进入<code>/usr/local/</code>中进行查看</p>
-
+Error: Failure <span style="color:#66d9ef">while</span> executing: git pull <span style="color:#f92672">-</span>q origin refs<span style="color:#f92672">/</span>heads<span style="color:#f92672">/</span>master:refs<span style="color:#f92672">/</span>remotes<span style="color:#f92672">/</span>origin<span style="color:#f92672">/</span>master
+</code></pre></div><p>好吧，这个时候我才意识到Homebrew在本地实际上是一个git repository，于是进入<code>/usr/local/</code>中进行查看</p>
 <pre><code>hujiawei-MBPR:~ hujiawei$ ls -al /usr/local
 total 152
 drwxrwxr-x   25 root      admin    850  6 12 21:35 .
@@ -224,47 +196,29 @@ drwxr-xr-x   17 root      wheel    578 10 17  2014 mysql-5.6.11-osx10.7-x86_64
 drwxr-xr-x   31 hujiawei  admin   1054 10 17  2014 opt
 drwxr-xr-x   20 hujiawei  admin    680  6  6 21:35 share
 drwx------    3 hujiawei  admin    102 10 17  2014 var
-</code></pre>
-
-<p>也不记得之前为什么改了其中两个Ruby文件，所以这里直接使用<code>git checkout -- &lt;file&gt;</code>来覆盖掉本地的修改，完了之后再次执行<code>brew update</code>，但是，接着还是报错，内容是如下</p>
-
+</code></pre><p>也不记得之前为什么改了其中两个Ruby文件，所以这里直接使用<code>git checkout -- &lt;file&gt;</code>来覆盖掉本地的修改，完了之后再次执行<code>brew update</code>，但是，接着还是报错，内容是如下</p>
 <pre><code>hujiawei-MBPR:bin hujiawei$ brew update
 /usr/local/bin/brew: /usr/local/Library/brew.rb: /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby: bad interpreter: No such file or directory
 /usr/local/bin/brew: line 26: /usr/local/Library/brew.rb: Undefined error: 0
-</code></pre>
-
-<p>发现原来Ruby环境有问题了，原因是这样的，以前Mac系统中Ruby的版本是1.8，而Yosemite中内置的Ruby版本是2.0，所以找不到1.8版本的Ruby，所以需要修改<code>brew.rb</code>文件修改Ruby的路径。</p>
-
+</code></pre><p>发现原来Ruby环境有问题了，原因是这样的，以前Mac系统中Ruby的版本是1.8，而Yosemite中内置的Ruby版本是2.0，所以找不到1.8版本的Ruby，所以需要修改<code>brew.rb</code>文件修改Ruby的路径。</p>
 <p>参考网址<a href="http://jcvangent.com/fixing-homebrew-os-x-10-10-yosemite/">Fix Homebrew for OS X 10.10 Yosemite</a></p>
-
 <p>操作如下：</p>
-
 <p>(1)打开文件<code>/usr/local/Library/brew.rb</code></p>
-
 <p>(2)修改第一行，把<code>1.8</code>改成<code>Current</code>就好啦</p>
-
 <pre><code> #!/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/bin/ruby -W0
 
 /将上面这行改成下面这行 ===&gt;
 
 #!/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/bin/ruby -W0
-</code></pre>
-
-<p>(3)然后回到<code>/usr/local</code>目录，提交本地修改，之后再执行<code>brew update</code>即可</p>
-
+</code></pre><p>(3)然后回到<code>/usr/local</code>目录，提交本地修改，之后再执行<code>brew update</code>即可</p>
 <p>这样Homebrew应该没啥问题了，哈哈</p>
-
 <p>2016年9月更新</p>
-
 <p>今天执行<code>brew update</code>又报错，内容如下</p>
-
 <pre><code>error: insufficient permission for adding an object to repository database .git/objects
 fatal: failed to write object
 fatal: unpack-objects failed
 Error: Failure while executing: git pull -q origin refs/heads/master:refs/remotes/origin/master
-</code></pre>
-
-<p>已经很久没有更新brew了，更加不记得这段日子干了啥。可以尝试下面的操作，进入到<code>/usr/local</code>目录，执行<code>git pull</code>，然后肯定会有冲突出现，因为上面我们修改了<code>Library/brew.rb</code>文件，只要解决这个冲突再执行<code>brew update</code>就好了。从打印输出的内容来看，brew的变化很大。</p>
+</code></pre><p>已经很久没有更新brew了，更加不记得这段日子干了啥。可以尝试下面的操作，进入到<code>/usr/local</code>目录，执行<code>git pull</code>，然后肯定会有冲突出现，因为上面我们修改了<code>Library/brew.rb</code>文件，只要解决这个冲突再执行<code>brew update</code>就好了。从打印输出的内容来看，brew的变化很大。</p>
     </section>
 
     <footer class="post-footer">
@@ -285,27 +239,23 @@ Error: Failure while executing: git pull -q origin refs/heads/master:refs/remote
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/"><h4>Android Training Summary (1) Getting Started</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/"><h4>Android Text View with Custom Font</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/07/04/android-text-view-with-custom-font/"><h4>Android Text View with Custom Font</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/06/05/android-training-summary-1-getting-started/"><h4>Android Training Summary (1) Getting Started</h4></a></span>
       
   
 </aside>
@@ -314,42 +264,6 @@ Error: Failure while executing: git pull -q origin refs/heads/master:refs/remote
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -358,7 +272,7 @@ Error: Failure while executing: git pull -q origin refs/heads/master:refs/remote
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

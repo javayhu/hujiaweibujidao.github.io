@@ -5,7 +5,7 @@
        Matlab Image Segmentation &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Matlab Image Segmentation &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/03/30/matlab-image-segmentation/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -181,52 +159,45 @@
 
     <section class="post-content">
       <p>本文主要介绍Matlab实现的两种自动阈值图像分割方法</p>
-
 <p>1.基于迭代的自动阈值图像分割方法</p>
-
 <p>参考文献: <a href="https://hujiaweibujidao.github.io/files/image_segmentation.pdf">基于迭代(自动阈值)算法的医学图像增强方法</a>
 该文献实现了全局和局部的图像分割代码，使用的都是迭代算法，对比下面的结果可以看出，在灰度差异特别大的图像中，局部阈值分割要比全局阈值分割表现更好。[注:我对源码略有修改]</p>
-
 <p>1.1 全局阈值分割程序</p>
-
-<pre><code class="language-matlab">original_image=imread('test1.png');
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-matlab" data-lang="matlab">original_image=imread(<span style="color:#e6db74">&#39;test1.png&#39;</span>);
 gray_image=rgb2gray(original_image);
 gray_image=double(gray_image);
 t=mean(gray_image(:));
 is_done=false;
-count=0;%迭代次数
-block=gray_image(1:end,1:end);%不分块
-while ~is_done
-    r1=find(gray_image&lt;=t);
-    r2=find(gray_image&gt;t);
+count=<span style="color:#ae81ff">0</span>;<span style="color:#75715e">%迭代次数</span>
+block=gray_image(<span style="color:#ae81ff">1</span>:<span style="color:#66d9ef">end</span>,<span style="color:#ae81ff">1</span>:<span style="color:#66d9ef">end</span>);<span style="color:#75715e">%不分块</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">~</span>is_done
+    r1=find(gray_image<span style="color:#f92672">&lt;</span>=t);
+    r2=find(gray_image<span style="color:#f92672">&gt;</span>t);
     temp1=mean(block(r1));
-    if isnan(temp1);
-        temp1=0;
-    end
+    <span style="color:#66d9ef">if</span> isnan(temp1);
+        temp1=<span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">end</span>
     temp2=mean(block(r2));
-    if isnan(temp2)
-        temp2=0;
-    end
-    t_new=(temp1+temp2)/2;
-    is_done=abs(t_new-t)&lt;1;%差异阈值是1
+    <span style="color:#66d9ef">if</span> isnan(temp2)
+        temp2=<span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">end</span>
+    t_new=(temp1<span style="color:#f92672">+</span>temp2)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>;
+    is_done=abs(t_new<span style="color:#f92672">-</span>t)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>;<span style="color:#75715e">%差异阈值是1</span>
     t=t_new;
-    count=count+1;
-    if count&gt;=1000
-        Error='Error:Cannot find the ideal threshold.'
-        return
-    end
-end
+    count=count<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>;
+    <span style="color:#66d9ef">if</span> count<span style="color:#f92672">&gt;</span>=<span style="color:#ae81ff">1000</span>
+        Error=<span style="color:#e6db74">&#39;Error:Cannot find the ideal threshold.&#39;</span>
+        <span style="color:#66d9ef">return</span>
+    <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
 [m,n]=size(gray_image);
-result=zeros(m,n)+255;
-result(r1)=0;
-% resule(r2)=255;
+result=zeros(m,n)<span style="color:#f92672">+</span><span style="color:#ae81ff">255</span>;
+result(r1)=<span style="color:#ae81ff">0</span>;
+<span style="color:#75715e">% resule(r2)=255;</span>
 result=uint8(result);
 figure
 imshow(result);
-</code></pre>
-
-<p>1.2 局部阈值分割程序</p>
-
+</code></pre></div><p>1.2 局部阈值分割程序</p>
 <pre><code>original_image=imread('test1.png');
 gray_image=rgb2gray(original_image);
 gray_image=double(gray_image);
@@ -277,20 +248,14 @@ end
 resule=uint8(result);
 figure
 imshow(result);
-</code></pre>
-
-<p>对比结果：
-<img src="https://hujiaweibujidao.github.io/images/whole.png" alt="img" />
-<img src="https://hujiaweibujidao.github.io/images/partial.png" alt="img" /></p>
-
+</code></pre><p>对比结果：
+<img src="https://hujiaweibujidao.github.io/images/whole.png" alt="img">
+<img src="https://hujiaweibujidao.github.io/images/partial.png" alt="img"></p>
 <p>2.基于OSTU算法的自动阈值图像分割</p>
-
 <p>[这块我还没有细究&hellip;To be continued&hellip;&hellip;]
 Matlab内置的<code>graythresh</code>使用的便是OSTU算法，使得白色像素和黑色像素的类间方差最大。
 因为上面测试图像的亮度存在明显的水平差异，所以我写了一个将图像沿水平方向分成几部分分别进行OSTU算法，效果明显又比上面两种方式要好些。</p>
-
-<p><img src="https://hujiaweibujidao.github.io/images/postu.png" alt="img" /></p>
-
+<p><img src="https://hujiaweibujidao.github.io/images/postu.png" alt="img"></p>
 <pre><code>function [ result ] = partialostu( image,part,isrgb )
 %PARTIALOSTU partial image ostu
 if isrgb
@@ -328,27 +293,23 @@ end
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/"><h4>Develop with OpenCV on Mac</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/"><h4>Setting Up Environments on New Mac</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/04/08/setting-up-environments-on-new-mac/"><h4>Setting Up Environments on New Mac</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/03/13/develop-with-opencv-on-mac/"><h4>Develop with OpenCV on Mac</h4></a></span>
       
   
 </aside>
@@ -357,42 +318,6 @@ end
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -401,7 +326,7 @@ end
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

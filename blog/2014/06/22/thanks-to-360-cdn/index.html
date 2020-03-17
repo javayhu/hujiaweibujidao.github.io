@@ -5,7 +5,7 @@
        Thanks to 360 CDN &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" Thanks to 360 CDN &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2014/06/22/thanks-to-360-cdn/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,53 +158,39 @@
     </header>
 
     <section class="post-content">
-      <p>给360前端CDN服务点个赞 </p>
-
+      <p>给360前端CDN服务点个赞</p>
 <p>由于众所周知的原因，最近各种网站(以Google、Dropbox为首)都纷纷被墙，作为码农，简直要了俺们的命根子啊，没办法生在天朝也就只能发发牢骚而已，可是，最令人无奈的是Github也时常被拒之于墙外，这可让我这个把个人博客搭在Github上的小屌丝更是吓得心惊胆战，难道真的是要闭关锁国的节奏吗？</p>
-
 <p>有人说的对，一开始不知道为什么Evernote在中国国内要另搞一个印象笔记，现在想想这招真是太聪明了，Dropbox要学着点了，但即使是学过来了，面对国内各种免费送N个T云空间的网盘你的竞争优势有多大呢？</p>
-
 <p>OK，不发牢骚了，因为Google被墙的厉害，而且博客中不少使用了Google API(js库和字体库)，导致博客前段时间访问速度特别慢，所以考完我就来整理整理下，这里要感谢<a href="http://libs.useso.com/">360网站卫士提供的常用前端公共库CDN服务</a>，你们总是能够推出关乎码农们痛痒的东西，永远支持你们！</p>
-
 <p>主要修改下面两处即可：</p>
-
 <p>文件： <code>source/_includes</code>目录下的<code>head.html</code>，修改如下：</p>
-
-<pre><code class="language-html">&lt;!--
-&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
---&gt;
-&lt;script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'&gt;&lt;/script&gt;
-</code></pre>
-
-<p>文件： <code>source/_includes</code>目录下的<code>header.html</code>，修改如下：</p>
-
-<pre><code class="language-html">&lt;!-- 注释掉下面的js --&gt;
-&lt;!--
-&lt;script src=&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
---&gt;
-&lt;!-- 添加下面的js --&gt;
-&lt;script type='text/javascript' src='http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2'&gt;&lt;/script&gt;
-&lt;!-- 省略部分代码 --&gt;
-&lt;!-- 我没有使用Google analytics，所以注释下面一行代码(略有删减) --&gt;
-&lt;!--
-inlcude google_analytics.html
---&gt;
-</code></pre>
-
-<p>文件： <code>source/_includes/custom</code>目录下的<code>head.html</code>，修改如下：</p>
-
-<pre><code class="language-html">&lt;!-- 注释掉下面的css --&gt;
-&lt;!--Fonts from Google&quot;s Web font directory at http://google.com/webfonts --&gt;
-&lt;!--
-&lt;link href=&quot;http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
-&lt;link href=&quot;http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
---&gt;
-&lt;!-- 添加下面的css --&gt;
-&lt;link href=&quot;http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
-&lt;link href=&quot;http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot;&gt;
-</code></pre>
-
-<p>OK，大功告成，更新文件，重新打开，你会瞬间感觉世界又重新美好了！</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!--
+</span><span style="color:#75715e">&lt;script src=&#34;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+</span><span style="color:#75715e">--&gt;</span>
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;text/javascript&#39;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2&#39;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+</code></pre></div><p>文件： <code>source/_includes</code>目录下的<code>header.html</code>，修改如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- 注释掉下面的js --&gt;</span>
+<span style="color:#75715e">&lt;!--
+</span><span style="color:#75715e">&lt;script src=&#34;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+</span><span style="color:#75715e">--&gt;</span>
+<span style="color:#75715e">&lt;!-- 添加下面的js --&gt;</span>
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;text/javascript&#39;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2&#39;</span>&gt;&lt;/<span style="color:#f92672">script</span>&gt;
+<span style="color:#75715e">&lt;!-- 省略部分代码 --&gt;</span>
+<span style="color:#75715e">&lt;!-- 我没有使用Google analytics，所以注释下面一行代码(略有删减) --&gt;</span>
+<span style="color:#75715e">&lt;!--
+</span><span style="color:#75715e">inlcude google_analytics.html
+</span><span style="color:#75715e">--&gt;</span>
+</code></pre></div><p>文件： <code>source/_includes/custom</code>目录下的<code>head.html</code>，修改如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- 注释掉下面的css --&gt;</span>
+<span style="color:#75715e">&lt;!--Fonts from Google&#34;s Web font directory at http://google.com/webfonts --&gt;</span>
+<span style="color:#75715e">&lt;!--
+</span><span style="color:#75715e">&lt;link href=&#34;http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic&#34; rel=&#34;stylesheet&#34; type=&#34;text/css&#34;&gt;
+</span><span style="color:#75715e">&lt;link href=&#34;http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic&#34; rel=&#34;stylesheet&#34; type=&#34;text/css&#34;&gt;
+</span><span style="color:#75715e">--&gt;</span>
+<span style="color:#75715e">&lt;!-- 添加下面的css --&gt;</span>
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://fonts.useso.com/css?family=PT+Serif:regular,italic,bold,bolditalic&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span>&gt;
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://fonts.useso.com/css?family=PT+Sans:regular,italic,bold,bolditalic&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;stylesheet&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span>&gt;
+</code></pre></div><p>OK，大功告成，更新文件，重新打开，你会瞬间感觉世界又重新美好了！</p>
     </section>
 
     <footer class="post-footer">
@@ -247,27 +211,23 @@ inlcude google_analytics.html
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/"><h4>Dog Face Recognition</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms-c9-graphs/"><h4>Python Algorithms - C9 Graphs</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/07/01/python-algorithms---c9-graphs/"><h4>Python Algorithms - C9 Graphs</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2014/06/09/dog-face-recognition/"><h4>Dog Face Recognition</h4></a></span>
       
   
 </aside>
@@ -276,42 +236,6 @@ inlcude google_analytics.html
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -320,7 +244,7 @@ inlcude google_analytics.html
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             

@@ -5,7 +5,7 @@
        One Trip of building a Crawler &middot;  Hujiawei Bujidao
     </title>
 
-    <meta name="generator" content="Hugo 0.29" />
+    <meta name="generator" content="Hugo 0.67.0" />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta property="og:title" content=" One Trip of building a Crawler &middot;  Hujiawei Bujidao" />
@@ -42,11 +42,6 @@
     
 
     
-      
-          <link href="https://hujiaweibujidao.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Hujiawei Bujidao" />
-      
-      
-    
 
     <link rel="canonical" href="https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/" />
 
@@ -70,21 +65,6 @@
         
             
             <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/android">Android</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/python">Python</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
-            	<a href="https://hujiaweibujidao.github.io/swift">Swift</a>
-            </li>
-        
-            
-            <li class="nav-opened" role="presentation">
             	<a href="https://hujiaweibujidao.github.io/about">About</a>
             </li>
         
@@ -103,8 +83,6 @@
     
     
 
-    
-        <a class="subscribe-button icon-feed" href="https://hujiaweibujidao.github.io/index.xml">Subscribe</a>
     
 </div>
 <span class="nav-cover"></span>
@@ -180,19 +158,15 @@
     </header>
 
     <section class="post-content">
-      <p>最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。 </p>
-
+      <p>最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。</p>
 <p>本教程的开发需求是编写一个包含爬虫程序的Java项目，并且能够方便地服务器端编译部署和启动爬虫程序。</p>
-
-<h3 id="1-爬虫程序的开发">1.爬虫程序的开发</h3>
-
+<h3 id="1爬虫程序的开发">1.爬虫程序的开发</h3>
 <p>爬虫程序的开发比较简单，下面是一个简单的例子，其主要功能是爬取汉文学网中的新华字典中的所有汉字详情页面并保存到文件中。爬虫框架使用的是Crawl4j，它的好处是只需要配置爬虫框架的几个重要参数即可让爬虫开始工作：
 (1)爬虫的数据缓存目录；
 (2)爬虫的爬取策略，其中包括是否遵循robots文件、请求之间的延时、页面的最大深度、页面数量的控制等等；
 (3)爬虫的入口地址；
 (4)爬虫在遇到新的页面的url是通过<code>shouldVisit</code>来判断是否要访问这个url；
 (5)爬虫访问(<code>visit</code>)那些url时具体的操作，比如将内容保存到文件中。</p>
-
 <pre><code>package data.hanwenxue;
 
 import core.CommonUtil;
@@ -328,12 +302,8 @@ public class ZDCrawlController extends WebCrawler {
     }
 
 }
-</code></pre>
-
-<h3 id="2-项目的maven化">2.项目的Maven化</h3>
-
+</code></pre><h3 id="2项目的maven化">2.项目的Maven化</h3>
 <p>我大致估算上面代码会运行半天左右，所以有必要将它放到服务器上去执行，因为实验室经常需要关闭电源总闸，不能保证一直运行。但是原始项目比较大，上面只是几只爬虫中的一只而已，所以我想将项目在服务器端部署一次，然后再依次启动爬虫。这个时候想到了Maven，项目之前只是使用Maven管理依赖项，并没有利用Maven太多其他的功能，于是先将项目Maven化，将结构调整为常见的Maven项目的形式。</p>
-
 <pre><code>&lt;build&gt;
     &lt;!--配置构建项目时目录的类型--&gt;
     &lt;sourceDirectory&gt;src/main/java&lt;/sourceDirectory&gt;
@@ -349,49 +319,32 @@ public class ZDCrawlController extends WebCrawler {
         &lt;/testResource&gt;
     &lt;/testResources&gt;
 &lt;/build&gt;
-</code></pre>
-
-<p>项目结构图
-<img src="https://hujiaweibujidao.github.io/images/semanticweb_intellij.png" alt="image" /></p>
-
+</code></pre><p>项目结构图
+<img src="https://hujiaweibujidao.github.io/images/semanticweb_intellij.png" alt="image"></p>
 <p>使用Maven命令即可启动爬虫程序 <code>mvn exec:java -Dexec.mainClass=&quot;data.hanwenxue.ZDCrawlController&quot;</code></p>
-
-<h3 id="3-配置服务器端环境">3.配置服务器端环境</h3>
-
+<h3 id="3配置服务器端环境">3.配置服务器端环境</h3>
 <p>服务器是我最不熟悉的CentOS，但是没办法，目前我也就只有这么一台可用的Server，硬着头皮干吧。</p>
-
 <p>(1)安装Java 8
 因项目中某个模块需要JDK 8，所以需要安装Java 8</p>
-
 <pre><code>1.wget --no-check-certificate --no-cookies --header &quot;Cookie: oraclelicense=accept-securebackup-cookie&quot; http://download.oracle.com/otn-pub/java/jdk/8u20-b26/jdk-8u20-linux-x64.rpm -O jdk-8u20-linux-x64.rpm
 2.su - root
 3.yum install jdk-8u20-linux-x64.rpm
 4.Java8安装到/usr/java目录下
-</code></pre>
-
-<p>(2)安装Maven 3
+</code></pre><p>(2)安装Maven 3
 采用Maven来管理项目，编译和运行程序</p>
-
 <pre><code>1.wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
 2.yum install apache-maven
 3.修改.bash_profile文件，添加JAVA_HOME的配置，将其设置为之前安装的JDK 8
 export JAVA_HOME=/usr/java/jdk1.8.0_20
 export PATH=$PATH:${JAVA_HOME}
 4.mvn -v 测试下
-</code></pre>
-
-<p>(3)配置Git
+</code></pre><p>(3)配置Git
 利用Git来同步服务器端和我本机的代码</p>
-
 <pre><code>1.yum install git
 2.新建ssh key并添加到Github配置中，参考https://help.github.com/articles/generating-an-ssh-key/
 3.测试连接 ssh -T git@github.com
-</code></pre>
-
-<h3 id="4-在服务器端运行爬虫">4.在服务器端运行爬虫</h3>
-
+</code></pre><h3 id="4在服务器端运行爬虫">4.在服务器端运行爬虫</h3>
 <p>服务器端一次需要启动很多个爬虫，而且在断开ssh连接的时候这些爬虫要一直能够继续执行，这里需要用到一个很有意思的工具screen，除了上面的功能外，我还可以在下次ssh连接之后恢复之前的会话，相关教程请参考：<a href="http://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">linux screen 命令详解</a></p>
-
 <p>具体的操作步骤如下：
 (0)ssh连接服务器：<code>ssh username@host -p port</code>；
 (1)克隆项目代码：<code>git clone xxx</code>；
@@ -399,10 +352,8 @@ export PATH=$PATH:${JAVA_HOME}
 (3)新建screen：<code>screen -S yyy</code>；
 (4)在新建的screen中启动爬虫：例如<code>mvn exec:java -Dexec.mainClass=&quot;data.hanwenxue.ZDCrawlController&quot;</code>
 (5)重复步骤3和4，启动完所有的爬虫。</p>
-
 <p>下图是新华字典的爬虫的最后输出，显示总共耗时约6个小时
-<img src="https://hujiaweibujidao.github.io/images/crawl_zd.png" alt="image" /></p>
-
+<img src="https://hujiaweibujidao.github.io/images/crawl_zd.png" alt="image"></p>
 <p>OK，就是这样，暂记于此，hope it helps！</p>
     </section>
 
@@ -424,27 +375,23 @@ export PATH=$PATH:${JAVA_HOME}
     <span class="author-location icon-user"> Hujiawei is a mobile developer</span>
     <span class="author-location icon-location"> Guangdong, China</span>
     <span class="author-link icon-link"><a href="https://hujiaweibujidao.github.io/"> https://hujiaweibujidao.github.io/</a></span>
-    <span class="author-profile" style="width:100%;line-height:1.5em;">本博客所有文章均为原创，请勿随意转载，如需转载请联系我 (<a href="mailto:hujiawei090807@gmail.com">hujiawei090807 AT gmail.com</a>)</span>
+    
 
-    <span class="author-profile" style="width:100%;line-height:2em;font-weight:bold;color:#df5000;margin-top:10px;">我在小专栏有个移动开发技术专栏，不定期分享移动开发的核心技术，总结移动开发的实战经验<br/>所有文章皆为原创，内容制作精良，保证干货满满，欢迎订阅 (<a style="color:#df5000;" href="https://xiaozhuanlan.com/u/javayhu">https://xiaozhuanlan.com/u/javayhu</a>) <br/>
-    >>> 我最近在Android面试指南小专栏里面写了一篇稿子 <a style="color:#df5000;" href="https://xiaozhuanlan.com/topic/1932587460"> [Android面试——算法面试心得] </a>，欢迎阅读！&lt;&lt;&lt;  </span>
-
-    <span class="author-profile" style="width:100%;line-height:1.5em;">下面的二维码是我个人维护的微信公众号“潇涧技术专栏”，会不定期分享移动开发的核心技术，欢迎关注！<br/>
-    	<img src="https://hujiaweibujidao.github.io/images/qrcode_weixin.jpg" />
-    </span>
+    
   </div>
+  <br/>
 </section>
 
 
       
         <aside class="read-next">
   
-      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/"><h4>Things of Math</h4></a></span>
+      <span class="readmore-prev readmore-meta">PREV: <a href="https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/"><h4>Java Web project with Maven</h4></a></span>
       
   
 
   
-      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/"><h4>Java Web project with Maven</h4></a></span>
+      <span class="readmore-next readmore-meta">NEXT: <a href="https://hujiaweibujidao.github.io/blog/2015/12/30/things-of-math/"><h4>Things of Math</h4></a></span>
       
   
 </aside>
@@ -453,42 +400,6 @@ export PATH=$PATH:${JAVA_HOME}
       
       
       
-
-	
-	<div id="lv-container" data-id="city" data-uid="MTAyMC8zMTA1MS83NTk5">
-		<script type="text/javascript">
-	   (function(d, s) {
-	       var j, e = d.getElementsByTagName(s)[0];
-
-	       if (typeof LivereTower === 'function') { return; }
-
-	       j = d.createElement(s);
-	       j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-	       j.async = true;
-
-	       e.parentNode.insertBefore(j, e);
-	   })(document, 'script');
-		</script>
-	<noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
-	</div>
-	
-
-	
-
-		
-
-		
-		
-		
-		
-		
-		
-
-		
-		
-	
-
-
     </footer>
 </article>
 
@@ -497,7 +408,7 @@ export PATH=$PATH:${JAVA_HOME}
     <footer class="site-footer clearfix">
         <a id="gotop" class="icon-arrow-up" href="#" title="back to top"></a>
 
-        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2018</section>
+        <section class="copyright"><a href="">Hujiawei Bujidao. </a> All rights reserved &copy; 2013 - 2020</section>
         
         <section class="poweredby">Proudly generated by <a href="http://gohugo.io">HUGO</a>, with <a class="icon-theme" href="https://github.com/vjeantet/hugo-theme-casper">Casper</a> theme &nbsp;
             
