@@ -1129,7 +1129,16 @@
     </item>
     
     <item>
-      <title>About</title>
+      <title>Hello Octopress</title>
+      <link>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</link>
+      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</guid>
+      <description>&lt;p&gt;Hello world! Hello Octopress!&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>关于我</title>
       <link>https://hujiaweibujidao.github.io/about/</link>
       <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
       
@@ -1137,7 +1146,7 @@
       <description>大家好，我叫胡家威，英文名是Javay，是的，我既是Java迷也是Jay粉。
 微博账号是宅男潇涧，地道宅男，花名潇涧，潇谐音笑，涧谐音键，寓意是一笑一键走江湖。
 以前叫五道口宅男，离开了五道口去了唐家湾，成为唐家湾宅男，后来又去了白石洲，成为白石洲宅男。
-为了方便扩展，我改名为宅男潇涧，这样就一劳永逸啦。
+为了提高扩展性，我改名为宅男潇涧，这样就一劳永逸啦。
 目前主要从事的是Android开发，欢迎关注GitHub账号
 个人简单履历：
 2018/03-current 就职于广州鹅厂WXG事业群基础产品部基础业务小组
@@ -1146,16 +1155,7 @@
 2015/07-2015/08 在阿里巴巴集团无线事业部实习，做Android开发
 2013/08-2013/10 在三星位于中国北京的研究院实习，做Android开发
 2013/09-2016/06 研究僧就读于伟大的五道口男子职业技术与艺术学院的计算机系
-2009/09-2013/06 本科就读于同样伟大的左家垅男子职业技术学院的计科专业</description>
-    </item>
-    
-    <item>
-      <title>Hello Octopress</title>
-      <link>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</link>
-      <pubDate>Sun, 17 Nov 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://hujiaweibujidao.github.io/blog/2013/11/17/hello-octopress/</guid>
-      <description>&lt;p&gt;Hello world! Hello Octopress!&lt;/p&gt;</description>
+2009/09-2013/06 本科就读于同样伟大的左家垅男子职业技术学院的计算机科学与技术专业</description>
     </item>
     
   </channel>

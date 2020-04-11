@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <copyright>All rights reserved &amp;copy; 2013 - 2020</copyright>
-    <lastBuildDate>Fri, 20 May 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Jul 2017 10:46:33 +0800</lastBuildDate>
     
 	<atom:link href="https://hujiaweibujidao.github.io/tags/dev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>React Native Upgrade</title>
+      <link>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</link>
+      <pubDate>Fri, 28 Jul 2017 10:46:33 +0800</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2017/07/28/react-native-upgrade/</guid>
+      <description>&lt;p&gt;本文主要分享Android和iOS端升级RN到0.44.0版本的经验。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Learning Git by Animations</title>
@@ -28,6 +37,33 @@
       
       <guid>https://hujiaweibujidao.github.io/blog/2016/05/18/gank-alfred-workflow/</guid>
       <description>&lt;p&gt;Gank Alfred Workflow，一个自制的干货搜索器！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Gank for Mac</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</link>
+      <pubDate>Sun, 15 May 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/05/15/gank-for-mac/</guid>
+      <description>&lt;p&gt;干货集中营的Mac客户端Gank for Mac开发小记。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java Web project with Maven</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</link>
+      <pubDate>Tue, 01 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/03/01/java-web-project-with-maven/</guid>
+      <description>&lt;p&gt;最近需要构建一个Java web项目，然后做文本分析和挖掘，于是又体验了下Maven构建Java Web项目的快感。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>One Trip of building a Crawler</title>
+      <link>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</link>
+      <pubDate>Mon, 29 Feb 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://hujiaweibujidao.github.io/blog/2016/02/29/one-trip-of-building-a-crawler/</guid>
+      <description>&lt;p&gt;最近需要从网上抓取大量的数据，于是体验了一下爬虫程序的开发和部署，主要是学会了一些实用工具的操作。&lt;/p&gt;</description>
     </item>
     
     <item>
